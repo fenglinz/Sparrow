@@ -747,19 +747,19 @@
       <Project>{b0732ad6-ac7a-4980-817e-432631963939}</Project>
       <Name>Mercurius.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\数据访问层\Mercurius.Siskin.Entities\Mercurius.Siskin.Entities.csproj">
+    <ProjectReference Include="..\数据访问层\Mercurius.Sparrow.Entities\Mercurius.Sparrow.Entities.csproj">
       <Project>{166646d7-8172-4011-9cb0-385c6a6d7ffb}</Project>
       <Name>Mercurius.Siskin.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\数据访问层\Mercurius.Siskin.Repositories\Mercurius.Siskin.Repositories.csproj">
+    <ProjectReference Include="..\数据访问层\Mercurius.Sparrow.Repositories\Mercurius.Sparrow.Repositories.csproj">
       <Project>{05fcde91-e15a-4867-aa0e-fc7e8414b2d2}</Project>
       <Name>Mercurius.Siskin.Repositories</Name>
     </ProjectReference>
-    <ProjectReference Include="..\服务层\Mercurius.Siskin.Contracts\Mercurius.Siskin.Contracts.csproj">
+    <ProjectReference Include="..\服务层\Mercurius.Sparrow.Contracts\Mercurius.Sparrow.Contracts.csproj">
       <Project>{9164967b-b835-44b7-a6df-18d87cc98dae}</Project>
       <Name>Mercurius.Siskin.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\服务层\Mercurius.Siskin.Services\Mercurius.Siskin.Services.csproj">
+    <ProjectReference Include="..\服务层\Mercurius.Sparrow.Services\Mercurius.Sparrow.Services.csproj">
       <Project>{0b830c09-ccd2-4cc3-a743-fc5f7fa46082}</Project>
       <Name>Mercurius.Siskin.Services</Name>
     </ProjectReference>
