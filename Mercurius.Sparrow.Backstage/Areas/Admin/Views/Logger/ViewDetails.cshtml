@@ -1,0 +1,56 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.Core
+
+@model Response<Log>
+@section Styles{
+    <style type="text/css">
+        .form-horizontal.form .col-sm-10 {
+            padding-top: 8px;
+        }
+    </style>
+}
+@if (Model != null)
+{
+    <div class="form-horizontal form">
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label">用户</label>
+            <div class="col-sm-10">@Model.Data.LogOnName</div>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label">用户IP地址</label>
+            <div class="col-sm-10">@Model.Data.LogOnIP</div>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label">模块</label>
+            <div class="col-sm-10">@Model.Data.ModelName</div>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label">级别</label>
+            <div class="col-sm-10">@Model.Data.Level</div>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label">记录时间</label>
+            <div class="col-sm-10">@Model.Data.OccurrenceDateTime</div>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label">日志简介</label>
+            <div class="col-sm-10">
+                <div style="overflow-y:auto; height:40px;">
+                    @Model.Data.Summary
+                </div>
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label">日志详情</label>
+            <div class="col-sm-10">
+                <div style="overflow-y:auto; height:190px;">
+                    @Html.Raw(Model.Data.Details.Replace(Environment.NewLine, "<br />"))
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-danger">没有该日志信息。</div>
+}

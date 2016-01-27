@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CommandTexts xmlns="http://www.Mercurius.com/CommandText.xsd">
+
+  <!-- 获取数据库信息 -->
+  <CommandText name="GetDatabasesByMSSQL" commandType="Text">
+    <![CDATA[
+      Select * FROM SysDatabases ORDER BY dbid
+    ]]>
+  </CommandText>
+
+  <CommandText name="GetDatabasesByPostgreSQL" commandType="Text">
+    <![CDATA[
+      select datname from pg_database where datistemplate=false
+    ]]>
+  </CommandText>
+
+  <!-- 获取表的信息 -->
+  <CommandText name="GetTableByMSSQL" commandType="Text">
+    <![CDATA[
+      WITH cte AS(
+        SELECT
+          object_id,
+          name,
+          schema_id,
+          0 AS IsView
+        FROM sys.tables
+        UNION ALL
+        SELECT
+          object_id,
+          name,
+          schema_id,
+          1 AS IsView
+        FROM sys.views
+      )
+      SELECT 
+        cte.name AS Name,
+        s.name AS [Schema],
+        cte.IsView,
+        CASE
+         WHEN e.value IS NULL THEN cte.name
+         ELSE e.value
+       END AS Comments
+      FROM cte
+      INNER JOIN sys.schemas s
+        ON cte.schema_id=s.schema_id
+      LEFT JOIN sys.extended_properties e
+        ON e.major_id=cte.object_id AND e.minor_id=0
+      WHERE s.name=@schema AND cte.name=@table
+    ]]>
+  </CommandText>
+
+  <CommandText name="GetTableByPostgreSQL" commandType="Text">
+    <![CDATA[
+      select
+        a.relname AS "Name",
+        0 as "IsView",
+        a.schemaname AS "Schema",
+        CASE
+          WHEN b.description is null then a.relname
+          else b.description
+        end AS "Comments"
+      from pg_stat_user_tables a
+      left JOIN pg_description b
+      on a.relid=b.objoid and objsubid=0
+      where a.schemaname=:schema and a.relname=:table
+    ]]>
+  </CommandText>
+
+  <!-- 修改表的注释信息 -->
+  <CommandText name="CommentByMSSQL" commandType="Text">
+    <![CDATA[
+      IF ((SELECT count(*) from FN_LISTEXTENDEDPROPERTY('MS_Description',N'SCHEMA',@schema,@type,@table,NULL,DEFAULT))>0)
+        EXEC sp_updateextendedproperty
+          @name = N'MS_Description',
+          @value = @comments,
+          @level0type = 'SCHEMA',
+          @level0name = @schema,
+          @level1type = @type,
+          @level1name = @table
+      ELSE
+        EXEC sp_addextendedproperty
+          @name = N'MS_Description',
+          @value = @comments,
+          @level0type = N'SCHEMA',
+          @level0name = @schema,
+          @level1type = @type,
+          @level1name = @table,
+          @level2type = NULL,
+          @level2name = NULL
+    ]]>
+  </CommandText>
+
+  <CommandText name="CommentByPostgreSQL" commandType="Text">
+    <![CDATA[
+      COMMENT ON TABLE "{0}"."{1}" IS '{2}';
+    ]]>
+  </CommandText>
+
+  <!-- 获取所有表的信息 -->
+  <CommandText name="GetTablesByMSSQL" commandType="Text">
+    <![CDATA[
+      WITH CTE AS(
+        SELECT
+          t.object_id,
+          t.name,
+          0 as IsView,
+          t.schema_id
+        FROM sys.tables t WHERE t.type='U'
+        UNION ALL
+        SELECT
+          v.object_id,
+          v.name,
+          1 as IsView,
+          v.schema_id
+        FROM sys.views v
+      )
+      SELECT 
+        cte.Name,
+        cte.IsView,
+        s.Name AS [Schema],
+        CASE
+          WHEN g.[value] IS NULL THEN cte.Name
+          ELSE g.[value]
+        END AS Comments
+      FROM cte
+      INNER JOIN sys.schemas s
+        ON cte.schema_id=s.schema_id
+      LEFT JOIN sys.extended_properties g
+        ON cte.object_id=g.major_id AND g.minor_id=0
+      WHERE cte.Name<>'sysdiagrams'
+      ORDER BY s.schema_id,cte.Name
+    ]]>
+  </CommandText>
+
+  <CommandText name="GetTablesByPostgreSQL" commandType="Text">
+    <![CDATA[
+      select
+        a.relname AS "Name",
+        0 as "IsView",
+        a.schemaname AS "Schema",
+        CASE
+          WHEN b.description is null then a.relname
+          else b.description
+        end AS "Comments"
+      from pg_stat_user_tables a
+      left JOIN pg_description b
+       on a.relid=b.objoid and objsubid=0
+      order by a.schemaname, a.relname
+    ]]>
+  </CommandText>
+
+  <!-- 判断表是否存在 -->
+  <CommandText name="IsTableExistsByMSSQL" commandType="Text">
+    <![CDATA[
+      SELECT COUNT(*) FROM sysobjects where NAME=@table AND (xtype='u' OR xtype='v') AND status>=0 AND Name!='sysdiagrams'
+    ]]>
+  </CommandText>
+
+</CommandTexts>

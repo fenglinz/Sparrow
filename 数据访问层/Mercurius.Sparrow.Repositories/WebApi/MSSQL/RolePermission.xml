@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.WebApi.RolePermission" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="RolePermission" type="Mercurius.Siskin.Entities.WebApi.RolePermission, Mercurius.Siskin.Entities" />
+    <typeAlias alias="RolePermissionSO" type="Mercurius.Siskin.Entities.WebApi.SO.RolePermissionSO, Mercurius.Siskin.Entities" />
+  </alias>
+  <statements>
+    <!-- 添加WebApi权限列表信息。 -->
+    <insert id="Create" parameterClass="RolePermission">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.Role WHERE RoleId = #RoleId# AND [ApiId]=#ApiId#)
+        BEGIN
+            RAISERROR('您已经添加具有相同项的路由权限',16,1)
+            RETURN;
+        END;
+        INSERT INTO [WebApi].[RolePermission]
+        (
+        [RoleId],
+        [ApiId],
+        [CreateUserId],
+        [CreateDateTime]
+        )
+        VALUES
+        (
+        #RoleId#,
+        #ApiId#,
+        #CreateUserId#,
+        GETDATE()
+        )
+      ]]>
+    </insert>
+
+    <!-- 更新WebApi权限列表信息。 -->
+    <update id="Update" parameterClass="RolePermission">
+      <![CDATA[
+        UPDATE [WebApi].[RolePermission]
+        SET
+          [RoleId]=#RoleId#,
+          [ApiId]=#ApiId#,
+          [CreateUserId]=#CreateUserId#,
+          [CreateDateTime]=#CreateDateTime#
+        WHERE [Id]=#Id#
+      ]]>
+    </update>
+
+    <!-- 添加或者更新WebApi权限列表信息。 -->
+    <update id="CreateOrUpdate" parameterClass="RolePermission">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [WebApi].[RolePermission] WHERE [Id]=#Id#)
+          UPDATE [WebApi].[RolePermission]
+          SET
+            [RoleId]=#RoleId#,
+            [ApiId]=#ApiId#,
+            [CreateUserId]=#CreateUserId#,
+            [CreateDateTime]=#CreateDateTime#
+          WHERE [Id]=#Id#
+        ELSE
+          INSERT INTO [WebApi].[RolePermission]
+          (
+            [RoleId],
+            [ApiId],
+            [CreateUserId],
+            [CreateDateTime]
+          )
+          VALUES
+          (
+            #RoleId#,
+            #ApiId#,
+            #CreateUserId#,
+            #CreateDateTime#
+          )
+      ]]>
+    </update>
+
+    <!-- 删除WebApi权限列表信息。 -->
+    <delete id="Remove" parameterClass="int">
+      <![CDATA[
+        DELETE FROM [WebApi].[RolePermission] WHERE [Id]=#value#
+      ]]>
+    </delete>
+
+    <!-- 根据主键获取WebApi权限列表信息。 -->
+    <select id="GetById" parameterClass="int" resultClass="RolePermission">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [RoleId] AS RoleId,
+          [ApiId] AS ApiId,
+          [CreateUserId] AS CreateUserId,
+          [CreateDateTime] AS CreateDateTime
+        FROM [WebApi].[RolePermission] 
+        WHERE [Id]=#value#
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的WebApi权限列表信息。 -->
+    <select id="SearchRolePermissions" parameterClass="RolePermissionSO" resultClass="RolePermission">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+            [Id] AS Id,
+            [RoleId] AS RoleId,
+            [ApiId] AS ApiId,
+            [CreateUserId] AS CreateUserId,
+            [CreateDateTime] AS CreateDateTime
+          FROM [WebApi].[RolePermission]
+      ]]>
+      <include refid="searchConditions" />
+      <![CDATA[
+        ),
+        PAGING AS (
+          SELECT 
+            ROW_NUMBER() OVER(ORDER BY [Id] DESC) AS RowIndex,
+            CTE.*
+          FROM CTE
+        )
+        SELECT * FROM PAGING
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+      ]]>
+    </select>
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select resultClass="int" id="SearchRolePermissionsCount" parameterClass="RolePermissionSO">
+      <![CDATA[
+        SELECT COUNT(*) FROM [WebApi].[RolePermission]
+      ]]>
+      <include refid="searchConditions" />
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic>
+        <isNotNull property="." prepend="WHERE">
+          <isNotNull property="RoleId">
+            [RoleId]=#RoleId#
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.Core", "CodeBuilder\Mercurius.CodeBuilder.Core\Mercurius.CodeBuilder.Core.csproj", "{62379B2C-78EE-488C-AF19-635319117678}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.CSharp", "CodeBuilder\Mercurius.CodeBuilder.CSharp\Mercurius.CodeBuilder.CSharp.csproj", "{25FD5C87-07CC-41DF-8DCD-DB28A8D89CD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.DbMetadata", "CodeBuilder\Mercurius.CodeBuilder.DbMetadata\Mercurius.CodeBuilder.DbMetadata.csproj", "{E06C7D09-F050-4734-88E2-61D8D7E53B93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.UI", "CodeBuilder\Mercurius.CodeBuilder.UI\Mercurius.CodeBuilder.UI.csproj", "{8798F336-D1A2-489A-9182-4C31F8876D62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Infrastructure", "Mercurius.Infrastructure\Mercurius.Infrastructure.csproj", "{B0732AD6-AC7A-4980-817E-432631963939}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62379B2C-78EE-488C-AF19-635319117678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62379B2C-78EE-488C-AF19-635319117678}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62379B2C-78EE-488C-AF19-635319117678}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62379B2C-78EE-488C-AF19-635319117678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25FD5C87-07CC-41DF-8DCD-DB28A8D89CD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25FD5C87-07CC-41DF-8DCD-DB28A8D89CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25FD5C87-07CC-41DF-8DCD-DB28A8D89CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25FD5C87-07CC-41DF-8DCD-DB28A8D89CD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E06C7D09-F050-4734-88E2-61D8D7E53B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E06C7D09-F050-4734-88E2-61D8D7E53B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E06C7D09-F050-4734-88E2-61D8D7E53B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E06C7D09-F050-4734-88E2-61D8D7E53B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8798F336-D1A2-489A-9182-4C31F8876D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8798F336-D1A2-489A-9182-4C31F8876D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8798F336-D1A2-489A-9182-4C31F8876D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8798F336-D1A2-489A-9182-4C31F8876D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0732AD6-AC7A-4980-817E-432631963939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0732AD6-AC7A-4980-817E-432631963939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0732AD6-AC7A-4980-817E-432631963939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0732AD6-AC7A-4980-817E-432631963939}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://fenglinzihao.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = CodeBuilder\\Mercurius.CodeBuilder.Core\\Mercurius.CodeBuilder.Core.csproj
+		SccProjectName1 = CodeBuilder/Mercurius.CodeBuilder.Core
+		SccLocalPath1 = CodeBuilder\\Mercurius.CodeBuilder.Core
+		SccProjectUniqueName2 = CodeBuilder\\Mercurius.CodeBuilder.CSharp\\Mercurius.CodeBuilder.CSharp.csproj
+		SccProjectName2 = CodeBuilder/Mercurius.CodeBuilder.CSharp
+		SccLocalPath2 = CodeBuilder\\Mercurius.CodeBuilder.CSharp
+		SccProjectUniqueName3 = CodeBuilder\\Mercurius.CodeBuilder.DbMetadata\\Mercurius.CodeBuilder.DbMetadata.csproj
+		SccProjectName3 = CodeBuilder/Mercurius.CodeBuilder.DbMetadata
+		SccLocalPath3 = CodeBuilder\\Mercurius.CodeBuilder.DbMetadata
+		SccProjectUniqueName4 = CodeBuilder\\Mercurius.CodeBuilder.UI\\Mercurius.CodeBuilder.UI.csproj
+		SccProjectName4 = CodeBuilder/Mercurius.CodeBuilder.UI
+		SccLocalPath4 = CodeBuilder\\Mercurius.CodeBuilder.UI
+		SccProjectUniqueName5 = Mercurius.Infrastructure\\Mercurius.Infrastructure.csproj
+		SccProjectName5 = Mercurius.Infrastructure
+		SccLocalPath5 = Mercurius.Infrastructure
+	EndGlobalSection
+EndGlobal

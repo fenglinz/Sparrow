@@ -1,0 +1,66 @@
+﻿@using Mercurius.Infrastructure
+@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.Core
+@using Mercurius.Siskin.Entities.Core.SO
+
+@model ResponseCollection<Globalization>
+
+@{
+    var so = this.ViewBag.SO as GlobalizationSO;
+}
+
+<table id="gvLocal" class="grid">
+    <thead>
+        <tr>
+            <td style="width:80px;">序号</td>
+            <td style="width:100px">区域</td>
+            <td style="width:200px">控制器</td>
+            <td style="width:200px">视图</td>
+            <td style="width:200px">键</td>
+            <td style="width:200px">值</td>
+            <td>备注</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HasData())
+        {
+            foreach (var item in Model.Datas)
+            {
+                <tr>
+                    <td style="text-align:center;">@item.RowIndex</td>
+                    <td>@item.Area</td>
+                    <td>@item.Controller</td>
+                    <td>@item.View</td>
+                    <td>@item.Key</td>
+                    <td>@item.Value</td>
+                    <td>@item.Remark</td>
+                    <td style="display:none;">@item.Id</td>
+                </tr>
+            }
+        }
+        else if (Model.IsSuccess())
+        {
+            <tr>
+                <td colspan="7" class="empty-data">没有找到符合条件的数据！</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-danger">@Model.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@Html.Paging(Model.TotalRecords, "_GetLocalResources", "Resource", new
+{
+    AreaName = so != null ? so.AreaName : null,
+    ControllerName = so != null ? so.ControllerName : null,
+    View = so != null ? so.View : null,
+    Key = so != null ? so.Key : null
+}, ajaxOptions: new AjaxOptions
+{
+    UpdateTargetId = "localResource",
+    OnComplete = "OnGetLocalResoucesComplated"
+})

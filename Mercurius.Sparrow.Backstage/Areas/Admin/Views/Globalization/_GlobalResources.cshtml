@@ -1,0 +1,48 @@
+﻿@using Mercurius.Infrastructure
+@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.Core
+
+@model ResponseCollection<Globalization>
+
+<table id="gvGlobal" class="grid">
+    <thead>
+        <tr>
+            <td style="width:80px;">序号</td>
+            <td style="width:200px">键</td>
+            <td style="width:200px">值</td>
+            <td>备注</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HasData())
+        {
+            foreach (var item in Model.Datas)
+            {
+                <tr>
+                    <td style="text-align:center;">@item.RowIndex</td>
+                    <td>@item.Key</td>
+                    <td>@item.Value</td>
+                    <td>@item.Remark</td>
+                    <td style="display:none;">@item.Id</td>
+                </tr>
+            }
+        }
+        else if (Model.IsSuccess())
+        {
+            <tr>
+                <td colspan="4" class="empty-data">没有添加全局资源信息！</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-danger">@Model.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Paging(Model.TotalRecords, "_GetGlobalResources", "Resource", new { }, ajaxOptions: new AjaxOptions
+{
+    UpdateTargetId = "globalResource",
+    OnComplete = "OnGetGlobalResoucesComplated"
+})

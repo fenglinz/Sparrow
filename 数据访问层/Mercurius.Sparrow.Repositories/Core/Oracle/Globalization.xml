@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.Core.Globalization" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Globalization" type="Mercurius.Siskin.Entities.Core.Globalization, Mercurius.Siskin.Entities"/>
+    <typeAlias alias="GlobalizationSO" type="Mercurius.Siskin.Entities.Core.SO.GlobalizationSO, Mercurius.Siskin.Entities"/>
+  </alias>
+
+  <statements>
+
+    <!-- 获取全局视图资源 -->
+    <select id="GetGlobalResource" parameterClass="string" resultClass="string">
+      <![CDATA[
+        SELECT
+          Value AS a
+        FROM Globalization 
+        WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL AND Key=#value#
+      ]]>
+    </select>
+
+    <!-- 获取视图资源信息 -->
+    <select id="GetResouces" parameterClass="Params" resultClass="DataTable">
+      <![CDATA[
+        SELECT
+          KEY
+          ,VALUE
+        FROM Globalization
+        WHERE Controller=#Controller# AND ViewName=#View#
+      ]]>
+      <isNotNull property="Area">
+        <isNotEmpty property="Area" prepend="AND">
+          Area=#Area#
+        </isNotEmpty>
+      </isNotNull>
+    </select>
+
+    <!-- 获取全局视图资源信息 -->
+    <select id="GetGlobalResources" parameterClass="SearchObject" resultClass="Globalization">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT 
+            Id,
+            area,
+            controller,
+            viewname,
+            KEY,
+            VALUE,
+            remark
+         FROM Globalization 
+         WHERE area IS NULL AND controller IS NULL AND view_name IS NULL
+        ),
+        PAGING AS (
+          SELECT ROWNUM AS RowIndex, CTE.* FROM CTE
+        )
+        SELECT
+          PAGING.RowIndex    AS "RowIndex"
+          ,PAGING.Id         AS "Id"
+          ,PAGING.Area       AS "Area"
+          ,PAGING.Controller AS "Controller"
+          ,PAGING.View_Name  AS "View"
+          ,PAGING.Key        AS "Key"
+          ,PAGING.Value      AS "Value"
+          ,PAGING.Remark     AS "Remark"
+        FROM PAGING 
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+      ]]>
+    </select>
+
+    <!-- 获取全局视图资源信息总记录数 -->
+    <select id="GetGlobalResourcesCount" resultClass="int">
+      <![CDATA[
+        SELECT COUNT(*) FROM Globalization WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL
+      ]]>
+    </select>
+
+    <!-- 获取资源信息 -->
+    <select id="GetResource" parameterClass="string" resultClass="Globalization">
+      <![CDATA[
+        SELECT 
+          Id          AS "Id"
+          ,Area       AS "Area"
+          ,Controller AS "Controller"
+          ,ViewName   AS "View"
+          ,Key        AS "Key"
+          ,Value      As "Value"
+          ,Remark     AS "Remark"
+        FROM Resource_Config
+        WHERE Id=#value#
+      ]]>
+    </select>
+    
+    <!-- 获取本地视图资源信息 -->
+    <select id="GetLocalResources" parameterClass="GlobalizationSO" resultClass="Globalization">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT 
+            Id,
+            Area,
+            controller,
+            ViewName,
+            Key,
+            Value,
+            Remark
+          FROM Globalization 
+          WHERE controller IS NOT NULL AND ViewName IS NOT NULL
+      ]]>
+      <dynamic>
+        <isNotNull property="AreaName">
+          <isNotEmpty property="AreaName" prepend="AND">
+            Area LIKE '%'||#AreaName#||'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ControllerName">
+          <isNotEmpty property="ControllerName" prepend="AND">
+            Controller LIKE '%'||#ControllerName#||'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="View">
+          <isNotEmpty property="View" prepend="AND">
+            ViewName LIKE '%'||#View#||'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="Key">
+          <isNotEmpty property="Key" prepend="AND">
+            Key LIKE '%'||#Key#||'%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+        ),
+        PAGING AS (
+          SELECT 
+            ROWNUM AS RowIndex,
+            CTE.*
+          FROM CTE
+        )
+        SELECT
+          PAGING.RowIndex    AS "RowIndex"
+          ,PAGING.Id         AS "Id"
+          ,PAGING.Area       AS "Area"
+          ,PAGING.Controller AS "Controller"
+          ,PAGING.ViewName   AS "View"
+          ,PAGING.Key        AS "Key"
+          ,PAGING.Value      AS "Value"
+          ,PAGING.Remark     AS "Remark"
+        FROM PAGING 
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+      ]]>
+    </select>
+
+    <!-- 获取本地视图资源信息总记录数 -->
+    <select id="GetLocalResourcesCount" resultClass="int">
+      <![CDATA[
+        SELECT 
+          COUNT(*)
+        FROM Globalization 
+	      WHERE controller IS NOT NULL AND ViewName IS NOT NULL
+      ]]>
+      <dynamic>
+        <isNotNull property="AreaName">
+          <isNotEmpty property="AreaName" prepend="AND">
+            Area LIKE '%'||#AreaName#||'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ControllerName">
+          <isNotEmpty property="ControllerName" prepend="AND">
+            Controller LIKE '%'||#ControllerName#||'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="View">
+          <isNotEmpty property="View" prepend="AND">
+            ViewName LIKE '%'||#View#||'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="Key">
+          <isNotEmpty property="Key" prepend="AND">
+            Key LIKE '%'||#Key#||'%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <!-- 添加或者编辑全局资源 -->
+    <insert id="CreateOrUpdateGlobalResource" parameterClass="Params">
+      <![CDATA[
+        MERGE INTO Globalization res
+        USING (SELECT * FROM Globalization WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL AND Key=#Key#) src
+        ON (res.Key=src.Key)
+        WHEN MATCHED THEN
+          UPDATE SET
+            res.Value=#Value#,
+            res.Remark=#Remark#
+        WHEN NOT MATCHED THEN 
+          INSERT
+          (
+            res.ID,
+            res.Key,
+            res.Value,
+            res.Remark
+          ) 
+          VALUES (
+            UTIL.NEWGUID,
+	          #Key#,
+	          #Value#,
+            #Remark#
+          )
+      ]]>
+    </insert>
+
+    <!-- 添加或者编辑资源信息 -->
+    <update id="CreateOrUpdateResource" parameterClass="Globalization">
+      <![CDATA[
+        MERGE INTO Globalization res
+        USING (SELECT * FROM Globalization WHERE ID=#Id#) src
+        ON (res.Id=src.Id)
+        WHEN MATCHED THEN
+          UPDATE SET
+            res.Area=#Area#,
+		        res.Controller=#Controller#,
+		        res.ViewName=#View#,
+		        res.Key=#Key#,
+		        res.Value=#Value#,
+            res.Remark=#Remark#
+        WHEN NOT MATCHED THEN 
+          INSERT
+          (
+            res.ID,
+		        res.Area,
+		        res.Controller,
+            res.ViewName,
+            res.Key,
+            res.Value,
+            res.Remark
+          ) 
+          VALUES (
+            util.NEWGUID,
+		        #Area#,
+		        #Controller#,
+		        #View#,
+            #Key#,
+            #Value#,
+            #Remark#
+          )
+      ]]>
+    </update>
+
+    <!-- 删除资源信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        DELETE FROM Globalization where Id=#value#
+      ]]>
+    </delete>
+  </statements>
+</sqlMap>

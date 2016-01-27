@@ -1,0 +1,195 @@
+﻿@using Mercurius.Infrastructure
+@using Mercurius.Siskin.Entities.RBAC
+@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.RBAC.SO
+
+@{
+    var so = this.ViewBag.SO as UserSO;
+    var rspUsers = this.ViewBag.ResponseUsers as ResponseCollection<User>;
+}
+@section Styles{
+    @Styles.Render("~/Content/treetable/css")
+    <style type="text/css">
+        .input-group-sm > .form-control,
+        .input-group-sm > .input-group-addon,
+        .input-group-sm > .input-group-btn > .btn {
+            padding: 0 10px;
+        }
+    </style>
+}
+@section Scripts
+{
+    @Scripts.Render("~/bundles/treetable")
+    <script type="text/javascript">
+        //回车键
+        document.onkeydown = function (e) {
+            if (!e) e = window.event; //火狐中是 window.event
+            if ((e.keyCode || e.which) == 13) {
+                var obtnSearch = document.getElementById("lbtSearch");
+                obtnSearch.click();
+            }
+        };
+
+        $(function () {
+            mercurius.FixedTableHeader("#table1", 155);
+        });
+
+        @Html.RenderButtonScript("新增",@<text>
+        function @(item.NavigateUrl)() {
+            mercurius.OpenDialog('@Url.Action("CreateOrUpdate")', 'ChooseUserContainer', '用户信息-添加', 700, 410);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+
+            if (mercurius.HasSingleRowSelected(key)) {
+                mercurius.OpenDialog('@Url.Action("CreateOrUpdate")/?id=' + key, 'ChooseUserContainer', '用户信息-编辑', 700, 410);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除",@<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+            if (mercurius.HasSingleRowSelected(key)) {
+                mercurius.OnRemoveToRecycbin({
+                    name: '用户管理',
+                    column: 'Id',
+                    value: key
+                });
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("授权",@<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+
+            if (mercurius.HasSingleRowSelected(key)) {
+                mercurius.ShowConfirmMessage('注：您确认要【授权】当前选中的用户吗？', function (r) {
+                    if (r) {
+                        mercurius.AjaxHelper('@Url.Action("AuthorizeUser")', { id: key }, function (rs) {
+                            if (rs) {
+                                mercurius.ShowTipsMessage("恭喜授权成功！", 2000, 4);
+                                mercurius.Reloading();
+                            } else {
+                                mercurius.ShowTipsMessage("<span style='color:red'>授权失败，请稍后重试！</span>", 4000, 5);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("锁定",@<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+
+            if (mercurius.HasSingleRowSelected(key)) {
+                mercurius.ShowConfirmMessage('注：您确认要【锁定】当前选中的用户吗？', function (r) {
+                    if (r) {
+                        mercurius.AjaxHelper('@Url.Action("LockUser")', { id: key }, function (rs) {
+                            if (rs) {
+                                mercurius.ShowTipsMessage("锁定成功！", 2000, 4);
+                                mercurius.Reloading();
+                            } else {
+                                mercurius.ShowTipsMessage("<span style='color:red'>锁定失败，请稍后重试！</span>", 4000, 5);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        </text>)
+    </script>
+}
+<div class="header">用户信息列表</div>
+@using (Html.BeginForm("Users", "User", FormMethod.Post, new { @autocomplete = "off" }))
+{
+    <input type="hidden" name="OrganizationId" value="@so.OrganizationId" />
+    @Html.RenderAccessibleButtons(
+    @<div class="form-inline" style="width:430px;">
+        <select id="searchCategory" name="SearchCategory" class="form-control">
+            <option value="Code">工号</option>
+            <option value="Account" @(so.SearchCategory == "Account" ? "selected" : string.Empty)>账户</option>
+            <option value="Name" @(so.SearchCategory == "Name" ? "selected" : string.Empty)>姓名</option>
+        </select>
+        <input type="text" id="txt_Search" name="SearchValue" value="@so.SearchValue" class="form-control" placeholder="查询关键字" style="width: 200px;" />
+
+        <button id="lbtSearch" type="submit" class="btn btn-sm btn-primary">
+            <i class="glyphicon glyphicon-search"></i> 查询
+        </button>
+        <button type="button" class="btn btn-sm btn-default" onclick="$('#searchCategory').val('Code'); $('#txt_Search').val('');">
+            <i class="glyphicon glyphicon-remove"></i> 重置
+        </button>
+    </div>)
+}
+<table class="grid" id="table1">
+    <thead>
+        <tr>
+            <td style="width: 40px;">
+                <label id="checkAllOff" title="全选">&nbsp;</label>
+            </td>
+            <td style="width: 120px;">职工工号 </td>
+            <td style="width: 120px;">用户姓名 </td>
+            <td style="width: 150px;">登录账户 </td>
+            <td style="width: 50px;">性别 </td>
+            <td style="width: 80px;">直接上级</td>
+            <td style="width: 200px;">职称 </td>
+            <td style="width: 50px;">状态 </td>
+            <td>所属部门 </td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (rspUsers.HasData())
+        {
+            foreach (var user in rspUsers.Datas)
+            {
+                <tr>
+                    <td style="width: 40px; text-align: center;">
+                        <input type="checkbox" value="@user.Id" id="@user.Id" name="checkbox" />
+                    </td>
+                    <td style="text-align: left;">@user.Code</td>
+                    <td>@user.Name</td>
+                    <td>@user.Account</td>
+                    <td style="text-align:center;">@(user.Sex == 1 ? "男" : "女")</td>
+                    <td>@user.ReporterName</td>
+                    <td>@user.Title</td>
+                    <td>@UserStatus(user.Status)</td>
+                    <td>@user.DepartmentNames</td>
+                </tr>
+            }
+        }
+        else if (rspUsers.IsSuccess())
+        {
+            <tr class="empty-data">
+                <td colspan="9">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+        else
+        {
+            <tr class="text-danger">
+                <td colspan="9">@rspUsers.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Paging(rspUsers.TotalRecords)
+@helper UserStatus(int? flag)
+{
+    switch (flag)
+    {
+        case 1:
+            <span style="color: blue;">启用</span>
+
+        break;
+
+        case 2:
+            <span style="color: red;">停用</span>
+
+        break;
+    }
+}

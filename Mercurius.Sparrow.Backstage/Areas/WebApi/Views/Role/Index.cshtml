@@ -1,0 +1,110 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.WebApi
+
+@model ResponseCollection<Role>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            mercurius.FixedTableHeader('#tbRoles', 155);
+        });
+       
+        @Html.RenderButtonScript("新增", @<text>
+        function @(item.NavigateUrl)(){
+            mercurius.OpenDialog('@Url.Action("CreateOrUpdate", "Role")','CreateOrUpdate','添加角色',550, 180);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑", @<text>
+        function @(item.NavigateUrl)(){
+            var id=$('#tbRoles > tbody > tr.selected > td:eq(3)').text();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.OpenDialog('@Url.Action("CreateOrUpdate", "Role")/'+id, 'CreateOrUpdate', '编辑角色', 550, 180);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除", @<text>
+        function @(item.NavigateUrl)(){
+            var id=$('#tbRoles > tbody > tr.selected > td:eq(3)').text();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.ShowConfirmMessage('是否删除该角色？',function(){
+                    mercurius.AjaxHelper('@Url.Action("Remove", "Role")', {id:id}, function(rs){
+                        if (rs.IsSuccess) {
+                            mercurius.ShowTipsMessage('删除成功',2500, 4);
+                            mercurius.Reloading();
+                        }else {
+                            mercurius.ShowTipsMessage('删除失败，失败原因：'+rs.ErrorMessage, 3000, 5);
+                        }
+                    });
+                });
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("分配成员", @<text>
+        function @(item.NavigateUrl)(){
+            var id=$('#tbRoles > tbody > tr.selected > td:eq(3)').text();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.OpenDialog('@Url.Action("AllotMembers", "Role")/'+id, 'AllotMembers', '分配角色成员', 800, 445,{statusbar:false});
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("分配权限",@<text>
+        function @(item.NavigateUrl)() {
+
+            var roleId = $('#tbRoles tr.selected').find('td:eq(3)').text().trim();
+
+            if (mercurius.HasSingleRowSelected(roleId)) {
+                var url = '@Url.Action("AllotPermission","Role")/' + roleId;
+
+                mercurius.NavigateUrl(url);
+            }
+        }
+        </text>)
+    </script>
+}
+
+<div class="header">角色一览</div>
+@Html.RenderAccessibleButtons()
+<table id="tbRoles" class="grid">
+    <thead>
+        <tr>
+            <td style="width:60px;">序号</td>
+            <td>名称</td>
+            <td>描述</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HasData())
+        {
+            foreach (var item in Model.Datas)
+            {
+                <tr>
+                    <td class="text-center">@item.RowIndex</td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td style="display:none;">@item.Id</td>
+                </tr>
+            }
+        }
+        else if (Model.IsSuccess())
+        {
+            <tr>
+                <td colspan="3" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-danger">@Model.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.Paging(Model.TotalRecords)

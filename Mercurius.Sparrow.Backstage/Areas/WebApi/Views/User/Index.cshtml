@@ -1,0 +1,144 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.WebApi
+
+@model ResponseCollection<User>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            mercurius.FixedTableHeader('#tbUsers', 155);
+        });
+
+        @Html.RenderButtonScript("新增", @<text>
+        function @(item.NavigateUrl)(){
+            mercurius.OpenDialog('@Url.Action("CreateOrUpdate", "User")','CreateOrUpdate','添加Web API用户',550,220);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)(){
+            var id = $('#tbUsers > tbody > tr.selected > td:eq(4)').text();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.OpenDialog('@Url.Action("CreateOrUpdate", "User")/'+id,'CreateOrUpdate','编辑Web API用户',550,220);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除", @<text>
+        function @(item.NavigateUrl)(){
+            var id = $('#tbUsers > tbody > tr.selected > td:eq(4)').text();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.ShowConfirmMessage('是否确定删除该用户？',function(){
+                    mercurius.AjaxHelper('@Url.Action("Remove", "User")', {id:id}, function(rs){
+                        if (rs.IsSuccess) {
+                            ShowTipsMessage("删除成功！", 2000, 4);
+                            mercurius.Reloading();
+                        }else {
+                            mercurius.ShowWarningMessage('删除失败，请稍后再试！');
+                        }
+                    });
+                });
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("授权", @<text>
+        function @(item.NavigateUrl)(){
+            var id = $('#tbUsers > tbody > tr.selected > td:eq(4)').text();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.ShowConfirmMessage('注：您确定要【授权】当前选中的用户吗？',function(){
+                    mercurius.AjaxHelper('@Url.Action("AuthorizeUser", "User")', {id:id}, function(rs){
+                        if (rs.IsSuccess) {
+                            mercurius.ShowTipsMessage("恭喜授权成功！", 2000, 4);
+                            mercurius.Reloading();
+                        }else{
+                            mercurius.ShowWarningMessage('删除失败，请稍后再试！');
+                        }
+                    });
+                });
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("锁定", @<text>
+        function @(item.NavigateUrl)(){
+            var id = $('#tbUsers > tbody > tr.selected > td:eq(4)').text();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.ShowConfirmMessage('注：您确定要【锁定】当前选中的用户吗？',function(){
+                    mercurius.AjaxHelper('@Url.Action("LockUser", "User")', {id:id}, function(rs){
+                        if (rs.IsSuccess) {
+                            mercurius.ShowTipsMessage("锁定成功！", 2000, 4);
+                            mercurius.Reloading();
+                        }else{
+                            mercurius.ShowWarningMessage('删除失败，请稍后再试！');
+                        }
+                    });
+                });
+            }
+        }
+        </text>)
+    </script>
+}
+
+<div class="header">Web API用户一览</div>
+
+@Html.RenderAccessibleButtons()
+
+<table id="tbUsers" class="grid">
+    <thead>
+        <tr>
+            <td style="width: 60px">序号</td>
+            <td style="width: 300px;">名称</td>
+            <td>描述</td>
+            <td style="width: 120px;">状态</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HasData())
+        {
+            foreach (var item in Model.Datas)
+            {
+                <tr>
+                    <td class="text-center">@item.RowIndex</td>
+                    <td>@item.Account</td>
+                    <td>@item.Description</td>
+                    <td class="text-center">@DisplayStatus(item.Status)</td>
+                    <td style="display:none;">@item.Id</td>
+                </tr>
+            }
+        }
+        else if (Model.IsSuccess())
+        {
+            <tr>
+                <td colspan="4" class="empty-data">
+                    @Html.GetGlobalValue("empty-data")
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-danger">@Model.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.Paging(Model.TotalRecords)
+
+@helper DisplayStatus(int? status)
+{
+    if (status == 2)
+    {
+        <span style="color: red;">禁用</span>
+    }
+    else
+    {
+        <span style="color:blue;">启用</span>
+    }
+}

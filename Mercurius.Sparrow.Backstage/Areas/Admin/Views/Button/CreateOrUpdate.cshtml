@@ -1,0 +1,115 @@
+﻿@using Mercurius.Siskin.Entities.RBAC
+@model Button
+@section Styles{
+    <style type="text/css">
+        .icon-container {
+            width: 36px;
+            height: 30px;
+            border: 1px solid #ccc;
+            float: left;
+            text-align: center;
+            margin-right: 4px;
+            -ms-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+            .icon-container #icon {
+                font-size: 1.6em;
+                padding-top: 1px;
+                padding-bottom: 1px;
+                line-height: 23px;
+            }
+    </style>
+}
+@section Scripts
+{
+    @Scripts.Render("~/bundles/validate")
+    <script type="text/javascript">
+        $(function () {
+            if ($('#Name').val() != '') {
+                $('#Name').prop('readonly', true);
+            }
+        })
+
+        function OnSave() {
+            if (JudgeValidate('#frmSave')) {
+                $('#frmSave').submit();
+            }
+        }
+
+        //选择图标
+        function SelectOpenImg() {
+            var url = '@Url.Action("Icons", "SystemMenu")';
+
+            mercurius.OpenDialog(url, '', '菜单图标', 615, 400, { x: 'right', y: 'bottom', statusbar: false });
+        }
+
+        //根据选择图标，修改当前页面显示，并赋值
+        function SetImage(img) {
+            $("#icon").prop('class', img);
+
+            $("#imageName").val(img);
+        }
+
+        //标记和名称一致
+        function onkeyButton_Name(value) {
+            $("#Title").val(value);
+        }
+    </script>
+}
+@using (Ajax.BeginForm("CreateOrUpdate", "Button", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Name">名称</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @validate_field = "名称", @validate_rule = "notNull", onkeyup = "onkeyButton_Name(this.value)" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Title">显示名</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @validate_field = "显示名", @validate_rule = "notNull" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Category">显示位置</label>
+        <div class="col-sm-10">
+            @Html.DropDownListFor(m => m.Category, new List<SelectListItem> { new SelectListItem { Text = "工具栏", Value = "工具栏" } }, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label">菜单图标</label>
+        <div class="col-sm-10">
+            @{
+                var imgUrl = Model != null && Model.Image != null ? Model.Image : string.Empty;
+            }
+            <div class="icon-container">
+                <i id="icon" class="@imgUrl"></i>
+            </div>
+            <a href="#" class="btn btn-sm btn-primary" onclick="SelectOpenImg()">
+                <i class="glyphicon glyphicon-picture"></i> 图标选取
+            </a>
+            @Html.HiddenFor(m => m.Image, new { @id = "imageName" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Sort">显示顺序</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @validate_field = "显示顺序", @validate_rule = "int" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Code">按钮事件</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(m => m.Code, new { @class = "form-control", @rows = "3" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Remark">说明</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @rows = "3" })
+        </div>
+    </div>
+}

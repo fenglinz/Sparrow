@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sqlMap xmlns="http://ibatis.apache.org/mapping" namespace="Mercurius.Siskin.Repositories.Core.Dictionary">
+  <alias>
+    <typeAlias alias="Dictionary" type="Mercurius.Siskin.Entities.Core.Dictionary, Mercurius.Siskin.Entities" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="DictionaryRM" class="Dictionary">
+      <result property="Id" column="Id" />
+      <result property="Type" column="Type" />
+      <result property="Key" column="Key" />
+      <result property="Value" column="Value" />
+      <result property="Sort" column="Sort" />
+      <result property="Status" column="Status" />
+      <result property="Remark" column="Remark" />
+      <result property="ParentId" column="ParentId" />
+    </resultMap>
+  </resultMaps>
+  
+  <statements>
+
+    <!-- 获取字典信息 -->
+    <select id="GetDictionary" parameterClass="string" resultMap="DictionaryRM">
+      <![CDATA[
+        SELECT 
+          "Id"
+          ,"Type"
+          ,"Key"
+          ,"Value"
+          ,"Sort"
+          ,"Status"
+          ,"Remark"
+          ,"ParentId"
+        FROM "Dictionary"
+        WHERE "Id"=#value#
+      ]]>
+    </select>
+
+    <!-- 获取字典信息集合 -->
+    <select id="GetDictionaries" resultMap="DictionaryRM">
+      <![CDATA[
+        SELECT
+          a."Id"
+          ,a."Type"
+          ,a."Key"
+          ,a."Value"
+          ,a."Status"
+          ,a."Remark"
+          ,a."ParentId"
+          ,a."Sort"
+          ,b."Sort"||'-'||a."Sort" AS "FullSort"
+          ,b."Key" AS "ParentName"
+        FROM "Dictionary" a 
+        LEFT JOIN "Dictionary" b 
+          ON a."ParentId"=b."Id"
+        ORDER BY b."Sort" ASC,a."Sort" ASC
+      ]]>
+    </select>
+
+    <!-- 获取字典类型 -->
+    <select id="GetCategories" resultClass="Dictionary">
+      <![CDATA[
+        SELECT 
+          a."Id",
+          a."Type",
+          a."ParentId",
+          a."Key",
+          a."Value",
+          a."Sort"
+        FROM "Dictionary" a
+        WHERE a."ParentId" IS NULL OR a."ParentId"='0' OR a."Type" IS NOT NULL
+        ORDER BY a."Sort" ASC
+      ]]>
+    </select>
+
+    <!-- 获取字典分类 -->
+    <select id="GetCategoriesByParentKey" parameterClass="string" resultClass="Dictionary">
+      <![CDATA[
+        SELECT
+          "Id",
+          "Type",
+          "ParentId",
+          "Key",
+          "Value",
+          "Sort"
+        FROM "Dictionary"
+        WHERE "ParentId"=(SELECT "Id" FROM "Dictionary" WHERE ("Type"=1 OR "ParentId" IS NULL) AND "Key"=#value# LIMIT 1)
+        ORDER BY "Sort" ASC
+      ]]>
+    </select>
+
+    <!-- 获取分类数据项 -->
+    <select id="GetCategoryItems" parameterClass="string" resultClass="Dictionary">
+      <![CDATA[
+        WITH RECURSIVE CTE AS(
+          SELECT 
+            "Id",
+            "Type",
+            "ParentId",
+            "Key",
+            "Value",
+            "Sort",
+            '00'||ROW_NUMBER() OVER(ORDER BY "Sort" ASC) AS "RowIndex"
+          FROM "Dictionary" WHERE "ParentId"=(SELECT "Id" FROM "Dictionary" WHERE "Key"=#value# LIMIT 1)
+          UNION ALL
+          SELECT
+            a."Id",
+            a."Type",
+            a."ParentId",
+            a."Key",
+            a."Value",
+            a."Sort",
+            cte."RowIndex" || ROW_NUMBER() OVER(ORDER BY a."Sort" ASC) AS "RowIndex"
+          FROM "Dictionary" a
+          INNER JOIN cte
+            ON a."ParentId"=cte."Id"
+        )
+        SELECT
+          "Id",
+          "Type",
+          "ParentId",
+          "Key",
+          "Value"
+        FROM CTE
+        ORDER BY LTRIM("RowIndex") ASC
+      ]]>
+    </select>
+
+    <!-- 添加或更新字典信息 -->
+    <insert id="CreateOrUpdate" parameterClass="Dictionary">
+      <![CDATA[
+        BEGIN;
+          UPDATE "Dictionary"
+          SET
+            "Key"=#Key#,
+            "Value"=#Value#,
+            "ParentId"=#ParentId#,
+            "Sort"=#Sort#,
+            "Status"=#Status#,
+            "Remark"=#Remark#
+          WHERE "Id"=#Id#;
+          INSERT INTO "Dictionary"
+          (
+            "Id"
+            ,"Type"
+            ,"Key"
+            ,"Value"
+            ,"ParentId"
+            ,"Sort"
+            ,"Status"
+            ,"Remark"
+          )
+          SELECT uuid_generate_v4(), #Type#, #Key#, #Value#, #ParentId#, #Sort#, #Status#, #Remark#
+          WHERE NOT EXISTS(SELECT 1 FROM "Dictionary" WHERE "Id"=#Id#);
+        COMMIT;
+      ]]>
+    </insert>
+
+    <!-- 检查资源分类是否存在 -->
+    <select id="CheckCategoryExists" parameterClass="Params" resultClass="int">
+      <![CDATA[
+        SELECT 1 AS "CategoryExists" WHERE EXISTS(SELECT * FROM "Dictionary" WHERE ("Key"=#Category# OR "Id" IS NULL) AND ("Key"=#Category# AND "ParentId"=#ParentId#) AND ("Key"=#Key# AND "ParentId"=#ParentId# AND "Id"<>#Id#))
+      ]]>
+    </select>
+
+    <!-- 检查资源是否存在 -->
+    <select id="CheckDictionaryExists" parameterClass="Params" resultClass="int">
+      <![CDATA[
+        SELECT 1 AS "CategoryExists" WHERE EXISTS(SELECT * FROM "Dictionary" WHERE "ParentId"=#ParentId# AND ("Key"=#Key# OR "Id" IS NULL) AND ("ParentId"=#ParentId# AND "Key"=#Key# AND "Id"<>#Id#))
+      ]]>
+    </select>
+
+    <!-- 更改字典状态 -->
+    <update id="ChangeStatus" parameterClass="Params">
+      <![CDATA[
+        UPDATE "Dictionary"
+        SET
+          "Status"=#Status#
+        WHERE "Id"=#Id#
+      ]]>
+    </update>
+
+    <!-- 删除字典信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        SELECT "RemoveDictionaryItem"(#value#)
+      ]]>
+    </delete>
+  </statements>
+</sqlMap>

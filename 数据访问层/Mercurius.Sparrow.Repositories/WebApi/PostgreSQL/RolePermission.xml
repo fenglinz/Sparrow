@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.WebApi.RolePermission" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="RolePermission" type="Mercurius.Siskin.Entities.WebApi.RolePermission,Mercurius.Siskin.Entities" />
+    <typeAlias alias="RolePermissionSO" type="Mercurius.Siskin.Entities.WebApi.SO.RolePermissionSO,Mercurius.Siskin.Entities" />
+  </alias>
+  <statements>
+    <!-- 添加WebApi权限列表信息。 -->
+    <insert id="Create" parameterClass="RolePermission">
+      <![CDATA[
+        INSERT INTO [WebApi].[RolePermission]
+        (
+          [UserId],
+          [ApiId],
+          [CreateUserId],
+          [CreateDateTime]
+        )
+        VALUES
+        (
+          #UserId#,
+          #ApiId#,
+          #CreateUserId#,
+          #CreateDateTime#
+        )
+      ]]>
+    </insert>
+    
+    <!-- 更新WebApi权限列表信息。 -->
+    <update id="Update" parameterClass="RolePermission">
+      <![CDATA[
+        UPDATE [WebApi].[RolePermission]
+        SET
+          [UserId]=#UserId#,
+          [ApiId]=#ApiId#,
+          [CreateUserId]=#CreateUserId#,
+          [CreateDateTime]=#CreateDateTime#
+        WHERE [Id]=#Id#
+      ]]>
+    </update>
+
+    <!-- 添加或者更新WebApi权限列表信息。 -->
+    <update id="CreateOrUpdate" parameterClass="RolePermission">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [WebApi].[RolePermission] WHERE [Id]=#Id#)
+          UPDATE [WebApi].[RolePermission]
+          SET
+            [UserId]=#UserId#,
+            [ApiId]=#ApiId#,
+            [CreateUserId]=#CreateUserId#,
+            [CreateDateTime]=#CreateDateTime#
+          WHERE [Id]=#Id#
+        ELSE
+          INSERT INTO [WebApi].[RolePermission]
+          (
+            [UserId],
+            [ApiId],
+            [CreateUserId],
+            [CreateDateTime]
+          )
+          VALUES
+          (
+            #UserId#,
+            #ApiId#,
+            #CreateUserId#,
+            #CreateDateTime#
+          )
+      ]]>
+    </update>
+    
+    <!-- 删除WebApi权限列表信息。 -->
+    <delete id="Remove" parameterClass="int">
+      <![CDATA[
+        DELETE FROM [WebApi].[RolePermission] WHERE [Id]=#value#
+      ]]>
+    </delete>
+
+    <!-- 根据主键获取WebApi权限列表信息。 -->
+    <select id="GetById" parameterClass="int" resultClass="RolePermission">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [UserId] AS UserId,
+          [ApiId] AS ApiId,
+          [CreateUserId] AS CreateUserId,
+          [CreateDateTime] AS CreateDateTime
+        FROM [WebApi].[RolePermission] 
+        WHERE [Id]=#value#
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的WebApi权限列表信息。 -->
+    <select id="SearchRolePermissions" parameterClass="RolePermissionSO" resultClass="RolePermission">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+            [Id] AS Id,
+            [UserId] AS UserId,
+            [ApiId] AS ApiId,
+            [CreateUserId] AS CreateUserId,
+            [CreateDateTime] AS CreateDateTime,
+            ROW_NUMBER() OVER(ORDER BY [Id] DESC) AS RowIndex
+          FROM [WebApi].[RolePermission]
+      ]]>
+      <include refid="searchConditions" />
+      <![CDATA[
+        )
+        SELECT * FROM CTE
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select id="SearchRolePermissionsCount" parameterClass="RolePermissionSO" resultClass="int">
+      <![CDATA[
+        SELECT COUNT(*) FROM [WebApi].[RolePermission]
+      ]]>
+      <include refid="searchConditions" />
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotNull property="UserId">
+            [UserId]=#UserId#
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

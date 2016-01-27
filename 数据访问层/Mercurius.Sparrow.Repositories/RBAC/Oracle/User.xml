@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.User" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="User" type="Mercurius.Siskin.Entities.RBAC.User, Mercurius.Siskin.Entities" />
+    <typeAlias alias="UserSO" type="Mercurius.Siskin.Entities.RBAC.SO.UserSO, Mercurius.Siskin.Entities" />
+    <typeAlias alias="UserGroup" type="Mercurius.Siskin.Entities.RBAC.UserGroup, Mercurius.Siskin.Entities" />
+    <typeAlias alias="UserGroupRelation" type="Mercurius.Siskin.Entities.RBAC.UserGroupRelation, Mercurius.Siskin.Entities" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="GetUserRM" class="User">
+      <result column="ID" property="Id" />
+      <result column="CODE" property="Code" />
+      <result column="ACCOUNT" property="Account" />
+      <result column="PASSWORD" property="Password" />
+      <result column="NAME" property="Name" />
+      <result column="SEX" property="Sex" />
+      <result column="TITLE" property="Title" />
+      <result column="EMAIL" property="Email" />
+      <result column="THEME" property="Theme"/>
+      <result column="REMARK" property="Remark" />
+      <result column="STATUS" property="Status"/>
+      <result column="CREATEDATETIME" property="CreateDateTime" />
+      <result column="CREATEUSERID" property="CreateUserId" />
+      <result column="CREATEUSERNAME" property="CreateUserName" />
+      <result column="MODIFYUSERID" property="ModifyUserId" />
+      <result column="MODIFYUSERNAME" property="ModifyUserName" />
+      <result column="MODIFYDATETIME" property="ModifyDateTime" />
+      <result column="ID" property="Roles" lazyLoad="true" select="Mercurius.Siskin.Repositories.RBAC.User.GetRolesByUser" />
+      <result column="ID" property="UserGroups" lazyLoad="true" select="Mercurius.Siskin.Repositories.RBAC.User.GetUserGroupsByUser" />
+      <result column="ID" property="Departments" lazyLoad="true" select="Mercurius.Siskin.Repositories.RBAC.User.GetDepartmentsByUser" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <!-- 更新用户状态 -->
+    <update id="UpdateUserStatus" parameterClass="Params">
+      <![CDATA[
+        UPDATE RBAC.[User]
+        SET
+          Status=#Status#
+        WHERE Id=#UserId#
+      ]]>
+    </update>
+
+    <!-- 修改用户密码 -->
+    <update id="ChangePassword" parameterClass="User">
+      <![CDATA[
+        UPDATE RBAC.[User]
+        SET
+          Password=#Password#,
+          ModifyDateTime=#ModifyDateTime#,
+	        ModifyUserId=#ModifyUserId#,
+	        ModifyUserName=#ModifyUserName#
+        WHERE ID=#Id#
+      ]]>
+    </update>
+
+    <!-- 添加或者编辑用户信息 -->
+    <update id="CreateOrUpdateUser" parameterClass="User">
+      <![CDATA[
+        MERGE INTO RBAC.[User] his
+          USING (SELECT * FROM RBAC.[User] WHERE Id=#Id#) src
+            ON (his.Id=src.Id)
+          WHEN MATCHED THEN
+            UPDATE SET
+              his.Code=#Code#,
+              his.Account=#Account#,
+              his.Password=#Password#,
+              his.Name=#Name#,
+              his.Sex=#Sex#,
+              his.Title=#Title#,
+              his.Email=#Email#,
+              his.Remark=#Remark#,
+              his.ModifyDateTime=#ModifyDateTime#,
+              his.ModifyUserId=#ModifyUserId#,
+              his.ModifyUserName=#ModifyUserName#
+          WHEN NOT MATCHED THEN 
+            INSERT
+            ( 
+              his.Id,
+  	          his.Code,
+              his.Account,
+  	          his.Password,
+  	          his.Name,
+              his.Sex,
+              his.Title,
+              his.Email,
+              his.Remark,
+              his.Status,
+  	          his.CreateDateTime,
+  	          his.CreateUserId,
+  	          his.CreateUserName
+            )
+            VALUES
+            (
+              #Id#,
+  	          #Code#,
+              #Account#,
+  	          #Password#,
+  	          #Name#,
+              #Sex#,
+              #Title#,
+              #Email#,
+              #Remark#,
+              1,
+  	          #CreateDateTime#,
+  	          #CreateUserId#,
+  	          #CreateUserName#
+            )
+      ]]>
+    </update>
+
+    <!-- 添加或者修改用户组信息 -->
+    <update id="CreateOrUpdateUserGroup" parameterClass="UserGroup">
+      <![CDATA[
+        MERGE INTO RBAC.UserGroup his
+          USING (SELECT * FROM RBAC.UserGroup WHERE Id=#Id#) src
+            ON (his.Id=src.Id)
+          WHEN MATCHED THEN
+            UPDATE SET
+              his.ParentId=#ParentId#,
+              his.Code=#Code#,
+              his.Name=#Name#,
+              his.Sort=#Sort#,
+              his.Remark=#Remark#,
+              his.ModifyDateTime=#ModifyDateTime#,
+              his.ModifyUserId=#ModifyUserId#,
+              his.ModifyUserName=#ModifyUserName#
+          WHEN NOT MATCHED THEN 
+            INSERT
+            ( 
+              his.Id,
+  	          his.ParentId,
+              his.Code,
+  	          his.Name,
+  	          his.Sort,
+              his.Remark,
+              his.Status,
+  	          his.CreateDateTime,
+  	          his.CreateUserId,
+  	          his.CreateUserName
+            )
+            VALUES
+            (
+              #Id#,
+  	          #ParentId#,
+              #Code#,
+  	          #Name#,
+  	          #Sort#,
+              #Remark#,
+              1,
+  	          #CreateDateTime#,
+  	          #CreateUserId#,
+  	          #CreateUserName#
+            )
+      ]]>
+    </update>
+
+    <!-- 添加或者编辑用户组关系 -->
+    <insert id="CreateOrUpdateRelation" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+          DELETE FROM RBAC.USERGROUPRELATION WHERE UserId=#UserId#;
+      ]]>
+      <dynamic>
+        <isNotNull property="UserGroupRelations">
+          <iterate property="UserGroupRelations" open="" close=";" conjunction=";">
+            <![CDATA[
+              INSERT INTO RBAC.USERGROUPRELATION
+              (
+                Id,
+                UserId,
+                UserGroupId,
+                CreateDateTime,
+                CreateUserId,
+                CreateUserName
+              )
+              values
+              (
+                #UserGroupRelations[].Id#,
+                #UserGroupRelations[].UserId#,
+                #UserGroupRelations[].UserGroupId#,
+                #UserGroupRelations[].CreateDateTime#,
+                #UserGroupRelations[].CreateUserId#,
+                #UserGroupRelations[].CreateUserName#
+              )
+            ]]>
+          </iterate>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+        END;
+      ]]>
+    </insert>
+
+    <!-- 添加用户组成员 -->
+    <insert id="AddUserGroupMembers" parameterClass="Params">
+      <dynamic>
+        <isNotNull property="UserGroupRelations">
+          <iterate property="UserGroupRelations" open="BEGIN" close="; END;" conjunction=";">
+            <![CDATA[
+              INSERT INTO RBAC.UserGroupRelation
+              (
+                Id,
+                UserId,
+                UserGroupId,
+                CreateDateTime,
+                CreateUserId,
+                CreateUserName
+              )
+              values
+              (
+                #UserGroupRelations[].Id#,
+                #UserGroupRelations[].UserId#,
+                #UserGroupRelations[].UserGroupId#,
+                #UserGroupRelations[].CreateDateTime#,
+                #UserGroupRelations[].CreateUserId#,
+                #UserGroupRelations[].CreateUserName#
+              )
+            ]]>
+          </iterate>
+        </isNotNull>
+      </dynamic>
+    </insert>
+
+    <!-- 删除用户组成员 -->
+    <delete id="RemoveUserGroupMember" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM RBAC.UserGroupRelation WHERE UserGroupId=#UserGroupId# AND UserId=#UserId#
+      ]]>
+    </delete> 
+    
+    <!-- 验证用户登录信息 -->
+    <select id="ValidateUser" parameterClass="Params" resultClass="User">
+      <![CDATA[
+        SELECT
+          Id          AS "Id"
+          ,Code       AS "Code"
+          ,Name       AS "Name"
+          ,Account    AS "Account"
+          ,Password   AS "Password"
+          ,Sex        AS "Sex"
+          ,Title      AS "Title"
+          ,Status     AS "Status"
+        FROM RBAC.[User]
+        WHERE Account=#Account# AND Password=#Password# AND Status!=0
+      ]]>
+    </select>
+
+    <!-- 获取用户信息 -->
+    <select id="GetUser" parameterClass="string" resultMap="GetUserRM">
+      <![CDATA[
+        SELECT
+          Id,
+          Code,
+          Account,
+          Password,
+          Name,
+          Sex,
+          Title,
+          Email,
+          Theme,
+          Remark,
+          Status,
+          CreateDatetime,
+          CreateUserId,
+          CreateUserName,
+          ModifyUserId,
+          ModifyUserName,
+          ModifyDateTime
+        FROM RBAC.[User]
+        WHERE ID=#value#
+      ]]>
+    </select>
+
+    <select id="GetDepartmentsByUser" parameterClass="string" resultClass="string">
+      SELECT organizationID FROM RBAC.STAFFORGANIZE WHERE USERID=#value#
+    </select>
+
+    <select id="GetRolesByUser" parameterClass="string" resultClass="string">
+      SELECT RoleId FROM RBAC.USERROLE WHERE USERID=#value#
+    </select>
+
+    <select id="GetUserGroupsByUser" parameterClass="string" resultClass="string">
+      SELECT UserGroupId FROM RBAC.USERGROUPRELATION WHERE USERID=#value#
+    </select>
+
+    <!-- 查询用户信息 -->
+    <select id="GetUsers" parameterClass="UserSO" resultClass="User">
+      <![CDATA[
+        WITH CTE AS (
+          SELECT
+            U.ID,
+            U.Code,
+            U.Name,
+            U.Account,
+            U.Sex,
+            U.Title,
+            U.Status,
+            U.Remark,
+            U.CreateDateTime
+          FROM RBAC.[User] U LEFT JOIN RBAC.StaffOrganize S
+            ON U.Id = S.UserId
+          WHERE U.Status !=0
+      ]]>
+      <dynamic>
+        <isNotNull property=".">
+          <isNotEmpty property="OrganizationId" prepend="AND">
+            s.OrganizationId=#OrganizationId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+          GROUP BY U.ID, U.Code, U.Name, U.Account, U.Sex,
+            U.Title, U.Status, U.Remark, U.CreateDateTime 
+          ORDER BY U.CreateDateTime DESC
+        ),
+        PAGING AS(
+          SELECT
+            ROWNUM AS RowIndex,
+            CTE.*
+          FROM CTE
+        )
+        SELECT
+          PAGING.RowIndex        AS "RowIndex"
+          ,PAGING.ID             AS "Id"
+          ,PAGING.Code           AS "Code"
+          ,PAGING.Name           AS "Name"
+          ,PAGING.Account        AS "Account"
+          ,PAGING.Sex            AS "Sex"
+          ,PAGING.Title          AS "Title"
+          ,PAGING.Status         AS "Status"
+          ,PAGING.Remark         AS "Remark"
+          ,PAGING.CreateDateTime AS "CreateDateTime"
+        FROM PAGING
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+      ]]>
+    </select>
+
+    <!-- 获取用户组成员 -->
+    <select id="GetUsersByGroup" parameterClass="string" resultClass="User">
+      <![CDATA[
+        SELECT
+          u.Id       AS "Id"
+          ,u.Code    AS "Code"
+          ,u.Account AS "Account"
+          ,u.Name    AS "Name"
+        FROM RBAC.[User] u
+        INNER JOIN RBAC.UserGroupRelation u_r
+          ON u.Id=u_r.UserId
+        WHERE u_r.UserGroupId=#value#
+      ]]>
+    </select>
+
+    <!-- 获取用户组信息 -->
+    <select id="GetUserGroup" parameterClass="string" resultClass="UserGroup">
+      <![CDATA[
+        SELECT
+          Id              AS "Id"
+          ,ParentId       AS "ParentId"
+          ,Code           AS "Code"
+          ,Name           AS "Name"
+          ,Sort           AS "Sort"
+          ,Remark         AS "Remark"
+          ,CreateDateTime AS "CreateDateTime"
+          ,CreateUserId   AS "CreateUserId"
+          ,CreateUserName AS "CreateUserName"
+          ,ModifyDateTime AS "ModifyDateTime"
+          ,ModifyUserId   AS "ModifyUserId"
+          ,ModifyUserName AS "ModifyUserName"
+        FROM RBAC.UserGroup
+        WHERE Id=#value#
+      ]]>
+    </select>
+
+    <!-- 获取用户组信息 -->
+    <select id="GetUserGroups" resultClass="UserGroup">
+      <![CDATA[
+        SELECT
+          Id              AS "Id"
+          ,Name           AS "Name"
+          ,ParentId       AS "ParentId"
+          ,Code           AS "Code"
+          ,Sort           AS "Sort"
+          ,Remark         AS "Remark"
+          ,CreateDateTime AS "CreateDateTime"
+          ,CreateUserId   AS "CreateUserId"
+          ,CreateUserName AS "CreateUserName"
+          ,ModifyDateTime AS "ModifyDateTime"
+          ,ModifyUserId   AS "ModifyUserId"
+          ,ModifyUserName AS "ModifyUserName"
+        FROM RBAC.UserGroup
+        WHERE Status=1 ORDER BY Sort ASC
+      ]]>
+    </select>
+
+    <!-- 获取未分配组的用户 -->
+    <select id="GetUnAllotGroupUsers" resultClass="User">
+      <![CDATA[
+        SELECT
+          u.Id       AS "Id"
+          ,u.Code    AS "Code"
+          ,u.Account AS "Account"
+          ,u.Name    AS "Name"
+        FROM RBAC.[User] u
+        LEFT JOIN RBAC.UserGroupRelation u_r
+          ON u.Id=u_r.UserId
+        WHERE u.Status=1 AND u_r.Id IS NULL
+      ]]>
+    </select>
+  </statements>
+</sqlMap>

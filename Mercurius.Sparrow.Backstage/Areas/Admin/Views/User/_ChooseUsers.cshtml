@@ -1,0 +1,49 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.RBAC.SO
+
+@model ResponseCollection<Mercurius.Siskin.Entities.RBAC.User>
+
+@{
+    var so = this.ViewBag.SO as UserSO;
+}
+
+<div style="width:97%;">
+    <table id="usersGrid" class="grid">
+        <thead>
+            <tr>
+                <td style="width:60px;">序号</td>
+                <td style="width:70px;">工号</td>
+                <td>姓名</td>
+                <td>职称</td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.HasData())
+            {
+                foreach (var item in Model.Datas)
+                {
+                    <tr>
+                        <td class="text-center">@item.RowIndex</td>
+                        <td>@item.Code</td>
+                        <td>@item.Name</td>
+                        <td>@item.Title</td>
+                        <td style="display:none;">@item.Id</td>
+                    </tr>
+                }
+            }
+            else if (Model.IsSuccess())
+            {
+                <tr>
+                    <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-danger">@Model.GetErrorMessage()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.Paging(Model.TotalRecords, "GetUsers", "User", so, 10, ajaxOptions: new AjaxOptions { UpdateTargetId = "users", OnSuccess = "ChoosedUsersHandler" })
+</div>

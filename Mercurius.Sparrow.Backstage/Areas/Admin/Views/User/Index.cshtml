@@ -1,0 +1,46 @@
+﻿@section Styles{
+    <style type="text/css">
+        .col-sm-2, .col-sm-10 {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .col-sm-10 {
+            border: 1px solid #ccc;
+        }
+    </style>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("html").css("overflow", "hidden");
+            $("body").css("overflow", "hidden");
+            iframeresize();
+            $("#target_right").attr("src", '@Url.Action("Users")');
+            $("#target_left").attr("src", '@Url.Action("Departments")');
+        });
+
+        /**自应高度**/
+        function iframeresize() {
+            function resizeU() {
+                var iframeMain = $(window).height();
+                $("#iframeMainContent").height(iframeMain);
+            }
+
+            resizeU();
+            $(window).resize(resizeU);
+        }
+    </script>
+}
+<div id="iframeMainContent">
+    <div class="pull-left col-sm-2" style="padding-right:1px;">
+        <iframe id="target_left" name="target_left" scrolling="auto" frameborder="0" scrolling="yes"
+                width="100%" height="100%"></iframe>
+    </div>
+    <div class="pull-right col-sm-10">
+        <iframe id="target_right" name="target_right" scrolling="auto" frameborder="0" scrolling="yes"
+                width="100%" height="100%"></iframe>
+    </div>
+</div>

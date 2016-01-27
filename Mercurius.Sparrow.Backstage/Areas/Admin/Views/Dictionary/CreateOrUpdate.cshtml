@@ -1,0 +1,97 @@
+﻿@using Mercurius.Siskin.Entities.Core
+@using Mercurius.Siskin.Contracts
+@model Dictionary
+@{
+    var categories = this.ViewBag.Categories as ResponseCollection<Dictionary>;
+    var trees = categories.Datas.AsTree(d => string.IsNullOrWhiteSpace(d.ParentId) || d.ParentId == "0", (p, c) => c.ParentId == p.Id, d => new TreeNode { Id = d.Id, Text = d.Key, Checked = d.Id == this.ViewBag.ParentId });
+}
+@section Styles
+{
+    @Styles.Render("~/Content/tree/css")
+    <style type="text/css">
+        .form-horizontal .radio,
+        .form-horizontal .checkbox,
+        .form-horizontal .radio-inline,
+        .form-horizontal .checkbox-inline {
+            padding: 7px 10px 7px 20px;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-top: 2.5px;
+        }
+    </style>
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/validate", "~/bundles/tree")
+    <script type="text/javascript">
+        var saveUrl = '@Url.Action("CreateOrUpdate", "Dictionary")';
+
+        $(document).ready(function () {
+            parentChange();
+            $("#ParentId").bind("change", parentChange);
+
+            $("input[type=text]").blur(function () {
+                this.value = $.trim(this.value);
+            });
+        });
+
+        function OnSave() {
+            if (JudgeValidate('#frmSave')) {
+                $('#frmSave').submit();
+            }
+        }
+        function parentChange() {
+            var selectValue = $("#ParentId :selected").text();
+
+            $("#ParentName").val(selectValue);
+        }
+    </script>
+}
+@using (Ajax.BeginForm("CreateOrUpdate", "Dictionary", null,
+                                                                new AjaxOptions() { HttpMethod = "POST", OnSuccess = "onSuccess" },
+                                                                new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
+{
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="ParentId"><span style="color: Red">*</span>类别</label>
+        <div class="col-sm-9">
+            @TreeHelper.CreateComboTree(trees, "ParentId", this.ViewBag.ParentId)
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Key"><span style="color: Red">*</span>字典名称</label>
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Key, new { @class = "form-control", @validate_field = "字典名称", @validate_rule = "limit", @length = "100", @maxlength = "100" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Value"><span style="color: Red">*</span>字典值</label>
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Value, new { @class = "form-control", @validate_field = "字典值", @validate_rule = "limit", @length = "500", @maxlength = "500" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Sort"><span style="color: Red">*</span>显示顺序</label>
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @validate_field = "显示顺序", @validate_rule = "int", @length = "15", @maxlength = "15" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Status">状态</label>
+        <div class="col-sm-9">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.Status, 1, new { @checked = "checked" }) 启用
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.Status, 0) 禁用
+            </label>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Remark">备注</label>
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @style = "height:64px;" })
+        </div>
+    </div>
+}

@@ -1,0 +1,122 @@
+﻿@using Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Dynamic
+@model CreateOrUpdateModel
+@section Styles{
+    <style type="text/css">
+        [validate-rule*=date],
+        [validate-rule=time] {
+            cursor: pointer;
+        }
+    </style>
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/validate")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[validate-rule=date],[validate-rule=dateOrNull]').datetimepicker({
+                format: 'L',
+                showClear: true,
+                showTodayButton: true,
+                locale: moment.locale('zh-cn')
+            });
+            $('[validate-rule=dateTime],[validate-rule=dateTimeOrNull]').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+                showClear: true,
+                showTodayButton: true,
+                locale: moment.locale('zh-cn')
+            });
+            $('[validate-rule=time],[validate-rule=timeOrNull]').datetimepicker({
+                format: 'HH:mm',
+                showClear: true,
+                showTodayButton: true,
+                locale: moment.locale('zh-cn')
+            });
+        });
+
+        function OnSave() {
+            if (JudgeValidate('#frmSave')) {
+                $('#frmSave').submit();
+            }
+        }
+    </script>
+}
+@if (Model.Table != null)
+{
+    var columns = Model.GetColumns();
+
+    var primaryKeys = columns.Where(s => s.IsPrimaryKey);
+    var showColumns = columns.Where(s => !s.IsPrimaryKey);
+
+    <div class="header">
+        添加或者编辑<text>@Model.Table.Comments</text>
+    </div>
+    using (Html.BeginForm("Save", "Dynamic", FormMethod.Post, new
+    {
+        @id = "frmSave",
+        @class = "form-horizontal",
+        @autocomplete = "off",
+        @style = "margin-top:10px;"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="table" value="@string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name)" />
+
+        if (!primaryKeys.IsEmpty())
+        {
+            foreach (var item in primaryKeys)
+            {
+                <input type="hidden" name="@item.PropertyName" value="@Model.GetValue(item.Name)" />  }
+        }
+
+        foreach (var item in showColumns)
+        {
+            if (item.Visible == true)
+            {
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="@item.Column">
+                        @Html.Raw(item.IsNullable ? string.Empty : "<span style='color:red;'>*</span>")@item.ColumnLabel
+                    </label>
+                    <div class="col-sm-8">
+                        @if (string.IsNullOrWhiteSpace(item.DictionaryKey))
+                        {
+                            var validateAttribute = string.Empty;
+
+                            if (string.IsNullOrWhiteSpace(item.ValidateRule) && !item.IsNullable)
+                            {
+                                validateAttribute = string.Format("validate-rule=\"notNull\" validate-field=\"{0}\"", item.ColumnLabel);
+                            }
+                            else
+                            {
+                                validateAttribute = string.Format("validate-rule=\"{0}\" validate-field=\"{1}\"", item.ValidateRule, item.ColumnLabel);
+                            }
+
+                            if (item.DataLength > 255)
+                            {
+                                <textarea id="@item.Column" name="@item.Column" class="form-control" maxlength="@item.DataLength" rows="5" @Html.Raw(validateAttribute)> @Model.GetValue(item.Name)</textarea>}
+                            else
+                            {
+                                <input id="@item.Column" name="@item.Column" type="text" class="form-control" value="@Model.GetValue(item.Name)" maxlength="@item.DataLength" @Html.Raw(validateAttribute) />}
+                        }
+                        else
+                        {
+                            @Html.CreateDropdownList(item.DictionaryKey, new { @id = item.Column, name = item.Column, @class = "form-control" }, Model.GetValue(item.Name))
+                        }
+                    </div>
+                </div>  }
+            else if (!string.IsNullOrWhiteSpace(item.DefaultValue))
+            {
+                <input type="hidden" name="@item.Column" value="@Model.GetValue(item.Name)" />  }
+        }
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2">&nbsp;</label>
+            <div class="col-sm-8">
+                <button type="button" class="btn btn-primary" onclick="OnSave();">
+                    <i class="glyphicon glyphicon-floppy-save"></i> 保存
+                </button>
+                <a href="@Url.Action("Index", new { @id = string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name) })" class="btn btn-default">
+                    <i class="glyphicon glyphicon-chevron-left"></i> 返回
+                </a>
+            </div>
+        </div>
+    }
+}

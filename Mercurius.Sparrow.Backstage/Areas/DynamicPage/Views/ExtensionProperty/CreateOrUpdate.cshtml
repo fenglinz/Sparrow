@@ -1,0 +1,242 @@
+﻿@using Mercurius.Siskin.Entities.Dynamic
+
+@model ExtensionProperty
+
+@{
+    var categories = this.ViewBag.Categories as ResponseCollection<string>;
+}
+
+@section Styles{
+    <style type="text/css">
+        .category {
+            display: none;
+            position: absolute;
+            z-index: 999;
+            width: 87.2%;
+            left: 5px;
+            top: 33px;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #cccccc;
+        }
+
+            .category > p {
+                margin: 0;
+                cursor: pointer;
+                padding: 5px 10px;
+            }
+
+                .category > p:hover {
+                    background: #eee;
+                }
+    </style>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/validate")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@(this.ViewBag.Category)' != '') {
+                $('#Category').val('@(this.ViewBag.Category)');
+            }
+
+            $('#Category').blur(function() {
+                InitGroupNames();
+            });
+
+            $('#Name').on('input propertychange',function() {
+                $('#Placeholder').val($(this).val());
+            });
+
+            $('button[nav-target]').click(function () {
+                var target = $(this).attr('nav-target');
+
+                if ($(target).has('p').length > 0) {
+                    $(target).show();
+                }
+
+                return false;
+            });
+
+            $('#__categories>p').click(function () {
+                $('#Category').val($(this).text());
+                $('#__categories').hide();
+
+                InitGroupNames();
+
+                return false;
+            });
+
+            $(document).on('click', function () {
+                $('.category').hide();
+            });
+
+            InitGroupNames();
+        });
+
+        function InitGroupNames() {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("GetGroupNames")',
+                data: { id: $('#Category').val() },
+                dataType: 'JSON',
+                success: function (rs) {
+                    $('#__groupNames').html('');
+
+                    if (rs.IsSuccess) {
+                        $.each(rs.Datas, function () {
+                            $('#__groupNames').append('<p>' + this + '</p>');
+                        });
+
+                        $('button[nav-target="#__groupNames"]').prop('disabled', (rs.Datas == null || rs.Datas.length == 0));
+
+                        $('#__groupNames>p').click(function () {
+                            $('#GroupName').val($(this).text());
+                            $('#__groupNames').hide();
+
+                            return false;
+                        });
+                    }
+                }
+            });
+        }
+
+        function OnSave() {
+            if (JudgeValidate('#frmSave')) {
+                $('#frmSave').submit();
+            }
+        }
+    </script>
+}
+
+@using (Ajax.BeginForm("CreateOrUpdate", "ExtensionProperty", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form" }))
+{
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Category, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            <div class="input-group">
+                @Html.TextBoxFor(m => m.Category, new { @class = "form-control", @validate_rule = "notNull" })
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-info" nav-target="#__categories" @(categories.HasData() ? "" : "disabled")>
+                        <i class="glyphicon glyphicon-chevron-down"></i>
+                    </button>
+                </span>
+            </div>
+            <div id="__categories" class="category">
+                @if (categories.HasData())
+                {
+                    foreach (var item in categories.Datas)
+                    {
+                        <p>@item</p>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @validate_rule = "notNull", @validate_field = "属性名" })
+        </div>
+        @Html.LabelFor(m => m.Unit, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ControlId, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.ControlId, new { @class = "form-control", @validate_rule = "notNull" })
+        </div>
+        @Html.LabelFor(m => m.GroupName, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            <div class="input-group">
+                @Html.TextBoxFor(m => m.GroupName, new { @class = "form-control" })
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-info" nav-target="#__groupNames">
+                        <i class="glyphicon glyphicon-chevron-down"></i>
+                    </button>
+                </span>
+            </div>
+            <div id="__groupNames" class="category">
+
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ControlType, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-4">
+            <select id="ControlType" name="ControlType" class="form-control">
+                <option value="1">1-文本框</option>
+                <option value="2" @((Model != null && Model.ControlType == 2) ? "selected" : "")>2-下拉框</option>
+                <option value="3" @((Model != null && Model.ControlType == 3) ? "selected" : "")>3-单选框</option>
+                <option value="4" @((Model != null && Model.ControlType == 4) ? "selected" : "")>4-复选框</option>
+            </select>
+        </div>
+        @Html.LabelFor(m => m.Placeholder, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.Placeholder, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ControlValidateRule, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-4">
+            @Html.CreateValidateRuleListFor(m => m.ControlValidateRule)
+        </div>
+        @Html.LabelFor(m => m.Sort, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @validate_rule = "int" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ControlDataSource, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.ControlDataSource, new { @class = "form-control", @rows = 3, @placeholder = "多个选项以;分隔(如果需要文本和值不一样，则用\"文本|值\"的形式)。" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ControlMaxLength, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.ControlMaxLength, new { @class = "form-control", @validate_rule = "intOrNull" })
+        </div>
+        @Html.LabelFor(m => m.ControlCssClass, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.ControlCssClass, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ControlStyle, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.ControlStyle, new { @class = "form-control", @rows = 3 })
+        </div>
+    </div>
+
+    if (Model != null)
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.CreateDateTime, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextBoxFor(m => m.CreateDateTime, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            @Html.LabelFor(m => m.CreateUserName, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.CreateUserName, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ModifyDateTime, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-4">
+                @Html.TextBoxFor(m => m.ModifyDateTime, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            @Html.LabelFor(m => m.ModifyUserName, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.ModifyUserName, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+    }
+}

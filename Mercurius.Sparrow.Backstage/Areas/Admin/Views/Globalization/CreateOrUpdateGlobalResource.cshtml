@@ -1,0 +1,35 @@
+﻿@using Mercurius.Siskin.Entities.Core
+@section Scripts
+{
+    @Scripts.Render("~/bundles/validate")
+
+    <script type="text/javascript">
+        function OnSave() {
+            if (JudgeValidate('#frm1')) {
+                $('#frm1').submit();
+            }
+        }
+    </script>
+}
+@model Globalization
+@using (Ajax.BeginForm("CreateOrUpdateGlobalResource", "Globalization", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frm1", @class = "form-horizontal form" }))
+{
+    <div class="form-group form-group-sm">
+        @Html.LabelFor(m => m.Key, "键", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Key, new { @class = "form-control", @validate_field = "键", @validate_rule = "notNull" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        @Html.LabelFor(m => m.Value, "值", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Value, new { @class = "form-control", @validate_field = "值", @validate_rule = "notNull" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        @Html.LabelFor(m => m.Remark, "备注", new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @style = "height:80px;" })
+        </div>
+    </div>
+}

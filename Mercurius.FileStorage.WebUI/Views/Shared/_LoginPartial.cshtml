@@ -1,0 +1,14 @@
+﻿@using Mercurius.Infrastructure
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav navbar-right" style="margin-right: 8px;">
+            <li>
+                <a href="javascript:void(0)">@("你好，" + WebHelper.GetLogOnUserName())</a>
+            </li>
+            <li><a href="javascript:confirm('是否确定注销？')? document.getElementById('logoutForm').submit():void(0)">注销</a></li>
+        </ul>
+    }
+}

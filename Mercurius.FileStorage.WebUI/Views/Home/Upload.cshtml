@@ -1,0 +1,60 @@
+﻿@using Mercurius.Siskin.Entities.Core
+
+@model FileStorage
+
+@section Styles
+{
+    @Styles.Render("~/fileinput/css")
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/fileinput")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#file').fileinput({
+                showUpload: false,
+                showPreview: false
+            });
+        });
+    </script>
+}
+
+@using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.SaveAsPath)
+    <div class="form-group">
+        <label class="col-sm-offset-1 col-sm-2 control-label" for="file">上传文件</label>
+        <div class="col-sm-6">
+            <input type="file" id="file" name="file" class="form-control" />
+        </div>
+    </div>
+    if (Model != null)
+    {
+        <div class="form-group">
+            <label class="col-sm-offset-1 col-sm-2">&nbsp;</label>
+            <div class="col-sm-6">
+                <a href="@Url.Content(Model.SaveAsPath)">@Model.FileName</a>
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        <label class="col-sm-offset-1 col-sm-2 control-label" for="Description">描述</label>
+        <div class="col-sm-6">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = 5 })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-offset-1 col-sm-2">&nbsp;</label>
+        <div class="col-sm-6">
+            <button type="submit" class="btn btn-primary">
+                <i class="glyphicon glyphicon-upload"></i> 上传
+            </button>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-default">
+                <i class="glyphicon glyphicon-chevron-left"></i> 返回
+            </a>
+        </div>
+    </div>
+}

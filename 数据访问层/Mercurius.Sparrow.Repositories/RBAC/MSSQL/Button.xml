@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Button" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Button" type="Mercurius.Siskin.Entities.RBAC.Button, Mercurius.Siskin.Entities" />
+  </alias>
+
+  <statements>
+
+    <!-- 获取按钮信息 -->
+    <select id="GetButtons" parameterClass="string" resultClass="Button">
+      <![CDATA[ 
+        SELECT
+          a.Id
+          ,a.Name
+          ,a.Title
+          ,a.Image
+          ,a.Code
+          ,a.Sort
+          ,a.Category
+          ,a.Remark
+          ,a.CreateUserId
+          ,u1.Name AS CreateUserName
+          ,a.CreateDateTime
+          ,a.ModifyUserId
+          ,u2.Name AS ModifyUserName
+          ,a.ModifyDateTime
+        FROM RBAC.BUTTON a
+        LEFT JOIN RBAC.[User] u1
+          ON a.CreateUserId=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON a.ModifyUserId=u2.Id
+        WHERE a.Status=1
+      ]]>
+      <isNotNull prepend="And">
+        a.Id=#Id#
+      </isNotNull>
+      <![CDATA[
+        ORDER BY SORT ASC
+      ]]>
+    </select>
+
+    <!-- 获取链接未使用的按钮 -->
+    <select id="GetUnUsedButtons" parameterClass="string" resultClass="Button">
+      <![CDATA[
+        WITH CTE AS (
+	        SELECT Name from RBAC.Button
+	        EXCEPT
+	        SELECT NAME FROM RBAC.SystemMenu WHERE ParentId=(SELECT TOP 1 Id FROM RBAC.SystemMenu WHERE Id=#value#)
+        )
+        SELECT
+        a.Id
+          ,a.Name
+          ,a.Title
+          ,a.Image
+          ,a.Code
+          ,a.Sort
+          ,a.Category
+          ,a.Remark
+          ,a.CreateUserId
+          ,u1.Name AS CreateUserName
+          ,a.CreateDateTime
+          ,a.ModifyUserId
+          ,u2.Name AS ModifyUserName
+          ,a.ModifyDateTime
+        FROM CTE
+        INNER JOIN RBAC.Button a
+          ON a.Name=cte.Name
+        LEFT JOIN RBAC.[User] u1
+          ON a.CreateUserId=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON a.ModifyUserId=u2.Id
+        WHERE a.Status=1
+        ORDER BY SORT ASC
+      ]]>
+    </select>
+    
+    <!-- 新增修改RBAC.button -->
+    <update id="CreateOrUpdate" parameterClass="Button">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.Button WHERE Id=#Id#)
+          UPDATE RBAC.Button
+          SET 
+            Name           = #Name#,
+            Title          = #Title#,
+            Image          = #Image#,
+            Code           = #Code#,
+            Sort           = #Sort#,
+            Category       = #Category#,
+            Remark         = #Remark#,
+            ModifyUserId   = #ModifyUserId#,
+            ModifyDateTime = #ModifyDateTime#
+          WHERE Id=#Id#
+        ELSE
+          INSERT INTO RBAC.Button
+          (
+            Id,
+            Name,
+            Title,
+            Image,
+            Code,
+            Sort,
+            Category,
+            Remark,
+            Status,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+          (
+            #Id#,
+            #Name#,
+            #Title#,
+            #Image#,
+            #Code#,
+            #Sort#,
+            #Category#,
+            #Remark#,
+            1,
+            #CreateUserId#,
+            #CreateDateTime#
+          )
+      ]]>
+    </update>
+  </statements>
+</sqlMap>

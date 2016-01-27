@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0B830C09-CCD2-4CC3-A743-FC5F7FA46082}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mercurius.Siskin.Services</RootNamespace>
+    <AssemblyName>Mercurius.Siskin.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\DictionaryService.cs" />
+    <Compile Include="Core\GlobalizationService.cs" />
+    <Compile Include="Core\LoggerService.cs" />
+    <Compile Include="Core\SystemSettingService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RBAC\ButtonService.cs" />
+    <Compile Include="RBAC\OrganizationService.cs" />
+    <Compile Include="RBAC\PermissionService.cs" />
+    <Compile Include="RBAC\RecyclebinService.cs" />
+    <Compile Include="RBAC\RoleService.cs" />
+    <Compile Include="RBAC\UserService.cs" />
+    <Compile Include="Support\AbstractFileStorageClient.cs" />
+    <Compile Include="Support\FileStorageClient.cs" />
+    <Compile Include="Support\ServiceSupport.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj">
+      <Project>{b0732ad6-ac7a-4980-817e-432631963939}</Project>
+      <Name>Mercurius.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\数据访问层\Mercurius.Siskin.Entities\Mercurius.Siskin.Entities.csproj">
+      <Project>{166646d7-8172-4011-9cb0-385c6a6d7ffb}</Project>
+      <Name>Mercurius.Siskin.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\数据访问层\Mercurius.Siskin.Repositories\Mercurius.Siskin.Repositories.csproj">
+      <Project>{05fcde91-e15a-4867-aa0e-fc7e8414b2d2}</Project>
+      <Name>Mercurius.Siskin.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mercurius.Siskin.Contracts\Mercurius.Siskin.Contracts.csproj">
+      <Project>{9164967b-b835-44b7-a6df-18d87cc98dae}</Project>
+      <Name>Mercurius.Siskin.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\FileStorageService.cs" />
+    <Compile Include="WebApi\ApiService.cs" />
+    <Compile Include="WebApi\RoleService.cs" />
+    <Compile Include="WebApi\RolePermissionService.cs" />
+    <Compile Include="WebApi\UserService.cs" />
+    <Compile Include="Dynamic\ExtensionPropertyService.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

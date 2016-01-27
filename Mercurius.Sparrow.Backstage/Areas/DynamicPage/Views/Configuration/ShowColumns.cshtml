@@ -1,0 +1,30 @@
+﻿@using Mercurius.Infrastructure.Ado
+@{
+    var index = 0;
+}
+
+@model IList<Column>
+
+@section Scripts{
+    <script type="text/javascript">
+        function OnSave() {
+            $('#frmSave').submit();
+        }
+    </script>
+}
+
+@using (Ajax.BeginForm("CommentColumns", "Configuration", new { @id = this.ViewBag.Table }, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form" }))
+{
+    foreach (var item in Model)
+    {
+        <input type="hidden" name="@string.Format("columns[{0}].Name", index)" value="@item.Name" />
+        <div class="form-group form-group-sm">
+            <label class="col-sm-4 control-label" for="@item.Name">@item.Name</label>
+            <div class="col-sm-6">
+                <input id="@item.Name" name="@string.Format("columns[{0}].Description", index)" type="text" class="form-control" value="@item.Description" />
+            </div>
+        </div>
+
+        index++;
+    }
+}

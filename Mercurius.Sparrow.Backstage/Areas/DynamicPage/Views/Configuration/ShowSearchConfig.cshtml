@@ -1,0 +1,345 @@
+﻿@section Styles{
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/all.css")" />
+    <style type="text/css">
+        .alert {
+            margin-bottom: 5px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+
+        .panel:not(:first-of-type) {
+            margin-top: 10px;
+        }
+
+        .panel > .panel-heading {
+            width: 100%;
+            display: inline-block;
+        }
+
+            .panel > .panel-heading > .pull-left {
+                padding: 5px 0;
+                font-weight: bold;
+            }
+
+        .panel-body {
+            padding: 5px;
+        }
+
+        .col-sm-1.btn-group .btn {
+            width: 50%;
+            padding: 5px 6px;
+        }
+
+        .badge {
+            background: #6f5499;
+        }
+
+        .ui-state-default {
+            position: relative;
+            padding: 0 8px 8px 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 0 5px 5px 0px;
+            cursor: default;
+            text-shadow: 0 1px 0 #fff;
+            background-image: -webkit-linear-gradient(top, #fff 0%, #e0e0e0 100%);
+            background-image: -o-linear-gradient(top, #fff 0%, #e0e0e0 100%);
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+            background-image: linear-gradient(to bottom, #fff 0%, #e0e0e0 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+            filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+            background-repeat: repeat-x;
+            border-color: #dbdbdb;
+            border-color: #ccc;
+        }
+
+            .ui-state-default label {
+                position: relative;
+                top: 6px;
+            }
+
+                .ui-state-default label > input {
+                    position: relative;
+                    top: 3px;
+                    margin-left: 15px;
+                }
+    </style>
+}
+@section Scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.11.4.min.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sortable").sortable({
+                scroll: true,
+                cursor: "move",
+                stop: function (event, ui) {
+                    $('#sortable .badge').each(function (index, item) {
+                        $(item).text(index + 1);
+                    });
+                }
+            });
+        });
+
+        function OnAppendCondition(e) {
+            var template = $('#conditionTemplate').html();
+
+            $(e).parent().parent().after(template);
+        }
+
+        function OnRemove(e) {
+            $(e).parent().parent().remove();
+        }
+
+        function OnSaveSearchConfig() {
+            $('#frmSaveSearch').submit();
+        }
+
+        function OnSaveCondition() {
+            $('#frmSaveCondition .full').each(function (index, item) {
+                $(item).find('[name]').each(function (index2, item2) {
+                    $(item2).attr('name', $(item2).attr('name').replace(/#index#/g, index));
+                });
+            });
+
+            $('#frmSaveCondition').submit();
+        }
+
+        function OnAppendOrder(e) {
+            var template = $('#orderTemplate').html();
+
+            $(e).parent().parent().after(template);
+        }
+
+        function OnSaveOrder() {
+            $('#frmSaveOrder .full').each(function (index, item) {
+                $(item).find('[name]').each(function (index2, item2) {
+                    $(item2).attr('name', $(item2).attr('name').replace(/#index#/g, index));
+                });
+            });
+
+            $('#frmSaveOrder').submit();
+        }
+    </script>
+
+    <script id="conditionTemplate" type="text/template">
+        <div class="form-group form-group-sm full">
+            <input type="hidden" name="conditions[#index#].TableName" value="@string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name)" />
+            <label class="col-sm-1 control-label">字段</label>
+            <div class="col-sm-2">
+                @Html.DropDownList("conditions[#index#].Column", Model.GetColumnSelectList(), new { @class = "form-control" })
+            </div>
+            <div class="col-sm-2">
+                @Html.DropDownList("conditions[#index#].Op", Model.GetOpSelectList(), new { @class = "form-control" })
+            </div>
+            <label class="col-sm-1 control-label">字典键</label>
+            <div class="col-sm-2">
+                @Html.DropDownList("conditions[#index#].DictionaryKey", Model.GetDictionaryList(), new { @class = "form-control" })
+            </div>
+            <label class="col-sm-1 control-label">验证</label>
+            <div class="col-sm-2">
+                @Html.CreateValidateRuleList("conditions[#index#].ValidateRule")
+            </div>
+            <div class="col-sm-1 btn-group btn-group-sm">
+                <button type="button" class="btn btn-sm btn-default" onclick="OnAppendCondition(this)">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="OnRemove(this)">
+                    <i class="glyphicon glyphicon-minus"></i>
+                </button>
+            </div>
+        </div>
+    </script>
+
+    <script id="orderTemplate" type="text/template">
+        <div class="form-group form-group-sm full">
+            <input type="hidden" name="orders[#index#].TableName" value="@string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name)" />
+            <label class="col-sm-2 control-label">字段</label>
+            <div class="col-sm-3">
+                @Html.DropDownList("orders[#index#].Column", Model.GetColumnSelectList(), new { @class = "form-control" })
+            </div>
+            <label class="col-sm-1 control-label">排序</label>
+            <div class="col-sm-3">
+                <div class="btn-group btn-group-sm" data-toggle="buttons">
+                    <label class="btn btn-sm btn-default active">
+                        <input name="orders[#index#].OrderBy" type="radio" value="0" />
+                        <i class="glyphicon glyphicon-arrow-up"></i> 升序
+                    </label>
+                    <label class="btn btn-sm btn-default">
+                        <input name="orders[#index#].OrderBy" type="radio" value="1" />
+                        <i class="glyphicon glyphicon-arrow-down"></i> 降序
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-2 btn-group btn-group-sm">
+                <button type="button" class="btn btn-sm btn-default" onclick="OnAppendOrder(this)">
+                    <i class="glyphicon glyphicon-plus"></i> 追加
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="OnRemove(this)">
+                    <i class="glyphicon glyphicon-plus"></i> 删除
+                </button>
+            </div>
+        </div>
+    </script>
+}
+
+@model Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Configuration.SearchConfigModel
+
+@if (Model.Table != null)
+{
+    using (Ajax.BeginForm("SaveSearchConfig", "Configuration", new { @id = string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name) }, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSaveSearch", @class = "form-horizontal form", @role = "form" }))
+    {
+        var index = 1;
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="searchId" value="@(Model.Search!=null?Model.Search.Id.ToString() : string.Empty)" />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="pull-left">基本设置</div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm btn-primary" onclick=" OnSaveSearchConfig(); ">
+                        <i class="glyphicon glyphicon-floppy-save"></i> 保存
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-1 control-label" for="title">标题</label>
+                    <div class="col-sm-10">
+                        <input id="title" type="text" name="Title" class="form-control" value="@(Model.Search != null ? Model.Search.Title : string.Empty)" />
+                    </div>
+                </div>
+                <p class="alert alert-danger" style="padding: 10px 10px; margin: 0; margin-bottom: 5px;">
+                    <i class="glyphicon glyphicon-th-list"></i> 查询结果中显示的列及显示顺序设置(通过拖动列实现排序)
+                </p>
+                <div id="sortable" class="form-group form-group-sm" style="padding: 5px 15px;">
+                    @foreach (var item in Model.GetSortedColumns())
+                    {
+                        if (item.IsPrimaryKey)
+                        {
+                            <input type="hidden" name="SortColumns" value="@item.Name" />
+                            <input type="hidden" name="VisibleColumns" value="@item.Name" />
+                        }
+                        else
+                        {
+                            <div class="ui-state-default pull-left">
+                                <input type="hidden" name="SortColumns" value="@item.Name" />
+                                <label for="@item.Name">
+                                    <span class="badge">@(index++)</span>
+                                    @item.Description
+                                    <input id="@item.Name" type="checkbox" name="VisibleColumns" value="@item.Name" @(Model.IsColumnVisible(item.Name) ? "checked" : string.Empty)>
+                                </label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    // 保存查询条件配置。
+    using (Ajax.BeginForm("SaveConditionConfig", "Configuration", new { @id = string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name) }, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSaveCondition", @class = "form-horizontal form", @role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="pull-left">查询条件设置</div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm btn-default" onclick="OnAppendCondition(this)">
+                        <i class="glyphicon glyphicon-asterisk"></i> 新建
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="OnSaveCondition();">
+                        <i class="glyphicon glyphicon-floppy-save"></i> 保存
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body">
+                @if (!Model.Conditions.IsEmpty())
+                {
+                    foreach (var item in Model.Conditions)
+                    {
+                        <div class="form-group form-group-sm full">
+                            <input type="hidden" name="conditions[#index#].TableName" value="@string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name)" />
+                            <label class="col-sm-1 control-label">字段</label>
+                            <div class="col-sm-2">
+                                @Html.DropDownList("conditions[#index#].Column", Model.GetColumnSelectList(item.Column), new { @class = "form-control" })
+                            </div>
+                            <div class="col-sm-2">
+                                @Html.DropDownList("conditions[#index#].Op", Model.GetOpSelectList((int)item.Op), new { @class = "form-control" })
+                            </div>
+                            <label class="col-sm-1 control-label">字典键</label>
+                            <div class="col-sm-2">
+                                @Html.DropDownList("conditions[#index#].DictionaryKey", Model.GetDictionaryList(item.DictionaryKey), new { @class = "form-control" })
+                            </div>
+                            <label class="col-sm-1 control-label">验证</label>
+                            <div class="col-sm-2">
+                                @Html.CreateValidateRuleList("conditions[#index#].ValidateRule", item.ValidateRule)
+                            </div>
+                            <div class="col-sm-1 btn-group btn-group-sm">
+                                <button type="button" class="btn btn-sm btn-default" onclick="OnAppendCondition(this)">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="OnRemove(this)">
+                                    <i class="glyphicon glyphicon-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+
+    // 保存排序配置
+    using (Ajax.BeginForm("SaveOrderConfig", "Configuration", new { @id = string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name) }, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSaveOrder", @class = "form-horizontal form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="pull-left">排序规则设置</div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm btn-default" onclick="OnAppendOrder(this)">
+                        <i class="glyphicon glyphicon-asterisk"></i> 新建
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="OnSaveOrder()">
+                        <i class="glyphicon glyphicon-floppy-save"></i> 保存
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body">
+                @if (!Model.Orders.IsEmpty())
+                {
+                    foreach (var item in Model.Orders)
+                    {
+                        <div class="form-group form-group-sm full">
+                            <input type="hidden" name="orders[#index#].TableName" value="@string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name)" />
+                            <label class="col-sm-2 control-label">字段</label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("orders[#index#].Column", Model.GetColumnSelectList(item.Column), new { @class = "form-control" })
+                            </div>
+                            <label class="col-sm-1 control-label">排序</label>
+                            <div class="col-sm-3">
+                                <div class="btn-group btn-group-sm" data-toggle="buttons">
+                                    <label class="btn btn-sm btn-default @(item.OrderBy == 0?"active" :string.Empty)">
+                                        <input name="orders[#index#].OrderBy" type="radio" value="0" />
+                                        <i class="glyphicon glyphicon-arrow-up"></i> 升序
+                                    </label>
+                                    <label class="btn btn-sm btn-default @(item.OrderBy == 1?"active" :string.Empty)">
+                                        <input name="orders[#index#].OrderBy" type="radio" value="1" />
+                                        <i class="glyphicon glyphicon-arrow-down"></i> 降序
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 btn-group btn-group-sm">
+                                <button type="button" class="btn btn-sm btn-default" onclick="OnAppendOrder(this)">
+                                    <i class="glyphicon glyphicon-plus"></i> 追加
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="OnRemove(this)">
+                                    <i class="glyphicon glyphicon-plus"></i> 删除
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+}

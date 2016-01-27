@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Organization" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Organization" type="Mercurius.Siskin.Entities.RBAC.Organization, Mercurius.Siskin.Entities"/>
+    <typeAlias alias="StaffOrganize" type="Mercurius.Siskin.Entities.RBAC.StaffOrganize, Mercurius.Siskin.Entities"/>
+  </alias>
+
+  <statements>
+    <!-- 获取组织机构信息 -->
+    <select id="GetOrganizations" parameterClass="string" resultClass="Organization">
+      <![CDATA[
+        SELECT
+          Id                AS "Id"
+          ,ParentId         AS "ParentId"
+          ,Code             AS "Code"
+          ,Name             AS "Name"
+          ,InnerPhone       AS "InnerPhone"
+          ,OuterPhone       AS "OuterPhone"
+          ,Manager          AS "Manager"
+          ,AssistantManager AS "AssistantManager"
+          ,Fax              AS "Fax"
+          ,ZipCode          AS "ZipCode"
+          ,Address          AS "Address"
+          ,Sort             AS "Sort"
+          ,Remark           AS "Remark"
+          ,CreateDateTime   AS "CreateDateTime"
+          ,CreateUserId     AS "CreateUserId"
+          ,CreateUserName   AS "CreateUserName"
+          ,ModifyDateTime   AS "ModifyDateTime"
+          ,ModifyUserId     AS "ModifyUserId"
+          ,ModifyUserName   AS "ModifyUserName"
+        FROM RBAC.Organization
+        WHERE Status=1 
+      ]]>
+      <isNotNull prepend="AND">
+        Id=#Id#
+      </isNotNull>
+      <![CDATA[
+        ORDER BY Sort ASC
+      ]]>
+    </select>
+    
+    <!-- 获取人员组织机构信息 -->
+    <select id="GetStaffOrganizes" resultClass="StaffOrganize">
+      <![CDATA[
+        SELECT
+          Id                   AS "Id"
+          ,Name                AS "Name"
+          ,ParentId            AS "ParentId"
+          ,0                   AS "IsUser"
+        FROM RBAC.Organization
+        UNION ALL
+        SELECT
+          U.ID                 AS "Id"
+          ,U.Code||'|'||U.Name AS "Name"
+          ,S.OrganizationId    AS "ParentId"
+          ,1                   AS "IsUser"
+        FROM RBAC.[User] U
+        RIGHT JOIN RBAC.StaffOrganize S
+          ON U.Id=S.UserId
+      ]]>
+    </select>
+
+
+    <!--新增或修改组织信息-->
+    <update id="CreateOrUpdate" parameterClass="Organization">
+      <![CDATA[
+        MERGE INTO RBAC.StaffOrganize org
+        USING(SELECT * FROM RBAC.StaffOrganize WHERE Id=#Id#) a
+        ON (org.Id=a.Id)
+        WHEN MATCHED THEN
+          UPDATE 
+          SET 
+            org.ParentId=#ParentId#,
+            org.Code=#Code#,
+            org.Name=#Name#,
+            org.InnerPhone=#InnerPhone#,
+            org.OuterPhone=#OuterPhone#,
+            org.Manager=#Manager#,
+            org.AssistantManager=#AssistantManager#,
+            org.Fax=#Fax#,
+            org.ZipCode=#ZipCode#,
+            org.Address=#Address#,
+            org.Sort=#Sort#,
+            org.Remark=#Remark#,
+            org.ModifyDateTime=#ModifyDateTime#,
+            org.ModifyUserId=#ModifyUserId#,
+            org.ModifyUserName=#ModifyUserName#
+        WHEN NOT MATCHED THEN
+          INSERT
+          (
+            org.Id,
+            org.ParentId,
+            org.Code,
+            org.Name,
+            org.InnerPhone,
+            org.OuterPhone,
+            org.Manager,
+            org.AssistantManager,
+            org.Fax,
+            org.ZipCode,
+            org.Address,
+            org.Sort,
+            org.Remark,
+            org.Status,
+            org.CreateDateTime,
+            org.CreateUserId,
+            org.CreateUserName
+          )
+          VALUES
+          (
+            #Id#,
+            #ParentId#,
+            #Code#,
+            #Name#,
+            #InnerPhone#,
+            #OuterPhone#,
+            #Manager#,
+            #AssistantManager#,
+            #Fax#,
+            #ZipCode#,
+            #Address#,
+            #Sort#,
+            #Remark#,
+            1,
+            #CreateDateTime#,
+            #CreateUserId#,
+            #CreateUserName#
+          )
+      ]]>
+    </update>
+
+    <!-- 添加或者修改组织关系 -->
+    <insert id="CreateOrUpdateRelation" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+          DELETE FROM RBAC.StaffOrganize WHERE UserId=#UserId#;
+      ]]>
+      <dynamic>
+        <isNotNull property="StaffOrganizes">
+          <iterate property="StaffOrganizes" open="" close=";" conjunction=";">
+            <![CDATA[
+              INSERT INTO RBAC.StaffOrganize
+              (
+                Id,
+                UserId,
+                OrganizationId,
+                CreateUserId,
+                CreateUserName,
+                CreateDateTime
+              )
+              VALUES
+              (
+                #StaffOrganizes[].Id#,
+                #StaffOrganizes[].UserId#,
+                #StaffOrganizes[].OrganizationId#,
+                #StaffOrganizes[].CreateUserId#,
+                #StaffOrganizes[].CreateUserName#,
+                #StaffOrganizes[].CreateDateTime#
+              )
+            ]]>
+          </iterate>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+        END;
+      ]]>
+    </insert>
+  </statements>
+</sqlMap>

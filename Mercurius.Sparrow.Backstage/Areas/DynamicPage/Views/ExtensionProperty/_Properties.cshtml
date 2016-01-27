@@ -1,0 +1,65 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.Dynamic
+
+@model ResponseCollection<ExtensionProperty>
+
+<table id="tbDefinition" class="grid">
+    <thead>
+        <tr>
+            <td style="width: 60px;">序号</td>
+            <td>分类</td>
+            <td>名称(单位)</td>
+            <td style="width: 60px;">分组</td>
+            <td style="width: 50px;">排序号</td>
+            <td style="width: 80px;">类型</td>
+            <td>css类</td>
+            <td>验证类型</td>
+            <td>添加者</td>
+            <td>修改者</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HasData())
+        {
+            foreach (var item in Model.Datas)
+            {
+                <tr>
+                    <td style="display: none;">@item.Id</td>
+                    <td class="text-center">@item.RowIndex</td>
+                    <td>@item.Category</td>
+                    <td>@item.Name @(string.IsNullOrWhiteSpace(item.Unit) ? "" : "(" + item.Unit + ")")</td>
+                    <td>@item.GroupName</td>
+                    <td class="text-center">@item.Sort</td>
+                    <td class="text-center">@ShowControlType(item.ControlType)</td>
+                    <td>@item.ControlCssClass</td>
+                    <td>@item.ControlValidateRule</td>
+                    <td>@item.CreateUserName</td>
+                    <td>@item.ModifyUserName</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="10" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Paging(Model.TotalRecords, "Search", "ExtensionProperty", ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "__properties", OnSuccess = "mercurius.FixedTableHeader('#tbDefinition', 160);" })
+
+@helper ShowControlType(int type)
+{
+switch (type)
+{
+    case 1:<text>1-文本框</text>
+        break;
+
+    case 2:<text>2-下拉框</text>
+        break;
+    case 3:<text>3-单选框</text>
+        break;
+    case 4:<text>4-复选框</text>
+        break;
+}
+}

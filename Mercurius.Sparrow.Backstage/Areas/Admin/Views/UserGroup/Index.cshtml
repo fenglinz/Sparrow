@@ -1,0 +1,153 @@
+﻿@using Mercurius.Siskin.Entities.RBAC
+@using Mercurius.Siskin.Contracts
+
+@{
+    ViewBag.Title = "UserGroup";
+
+    var userGroups = this.ViewBag.UserGroups as ResponseCollection<UserGroup>;
+}
+@section Styles{
+    @Styles.Render("~/Content/treetable/css")
+}
+@section Scripts
+{
+    @Scripts.Render("~/bundles/treetable")
+    <script type="text/javascript">
+        $(function () {
+            mercurius.FixedTableHeader("#dnd-example", 110);
+
+            $("#dnd-example").treetable({
+                expandable: true,
+                initialState: "expanded" //collapsed 收缩 expanded展开的
+            });
+        });
+
+        function GetSelectedValue() {
+            return $('#dnd-example tr.selected').find('td:eq(8)').text().trim();
+        }
+
+        @Html.RenderButtonScript("新增",@<text>
+        function @(item.NavigateUrl)() {
+            var url = '@Url.Action("CreateOrUpdate")/?parentId=' + GetSelectedValue();
+
+            mercurius.OpenDialog(url, 'UserGroupForm', '用户组信息 - 添加', 460, 253);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)() {
+            var userGroupId = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(userGroupId)) {
+                var url = '@Url.Action("CreateOrUpdate")/?id=' + userGroupId;
+
+                mercurius.OpenDialog(url, 'UserGroupForm', '用户组信息 - 编辑', 460, 253);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除",@<text>
+        function @(item.NavigateUrl)() {
+            var userGroupId = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(userGroupId)) {
+                OnRemoveToRecycbin({
+                    name: '用户组管理',
+                    relyColumn: 'ParentId',
+                    relyValue: userGroupId,
+                    column: 'Id',
+                    value: userGroupId
+                });
+            }
+
+            return false;
+        }
+        </text>)
+
+        @Html.RenderButtonScript("分配成员",@<text>
+        function @(item.NavigateUrl)() {
+            var userGroupId = GetSelectedValue();
+            var userGroupName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
+
+            if (mercurius.HasSingleRowSelected(userGroupId)) {
+                var url = '@Url.Action("AllotMembers")/?id=' + userGroupId + '&name=' + escape(userGroupName);
+
+                mercurius.OpenDialog(url, 'UserGroupSet', '用户组成员信息-设置', 800, 450);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("分配权限",@<text>
+        function @(item.NavigateUrl)() {
+            var userGroupId = GetSelectedValue();
+            var userGroupName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
+
+            if (mercurius.HasSingleRowSelected(userGroupId)) {
+                var url = '@Url.Action("AllotPermission")/?id=' + userGroupId + '&name=' + escape(userGroupName);
+
+                mercurius.NavigateUrl(url);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("详细",@<text>
+        function @(item.NavigateUrl)() {
+            var userGroupId = GetSelectedValue();
+            var userGroupName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
+
+            if (mercurius.HasSingleRowSelected(userGroupId)) {
+                var url = '@Url.Action("ViewDetails")/?id=' + userGroupId + "&name=" + escape(userGroupName);
+
+                mercurius.NavigateUrl(url);
+            }
+        }
+        </text>)
+    </script>
+}
+<div class="header">用户组信息</div>
+@Html.RenderAccessibleButtons()
+<table class="treetable" id="dnd-example">
+    <thead>
+        <tr>
+            <td style="width: 180px;">用户组名称 </td>
+            <td style="width: 80px;">用户组编号 </td>
+            <td style="width: 80px;">显示顺序 </td>
+            <td style="width: 120px;">创建用户 </td>
+            <td style="width: 150px;">创建时间 </td>
+            <td style="width: 120px;">修改用户 </td>
+            <td style="width: 150px;">修改时间 </td>
+            <td>描述信息 </td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (userGroups.HasData())
+        {
+            foreach (var item in userGroups.Datas)
+            {
+                <tr id="@item.Id" data-tt-id="@item.Id" data-tt-parent-id="@item.ParentId">
+                    <td><span class="@(userGroups.Datas.IsParent(item.Id) ? "folder" : "file")">@item.Name</span></td>
+                    <td style="text-align: center;">@item.Code</td>
+                    <td style="text-align: center;">@item.Sort</td>
+                    <td>@item.CreateUserName</td>
+                    <td>@item.CreateDateTime</td>
+                    <td>@item.ModifyUserName</td>
+                    <td>@item.ModifyDateTime</td>
+                    <td>@item.Remark</td>
+                    <td style="display: none">@item.Id</td>
+                </tr>
+            }
+        }
+        else if (userGroups.IsSuccess())
+        {
+            <tr>
+                <td colspan="8" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="empty-data">@userGroups.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>

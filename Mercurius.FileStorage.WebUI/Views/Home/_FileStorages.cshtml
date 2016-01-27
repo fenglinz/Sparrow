@@ -1,0 +1,60 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.Core
+
+@model ResponseCollection<FileStorage>
+
+<table id="uploadFiles" class="grid">
+    <thead>
+        <tr>
+            <td style="width: 80px">序号</td>
+            <td style="width: 360px;">文件名</td>
+            <td style="width: 280px;">文件类型</td>
+            <td style="width: 500px">保存位置</td>
+            <td style="width: 180px;">描述</td>
+            <td style="width: 110px;">上传者</td>
+            <td style="width: 150px;">上传时间</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HasData())
+            {
+                foreach (var item in Model.Datas)
+                {
+                <tr>
+                    <td class="text-center">@item.RowIndex</td>
+                    <td><a href="javascript:ShowFile('@Url.Content(item.SaveAsPath)')">@item.FileName</a></td>
+                    <td data-toggle="tooltip" data-placement="bottom" title="@item.ContentType">@item.ContentType</td>
+                    <td data-toggle="tooltip" data-placement="bottom" title="@item.SaveAsPath"><i class="glyphicon @(File.Exists(this.Server.MapPath(item.SaveAsPath)) ? "glyphicon-ok-circle" : "glyphicon-remove-circle")" style="margin-right: 5px;"></i>@item.SaveAsPath</td>
+                    <td data-toggle="tooltip" data-placement="bottom" title="@item.Description">@item.Description</td>
+                    <td>@item.UploadUserName</td>
+                    <td>@item.UploadDateTime.ToString("yyy-MM-dd HH:mm:ss")</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="@Url.Action("Upload", "Home", new {@id=item.Id})" class="btn btn-primary">
+                                <i class="glyphicon glyphicon-upload"></i> 重新上传
+                            </a>
+                            <button type="button" class="btn btn-danger" onclick="OnRemove(@item.Id)">
+                                <i class="glyphicon glyphicon-remove"></i> 删除
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else if (Model.IsSuccess())
+        {
+            <tr>
+                <td colspan="8" class="empty-data">无上传文件信息！</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="text-danger">@Model.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.Paging(Model.TotalRecords, "SearchFileStorages", "Home", (object)this.ViewBag.SO, ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "fileStorages" })

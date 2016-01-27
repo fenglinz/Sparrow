@@ -1,0 +1,51 @@
+﻿@section Styles{
+    <style type="text/css">
+        .col-sm-2, .col-sm-10 {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+}
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("html").css("overflow", "hidden");
+            $("body").css("overflow", "hidden");
+            iframeresize();
+            mercurius.OnWaitProcess(function () {
+                $("#target_right").attr("src", '@Url.Action("Details")');
+                $("#target_left").attr("src", '@Url.Action("Navigation")');
+            });
+        });
+
+        function ReloadFrames() {
+            mercurius.OnWaitProcess(function () {
+                $("#target_right").attr("src", '@Url.Action("Details")');
+                $("#target_left").attr("src", '@Url.Action("Navigation")');
+            });
+        }
+
+        /**自应高度**/
+        function iframeresize() {
+            function resizeU() {
+                var iframeMain = $(window).height();
+                $("#iframeMainContent").height(iframeMain);
+            }
+
+            resizeU();
+            $(window).resize(resizeU);
+        }
+    </script>
+}
+
+<div id="iframeMainContent">
+    <div class="pull-left col-sm-2" style="height:100%;">
+        <iframe id="target_left" name="target_left" scrolling="auto" frameborder="0" scrolling="yes"
+                width="100%" height="100%"></iframe>
+    </div>
+    <div class="pull-right col-sm-10" style="height:100%;">
+        <iframe id="target_right" name="target_right" scrolling="auto" frameborder="0" scrolling="yes"
+                width="100%" height="100%"></iframe>
+    </div>
+</div>

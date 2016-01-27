@@ -1,0 +1,100 @@
+﻿@model IList<Mercurius.Siskin.Entities.WebApi.Api>
+@{
+    ViewBag.Title = "分配权限";
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/treetable")
+    <script type="text/javascript">
+        $(function () {
+            mercurius.FixedTableHeader("#dnd-example", 112, { triggerRowChecked: false });
+            $("#dnd-example").treetable({
+                expandable: true,
+                // collapsed收缩；expanded展开。
+                initialState: "expanded"
+            });
+
+            /*全选*/
+            $("table thead th input:checkbox").on("click" , function() {
+                var that = this;
+                $(this).closest("table").find("tr > td:last-child input:checkbox").each(function(){
+                    this.checked = that.checked;
+                    $(this).closest("tr").toggleClass("selected");
+                });
+            });
+        });
+
+        @Html.RenderButtonScript("返回",@<text>
+        function @item.NavigateUrl () {
+            mercurius.NavigateUrl('@Url.Action("Index")');
+        }
+        </text>)
+
+        @Html.RenderButtonScript("保存",@<text>
+        function @item.NavigateUrl () {
+            mercurius.ShowConfirmMessage('注您确认要保存此操作吗？', function (r) {
+                if (r) {
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        url: '@Url.Action("ConfirmAllotPermission")',
+                        data: $("#power").serialize(),
+                        dataType: 'JSON',
+                        success: function (xhr) {
+                            if (xhr.IsSuccess) {
+                                mercurius.ShowTipsMessage('权限分配成功', '2000', 4);
+
+                                mercurius.Back();
+                            } else {
+                                mercurius.ShowWarningMessage(xhr.ErrorMessage);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        </text>)
+
+    </script>
+}
+
+
+<div class="header">注：分配权限 - 该功能谨慎使用！</div>
+@Html.RenderAccessibleButtons()
+<form id="power">
+    <input type="hidden" name="RoleId" value="@ViewBag.RoleId" />
+    <table class="grid text-center">
+        <thead>
+            <tr>
+                <th style="width: 100px;">访问方式</th>
+                <th style="width: 150px;">控制器</th>
+                <th style="width: 200px;">路由地址</th>
+                <th style="width: 200px;">描述</th>
+                <th style="text-align: left"><label><input type="checkbox" id="chkAll" name="chkAll">&nbsp;分配权限</label></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.IsEmpty())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.HttpVerb</td>
+                        <td>@item.Controller</td>
+                        <td>@item.Route</td>
+                        <td>@(item.Description ?? string.Empty)</td>
+                        @if (item.CanAccess == 1)
+                    {
+                            <td style="text-align: left"><input type="checkbox" value="@item.Id" name="ApiId" checked="checked" /></td>
+                        }
+                        else
+                        {
+                            <td style="text-align: left"><input type="checkbox" value="@item.Id" name="ApiId" /></td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</form>

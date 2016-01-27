@@ -1,0 +1,87 @@
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Optimization;
+using System.Web.Routing;
+using Autofac.Integration.Mvc;
+using Mercurius.Siskin.Autofac;
+
+namespace Mercurius.Siskin.Backstage
+{
+    /// <summary>
+    /// 应用程序启动处理。
+    /// </summary>
+    public class MvcApplication : HttpApplication
+    {
+        #region 常量
+
+        private const string ReturnUrlRegexPattern = @"\?ReturnUrl=.*$";
+
+        #endregion
+
+        #region 构造方法
+
+        /// <summary>
+        /// 默认构造方法。
+        /// </summary>
+        public MvcApplication()
+        {
+            this.PreSendRequestHeaders += (sender, e) =>
+            {
+                var redirectUrl = this.Response.RedirectLocation;
+
+                if (string.IsNullOrWhiteSpace(redirectUrl) ||
+                    !Regex.IsMatch(redirectUrl, ReturnUrlRegexPattern))
+                {
+                    return;
+                }
+
+                this.Response.RedirectLocation =
+                    Regex.Replace(redirectUrl, ReturnUrlRegexPattern, string.Empty);
+            };
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 应用程序启动。
+        /// </summary>
+        protected void Application_Start()
+        {
+            // 移除Web Form视图引擎。
+            RemoveWebFormEngines();
+
+            // Asp.Net MVC区域注册.
+            AreaRegistration.RegisterAllAreas();
+
+            // 过滤器配置.
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+
+            // Asp.Net MVC路由配置.
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            // css/js压缩合并配置.
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // 设置Asp.Net MVC依赖解析。
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(AutofacConfig.Container));
+        }
+
+        /// <summary>
+        /// 移除Web Form视图引擎。
+        /// </summary>
+        protected void RemoveWebFormEngines()
+        {
+            var viewEngines = ViewEngines.Engines;
+            var webFormEngines = viewEngines.OfType<WebFormViewEngine>().FirstOrDefault();
+            if (webFormEngines != null)
+            {
+                viewEngines.Remove(webFormEngines);
+            }
+        }
+    }
+}

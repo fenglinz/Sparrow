@@ -1,0 +1,118 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.RBAC
+@{
+    //取值
+    var orgInfos = ViewBag.Organizations as ResponseCollection<Organization>;
+}
+
+@section Styles{
+    @Styles.Render("~/Content/treetable/css")
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/treetable")
+    <script type="text/javascript">
+        $(function () {
+            mercurius.FixedTableHeader("#dnd-example", 110);
+
+            $("#dnd-example").treetable({
+                expandable: true,
+                //collapsed 收缩 expanded展开的
+                initialState: "expanded"
+            });
+        });
+
+        function GetSelectedValue() {
+            return $('#dnd-example tr.selected').find('td:eq(9)').text().trim();
+        }
+
+        @Html.RenderButtonScript("新增",@<text>
+        function @(item.NavigateUrl)() {
+            var url = "@Url.Action("CreateOrUpdate")/?parentId=" + GetSelectedValue();
+
+            mercurius.OpenDialog(url, 'ChooseUserContainer', '部门信息-添加', 600, 300);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)() {
+            var orgId = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(orgId)) {
+                var url = "@Url.Action("CreateOrUpdate")/?id=" + orgId;
+
+                mercurius.OpenDialog(url, 'ChooseUserContainer', '部门信息-编辑', 600, 300);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除",@<text>
+        function @(item.NavigateUrl)() {
+            var orgId = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(orgId)) {
+                mercurius.OnRemoveToRecycbin({
+                    name: '部门管理',
+                    relyColumn: 'ParentId',
+                    relyValue: orgId,
+                    column: 'Id',
+                    value: orgId
+                });
+            }
+        }
+        </text>)
+    </script>
+}
+
+<div class="header">部门信息列表</div>
+@Html.RenderAccessibleButtons()
+<table class="treetable" id="dnd-example">
+    <thead>
+        <tr>
+            <td style="width: 250px; padding-left: 20px;">组织机构</td>
+            <td style="width: 80px;">部门编号</td>
+            <td style="width: 80px;">负责人</td>
+            <td style="width: 80px;">助理</td>
+            <td style="width: 120px;">外线电话</td>
+            <td style="width: 120px;">内线电话</td>
+            <td style="width: 120px;">传真号码</td>
+            <td style="width: 80px;">显示顺序</td>
+            <td>所在地址</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (orgInfos.HasData())
+        {
+            foreach (var item in orgInfos.Datas)
+            {
+                <tr id="@item.Id" data-tt-id="@item.Id" data-tt-parent-id="@item.ParentId">
+                    <td style="padding-left: 20px;">
+                        <span class="@(orgInfos.Datas.IsParent(item.Id)?"folder":"file")"></span>@item.Name
+                    </td>
+                    <td style="text-align: center;">@item.Code</td>
+                    <td style="text-align: center;">@item.ManagerName</td>
+                    <td style="text-align: center;">@item.AssistantManagerName</td>
+                    <td style="text-align: center;">@item.OuterPhone </td>
+                    <td style="text-align: center;">@item.InnerPhone </td>
+                    <td style="text-align: center;">@item.Fax</td>
+                    <td style="text-align: center;">@item.Sort</td>
+                    <td>@item.Address </td>
+                    <td style="display: none">@item.Id </td>
+                </tr>
+            }
+        }
+        else if (orgInfos.IsSuccess())
+        {
+            <tr>
+                <td colspan="9" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="9" class="text-danger">@orgInfos.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>

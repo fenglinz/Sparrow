@@ -1,0 +1,37 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.RBAC
+@{
+    var organizations = this.ViewBag.Organizations as ResponseCollection<Organization>;
+}
+@section Styles
+{
+    @Styles.Render("~/Content/tree/css")
+}
+@section Scripts
+{
+    @Scripts.Render("~/bundles/tree")
+    <script type="text/javascript">
+        //初始化
+        $(function () {
+            $('#treeContainer').treeview({
+                collapsed: false,
+                unique: false
+            });
+
+            $('#treeContainer li > i').click(function () {
+                $('#treeContainer li i').removeClass('selected');
+
+                var path = '@Url.Action("Users")/?OrganizationId=' + $(this).prop('id');
+                window.parent.frames["target_right"].location = path;
+                $(this).addClass('selected');
+
+                // 取消事件冒泡。
+                return false;
+            });
+        });
+    </script>
+}
+<div class="header">组织机构</div>
+<div>
+    @TreeHelper.CreateTree(organizations.Datas.AsTree(o => o.ParentId == "0", (p, c) => c.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name }), "treeContainer")
+</div>

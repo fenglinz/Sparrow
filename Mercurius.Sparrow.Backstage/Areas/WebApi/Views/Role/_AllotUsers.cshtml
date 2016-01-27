@@ -1,0 +1,36 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.WebApi
+
+@{
+    var allotMembers = this.ViewBag.AllotMembers as ResponseCollection<User>;
+}
+<div>
+    <ul id="treeContainer" class="filetree">
+        <li>
+            <span class="folder"></span> @this.ViewBag.Name
+            <ul>
+                @if (allotMembers.HasData())
+                {
+                    foreach (var user in allotMembers.Datas)
+                    {
+                        <li>
+                            <span class="file"></span> <i ondblclick="RemoveMember('@user.Id')">@user.Account</i>
+                        </li>
+                    }
+                }
+                else if (allotMembers.IsSuccess())
+                {
+                    <li>
+                        <span class="file" style="color:red;"></span><i>暂无数据</i>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <span class="file"></span><i>@allotMembers.GetErrorMessage()</i>
+                    </li>
+                }
+            </ul>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,114 @@
+﻿@using Mercurius.Infrastructure
+@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.RBAC
+@model ResponseCollection<HomeShortcut>
+@section Styles
+{
+    <style type="text/css">
+        .fa-2x {
+            font-size: 1.6em;
+        }
+    </style>
+}
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            mercurius.FixedTableHeader("#table1", 112);
+        });
+
+        @Html.RenderButtonScript("新增",@<text>
+        function @(item.NavigateUrl)() {
+            var url = "@Url.Action("CreateOrUpdate", "HomeShortcut", new { @Area = "Admin" })";
+
+            mercurius.OpenDialog(url, 'ChooseImageContainer', '首页快捷功能信息 - 添加', 450, 300);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+            if (mercurius.HasSingleRowSelected(key)) {
+                var url = "@Url.Action("CreateOrUpdate", "HomeShortcut", new { @Area = "Admin" })/?id=" + key;
+
+                mercurius.OpenDialog(url, 'ChooseImageContainer', '首页快捷功能信息 - 添加', 450, 300);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除",@<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+            if (mercurius.HasSingleRowSelected(key)) {
+                mercurius.ShowConfirmMessage('是否确定删除？',function(){
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        url: '@Url.Action("Remove","HomeShortcut")',
+                        data: { ids: key },
+                        dataType: 'JSON',
+                        success: function (rs) {
+                            if (rs.IsSuccess) {
+                                mercurius.ShowTipsMessage('删除成功！', 4000, 4);
+                                mercurius.Reloading();
+                            } else {
+                                mercurius.ShowTipsMessage('删除失败，失败原因' + rs.Message, 4000, 5);
+                            }
+                        }
+                    });
+                });
+            }
+        }
+        </text>)
+    </script>
+}
+<div class="header">首页快捷功能</div>
+@Html.RenderAccessibleButtons()
+<table id="table1" class="grid">
+    <thead>
+        <tr>
+            <td style="width: 40px;">
+                <label id="checkAllOff" onclick="CheckAllLine()" title="全选">
+                    &nbsp;
+                </label>
+            </td>
+            <td style="width: 50px;">图标</td>
+            <td style="width: 100px;">快捷功能</td>
+            <td style="width: 60px;">连接目标</td>
+            <td style="width: 500px">连接地址</td>
+            <td style="width: 60px;">显示顺序</td>
+            <td style="text-align:left;">描述</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HasData())
+        {
+            foreach (var item in Model.Datas)
+            {
+                <tr>
+                    <td style="text-align: center;">
+                        <input type="checkbox" value="@item.Id" name="checkbox" />
+                    </td>
+                    <td style="text-align: center;">
+                        <i class="@item.Image fa-2x"></i>
+                    </td>
+                    <td>@item.Name</td>
+                    <td style="text-align: center;">@item.Target</td>
+                    <td>@item.NavigateUrl</td>
+                    <td style="text-align: center;">@item.Sort</td>
+                    <td>@item.Remark</td>
+                </tr>}
+        }
+        else if (Model.IsSuccess)
+        {
+            <tr>
+                <td colspan='7' class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan='7' class="empty-data">@Model.ErrorMessage</td>
+            </tr>
+        }
+    </tbody>
+</table>

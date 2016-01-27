@@ -1,0 +1,100 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.RBAC
+@using Mercurius.Siskin.Entities.RBAC.SO
+@{
+    var so = this.ViewBag.SO as UserSO;
+    var organizations = this.ViewBag.Organizations as ResponseCollection<Organization>;
+}
+@section Styles
+{
+    @Styles.Render("~/Content/tree/css")
+}
+@section Scripts
+{
+    @Scripts.Render("~/bundles/tree")
+    <script type="text/javascript">
+        //初始化
+        $(function () {
+            $('#treeContainer').treeview({
+                collapsed: false,
+                unique: false
+            });
+
+            ChoosedUsersHandler();
+
+            $('#treeContainer li > i').click(function () {
+                $('#treeContainer li i').removeClass('selected');
+
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("GetUsers")',
+                    data: {
+                        OrganizationId: $(this).prop('id'),
+                        SearchCategory: $('#searchCategory').val(),
+                        SearchValue: $('#searchValue').val(),
+                        ExcludeReporter: '@so.ExcludeReporter'
+                    },
+                    dataType: 'html',
+                    success: function (rs) {
+                        $('#users').html(rs);
+                        ChoosedUsersHandler();
+                    }
+                });
+
+                $(this).addClass('selected');
+
+                // 取消事件冒泡。
+                return false;
+            });
+        });
+
+        function ChoosedUsersHandler() {
+            mercurius.FixedTableHeader('#usersGrid', 126);
+
+            if (top.ChooseUserContainer != undefined && top.ChooseUserContainer.SetUser != undefined) {
+                $('#usersGrid > tbody > tr').dblclick(function () {
+                    top.ChooseUserContainer.SetUser($(this).find('td:eq(4)').text(), $(this).find('td:eq(2)').text(), '@this.ViewBag.Type');
+
+                    mercurius.CloseDialog();
+                });
+            } else if (top.main != undefined && top.main.SetUser != undefined) {
+                $('#usersGrid > tbody > tr').dblclick(function () {
+                    top.main.SetUser($(this).find('td:eq(4)').text(), $(this).find('td:eq(2)').text(), '@this.ViewBag.Type');
+
+                    mercurius.CloseDialog();
+                });
+            }
+        }
+    </script>
+}
+
+<div class="row" style="margin:0 0 5px 5px;">
+    @using (Ajax.BeginForm("GetUsers", "User", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "users", OnSuccess = "ChoosedUsersHandler" }))
+    {
+        <input type="hidden" name="type" value="@this.ViewBag.Type" />
+        <input type="hidden" name="OrganizationId" value="@so.OrganizationId" />
+        <input type="hidden" name="ExcludeReporter" value="@so.ExcludeReporter" />
+        <select id="searchCategory" name="SearchCategory" class="form-control" style="float:left;width:100px;">
+            <option value="Code">工号</option>
+            <option value="Name" @(so.SearchCategory == "Name" ? "selected" : string.Empty)>姓名</option>
+        </select>
+        <input type="text" id="searchValue" name="SearchValue" value="@so.SearchValue" class="form-control" style="float:left;width:220px;margin-left:5px;" placeholder="查询关键字" />
+        <button id="lbtSearch" type="submit" class="btn btn-sm btn-primary" style="margin-left:2px;margin-top:2px;">
+            <i class="glyphicon glyphicon-search"></i> 查询
+        </button>
+        <button type="button" class="btn btn-sm btn-default" onclick="$('#searchCategory').val('Code'); $('#searchValue').val('');">
+            <i class="glyphicon glyphicon-remove"></i> 重置
+        </button>
+    }
+</div>
+
+<div class="row">
+    <div class="pull-left" style="width:30%;">
+        <div class="header">组织机构</div>
+        @TreeHelper.CreateTree(organizations.Datas.AsTree(o => o.ParentId == "0", (p, c) => c.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name }), "treeContainer")
+    </div>
+    <div id="users" class="pull-left" style="width:69%;margin-left:5px;">
+        @{Html.RenderPartial("_ChooseUsers", this.ViewData["Users"]);}
+    </div>
+</div>

@@ -1,0 +1,80 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.RBAC
+@{
+    this.Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+    var systemMenus = this.ViewBag.SystemMenus as ResponseCollection<SystemMenu>;
+    var parents = systemMenus.Datas.Where(s => s.ParentId == "0");
+}
+@section Styles{
+    <style type="text/css">
+        .no-skin .nav-list > li.selected {
+            border-right: 2px solid #2b7dbc;
+        }
+    </style>
+}
+@foreach (var parent in parents)
+{
+    var hasChildren = systemMenus.Datas.Any(s => s.ParentId == parent.Id);
+
+    <li class="hsub">
+        <a href="#" class="dropdown-toggle" @Html.Raw(string.IsNullOrWhiteSpace(parent.NavigateUrl) || parent.NavigateUrl == "#" ? string.Empty : string.Format("onclick=\"OnSidebarItemClick(this, '{0}', '{1}')\"", parent.NavigateUrl, parent.Target))>
+            <i class="menu-icon @parent.Image"></i>
+            <span class="menu-text"> @parent.Name</span>
+
+            @if (hasChildren)
+            {
+                <b class="arrow fa fa-angle-down" role="hasmenu"></b>
+            }
+        </a>
+        @if (hasChildren)
+        {
+            <ul class="submenu">
+                @{
+                    var children = systemMenus.Datas.Where(s => s.ParentId == parent.Id);
+
+                    foreach (var child in children)
+                    {
+                        <li class="hsub">
+                            <a href="#" class="dropdown-toggle" onclick="OnSidebarItemClick(this, '@child.NavigateUrl', '@child.Target');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                @child.Name
+                                @if (systemMenus.Datas.Any(m => m.ParentId == child.Id))
+                                {
+                                    <b class="arrow fa fa-angle-down" role="hasmenu"></b>
+                                }
+                            </a>
+                            <b class="arrow"></b>
+                            @ShowChildren(systemMenus.Datas, child.Id)
+                        </li>
+                    }
+                }
+            </ul>
+        }
+    </li>
+}
+
+@helper ShowChildren(IEnumerable<SystemMenu> menus, string parentId)
+{
+if (menus.Any(m => m.ParentId == parentId))
+{
+    var children = menus.Where(s => s.ParentId == parentId);
+        <ul class="submenu">
+            @foreach (var item in children)
+            {
+                <li class="">
+                    <a href="#" class="dropdown-toggle" onclick="OnSidebarItemClick(this,'@item.NavigateUrl', '@item.Target');">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        @item.Name
+                        @if (menus.Any(m => m.ParentId == item.Id))
+                        {
+                            <b class="arrow fa fa-angle-down" role="hasmenu"></b>
+                        }
+                    </a>
+                    <b class="arrow"></b>
+                    @ShowChildren(menus, item.Id)
+                </li>
+            }
+        </ul>
+}
+}

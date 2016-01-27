@@ -1,0 +1,138 @@
+﻿@using Mercurius.Siskin.Entities.Core
+@using Mercurius.Siskin.Entities.WebApi
+
+@model ResponseCollection<Api>
+
+@{
+    var webApiUrl = this.ViewBag.WebApiUrl as SystemSetting;
+}
+
+@section Styles{
+    @Styles.Render("~/Content/treetable/css")
+    <style type="text/css">
+        .fa-2x {
+            font-size: 1.5em;
+        }
+    </style>
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/treetable")
+    <script type="text/javascript">
+        $(function () {
+            mercurius.FixedTableHeader("#dnd-example", 160);
+            //$("#dnd-example").treetable({
+            //    columns: 6,
+            //    expandable: true,
+            //    //collapsed 收缩 expanded展开的
+            //    initialState: "collapsed"
+            //});
+        });
+
+        function GetSelectedValue() {
+            return $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
+        }
+
+        @Html.RenderButtonScript("新增",@<text>
+        function @(item.NavigateUrl)() {
+            var url = '@Url.Action("CreateOrUpdate", "Route", new { area = "WebApi" })/?parentId=' + GetSelectedValue();
+
+            mercurius.OpenDialog(url, 'ChooseImageContainer', 'Web API 路由管理 - 添加', 450, 200);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("刷新",@<text>
+        function @(item.NavigateUrl)() {
+            mercurius.OnRefresh('@Url.Action("ReflushRoutes", "Route")',{id:$('#webApiUrl').val()});
+        }
+
+        function OnSetting() {
+            if ($('#webApiUrl').val() == '') {
+                mercurius.ShowWarningMessage('请输入Web Api文档地址！');
+            } else {
+                $.ajax({
+                    type:'POST',
+                    cache:false,
+                    url:'@Url.Action("")'
+                });
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)() {
+            var systemMenuId = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(systemMenuId)) {
+                var url = '@Url.Action("CreateOrUpdate", "Route", new { area = "WebApi" })/' + systemMenuId;
+
+                mercurius.OpenDialog(url, 'ChooseImageContainer', 'Web API 路由管理 - 编辑', 450, 200);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除",@<text>
+        function @(item.NavigateUrl)() {
+            var systemMenuId = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(systemMenuId)) {
+                mercurius.OnRemoveData('@Url.Action("Delete","Route")/'+systemMenuId,systemMenuId);
+            }
+        }
+        </text>)
+    </script>
+}
+<div class="header">
+    Web API 路由管理<span style="margin-left: 20px; color: Red;">注：该功能谨慎使用！</span>
+</div>
+<div class="form-inline">
+    @Html.RenderAccessibleButtons(@<text>
+        @if (!item.IsEmpty() && item.Any(c => c.Name == "刷新"))
+        {
+            <div class="input-group">
+                <label for="webApiUrl" class="input-group-addon" style="padding-left: 30px; padding-right: 2px;">Web Api地址：</label>
+                <input id="webApiUrl" type="url" value="@(webApiUrl!=null?webApiUrl.Value:"")" class="form-control" style="width:350px;" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" onclick="OnSetting()">
+                        <i class="glyphicon glyphicon-cong"></i> 设置
+                    </button>
+                </span>
+            </div>
+        }
+    </text>)
+</div>
+
+<div>
+    <table class="grid" id="dnd-example">
+        <thead>
+            <tr>
+                <td style="width: 50px;">序号</td>
+                <td style="width: 80px;">访问方式</td>
+                <td style="width: 200px;">控制器</td>
+                <td style="width: 300px;">路由地址 </td>
+                <td style="width: 230px;">描述</td>
+                <td style="width: 150px;">添加时间</td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && !Model.Datas.IsEmpty())
+            {
+                foreach (var item in Model.Datas)
+                {
+                    <tr>
+                        <td style="display:none;">@item.Id</td>
+                        <td class="text-center">@item.RowIndex</td>
+                        <td>@item.HttpVerb</td>
+                        <td>@item.Controller</td>
+                        <td>@item.Route </td>
+                        <td>@item.Description</td>
+                        <td>@item.CreateDateTime.ToString()</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@if (Model != null)
+{
+    @Html.Paging(Model.TotalRecords, "Index", "Route", Model)
+}

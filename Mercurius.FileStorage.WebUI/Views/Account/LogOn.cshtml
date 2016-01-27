@@ -1,0 +1,92 @@
+﻿@{
+    this.Layout = "~/Views/Shared/_LayoutOn.cshtml";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/Content/LogOn/LogOn.css")" type="text/css" />
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        if (top.location != self.location) top.location = self.location;
+
+        document.onkeydown = function (e) {
+            // 火狐中是 window.event
+            if (!e) e = window.event;
+
+            if ((e.keyCode || e.which) == 13) {
+                var obtnSearch = document.getElementById("btnLogOn");
+
+                //让另一个控件获得焦点就等于让文本输入框失去焦点
+                obtnSearch.focus();
+                obtnSearch.click();
+            }
+        };
+
+        function GetNewVerifyCode() {
+            $('#txtVerifyCode').val('');
+            $('#imgVerifyCode').attr('src', '@Url.Action("GetVerifyCode", "Account", new {@Area = ""})/?time=' + Math.random());
+        }
+
+        function OnSubmit() {
+            var name = $("#txtUserName").val();
+            var pwd = $("#txtUserPwd").val();
+            var code = $("#txtCode").val();
+
+            $("#errorMsg0").html("");
+            $("#errorMsg1").html("");
+            $("#errorMsg2").html("");
+            if (name == "") {
+                $("#txtUserName").focus();
+                $("#errorMsg0").html("账户不能为空");
+                return false;
+            } else if (pwd == "") {
+                $("#txtUserPwd").focus();
+                $("#errorMsg1").html("密码不能为空");
+                return false;
+            } else if (code == "") {
+                $("#txtCode").focus();
+                $("#errorMsg2").html("验证码不能为空");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+}
+
+<div id="loginbox" class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">用户登录</h3>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("LogOn", "Account", FormMethod.Post, new { onsubmit = "return OnSubmit();", @autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="input-group">
+                <label for="txtUserName" class="input-group-addon"><i class="glyphicon glyphicon-user"></i></label>
+                <input id="txtUserName" name="account" type="text" class="form-control" value="@this.ViewBag.Account" style="width: 300px;" @(this.ViewData["Account"] == null ? "autofocus" : "") placeholder="账户" />
+                @Html.ValidationMessage("UserName", new { @id = "errorMsg0", @class = "text-danger", @style = "line-height: 34px; margin-left: 3px;" })
+            </div>
+            <div class="input-group">
+                <label for="txtPassword" class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></label>
+                <input id="txtPassword" name="password" type="password" onpaste="return false;" class="form-control" @(this.ViewData["Account"] != null ? "autofocus" : "") style="width: 300px;" placeholder="密码" />&nbsp;
+                @Html.ValidationMessage("Password", new { @id = "errorMsg1", @class = "text-danger", @style = "line-height: 34px; margin-left: 3px;" })
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon" style="background-color: transparent; border: none; width: 40px;">&nbsp;</span>
+                <input id="txtVerifyCode" name="verifyCode" type="text" maxlength="4" class="form-control" style="-ms-ime-mode: disabled; ime-mode: disabled; width: 189px; text-transform: uppercase;" />
+                <img src="@Url.Action("GetVerifyCode", "Account")" class="verifyCode" id="imgVerifyCode" alt="点击切换验证码"
+                     title="点击切换验证码" onclick="GetNewVerifyCode()" />
+                @Html.ValidationMessage("VerifyCode", new { @id = "errorMsg2", @class = "text-danger", @style = "line-height: 34px; margin-left: 3px;" })
+            </div>
+            <div class="form-actions">
+                <span class="pull-left">
+                    <button type="submit" class="btn btn-primary" onclick="return CheckUserDataValid();">
+                        <i class="glyphicon glyphicon-log-in"></i> <span id="btnLogOnT">登录</span>
+                    </button>
+                </span>
+            </div>
+        }
+    </div>
+</div>

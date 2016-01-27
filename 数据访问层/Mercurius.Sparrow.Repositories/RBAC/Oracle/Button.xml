@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Button" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Button" type="Mercurius.Siskin.Entities.RBAC.Button, Mercurius.Siskin.Entities" />
+  </alias>
+
+  <statements>
+
+    <!-- 获取按钮信息 -->
+    <select id="GetButtons" parameterClass="string" resultClass="Button">
+      <![CDATA[ 
+        SELECT
+          Id              AS "Id"
+          ,Name           AS "Name"
+          ,Title          AS "Title"
+          ,Image          AS "Image"
+          ,Code           AS "Code"
+          ,Sort           AS "Sort"
+          ,Category       AS "Category"
+          ,Remark         AS "Remark"
+          ,CreateUserId   AS "CreateUserId"
+          ,CreateDateTime AS "CreateDateTime"
+          ,ModifyUserId   AS "ModifyUserId"
+          ,ModifyDateTime AS "ModifyDateTime"
+        FROM RBAC.Button
+        WHERE Status=1 
+      ]]>
+      <isNotNull prepend="And">
+        Id=#Id#
+      </isNotNull>
+      <![CDATA[ 
+        ORDER BY Sort ASC
+      ]]>
+    </select>
+    
+    <!--新增修改RBAC.button-->
+    <update id="CreateOrUpdate" parameterClass="Button">
+      <![CDATA[
+        MERGE INTO RBAC.Button btn
+        USING(SELECT * FROM RBAC.Button WHERE Id=#Id#) a
+        ON (btn.Id=a.Id)
+        WHEN MATCHED THEN 
+          UPDATE SET
+            btn.Name=#Name#,
+            btn.Title=#Title#,
+            btn.Image=#Image#,
+            btn.Code=#Code#,
+            btn.Sort=#Sort#,
+            btn.Category=#Category#,
+            btn.Remark=#Remark#,
+            btn.ModifyUserId=#ModifyUserId#,
+            btn.ModifyDateTime=#ModifyDateTime#
+        WHEN NOT MATCHED THEN
+          INSERT
+          (
+            btn.Id,
+            btn.Name,
+            btn.Title,
+            btn.Image,
+            btn.Code,
+            btn.Sort,
+            btn.Category,
+            btn.Remark,
+            btn.Status,
+            btn.CreateUserId,
+            btn.CreateDateTime
+          )
+          VALUES
+          (
+            #Id#,
+            #Name#,
+            #Title#,
+            #Image#,
+            #Code#,
+            #Sort#,
+            #Category#,    
+            #Remark#,
+            1,
+            #CreateUserId#,
+            #CreateDateTime#
+          )
+      ]]>
+    </update>
+  </statements>
+</sqlMap>

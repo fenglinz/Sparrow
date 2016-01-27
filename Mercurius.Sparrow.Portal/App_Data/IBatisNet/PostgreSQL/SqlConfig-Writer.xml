@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sqlMapConfig xmlns="http://ibatis.apache.org/dataMapper">
+  <properties resource="App_Data/properties.config" />
+  <settings>
+    <setting validateSqlMap="false" />
+    <setting cacheModelsEnabled="true" />
+    <setting useStatementNamespaces="true" />
+    <setting useReflectionOptimizer="true" />
+    <setting useEmbedStatementParams="true" />
+  </settings>
+  <providers resource="App_Data/IBatisNet/providers.config" />
+  <database>
+    <provider name="PostgreSql" />
+    <dataSource name="PostgreSQLDataSource" connectionString="Host=localhost;Username=postgres;Password=devdev;Database=Siskin" />
+  </database>
+  <alias>
+    <typeAlias alias="DataTable" type="System.Data.DataTable" />
+    <typeAlias alias="Params" type="System.Collections.IDictionary" />
+    <typeAlias alias="Entry" type="Mercurius.Siskin.Entities.Chart.Entry, Mercurius.Siskin.Entities" />
+    <typeAlias alias="Series" type="Mercurius.Siskin.Entities.Chart.Series, Mercurius.Siskin.Entities" />
+    <typeAlias alias="SearchObject" type="Mercurius.Siskin.Entities.SearchObject, Mercurius.Siskin.Entities" />
+  </alias>
+  <sqlMaps>
+    <!-- 基础模块 -->
+    <sqlMap embedded="Core.PostgreSQL.Logger.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.Dictionary.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.SystemSetting.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.Globalization.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.RepositoryUtils.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.FileStorage.xml, Mercurius.Siskin.Repositories" />
+    
+    <!-- 基于角色访问控制(RBAC)模块 -->
+    <sqlMap embedded="RBAC.PostgreSQL.User.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Role.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Permission.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Recyclebin.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Organization.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.HomeShortcut.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Button.xml, Mercurius.Siskin.Repositories" />
+    
+    <!-- Web API管理模块 -->
+    <sqlMap embedded="WebApi.PostgreSQL.Api.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="WebApi.PostgreSQL.User.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="WebApi.PostgreSQL.Role.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="WebApi.PostgreSQL.RolePermission.xml, Mercurius.Siskin.Repositories" />
+  </sqlMaps>
+</sqlMapConfig>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sqlMapConfig xmlns="http://ibatis.apache.org/dataMapper">
+  <properties resource="App_Data/properties.config" />
+  <settings>
+    <setting validateSqlMap="false" />
+    <setting cacheModelsEnabled="true" />
+    <setting useStatementNamespaces="true" />
+    <setting useReflectionOptimizer="true" />
+    <setting useEmbedStatementParams="true" />
+  </settings>
+  <providers resource="App_Data/IBatisNet/providers.config" />
+
+  <database>
+    <provider name="ODAC4" />
+    <dataSource name="FrameworkDataSource"
+                connectionString="Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=${rhost})(PORT=${rport})))(CONNECT_DATA=(sid=${rsid})));User Id=${rusername};Password=${rpassword}" />
+  </database>
+
+  <alias>
+    <typeAlias alias="DataTable" type="System.Data.DataTable" />
+    <typeAlias alias="Params" type="System.Collections.IDictionary" />
+    <typeAlias alias="SearchObject" type="Mercurius.Siskin.Entities.SearchObject, Mercurius.Siskin.Entities"/>
+  </alias>
+
+  <sqlMaps>
+    <!-- 基础模块 -->
+    <sqlMap embedded="Core.Oracle.Logger.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="Core.Oracle.Dictionary.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="Core.Oracle.Globalization.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="Core.Oracle.RepositoryUtils.xml, Mercurius.Siskin.Repositories" />
+
+    <!-- 基于角色访问控制(RBAC)模块 -->
+    <sqlMap embedded="RBAC.Oracle.User.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.Oracle.Role.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.Oracle.Permission.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.Oracle.Recyclebin.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.Oracle.Organization.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.Oracle.HomeShortcut.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.Oracle.Button.xml, Mercurius.Siskin.Repositories"/>
+  </sqlMaps>
+</sqlMapConfig>

@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Role" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Role" type="Mercurius.Siskin.Entities.RBAC.Role, Mercurius.Siskin.Entities" />
+    <typeAlias alias="UserRole" type="Mercurius.Siskin.Entities.RBAC.UserRole, Mercurius.Siskin.Entities" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="GetRoleUsersRM" class="UserRole">
+      <result property="RowIndex" column="RowIndex" />
+      <result property="UserId" column="UserId" />
+      <result property="UserName" column="UserName" />
+      <result property="Departments" column="UserId" select="Mercurius.Siskin.Repositories.RBAC.Role.GetOwnedDepartments" lazyLoad="true" />
+    </resultMap>
+  </resultMaps>
+  
+  <statements>
+
+    <!-- 添加或者编辑角色信息 -->
+    <update id="CreateOrUpdate" parameterClass="Role">
+      <![CDATA[
+        BEGIN
+          DELETE FROM RBAC.UserRole WHERE RoleId=#Id#;
+      ]]>
+      <isNotNull property="UserRoles">
+        <iterate property="UserRoles" open="" close=";" conjunction=";">
+          INSERT INTO RBAC.UserRole
+          (
+          Id,
+          UserId,
+          RoleId,
+          CreateDateTime,
+          CreateUserId,
+          CreateUserName
+          )
+          VALUES
+          (
+          #UserRoles[].Id#,
+          #UserRoles[].UserId#,
+          #UserRoles[].RoleId#,
+          #UserRoles[].CreateDateTime#,
+          #UserRoles[].CreateUserId#,
+          #UserRoles[].CreateUserName#
+          )
+        </iterate>
+      </isNotNull>
+      <![CDATA[
+          MERGE INTO RBAC.Role his
+          USING (SELECT * FROM RBAC.Role WHERE Id=#Id#) src
+            ON (his.Id=src.Id)
+          WHEN MATCHED THEN
+            UPDATE SET
+              his.ParentId=#ParentId#,
+              his.Name=#Name#,
+              his.Remark=#Remark#,
+              his.Sort=#Sort#,
+              his.ModifyDateTime=#ModifyDateTime#,
+              his.ModifyUserId=#ModifyUserId#,
+              his.ModifyUserName=#ModifyUserName#
+          WHEN NOT MATCHED THEN 
+            INSERT
+            ( 
+              his.Id,
+  	          his.ParentId,
+  	          his.Name,
+              his.Remark,
+  	          his.Sort,
+              his.Status,
+  	          his.CreateDateTime,
+  	          his.CreateUserId,
+  	          his.CreateUserName
+            )
+            VALUES
+            (
+              #Id#,
+  	          #ParentId#,
+  	          #Name#,
+              #Remark#,
+  	          #Sort#,
+              1,
+  	          #CreateDateTime#,
+  	          #CreateUserId#,
+  	          #CreateUserName#
+            );
+        END;
+      ]]>
+    </update>
+
+    <!-- 添加或者编辑用户角色关系信息 -->
+    <insert id="CreateOrUpdateRelation" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+          DELETE FROM RBAC.USERROLE WHERE UserId=#UserId#;
+      ]]>
+      <dynamic>
+        <isNotNull property="UserRoles">
+          <iterate property="UserRoles" open="" close=";" conjunction=";">
+            <![CDATA[
+              INSERT INTO RBAC.UserRole
+              (
+                Id,
+                UserId,
+                RoleId,
+                CreateUserId,
+                CreateUserName,
+                CreateDateTime
+              )
+              VALUES
+              (
+                #UserRoles[].Id#,
+                #UserRoles[].UserId#,
+                #UserRoles[].RoleId#,
+                #UserRoles[].CreateUserId#,
+                #UserRoles[].CreateUserName#,
+                #UserRoles[].CreateDateTime#
+              )
+            ]]>
+          </iterate>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+        END;
+      ]]>
+    </insert>
+
+    <!-- 根据编号获取角色信息 -->
+    <select id="GetRoleById" parameterClass="string" resultClass="Role">
+      <![CDATA[
+        SELECT
+          Id              AS "Id"
+          ,ParentId       AS "ParentId"
+          ,Name           AS "Name"
+          ,Sort           AS "Sort"
+          ,Remark         AS "Remark"
+          ,Status     AS "Status"
+          ,CreateDateTime AS "CreateDateTime"
+          ,CreateUserName AS "CreateUserName"
+          ,ModifyDateTime AS "ModifyDateTime"
+          ,ModifyUserName AS "ModifyUserName"
+        FROM RBAC.Role
+        WHERE Id=#value# 
+      ]]>
+    </select>
+
+    <!-- 获取角色信息 -->
+    <select id="GetRoles" resultClass="Role">
+      <![CDATA[
+        SELECT
+          Id              AS "Id"
+          ,ParentId       AS "ParentId"
+          ,Name           AS "Name"
+          ,Sort           AS "Sort"
+          ,Remark         AS "Remark"
+          ,Status         AS "Status"
+          ,CreateDateTime AS "CreateDateTime"
+          ,CreateUserName AS "CreateUserName"
+          ,ModifyDateTime AS "ModifyDateTime"
+          ,ModifyUserName AS "ModifyUserName"
+        FROM RBAC.Role
+        WHERE Status!=0 
+        ORDER BY Sort ASC
+      ]]>
+    </select>
+
+    <!-- 获取拥有某角色的用户信息 -->
+    <select id="GetRoleUsers" parameterClass="string" resultMap="GetRoleUsersRM">
+      <![CDATA[
+        SELECT
+          ROWNUM               AS "RowIndex"
+          ,R.UserId            AS "UserId"
+          ,U.Code||'|'||U.Name AS "UserName"
+        FROM RBAC.UserRole R
+        LEFT JOIN RBAC.[User] U 
+          ON U.Id=R.UserId
+        WHERE RoleID=#value#
+      ]]>
+    </select>
+
+    <!-- 获取用户所属部门 -->
+    <select id="GetOwnedDepartments" parameterClass="string" resultClass="string">
+      <![CDATA[
+        SELECT
+          a.Name
+        FROM RBAC.Organization a
+        INNER JOIN RBAC.StaffOrganize b
+          ON a.Id=b.OrganizationId
+        WHERE b.UserId=#value#
+      ]]>
+    </select>
+
+    <!-- 获取用户拥有的角色 -->
+    <select id="GetRolesByUser" parameterClass="string" resultClass="Role">
+      <![CDATA[
+        SELECT
+          Name    AS "Name"
+          ,Remark AS "Remark"
+        FROM RBAC.Role
+        WHERE Id IN(SELECT RoleId FROM RBAC.UserRole WHERE UserId=#value#)
+      ]]>
+    </select>
+  </statements>
+</sqlMap>

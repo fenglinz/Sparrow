@@ -1,0 +1,94 @@
+﻿@model Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Configuration.CreateOrUpdateConfigModel
+
+@section Styles
+{
+    <style type="text/css">
+        .badge {
+            background: #6f5499;
+        }
+
+        .panel-body {
+            padding: 4px 10px;
+        }
+
+        .ui-state-default {
+            cursor: default;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.11.4.min.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sortable").sortable({
+                scroll: true,
+                cursor: "move",
+                stop: function (event, ui) {
+                    $('#sortable .badge').each(function (index, item) {
+                        $(item).text(index + 1);
+                        $(item).parent().find('#sort').val(index + 1);
+                    });
+                }
+            });
+        });
+
+        function OnSave() {
+            $('#frmSave').submit();
+        }
+    </script>
+}
+
+@if (Model.Table != null)
+{
+    <p class="alert alert-danger" style="padding: 10px 10px; margin: 0; margin-bottom: 5px;">
+        <i class="glyphicon glyphicon-th-list"></i> 添加/编辑显示的列及显示顺序设置(通过拖动列实现排序)
+    </p>
+    using (Ajax.BeginForm("SaveCreateOrUpdateConfig", "Configuration", new { @id = string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name) }, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form", @autocomplete = "off" }))
+    {
+        var index = 0;
+        @Html.AntiForgeryToken()
+        <div id="sortable">
+            @foreach (var item in Model.Columns)
+            {
+                <div class="panel panel-info ui-state-default">
+                    <div class="panel-heading">
+                        <span class="badge">@(index + 1)</span>
+                        @item.Column
+                        <span class="pull-right">
+                            <label class="checkbox-inline" style="padding-top: 0;">
+                                <input type="checkbox" value="true" name="createOrUpdates[@index].Visible" @(item.Visible == true ? "checked" : string.Empty) /> 可见
+                            </label>
+                        </span>
+                        <input type="hidden" name="createOrUpdates[@index].Id" value="@item.Id" />
+                        <input type="hidden" name="createOrUpdates[@index].TableName" value="@string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name)" />
+                        <input type="hidden" name="createOrUpdates[@index].Column" value="@item.Column" />
+                        <input id="sort" type="hidden" name="createOrUpdates[@index].Sort" value="@(index+1)" />
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-1 control-label" for="@item.Name">标题</label>
+                            <div class="col-sm-2">
+                                <input id="@item.Name" type="text" name="createOrUpdates[@index].ColumnLabel" value="@item.ColumnLabel" class="form-control" />
+                            </div>
+                            <label class="col-sm-1 control-label" for="DictionaryKey_@index">取值字典</label>
+                            <div class="col-sm-2">
+                                @Html.DropDownList(string.Format("createOrUpdates[{0}].DictionaryKey", index), Model.GetDictionaryList(item.DictionaryKey), new { @id = "DictionaryKey_" + index, @class = "form-control" })
+                            </div>
+                            <label class="col-sm-1 control-label" for="DefaultValue_@index">默认值</label>
+                            <div class="col-sm-2">
+                                @Html.CreateDefaultValueList(string.Format("createOrUpdates[{0}].DefaultValue", index), item.DefaultValue, new { @id = "DefaultValue_" + index })
+                            </div>
+                            <label class="col-sm-1 control-label" for="ValidateRule_@index">验证规则</label>
+                            <div class="col-sm-2">
+                                @Html.CreateValidateRuleList(string.Format("createOrUpdates[{0}].ValidateRule", index), item.ValidateRule, new { @id = "ValidateRule_" + index })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                index++;
+            }
+        </div>
+    }
+}

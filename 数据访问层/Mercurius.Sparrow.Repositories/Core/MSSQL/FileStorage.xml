@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.Core.FileStorage" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="FileStorage" type="Mercurius.Siskin.Entities.Core.FileStorage,Mercurius.Siskin.Entities" />
+    <typeAlias alias="FileStorageSO" type="Mercurius.Siskin.Entities.Core.SO.FileStorageSO,Mercurius.Siskin.Entities" />
+  </alias>
+  <statements>
+    <!-- 添加上传文件信息。 -->
+    <insert id="Create" parameterClass="FileStorage">
+      <![CDATA[
+        INSERT INTO [FileStorage]
+        (
+          [FileName],
+          [ContentType],
+          [FileSize],
+          [Description],
+          [SaveAsPath],
+          [UploadUserId],
+          [UploadDateTime]
+        )
+        VALUES
+        (
+          #FileName#,
+          #ContentType#,
+          #FileSize#,
+          #Description#,
+          #SaveAsPath#,
+          #UploadUserId#,
+          GETDATE()
+        )
+      ]]>
+    </insert>
+
+    <!-- 更新上传文件信息。 -->
+    <update id="Update" parameterClass="FileStorage">
+      <![CDATA[
+        UPDATE [FileStorage]
+        SET
+          [FileName]=#FileName#,
+          [ContentType]=#ContentType#,
+          [FileSize]=#FileSize#,
+          [Description]=#Description#,
+          [SaveAsPath]=#SaveAsPath#,
+          [UploadUserId]=#UploadUserId#,
+          [UploadDateTime]=GETDATE()
+        WHERE [Id]=#Id#
+      ]]>
+    </update>
+
+    <!-- 添加或者更新上传文件信息。 -->
+    <update id="CreateOrUpdate" parameterClass="FileStorage">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [FileStorage] WHERE [Id]=#Id#)
+          UPDATE [FileStorage]
+          SET
+            [FileName]=#FileName#,
+            [ContentType]=#ContentType#,
+            [FileSize]=#FileSize#,
+            [Description]=#Description#,
+            [SaveAsPath]=#SaveAsPath#,
+            [UploadUserId]=#UploadUserId#,
+            [UploadDateTime]=GETDATE()
+          WHERE [Id]=#Id#
+        ELSE
+          INSERT INTO [FileStorage]
+          (
+            [FileName],
+            [ContentType],
+            [FileSize],
+            [Description],
+            [SaveAsPath],
+            [UploadUserId],
+            [UploadDateTime]
+          )
+          VALUES
+          (
+            #FileName#,
+            #ContentType#,
+            #FileSize#,
+            #Description#,
+            #SaveAsPath#,
+            #UploadUserId#,
+            GETDATE()
+          )
+      ]]>
+    </update>
+
+    <!-- 删除上传文件信息。 -->
+    <delete id="Remove" parameterClass="int">
+      <![CDATA[
+        DELETE FROM [FileStorage] WHERE [Id]=#value#
+      ]]>
+    </delete>
+
+    <!-- 删除上传文件信息 -->
+    <delete id="RemovesByAccount" parameterClass="Params">
+      <isNotNull property="FilePaths">
+        <![CDATA[
+          DELETE FROM [FileStorage] WHERE SaveAsPath IN
+        ]]>
+        <iterate property="FilePaths" open="(" conjunction="," close=")">
+          #FilePaths[]#
+        </iterate>
+      </isNotNull>
+    </delete>
+    
+    <!-- 根据主键获取上传文件信息。 -->
+    <select id="GetById" parameterClass="int" resultClass="FileStorage">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [FileName] AS FileName,
+          [ContentType] AS ContentType,
+          [FileSize] AS FileSize,
+          [Description] AS Description,
+          [SaveAsPath] AS SaveAsPath,
+          [UploadUserId] AS UploadUserId,
+          [UploadDateTime] AS UploadDateTime
+        FROM [FileStorage]
+        WHERE [Id]=#value#
+      ]]>
+    </select>
+
+    <!-- 根据文件保存路径获取文件信息 -->
+    <select id="GetFileStorageByPath" parameterClass="string" resultClass="FileStorage">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [FileName] AS FileName,
+          [ContentType] AS ContentType,
+          [FileSize] AS FileSize,
+          [Description] AS Description,
+          [SaveAsPath] AS SaveAsPath,
+          [UploadUserId] AS UploadUserId,
+          [UploadDateTime] AS UploadDateTime
+        FROM [FileStorage]
+        WHERE [SaveAsPath]=#value#
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的上传文件信息。 -->
+    <select id="SearchFileStorages" parameterClass="FileStorageSO" resultClass="FileStorage">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+            a.[Id] AS Id,
+            [FileName] AS FileName,
+            [ContentType] AS ContentType,
+            [FileSize] AS FileSize,
+            [Description] AS Description,
+            [SaveAsPath] AS SaveAsPath,
+            [UploadUserId] AS UploadUserId,
+            b.[Name] AS UploadUserName,
+            [UploadDateTime] AS UploadDateTime,
+            ROW_NUMBER() OVER(ORDER BY a.[Id] DESC) AS RowIndex
+          FROM [FileStorage] a
+          LEFT JOIN [RBAC].[User] b
+            ON a.UploadUserId=b.Id
+      ]]>
+      <include refid="searchConditions" />
+      <![CDATA[
+        )
+        SELECT * FROM CTE
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select id="SearchFileStoragesCount" parameterClass="FileStorageSO" resultClass="int">
+      <![CDATA[
+        SELECT
+          COUNT(*) 
+        FROM [FileStorage] a
+        LEFT JOIN [RBAC].[User] b
+          ON a.UploadUserId=b.Id
+      ]]>
+      <include refid="searchConditions" />
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotEmpty property="FileName" prepend="AND">
+            FileName LIKE '%'+#FileName#+'%'
+          </isNotEmpty>
+          <isNotEmpty property="ContentType" prepend="AND">
+            ContentType LIKE '%'+#ContentType#+'%'
+          </isNotEmpty>
+          <isNotEmpty property="UploadUserName" prepend="AND">
+            b.[Name] LIKE '%'+#UploadUserName#+'%'
+          </isNotEmpty>
+          <isNotNull property="StartUploadDate" prepend="AND">
+            UploadDateTime>=#StartUploadDate#
+          </isNotNull>
+          <isNotNull property="EndUploadDate" prepend="AND">
+            <![CDATA[
+              CONVERT(NVARCHAR(10), UploadDateTime, 120)<=#EndUploadDate#
+            ]]>
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

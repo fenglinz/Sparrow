@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.HomeShortcut" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="HomeShortcut" type="Mercurius.Siskin.Entities.RBAC.HomeShortcut, Mercurius.Siskin.Entities" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="HomeShortcut" class="HomeShortcut">
+      <result property="Id" column="Id" />
+      <result property="UserId" column="UserId" />
+      <result property="Name" column="Name" />
+      <result property="NavigateUrl" column="NavigateUrl" />
+      <result property="Target" column="Target" />
+      <result property="Image" column="Image" />
+      <result property="Sort" column="Sort" />
+      <result property="Remark" column="Remark" />
+    </resultMap>
+  </resultMaps>
+  
+  <statements>
+
+    <!-- 获取首页快捷方式 -->
+    <select id="GetHomeShortcuts" parameterClass="string" resultMap="HomeShortcut">
+      <![CDATA[
+        SELECT
+          "Id"
+          ,"UserId"
+          ,"Name"
+          ,"NavigateUrl"
+          ,"Target"
+          ,"Image"
+          ,"Sort"
+          ,"Remark"
+        FROM "RBAC"."HomeShortcut"
+        WHERE "UserId"=#value#
+        ORDER BY "Sort" ASC
+      ]]>
+    </select>
+
+    <!-- 获取首页快捷方式信息 -->
+    <select id="GetHomeShortcut" parameterClass="string" resultMap="HomeShortcut">
+      <![CDATA[
+        SELECT
+          "Id"
+          ,"UserId"
+          ,"Name"
+          ,"NavigateUrl"
+          ,"Target"
+          ,"Image"
+          ,"Sort"
+          ,"Remark"
+        FROM "RBAC"."HomeShortcut"
+        WHERE "Id"=#value#
+      ]]>
+    </select>
+
+    <!-- 添加首页快捷方式 -->
+    <insert id="CreateOrUpdate" parameterClass="HomeShortcut">
+      <![CDATA[
+        BEGIN;
+          UPDATE "RBAC"."HomeShortcut"
+          SET
+            "Name"=#Name#,
+            "NavigateUrl"=#NavigateUrl#,
+            "Target"=#Target#,
+            "Image"=#Image#,
+            "Sort"=#Sort#,
+            "Remark"=#Remark#
+          WHERE "Id"=#Id# AND "UserId"=#UserId#;
+          INSERT INTO "RBAC"."HomeShortcut"
+          (
+            "Id",
+            "UserId",
+            "Name",
+            "NavigateUrl",
+            "Target",
+            "Image",
+            "Sort",
+            "Remark"
+          )
+          SELECT uuid_generate_v4(), #UserId#, #Name#, #NavigateUrl#, #Target#, #Image#, #Sort#, #Remark#
+          WHERE NOT EXISTS(SELECT * FROM "RBAC"."HomeShortcut" WHERE "Id"=#Id# AND "UserId"=#UserId#);
+        END;
+      ]]>
+    </insert>
+
+    <!-- 删除用户首页快捷方式 -->
+    <delete id="Remove" parameterClass="Params">
+      <![CDATA[
+        Delete FROM "RBAC"."HomeShortcut" WHERE "UserId"=#UserId# AND "Id" IN
+      ]]>
+      <iterate property="HomeShortcutIds" open="(" close=")" conjunction=",">
+        #HomeShortcutIds[]#
+      </iterate>
+    </delete>
+  </statements>
+</sqlMap>

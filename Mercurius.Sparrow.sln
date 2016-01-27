@@ -1,0 +1,86 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "服务层", "服务层", "{DD9E72F5-28CC-4A7D-9719-E175E5D3D977}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblys", "Assemblys", "{DD35E1CF-1365-4536-BFD3-992B41B92A08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Infrastructure", "Mercurius.Infrastructure\Mercurius.Infrastructure.csproj", "{B0732AD6-AC7A-4980-817E-432631963939}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Services", "服务层\Mercurius.Sparrow.Services\Mercurius.Sparrow.Services.csproj", "{0B830C09-CCD2-4CC3-A743-FC5F7FA46082}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Contracts", "服务层\Mercurius.Sparrow.Contracts\Mercurius.Sparrow.Contracts.csproj", "{9164967B-B835-44B7-A6DF-18D87CC98DAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "数据访问层", "数据访问层", "{428A97D4-B01B-48ED-A3A8-599C74F40164}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Repositories", "数据访问层\Mercurius.Sparrow.Repositories\Mercurius.Sparrow.Repositories.csproj", "{05FCDE91-E15A-4867-AA0E-FC7E8414B2D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Entities", "数据访问层\Mercurius.Sparrow.Entities\Mercurius.Sparrow.Entities.csproj", "{166646D7-8172-4011-9CB0-385C6A6D7FFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Backstage", "Mercurius.Sparrow.Backstage\Mercurius.Sparrow.Backstage.csproj", "{1DDB83CB-B949-427B-A88F-1E6AC1AB4C52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{9022CEAA-8F9D-469B-A521-B8E86CE2E311}"
+	ProjectSection(SolutionItems) = preProject
+		Assemblys\WPF\Microsoft.Windows.Shell.dll = Assemblys\WPF\Microsoft.Windows.Shell.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Portal", "Mercurius.Sparrow.Portal\Mercurius.Sparrow.Portal.csproj", "{6E9CCA90-4BF9-4E64-BA33-EB8786F588D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.FileStorage.WebUI", "Mercurius.FileStorage.WebUI\Mercurius.FileStorage.WebUI.csproj", "{E0E9780E-900E-466F-A805-F48E64C861E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0732AD6-AC7A-4980-817E-432631963939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0732AD6-AC7A-4980-817E-432631963939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0732AD6-AC7A-4980-817E-432631963939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0732AD6-AC7A-4980-817E-432631963939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B830C09-CCD2-4CC3-A743-FC5F7FA46082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B830C09-CCD2-4CC3-A743-FC5F7FA46082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B830C09-CCD2-4CC3-A743-FC5F7FA46082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B830C09-CCD2-4CC3-A743-FC5F7FA46082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9164967B-B835-44B7-A6DF-18D87CC98DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9164967B-B835-44B7-A6DF-18D87CC98DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9164967B-B835-44B7-A6DF-18D87CC98DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9164967B-B835-44B7-A6DF-18D87CC98DAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05FCDE91-E15A-4867-AA0E-FC7E8414B2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05FCDE91-E15A-4867-AA0E-FC7E8414B2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05FCDE91-E15A-4867-AA0E-FC7E8414B2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05FCDE91-E15A-4867-AA0E-FC7E8414B2D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{166646D7-8172-4011-9CB0-385C6A6D7FFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{166646D7-8172-4011-9CB0-385C6A6D7FFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{166646D7-8172-4011-9CB0-385C6A6D7FFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{166646D7-8172-4011-9CB0-385C6A6D7FFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DDB83CB-B949-427B-A88F-1E6AC1AB4C52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DDB83CB-B949-427B-A88F-1E6AC1AB4C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DDB83CB-B949-427B-A88F-1E6AC1AB4C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DDB83CB-B949-427B-A88F-1E6AC1AB4C52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E9CCA90-4BF9-4E64-BA33-EB8786F588D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E9CCA90-4BF9-4E64-BA33-EB8786F588D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E9CCA90-4BF9-4E64-BA33-EB8786F588D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E9CCA90-4BF9-4E64-BA33-EB8786F588D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0E9780E-900E-466F-A805-F48E64C861E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0E9780E-900E-466F-A805-F48E64C861E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0E9780E-900E-466F-A805-F48E64C861E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0E9780E-900E-466F-A805-F48E64C861E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0B830C09-CCD2-4CC3-A743-FC5F7FA46082} = {DD9E72F5-28CC-4A7D-9719-E175E5D3D977}
+		{9164967B-B835-44B7-A6DF-18D87CC98DAE} = {DD9E72F5-28CC-4A7D-9719-E175E5D3D977}
+		{05FCDE91-E15A-4867-AA0E-FC7E8414B2D2} = {428A97D4-B01B-48ED-A3A8-599C74F40164}
+		{166646D7-8172-4011-9CB0-385C6A6D7FFB} = {428A97D4-B01B-48ED-A3A8-599C74F40164}
+		{9022CEAA-8F9D-469B-A521-B8E86CE2E311} = {DD35E1CF-1365-4536-BFD3-992B41B92A08}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
+	EndGlobalSection
+EndGlobal

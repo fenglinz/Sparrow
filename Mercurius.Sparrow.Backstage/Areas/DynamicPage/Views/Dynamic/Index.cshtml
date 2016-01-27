@@ -1,0 +1,260 @@
+﻿@using Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Dynamic
+@{
+	var searchModel = this.ViewBag.Model as SearchModel;
+}
+
+@if (searchModel.Table != null)
+{
+	var routeValues = new RouteValueDictionary();
+	var primaryKeys = searchModel.Columns.Where(s => s.IsPrimaryKey);
+	var showColumns = searchModel.GetSortedColumns().Where(s => !s.IsPrimaryKey && searchModel.IsColumnVisible(s.Name));
+
+	@section Styles{
+		<style type="text/css">
+			.form-horizontal .form-group {
+				margin-bottom: 5px;
+			}
+
+				.form-horizontal .form-group .control-label {
+					padding-right: 5px;
+				}
+
+				.form-horizontal .form-group .col-sm-2,
+				.form-horizontal .form-group .col-sm-10 {
+					padding-left: 5px;
+				}
+
+			[validate-rule*=date],
+			[validate-rule=time] {
+				cursor: pointer;
+			}
+		</style>
+	}
+
+	@section Scripts{
+		@Scripts.Render("~/bundles/validate")
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$('[validate-rule=date],[validate-rule=dateOrNull]').datetimepicker({
+					format: 'L',
+					showClear: true,
+					showTodayButton: true,
+					locale: moment.locale('zh-cn')
+				});
+				$('[validate-rule=dateTime],[validate-rule=dateTimeOrNull]').datetimepicker({
+					format: 'YYYY-MM-DD HH:mm',
+					showClear: true,
+					showTodayButton: true,
+					locale: moment.locale('zh-cn')
+				});
+				$('[validate-rule=time],[validate-rule=timeOrNull]').datetimepicker({
+					format: 'HH:mm',
+					showClear: true,
+					showTodayButton: true,
+					locale: moment.locale('zh-cn')
+				});
+
+				mercurius.ApplyTableStyle("@string.Format("#dt{0}", searchModel.Table.Name)");
+			});
+
+			function edit() {
+				var selectedItems = $('@string.Format("#dt{0}", searchModel.Table.Name)').find(' > tbody > tr.selected:not(.empty)');
+
+				if (selectedItems.length == 1) {
+					var selectedValue = selectedItems.find('td:eq(@(showColumns.Count() + 1))').text().trim();
+					var conditions = '[' + selectedValue + ']';
+
+					$('#conditions').val(conditions);
+
+					$('#frmEdit').submit();
+				} else if (selectedItems.length == 0) {
+				    mercurius.ShowWarningMessage('未选中任何一行');
+				}
+			}
+
+			function Delete() {
+				var selectedItems = $('@string.Format("#dt{0}", searchModel.Table.Name)').find(' > tbody > tr.selected:not(.empty)');
+
+				if (selectedItems.length == 1) {
+				    mercurius.ShowConfirmMessage('是否确定删除？', function () {
+						var selectedValue = selectedItems.find('td:eq(@(showColumns.Count() + 1))').text().trim();
+						var conditions = '[' + selectedValue + ']';
+
+						$.ajax({
+							url: '@Url.Action("Remove")',
+							type: 'POST',
+							cache: false,
+							data: { id: '@string.Format("{0}.{1}", searchModel.Table.Schema,searchModel.Table.Name)', conditions: conditions },
+							dataType: 'JSON',
+							complete: function (rs) {
+								if (rs.status == 200) {
+								    mercurius.ShowTipsMessage('删除成功！', 5000, 4);
+
+									window.location.reload();
+								} else {
+								    mercurius.ShowTipsMessage('删除失败，请稍后重试！', 5000, 5);
+								}
+							}
+						});
+					});
+				} else if (selectedItems.length == 0) {
+				    mercurius.ShowWarningMessage('未选中任何一行');
+				}
+			}
+
+			function detail() {
+				var selectedItems = $('@string.Format("#dt{0}", searchModel.Table.Name)').find(' > tbody > tr.selected:not(.empty)');
+
+				if (selectedItems.length == 1) {
+					var selectedValue = selectedItems.find('td:eq(@(showColumns.Count() + 1))').text().trim();
+					var conditions = '[' + selectedValue + ']';
+
+					$('#conditions').val(conditions);
+
+					$('#frmEdit').prop('action', '@Url.Action("ViewDetail")');
+					$('#frmEdit').submit();
+				} else if (selectedItems.length == 0) {
+				    mercurius.ShowWarningMessage('未选中任何一行');
+				}
+			}
+		</script>
+	}
+
+	<div class="header">@searchModel.GetTitle()</div>
+	if (!searchModel.Conditions.IsEmpty())
+	{
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="form-horizontal" role="form">
+					@using (Html.BeginForm("Index", "Dynamic", FormMethod.Post, new { @id = "frmSearch", @autocomplete = "off" }))
+					{
+						var index = 0;
+						var count = searchModel.Conditions.Count;
+						var groupCount = count % 4 == 0 ? count / 4 : (count / 4) + 1;
+					@Html.AntiForgeryToken()
+					<input type="hidden" name="Id" value="@string.Format("{0}.{1}",searchModel.Table.Schema, searchModel.Table.Name)" />
+						for (int i = 1; i <= groupCount; i++)
+						{
+					<div class="form-group">
+						@for (; index < i * 4 && index < count; index++)
+								{
+									var item = searchModel.Conditions[index];
+
+								<input type="hidden" name="@string.Format("conditions[{0}].Column",index)" value="@item.Column" />
+								<input type="hidden" name="@string.Format("conditions[{0}].Op",index)" value="@item.Op" />
+								<label class="col-sm-1 control-label" for="@string.Format("control{0}", item.Id)">
+									@searchModel.GetColumnDescription(item.Column)
+								</label>
+								<div class="col-sm-2">
+									@if (!string.IsNullOrWhiteSpace(item.DictionaryKey))
+										{
+										@Html.CreateDropdownList(item.DictionaryKey, defaultValue: item.Value, includeAll: true, htmlAttributes: new { @id = string.Format("control{0}", item.Id), @name = string.Format("conditions[{0}].Value", index) })
+										}
+										else
+										{
+										<input type="text" id="@string.Format("control{0}", item.Id)" name="@string.Format("conditions[{0}].Value", index)" class="form-control" value="@item.Value" @(string.IsNullOrWhiteSpace(item.ValidateRule) ? string.Empty : string.Format("validate-rule={0} validate-field={1}", item.ValidateRule, searchModel.GetColumnDescription(item.Column))) />
+										}
+								</div>
+									routeValues.Add(string.Format("conditions[{0}].Column", index), item.Column);
+									routeValues.Add(string.Format("conditions[{0}].Op", index), item.Op.ToString());
+									routeValues.Add(string.Format("conditions[{0}].Value", index), item.Value);
+								}
+					</div>
+						}
+					<div class="form-group form-group-sm">
+						<label class="col-sm-1"></label>
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-primary">
+								<i class="glyphicon glyphicon-search"></i> 查询
+							</button>
+							<button type="button" class="btn btn-default" onclick="$('#frmSearch [name]:visible').val('');">
+								<i class="glyphicon glyphicon-remove"></i> 重置
+							</button>
+						</div>
+					</div>
+					}
+				</div>
+			</div>
+		</div>
+	}
+	<div class="toolbar panel panel-default">
+		<div class="panel-heading">
+			<div class="right">
+				<form id="frmEdit" action="@Url.Action("CreateOrUpdate")" method="post" class="btn-group" style="display:inline;">
+					<input name="id" type="hidden" value="@string.Format("{0}.{1}", searchModel.Table.Schema,searchModel.Table.Name)" />
+					<input id="conditions" name="conditions" type="hidden" />
+					@if (searchModel.Table.IsView)
+					{
+						<button type="button" class="btn btn-default" style="display:inline;" onclick="detail();">
+							<i class="glyphicon glyphicon-list-alt"></i> 详情
+						</button>
+					}
+					else
+					{
+						<a href="@Url.Action("CreateOrUpdate", new { @id = string.Format("{0}.{1}", searchModel.Table.Schema,searchModel.Table.Name)})" class="btn btn-default">
+							<i class="glyphicon glyphicon-plus"></i> 添加
+						</a>
+						<button type="button" class="btn btn-default" style="display:inline;" onclick="edit();">
+							<i class="glyphicon glyphicon-edit"></i> 编辑
+						</button>
+						<a class="btn btn-default" onclick="Delete();">
+							<i class="glyphicon glyphicon-remove"></i> 删除
+						</a>
+						<button type="button" class="btn btn-default" style="display:inline;" onclick="detail();">
+							<i class="glyphicon glyphicon-list-alt"></i> 详情
+						</button>
+					}
+				</form>
+			</div>
+		</div>
+	</div>
+	<table id="@string.Format("dt{0}", searchModel.Table.Name)" class="grid">
+		<thead>
+			<tr>
+				<td style="width: 40px; text-align: center;">
+					<label id="checkAllOff" title="全选">
+						&nbsp;
+					</label>
+				</td>
+				@foreach (var item in showColumns)
+				{
+					<td>@item.Description</td>
+				}
+			</tr>
+		</thead>
+		<tbody>
+			@if (searchModel.DataSource.Rows.Count == 0)
+			{
+				<tr class="empty">
+					<td colspan="@(showColumns.Count()+1)" class="empty-data">
+						@Html.GetGlobalValue("empty-data")
+					</td>
+				</tr>
+			}
+			else
+			{
+				foreach (DataRow row in searchModel.DataSource.Rows)
+				{
+					<tr>
+						<td style="width: 40px;text-align:center;">@row[0]</td>
+						@foreach (var item in showColumns)
+						{
+							<td>@row[item.Name]</td>
+						}
+						<td style="display:none;">
+							@{
+								var viewColumns = primaryKeys.IsEmpty() ? searchModel.Columns.Where(c => c.DataType != "datetime") : primaryKeys;
+
+								foreach (var item in viewColumns)
+								{
+									<text>{PropertyName:'@item.Name',Value:'@row[item.Name]'}</text>@(item == viewColumns.Last() ? string.Empty : ",")
+								}
+							}
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+	@Html.Paging(searchModel.TotalRecords, routeValues: routeValues)
+}

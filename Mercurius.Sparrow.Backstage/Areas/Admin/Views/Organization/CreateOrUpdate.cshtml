@@ -1,0 +1,113 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.RBAC
+@{
+    var orgList = ViewBag.OrganizationList as ResponseCollection<Organization>;
+    var tree = orgList.Datas.AsTree(o => o.ParentId == "0", (p, i) => i.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name });
+}
+@model Organization
+@section Styles{
+    @Styles.Render("~/Content/tree/css")
+}
+@section Scripts
+{
+    @Scripts.Render("~/bundles/tree", "~/bundles/validate")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ManagerName').click(function () {
+                mercurius.OpenDialog('@Url.Action("ChooseUser", "User",new { @type="manager"})', 'ChooseUser', '选择部门负责人', 650, 500, { statusbar: false, x: 'right', y: 'bottom' });
+            });
+
+            $('#AssistantManagerName').click(function () {
+                mercurius.OpenDialog('@Url.Action("ChooseUser", "User", new { @type="assistant" })', 'ChooseUser', '选择部门助理', 650, 500, { statusbar: false, x: 'right', y: 'bottom' });
+            });
+        });
+
+        function SetUser(userId, userName, type) {
+            if (type === 'manager') {
+                $('#Manager').val(userId);
+                $('#ManagerName').val(userName);
+            }
+
+            if (type === 'assistant') {
+                $('#AssistantManager').val(userId);
+                $('#AssistantManagerName').val(userName);
+            }
+        }
+
+        function OnSave() {
+            if (JudgeValidate('#frmSave')) {
+                $('#frmSave').submit();
+            }
+        }
+    </script>
+}
+@using (Ajax.BeginForm("CreateOrUpdate", "Organization", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Code">部门编号</label>
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @validate_field = "部门编号", @validate_rule = "notNull" })
+        </div>
+        <label class="col-sm-2 control-label" for="Name">机构名称</label>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @validate_field = "机构名称", @validate_rule = "notNull" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="ManagerName">负责人</label>
+        <div class="col-sm-3">
+            @Html.HiddenFor(m => m.Manager)
+            @Html.TextBoxFor(m => m.ManagerName, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <label class="col-sm-2 control-label" for="AssistantManagerName">助理</label>
+        <div class="col-sm-4">
+            @Html.HiddenFor(m => m.AssistantManager)
+            @Html.TextBoxFor(m => m.AssistantManagerName, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="OuterPhone">外线电话</label>
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.OuterPhone, new { @class = "form-control" })
+        </div>
+        <label class="col-sm-2 control-label" for="InnerPhone">内线电话</label>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.InnerPhone, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Fax">传真号码</label>
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.Fax, new { @class = "form-control" })
+        </div>
+        <label class="col-sm-2 control-label" for="ZipCode">邮政区号</label>
+        <div class="col-sm-4">
+            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", @validate_field = "邮政区号", @validate_rule = "zipOrNull" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="ParentIdText">所属部门</label>
+        <div class="col-sm-5">
+            @TreeHelper.CreateComboTree(tree, "ParentId", this.ViewBag.ParentId, Model == null ? null : Model.Id)
+        </div>
+        <label class="col-sm-2 control-label" for="Sort">显示顺序</label>
+        <div class="col-sm-2">
+            @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @validate_field = "显示顺序", @validate_rule = "int" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Address">所在地址</label>
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Remark">说明</label>
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @style = "height: 53px;" })
+        </div>
+    </div>
+}

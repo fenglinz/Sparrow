@@ -1,0 +1,111 @@
+﻿@{
+    var index = 1;
+}
+
+@model IList<Mercurius.Infrastructure.Ado.Table>
+@section Styles
+{
+    <style type="text/css">
+        .grid tbody td {
+            overflow-x: visible;
+        }
+
+        .grid tbody tr td {
+            cursor: default;
+        }
+
+        .grid tbody tr:not(.selected):hover {
+            color: #000;
+            background: transparent;
+        }
+
+        .grid tbody tr:nth-child(even):not(.selected):hover {
+            color: #000;
+            background: #dff0d8;
+        }
+    </style>
+}
+@section Scripts{
+    <script type="text/javascript">
+        function OnTableComments(table, comments) {
+            $.ajax({
+                url: '@Url.Action("CommentTable")',
+                type: 'POST',
+                cache: false,
+                data: { id: table, comments: comments },
+                dataType: 'json',
+                complete: function (rs) {
+                    if (rs.status == 200) {
+                        mercurius.ShowTipsMessage('修改成功！', 5000, 4);
+
+                        window.location.reload();
+                    } else {
+                        mercurius.ShowTipsMessage('修改失败，请稍后重试！', 5000, 5);
+                    }
+                }
+            });
+        }
+
+        function OnSearchConfig(table, comments) {
+            mercurius.OpenDialog('@Url.Action("ShowSearchConfig")/' + table, 'ShowSearchConfig', comments + '表-查询配置管理', 860, 520, { statusbar: false });
+        }
+
+        function OnCreateOrUpdateConfig(table, comments) {
+            mercurius.OpenDialog('@Url.Action("ShowCreateOrUpdateConfig")/' + table, 'ShowCreateOrUpdateConfig', comments + '表-添加/编辑配置', 860, 520);
+        }
+
+        function OnCommentColumns(table, comments) {
+            mercurius.OpenDialog('@Url.Action("ShowColumns")/' + table, 'CommentsColumn', comments + '表-列注释管理', 600, 500);
+        }
+    </script>
+}
+
+<div class="header">
+    数据库表一览
+</div>
+<table class="grid" style="margin-bottom:150px;">
+    <thead>
+        <tr>
+            <td style="width:60px;">序号</td>
+            <td style="width:300px;">表/视图名称</td>
+            <td style="width:50px;">类型</td>
+            <td>描述信息</td>
+            <td style="width:300px;"></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="text-align:center;">@(index++)</td>
+                <td>@string.Format("{0}.{1}",item.Schema,item.Name)</td>
+                <td class="text-center">@(item.IsView?"视图" :"表")</td>
+                <td class="input-group">
+                    <input type="text" class="form-control" value="@item.Comments" onchange="OnComments('@item.Name',this.value);" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" onclick="OnTableComments('@string.Format("{0}.{1}",item.Schema,item.Name)',$(this).parent().prev().val())">
+                            <i class="glyphicon glyphicon-edit"></i> 修改
+                        </button>
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-cog"></i> 配置<span class="caret" style="margin-left:10px;"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" onclick="OnSearchConfig('@string.Format("{0}.{1}",item.Schema,item.Name)', '@item.Comments');">查询配置</a></li>
+                            <li><a href="#" onclick="OnCreateOrUpdateConfig('@string.Format("{0}.{1}",item.Schema,item.Name)','@item.Comments');">添加/编辑配置</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" onclick="OnCommentColumns('@string.Format("{0}.{1}",item.Schema,item.Name)','@item.Comments');">列注释</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <a href="@Url.Action("Index","Dynamic", new { @id=string.Format("{0}.{1}",item.Schema, item.Name)})" class="btn btn-default">
+                        <i class="glyphicon glyphicon-eye-open"></i> 管理
+                        </a>
+                    </div>
+                </td>
+            </tr>}
+    </tbody>
+</table>

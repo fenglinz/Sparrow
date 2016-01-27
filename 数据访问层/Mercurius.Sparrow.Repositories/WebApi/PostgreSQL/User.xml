@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.WebApi.User" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="WebApiUser" type="Mercurius.Siskin.Entities.WebApi.User,Mercurius.Siskin.Entities" />
+    <typeAlias alias="WebApiUserSO" type="Mercurius.Siskin.Entities.WebApi.SO.UserSO,Mercurius.Siskin.Entities" />
+  </alias>
+  <statements>
+    <!-- 添加WebApi用户信息。 -->
+    <insert id="Create" parameterClass="WebApiUser">
+      <![CDATA[
+        INSERT INTO [WebApi].[User]
+        (
+          [Account],
+          [Password],
+          [Description],
+          [Status],
+          [CreateUserId],
+          [CreateDateTime],
+          [ModifyUserId],
+          [ModifyDateTime]
+        )
+        VALUES
+        (
+          #Account#,
+          #Password#,
+          #Description#,
+          #Status#,
+          #CreateUserId#,
+          #CreateDateTime#,
+          #ModifyUserId#,
+          #ModifyDateTime#
+        )
+      ]]>
+    </insert>
+
+    <!-- 更新WebApi用户信息。 -->
+    <update id="Update" parameterClass="WebApiUser">
+      <![CDATA[
+        UPDATE [WebApi].[User]
+        SET
+          [Account]=#Account#,
+          [Password]=#Password#,
+          [Description]=#Description#,
+          [Status]=#Status#,
+          [CreateUserId]=#CreateUserId#,
+          [CreateDateTime]=#CreateDateTime#,
+          [ModifyUserId]=#ModifyUserId#,
+          [ModifyDateTime]=#ModifyDateTime#
+        WHERE [Id]=#Id#
+      ]]>
+    </update>
+
+    <!-- 修改用户状态 -->
+    <update id="ChangeStatus" parameterClass="Params">
+      <![CDATA[
+        UPDATE [WebApi].[User]
+        SET
+          [Status]=#Status#
+        WHERE [Id]=#Id#
+      ]]>
+    </update>
+
+    <!-- 添加或者更新WebApi用户信息。 -->
+    <update id="CreateOrUpdate" parameterClass="WebApiUser">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [WebApi].[User] WHERE [Id]=#Id#)
+          UPDATE [WebApi].[User]
+          SET
+            [Account]=#Account#,
+      ]]>
+      <dynamic>
+        <isEqual property="ChangePassword" prepend="" compareValue="true">
+          [Password]=#Password#,
+        </isEqual>
+      </dynamic>
+      <![CDATA[
+            [Description]=#Description#,
+            [Status]=#Status#,
+            [CreateUserId]=#CreateUserId#,
+            [CreateDateTime]=#CreateDateTime#,
+            [ModifyUserId]=#ModifyUserId#,
+            [ModifyDateTime]=#ModifyDateTime#
+          WHERE [Id]=#Id#
+        ELSE
+          INSERT INTO [WebApi].[User]
+          (
+            [Account],
+            [Password],
+            [Description],
+            [Status],
+            [CreateUserId],
+            [CreateDateTime],
+            [ModifyUserId],
+            [ModifyDateTime]
+          )
+          VALUES
+          (
+            #Account#,
+            #Password#,
+            #Description#,
+            #Status#,
+            #CreateUserId#,
+            #CreateDateTime#,
+            #ModifyUserId#,
+            #ModifyDateTime#
+          )
+      ]]>
+    </update>
+
+    <!-- 删除WebApi用户信息。 -->
+    <delete id="Remove" parameterClass="int">
+      <![CDATA[
+        DELETE FROM [WebApi].[User] WHERE [Id]=#value#
+      ]]>
+    </delete>
+
+    <!-- 根据主键获取WebApi用户信息。 -->
+    <select id="GetById" parameterClass="int" resultClass="WebApiUser">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [Account] AS Account,
+          [Password] AS Password,
+          [Description] AS Description,
+          [Status] AS Status,
+          [CreateUserId] AS CreateUserId,
+          [CreateDateTime] AS CreateDateTime,
+          [ModifyUserId] AS ModifyUserId,
+          [ModifyDateTime] AS ModifyDateTime
+        FROM [WebApi].[User] 
+        WHERE [Id]=#value#
+      ]]>
+    </select>
+
+    <!-- 根据用户账号获取用户信息 -->
+    <select id="GetUserByAccount" parameterClass="string" resultClass="WebApiUser">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [Account] AS Account,
+          [Password] AS Password,
+          [Description] AS Description,
+          [Status] AS Status,
+          [CreateUserId] AS CreateUserId,
+          [CreateDateTime] AS CreateDateTime,
+          [ModifyUserId] AS ModifyUserId,
+          [ModifyDateTime] AS ModifyDateTime
+        FROM [WebApi].[User] 
+        WHERE [Account]=#value#
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的WebApi用户信息。 -->
+    <select id="SearchUsers" parameterClass="WebApiUserSO" resultClass="WebApiUser">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+            [Id] AS Id,
+            [Account] AS Account,
+            [Password] AS Password,
+            [Description] AS Description,
+            [Status] AS Status,
+            [CreateUserId] AS CreateUserId,
+            [CreateDateTime] AS CreateDateTime,
+            [ModifyUserId] AS ModifyUserId,
+            [ModifyDateTime] AS ModifyDateTime,
+            ROW_NUMBER() OVER(ORDER BY [Id] DESC) AS RowIndex
+          FROM [WebApi].[User]
+      ]]>
+      <include refid="searchConditions" />
+      <![CDATA[
+        )
+        SELECT * FROM CTE
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select id="SearchUsersCount" parameterClass="WebApiUserSO" resultClass="int">
+      <![CDATA[
+        SELECT COUNT(*) FROM [WebApi].[User]
+      ]]>
+      <include refid="searchConditions" />
+    </select>
+
+    <!-- 验证用户 -->
+    <select id="ValidateAccount" parameterClass="Params" resultClass="WebApiUser">
+      <![CDATA[
+        SELECT 
+          Id,
+          Account,
+          Password,
+          Status
+        FROM WebApi.[User] WHERE Account=#Account# AND [Password]=#Password#
+      ]]>
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotNull property="Account">
+            [Account]=#Account#
+          </isNotNull>
+          <isNotNull property="Description" prepend="AND">
+            [Description]=#Description#
+          </isNotNull>
+          <isNotNull property="Status" prepend="AND">
+            [Status]=#Status#
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

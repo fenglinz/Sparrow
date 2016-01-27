@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows;
+
+namespace Mercurius.CodeBuilder.UI
+{
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
+    {
+        static App()
+        {
+            // 设置私有程序集加载位置。
+            AppDomain.CurrentDomain.SetData("PRIVATE_BINPATH", "Core;Module;UI;");
+            AppDomain.CurrentDomain.SetData("BINPATH_PROBE_ONLY", "Core;Module;UI;");
+
+            var m = typeof(AppDomainSetup).GetMethod("UpdateContextProperty", BindingFlags.NonPublic | BindingFlags.Static);
+            var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", "Castle;Core;Module;UI;Misc;" });
+            
+            // 设置固定程序配置文件名称。
+            var configFile = "app.config";
+            
+            m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "APP_CONFIG_FILE", configFile });
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            var bootstrapper = new CodeBuilderBootstrapper();
+
+            bootstrapper.Run();
+        }
+    }
+}

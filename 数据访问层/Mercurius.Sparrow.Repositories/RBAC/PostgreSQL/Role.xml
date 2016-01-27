@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Role" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Role" type="Mercurius.Siskin.Entities.RBAC.Role, Mercurius.Siskin.Entities" />
+    <typeAlias alias="UserRole" type="Mercurius.Siskin.Entities.RBAC.UserRole, Mercurius.Siskin.Entities" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="Role" class="Role">
+      <result property="Id" column="Id" />
+      <result property="ParentId" column="ParentId" />
+      <result property="Name" column="Name" />
+      <result property="Sort" column="Sort" />
+      <result property="Remark" column="Remark" />
+      <result property="Status" column="Status" />
+      <result property="CreateUserId" column="CreateUserId" />
+      <result property="CreateDateTime" column="CreateDateTime" />
+      <result property="ModifyUserId" column="ModifyUserId" />
+      <result property="ModifyDateTime" column="ModifyDateTime" />
+      <result property="CreateUserName" column="CreateUserName" />
+      <result property="ModifyUserName" column="ModifyUserName" />
+    </resultMap>
+    
+    <resultMap id="RoleNameRemark" class="Role">
+      <result property="Name" column="Name" />
+      <result property="Remark" column="Remark" />
+    </resultMap>
+
+    <resultMap id="GetRoleUsersRM" class="UserRole">
+      <result property="RowIndex" column="RowIndex" />
+      <result property="UserId" column="UserId" />
+      <result property="UserName" column="UserName" />
+      <result property="Departments" column="UserId" select="Mercurius.Siskin.Repositories.RBAC.Role.GetOwnedDepartments" lazyLoad="true" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <!-- 添加或者编辑角色信息 -->
+    <update id="CreateOrUpdate" parameterClass="Role">
+      <![CDATA[
+        BEGIN;
+          DELETE FROM "RBAC"."UserRole" WHERE "RoleId"=#Id#;
+      ]]>
+      <isNotNull property="UserRoles">
+        <iterate property="UserRoles" open="" close=";" conjunction=";">
+          <![CDATA[
+            INSERT INTO "RBAC"."UserRole"
+            (
+              "Id",
+              "UserId",
+              "RoleId",
+              "CreateUserId",
+              "CreateDateTime"
+            )
+            VALUES
+            (
+              #UserRoles[].Id#,
+              #UserRoles[].UserId#,
+              #UserRoles[].RoleId#,
+              #UserRoles[].CreateUserId#,
+              #UserRoles[].CreateDateTime#
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+      <![CDATA[
+          UPDATE "RBAC"."Role"
+          SET
+            "ParentId"=#ParentId#,
+            "Name"=#Name#,
+            "Remark"=#Remark#,
+            "Sort"=#Sort#,
+            "ModifyUserId"=#ModifyUserId#,
+            "ModifyDateTime"=now()
+          WHERE "Id"=#Id#;
+          INSERT INTO "RBAC"."Role"
+          ( 
+            "Id",
+            "ParentId",
+            "Name",
+            "Remark",
+            "Sort",
+            "Status",
+            "CreateUserId",
+            "CreateDateTime"
+          )
+          SELECT uuid_generate_v4(), #ParentId#, #Name#, #Remark#, #Sort#, 1, #CreateUserId#, now()
+          WHERE NOT EXISTS(SELECT * FROM "RBAC"."Role" WHERE "Id"=#Id#);
+        COMMIT;
+      ]]>
+    </update>
+
+    <!-- 添加或者编辑用户角色关系信息 -->
+    <insert id="CreateOrUpdateRelation" parameterClass="Params">
+      <![CDATA[
+        BEGIN;
+          DELETE FROM "RBAC"."UserRole" WHERE "UserId"=#UserId#;
+      ]]>
+      <dynamic>
+        <isNotNull property="UserRoles">
+          <iterate property="UserRoles" open="" close=";" conjunction=";">
+            <![CDATA[
+              INSERT INTO "RBAC"."UserRole"
+              (
+                "Id",
+                "UserId",
+                "RoleId",
+                "CreateUserId",
+                "CreateDateTime"
+              )
+              VALUES
+              (
+                #UserRoles[].Id#,
+                #UserRoles[].UserId#,
+                #UserRoles[].RoleId#,
+                #UserRoles[].CreateUserId#,
+                #UserRoles[].CreateDateTime#
+              )
+            ]]>
+          </iterate>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+        COMMIT;
+      ]]>
+    </insert>
+
+    <!-- 根据编号获取角色信息 -->
+    <select id="GetRoleById" parameterClass="string" resultMap="Role">
+      <![CDATA[
+        SELECT
+          a."Id"
+		      ,a."ParentId"
+		      ,a."Name"
+		      ,a."Sort"
+		      ,a."Remark"
+		      ,a."Status"
+		      ,a."CreateUserId"
+		      ,a."CreateDateTime"
+		      ,a."ModifyUserId"
+		      ,a."ModifyDateTime"
+          ,u1."Name" AS "CreateUserName"
+          ,u2."Name" AS "ModifyUserName"
+        FROM "RBAC"."Role" a
+        LEFT JOIN "RBAC"."User" u1
+          ON a."CreateUserId"=u1."Id"
+        LEFT JOIN "RBAC"."User" u2
+          ON a."ModifyUserId"=u2."Id"
+        WHERE a."Id"=#value#
+      ]]>
+    </select>
+
+    <!-- 获取角色信息 -->
+    <select id="GetRoles" resultMap="Role">
+      <![CDATA[
+	      SELECT
+		      a."Id"
+		      ,a."ParentId"
+		      ,a."Name"
+		      ,a."Sort"
+		      ,a."Remark"
+		      ,a."Status"
+		      ,a."CreateUserId"
+		      ,a."CreateDateTime"
+		      ,a."ModifyUserId"
+		      ,a."ModifyDateTime"
+          ,u1."Name" AS "CreateUserName"
+          ,u2."Name" AS "ModifyUserName"
+	      FROM "RBAC"."Role" a
+        LEFT JOIN "RBAC"."User" u1
+          ON a."CreateUserId"=u1."Id"
+        LEFT JOIN "RBAC"."User" u2
+          ON a."ModifyUserId"=u2."Id"
+        WHERE a."Status"=1
+        Order By "Sort" ASC
+      ]]>
+    </select>
+
+    <!-- 获取拥有某角色的用户信息 -->
+    <select id="GetRoleUsers" parameterClass="string" resultMap="GetRoleUsersRM">
+      <![CDATA[
+        SELECT
+          ROW_NUMBER() OVER(ORDER BY r."CreateDateTime" ASC) AS "RowIndex"
+          ,R."UserId"
+          ,U."Code"||'|'||U."Name" AS "UserName"
+        FROM "RBAC"."UserRole" R
+        LEFT JOIN "RBAC"."User" U 
+          ON U."Id"=R."UserId"
+        WHERE "RoleId"=#value#
+      ]]>
+    </select>
+
+    <!-- 获取用户所属部门 -->
+    <select id="GetOwnedDepartments" parameterClass="string" resultClass="string">
+      <![CDATA[
+        SELECT
+          a."Name"
+        FROM "RBAC"."Organization" a
+        INNER JOIN "RBAC"."StaffOrganize" b
+          ON a."Id"=b."OrganizationId"
+        WHERE b."UserId"=#value#
+      ]]>
+    </select>
+
+    <!-- 获取用户拥有的角色 -->
+    <select id="GetRolesByUser" parameterClass="string" resultMap="RoleNameRemark">
+      <![CDATA[
+        SELECT
+          "Name"
+          ,"Remark"
+        FROM "RBAC"."Role"
+        WHERE "Id" IN(SELECT "RoleId" FROM "RBAC"."UserRole" WHERE "UserId"=#value#)
+      ]]>
+    </select>
+  </statements>
+</sqlMap>

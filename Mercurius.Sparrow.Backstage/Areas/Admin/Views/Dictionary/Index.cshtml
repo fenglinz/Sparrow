@@ -1,0 +1,236 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.Core
+@model ResponseCollection<Dictionary>
+@section Styles{
+    @Styles.Render("~/Content/treetable/css")
+    <style type="text/css">
+        .treetable .glyphicon {
+            font-size: 1.4em;
+        }
+    </style>
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/validate", "~/bundles/treetable")
+    <script type="text/javascript">
+        $(function () {
+            $("#dnd-example").treetable({
+                expandable: true,
+                initialState: "collapsed" //collapsed 收缩 expanded 展开的
+            });
+
+            mercurius.FixedTableHeader("#dnd-example", 115);
+
+            $("#searchBtn").bind("click", function () {
+                $("#frmIndex").submit();
+            });
+        });
+
+        function GetSelectedValue () {
+            return $('table tr.selected').find('td:eq(5)').text().trim();
+        }
+
+        function GetParentId() {
+            return $('table tr.selected').find('td:eq(6)').text().trim();
+        }
+
+        @Html.RenderButtonScript("新增",@<text>
+        // 添加字典值。
+        function @(item.NavigateUrl)() {
+            var id = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                var addUrl = '@Url.Action("CreateOrUpdate")/?parentId=' + GetParentId();
+
+                mercurius.OpenDialog(addUrl, "CreateOrUpdate", "字典管理-添加", 500, 278);
+            }
+        }
+
+        // 添加字典分类。
+        function addCategory() {
+            mercurius.OpenDialog('@Url.Action("CreateOrUpdateCategory", "Dictionary")/?ParentId='+GetParentId(), "CreateOrUpdateCategory", "字典管理-添加", 500, 215);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        // 编辑
+        function @(item.NavigateUrl)() {
+            var id = GetSelectedValue();
+            var parentId = GetParentId();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                var hasChildren = $('table tr.selected').attr('hasChildren') !=undefined;
+
+                if (hasChildren) {
+                    var editCategoryUrl = '@Url.Action("CreateOrUpdateCategory")/?id=' + id;
+
+                    mercurius.OpenDialog(editCategoryUrl, "CreateOrUpdateCategory", "字典分类管理-编辑", 500, 215);
+                } else {
+                    var editUrl = '@Url.Action("CreateOrUpdate", "Dictionary")/?id=' + id+'&parentId='+parentId;
+
+                    mercurius.OpenDialog(editUrl, "CreateOrUpdate", "字典管理-编辑", 500, 278);
+                }
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除",@<text>
+        // 删除
+        function @(item.NavigateUrl)() {
+            var id = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function () {
+                    mercurius.AjaxHelper('@Url.Action("Remove", "Dictionary")', { id: id }, function (rs) {
+                        if (rs.IsSuccess) {
+                            mercurius.ShowTipsMessage("删除成功！", 2000, 4);
+
+                            window.location.reload();
+                        } else {
+                            mercurius.ShowTipsMessage("<span style='color:red'>删除失败，请稍后重试！  失败原因：" + rs.ErrorMessage + "</span>", 4000, 5);
+                        }
+                    });
+                });
+            }
+        }
+        </text>)
+
+        function ChangeStatus(id, statusVal) {
+            var msg = statusVal == 1 ? "是否禁用该字典" : "是否启用该字典";
+            var status = statusVal == 1 ? 0 : 1;
+
+            mercurius.ShowConfirmMessage(msg, function () {
+                mercurius.AjaxHelper('@Url.Action("ChangeStatus", "Dictionary")', { id: id, status: status }, function (rs) {
+                    if (rs.IsSuccess) {
+                        mercurius.ShowTipsMessage("操作成功！", 2000, 4);
+
+                        mercurius.Reloading();
+                    }
+                });
+            });
+        }
+    </script>
+}
+
+<div class="header">字典信息管理</div>
+<div class="toolbar panel panel-default">
+    <div class="panel-heading">
+        <div class="right btn-group">
+            @Html.RenderButtonScript("新增",@<text>
+                <div class="btn-group">
+                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="新增">
+                        <i class="@item.Image"></i> @item.Name
+                        <span class="caret" style="margin-left: 10px;"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" onclick="@(item.NavigateUrl)()">添加字典值</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" onclick="@("addCategory")()">添加字典分类</a></li>
+                    </ul>
+                </div>
+            </text>)
+            @Html.RenderButtonScript("编辑",@<text>
+                <a class="btn btn-default" onclick="@(item.NavigateUrl)()">
+                    <i class="@item.Image"></i> @item.Name
+                </a>
+            </text>)
+            @Html.RenderButtonScript("删除",@<text>
+                <a class="btn btn-default" onclick="@(item.NavigateUrl)();">
+                    <i class="@item.Image"></i> 删除
+                </a>
+            </text>)
+        </div>
+    </div>
+</div>
+
+<div id="content">
+    <table class="treetable" id="dnd-example">
+        <thead>
+            <tr>
+                <td style="width: 300px;">字典名称</td>
+                <td style="width: 200px;">字典值</td>
+                <td style="width: 70px;">排序号</td>
+                <td style="width: 50px;">状态</td>
+                <td>备注</td>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.HasData())
+            {
+                var index = 0;
+                var parents = Model.Datas.Where(s => string.IsNullOrWhiteSpace(s.ParentId) || s.ParentId == "0").OrderBy(p => p.Sort);
+
+                foreach (var item in parents)
+                {
+                    var tdId = string.Format("node-{0}", index);
+
+                    <tr id="@tdId" data-tt-id="@tdId" haschildren>
+                        <td><span class="folder">@item.Key</span></td>
+                        <td style="text-align: center;">@item.Value</td>
+                        <td>@item.Sort</td>
+                        <td></td>
+                        <td>@item.Remark</td>
+                        <td style="display: none">@item.Id</td>
+                        <td style="display: none">@item.Id</td>
+                    </tr>
+
+                    @ShowChildDictionaries(Model.Datas, item.Id, tdId, item.Sort.ToString())
+                    index++;
+                }
+            }
+            else if (Model.IsSuccess())
+            {
+                <tr>
+                    <td colspan="5" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-danger">@Model.GetErrorMessage()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@helper ShowChildDictionaries(IList<Dictionary> dictionaries, string parentId, string parentTdId, string orderNum)
+{
+    var childIndex = 1;
+    var children = dictionaries.Where(s => s.ParentId == parentId).OrderBy(p => p.Sort);
+    foreach (var item in children)
+    {
+        var tdId = string.Format("{0}-{1}", parentTdId, childIndex);
+
+        <tr id="@tdId" data-tt-id="@tdId" data-tt-parent-id="@parentTdId" @(dictionaries.Any(i => i.ParentId == item.Id) ? "hasChildren" : string.Empty)>
+            <td><span class="@GetClass(dictionaries, item)">@item.Key</span></td>
+            <td style="text-align: center;">@item.Value</td>
+            <td>@(orderNum + " - " + item.Sort)</td>
+            <td style="text-align: center;">
+                <i onclick="ChangeStatus('@item.Id','@item.Status');" class="glyphicon @(item.Status == 0 ? "glyphicon-ban-circle" : "glyphicon-ok-sign")"></i>
+            </td>
+            <td>@item.Remark</td>
+            <td style="display: none">@item.Id</td>
+            <td style="display:none">@(item.Type == 1 ? item.Id : item.ParentId)</td>
+        </tr>
+
+        @ShowChildDictionaries(dictionaries, item.Id, tdId, item.Sort.ToString())
+
+        childIndex++;
+    }
+}
+
+@helper GetClass(IList<Dictionary> dictionaries, Dictionary current)
+{
+    if (current.Type == 1)
+    {
+        <text>folder</text>
+    }
+    else if (dictionaries.Any(d => d.ParentId == current.Id))
+    {
+        <text>folder</text>
+    }
+    else
+    {
+        <text>file</text>
+    }
+}

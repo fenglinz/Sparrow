@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.WebApi.Api" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Api" type="Mercurius.Siskin.Entities.WebApi.Api, Mercurius.Siskin.Entities" />
+    <typeAlias alias="ApiSO" type="Mercurius.Siskin.Entities.WebApi.SO.ApiSO, Mercurius.Siskin.Entities" />
+  </alias>
+  <statements>
+    <!-- 添加Web API信息信息。 -->
+    <insert id="Create" parameterClass="Api">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Route] = #Route# AND [HttpVerb] = #HttpVerb#)
+        BEGIN
+           RAISERROR('已添加具有相同项的路由规则',16,1)
+           RETURN;
+        END
+        
+        INSERT INTO [WebApi].[Api]
+        (
+          [Route],
+          [HttpVerb],
+          [Description],
+          [Controller],
+          [Type],
+          [ParentId],
+          [CreateUserId],
+          [CreateDateTime],
+          [ModifyUserId],
+          [ModifyDateTime]
+        )
+        VALUES
+        (
+          #Route#,
+          #HttpVerb#,
+          #Description#,
+          #Controller#,
+          #Type#,
+          #ParentId#,
+          #CreateUserId#,
+          GETDATE(),
+          #ModifyUserId#,
+          #ModifyDateTime#
+        )
+      ]]>
+    </insert>
+
+    <!-- 更新Web API信息信息。 -->
+    <update id="Update" parameterClass="Api">
+      <![CDATA[
+        UPDATE [WebApi].[Api]
+        SET
+          [Route]=#Route#,
+          [HttpVerb]=#HttpVerb#,
+          [Description]=#Description#,
+          [CreateUserId]=#CreateUserId#,
+          [CreateDateTime]=#CreateDateTime#,
+          [ModifyUserId]=#ModifyUserId#,
+          [ModifyDateTime]=#ModifyDateTime#
+        WHERE [Id]=#Id#
+      ]]>
+    </update>
+
+    <!-- 添加或者更新Web API信息信息。 -->
+    <update id="CreateOrUpdate" parameterClass="Api">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Id]=#Id#)
+          UPDATE [WebApi].[Api]
+          SET
+            [Route]=#Route#,
+            [HttpVerb]=#HttpVerb#,
+            [Description]=#Description#,
+            [CreateUserId]=#CreateUserId#,
+            [CreateDateTime]=#CreateDateTime#,
+            [ModifyUserId]=#ModifyUserId#,
+            [ModifyDateTime]=#ModifyDateTime#
+          WHERE [Id]=#Id#
+        ELSE
+          INSERT INTO [WebApi].[Api]
+          (
+            [Route],
+            [HttpVerb],
+            [Description],
+            [CreateUserId],
+            [CreateDateTime],
+            [ModifyUserId],
+            [ModifyDateTime]
+          )
+          VALUES
+          (
+            #Route#,
+            #HttpVerb#,
+            #Description#,
+            #CreateUserId#,
+            #CreateDateTime#,
+            #ModifyUserId#,
+            GETDATE()
+          )
+      ]]>
+    </update>
+
+    <!-- 删除Web API信息信息。 -->
+    <delete id="Remove" parameterClass="int">
+      <![CDATA[
+        IF NOT EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Id] = #value#)
+        BEGIN
+           RAISERROR('该路由项不存在,请核对',16,1)
+           RETURN;
+        END
+        DELETE FROM [WebApi].[Api] WHERE [Id]=#value#
+      ]]>
+    </delete>
+
+    <!--清空路由表信息-->
+    <delete id="Truncate">
+      <![CDATA[TRUNCATE TABLE WebApi.[Api]]]>
+    </delete>
+
+    <!-- 根据主键获取Web API信息信息。 -->
+    <select id="GetById" parameterClass="int" resultClass="Api">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [Route] AS Route,
+          [HttpVerb] AS HttpVerb,
+          [Description] AS Description,
+          [Controller] AS Controller,
+          [Type]AS Type,
+          [ParentId] AS ParentId,
+          [CreateUserId] AS CreateUserId,
+          [CreateDateTime] AS CreateDateTime,
+          [ModifyUserId] AS ModifyUserId,
+          [ModifyDateTime] AS ModifyDateTime
+        FROM [WebApi].[Api]
+        WHERE [Id]=#value#
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的Web API信息信息。 -->
+    <select id="SearchApis" parameterClass="ApiSO" resultClass="Api">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+            [Id] AS Id,
+            [Route] AS Route,
+            [HttpVerb] AS HttpVerb,
+            [Description] AS Description,
+            [Controller] AS Controller,
+            [Type]AS Type,
+            [ParentId] AS ParentId,
+            [CreateUserId] AS CreateUserId,
+            [CreateDateTime] AS CreateDateTime,
+            [ModifyUserId] AS ModifyUserId,
+            [ModifyDateTime] AS ModifyDateTime
+          FROM [WebApi].[Api]
+      ]]>
+      <include refid="searchConditions" />
+      <![CDATA[
+        ),
+        PAGING AS (
+          SELECT 
+            ROW_NUMBER() OVER(ORDER BY [Id] DESC) AS RowIndex,
+            CTE.*
+          FROM CTE
+        )
+        SELECT * FROM PAGING
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+      ]]>
+    </select>
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select resultClass="int" id="SearchApisCount" parameterClass="ApiSO">
+      <![CDATA[
+        SELECT COUNT(*) FROM [WebApi].[Api]
+      ]]>
+      <include refid="searchConditions" />
+    </select>
+
+    <!--获取用户权限列表-->
+    <select id ="GetUserPower" resultClass="Api" parameterClass="int">
+      <![CDATA[
+      BEGIN
+          IF EXISTS(SELECT *FROM WebApi.[User] WHERE Id = #value#)
+          BEGIN
+          SELECT *FROM WebApi.[Api] WHERE Id IN(SELECT ApiId FROM WebApi.[RolePermission] WHERE RoleId IN(SELECT RoleId FROM WebApi.[UserRole]     WHERE UserId = 
+          (SELECT Id FROM WebApi.[User] WHERE Id = #value#)))
+          END
+      END
+      ]]>
+    </select>
+
+    <select id="GetRolePower" resultClass="Api" parameterClass="int">
+      <![CDATA[
+      SELECT 1 AS CanAccess, *FROM WebApi.[Api] 
+      WHERE Id IN(SELECT ApiId FROM WebApi.[RolePermission] WHERE RoleId = #value#)
+      UNION SELECT 0 AS CanAccess, *FROM WebApi.[Api] 
+      WHERE id NOT IN(SELECT ApiId FROM WebApi.[RolePermission] WHERE RoleId = #value#)
+      ]]>
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotNull property="Route">
+            [Route]=#Route#
+          </isNotNull>
+          <isNotNull property="HttpVerb" prepend="AND">
+            [HttpVerb]=#HttpVerb#
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

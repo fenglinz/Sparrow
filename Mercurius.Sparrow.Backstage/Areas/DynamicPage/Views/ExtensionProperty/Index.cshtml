@@ -1,0 +1,121 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.Dynamic
+
+@model ResponseCollection<ExtensionProperty>
+
+@{
+    var categories = this.ViewBag.Categories as ResponseCollection<string>;
+}
+
+@section Styles
+{
+    @Styles.Render("~/Content/tree/css")
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/tree")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#treeContainer').treeview({
+                collapsed: false,
+                unique: false
+            });
+
+            $('#treeContainer i[data]').click(function() {
+                $('#treeContainer i[data]').removeClass('selected');
+
+                ReSearch($(this).attr('data'));
+
+                $(this).addClass('selected');
+
+                return false;
+            });
+
+            mercurius.FixedTableHeader('#tbDefinition', 160);
+        });
+
+        function ReSearch(category) {
+            $.ajax({
+                type:'POST',
+                cache:false,
+                url:'@Url.Action("Search","ExtensionProperty")',
+                data:{Category:category},
+                dataType:'html',
+                success:function(rs) {
+                    $('#__properties').html(rs);
+                    mercurius.FixedTableHeader('#tbDefinition', 160);
+                }
+            });
+        }
+
+        @Html.RenderButtonScript("新增",@<text>
+        function @(item.NavigateUrl)(){
+            var category = $('#treeContainer i.selected').attr('data');
+
+            mercurius.OpenDialog('@Url.Action("CreateOrUpdate","ExtensionProperty")?category='+category, 'CreateOrUpdate', '添加动态属性', 600, 390);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑", @<text>
+        function @(item.NavigateUrl)(){
+            var id=$('#tbDefinition > tbody > tr.selected > td:eq(0)').text();
+
+            if(mercurius.HasSingleRowSelected(id)){
+                mercurius.OpenDialog('@Url.Action("CreateOrUpdate","ExtensionProperty")/'+id, 'CreateOrUpdate', '修改动态属性', 600, 470);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除",@<text>
+        function @(item.NavigateUrl)() {
+            var id=$('#tbDefinition > tbody > tr.selected > td:eq(0)').text();
+
+            if(mercurius.HasSingleRowSelected(id)) {
+                mercurius.OnRemoveData('@Url.Action("Remove")',{id:id});
+            }
+        }
+        </text>)
+    </script>
+}
+
+<div class="header">动态属性管理</div>
+<div class="row">
+    <div class="col-sm-3" style="padding-right: 0;">
+        <div class="toolbar panel panel-default" style="min-width: auto;">
+            <div class="panel-heading" style="padding-left: 10px; line-height: 35px;">动态属性分类</div>
+            <div class="panel-body" style="padding: 0 5px;">
+                <ul id="treeContainer" class="filetree treeview">
+                    <li class="collapsable lastCollapsable">
+                        <div class="hitarea collapsable-hitarea lastCollapsable-hitarea"></div>
+                        <span class="folder"></span><i data="" class="selected">全部分类</i>
+                        <ul id="blList">
+                            @if (categories.HasData())
+                            {
+                                foreach (var item in categories.Datas)
+                                {
+                                    <li>
+                                        <span class="file"></span><i class="file" data="@item">@item</i>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li class="last">
+                                    <span class="file empty-data"></span>无分类信息
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9" style="padding-left: 5px;">
+        @Html.RenderAccessibleButtons()
+        <div id="__properties">
+            @{
+                Html.RenderPartial("_Properties", Model);}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿table.treetable a:link {
+    color: #222;
+    text-decoration: underline;
+}
+
+table.treetable a:visited {
+    color: #222;
+    text-decoration: underline;
+}
+
+table.treetable a:hover {
+    color: #222;
+    text-decoration: underline;
+}
+
+table.treetable a:active {
+    color: #222;
+    text-decoration: none;
+}
+
+table.treetable {
+    margin: 0;
+    border: none;
+    border-collapse: collapse;
+    overflow-x: auto;
+    border-top: none;
+    table-layout: fixed;
+}
+
+    table.treetable thead tr td {
+        overflow: hidden;
+        text-align: center;
+        padding: 10px 2px 10px 4px;
+        border-left: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        border-right: 1px dotted #ccc;
+        border-bottom: 1px solid #888;
+        text-shadow: 0 1px 0 #fff;
+        background-image: -webkit-linear-gradient(top, #fff 0, #e0e0e0 100%);
+        background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+        background-repeat: repeat-x;
+        font-weight: normal;
+    }
+
+        table.treetable thead tr td:last-child {
+            padding-left: 10px;
+        }
+
+    table.treetable tbody tr td {
+        height: 36px;
+        padding: 0 4px 0 4px;
+        border-right: 1px dotted #ccc;
+        border-bottom: 1px dotted #ccc;
+        -ms-word-break: break-all;
+        word-break: break-all;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    table.treetable tbody tr:not(.selected):hover {
+        background: #e0eccc;
+        color: black;
+    }

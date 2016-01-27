@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Organization" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Organization" type="Mercurius.Siskin.Entities.RBAC.Organization, Mercurius.Siskin.Entities"/>
+    <typeAlias alias="StaffOrganize" type="Mercurius.Siskin.Entities.RBAC.StaffOrganize, Mercurius.Siskin.Entities"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="Organization" class="Organization">
+      <result property="Id" column="Id" />
+      <result property="ParentId" column="ParentId" />
+      <result property="Code" column="Code" />
+      <result property="Name" column="Name" />
+      <result property="InnerPhone" column="InnerPhone" />
+      <result property="OuterPhone" column="OuterPhone" />
+      <result property="Manager" column="Manager" />
+      <result property="ManagerName" column="ManagerName" />
+      <result property="AssistantManager" column="AssistantManager" />
+      <result property="AssistantManagerName" column="AssistantManagerName" />
+      <result property="Fax" column="Fax" />
+      <result property="ZipCode" column="ZipCode" />
+      <result property="Address" column="Address" />
+      <result property="Sort" column="Sort" />
+      <result property="Remark" column="Remark" />
+      <result property="CreateUserId" column="CreateUserId" />
+      <result property="CreateUserName" column="CreateUserName" />
+      <result property="CreateDateTime" column="CreateDateTime" />
+      <result property="ModifyUserId" column="ModifyUserId" />
+      <result property="ModifyUserName" column="ModifyUserName" />
+      <result property="ModifyDateTime" column="ModifyDateTime" />
+      <result property="Status" column="Status" />
+    </resultMap>
+
+    <resultMap id="StaffOrganize" class="StaffOrganize">
+      <result property="Id" column="Id" />
+      <result property="ParentId" column="ParentId" />
+      <result property="Name" column="Name" />
+      <result property="IsUser" column="IsUser" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="GetOrganization" parameterClass="string" resultMap="Organization">
+      <![CDATA[
+        SELECT
+		      a."Id"
+		      ,a."ParentId"
+		      ,a."Code"
+		      ,a."Name"
+		      ,a."InnerPhone"
+		      ,a."OuterPhone"
+		      ,a."Manager"
+          ,u1."Name" AS "ManagerName"
+		      ,a."AssistantManager"
+          ,u2."Name" AS "AssistantManagerName"
+		      ,a."Fax"
+		      ,a."ZipCode"
+		      ,a."Address"
+		      ,a."Sort"
+		      ,a."Remark"
+		      ,a."CreateUserId"
+          ,u3."Name" AS "CreateUserName"
+		      ,a."CreateDateTime"
+		      ,a."ModifyUserId"
+          ,u4."Name" AS "ModifyUserName"
+		      ,a."ModifyDateTime"
+		      ,a."Status"
+          FROM "RBAC"."Organization" a
+          LEFT JOIN "RBAC"."User" u1
+            ON a."Manager"=u1."Id"
+          LEFT JOIN "RBAC"."User" u2
+            ON a."AssistantManager"=u2."Id"
+          LEFT JOIN "RBAC"."User" u3
+            ON a."CreateUserId"=u3."Id"
+          LEFT JOIN "RBAC"."User" u4
+            ON a."ModifyUserId"=u4."Id"
+          WHERE a."Id"=#value#
+      ]]>
+    </select>
+
+    <select id="GetOrganizations" resultMap="Organization">
+      <![CDATA[
+        WITH RECURSIVE CTE AS(
+          SELECT
+		        "Id"
+		        ,"ParentId"
+		        ,"Code"
+		        ,"Name"
+		        ,"InnerPhone"
+		        ,"OuterPhone"
+		        ,"Manager"
+		        ,"AssistantManager"
+		        ,"Fax"
+		        ,"ZipCode"
+		        ,"Address"
+		        ,"Sort"
+		        ,"Remark"
+		        ,"CreateUserId"
+		        ,"CreateDateTime"
+		        ,"ModifyUserId"
+		        ,"ModifyDateTime"
+		        ,"Status"
+          FROM "RBAC"."Organization"
+          WHERE "ParentId"='0'
+          UNION ALL
+          SELECT
+		        a."Id"
+		        ,a."ParentId"
+		        ,a."Code"
+		        ,a."Name"
+		        ,a."InnerPhone"
+		        ,a."OuterPhone"
+		        ,a."Manager"
+		        ,a."AssistantManager"
+		        ,a."Fax"
+		        ,a."ZipCode"
+		        ,a."Address"
+		        ,a."Sort"
+		        ,a."Remark"
+		        ,a."CreateUserId"
+		        ,a."CreateDateTime"
+		        ,a."ModifyUserId"
+		        ,a."ModifyDateTime"
+		        ,a."Status"
+          FROM "RBAC"."Organization" a
+          INNER JOIN cte
+            ON a."ParentId"=cte."Id"
+        )
+        SELECT 
+          cte.*,
+          u1."Name" AS "ManagerName",
+          u2."Name" AS "AssistantManagerName",
+          u3."Name" AS "CreateUserName",
+          u4."Name" AS "ModifyUserName"
+        FROM cte
+        LEFT JOIN "RBAC"."User" u1
+          ON cte."Manager"=u1."Id"
+        LEFT JOIN "RBAC"."User" u2
+          ON cte."AssistantManager"=u2."Id"
+        LEFT JOIN "RBAC"."User" u3
+          ON cte."CreateUserId"=u3."Id"
+        LEFT JOIN "RBAC"."User" u4
+          ON cte."ModifyUserId"=u4."Id"
+        WHERE cte."Status"=1
+      ]]>
+    </select>
+
+    <!-- 获取人员组织机构信息 -->
+    <select id="GetStaffOrganizes" resultMap="StaffOrganize">
+      <![CDATA[
+        SELECT
+          "Id"
+          ,"Name"
+          ,"ParentId"
+          ,0 AS "IsUser"
+        FROM "RBAC"."Organization"
+        UNION ALL
+        SELECT
+          U."Id"
+          ,U."Code" || '|' || U."Name"
+          ,S."OrganizationId"
+          ,1 AS "IsUser"
+        FROM "RBAC"."User" U
+        RIGHT JOIN "RBAC"."StaffOrganize" S
+          ON U."Id"=S."UserId"
+      ]]>
+    </select>
+
+
+    <!--新增或修改组织信息-->
+    <update id="CreateOrUpdate" parameterClass="Organization">
+      <![CDATA[
+        BEGIN;
+          UPDATE "RBAC"."Organization"
+          SET 
+            "ParentId"=#ParentId#,
+            "Code"=#Code#,
+            "Name"=#Name#,
+            "InnerPhone"=#InnerPhone#,
+            "OuterPhone"=#OuterPhone#,
+            "Manager"=#Manager#,
+            "AssistantManager"=#AssistantManager#,
+            "Fax"=#Fax#,
+            "ZipCode"=#ZipCode#,
+            "Address"=#Address#,
+            "Sort"=#Sort#,
+            "Remark"=#Remark#,
+            "ModifyUserId"=#ModifyUserId#,
+            "ModifyDateTime"=now()
+          WHERE "Id"=#Id#;
+          INSERT INTO "RBAC"."Organization"
+          (
+            "Id",
+            "ParentId",
+            "Code",
+            "Name",
+            "InnerPhone",
+            "OuterPhone",
+            "Manager",
+            "AssistantManager",
+            "Fax",
+            "ZipCode",
+            "Address",
+            "Sort",
+            "Remark",
+            "Status",
+            "CreateUserId",
+            "CreateDateTime"
+          )
+          SELECT uuid_generate_v4(), #ParentId#, #Code#, #Name#, #InnerPhone#, #OuterPhone#,
+            #Manager#, #AssistantManager#, #Fax#, #ZipCode#, #Address#, #Sort#, #Remark#, 1, #CreateUserId#, now();
+          WHERE NOT EXISTS(SELECT * FROM "RBAC"."Organization" WHERE "Id"=#Id#);
+        COMMIT;
+      ]]>
+    </update>
+
+    <!-- 添加或者修改组织关系 -->
+    <insert id="CreateOrUpdateRelation" parameterClass="Params">
+      <![CDATA[
+        BEGIN;
+          DELETE FROM "RBAC"."StaffOrganize WHERE "UserId"=#UserId#;
+      ]]>
+      <dynamic>
+        <isNotNull property="StaffOrganizes">
+          <iterate property="StaffOrganizes" open="" close=";" conjunction=";">
+            <![CDATA[
+              INSERT INTO "RBAC"."StaffOrganize"
+              (
+                "Id",
+                "UserId",
+                "OrganizationId",
+                "CreateUserId",
+                "CreateDateTime"
+              )
+              VALUES
+              (
+                #StaffOrganizes[].Id#,
+                #StaffOrganizes[].UserId#,
+                #StaffOrganizes[].OrganizationId#,
+                #StaffOrganizes[].CreateUserId#,
+                now()
+              )
+            ]]>
+          </iterate>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+        COMMIT;
+      ]]>
+    </insert>
+  </statements>
+</sqlMap>

@@ -1,0 +1,41 @@
+﻿@model Mercurius.Siskin.Entities.WebApi.User
+
+@section Scripts{
+    @Scripts.Render("~/bundles/validate")
+    <script type="text/javascript">
+        function OnSave() {
+            if (JudgeValidate('#frmSave')) {
+                $('#frmSave').submit();
+            }
+        }
+    </script>
+}
+
+@using (Ajax.BeginForm("CreateOrUpdate", "User", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Account, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Account, new { @class = "form-control", @validate_field = "账号", @validate_rule = "notNull" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            @if (Model != null)
+            {
+                Model.Password = "******";
+            }
+            @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @validate_field = "密码", @validate_rule = "notNull" })
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = 6 })
+        </div>
+    </div>
+}

@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Recyclebin" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Recyclebin" type="Mercurius.Siskin.Entities.RBAC.Recyclebin, Mercurius.Siskin.Entities" />
+    <typeAlias alias="RecyclebinSO" type="Mercurius.Siskin.Entities.RBAC.SO.RecyclebinSO, Mercurius.Siskin.Entities"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="Recyclebin" class="Recyclebin">
+      <result property="Id" column="Id" />
+      <result property="Category" column="Category" />
+      <result property="Database" column="Database" />
+      <result property="Schema" column="Schema" />
+      <result property="Table" column="Table" />
+      <result property="Column" column="Column" />
+      <result property="Value" column="Value" />
+      <result property="Remark" column="Remark" />
+      <result property="CreateUserId" column="CreateUserId" />
+      <result property="CreateUserName" column="CreateUserName" />
+      <result property="CreateDateTime" column="CreateDateTime" />
+    </resultMap>
+  
+    <resultMap id="SearchRecyclebin" class="Recyclebin" extends="Recyclebin">
+      <result property="RowIndex" column="RowIndex" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <!-- 获取回收站信息分类 -->
+    <select id="GetCategories" parameterClass="string" resultClass="string">
+      <![CDATA[
+        SELECT DISTINCT("Category") FROM "RBAC"."Recyclebin" WHERE "CreateUserId"=#value#
+      ]]>
+    </select>
+
+    <!-- 获取回收站所有信息 -->
+    <select id="GetRecyclebins" parameterClass="RecyclebinSO" resultMap="SearchRecyclebin">
+      <![CDATA[
+        SELECT
+          a."Id"
+          ,a."Category"
+          ,a."DatabaseName" AS "Database"
+          ,a."Schema"
+          ,a."TableName" AS "Table"
+          ,a."ColumnName" AS "Column"
+          ,a."Value"
+          ,a."Remark"
+          ,a."CreateUserId"
+          ,a."CreateDateTime"
+          ,u1."Name" AS "CreateUserName"
+          ,ROW_NUMBER() OVER(ORDER BY a."CreateDateTime" ASC) AS "RowIndex"
+        FROM "RBAC"."Recyclebin" a
+        LEFT JOIN "RBAC"."User" u1
+          ON a."CreateUserId"=u1."Id"
+        WHERE a."CreateUserId"=#UserId#
+      ]]>
+      <dynamic>
+        <isNotNull property="Category">
+          <isNotEmpty property="Category" prepend="AND">
+            a."Category"=#Category#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="StartDate" prepend="AND">
+          a."CreateDateTime">=#StartDate#
+        </isNotNull>
+        <isNotNull property="EndDate" prepend="AND">
+          <![CDATA[
+            DATE_GE(#EndDate#, cast(a."CreateDateTime" as DATE))
+          ]]>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+        ORDER BY "RowIndex" ASC
+        OFFSET (#PageIndex#-1)*#PageSize#
+        LIMIT #PageSize#
+      ]]>
+    </select>
+
+    <select id="GetRecyclebinsCount" parameterClass="RecyclebinSO" resultClass="int">
+      <![CDATA[
+        SELECT COUNT(*) FROM "RBAC"."Recyclebin"
+        WHERE "CreateUserId"=#UserId#
+      ]]>
+      <dynamic>
+        <isNotNull property="Category">
+          <isNotEmpty property="Category" prepend="AND">
+            "Category"=#Category#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="StartDate" prepend="AND">
+          "CreateDateTime">=#StartDate#
+        </isNotNull>
+        <isNotNull property="EndDate" prepend="AND">
+          <![CDATA[
+            DATE_GE(#EndDate#, cast("CreateDateTime" as DATE))
+          ]]>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <!-- 获取回收站信息 -->
+    <select id="GetRecyclebinById" parameterClass="string" resultMap="Recyclebin">
+      <![CDATA[
+        SELECT
+          a.Id
+          ,a.Category
+          ,a.DatabaseName
+          ,a.TableName
+          ,a.ColumnName
+          ,a.Value
+          ,a.Remark
+          ,a.CreateUserId
+          ,u1.Name AS CreateUserName
+          ,a.CreateDateTime
+        FROM RBAC.Recyclebin a
+        LEFT JOIN RBAC.[User] u1
+          ON cte.CreateUserId=u1.Id
+        WHERE Id=#value#
+      ]]>
+    </select>
+
+    <!-- 获取回收站信息详情 -->
+    <select id="GetRecyclebinDetails" parameterClass="Params" resultClass="DataTable">
+      <![CDATA[
+        SELECT * FROM "$Schema$"."$Table$" WHERE "$Column$"=#Value#
+      ]]>
+    </select>
+
+    <!-- 删除数据 -->
+    <delete id="Remove" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM "$Schema$"."$Table$" WHERE "$Column$" IN
+      ]]>
+      <iterate property="Values" open="(" close=")" conjunction=",">
+        #Values[]#
+      </iterate>
+    </delete>
+
+    <!-- 虚拟删除数据(将表中Status字段值置为0) -->
+    <delete id="VirtualRemove" parameterClass="Params">
+      <![CDATA[
+        BEGIN;
+          UPDATE "$Schema$"."$Table$"
+          SET
+            "Status"=0
+          WHERE "$Column$" IN
+      ]]>
+      <iterate property="Recyclebins" open="(" close=");" conjunction=",">
+        #Recyclebins[].Value#
+      </iterate>
+      <iterate property="Recyclebins" open="" close=";" conjunction=";">
+        <![CDATA[
+          INSERT INTO "RBAC"."Recyclebin"
+          (
+            "Id",
+            "Category",
+            "DatabaseName",
+            "Schema",
+            "TableName",
+            "ColumnName",
+            "Value",
+            "CreateUserId",
+            "CreateDateTime"
+          )
+          VALUES
+          ( 
+            #Recyclebins[].Id#,
+            #Recyclebins[].Category#,
+            #Recyclebins[].Database#,
+            #Recyclebins[].Schema#,
+            #Recyclebins[].Table#,
+            #Recyclebins[].Column#,
+            #Recyclebins[].Value#,
+            #Recyclebins[].CreateUserId#,
+            now()
+          )
+        ]]>
+      </iterate>
+      <![CDATA[
+        COMMIT;
+      ]]>
+    </delete>
+
+    <!-- 还原回收站数据 -->
+    <update id="Restore" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+          DECLARE @sql_temp NVARCHAR(1000);
+          DECLARE @id VARCHAR(36);
+          DECLARE @table VARCHAR(100);
+          DECLARE @column VARCHAR(100);
+          DECLARE @value VARCHAR(100);
+  
+          DECLARE cur_recyclebin CURSOR
+            FOR SELECT id,TableName,ColumnName,Value FROM RBAC.Recyclebin WHERE id IN
+      ]]>
+      <iterate property="Values" open="(" close=");" conjunction=",">
+        #Values[]#
+      </iterate>
+      <![CDATA[
+            OPEN cur_recyclebin
+            FETCH NEXT FROM cur_recyclebin INTO @id, @table,@column,@value
+            WHILE @@FETCH_STATUS=0
+            BEGIN
+               SET @sql_temp='UPDATE '+ @table + ' set Status=1 WHERE ' + @column + '=@value';
+
+               EXEC sys.sp_executesql @sql_temp, N'@value As Varchar(100)', @value
+               DELETE FROM RBAC.Recyclebin WHERE CURRENT OF cur_recyclebin
+
+               FETCH NEXT FROM cur_recyclebin INTO @id, @table,@column,@value
+            END
+         CLOSE cur_recyclebin
+         DEALLOCATE cur_recyclebin
+        END;
+      ]]>
+    </update>
+
+    <!-- 清空回收站数据 -->
+    <update id="Clear" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+          DECLARE @sql_temp NVARCHAR(1000);
+          DECLARE @id VARCHAR(36);
+          DECLARE @table VARCHAR(100);
+          DECLARE @column VARCHAR(100);
+          DECLARE @value VARCHAR(100);
+  
+          DECLARE cur_recyclebin CURSOR
+            FOR SELECT id,TableName,ColumnName,Value FROM RBAC.Recyclebin WHERE id IN
+      ]]>
+      <iterate property="Values" open="(" close=");" conjunction=",">
+        #Values[]#
+      </iterate>
+      <![CDATA[
+            OPEN cur_recyclebin
+            FETCH NEXT FROM cur_recyclebin INTO @id, @table,@column,@value
+            WHILE @@FETCH_STATUS=0
+            BEGIN
+               SET @sql_temp='DELETE FROM '+ @table + ' WHERE ' + @column + '=@value';
+
+               EXEC sys.sp_executesql @sql_temp, N'@value As Varchar(100)', @value
+               DELETE FROM RBAC.Recyclebin WHERE CURRENT OF cur_recyclebin
+
+               FETCH NEXT FROM cur_recyclebin INTO @id, @table,@column,@value
+            END
+         CLOSE cur_recyclebin
+         DEALLOCATE cur_recyclebin
+        END;
+      ]]>
+    </update>
+  </statements>
+</sqlMap>

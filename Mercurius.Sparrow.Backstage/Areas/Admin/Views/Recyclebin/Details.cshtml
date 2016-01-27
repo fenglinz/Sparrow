@@ -1,0 +1,144 @@
+﻿@using Mercurius.Infrastructure
+@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.RBAC
+@using Mercurius.Siskin.Entities.RBAC.SO
+
+@model RecyclebinSO
+
+@{
+    var recyclebins = this.ViewBag.Recyclebins as ResponseCollection<Recyclebin>;
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            mercurius.FixedTableHeader("#table1", 155, { multiple: true, rowCheckedHighlight: true });
+
+            mercurius.ShowDatePicker();
+        });
+
+        function CheckAllLine(){
+            $('#table1 > tbody > tr :checkbox').prop('checked', true);
+        }
+
+        @Html.RenderButtonScript("还原",@<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+
+            if (mercurius.HasAnyRowSelected(key)) {
+                mercurius.ShowConfirmMessage("您确定要还原当前【" + key.split(",").length + "】条数据吗？", function () {
+                    mercurius.AjaxHelper('@Url.Action("Restore")', { id: key }, function (rs) {
+                        if (rs.IsSuccess) {
+                            mercurius.ShowTipsMessage("还原成功！", 2000, 4);
+
+                            mercurius.RefreshPage();
+                        } else {
+                            mercurius.ShowTipsMessage("<span style='color:red'>还原失败，请稍后重试！</span>", 4000, 5);
+                        }
+                    });
+                });
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("清空",@<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+            if (mercurius.HasAnyRowSelected(key)) {
+                mercurius.ShowConfirmMessage("此操作不可恢复，您确定要清空当前【" + key.split(",").length + "】条数据吗？", function () {
+                    mercurius.AjaxHelper('@Url.Action("Clear")', { id: key }, function (rs) {
+                        if (rs.IsSuccess) {
+                            mercurius.ShowTipsMessage("清空成功！", 2000, 4);
+
+                            mercurius.RefreshPage();
+                        } else {
+                            mercurius.ShowTipsMessage("<span style='color:red'>清空失败，请稍后重试！</span>", 4000, 5);
+                        }
+                    });
+                });
+            }
+        }
+        </text>)
+    </script>
+}
+
+<div class="header">被删除的信息</div>
+@using (Html.BeginForm("Details", "Recyclebin", FormMethod.Post, new { @id = "frmSearch", @autocomplete = "off" }))
+{
+    @Html.HiddenFor(m => m.Category)
+    @Html.RenderAccessibleButtons(@<div class="form-inline">
+        @{
+            var startDate = (Model != null && Model.StartDate != null) ? Model.StartDate.Value.ToString("yyyy-MM-dd") : String.Empty;
+            var endDate = (Model != null && Model.EndDate != null) ? Model.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty;
+        }
+        @Html.LabelFor(m => m.StartDate, "删除时间", new { @style = "margin-left: 15px;", @for = "StartDate" })
+        <div class="input-group">
+            <input id="StartDate" name="StartDate" type="text" value="@startDate" class="form-control datepicker" style="width:100px;display: inline;" />
+            <span class="input-group-addon">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+        </div>
+        &nbsp;&nbsp;~&nbsp;&nbsp;
+        <div class="input-group">
+            <input id="EndDate" name="EndDate" type="text" value="@endDate" class="form-control datepicker" style="width:100px;display: inline;" />
+            <span class="input-group-addon">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </span>
+        </div>
+        <button type="submit" class="btn btn-sm btn-primary">
+            <i class="glyphicon glyphicon-search"></i> 查询
+        </button>
+        <button type="button" class="btn btn-sm btn-default" onclick="$('#frmSearch input[name]').val('')">
+            <i class="glyphicon glyphicon-remove"></i> 重置
+        </button>
+    </div>) }
+<table id="table1" class="grid">
+    <thead>
+        <tr>
+            <td style="width:40px;">序号</td>
+            <td style="width: 40px;">
+                <label id="checkAllOff" onclick="CheckAllLine()" title="全选">&nbsp;</label>
+            </td>
+            <td style="width: 350px;">对象字段值</td>
+            <td style="width: 150px;">原理位置</td>
+            <td style="width: 150px;">删除用户</td>
+            <td style="width: 150px;">删除时间</td>
+            <td>备注</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (recyclebins.HasData())
+        {
+            foreach (var recyclebin in recyclebins.Datas)
+            {
+                <tr>
+                    <td style="text-align: center">@recyclebin.RowIndex</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" value="@recyclebin.Id" />
+                    </td>
+                    <td>
+                        @Html.ActionLink(recyclebin.Value, "ViewDetail", new { @name = recyclebin.Category, @table = recyclebin.Schema + "." + recyclebin.Table, @column = recyclebin.Column, @value = recyclebin.Value })
+                    </td>
+                    <td style="text-align: center;">@recyclebin.Table</td>
+                    <td style="text-align: center;">@recyclebin.CreateUserName</td>
+                    <td style="text-align: center;">@recyclebin.CreateDateTime</td>
+                    <td>@recyclebin.Remark</td>
+                </tr>
+            }
+        }
+        else if (recyclebins.IsSuccess())
+        {
+            <tr>
+                <td colspan="7" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-danger">@recyclebins.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Paging(recyclebins.TotalRecords, "Details", routeValues: Model)

@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>@Html.GetProductName()-@ViewBag.Title</title>
+    <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/favicon.ico")" />
+    @Styles.Render("~/Content/css", "~/Content/logon/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/Common")
+    @RenderSection("Styles", false)
+    <!--[if lt IE 9]>
+      <script src="@Url.Content("~/Scripts/html5shiv.min.js")"></script>
+      <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="top-header">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Logo -->
+                    <div class="logo">
+                        <h1>
+                            @Html.GetProductName() @Html.GetProductVersion()
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row required">
+                最佳浏览环境：IE10+、Chrome 25+、Firefox 20+。
+            </div>
+        </div>
+
+        @RenderBody()
+        <footer>
+            &copy; @DateTime.Now.Year 版权所有
+        </footer>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,119 @@
+﻿@using Mercurius.Siskin.Contracts
+@using Mercurius.Siskin.Entities.Core
+
+@model ResponseCollection<FileStorage>
+
+@section Styles
+{
+    @Styles.Render("~/DatetimePicker/css")
+    <style type="text/css">
+        .form-inline > .form-group:not(:first-child) {
+            margin-left: 25px;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/ajax", "~/bundles/layer", "~/bundles/datetimepicker")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/mercurius.common.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            layer.config({
+                skin:'layer-ext-moon',
+                extend: '@Url.Content("skin/moon/style.css")'
+            });
+
+            $('.date').datetimepicker({
+                useCurrent: false,
+                showClear: true,
+                format: 'L',
+                showTodayButton: true,
+                locale: moment.locale('zh-cn')
+            });
+
+            $("[data-toggle='tooltip']").tooltip({
+                container: 'body'
+            });
+
+            mercurius.FixedTableHeader('#uploadFiles', 275);
+        });
+
+        function OnPagedSuccess() {
+            mercurius.FixedTableHeader('#uploadFiles', 275);
+        }
+
+        function ShowFile(file) {
+            layer.open({
+                type: 2,
+                title: '查看文件',
+                content: file
+            });
+        }
+
+        function OnRemove(id) {
+            layer.confirm('是否确定删除？', function (index) {
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("Remove", "Home")',
+                    data: { id: id },
+                    dataType: 'JSON',
+                    success: function (rs) {
+                        if (rs.IsSuccess) {
+                            window.location.reload();
+                        } else {
+                            layer.alert(rs.ErrorMessage);
+                        }
+                    }
+                });
+
+                layer.close(index);
+            });
+        }
+    </script>
+}
+
+@{
+    var so = this.ViewBag.SO;
+}
+
+<div class="panel panel-primary" style="margin-bottom: 8px;">
+    <div class="panel-body">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-inline", @autocomplete = "off" }))
+        {
+            <div class="form-group">
+                <label for="FileName">文件名</label>
+                <input type="text" id="FileName" name="FileName" value="@so.FileName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="ContentType">文件类型</label>
+                <input type="text" id="ContentType" name="ContentType" value="@so.ContentType" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="UploadUserName">上传者</label>
+                <input type="text" id="UploadUserName" name="UploadUserName" value="@so.UploadUserName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="StartUploadDate">上传时间</label>
+                <input type="text" id="StartUploadDate" name="StartUploadDate" value="@(so.StartUploadDate==null?"":so.StartUploadDate.ToString("yyyy-MM-dd"))" class="form-control date" />
+                ~
+                <input type="text" id="EndUploadDate" name="EndUploadDate" value="@(so.EndUploadDate==null?"":so.EndUploadDate.ToString("yyyy-MM-dd"))" class="form-control date" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-search"></i> 查询
+                </button>
+                <button type="button" class="btn btn-default" onclick="$('.form-inline :input').val('');">
+                    <i class="glyphicon glyphicon-remove"></i> 重置
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="fileStorages">
+    @{
+        Html.RenderPartial("_FileStorages");
+    }
+</div>

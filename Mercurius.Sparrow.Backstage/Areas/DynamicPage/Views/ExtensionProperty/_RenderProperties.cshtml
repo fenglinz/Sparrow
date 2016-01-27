@@ -1,0 +1,143 @@
+﻿@using Mercurius.Siskin.Entities.Dynamic
+
+@model ResponseCollection<ExtensionProperty>
+
+@if (Model.HasData())
+{
+    var grp = Model.Datas.GroupBy(p => p.GroupName);
+    var groupNames = this.ViewBag.GroupNames as IList<string>;
+
+    for (var i = 0; i < Model.Datas.Count; i++)
+    {
+        var item = Model.Datas[i];
+
+        if (!groupNames.IsEmpty() && groupNames.Contains(item.GroupName))
+        {
+            <div class="form-group">
+                @while (i < Model.Datas.Count && Model.Datas[i].GroupName == item.GroupName)
+                {
+                    @RenderItem(i, Model.Datas[i++])
+                }
+            </div>
+            i--;
+        }
+        else
+        {
+            <div class="form-group">
+                @RenderItem(i, item)
+            </div>
+        }
+    }
+}
+
+@helper RenderItem(int index, ExtensionProperty item)
+{
+    <label for="@item.ControlId" class="col-sm-2 control-label">@item.Name</label>
+    <div class="@(string.IsNullOrWhiteSpace(item.ControlCssClass)?"col-sm-9":@item.ControlCssClass)" @(string.IsNullOrEmpty(item.ControlStyle) ? string.Empty : "style=" + item.ControlStyle)>
+        <input type="hidden" name="instances[@index].ExtensionPropertyId" value="@item.Id" />
+        @switch (item.ControlType)
+        {
+            case 1:
+                if (string.IsNullOrWhiteSpace(item.Unit))
+                {
+                    <input type="text" @GetPropertyAttributes(index, item) value="@item.Value" @GetValidateRuleAttribute(item) />
+                }
+                else
+                {
+                    <div class="input-group">
+                        <input type="text" @GetPropertyAttributes(index, item) value="@item.Value" @GetValidateRuleAttribute(item)/>
+                        <span class="input-group-addon">@item.Unit</span>
+                    </div>
+                }
+
+                break;
+            case 2:
+                <select @GetPropertyAttributes(index, item) @GetValidateRuleAttribute(item)>
+                    @if (!string.IsNullOrWhiteSpace(item.ControlDataSource))
+                    {
+                        var options = item.ControlDataSource.Split(';');
+
+                        foreach (var o in options)
+                        {
+                            if (o.Contains('|'))
+                            {
+                                var ops = o.Split('|');
+
+                                <option value="@ops.LastOrDefault()" @(item.Value==ops.LastOrDefault()?"selected":"")>@ops.FirstOrDefault()</option>
+                            }
+                            else
+                            {
+                                <option value="@o" @(item.Value==o?"selected":"")>@o</option>
+                            }
+                        }
+                    }
+                </select>
+
+                break;
+
+            case 3:
+                if (!string.IsNullOrWhiteSpace(item.ControlDataSource))
+                {
+                    var index1 = 0;
+                    var options = item.ControlDataSource.Split(';');
+
+                    foreach (var o in options)
+                    {
+                        <label class="radio-inline">
+                            @if (o.Contains('|'))
+                            {
+                                var ops = o.Split('|');
+
+                                <input id="@item.ControlId@index1" name="instances[@index].Value" type="radio" value="@ops.LastOrDefault()" class="@item.ControlCssClass" style="@item.ControlStyle" @(item.Value==ops.LastOrDefault()?"checked":"")>@ops.FirstOrDefault()
+                            }
+                            else
+                            {
+                                <input id="@item.ControlId@index1" name="instances[@index].Value" type="radio" value="@o" class="@item.ControlCssClass" style="@item.ControlStyle" @(item.Value==o?"checked":"") />@o
+                            }
+                        </label>
+                        index1++;
+                    }
+                }
+
+                break;
+            case 4:
+                if (!string.IsNullOrWhiteSpace(item.ControlDataSource))
+                {
+                    var options = item.ControlDataSource.Split(';');
+                    var selecteds = string.IsNullOrWhiteSpace(item.Value) ? null : item.Value.Split(',');
+
+                    var index1 = 0;
+                    foreach (var o in options)
+                    {
+                        <label class="checkbox-inline">
+                            @if (o.Contains('|'))
+                            {
+                                var ops = o.Split('|');
+
+                                <input id="@item.ControlId@index1" name="instances[@index].Value" type="checkbox" value="@ops.LastOrDefault()" class="@item.ControlCssClass" style="@item.ControlStyle" @(selecteds!=null && selecteds.Contains(ops.LastOrDefault())?"checked":"")>@ops.FirstOrDefault()
+                            }
+                            else
+                            {
+                                <input id="@item.ControlId@index1" name="instances[@index].Value" type="checkbox" value="@o" class="@item.ControlCssClass" style="@item.ControlStyle" @(selecteds!=null && selecteds.Contains(o)?"checked":"") />@o
+                            }
+                        </label>
+                        index1++;
+                    }
+                }
+
+                break;
+        }
+    </div>
+}
+
+@helper GetPropertyAttributes(int index, ExtensionProperty property)
+{
+    var cssClass = "form-control";
+
+    <text>id="@property.ControlId" name="instances[@index].Value" class="@cssClass")</text>
+}
+
+@helper GetValidateRuleAttribute(ExtensionProperty property)
+{
+    @(string.IsNullOrWhiteSpace(property.ControlValidateRule) ? string.Empty : "validate-rule=" + property.ControlValidateRule)
+}

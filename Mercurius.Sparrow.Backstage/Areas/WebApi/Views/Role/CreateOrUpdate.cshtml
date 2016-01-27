@@ -1,0 +1,31 @@
+﻿@model Mercurius.Siskin.Entities.WebApi.Role
+
+@section Scripts{
+    @Scripts.Render("~/bundles/validate")
+
+    <script type="text/javascript">
+        function OnSave() {
+            if (JudgeValidate('#frmSave')) {
+                $('#frmSave').submit();
+            }
+        }
+    </script>
+}
+
+@using (Ajax.BeginForm("CreateOrUpdate", "Role", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @validate_field = "名称", @validate_rule = "notNull" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = 6 })
+        </div>
+    </div>
+}

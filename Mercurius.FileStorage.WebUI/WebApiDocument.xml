@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mercurius.FileStorage.WebUI</name>
+    </assembly>
+    <members>
+        <member name="T:Mercurius.Siskin.Autofac.AutofacConfig">
+            <summary>
+            Autofac配置。
+            </summary>
+        </member>
+        <member name="M:Mercurius.Siskin.Autofac.AutofacConfig.#cctor">
+            <summary>
+            初始化Autofac容器。
+            </summary>
+        </member>
+        <member name="T:Mercurius.Siskin.Autofac.IBatisNetModule">
+            <summary>
+            IBatisNet注册模块。
+            </summary>
+        </member>
+        <member name="T:Mercurius.FileStorage.WebUI.Apis.WebApiUtil">
+            <summary>
+            Web API基类。
+            </summary>
+        </member>
+        <member name="F:Mercurius.FileStorage.WebUI.Apis.WebApiUtil.UserNotExists">
+            <summary>
+            用户不存在提醒。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.WebApiUtil.#cctor">
+            <summary>
+            构造方法。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.WebApiUtil.GetUser(System.String)">
+            <summary>
+            获取用户详细信息。
+            </summary>
+            <param name="account">用户编号</param>
+            <returns>用户信息</returns>
+        </member>
+        <member name="T:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController">
+            <summary>
+            文件管理控制器。
+            </summary>
+        </member>
+        <member name="P:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController.FileStorageService">
+            <summary>
+            获取或者设置文件管理服务。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController.#cctor">
+            <summary>
+            静态构造方法。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController.Upload(System.String)">
+            <summary>
+            上传文件。
+            </summary>
+            <param name="account">用户账号</param>
+            <returns>上传结果</returns>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController.Upload(System.String,System.Collections.Generic.IList{Mercurius.Siskin.Entities.Core.UploadItem})">
+            <summary>
+            基于base64字符串上传文件。
+            </summary>
+            <param name="account">上传者</param>
+            <param name="items">上传文件信息</param>
+            <returns>文件上传后的访问路径</returns>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController.Remove(System.Collections.Generic.IList{System.String})">
+            <summary>
+            删除文件资源。
+            </summary>
+            <param name="filePaths">文件路径</param>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController.GetSavedDirectory">
+            <summary>
+            获取文件保存目录。
+            </summary>
+            <returns>文件保存目录</returns>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController.ConvertToWebSitePath(System.String)">
+            <summary>
+            获取文件本地路径转换为基于站点的路径。
+            </summary>
+            <param name="localFileName">本地文件名</param>
+            <returns>相对路径</returns>
+        </member>
+        <member name="T:Mercurius.FileStorage.WebUI.SwaggerConfig">
+            <summary>
+            Swagger UI配置。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.SwaggerConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Swagger UI设置。
+            </summary>
+            <param name="httpConfig">HttpServer对象</param>
+        </member>
+        <member name="P:Mercurius.FileStorage.WebUI.Controllers.AccountController.UserService">
+            <summary>
+            获取或者设置用户服务对象。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Controllers.AccountController.LogOn">
+            <summary>
+            登录。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Mercurius.FileStorage.WebUI.Controllers.FileController.ImageMimes">
+            <summary>
+            图片MIME类型。
+            </summary>
+        </member>
+        <member name="P:Mercurius.FileStorage.WebUI.Controllers.FileController.FileStorageService">
+            <summary>
+            文件管理服务对象。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Controllers.FileController.Index(System.String,Mercurius.Siskin.Entities.Core.CompressMode)">
+            <summary>
+            文件下载。
+            </summary>
+            <param name="id">文件在数据库中的路径</param>
+            <param name="mode">获取图片的压缩模式</param>
+            <returns>文件</returns>
+        </member>
+        <member name="P:Mercurius.FileStorage.WebUI.Controllers.HomeController.FileStorageService">
+            <summary>
+            文件管理服务对象。
+            </summary>
+        </member>
+        <member name="T:Mercurius.FileStorage.WebUI.Extensions.PagingExtensions">
+            <summary>
+            分页扩展。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Extensions.PagingExtensions.Paging(System.Web.Mvc.HtmlHelper,System.Int32,System.String,System.String,System.Object,System.Nullable{System.Int32},System.Int32,System.Web.Mvc.Ajax.AjaxOptions)">
+            <summary>
+            显示分页。
+            </summary>
+            <param name="html">HTML呈现器</param>
+            <param name="totalRecords">总记录数</param>
+            <param name="pageSize">分页大小</param>
+            <param name="actionName">操作名称</param>
+            <param name="controllerName">控制器名称</param>
+            <param name="routeValues">参数列表</param>
+            <param name="showNumbers">分页控件显示页码的个数</param>
+            <param name="ajaxOptions">Ajax选项设置</param>
+            <returns>分页的HTML代码</returns>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Extensions.PagingExtensions.GetCurrentIndex(System.Web.Mvc.HtmlHelper)">
+            <summary>
+            取得当前页数。
+            </summary>
+            <param name="html">HTML呈现器</param>
+            <returns>当前页数</returns>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Extensions.PagingExtensions.CreateActionLink(System.Web.Mvc.HtmlHelper,System.Int32,System.Int32,System.String,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Mvc.Ajax.AjaxOptions)">
+            <summary>
+            生成分页栏上的菜单。
+            </summary>
+            <param name="html">HTML呈现器</param>
+            <param name="pageCount">总页数</param>
+            <param name="pageIndex">当前页</param>
+            <param name="linkText">菜单文本</param>
+            <param name="actionName">重定向操作名称</param>
+            <param name="controllerName">重定向控制器名称</param>
+            <param name="routeValues">路由参数</param>
+            <param name="ajaxOptions">Ajax选项设置</param>
+            <returns>HTML片段</returns>
+        </member>
+        <member name="T:Mercurius.FileStorage.WebUI.MvcApplication">
+            <summary>
+            应用程序公共请求处理。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.MvcApplication.Application_Start">
+            <summary>
+            应用程序启动处理。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.MvcApplication.RemoveWebFormEngines">
+            <summary>
+            移除Web Form视图引擎
+            </summary>
+        </member>
+    </members>
+</doc>
