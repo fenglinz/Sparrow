@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities;
-using Mercurius.Siskin.Entities.RBAC;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities;
+using Mercurius.Sparrow.Entities.RBAC;
 
-namespace Mercurius.Siskin.Backstage.Areas.Admin.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
     /// <summary>
     /// 系统菜单管理控制器。

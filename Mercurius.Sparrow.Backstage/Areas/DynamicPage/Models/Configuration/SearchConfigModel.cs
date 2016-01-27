@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Entities.Dynamic;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Dynamic;
 
-namespace Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Configuration
+namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
 {
     /// <summary>
     /// 查询配置页面模板。

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Mercurius.Siskin.Entities.WebApi;
-using Mercurius.Siskin.Entities.WebApi.SO;
+using Mercurius.Sparrow.Entities.WebApi;
+using Mercurius.Sparrow.Entities.WebApi.SO;
 
-namespace Mercurius.Siskin.Contracts.WebApi
+namespace Mercurius.Sparrow.Contracts.WebApi
 {
     /// <summary>
     /// Web API角色业务逻辑接口。

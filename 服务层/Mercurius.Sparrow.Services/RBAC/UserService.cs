@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities;
-using Mercurius.Siskin.Entities.RBAC;
-using Mercurius.Siskin.Entities.RBAC.SO;
-using Mercurius.Siskin.Services.Support;
-using static Mercurius.Siskin.Repositories.StatementNamespaces.RBAC;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities;
+using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Entities.RBAC.SO;
+using Mercurius.Sparrow.Services.Support;
+using static Mercurius.Sparrow.Repositories.StatementNamespaces.RBAC;
 
-namespace Mercurius.Siskin.Services.RBAC
+namespace Mercurius.Sparrow.Services.RBAC
 {
     /// <summary>
     /// 用户服务接口实现。

@@ -4,7 +4,7 @@ using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
 using Mercurius.Infrastructure.Log;
 
-namespace Mercurius.Siskin.Entities.Core
+namespace Mercurius.Sparrow.Entities.Core
 {
     /// <summary>
     /// 日志信息。

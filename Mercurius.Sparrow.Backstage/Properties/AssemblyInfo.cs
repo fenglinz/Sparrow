@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过下列特性集
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Mercurius.Siskin.Backstage")]
+[assembly: AssemblyTitle("Mercurius.Sparrow.Backstage")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Mercurius.Siskin.Backstage")]
+[assembly: AssemblyProduct("Mercurius.Sparrow.Backstage")]
 [assembly: AssemblyCopyright("版权所有 ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

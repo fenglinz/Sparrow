@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.Owin.Security;
 
-namespace Mercurius.Siskin.Portal.Controllers
+namespace Mercurius.Sparrow.Portal.Controllers
 {
     [Authorize]
     public class AccountController : Controller

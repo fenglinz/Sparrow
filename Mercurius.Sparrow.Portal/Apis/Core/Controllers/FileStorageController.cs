@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.Core;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Portal.Apis.Extensions;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Portal.Apis.Extensions;
 
-namespace Mercurius.Siskin.Portal.Apis.Core.Controllers
+namespace Mercurius.Sparrow.Portal.Apis.Core.Controllers
 {
     /// <summary>
     /// 文件管理控制器。

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Mercurius.Siskin.Backstage.Areas.DynamicPage
+namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage
 {
     public class DynamicPageAreaRegistration : AreaRegistration
     {

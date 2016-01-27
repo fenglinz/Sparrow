@@ -9,7 +9,7 @@ using System.Web.Mvc.Ajax;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using System.Web.WebPages;
-using Mercurius.Siskin.Entities;
+using Mercurius.Sparrow.Entities;
 
 namespace Mercurius.FileStorage.WebUI.Extensions
 {

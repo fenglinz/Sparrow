@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Mercurius.Siskin.Entities.Dynamic.SO
+namespace Mercurius.Sparrow.Entities.Dynamic.SO
 {
     /// <summary>
     /// 扩展属性查询条件。

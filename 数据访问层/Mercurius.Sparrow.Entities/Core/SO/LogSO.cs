@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Mercurius.Siskin.Entities.Core.SO
+namespace Mercurius.Sparrow.Entities.Core.SO
 {
 	/// <summary>
 	/// 日志信息查询对象。

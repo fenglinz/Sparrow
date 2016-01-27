@@ -5,11 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Autofac;
-using Mercurius.Siskin.Autofac;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities.RBAC;
+using Mercurius.Sparrow.Autofac;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities.RBAC;
 
-namespace Mercurius.Siskin.Portal.Apis
+namespace Mercurius.Sparrow.Portal.Apis
 {
     /// <summary>
     /// Web API基类。

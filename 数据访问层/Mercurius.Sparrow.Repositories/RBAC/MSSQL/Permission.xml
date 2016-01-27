@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Permission" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Permission" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="SystemMenu" type="Mercurius.Siskin.Entities.RBAC.SystemMenu, Mercurius.Siskin.Entities" />
+    <typeAlias alias="SystemMenu" type="Mercurius.Sparrow.Entities.RBAC.SystemMenu, Mercurius.Sparrow.Entities" />
   </alias>
 
   <statements>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap xmlns="http://ibatis.apache.org/mapping" namespace="Mercurius.Siskin.Repositories.Core.SystemSetting">
+<sqlMap xmlns="http://ibatis.apache.org/mapping" namespace="Mercurius.Sparrow.Repositories.Core.SystemSetting">
   <alias>
-    <typeAlias alias="SystemSetting" type="Mercurius.Siskin.Entities.Core.SystemSetting, Mercurius.Siskin.Entities" />
+    <typeAlias alias="SystemSetting" type="Mercurius.Sparrow.Entities.Core.SystemSetting, Mercurius.Sparrow.Entities" />
   </alias>
 
   <resultMaps>

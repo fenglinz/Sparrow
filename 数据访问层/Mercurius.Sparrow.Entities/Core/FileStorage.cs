@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities.Core
+namespace Mercurius.Sparrow.Entities.Core
 {
     /// <summary>
     /// 上传文件。

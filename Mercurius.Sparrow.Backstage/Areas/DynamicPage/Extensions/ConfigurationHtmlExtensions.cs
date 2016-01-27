@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Mercurius.Siskin.Backstage.Areas.DynamicPage.Extensions
+namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Extensions
 {
     /// <summary>
     /// 配置信息的Html帮助类。

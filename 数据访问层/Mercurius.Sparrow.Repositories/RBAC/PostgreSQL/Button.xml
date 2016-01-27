@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Button" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Button" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Button" type="Mercurius.Siskin.Entities.RBAC.Button, Mercurius.Siskin.Entities" />
+    <typeAlias alias="Button" type="Mercurius.Sparrow.Entities.RBAC.Button, Mercurius.Sparrow.Entities" />
   </alias>
 
   <resultMaps>

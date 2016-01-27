@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<sqlMap xmlns="http://ibatis.apache.org/mapping" namespace="Mercurius.Siskin.Repositories.Core.Dictionary">
+<sqlMap xmlns="http://ibatis.apache.org/mapping" namespace="Mercurius.Sparrow.Repositories.Core.Dictionary">
   <alias>
-    <typeAlias alias="Dictionary" type="Mercurius.Siskin.Entities.Core.Dictionary, Mercurius.Siskin.Entities" />
+    <typeAlias alias="Dictionary" type="Mercurius.Sparrow.Entities.Core.Dictionary, Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
 

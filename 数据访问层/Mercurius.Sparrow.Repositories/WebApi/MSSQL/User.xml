@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.WebApi.User" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.WebApi.User" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="WebApiUser" type="Mercurius.Siskin.Entities.WebApi.User, Mercurius.Siskin.Entities" />
-    <typeAlias alias="WebApiUserSO" type="Mercurius.Siskin.Entities.WebApi.SO.UserSO, Mercurius.Siskin.Entities" />
+    <typeAlias alias="WebApiUser" type="Mercurius.Sparrow.Entities.WebApi.User, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="WebApiUserSO" type="Mercurius.Sparrow.Entities.WebApi.SO.UserSO, Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
     <!-- 添加WebApi用户信息。 -->

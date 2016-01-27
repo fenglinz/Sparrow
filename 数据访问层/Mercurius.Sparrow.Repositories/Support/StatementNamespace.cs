@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercurius.Siskin.Repositories
+namespace Mercurius.Sparrow.Repositories
 {
     /// <summary>
     /// Satement命令命名空间信息。

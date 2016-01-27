@@ -1,5 +1,5 @@
-﻿@using Mercurius.Siskin.Contracts
-@using Mercurius.Siskin.Entities.RBAC
+﻿@using Mercurius.Sparrow.Contracts
+@using Mercurius.Sparrow.Entities.RBAC
 @{
     var orgList = ViewBag.OrganizationList as ResponseCollection<Organization>;
     var tree = orgList.Datas.AsTree(o => o.ParentId == "0", (p, i) => i.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name });

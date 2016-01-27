@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities.RBAC;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities.RBAC;
 
-namespace Mercurius.Siskin.Portal.Apis.Core.Controllers
+namespace Mercurius.Sparrow.Portal.Apis.Core.Controllers
 {
     /// <summary>
     /// 用户登录Web API。

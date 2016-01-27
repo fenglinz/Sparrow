@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Mercurius.Siskin.Backstage
+namespace Mercurius.Sparrow.Backstage
 {
     public class RouteConfig
     {

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts.Dynamic;
-using Mercurius.Siskin.Entities.Dynamic;
-using Mercurius.Siskin.Entities.Dynamic.SO;
+using Mercurius.Sparrow.Contracts.Dynamic;
+using Mercurius.Sparrow.Entities.Dynamic;
+using Mercurius.Sparrow.Entities.Dynamic.SO;
 
-namespace Mercurius.Siskin.Backstage.Areas.DynamicPage.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 {
     /// <summary>
     /// 扩展属性管理控制器。

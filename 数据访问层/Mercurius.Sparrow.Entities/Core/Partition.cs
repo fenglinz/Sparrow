@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercurius.Siskin.Entities.Core
+namespace Mercurius.Sparrow.Entities.Core
 {
     /// <summary>
     /// 分区信息实体。

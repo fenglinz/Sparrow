@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Mercurius.Siskin.Entities.Swagger
+namespace Mercurius.Sparrow.Entities.Swagger
 {
     public class Schema
     {

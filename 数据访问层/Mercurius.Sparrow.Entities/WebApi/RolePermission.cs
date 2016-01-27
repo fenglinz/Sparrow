@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
-namespace Mercurius.Siskin.Entities.WebApi
+namespace Mercurius.Sparrow.Entities.WebApi
 {
     /// <summary>
     /// WebApi权限列表。

@@ -16,32 +16,32 @@
   <alias>
     <typeAlias alias="DataTable" type="System.Data.DataTable" />
     <typeAlias alias="Params" type="System.Collections.IDictionary" />
-    <typeAlias alias="Entry" type="Mercurius.Siskin.Entities.Chart.Entry, Mercurius.Siskin.Entities" />
-    <typeAlias alias="Series" type="Mercurius.Siskin.Entities.Chart.Series, Mercurius.Siskin.Entities" />
-    <typeAlias alias="SearchObject" type="Mercurius.Siskin.Entities.SearchObject, Mercurius.Siskin.Entities" />
+    <typeAlias alias="Entry" type="Mercurius.Sparrow.Entities.Chart.Entry, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="Series" type="Mercurius.Sparrow.Entities.Chart.Series, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="SearchObject" type="Mercurius.Sparrow.Entities.SearchObject, Mercurius.Sparrow.Entities" />
   </alias>
   <sqlMaps>
     <!-- 基础模块 -->
-    <sqlMap embedded="Core.PostgreSQL.Logger.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="Core.PostgreSQL.Dictionary.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="Core.PostgreSQL.SystemSetting.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="Core.PostgreSQL.Globalization.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="Core.PostgreSQL.RepositoryUtils.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="Core.PostgreSQL.FileStorage.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.Logger.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.Dictionary.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.SystemSetting.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.Globalization.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.RepositoryUtils.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.PostgreSQL.FileStorage.xml, Mercurius.Sparrow.Repositories" />
 
     <!-- 基于角色访问控制(RBAC)模块 -->
-    <sqlMap embedded="RBAC.PostgreSQL.User.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="RBAC.PostgreSQL.Role.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="RBAC.PostgreSQL.Permission.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="RBAC.PostgreSQL.Recyclebin.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="RBAC.PostgreSQL.Organization.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="RBAC.PostgreSQL.HomeShortcut.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="RBAC.PostgreSQL.Button.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.User.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Role.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Permission.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Recyclebin.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Organization.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.HomeShortcut.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.PostgreSQL.Button.xml, Mercurius.Sparrow.Repositories" />
     
     <!-- Web API管理模块 -->
-    <sqlMap embedded="WebApi.PostgreSQL.Api.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="WebApi.PostgreSQL.User.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="WebApi.PostgreSQL.Role.xml, Mercurius.Siskin.Repositories" />
-    <sqlMap embedded="WebApi.PostgreSQL.RolePermission.xml, Mercurius.Siskin.Repositories" />
+    <sqlMap embedded="WebApi.PostgreSQL.Api.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="WebApi.PostgreSQL.User.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="WebApi.PostgreSQL.Role.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="WebApi.PostgreSQL.RolePermission.xml, Mercurius.Sparrow.Repositories" />
   </sqlMaps>
 </sqlMapConfig>

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.WebApi;
-using Mercurius.Siskin.Entities.WebApi;
-using Mercurius.Siskin.Entities.WebApi.SO;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.WebApi;
+using Mercurius.Sparrow.Entities.WebApi;
+using Mercurius.Sparrow.Entities.WebApi.SO;
 
-namespace Mercurius.Siskin.Backstage.Areas.WebApi.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
 {
     /// <summary>
     /// 角色管理控制器。

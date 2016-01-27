@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Entities.Dynamic;
-using Mercurius.Siskin.Entities.Dynamic.SO;
-using Mercurius.Siskin.Contracts.Dynamic;
-using Mercurius.Siskin.Repositories;
-using Mercurius.Siskin.Services.Support;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Entities.Dynamic;
+using Mercurius.Sparrow.Entities.Dynamic.SO;
+using Mercurius.Sparrow.Contracts.Dynamic;
+using Mercurius.Sparrow.Repositories;
+using Mercurius.Sparrow.Services.Support;
 
-namespace Mercurius.Siskin.Services.Dynamic
+namespace Mercurius.Sparrow.Services.Dynamic
 {
     /// <summary>
     /// 扩展属性业务逻辑接口实现。 
@@ -18,7 +18,7 @@ namespace Mercurius.Siskin.Services.Dynamic
     {
         #region 常量
 
-        private static readonly StatementNamespace NS = "Mercurius.Siskin.Repositories.Dynamic.ExtensionProperty";
+        private static readonly StatementNamespace NS = "Mercurius.Sparrow.Repositories.Dynamic.ExtensionProperty";
 
         #endregion
 

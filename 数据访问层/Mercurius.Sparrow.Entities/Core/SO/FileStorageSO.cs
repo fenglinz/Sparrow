@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Mercurius.Siskin.Entities.Core.SO
+namespace Mercurius.Sparrow.Entities.Core.SO
 {
     /// <summary>
     /// 上传文件查询条件。

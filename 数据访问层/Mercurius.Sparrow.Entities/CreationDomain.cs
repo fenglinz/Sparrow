@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities
+namespace Mercurius.Sparrow.Entities
 {
     /// <summary>
     /// 记录创建信息的实体。

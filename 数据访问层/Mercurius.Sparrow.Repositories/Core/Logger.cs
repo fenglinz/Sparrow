@@ -4,10 +4,10 @@ using System.Text;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Cache;
 using Mercurius.Infrastructure.Log;
-using Mercurius.Siskin.Entities;
-using Mercurius.Siskin.Entities.Core;
+using Mercurius.Sparrow.Entities;
+using Mercurius.Sparrow.Entities.Core;
 
-namespace Mercurius.Siskin.Repositories.Core
+namespace Mercurius.Sparrow.Repositories.Core
 {
     /// <summary>
     /// 日志数据访问仓储接口实现。

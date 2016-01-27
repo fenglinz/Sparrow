@@ -5,11 +5,11 @@ using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Mercurius.Infrastructure.Cache;
 using Mercurius.Infrastructure.Log;
-using Mercurius.Siskin.Repositories;
-using Mercurius.Siskin.Repositories.Core;
-using Mercurius.Siskin.Services.Support;
+using Mercurius.Sparrow.Repositories;
+using Mercurius.Sparrow.Repositories.Core;
+using Mercurius.Sparrow.Services.Support;
 
-namespace Mercurius.Siskin.Autofac
+namespace Mercurius.Sparrow.Autofac
 {
     /// <summary>
     /// Autofac配置。

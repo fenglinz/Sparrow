@@ -5,11 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities.RBAC.SO;
-using Mercurius.Siskin.Backstage.Areas.Admin.Models.User;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities.RBAC.SO;
+using Mercurius.Sparrow.Backstage.Areas.Admin.Models.User;
 
-namespace Mercurius.Siskin.Backstage.Areas.Admin.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
     /// <summary>
     /// 用户管理控制器。

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.Core.FileStorage" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.Core.FileStorage" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="FileStorage" type="Mercurius.Siskin.Entities.Core.FileStorage,Mercurius.Siskin.Entities" />
-    <typeAlias alias="FileStorageSO" type="Mercurius.Siskin.Entities.Core.SO.FileStorageSO,Mercurius.Siskin.Entities" />
+    <typeAlias alias="FileStorage" type="Mercurius.Sparrow.Entities.Core.FileStorage,Mercurius.Sparrow.Entities" />
+    <typeAlias alias="FileStorageSO" type="Mercurius.Sparrow.Entities.Core.SO.FileStorageSO,Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
     <!-- 添加上传文件信息。 -->

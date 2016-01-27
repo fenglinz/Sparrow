@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.Text;
 
-namespace Mercurius.Siskin.Entities
+namespace Mercurius.Sparrow.Entities
 {
     /// <summary>
     /// 查询对象信息。

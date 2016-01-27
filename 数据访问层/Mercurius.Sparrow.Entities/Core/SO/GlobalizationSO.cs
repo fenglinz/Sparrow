@@ -1,4 +1,4 @@
-﻿namespace Mercurius.Siskin.Entities.Core.SO
+﻿namespace Mercurius.Sparrow.Entities.Core.SO
 {
     /// <summary>
     /// 本地化信息查询对象。

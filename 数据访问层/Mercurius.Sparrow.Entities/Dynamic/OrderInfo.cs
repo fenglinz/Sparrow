@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Mercurius.Infrastructure.Ado;
 using Mercurius.Infrastructure.Dynamic;
 
-namespace Mercurius.Siskin.Entities.Dynamic
+namespace Mercurius.Sparrow.Entities.Dynamic
 {
     /// <summary>
     /// 排序信息。

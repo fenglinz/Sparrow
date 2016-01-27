@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Entities.Core.SO;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Core.SO;
 
-namespace Mercurius.Siskin.Contracts.Core
+namespace Mercurius.Sparrow.Contracts.Core
 {
     /// <summary>
     /// 上传文件业务逻辑接口。

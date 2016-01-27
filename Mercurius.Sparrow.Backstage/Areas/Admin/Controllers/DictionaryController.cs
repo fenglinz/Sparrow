@@ -4,14 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.Core;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Backstage.Extensions;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Backstage.Extensions;
 
-namespace Mercurius.Siskin.Backstage.Areas.Admin.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
     /// <summary>
     /// 字典管理控制器。

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercurius.Siskin.Entities.Core;
+using Mercurius.Sparrow.Entities.Core;
 
-namespace Mercurius.Siskin.Contracts.Core
+namespace Mercurius.Sparrow.Contracts.Core
 {
     /// <summary>
     /// 系统参数设置服务接口。

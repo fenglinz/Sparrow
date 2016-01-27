@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.Dynamic.ExtensionProperty" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.Dynamic.ExtensionProperty" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="ExtensionProperty" type="Mercurius.Siskin.Entities.Dynamic.ExtensionProperty,Mercurius.Siskin.Entities" />
-    <typeAlias alias="ExtensionPropertySO" type="Mercurius.Siskin.Entities.Dynamic.SO.ExtensionPropertySO,Mercurius.Siskin.Entities" />
-    <typeAlias alias="ExtensionPropertyInstance" type="Mercurius.Siskin.Entities.Dynamic.ExtensionPropertyInstance,Mercurius.Siskin.Entities" />
+    <typeAlias alias="ExtensionProperty" type="Mercurius.Sparrow.Entities.Dynamic.ExtensionProperty,Mercurius.Sparrow.Entities" />
+    <typeAlias alias="ExtensionPropertySO" type="Mercurius.Sparrow.Entities.Dynamic.SO.ExtensionPropertySO,Mercurius.Sparrow.Entities" />
+    <typeAlias alias="ExtensionPropertyInstance" type="Mercurius.Sparrow.Entities.Dynamic.ExtensionPropertyInstance,Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
     <!-- 添加或者更新扩展属性信息。 -->

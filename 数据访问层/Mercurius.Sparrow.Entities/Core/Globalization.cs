@@ -1,7 +1,7 @@
 ﻿using System;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities.Core
+namespace Mercurius.Sparrow.Entities.Core
 {
     /// <summary>
     /// 全球化信息。

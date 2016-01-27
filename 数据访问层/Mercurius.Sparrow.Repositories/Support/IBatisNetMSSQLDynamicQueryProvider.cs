@@ -7,7 +7,7 @@ using System.Text;
 using IBatisNet.DataMapper;
 using Mercurius.Infrastructure.Dynamic;
 
-namespace Mercurius.Siskin.Repositories
+namespace Mercurius.Sparrow.Repositories
 {
     /// <summary>
     /// 集成IBatis.Net的针对SQL Server数据库的动态查询对象。

@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Entities.Core;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Entities.Core;
 using Newtonsoft.Json;
 
-namespace Mercurius.Siskin.Services.Support
+namespace Mercurius.Sparrow.Services.Support
 {
     /// <summary>
     /// 文件上传客户端。

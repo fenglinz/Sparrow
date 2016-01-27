@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Mercurius.Siskin.Backstage.Areas.WebApi
+namespace Mercurius.Sparrow.Backstage.Areas.WebApi
 {
     public class WebApiAreaRegistration : AreaRegistration 
     {

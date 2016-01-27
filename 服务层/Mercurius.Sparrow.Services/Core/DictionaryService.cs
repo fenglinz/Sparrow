@@ -1,12 +1,12 @@
 ﻿using System;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.Core;
-using Mercurius.Siskin.Entities;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Services.Support;
-using static Mercurius.Siskin.Repositories.StatementNamespaces.Core;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Entities;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Services.Support;
+using static Mercurius.Sparrow.Repositories.StatementNamespaces.Core;
 
-namespace Mercurius.Siskin.Services.Core
+namespace Mercurius.Sparrow.Services.Core
 {
     /// <summary>
     /// 字典服务接口实现

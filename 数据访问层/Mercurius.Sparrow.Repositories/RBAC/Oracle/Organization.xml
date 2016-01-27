@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Organization" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Organization" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Organization" type="Mercurius.Siskin.Entities.RBAC.Organization, Mercurius.Siskin.Entities"/>
-    <typeAlias alias="StaffOrganize" type="Mercurius.Siskin.Entities.RBAC.StaffOrganize, Mercurius.Siskin.Entities"/>
+    <typeAlias alias="Organization" type="Mercurius.Sparrow.Entities.RBAC.Organization, Mercurius.Sparrow.Entities"/>
+    <typeAlias alias="StaffOrganize" type="Mercurius.Sparrow.Entities.RBAC.StaffOrganize, Mercurius.Sparrow.Entities"/>
   </alias>
 
   <statements>

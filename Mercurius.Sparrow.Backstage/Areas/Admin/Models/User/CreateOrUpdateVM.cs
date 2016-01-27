@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Mercurius.Siskin.Entities;
-using UserInfo = Mercurius.Siskin.Entities.RBAC.User;
+using Mercurius.Sparrow.Entities;
+using UserInfo = Mercurius.Sparrow.Entities.RBAC.User;
 
-namespace Mercurius.Siskin.Backstage.Areas.Admin.Models.User
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Models.User
 {
     /// <summary>
     /// 添加或者编辑用户信息视图模型。

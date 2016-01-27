@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities
+namespace Mercurius.Sparrow.Entities
 {
     /// <summary>
     /// 领域信息基类。

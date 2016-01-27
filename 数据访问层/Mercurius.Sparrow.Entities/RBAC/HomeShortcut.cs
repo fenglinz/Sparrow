@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities.RBAC
+namespace Mercurius.Sparrow.Entities.RBAC
 {
     /// <summary>
     /// 首页快捷方式信息。

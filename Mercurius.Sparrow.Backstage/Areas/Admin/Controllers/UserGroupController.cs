@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities;
-using Mercurius.Siskin.Entities.RBAC;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities;
+using Mercurius.Sparrow.Entities.RBAC;
 
-namespace Mercurius.Siskin.Backstage.Areas.Admin.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
     /// <summary>
     /// 用户组控制器。

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Mercurius.Siskin.Entities {
+namespace Mercurius.Sparrow.Entities {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Mercurius.Siskin.Entities {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Mercurius.Siskin.Entities.Constants", typeof(Constants).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Mercurius.Sparrow.Entities.Constants", typeof(Constants).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

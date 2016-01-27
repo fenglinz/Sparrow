@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercurius.Siskin.Entities.Swagger
+namespace Mercurius.Sparrow.Entities.Swagger
 {
     public class Info
     {

@@ -4,7 +4,7 @@ using System.Configuration;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.SessionStore;
 
-namespace Mercurius.Siskin.Repositories
+namespace Mercurius.Sparrow.Repositories
 {
     /// <summary>
     /// SqlMapper管理器。

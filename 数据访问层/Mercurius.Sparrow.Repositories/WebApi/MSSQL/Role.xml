@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.WebApi.Role" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.WebApi.Role" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="WebApiRole" type="Mercurius.Siskin.Entities.WebApi.Role, Mercurius.Siskin.Entities" />
-    <typeAlias alias="WebApiRoleSO" type="Mercurius.Siskin.Entities.WebApi.SO.RoleSO, Mercurius.Siskin.Entities" />
+    <typeAlias alias="WebApiRole" type="Mercurius.Sparrow.Entities.WebApi.Role, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="WebApiRoleSO" type="Mercurius.Sparrow.Entities.WebApi.SO.RoleSO, Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
     <!-- 添加Web API角色信息。 -->

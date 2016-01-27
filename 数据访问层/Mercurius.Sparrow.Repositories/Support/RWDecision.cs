@@ -1,4 +1,4 @@
-﻿namespace Mercurius.Siskin.Repositories
+﻿namespace Mercurius.Sparrow.Repositories
 {
     /// <summary>
     /// 读-写数据库决策。

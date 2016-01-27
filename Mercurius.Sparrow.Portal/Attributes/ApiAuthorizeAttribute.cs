@@ -5,11 +5,11 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Autofac;
-using Mercurius.Siskin.Autofac;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.WebApi;
+using Mercurius.Sparrow.Autofac;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.WebApi;
 
-namespace Mercurius.Siskin.Portal.Attributes
+namespace Mercurius.Sparrow.Portal.Attributes
 {
     /// <summary>
     /// 

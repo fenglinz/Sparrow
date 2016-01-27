@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Mercurius.Siskin.Entities.WebApi.SO
+namespace Mercurius.Sparrow.Entities.WebApi.SO
 {
     /// <summary>
     /// Web API角色查询条件。

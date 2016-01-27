@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Mercurius.Siskin.Backstage
+namespace Mercurius.Sparrow.Backstage
 {
     /// <summary>
     /// JS/CSS压缩处理。

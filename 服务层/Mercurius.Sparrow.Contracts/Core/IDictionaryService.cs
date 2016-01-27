@@ -1,6 +1,6 @@
-﻿using Mercurius.Siskin.Entities.Core;
+﻿using Mercurius.Sparrow.Entities.Core;
 
-namespace Mercurius.Siskin.Contracts.Core
+namespace Mercurius.Sparrow.Contracts.Core
 {
     /// <summary>
     /// 字典服务接口。

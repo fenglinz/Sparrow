@@ -5,12 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Dynamic;
-using Mercurius.Siskin.Entities;
-using Mercurius.Siskin.Entities.Dynamic;
-using Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Configuration;
-using Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Dynamic;
+using Mercurius.Sparrow.Entities;
+using Mercurius.Sparrow.Entities.Dynamic;
+using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
+using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic;
 
-namespace Mercurius.Siskin.Backstage.Areas.DynamicPage.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 {
     /// <summary>
     /// 动态页面处理控制器。

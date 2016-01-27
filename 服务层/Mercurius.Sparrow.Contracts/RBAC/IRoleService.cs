@@ -1,7 +1,7 @@
-﻿using Mercurius.Siskin.Entities.RBAC;
-using Mercurius.Siskin.Entities.RBAC.SO;
+﻿using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Entities.RBAC.SO;
 
-namespace Mercurius.Siskin.Contracts.RBAC
+namespace Mercurius.Sparrow.Contracts.RBAC
 {
     /// <summary>
     /// 角色信息服务接口。

@@ -7,9 +7,9 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac.Integration.Mvc;
-using Mercurius.Siskin.Autofac;
+using Mercurius.Sparrow.Autofac;
 
-namespace Mercurius.Siskin.Portal
+namespace Mercurius.Sparrow.Portal
 {
     /// <summary>
     /// 应用程序启动处理。

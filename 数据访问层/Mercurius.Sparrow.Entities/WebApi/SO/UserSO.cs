@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Mercurius.Siskin.Entities.WebApi.SO
+namespace Mercurius.Sparrow.Entities.WebApi.SO
 {
     /// <summary>
     /// WebApi用户查询条件。

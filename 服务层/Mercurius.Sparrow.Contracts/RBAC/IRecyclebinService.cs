@@ -1,9 +1,9 @@
 ﻿using System.Data;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Entities.RBAC;
-using Mercurius.Siskin.Entities.RBAC.SO;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Entities.RBAC.SO;
 
-namespace Mercurius.Siskin.Contracts.RBAC
+namespace Mercurius.Sparrow.Contracts.RBAC
 {
     /// <summary>
     /// 回收站服务接口。

@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts.RBAC;
+using Mercurius.Sparrow.Contracts.RBAC;
 
 namespace Mercurius.FileStorage.WebUI.Controllers
 {

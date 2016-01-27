@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.WebApi.RolePermission" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.WebApi.RolePermission" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="RolePermission" type="Mercurius.Siskin.Entities.WebApi.RolePermission,Mercurius.Siskin.Entities" />
-    <typeAlias alias="RolePermissionSO" type="Mercurius.Siskin.Entities.WebApi.SO.RolePermissionSO,Mercurius.Siskin.Entities" />
+    <typeAlias alias="RolePermission" type="Mercurius.Sparrow.Entities.WebApi.RolePermission,Mercurius.Sparrow.Entities" />
+    <typeAlias alias="RolePermissionSO" type="Mercurius.Sparrow.Entities.WebApi.SO.RolePermissionSO,Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
     <!-- 添加WebApi权限列表信息。 -->

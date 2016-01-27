@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities.Dynamic
+namespace Mercurius.Sparrow.Entities.Dynamic
 {
     /// <summary>
     /// 添加/修改配置实体信息。

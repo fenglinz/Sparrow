@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Mercurius.Siskin.Entities.Dynamic;
-using Mercurius.Siskin.Entities.Dynamic.SO;
+using Mercurius.Sparrow.Entities.Dynamic;
+using Mercurius.Sparrow.Entities.Dynamic.SO;
 
-namespace Mercurius.Siskin.Contracts.Dynamic
+namespace Mercurius.Sparrow.Contracts.Dynamic
 {
     /// <summary>
     /// 扩展属性业务逻辑接口。

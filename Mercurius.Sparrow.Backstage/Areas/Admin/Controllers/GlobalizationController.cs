@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Siskin.Contracts.Core;
-using Mercurius.Siskin.Entities;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Entities.Core.SO;
+using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Entities;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Core.SO;
 
-namespace Mercurius.Siskin.Backstage.Areas.Admin.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
     /// <summary>
     /// 视图资源管理控制器。

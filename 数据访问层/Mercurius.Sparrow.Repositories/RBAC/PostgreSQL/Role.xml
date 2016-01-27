@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Role" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Role" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Role" type="Mercurius.Siskin.Entities.RBAC.Role, Mercurius.Siskin.Entities" />
-    <typeAlias alias="UserRole" type="Mercurius.Siskin.Entities.RBAC.UserRole, Mercurius.Siskin.Entities" />
+    <typeAlias alias="Role" type="Mercurius.Sparrow.Entities.RBAC.Role, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="UserRole" type="Mercurius.Sparrow.Entities.RBAC.UserRole, Mercurius.Sparrow.Entities" />
   </alias>
 
   <resultMaps>
@@ -30,7 +30,7 @@
       <result property="RowIndex" column="RowIndex" />
       <result property="UserId" column="UserId" />
       <result property="UserName" column="UserName" />
-      <result property="Departments" column="UserId" select="Mercurius.Siskin.Repositories.RBAC.Role.GetOwnedDepartments" lazyLoad="true" />
+      <result property="Departments" column="UserId" select="Mercurius.Sparrow.Repositories.RBAC.Role.GetOwnedDepartments" lazyLoad="true" />
     </resultMap>
   </resultMaps>
 

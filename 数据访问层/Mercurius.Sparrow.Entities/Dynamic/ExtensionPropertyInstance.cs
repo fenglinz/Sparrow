@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities.Dynamic
+namespace Mercurius.Sparrow.Entities.Dynamic
 {
     /// <summary>
     /// 扩展属性实例。

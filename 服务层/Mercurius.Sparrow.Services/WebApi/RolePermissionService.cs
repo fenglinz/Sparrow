@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Entities.WebApi;
-using Mercurius.Siskin.Entities.WebApi.SO;
-using Mercurius.Siskin.Contracts.WebApi;
-using Mercurius.Siskin.Repositories;
-using Mercurius.Siskin.Services.Support;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Entities.WebApi;
+using Mercurius.Sparrow.Entities.WebApi.SO;
+using Mercurius.Sparrow.Contracts.WebApi;
+using Mercurius.Sparrow.Repositories;
+using Mercurius.Sparrow.Services.Support;
 
-namespace Mercurius.Siskin.Services.WebApi
+namespace Mercurius.Sparrow.Services.WebApi
 {
     /// <summary>
     /// WebApi权限列表业务逻辑接口实现。 
@@ -17,7 +17,7 @@ namespace Mercurius.Siskin.Services.WebApi
     {
         #region 常量
 
-        private static readonly StatementNamespace NS = "Mercurius.Siskin.Repositories.WebApi.RolePermission";
+        private static readonly StatementNamespace NS = "Mercurius.Sparrow.Repositories.WebApi.RolePermission";
 
         #endregion
 

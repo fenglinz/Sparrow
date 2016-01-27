@@ -7,11 +7,11 @@ using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
 using Mercurius.Infrastructure.Dynamic;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Entities.Dynamic;
-using Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Configuration;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Dynamic;
+using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
 
-namespace Mercurius.Siskin.Backstage.Areas.DynamicPage.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 {
     /// <summary>
     /// 动态查询配置控制器。

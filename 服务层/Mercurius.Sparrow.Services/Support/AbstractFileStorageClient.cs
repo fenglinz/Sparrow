@@ -7,12 +7,12 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Web;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Entities.WebApi;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.WebApi;
 using Newtonsoft.Json;
 
-namespace Mercurius.Siskin.Services.Support
+namespace Mercurius.Sparrow.Services.Support
 {
     /// <summary>
     /// 文件上传客户端。

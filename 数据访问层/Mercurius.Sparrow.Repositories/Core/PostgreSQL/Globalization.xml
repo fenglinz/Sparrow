@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.Core.Globalization" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.Core.Globalization" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Globalization" type="Mercurius.Siskin.Entities.Core.Globalization, Mercurius.Siskin.Entities"/>
-    <typeAlias alias="GlobalizationSO" type="Mercurius.Siskin.Entities.Core.SO.GlobalizationSO, Mercurius.Siskin.Entities"/>
+    <typeAlias alias="Globalization" type="Mercurius.Sparrow.Entities.Core.Globalization, Mercurius.Sparrow.Entities"/>
+    <typeAlias alias="GlobalizationSO" type="Mercurius.Sparrow.Entities.Core.SO.GlobalizationSO, Mercurius.Sparrow.Entities"/>
   </alias>
 
   <statements>

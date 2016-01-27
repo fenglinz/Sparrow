@@ -1,6 +1,6 @@
-﻿using Mercurius.Siskin.Entities.RBAC;
+﻿using Mercurius.Sparrow.Entities.RBAC;
 
-namespace Mercurius.Siskin.Contracts.RBAC
+namespace Mercurius.Sparrow.Contracts.RBAC
 {
     /// <summary>
     /// 组织信息服务接口。

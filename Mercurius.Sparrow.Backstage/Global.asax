@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Mercurius.Siskin.Backstage.MvcApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Mercurius.Sparrow.Backstage.MvcApplication" Language="C#" %>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities.Dynamic
+namespace Mercurius.Sparrow.Entities.Dynamic
 {
     /// <summary>
     /// 查询配置信息。

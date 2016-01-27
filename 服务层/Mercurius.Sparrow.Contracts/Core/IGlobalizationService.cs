@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Mercurius.Siskin.Entities;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Entities.Core.SO;
+using Mercurius.Sparrow.Entities;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Core.SO;
 
-namespace Mercurius.Siskin.Contracts.Core
+namespace Mercurius.Sparrow.Contracts.Core
 {
     /// <summary>
     /// 全球化信息服务接口。

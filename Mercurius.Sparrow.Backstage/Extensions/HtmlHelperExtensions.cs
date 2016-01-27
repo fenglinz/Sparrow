@@ -7,13 +7,13 @@ using System.Web.Mvc;
 using System.Web.WebPages;
 using Autofac;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Autofac;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.Core;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities.RBAC;
+using Mercurius.Sparrow.Autofac;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities.RBAC;
 
-namespace Mercurius.Siskin.Backstage.Extensions
+namespace Mercurius.Sparrow.Backstage.Extensions
 {
     /// <summary>
     /// HtmlHelper扩展。

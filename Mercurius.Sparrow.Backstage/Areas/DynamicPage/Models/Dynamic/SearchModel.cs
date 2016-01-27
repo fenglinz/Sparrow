@@ -5,9 +5,9 @@ using System.Linq;
 using System.Web;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
-using Mercurius.Siskin.Entities.Dynamic;
+using Mercurius.Sparrow.Entities.Dynamic;
 
-namespace Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Dynamic
+namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
 {
     /// <summary>
     /// 动态查询页面数据模型。

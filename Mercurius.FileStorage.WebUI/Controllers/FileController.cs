@@ -9,8 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Siskin.Contracts.Core;
-using Mercurius.Siskin.Entities.Core;
+using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Entities.Core;
 using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace Mercurius.FileStorage.WebUI.Controllers

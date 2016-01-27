@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Entities.Swagger;
+using Mercurius.Sparrow.Entities.Swagger;
 
-namespace Mercurius.Siskin.Entities.WebApi
+namespace Mercurius.Sparrow.Entities.WebApi
 {
     /// <summary>
     /// Web API信息。

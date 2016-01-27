@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using IBatisNet.DataMapper;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Entities;
+using Mercurius.Sparrow.Entities;
 
-namespace Mercurius.Siskin.Repositories
+namespace Mercurius.Sparrow.Repositories
 {
     /// <summary>
     /// 基于IBatis.Net持久化类。

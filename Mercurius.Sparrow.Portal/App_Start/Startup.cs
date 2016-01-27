@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
-using Mercurius.Siskin.Autofac;
-using Mercurius.Siskin.Contracts.WebApi;
-using Mercurius.Siskin.Portal;
+using Mercurius.Sparrow.Autofac;
+using Mercurius.Sparrow.Contracts.WebApi;
+using Mercurius.Sparrow.Portal;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Infrastructure;
@@ -14,7 +14,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]
-namespace Mercurius.Siskin.Portal
+namespace Mercurius.Sparrow.Portal
 {
     public partial class Startup
     {

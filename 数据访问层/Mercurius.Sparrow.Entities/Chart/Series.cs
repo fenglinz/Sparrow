@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Mercurius.Siskin.Entities.Chart
+namespace Mercurius.Sparrow.Entities.Chart
 {
     /// <summary>
     /// 图表列信息。

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Mercurius.Siskin.Entities.Dynamic;
+using Mercurius.Sparrow.Entities.Dynamic;
 
-namespace Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Configuration
+namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
 {
     /// <summary>
     /// 添加/编辑列配置信息。

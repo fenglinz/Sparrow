@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.Recyclebin" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Recyclebin" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Recyclebin" type="Mercurius.Siskin.Entities.RBAC.Recyclebin, Mercurius.Siskin.Entities" />
-    <typeAlias alias="RecyclebinSO" type="Mercurius.Siskin.Entities.RBAC.SO.RecyclebinSO, Mercurius.Siskin.Entities"/>
+    <typeAlias alias="Recyclebin" type="Mercurius.Sparrow.Entities.RBAC.Recyclebin, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="RecyclebinSO" type="Mercurius.Sparrow.Entities.RBAC.SO.RecyclebinSO, Mercurius.Sparrow.Entities"/>
   </alias>
 
   <resultMaps>

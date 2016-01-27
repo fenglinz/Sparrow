@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Siskin.Contracts.Core;
-using Mercurius.Siskin.Entities.Core;
+using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Entities.Core;
 
-namespace Mercurius.Siskin.Backstage.Areas.Admin.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
     /// <summary>
     /// 系统设置管理控制器。

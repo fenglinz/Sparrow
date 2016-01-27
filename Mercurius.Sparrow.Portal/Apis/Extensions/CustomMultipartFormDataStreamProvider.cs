@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 
-namespace Mercurius.Siskin.Portal.Apis.Extensions
+namespace Mercurius.Sparrow.Portal.Apis.Extensions
 {
     public class CustomMultipartFormDataStreamProvider : MultipartFormDataStreamProvider
     {

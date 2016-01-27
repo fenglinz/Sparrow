@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace Mercurius.Siskin.Portal
+namespace Mercurius.Sparrow.Portal
 {
     public static class WebApiConfig
     {

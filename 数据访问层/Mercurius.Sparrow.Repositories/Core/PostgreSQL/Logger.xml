@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.Core.Logger" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.Core.Logger" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Log" type="Mercurius.Siskin.Entities.Core.Log, Mercurius.Siskin.Entities" />
-    <typeAlias alias="LogSO" type="Mercurius.Siskin.Entities.Core.SO.LogSO, Mercurius.Siskin.Entities" />
+    <typeAlias alias="Log" type="Mercurius.Sparrow.Entities.Core.Log, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="LogSO" type="Mercurius.Sparrow.Entities.Core.SO.LogSO, Mercurius.Sparrow.Entities" />
   </alias>
 
   <resultMaps>

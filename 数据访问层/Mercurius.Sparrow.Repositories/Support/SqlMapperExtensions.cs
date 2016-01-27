@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Data;
 using IBatisNet.DataMapper;
 
-namespace Mercurius.Siskin.Repositories
+namespace Mercurius.Sparrow.Repositories
 {
     /// <summary>
     /// SqlMapper扩展。

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercurius.Siskin.Entities.RBAC.SO
+namespace Mercurius.Sparrow.Entities.RBAC.SO
 {
     /// <summary>
     /// 用户信息搜索条件。

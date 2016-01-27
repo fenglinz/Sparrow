@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Entities.Core.SO;
-using Mercurius.Siskin.Contracts.Core;
-using Mercurius.Siskin.Repositories;
-using Mercurius.Siskin.Services.Support;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Core.SO;
+using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Repositories;
+using Mercurius.Sparrow.Services.Support;
 
-namespace Mercurius.Siskin.Services.Core
+namespace Mercurius.Sparrow.Services.Core
 {
     /// <summary>
     /// 上传文件业务逻辑接口实现。 
@@ -18,7 +18,7 @@ namespace Mercurius.Siskin.Services.Core
     {
         #region 常量
 
-        private static readonly StatementNamespace NS = "Mercurius.Siskin.Repositories.Core.FileStorage";
+        private static readonly StatementNamespace NS = "Mercurius.Sparrow.Repositories.Core.FileStorage";
 
         #endregion
 

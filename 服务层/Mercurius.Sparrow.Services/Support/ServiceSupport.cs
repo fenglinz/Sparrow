@@ -6,11 +6,11 @@ using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
 using Mercurius.Infrastructure.Cache;
 using Mercurius.Infrastructure.Log;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Repositories;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Repositories;
 using Newtonsoft.Json;
 
-namespace Mercurius.Siskin.Services.Support
+namespace Mercurius.Sparrow.Services.Support
 {
     /// <summary>
     /// 分页服务回调委托。

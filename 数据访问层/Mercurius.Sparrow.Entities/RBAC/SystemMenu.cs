@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities.RBAC
+namespace Mercurius.Sparrow.Entities.RBAC
 {
     /// <summary>
     /// 系统菜单信息。

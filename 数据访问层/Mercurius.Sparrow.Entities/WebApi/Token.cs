@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Mercurius.Siskin.Entities.WebApi
+namespace Mercurius.Sparrow.Entities.WebApi
 {
     /// <summary>
     /// Web API token信息。

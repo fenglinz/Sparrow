@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
-using Mercurius.Siskin.Entities.Core;
+using Mercurius.Sparrow.Entities.Core;
 
-namespace Mercurius.Siskin.Backstage.Areas.DynamicPage.Models.Configuration
+namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
 {
     /// <summary>
     /// 添加或编辑动态页面配置模型。

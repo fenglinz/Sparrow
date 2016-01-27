@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercurius.Siskin.Entities.RBAC.SO
+namespace Mercurius.Sparrow.Entities.RBAC.SO
 {
     /// <summary>
     /// 回收站信息查询对象。

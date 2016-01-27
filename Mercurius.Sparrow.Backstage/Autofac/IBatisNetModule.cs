@@ -7,9 +7,9 @@ using Autofac.Core;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
 using Mercurius.Infrastructure.Dynamic;
-using Mercurius.Siskin.Repositories;
+using Mercurius.Sparrow.Repositories;
 
-namespace Mercurius.Siskin.Autofac
+namespace Mercurius.Sparrow.Autofac
 {
     /// <summary>
     /// IBatisNet注册模块。

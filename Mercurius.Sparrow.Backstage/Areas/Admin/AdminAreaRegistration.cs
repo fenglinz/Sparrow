@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Mercurius.Siskin.Backstage.Areas.Admin
+namespace Mercurius.Sparrow.Backstage.Areas.Admin
 {
     /// <summary>
     /// Admin区域注册类。

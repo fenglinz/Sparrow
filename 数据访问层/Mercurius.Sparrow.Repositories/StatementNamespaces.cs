@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercurius.Siskin.Repositories
+namespace Mercurius.Sparrow.Repositories
 {
 	/// <summary>
 	/// Statement命名空间信息。
@@ -21,27 +21,27 @@ namespace Mercurius.Siskin.Repositories
 			/// <summary>
 			/// 日志管理相关的Satement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace LoggerNamespace = "Mercurius.Siskin.Repositories.Core.Logger";
+			public static readonly StatementNamespace LoggerNamespace = "Mercurius.Sparrow.Repositories.Core.Logger";
 
 			/// <summary>
 			/// 字典管理相关的Satement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace DictionaryNamespace = "Mercurius.Siskin.Repositories.Core.Dictionary";
+			public static readonly StatementNamespace DictionaryNamespace = "Mercurius.Sparrow.Repositories.Core.Dictionary";
 
 			/// <summary>
 			/// 国际化信息管理相关的Satement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace GlobalizationNamespace = "Mercurius.Siskin.Repositories.Core.Globalization";
+			public static readonly StatementNamespace GlobalizationNamespace = "Mercurius.Sparrow.Repositories.Core.Globalization";
 
 			/// <summary>
 			/// 工具相关的Satement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace RepositoryUtilsNamespace = "Mercurius.Siskin.Repositories.Core.RepositoryUtils";
+			public static readonly StatementNamespace RepositoryUtilsNamespace = "Mercurius.Sparrow.Repositories.Core.RepositoryUtils";
 
 			/// <summary>
 			/// 系统设置相关的Satement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace SystemsettingNamespace = "Mercurius.Siskin.Repositories.Core.SystemSetting";
+			public static readonly StatementNamespace SystemsettingNamespace = "Mercurius.Sparrow.Repositories.Core.SystemSetting";
 		}
 
 		#endregion
@@ -56,37 +56,37 @@ namespace Mercurius.Siskin.Repositories
 			/// <summary>
 			/// 按钮相关的Statement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace ButtonNamespace = "Mercurius.Siskin.Repositories.RBAC.Button";
+			public static readonly StatementNamespace ButtonNamespace = "Mercurius.Sparrow.Repositories.RBAC.Button";
 
 			/// <summary>
 			/// 首页快捷方式相关的Statement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace HomeShortcutNamespace = "Mercurius.Siskin.Repositories.RBAC.HomeShortcut";
+			public static readonly StatementNamespace HomeShortcutNamespace = "Mercurius.Sparrow.Repositories.RBAC.HomeShortcut";
 
 			/// <summary>
 			/// 组织结构管理相关的Statement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace OrganizationNamespace = "Mercurius.Siskin.Repositories.RBAC.Organization";
+			public static readonly StatementNamespace OrganizationNamespace = "Mercurius.Sparrow.Repositories.RBAC.Organization";
 
 			/// <summary>
 			/// 权限管理相关的Statement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace PermissionNamespace = "Mercurius.Siskin.Repositories.RBAC.Permission";
+			public static readonly StatementNamespace PermissionNamespace = "Mercurius.Sparrow.Repositories.RBAC.Permission";
 
 			/// <summary>
 			/// 回收站相关的Statement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace RecyclebinNamespace = "Mercurius.Siskin.Repositories.RBAC.Recyclebin";
+			public static readonly StatementNamespace RecyclebinNamespace = "Mercurius.Sparrow.Repositories.RBAC.Recyclebin";
 
 			/// <summary>
 			/// 角色管理相关的Statement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace RoleNamespace = "Mercurius.Siskin.Repositories.RBAC.Role";
+			public static readonly StatementNamespace RoleNamespace = "Mercurius.Sparrow.Repositories.RBAC.Role";
 
 			/// <summary>
 			/// 用户管理相关的Statement命名空间。
 			/// </summary>
-			public static readonly StatementNamespace UserNamespace = "Mercurius.Siskin.Repositories.RBAC.User";
+			public static readonly StatementNamespace UserNamespace = "Mercurius.Sparrow.Repositories.RBAC.User";
 		}
 
 		#endregion

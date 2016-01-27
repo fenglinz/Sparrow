@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Siskin.Repositories.RBAC.User" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.User" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="User" type="Mercurius.Siskin.Entities.RBAC.User, Mercurius.Siskin.Entities" />
-    <typeAlias alias="UserSO" type="Mercurius.Siskin.Entities.RBAC.SO.UserSO, Mercurius.Siskin.Entities" />
-    <typeAlias alias="UserGroup" type="Mercurius.Siskin.Entities.RBAC.UserGroup, Mercurius.Siskin.Entities" />
-    <typeAlias alias="UserGroupRelation" type="Mercurius.Siskin.Entities.RBAC.UserGroupRelation, Mercurius.Siskin.Entities" />
+    <typeAlias alias="User" type="Mercurius.Sparrow.Entities.RBAC.User, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="UserSO" type="Mercurius.Sparrow.Entities.RBAC.SO.UserSO, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="UserGroup" type="Mercurius.Sparrow.Entities.RBAC.UserGroup, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="UserGroupRelation" type="Mercurius.Sparrow.Entities.RBAC.UserGroupRelation, Mercurius.Sparrow.Entities" />
   </alias>
 
   <resultMaps>
@@ -47,9 +47,9 @@
     
     <resultMap id="GetUser" class="User" extends="User">
       <result column="Password" property="Password" />
-      <result column="Id" property="Roles" lazyLoad="true" select="Mercurius.Siskin.Repositories.RBAC.User.GetRolesByUser" />
-      <result column="Id" property="UserGroups" lazyLoad="true" select="Mercurius.Siskin.Repositories.RBAC.User.GetUserGroupsByUser" />
-      <result column="Id" property="Departments" lazyLoad="true" select="Mercurius.Siskin.Repositories.RBAC.User.GetDepartmentsByUser" />
+      <result column="Id" property="Roles" lazyLoad="true" select="Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser" />
+      <result column="Id" property="UserGroups" lazyLoad="true" select="Mercurius.Sparrow.Repositories.RBAC.User.GetUserGroupsByUser" />
+      <result column="Id" property="Departments" lazyLoad="true" select="Mercurius.Sparrow.Repositories.RBAC.User.GetDepartmentsByUser" />
     </resultMap>
 
     <resultMap id="UserGroup" class="UserGroup">

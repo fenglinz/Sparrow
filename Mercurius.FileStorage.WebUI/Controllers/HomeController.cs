@@ -6,10 +6,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.Core;
-using Mercurius.Siskin.Entities.Core;
-using Mercurius.Siskin.Entities.Core.SO;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Core.SO;
 
 namespace Mercurius.FileStorage.WebUI.Controllers
 {
@@ -104,7 +104,7 @@ namespace Mercurius.FileStorage.WebUI.Controllers
 
                 file.SaveAs(this.Server.MapPath(saveAsPath));
 
-                this.FileStorageService.CreateOrUpdate(new Siskin.Entities.Core.FileStorage
+                this.FileStorageService.CreateOrUpdate(new Sparrow.Entities.Core.FileStorage
                 {
                     Id = id ?? -1,
                     FileName = file.FileName,

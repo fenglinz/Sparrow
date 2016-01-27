@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 
-namespace Mercurius.Siskin.Entities
+namespace Mercurius.Sparrow.Entities
 {
     /// <summary>
     /// 实体信息扩展。

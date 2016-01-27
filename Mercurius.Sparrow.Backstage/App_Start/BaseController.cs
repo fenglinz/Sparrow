@@ -7,9 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure.Dynamic;
 using Autofac;
-using static Mercurius.Siskin.Autofac.AutofacConfig;
+using static Mercurius.Sparrow.Autofac.AutofacConfig;
 
-namespace Mercurius.Siskin.Backstage
+namespace Mercurius.Sparrow.Backstage
 {
     /// <summary>
     /// 基本系统控制器。

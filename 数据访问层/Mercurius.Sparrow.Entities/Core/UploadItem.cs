@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Mercurius.Siskin.Entities.Core
+namespace Mercurius.Sparrow.Entities.Core
 {
     /// <summary>
     /// 上传文件项。

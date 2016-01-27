@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Mercurius.Siskin.Contracts")]
+[assembly: AssemblyTitle("Mercurius.Sparrow.Contracts")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Mercurius.Siskin.Contracts")]
+[assembly: AssemblyProduct("Mercurius.Sparrow.Contracts")]
 [assembly: AssemblyCopyright("版权所有 ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercurius.Siskin.Entities.Chart
+namespace Mercurius.Sparrow.Entities.Chart
 {
     /// <summary>
     /// 图表条目。

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities.Core
+namespace Mercurius.Sparrow.Entities.Core
 {
     /// <summary>
     /// 字典信息

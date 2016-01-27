@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts;
-using Mercurius.Siskin.Contracts.Core;
+using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.FileStorage.WebUI.Apis.Extensions;
-using Mercurius.Siskin.Entities.Core;
+using Mercurius.Sparrow.Entities.Core;
 using static Mercurius.FileStorage.WebUI.Apis.WebApiUtil;
 
 namespace Mercurius.FileStorage.WebUI.Apis.Core.Controllers
@@ -83,7 +83,7 @@ namespace Mercurius.FileStorage.WebUI.Apis.Core.Controllers
 
             foreach (var item in bodyParts.FileData)
             {
-                var fileStorage = new Siskin.Entities.Core.FileStorage
+                var fileStorage = new Sparrow.Entities.Core.FileStorage
                 {
                     FileName = item.Headers.ContentDisposition.FileName.Replace("\"", ""),
                     FileSize = item.Headers.ContentDisposition.Size,
@@ -150,7 +150,7 @@ namespace Mercurius.FileStorage.WebUI.Apis.Core.Controllers
                     await stream.WriteAsync(buffers, 0, buffers.Length);
                 }
 
-                var fileStorage = new Siskin.Entities.Core.FileStorage
+                var fileStorage = new Sparrow.Entities.Core.FileStorage
                 {
                     FileName = item.FileName,
                     FileSize = buffers.Length,

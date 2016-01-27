@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using IBatisNet.DataMapper;
 using Mercurius.Infrastructure.Dynamic;
 
-namespace Mercurius.Siskin.Repositories
+namespace Mercurius.Sparrow.Repositories
 {
     /// <summary>
     /// 集成IBatis.Net的针对PostgreSQL数据库的动态查询对象。

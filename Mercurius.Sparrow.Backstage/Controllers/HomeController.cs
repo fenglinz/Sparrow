@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Dynamic;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities.Core;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities.Core;
 
-namespace Mercurius.Siskin.Backstage.Controllers
+namespace Mercurius.Sparrow.Backstage.Controllers
 {
     /// <summary>
     /// 主页控制器。

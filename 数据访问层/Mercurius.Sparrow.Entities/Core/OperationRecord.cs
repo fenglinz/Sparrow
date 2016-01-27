@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.Siskin.Entities.Core
+namespace Mercurius.Sparrow.Entities.Core
 {
     /// <summary>
     /// 操作记录实体信息。

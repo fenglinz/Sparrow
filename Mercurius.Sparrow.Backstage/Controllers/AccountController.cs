@@ -7,10 +7,10 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
 using Mercurius.Infrastructure;
-using Mercurius.Siskin.Contracts.RBAC;
-using Mercurius.Siskin.Entities.Core;
+using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities.Core;
 
-namespace Mercurius.Siskin.Backstage.Controllers
+namespace Mercurius.Sparrow.Backstage.Controllers
 {
     /// <summary>
     /// 账户信息处理控制器。

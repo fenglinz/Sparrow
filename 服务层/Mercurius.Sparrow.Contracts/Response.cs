@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mercurius.Infrastructure;
 
-namespace Mercurius.Siskin.Contracts
+namespace Mercurius.Sparrow.Contracts
 {
     /// <summary>
     /// 服务执行响应信息。
