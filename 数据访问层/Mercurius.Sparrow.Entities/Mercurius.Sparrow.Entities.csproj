@@ -7,8 +7,8 @@
     <ProjectGuid>{166646D7-8172-4011-9CB0-385C6A6D7FFB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercurius.Siskin.Entities</RootNamespace>
-    <AssemblyName>Mercurius.Siskin.Entities</AssemblyName>
+    <RootNamespace>Mercurius.Sparrow.Entities</RootNamespace>
+    <AssemblyName>Mercurius.Sparrow.Entities</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

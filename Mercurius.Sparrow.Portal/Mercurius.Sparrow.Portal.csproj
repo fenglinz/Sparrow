@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercurius.Siskin.Portal</RootNamespace>
-    <AssemblyName>Mercurius.Siskin.Portal</AssemblyName>
+    <RootNamespace>Mercurius.Sparrow.Portal</RootNamespace>
+    <AssemblyName>Mercurius.Sparrow.Portal</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>false</UseIISExpress>
@@ -298,19 +298,19 @@
     </ProjectReference>
     <ProjectReference Include="..\数据访问层\Mercurius.Sparrow.Entities\Mercurius.Sparrow.Entities.csproj">
       <Project>{166646d7-8172-4011-9cb0-385c6a6d7ffb}</Project>
-      <Name>Mercurius.Siskin.Entities</Name>
+      <Name>Mercurius.Sparrow.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\数据访问层\Mercurius.Sparrow.Repositories\Mercurius.Sparrow.Repositories.csproj">
       <Project>{05fcde91-e15a-4867-aa0e-fc7e8414b2d2}</Project>
-      <Name>Mercurius.Siskin.Repositories</Name>
+      <Name>Mercurius.Sparrow.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\服务层\Mercurius.Sparrow.Contracts\Mercurius.Sparrow.Contracts.csproj">
       <Project>{9164967b-b835-44b7-a6df-18d87cc98dae}</Project>
-      <Name>Mercurius.Siskin.Contracts</Name>
+      <Name>Mercurius.Sparrow.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\服务层\Mercurius.Sparrow.Services\Mercurius.Sparrow.Services.csproj">
       <Project>{0b830c09-ccd2-4cc3-a743-fc5f7fa46082}</Project>
-      <Name>Mercurius.Siskin.Services</Name>
+      <Name>Mercurius.Sparrow.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

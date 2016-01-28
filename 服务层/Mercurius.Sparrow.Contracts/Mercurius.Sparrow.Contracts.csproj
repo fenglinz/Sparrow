@@ -8,8 +8,8 @@
     <ProjectGuid>{9164967B-B835-44B7-A6DF-18D87CC98DAE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercurius.Siskin.Contracts</RootNamespace>
-    <AssemblyName>Mercurius.Siskin.Contracts</AssemblyName>
+    <RootNamespace>Mercurius.Sparrow.Contracts</RootNamespace>
+    <AssemblyName>Mercurius.Sparrow.Contracts</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -76,16 +76,16 @@
       <Project>{B0732AD6-AC7A-4980-817E-432631963939}</Project>
       <Name>Mercurius.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\数据访问层\Mercurius.Sparrow.Entities\Mercurius.Sparrow.Entities.csproj">
-      <Project>{166646d7-8172-4011-9cb0-385c6a6d7ffb}</Project>
-      <Name>Mercurius.Siskin.Entities</Name>
-    </ProjectReference>
     <Compile Include="Core\IFileStorageService.cs" />
     <Compile Include="WebApi\IApiService.cs" />
     <Compile Include="WebApi\IRoleService.cs" />
     <Compile Include="WebApi\IRolePermissionService.cs" />
     <Compile Include="WebApi\IUserService.cs" />
     <Compile Include="Dynamic\IExtensionPropertyService.cs" />
+    <ProjectReference Include="..\..\数据访问层\Mercurius.Sparrow.Entities\Mercurius.Sparrow.Entities.csproj">
+      <Project>{166646d7-8172-4011-9cb0-385c6a6d7ffb}</Project>
+      <Name>Mercurius.Sparrow.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
