@@ -1,6 +1,9 @@
-/* Used for Ace demo only, to style Button that launches help, help content, etc */
+/**
+You don't need this file.
+It's used for Ace demo only, to style the button that launches help, help content, etc ...
+*/
 
-.onpage-help-toggle-btn:focus {
+.onpage-help-container:focus, .onpage-help-toggle-btn:focus {
  outline: none;
 }
 .onpage-help-toggle-container {

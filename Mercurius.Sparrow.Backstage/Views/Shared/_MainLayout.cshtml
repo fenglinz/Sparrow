@@ -11,10 +11,10 @@
     <title>@Html.GetProductName()</title>
     <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/favicon.ico")" />
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="@Url.Content("~/Content/ace-part2.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/ace-part2.css")" />
     <![endif]-->
     <!--[if lte IE 9]>
-    <link rel="stylesheet" href="@Url.Content("~/Content/ace-ie.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/ace-ie.css")" />
     <![endif]-->
     @Styles.Render("~/Content/main/css")
     @RenderSection("Styles", false)
@@ -55,7 +55,7 @@
                     <li class="light-blue">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                             <img class="nav-user-photo" style="margin-right:0;" src="@Url.Content("~/Content/avatars/user.jpg")" alt="Jason's Photo" />
-                            <span class="user-info" style="top:14px;">
+                            <span class="user-info">
                                 @WebHelper.GetLogOnUserName()
                             </span>
                             <i class="ace-icon fa fa-caret-down"></i>
