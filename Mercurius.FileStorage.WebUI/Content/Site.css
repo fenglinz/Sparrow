@@ -17,12 +17,17 @@
 body {
     margin: 0;
     padding: 0;
-    font-size: 15px;
+    font-size: 13px;
     min-height: 100%;
     padding-bottom: 0;
     color: #333;
     font-weight: 300;
     line-height: 20px;
+}
+
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .bg-primary {
@@ -32,15 +37,6 @@ body {
 label[for],
 label:not(:empty) {
     cursor: pointer;
-}
-
-.navbar-nav > li > a {
-    line-height: 24px;
-}
-
-.navbar-brand .glyphicon,
-.navbar-nav .glyphicon {
-    top: 2.5px;
 }
 
 .panel {
@@ -55,7 +51,7 @@ label:not(:empty) {
 .toolbar {
     height: 35px;
     margin-top: 1px;
-    min-width: 800px;
+    min-width: 400px;
 }
 
     .toolbar.panel {
@@ -68,6 +64,7 @@ label:not(:empty) {
         padding: 0;
         height: 35px;
         display: block;
+        line-height: 16px;
         position: relative;
         vertical-align: middle;
     }
@@ -180,6 +177,10 @@ a {
         filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
         background-repeat: repeat-x;
         font-weight: normal;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
     }
 
         .FixedTable thead th:last-of-type,
@@ -191,7 +192,7 @@ a {
     .FixedTable tbody td,
     .grid tbody td {
         height: 36px;
-        padding: 0 4px 0 4px;
+        padding: 0 5px 0 5px;
         border-right: 1px dotted #ccc;
         border-bottom: 1px dotted #ccc;
         -ms-word-break: keep-all;
@@ -217,6 +218,19 @@ a {
         background-color: #2d6ca2;
     }
 
+        .grid tbody tr.selected > td > a,
+        .FixedTable tbody tr.selected > td > a {
+            color: #fff;
+        }
+
+            .grid tbody tr.selected > td > a:hover,
+            .FixedTable tbody tr.selected > td > a:hover {
+                text-decoration: underline;
+                -moz-text-decoration-color: #ff8c00;
+                text-decoration-color: #ff8c00;
+                line-height: 23px;
+            }
+
     .grid tbody tr:not(.selected):hover,
     .grid tbody tr:nth-child(even):not(.selected):hover,
     .FixedTable tbody tr:nth-child(even):not(.selected):hover {
@@ -224,28 +238,39 @@ a {
         background: #428bca;
     }
 
-.tooltip-inner {
-    font-size: 1.3em;
-    max-width: 600px;
-    padding: 10px 15px;
-}
+        .grid tbody tr:not(.selected):hover > td > a,
+        .grid tbody tr:nth-child(even):not(.selected):hover > td > a,
+        .FixedTable tbody tr:nth-child(even):not(.selected):hover > td > a {
+            color: #fff;
+        }
 
-#checkAllOff {
+            .grid tbody tr:not(.selected):hover > td > a:hover,
+            .grid tbody tr:nth-child(even):not(.selected):hover > td > a:hover,
+            .FixedTable tbody tr:nth-child(even):not(.selected):hover > td > a:hover {
+                text-decoration: underline;
+                -moz-text-decoration-color: #ff8c00;
+                -webkit-text-decoration-color: #ff8c00;
+                -ms-text-decoration-color: #ff8c00;
+                -o-text-decoration-color: #ff8c00;
+                text-decoration-color: #ff8c00;
+            }
+
+.check-all {
     background: url('data:image/gif;base64,R0lGODlhDQANAJEDAAACAQEBAQAAAP///yH5BAEAAAMALAAAAAANAA0AAAIqFCwow7PdHpMwPQDjwC5Pd1BNMJCJ1y2np4KWEFgpQ3rmlMR5O6LUCywAADs=') no-repeat 0 0;
     cursor: pointer;
     width: 13px;
     height: 13px;
-    margin: 0;
+    margin: auto auto;
     vertical-align: middle;
 }
 
-#checkAllOn {
-    background: url('data:image/gif;base64,R0lGODlhDQANAKIEAAEAAAACAQEBAQAAAP///wAAAAAAAAAAACH5BAEAAAQALAAAAAANAA0AAAMwOKHDQ5C8GCe0UMgGA+WPJxGApI3OZmkaN1YoBj9OIzT0e1JEe9m42yvDu3xwyEECADs=') no-repeat 0 0;
-    cursor: pointer;
-    width: 13px;
-    height: 13px;
-    vertical-align: middle;
-}
+    .check-all.active {
+        background: url('data:image/gif;base64,R0lGODlhDQANAKIEAAEAAAACAQEBAQAAAP///wAAAAAAAAAAACH5BAEAAAQALAAAAAANAA0AAAMwOKHDQ5C8GCe0UMgGA+WPJxGApI3OZmkaN1YoBj9OIzT0e1JEe9m42yvDu3xwyEECADs=') no-repeat 0 0;
+        cursor: pointer;
+        width: 13px;
+        height: 13px;
+        vertical-align: middle;
+    }
 
 .header {
     height: 32px;
@@ -322,6 +347,11 @@ input.search-image {
     color: red;
     font-weight: bold;
     font-size: 1.4em;
+}
+
+.grid > tbody .text-danger {
+    background-color: #e0eccc;
+    color: red;
 }
 
 /** 表单样式-开始 **/

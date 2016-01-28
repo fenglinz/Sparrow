@@ -269,12 +269,13 @@
         $(gv).css('width', width);
 
         if ($(gv).parent().prop('id') != fixedTableId) {
-            gvn = $(gv).clone(true).removeAttr("id");
+            gvn = $(gv).clone(true);
 
             $(gvn).find("tbody").remove();
             $(gv).before(gvn);
             $(gv).find("thead").remove();
 
+            $(gv).prop('id', fixedTableId + '_table')
             $(gv).wrap("<div id='" + fixedTableId + "' class='FixedTable' style='width:" + width + ";height:" + height + "px;'></div>");
         } else {
             gvn = $(gv).parent().prev();
@@ -378,6 +379,27 @@
             return false;
         });
 
+        var fixedTableId = "#FixedTable" + gv.replace('#', '_');
+        var checkAllElement = $(gv + ' > thead > tr .check-all');
+
+        if (params.multiple && checkAllElement.length > 0) {
+            checkAllElement.click(function () {
+                if (!checkAllElement.is('.active')) {
+                    checkAllElement.attr('title', '反选');
+                    checkAllElement.addClass('active');
+                    $(gv + ' > tbody :checkbox:not(:disabled)').prop('checked', true);
+                    $(gv + '> tbody > tr').has(':checkbox:not(:disabled)').addClass('selected');
+                } else {
+                    checkAllElement.attr('title', '全选');
+                    checkAllElement.removeClass('active');
+                    $(gv + ' > tbody :checkbox:not(:disabled)').prop("checked", false);
+                    $(gv + '> tbody > tr').has(':checkbox:not(:disabled)').removeClass('selected');
+                }
+
+                return false;
+            });
+        }
+
         if (params.triggerRowChecked == undefined || params.triggerRowChecked == true) {
             ApplyTableStyle(gv, params);
         } else {
@@ -387,8 +409,6 @@
                 $(this).addClass('selected');
             });
         }
-
-        var fixedTableId = "#FixedTable" + gv.replace('#', '_');
 
         OnFixedTableHeader(gv, width, height);
 
@@ -461,24 +481,6 @@
         });
 
         ApplyTreeViewCss(treeContainer);
-    }
-
-    /**********复选框 全选/反选**************/
-    var CheckAllLinestatus = 0;
-    function CheckAllLine() {
-        if (CheckAllLinestatus == 0) {
-            CheckAllLinestatus = 1;
-            $('#checkAllOff').attr('title', '反选');
-            $('#checkAllOff').prop('id', 'checkAllOn');
-            $('table :checkbox:not(:disabled)').prop('checked', true);
-            $('table tr').has(':checkbox:not(:disabled)').addClass('selected');
-        } else {
-            CheckAllLinestatus = 0;
-            $('#checkAllOn').attr('title', '全选');
-            $('#checkAllOn').attr('id', 'checkAllOff');
-            $('table :checkbox:not(:disabled)').prop("checked", false);
-            $('table tr').has(':checkbox:not(:disabled)').removeClass('selected');
-        }
     }
 
     function Countdown(element, startTime, keepingTime, completedCallback) {
@@ -650,7 +652,6 @@
         FixedTableHeader: FixedTableHeader,
         ApplyTableStyle: ApplyTableStyle,
         ShowTreeView: ShowTreeView,
-        CheckAllLine: CheckAllLine,
         Countdown: Countdown
     };
 
