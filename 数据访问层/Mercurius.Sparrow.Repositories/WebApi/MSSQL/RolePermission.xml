@@ -15,17 +15,17 @@
         END;
         INSERT INTO [WebApi].[RolePermission]
         (
-        [RoleId],
-        [ApiId],
-        [CreateUserId],
-        [CreateDateTime]
+          [RoleId],
+          [ApiId],
+          [CreateUserId],
+          [CreateDateTime]
         )
         VALUES
         (
-        #RoleId#,
-        #ApiId#,
-        #CreateUserId#,
-        GETDATE()
+          #RoleId#,
+          #ApiId#,
+          #CreateUserId#,
+          GETDATE()
         )
       ]]>
     </insert>

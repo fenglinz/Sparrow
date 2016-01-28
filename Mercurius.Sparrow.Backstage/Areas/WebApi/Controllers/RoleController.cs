@@ -96,19 +96,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         [HttpGet]
         public ActionResult AllotPermission(int? id)
         {
-            if (!id.HasValue)
-            {
-                return Content("角色Id是必须的");
-            }
             var routes = this.RoleService.GetRolePower(id.Value);
-            if (!routes.IsSuccess)
-            {
-                return Content(routes.ErrorMessage);
-            }
 
-            ViewBag.RoleId = id;
+            this.ViewBag.RoleId = id;
 
-            return View(routes.Datas);
+            return View(routes);
         }
 
         [HttpPost]

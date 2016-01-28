@@ -187,12 +187,23 @@
       ]]>
     </select>
 
-    <select id="GetRolePower" resultClass="Api" parameterClass="int">
+    <select id="GetRolePower" parameterClass="int" resultClass="Api">
       <![CDATA[
-      SELECT 1 AS CanAccess, *FROM WebApi.[Api] 
-      WHERE Id IN(SELECT ApiId FROM WebApi.[RolePermission] WHERE RoleId = #value#)
-      UNION SELECT 0 AS CanAccess, *FROM WebApi.[Api] 
-      WHERE id NOT IN(SELECT ApiId FROM WebApi.[RolePermission] WHERE RoleId = #value#)
+        SELECT
+          1 AS CanAccess,
+          *
+        FROM WebApi.[Api] 
+        WHERE Id IN(
+          SELECT ApiId FROM WebApi.[RolePermission] WHERE UserId=#value#
+        )
+        UNION
+        SELECT
+          0 AS CanAccess,
+          *
+        FROM WebApi.[Api] 
+        WHERE Id NOT IN(
+          SELECT ApiId FROM WebApi.[RolePermission] WHERE UserId=#value#
+        )
       ]]>
     </select>
 
