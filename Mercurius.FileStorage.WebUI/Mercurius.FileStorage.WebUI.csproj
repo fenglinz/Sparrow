@@ -39,7 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>WebApiDocument.xml</DocumentationFile>
+    <DocumentationFile>bin\WebApiDocument.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -128,7 +128,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Swashbuckle.Core.5.2.2\lib\net40\Swashbuckle.Core.dll</HintPath>
+      <HintPath>..\packages\Swashbuckle.Core.Net45.5.2.1\lib\net45\Swashbuckle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -370,7 +370,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Apis\Core\Models\" />
-    <Folder Include="Content\Layer\" />
     <Folder Include="Models\" />
     <Folder Include="Views\File\" />
   </ItemGroup>
@@ -385,19 +384,19 @@
     </ProjectReference>
     <ProjectReference Include="..\数据访问层\Mercurius.Sparrow.Entities\Mercurius.Sparrow.Entities.csproj">
       <Project>{166646d7-8172-4011-9cb0-385c6a6d7ffb}</Project>
-      <Name>Mercurius.Siskin.Entities</Name>
+      <Name>Mercurius.Sparrow.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\数据访问层\Mercurius.Sparrow.Repositories\Mercurius.Sparrow.Repositories.csproj">
       <Project>{05fcde91-e15a-4867-aa0e-fc7e8414b2d2}</Project>
-      <Name>Mercurius.Siskin.Repositories</Name>
+      <Name>Mercurius.Sparrow.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\服务层\Mercurius.Sparrow.Contracts\Mercurius.Sparrow.Contracts.csproj">
       <Project>{9164967b-b835-44b7-a6df-18d87cc98dae}</Project>
-      <Name>Mercurius.Siskin.Contracts</Name>
+      <Name>Mercurius.Sparrow.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\服务层\Mercurius.Sparrow.Services\Mercurius.Sparrow.Services.csproj">
       <Project>{0b830c09-ccd2-4cc3-a743-fc5f7fa46082}</Project>
-      <Name>Mercurius.Siskin.Services</Name>
+      <Name>Mercurius.Sparrow.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

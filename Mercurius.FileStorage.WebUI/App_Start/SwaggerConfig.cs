@@ -23,24 +23,21 @@ namespace Mercurius.FileStorage.WebUI
         {
             var thisAssembly = typeof(SwaggerConfig).Assembly;
 
-            //SwaggerSpecConfig.Customize(c =>
-            //{
-            //    c.ResolveBasePathUsing(req =>
-            //        req.RequestUri.GetLeftPart(UriPartial.Authority) +
-            //        req.GetRequestContext().VirtualPathRoot.TrimEnd('/'));
-            //});
-
             httpConfig.EnableSwagger(c =>
             {
                 c.Schemes(new[] { "http", "https" });
-                c.SingleApiVersion("V1", "Web API帮助中心");
+                c.SingleApiVersion("v1", "Web API 帮助中心");
                 c.IncludeXmlComments(GetXmlCommentsPath());
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-                c.RootUrl(req => $"{req.RequestUri.GetLeftPart(UriPartial.Authority)}{req.GetRequestContext().VirtualPathRoot.TrimEnd('/')}");
             })
-            .EnableSwaggerUi();
+            .EnableSwaggerUi(c =>
+            {
+                c.DisableValidator();
+                c.DocExpansion(DocExpansion.List);
+                c.EnableDiscoveryUrlSelector();
+            });
         }
 
-        private static string GetXmlCommentsPath() => $@"{AppDomain.CurrentDomain.BaseDirectory}WebApiDocument.XML";
+        private static string GetXmlCommentsPath() => $@"{AppDomain.CurrentDomain.BaseDirectory}\bin\WebApiDocument.XML";
     }
 }

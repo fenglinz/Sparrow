@@ -65,13 +65,16 @@ namespace Mercurius.Sparrow.Autofac
                              .AsImplementedInterfaces()
                              .InstancePerLifetimeScope();
 
+                    // 当前执行代码的程序集。
+                    var executingAssembly = Assembly.GetExecutingAssembly();
+
                     // 注册MVC控制器。
-                    _builder.RegisterControllers(typeof(AutofacConfig).Assembly)
+                    _builder.RegisterControllers(executingAssembly)
                         .PropertiesAutowired()
                         .InstancePerRequest();
 
                     // 注册Model Binder。
-                    _builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
+                    _builder.RegisterModelBinders(executingAssembly);
                     _builder.RegisterModelBinderProvider();
 
                     // 注册Web抽象模块。
@@ -84,7 +87,7 @@ namespace Mercurius.Sparrow.Autofac
                     _builder.RegisterFilterProvider();
 
                     // WebApi注册。
-                    _builder.RegisterApiControllers(typeof(AutofacConfig).Assembly)
+                    _builder.RegisterApiControllers(executingAssembly)
                         .PropertiesAutowired()
                         .InstancePerRequest();
 

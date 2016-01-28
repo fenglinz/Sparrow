@@ -28,7 +28,7 @@
     <sqlMap embedded="Core.MSSQL.Globalization.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="Core.MSSQL.RepositoryUtils.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="Core.MSSQL.FileStorage.xml, Mercurius.Sparrow.Repositories" />
-    
+
     <!-- 基于角色访问控制(RBAC)模块 -->
     <sqlMap embedded="RBAC.MSSQL.User.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.Role.xml, Mercurius.Sparrow.Repositories" />
@@ -37,12 +37,10 @@
     <sqlMap embedded="RBAC.MSSQL.Organization.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.HomeShortcut.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.Button.xml, Mercurius.Sparrow.Repositories" />
-    
-    <!-- 扩展属性模块 -->
-    <sqlMap embedded="ExtendedProperty.MSSQL.Category.xml, Mercurius.Sparrow.Repositories" />
-    <sqlMap embedded="ExtendedProperty.MSSQL.Definition.xml, Mercurius.Sparrow.Repositories" />
-    <sqlMap embedded="ExtendedProperty.MSSQL.PropertyValue.xml, Mercurius.Sparrow.Repositories" />
-    
+
+    <!-- 动态属性模块 -->
+    <sqlMap embedded="Dynamic.MSSQL.ExtensionProperty.xml, Mercurius.Sparrow.Repositories" />
+
     <!-- Web API管理模块 -->
     <sqlMap embedded="WebApi.MSSQL.Api.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="WebApi.MSSQL.User.xml, Mercurius.Sparrow.Repositories" />

@@ -90,6 +90,24 @@
             <param name="localFileName">本地文件名</param>
             <returns>相对路径</returns>
         </member>
+        <member name="T:Mercurius.FileStorage.WebUI.Apis.Extensions.CustomMultipartFormDataStreamProvider">
+            <summary>
+            自定义文件上传处理程序。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.Extensions.CustomMultipartFormDataStreamProvider.#ctor(System.String)">
+            <summary>
+            默认构造方法。
+            </summary>
+            <param name="rootPath">文件保存目录</param>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.Extensions.CustomMultipartFormDataStreamProvider.GetLocalFileName(System.Net.Http.Headers.HttpContentHeaders)">
+            <summary>
+            获取保存到本地的文件名。
+            </summary>
+            <param name="headers">文件上传Http头</param>
+            <returns>保存在本地的文件名</returns>
+        </member>
         <member name="T:Mercurius.FileStorage.WebUI.SwaggerConfig">
             <summary>
             Swagger UI配置。
@@ -100,6 +118,17 @@
             Swagger UI设置。
             </summary>
             <param name="httpConfig">HttpServer对象</param>
+        </member>
+        <member name="T:Mercurius.FileStorage.WebUI.WebApiConfig">
+            <summary>
+            Web API配置。
+            </summary>
+        </member>
+        <member name="M:Mercurius.FileStorage.WebUI.WebApiConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Web API相关设置。
+            </summary>
+            <param name="config">HttpServer实例对象</param>
         </member>
         <member name="P:Mercurius.FileStorage.WebUI.Controllers.AccountController.UserService">
             <summary>
