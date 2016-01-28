@@ -4,17 +4,17 @@
         <name>Mercurius.FileStorage.WebUI</name>
     </assembly>
     <members>
-        <member name="T:Mercurius.Siskin.Autofac.AutofacConfig">
+        <member name="T:Mercurius.Sparrow.Autofac.AutofacConfig">
             <summary>
             Autofac配置。
             </summary>
         </member>
-        <member name="M:Mercurius.Siskin.Autofac.AutofacConfig.#cctor">
+        <member name="M:Mercurius.Sparrow.Autofac.AutofacConfig.#cctor">
             <summary>
             初始化Autofac容器。
             </summary>
         </member>
-        <member name="T:Mercurius.Siskin.Autofac.IBatisNetModule">
+        <member name="T:Mercurius.Sparrow.Autofac.IBatisNetModule">
             <summary>
             IBatisNet注册模块。
             </summary>
@@ -63,7 +63,7 @@
             <param name="account">用户账号</param>
             <returns>上传结果</returns>
         </member>
-        <member name="M:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController.Upload(System.String,System.Collections.Generic.IList{Mercurius.Siskin.Entities.Core.UploadItem})">
+        <member name="M:Mercurius.FileStorage.WebUI.Apis.Core.Controllers.FileStorageController.Upload(System.String,System.Collections.Generic.IList{Mercurius.Sparrow.Entities.Core.UploadItem})">
             <summary>
             基于base64字符串上传文件。
             </summary>
@@ -122,7 +122,7 @@
             文件管理服务对象。
             </summary>
         </member>
-        <member name="M:Mercurius.FileStorage.WebUI.Controllers.FileController.Index(System.String,Mercurius.Siskin.Entities.Core.CompressMode)">
+        <member name="M:Mercurius.FileStorage.WebUI.Controllers.FileController.Index(System.String,Mercurius.Sparrow.Entities.Core.CompressMode)">
             <summary>
             文件下载。
             </summary>

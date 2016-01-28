@@ -228,10 +228,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Mercurius.Siskin.Backstage\Autofac\AutofacConfig.cs">
+    <Compile Include="..\Mercurius.Sparrow.Backstage\Autofac\AutofacConfig.cs">
       <Link>Autofac\AutofacConfig.cs</Link>
     </Compile>
-    <Compile Include="..\Mercurius.Siskin.Backstage\Autofac\IBatisNetModule.cs">
+    <Compile Include="..\Mercurius.Sparrow.Backstage\Autofac\IBatisNetModule.cs">
       <Link>Autofac\IBatisNetModule.cs</Link>
     </Compile>
     <Compile Include="Apis\WebApiUtil.cs" />
