@@ -29,7 +29,7 @@
     @Scripts.Render("~/bundles/treetable")
     <script type="text/javascript">
         $(function () {
-            mercurius.FixedTableHeader("#dnd-example", 115, { triggerRowChecked: false });
+            mercurius.FixedTableHeader("#dnd-example", 115, {multiple:true, triggerRowChecked: false });
             $("#dnd-example").treetable({
                 expandable: true,
                 // collapsed：收缩；expanded：展开。
@@ -98,13 +98,13 @@
     </thead>
     <tbody>
         @if (Model.HasData())
-		{
-			var menus = Model.Datas.Where(s => s.Category != 3);
-			var buttons = Model.Datas.Where(s => s.Category == 3);
+        {
+            var menus = Model.Datas.Where(s => s.Category != 3);
+            var buttons = Model.Datas.Where(s => s.Category == 3);
 
-			foreach (var systemMenu in menus)
-			{
-				var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
+            foreach (var systemMenu in menus)
+            {
+                var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
 
                 <tr data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
                     <td style="padding-left: 20px;">
@@ -118,7 +118,7 @@
                     </td>
                     <td>
                         @foreach (var btn in btns)
-						{
+                        {
                             <label>
                                 <input @(btn.CanAccess ? "checked" : string.Empty) type="checkbox" value="@btn.Id" name="checkbox" />
                                 @btn.Name
