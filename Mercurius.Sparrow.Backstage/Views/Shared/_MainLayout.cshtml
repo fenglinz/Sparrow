@@ -9,17 +9,15 @@
     <meta name="description" content="The description of my page" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>@Html.GetProductName()</title>
-    <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/favicon.ico")" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="@Url.Content("~/Content/ace-part2.css")" />
-    <![endif]-->
-    <!--[if lte IE 9]>
     <link rel="stylesheet" href="@Url.Content("~/Content/ace-ie.css")" />
     <![endif]-->
     @Styles.Render("~/Content/main/css")
     @RenderSection("Styles", false)
     <!-- ace settings handler -->
-    <script src="@Url.Content("~/Scripts/ace-extra.min.js")"></script>
+    <script src="~/Scripts/ace-extra.min.js"></script>
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
     <script src="@Url.Content("~/Scripts/html5shiv.min.js")"></script>
@@ -54,7 +52,7 @@
                 <ul class="nav ace-nav">
                     <li class="light-blue">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                            <img class="nav-user-photo" style="margin-right:0;" src="@Url.Content("~/Content/avatars/user.jpg")" alt="Jason's Photo" />
+                            <img class="nav-user-photo" style="margin-right:0;" src="~/Content/avatars/user.jpg" alt="Jason's Photo" />
                             <span class="user-info">
                                 @WebHelper.GetLogOnUserName()
                             </span>
