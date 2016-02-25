@@ -543,7 +543,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Main.js" />
     <Content Include="Scripts\MessageBox\msgbox.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\mercurius.common.js" />
     <Content Include="Scripts\moment-with-locales.js" />
@@ -557,7 +556,9 @@
     <Content Include="Scripts\TreeTable\jquery.treeTable.js" />
     <Content Include="Scripts\Validator\JValidator.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

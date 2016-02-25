@@ -190,13 +190,14 @@
                     this.__ready = true;
                 }
 
+                this.__backdrop.show();
+
                 popup
                 .addClass(this.className + '-show')
                 .attr('role', this.modal ? 'alertdialog' : 'dialog')
                 .css('position', this.fixed ? 'fixed' : 'absolute')
                 .show();
 
-                this.__backdrop.show();
                 this.reset().focus();
                 this.__dispatchEvent('show');
 
