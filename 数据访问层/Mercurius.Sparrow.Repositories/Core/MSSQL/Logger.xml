@@ -52,7 +52,7 @@
             LogOnIP,
             ModelName,
             Summary,
-            LogLevel,
+            LogLevel AS [Level],
             OccurrenceDateTime,
             ROW_NUMBER() OVER(ORDER BY OccurrenceDateTime DESC) AS RowIndex
           FROM SYSTEMLOG 
@@ -69,8 +69,8 @@
         </isNotNull>
         <isNotNull property="EndDate" prepend="AND">
           <![CDATA[
-              OccurrenceDateTime<=#EndDate#
-            ]]>
+            OccurrenceDateTime<=#EndDate#
+          ]]>
         </isNotNull>
         <isNotEmpty property="LogOnName" prepend="AND">
           LOGONNAME LIKE '%'+#LogOnName#+'%'
@@ -109,8 +109,8 @@
         </isNotNull>
         <isNotNull property="EndDate" prepend="AND">
           <![CDATA[
-              OccurrenceDateTime<=#EndDate#
-            ]]>
+            OccurrenceDateTime<=#EndDate#
+          ]]>
         </isNotNull>
         <isNotEmpty property="LogOnName" prepend="AND">
           LOGONNAME LIKE '%'+#LogOnName#+'%'
@@ -129,27 +129,27 @@
       <![CDATA[
         INSERT INTO SystemLog
         (
-           Id
-           ,LogOnId
-           ,LogOnName
-           ,LogOnIP
-           ,ModelName
-           ,Summary
-           ,Details
-           ,OccurrenceDateTime
-           ,LogLevel
+          Id
+          ,LogOnId
+          ,LogOnName
+          ,LogOnIP
+          ,ModelName
+          ,Summary
+          ,Details
+          ,OccurrenceDateTime
+          ,LogLevel
         )
         VALUES
         (
-           #Id#
-           ,#LogOnId#
-           ,#LogOnName#
-           ,#LogOnIP#
-           ,#ModelName#
-           ,#Summary#
-           ,#Details#
-           ,#OccurrenceDateTime#
-           ,#Level#
+          #Id#
+          ,#LogOnId#
+          ,#LogOnName#
+          ,#LogOnIP#
+          ,#ModelName#
+          ,#Summary#
+          ,#Details#
+          ,#OccurrenceDateTime#
+          ,#Level#
         )
       ]]>
     </insert>
