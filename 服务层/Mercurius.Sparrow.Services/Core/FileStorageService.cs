@@ -14,6 +14,7 @@ namespace Mercurius.Sparrow.Services.Core
     /// <summary>
     /// 上传文件业务逻辑接口实现。 
     /// </summary>
+    [Module("基础模块")]
     public class FileStorageService : ServiceSupport, IFileStorageService
     {
         #region 常量
@@ -32,7 +33,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response Create(FileStorage fileStorage)
         {
             return this.InvokeService(
-                "Create",
+                nameof(Create),
                 () =>
                 {
                     this.Persistence.Create(NS, "Create", fileStorage);
@@ -50,7 +51,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response Update(FileStorage fileStorage)
         {
             return this.InvokeService(
-                "Update",
+                nameof(Update),
                 () =>
                 {
                     this.Persistence.Update(NS, "Update", fileStorage);
@@ -68,7 +69,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response CreateOrUpdate(FileStorage fileStorage)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Update(NS, "CreateOrUpdate", fileStorage);
@@ -85,7 +86,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// <returns>返回删除结果</returns>
         public Response Remove(int id)
         {
-            return this.InvokeService("Remove", () =>
+            return this.InvokeService(nameof(Remove), () =>
             {
                 this.Persistence.Delete(NS, "Remove", id);
 
@@ -102,7 +103,7 @@ namespace Mercurius.Sparrow.Services.Core
         {
             var args = new { FilePaths = filePaths.ToList() };
 
-            return this.InvokeService("Remove", () =>
+            return this.InvokeService(nameof(Remove), () =>
             {
                 this.Persistence.Delete(NS, "RemovesByAccount", args);
 
@@ -118,7 +119,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response<FileStorage> GetFileStorageById(int id)
         {
             return this.InvokeService(
-                "GetFileStorageById",
+                nameof(GetFileStorageById),
                 () => this.Persistence.QueryForObject<FileStorage>(NS, "GetById", id),
                 args: id);
         }
@@ -131,7 +132,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// <returns>根据文件保存路径获取文件信息</returns>
         public Response<FileStorage> GetFileStorageByPath(string path)
         {
-            return this.InvokeService("GetFileStorageByPath", () => this.Persistence.QueryForObject<FileStorage>(NS, "GetFileStorageByPath", path), args: path);
+            return this.InvokeService(nameof(GetFileStorageByPath), () => this.Persistence.QueryForObject<FileStorage>(NS, "GetFileStorageByPath", path), args: path);
         }
 
         /// <summary>
@@ -144,21 +145,11 @@ namespace Mercurius.Sparrow.Services.Core
             so = so ?? new FileStorageSO();
 
             return this.InvokePagingService(
-                "SearchFileStorages",
+                nameof(SearchFileStorages),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<FileStorage>(NS, "SearchFileStorages", out totalRecords, so),
                 args: so);
         }
 
         #endregion
-
-        #region 重写基类方法
-
-        protected override string GetModelName()
-        {
-            return "基础模块";
-        }
-
-        #endregion
-
     }
 }

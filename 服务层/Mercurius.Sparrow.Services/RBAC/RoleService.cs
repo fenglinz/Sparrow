@@ -10,6 +10,7 @@ namespace Mercurius.Sparrow.Services.RBAC
     /// <summary>
     /// 角色信息服务接口实现。
     /// </summary>
+    [Module("基于角色的访问控制模块")]
     public class RoleService : ServiceSupport, IRoleService
     {
         #region IRoleService接口实现
@@ -21,7 +22,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response CreateOrUpdate(Role role)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Update(RoleNamespace, "CreateOrUpdate", role);
@@ -39,7 +40,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<Role> GetRole(string id)
         {
             return this.InvokeService(
-                "GetRole",
+                nameof(GetRole),
                 () => this.Persistence.QueryForObject<Role>(RoleNamespace, "GetRoleById", id),
                 args: id);
         }
@@ -61,7 +62,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<Role> GetRolesByUser(string userId)
         {
             return this.InvokeService(
-                "GetRolesByUser",
+                nameof(GetRolesByUser),
                 () => this.Persistence.QueryForList<Role>(RoleNamespace, "GetRolesByUser", userId),
                 args: userId);
         }
@@ -74,22 +75,9 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<UserRole> GetRoleUsers(string roleId)
         {
             return this.InvokeService(
-                "GetRoleUsers",
+                nameof(GetRoleUsers),
                 () => this.Persistence.QueryForList<UserRole>(RoleNamespace, "GetRoleUsers", roleId),
                 args: roleId);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        /// <summary>
-        /// 获取模块名称。
-        /// </summary>
-        /// <returns>模块名称</returns>
-        protected override string GetModelName()
-        {
-            return Constants.Model_RBAC;
         }
 
         #endregion

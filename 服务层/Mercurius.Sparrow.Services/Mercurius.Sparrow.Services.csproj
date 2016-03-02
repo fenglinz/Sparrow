@@ -80,6 +80,7 @@
     <Compile Include="RBAC\UserService.cs" />
     <Compile Include="Support\AbstractFileStorageClient.cs" />
     <Compile Include="Support\FileStorageClient.cs" />
+    <Compile Include="Support\ModuleAttribute.cs" />
     <Compile Include="Support\ServiceSupport.cs" />
   </ItemGroup>
   <ItemGroup>

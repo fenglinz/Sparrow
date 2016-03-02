@@ -15,6 +15,7 @@ namespace Mercurius.Sparrow.Services.WebApi
     /// <summary>
     /// WebApi用户业务逻辑接口实现。 
     /// </summary>
+    [Module("Web Api模块")]
     public class UserService : ServiceSupport, IUserService
     {
         #region 常量
@@ -34,7 +35,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response Create(User user)
         {
             return this.InvokeService(
-                "Create",
+                nameof(Create),
                 () =>
                 {
                     this.Persistence.Create(NS, "Create", user);
@@ -52,7 +53,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response Update(User user)
         {
             return this.InvokeService(
-                "Update",
+                nameof(Update),
                 () =>
                 {
                     this.Persistence.Update(NS, "Update", user);
@@ -70,7 +71,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response CreateOrUpdate(User user)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Update(NS, "CreateOrUpdate", user);
@@ -90,7 +91,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         {
             var args = new { Id = id, Status = status };
 
-            return this.InvokeService("ChangeStatus",
+            return this.InvokeService(nameof(ChangeStatus),
                 () =>
                 {
                     this.Persistence.Update(NS, "ChangeStatus", args);
@@ -106,7 +107,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <returns>返回删除结果</returns>
         public Response Remove(int id)
         {
-            return this.InvokeService("Remove", () =>
+            return this.InvokeService(nameof(Remove), () =>
             {
                 this.Persistence.Delete(NS, "Remove", id);
 
@@ -124,7 +125,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         {
             var args = new { Account = account, Password = password.MD5() };
 
-            return this.InvokeService("ValidateAccount", () => this.Persistence.QueryForObject<User>(NS, "ValidateAccount", args), false, args: args);
+            return this.InvokeService(nameof(ValidateAccount), () => this.Persistence.QueryForObject<User>(NS, "ValidateAccount", args), false, args: args);
         }
 
         /// <summary>
@@ -135,7 +136,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response<User> GetUserById(int id)
         {
             return this.InvokeService(
-                "GetUserById",
+                nameof(GetUserById),
                 () => this.Persistence.QueryForObject<User>(NS, "GetById", id),
                 args: id);
         }
@@ -149,7 +150,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response<User> GetUserByAccount(string account)
         {
             return this.InvokeService(
-                "GetUserByAccount",
+                nameof(GetUserByAccount),
                 () => this.Persistence.QueryForObject<User>(NS, "GetUserByAccount", account),
                 args: account);
         }
@@ -164,7 +165,7 @@ namespace Mercurius.Sparrow.Services.WebApi
             so = so ?? new UserSO();
 
             return this.InvokePagingService(
-                "SearchUsers",
+                nameof(SearchUsers),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(NS, "SearchUsers", out totalRecords, so),
                 args: so);
         }
@@ -182,7 +183,8 @@ namespace Mercurius.Sparrow.Services.WebApi
                 return new Response { ErrorMessage = "未授权用户" };
             }
 
-            var permission = this.InvokeService("GetUserPower", () => this.Persistence.QueryForList<Api>(ApiNS, "GetUserPower", user), args: user);
+            var permission = this.InvokeService(nameof(HasPower), () => this.Persistence.QueryForList<Api>(ApiNS, "GetUserPower", user), args: user);
+
             if (!permission.IsSuccess || permission.Datas.IsEmpty())
             {
                 return new Response { ErrorMessage = permission.ErrorMessage ?? "用户不存在" };
@@ -194,15 +196,5 @@ namespace Mercurius.Sparrow.Services.WebApi
         }
 
         #endregion
-
-        #region 重写基类方法
-
-        protected override string GetModelName()
-        {
-            return "Web Api模块";
-        }
-
-        #endregion
-
     }
 }

@@ -14,6 +14,7 @@ namespace Mercurius.Sparrow.Services.Core
     /// <summary>
     /// 视图资源信息服务接口实现。
     /// </summary>
+    [Module("基础模块")]
     public class GlobalizationService : ServiceSupport, IGlobalizationService
     {
         #region IGlobalizationService接口实现
@@ -26,7 +27,7 @@ namespace Mercurius.Sparrow.Services.Core
         public string GetGlobalResource(string key)
         {
             var result = this.InvokeService(
-                "GetGlobalResource",
+                nameof(GetGlobalResource),
                 () => this.Persistence.QueryForObject<string>(GlobalizationNamespace, "GetGlobalResource", key),
                 args: key);
 
@@ -40,13 +41,13 @@ namespace Mercurius.Sparrow.Services.Core
         /// <param name="view">视图</param>
         /// <param name="area">区域</param>
         /// <returns>资源信息字典</returns>
-        public Dictionary<string, string> GetResouces(string controller, string view, string area = null)
+        public Dictionary<string, string> GetResources(string controller, string view, string area = null)
         {
             var result = this.InvokeService(
-                "GetResources",
+                nameof(GetResources),
                 () =>
                 {
-                    var table = this.Persistence.QueryForDataTable(GlobalizationNamespace, "GetResouces", new { Area = area, Controller = controller, View = view });
+                    var table = this.Persistence.QueryForDataTable(GlobalizationNamespace, "GetResources", new { Area = area, Controller = controller, View = view });
 
                     var dict = new Dictionary<string, string>();
 
@@ -82,7 +83,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response<Globalization> GetResource(string id)
         {
             return this.InvokeService(
-                "GetResource",
+                nameof(GetResource),
                 () => this.Persistence.QueryForObject<Globalization>(GlobalizationNamespace, "GetResource", id),
                 args: id);
         }
@@ -95,7 +96,7 @@ namespace Mercurius.Sparrow.Services.Core
         public ResponseCollection<Globalization> GetGlobalResources(SearchObject so)
         {
             return this.InvokePagingService(
-                "GetGlobalResources",
+                nameof(GetGlobalResources),
                 (out int totalRecords) =>
                 this.Persistence.QueryForPaginatedList<Globalization>(
 					GlobalizationNamespace,
@@ -113,7 +114,7 @@ namespace Mercurius.Sparrow.Services.Core
         public ResponseCollection<Globalization> GetLocalResources(GlobalizationSO so)
         {
             return this.InvokePagingService(
-                "GetLocalResources",
+                nameof(GetLocalResources),
                 (out int records) =>
                 this.Persistence.QueryForPaginatedList<Globalization>(GlobalizationNamespace, "GetLocalResources", out records, so),
                 args: so);
@@ -128,7 +129,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response CreateOrUpdateGlobalResource(string key, string value, string remark)
         {
             return this.InvokeService(
-                "CreateOrUpdateGlobalResource",
+                nameof(CreateOrUpdateGlobalResource),
                 () =>
                 {
                     this.Persistence.Create(
@@ -150,7 +151,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response CreateOrUpdateResource(Globalization globalization)
         {
             return this.InvokeService(
-                "CreateOrUpdateResource",
+                nameof(CreateOrUpdateResource),
                 () =>
                 {
                     this.Persistence.Update(GlobalizationNamespace, "CreateOrUpdateResource", globalization);
@@ -167,7 +168,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response Remove(string id)
         {
             return this.InvokeService(
-                "Remove",
+                nameof(Remove),
                 () =>
                 {
                     this.Persistence.Delete(GlobalizationNamespace, "Remove", id);
@@ -175,15 +176,6 @@ namespace Mercurius.Sparrow.Services.Core
                     this.ClearCache<Globalization>();
                 },
                 id);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        protected override string GetModelName()
-        {
-            return Constants.Model_Basic;
         }
 
         #endregion

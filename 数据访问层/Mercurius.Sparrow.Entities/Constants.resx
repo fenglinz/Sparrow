@@ -132,10 +132,4 @@
   <data name="MaxStringLength" xml:space="preserve">
     <value>字段长度不能超过{1}个字符！</value>
   </data>
-  <data name="Model_Basic" xml:space="preserve">
-    <value>基础模块</value>
-  </data>
-  <data name="Model_RBAC" xml:space="preserve">
-    <value>基于角色的访问控制模块</value>
-  </data>
 </root>

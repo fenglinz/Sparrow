@@ -24,7 +24,7 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// <param name="view">视图</param>
         /// <param name="area">区域</param>
         /// <returns>资源信息字典</returns>
-        Dictionary<string, string> GetResouces(string controller, string view, string area = null);
+        Dictionary<string, string> GetResources(string controller, string view, string area = null);
 
         /// <summary>
         /// 获取资源信息。

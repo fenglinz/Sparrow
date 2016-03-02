@@ -13,6 +13,7 @@ namespace Mercurius.Sparrow.Services.WebApi
     /// <summary>
     /// Web API信息业务逻辑接口实现。 
     /// </summary>
+    [Module("Web Api模块")]
     public class ApiService : ServiceSupport, IApiService
     {
         #region 常量
@@ -31,7 +32,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response Create(Api api)
         {
             return this.InvokeService(
-                "Create",
+                nameof(Create),
                 () =>
                 {
                     this.Persistence.Create(NS, "Create", api);
@@ -49,7 +50,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response Update(Api api)
         {
             return this.InvokeService(
-                "Update",
+                nameof(Update),
                 () =>
                 {
                     this.Persistence.Update(NS, "Update", api);
@@ -67,7 +68,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response CreateOrUpdate(Api api)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Update(NS, "CreateOrUpdate", api);
@@ -84,7 +85,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <returns>返回删除结果</returns>
         public Response Remove(int id)
         {
-            return this.InvokeService("Remove", () =>
+            return this.InvokeService(nameof(Remove), () =>
             {
                 this.Persistence.Delete(NS, "Remove", id);
 
@@ -98,7 +99,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <returns></returns>
         public Response Truncate()
         {
-            return this.InvokeService("Truncate", () =>
+            return this.InvokeService(nameof(Truncate), () =>
             {
                 this.Persistence.Delete(NS, "Truncate");
 
@@ -114,7 +115,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response<Api> GetApiById(int id)
         {
             return this.InvokeService(
-                "GetApiById",
+                nameof(GetApiById),
                 () => this.Persistence.QueryForObject<Api>(NS, "GetById", id),
                 args: id);
         }
@@ -129,21 +130,11 @@ namespace Mercurius.Sparrow.Services.WebApi
             so = so ?? new ApiSO();
 
             return this.InvokePagingService(
-                "SearchApis",
+                nameof(SearchApis),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<Api>(NS, "SearchApis", out totalRecords, so),
                 args: so);
         }
 
         #endregion
-
-        #region 重写基类方法
-
-        protected override string GetModelName()
-        {
-            return "Web Api模块";
-        }
-
-        #endregion
-
     }
 }

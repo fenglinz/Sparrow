@@ -104,23 +104,5 @@ namespace Mercurius.Sparrow.Entities {
                 return ResourceManager.GetString("MaxStringLength", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   查找类似 基础模块 的本地化字符串。
-        /// </summary>
-        public static string Model_Basic {
-            get {
-                return ResourceManager.GetString("Model_Basic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 基于角色的访问控制模块 的本地化字符串。
-        /// </summary>
-        public static string Model_RBAC {
-            get {
-                return ResourceManager.GetString("Model_RBAC", resourceCulture);
-            }
-        }
     }
 }

@@ -16,6 +16,7 @@ namespace Mercurius.Sparrow.Services.RBAC
     /// <summary>
     /// 回收站服务接口实现。
     /// </summary>
+    [Module("基于角色的访问控制模块")]
     public class RecyclebinService : ServiceSupport, IRecyclebinService
     {
         #region IRecyclebinService接口实现
@@ -28,7 +29,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<string> GetCategories(string userId)
         {
             return this.InvokeService(
-                "GetCategories",
+                nameof(GetCategories),
                 () => this.Persistence.QueryForList<string>(RecyclebinNamespace, "GetCategories", userId),
                 args: userId);
         }
@@ -41,7 +42,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<Recyclebin> GetRecyclebinById(string id)
         {
             return this.InvokeService(
-                "GetRecyclebinById",
+                nameof(GetRecyclebinById),
                 () => this.Persistence.QueryForObject<Recyclebin>(RecyclebinNamespace, "GetRecyclebinById", id),
                 args: id);
         }
@@ -54,7 +55,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<Recyclebin> GetRecyclebins(RecyclebinSO so)
         {
             return this.InvokePagingService(
-                "GetRecyclebins",
+                nameof(GetRecyclebins),
                 (out int totalRecords) =>
                 this.Persistence.QueryForPaginatedList<Recyclebin>(RecyclebinNamespace, "GetRecyclebins", out totalRecords, so),
                 args: so);
@@ -72,7 +73,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             var items = table.Split('.');
 
             return this.InvokeService(
-                "GetRecyclebinDetails",
+                nameof(GetRecyclebinDetails),
                 () => this.Persistence.QueryForDataTable(RecyclebinNamespace, "GetRecyclebinDetails", new { Schema = items.FirstOrDefault(), Table = items.LastOrDefault(), Column = column, Value = value }),
                 true,
                 table,
@@ -87,7 +88,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response Restore(params string[] args)
         {
             return this.InvokeService(
-                "Restore",
+                nameof(Restore),
                 () =>
                 {
                     this.Persistence.Update(RecyclebinNamespace, "Restore", new { Values = args });
@@ -104,7 +105,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response Clear(params string[] args)
         {
             return this.InvokeService(
-                "Clear",
+                nameof(Clear),
                 () =>
                 {
                     this.Persistence.Delete(RecyclebinNamespace, "Clear", new { Values = args });
@@ -124,7 +125,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<bool> CanRemoveToRecyclebin(string table, string column, params object[] args)
         {
             return this.InvokeService(
-                "CanRemoveToRecyclebin",
+                nameof(CanRemoveToRecyclebin),
                 () =>
                 {
                     var items = table.Split('.');
@@ -159,7 +160,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response RemoveToRecyclebin(string name, string table, string column, params object[] args)
         {
             return this.InvokeService(
-                "RemoveToRecyclebin",
+                nameof(RemoveToRecyclebin),
                 () =>
                 {
                     var items = table.Split('.');
@@ -187,19 +188,6 @@ namespace Mercurius.Sparrow.Services.RBAC
                 table,
                 column,
                 args);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        /// <summary>
-        /// 获取模块名称。
-        /// </summary>
-        /// <returns>模块名称</returns>
-        protected override string GetModelName()
-        {
-            return Constants.Model_RBAC;
         }
 
         #endregion

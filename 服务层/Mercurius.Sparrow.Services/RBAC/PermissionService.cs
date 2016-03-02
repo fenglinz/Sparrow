@@ -13,6 +13,7 @@ namespace Mercurius.Sparrow.Services.RBAC
     /// <summary>
     /// 权限管理服务接口实现。
     /// </summary>
+    [Module("基于角色的访问控制模块")]
     public class PermissionService : ServiceSupport, IPermissionService
     {
         #region IPermissionService接口实现
@@ -24,7 +25,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response Remove(string id)
         {
             return this.InvokeService(
-                "Remove",
+                nameof(Remove),
                 () =>
                 {
                     this.Persistence.Delete(PermissionNamespace, "DeleteSystemMenu", id);
@@ -43,7 +44,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response CreateOrUpdate(SystemMenu systemMenu)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Create(PermissionNamespace, "CreateOrUpdateSystemMenu", systemMenu);
@@ -61,7 +62,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response AddSystemMenuButton(string systemMenuId, string buttonId)
         {
             return this.InvokeService(
-                "AddSystemMenuButton",
+                nameof(AddSystemMenuButton),
                 () =>
                 {
                     var button = this.Persistence.QueryForObject<Button>(ButtonNamespace, "GetButtons", buttonId);
@@ -113,7 +114,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response AllotPermissionByRole(string roleId, params string[] args)
         {
             return this.InvokeService(
-                "AllotPermissionByRole",
+                nameof(AllotPermissionByRole),
                 () =>
                 {
                     var permissions = args.IsEmpty() ? null : args.Select(arg => new RolePermission
@@ -143,7 +144,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response AllotPermissionByUserGroup(string userGroupId, params string[] args)
         {
             return this.InvokeService(
-                "AllotPermissionByUserGroup",
+                nameof(AllotPermissionByUserGroup),
                 () =>
                 {
                     var permissions = args.IsEmpty() ? null : args.Select(arg => new UserGroupPermission
@@ -172,7 +173,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<SystemMenu> GetSystemMenu(string id)
         {
             return this.InvokeService(
-                "GetSystemMenu",
+                nameof(GetSystemMenu),
                 () => this.Persistence.QueryForObject<SystemMenu>(PermissionNamespace, "GetSystemMenu", id),
                 args: id);
         }
@@ -184,7 +185,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<SystemMenu> GetSystemMenus()
         {
             return this.InvokeService(
-                "GetSystemMenus",
+                nameof(GetSystemMenus),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenus").AsSorted<SystemMenu, string>());
         }
 
@@ -196,7 +197,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<SystemMenu> GetSystemMenuButtons(string id)
         {
             return this.InvokeService(
-                "GetSystemMenuButtons",
+                nameof(GetSystemMenuButtons),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenuButtons", id),
                 args: id);
         }
@@ -209,7 +210,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<SystemMenu> GetSystemMenusWithAlloted(string userId)
         {
             return this.InvokeService(
-                "GetSystemMenusWithAlloted",
+                nameof(GetSystemMenusWithAlloted),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAlloted", userId).AsSorted<SystemMenu, string>(),
                 args: userId);
         }
@@ -222,7 +223,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByUser(string id)
         {
             return this.InvokeService(
-                "GetSystemMenusWithAllotedByUser",
+                nameof(GetSystemMenusWithAllotedByUser),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByUser", id).AsSorted<SystemMenu, string>(),
                 args: id);
         }
@@ -235,7 +236,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByRole(string id)
         {
             return this.InvokeService(
-                "GetSystemMenusWithAllotedByRole",
+                nameof(GetSystemMenusWithAllotedByRole),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByRole", id).AsSorted<SystemMenu, string>(),
                 args: id);
         }
@@ -248,7 +249,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByUserGroup(string id)
         {
             return this.InvokeService(
-                "GetSystemMenusWithAllotedByUserGroup",
+                nameof(GetSystemMenusWithAllotedByUserGroup),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByUserGroup", id).AsSorted<SystemMenu, string>(),
                 args: id);
         }
@@ -261,7 +262,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<SystemMenu> GetAccessibleMenus(string userId)
         {
             return this.InvokeService(
-                "GetAccessibleMenus",
+                nameof(GetAccessibleMenus),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetAccessibleMenusByUser", userId).AsSorted<SystemMenu, string>(),
                 args: userId);
         }
@@ -275,24 +276,11 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<SystemMenu> GetAccessibleButtons(string userId, string navigateUrl)
         {
             return this.InvokeService(
-                "GetAccessibleButtons",
+                nameof(GetAccessibleButtons),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetAccessibleButtons", new { UserId = userId, NavigateUrl = navigateUrl }),
                 true,
                 userId,
                 navigateUrl);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        /// <summary>
-        /// 获取模块名称。
-        /// </summary>
-        /// <returns>模块名称</returns>
-        protected override string GetModelName()
-        {
-            return Constants.Model_RBAC;
         }
 
         #endregion

@@ -11,6 +11,7 @@ namespace Mercurius.Sparrow.Services.Core
     /// <summary>
     /// 字典服务接口实现
     /// </summary>
+    [Module("基础模块")]
     public class DictionaryService : ServiceSupport, IDictionaryService
     {
         #region IDictionaryService接口实现
@@ -23,7 +24,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response<Dictionary> GetDictionary(string id)
         {
             return this.InvokeService(
-                "GetDictionary",
+                nameof(GetDictionary),
                 () => this.Persistence.QueryForObject<Dictionary>(DictionaryNamespace, "GetDictionary", id),
                 args: id);
         }
@@ -35,7 +36,7 @@ namespace Mercurius.Sparrow.Services.Core
         public ResponseCollection<Dictionary> GetDictionaries()
         {
             return this.InvokeService(
-                "GetDictionaries",
+                nameof(GetDictionaries),
                 () => this.Persistence.QueryForList<Dictionary>(DictionaryNamespace, "GetDictionaries"));
         }
 
@@ -46,7 +47,7 @@ namespace Mercurius.Sparrow.Services.Core
         public ResponseCollection<Dictionary> GetCategories()
         {
             return this.InvokeService(
-                "GetCategories",
+                nameof(GetCategories),
                 () => this.Persistence.QueryForList<Dictionary>(DictionaryNamespace, "GetCategories"));
         }
 
@@ -58,7 +59,7 @@ namespace Mercurius.Sparrow.Services.Core
         public ResponseCollection<Dictionary> GetCategories(string parentKey)
         {
             return this.InvokeService(
-                "GetCategories",
+                nameof(GetCategories),
                 () => this.Persistence.QueryForList<Dictionary>(DictionaryNamespace, "GetCategoriesByParentKey", parentKey)
                 , args: parentKey);
         }
@@ -71,7 +72,7 @@ namespace Mercurius.Sparrow.Services.Core
         public ResponseCollection<Dictionary> GetCategoryItems(string category)
         {
             return this.InvokeService(
-                "GetCategoryItems",
+                nameof(GetCategoryItems),
                 () => this.Persistence.QueryForList<Dictionary>(DictionaryNamespace, "GetCategoryItems", category),
                 args: category);
         }
@@ -84,7 +85,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response CreateOrUpdate(Dictionary dictionary)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     var checkResult = this.Persistence.QueryForObject<int>(
@@ -114,7 +115,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response CreateOrUpdateCategory(Dictionary dictionary)
         {
             return this.InvokeService(
-                "CreateOrUpdateCategory",
+                nameof(CreateOrUpdateCategory),
                 () =>
                 {
                     var checkResult = this.Persistence.QueryForObject<int>(DictionaryNamespace, "CheckCategoryExists", new { Id = dictionary.Id, Category = dictionary.Key });
@@ -141,7 +142,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response ChangeStatus(string id, int status)
         {
             return this.InvokeService(
-                "ChangeStatus",
+                nameof(ChangeStatus),
                 () =>
                 {
                     this.Persistence.Update(DictionaryNamespace, "ChangeStatus", new { Id = id, Status = status });
@@ -156,7 +157,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response Remove(string id)
         {
             return this.InvokeService(
-                "Remove",
+                nameof(Remove),
                 () =>
                 {
                     this.Persistence.Delete(DictionaryNamespace, "Remove", id);
@@ -164,15 +165,6 @@ namespace Mercurius.Sparrow.Services.Core
                     this.ClearCache<Dictionary>();
                 },
                 id);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        protected override string GetModelName()
-        {
-            return Constants.Model_Basic;
         }
 
         #endregion

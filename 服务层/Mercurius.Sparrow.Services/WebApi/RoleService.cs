@@ -13,6 +13,7 @@ namespace Mercurius.Sparrow.Services.WebApi
     /// <summary>
     /// Web API角色业务逻辑接口实现。 
     /// </summary>
+    [Module("Web Api模块")]
     public class RoleService : ServiceSupport, IRoleService
     {
         #region 常量
@@ -32,7 +33,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response Create(Role role)
         {
             return this.InvokeService(
-                "Create",
+                nameof(Create),
                 () =>
                 {
                     this.Persistence.Create(NS, "Create", role);
@@ -50,7 +51,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response Update(Role role)
         {
             return this.InvokeService(
-                "Update",
+                nameof(Update),
                 () =>
                 {
                     this.Persistence.Update(NS, "Update", role);
@@ -68,7 +69,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response CreateOrUpdate(Role role)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Update(NS, "CreateOrUpdate", role);
@@ -88,7 +89,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         {
             var args = new { RoleId = roleId, UserId = userId };
 
-            return this.InvokeService("AddMember",
+            return this.InvokeService(nameof(AddMember),
                 () =>
                 {
                     this.Persistence.Create(NS, "AddMember", args);
@@ -104,7 +105,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <returns>返回删除结果</returns>
         public Response Remove(int id)
         {
-            return this.InvokeService("Remove", () =>
+            return this.InvokeService(nameof(Remove), () =>
             {
                 this.Persistence.Delete(NS, "Remove", id);
 
@@ -122,7 +123,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         {
             var args = new { RoleId = roleId, UserId = userId };
 
-            return this.InvokeService("RemoveMember",
+            return this.InvokeService(nameof(RemoveMember),
                 () =>
                 {
                     this.Persistence.Delete(NS, "RemoveMember", args);
@@ -139,7 +140,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response<Role> GetRoleById(int id)
         {
             return this.InvokeService(
-                "GetRoleById",
+                nameof(GetRoleById),
                 () => this.Persistence.QueryForObject<Role>(NS, "GetById", id),
                 args: id);
         }
@@ -154,7 +155,7 @@ namespace Mercurius.Sparrow.Services.WebApi
             so = so ?? new RoleSO();
 
             return this.InvokePagingService(
-                "SearchRoles",
+                nameof(SearchRoles),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<Role>(NS, "SearchRoles", out totalRecords, so),
                 args: so);
         }
@@ -166,7 +167,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <returns>已分配的用户信息</returns>
         public ResponseCollection<User> GetAllotUsers(int id)
         {
-            return this.InvokeService("GetAllotUsers", () => this.Persistence.QueryForList<User>(NS, "GetAllotUsers", id), args: id);
+            return this.InvokeService(nameof(GetAllotUsers), () => this.Persistence.QueryForList<User>(NS, "GetAllotUsers", id), args: id);
         }
 
         /// <summary>
@@ -179,7 +180,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         {
             var args = new { RoleId = roleId, Account = account };
 
-            return this.InvokeService("GetUnAllotUsers", () => this.Persistence.QueryForList<User>(NS, "GetUnAllotUsers", args), args: args);
+            return this.InvokeService(nameof(GetUnAllotUsers), () => this.Persistence.QueryForList<User>(NS, "GetUnAllotUsers", args), args: args);
         }
 
         /// <summary>
@@ -189,7 +190,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <returns></returns>
         public ResponseCollection<Api> GetRolePower(int roleId)
         {
-            return this.InvokeService("GetRolePower", () => this.Persistence.QueryForList<Api>(ApiNS, "GetRolePower", roleId), args: roleId);
+            return this.InvokeService(nameof(GetRolePower), () => this.Persistence.QueryForList<Api>(ApiNS, "GetRolePower", roleId), args: roleId);
         }
 
         /// <summary>
@@ -199,7 +200,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public Response AllotUserPower(Role role)
         {
             return this.InvokeService(
-                "AllotUserPower",
+                nameof(AllotUserPower),
                 () =>
                 {
                     this.Persistence.Update(NS, "AllotUserPower", role);
@@ -210,15 +211,5 @@ namespace Mercurius.Sparrow.Services.WebApi
         }
 
         #endregion
-
-        #region 重写基类方法
-
-        protected override string GetModelName()
-        {
-            return "Web Api模块";
-        }
-
-        #endregion
-
     }
 }

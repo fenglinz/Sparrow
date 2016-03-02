@@ -10,6 +10,7 @@ namespace Mercurius.Sparrow.Services.Core
     /// <summary>
     /// 系统设置服务接口实现。
     /// </summary>
+    [Module("基础模块")]
     public class SystemSettingService : ServiceSupport, ISystemSettingService
     {
         #region ISystemSettingService接口实现
@@ -22,7 +23,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response SaveSetting(SystemSetting setting)
         {
             return this.InvokeService(
-                "SaveSetting",
+                nameof(SaveSetting),
                 () =>
                 {
                     this.Persistence.Create(SystemsettingNamespace, "SaveSetting", setting);
@@ -44,7 +45,7 @@ namespace Mercurius.Sparrow.Services.Core
         public Response<SystemSetting> GetSetting(string name)
         {
             return this.InvokeService(
-                "GetSetting",
+                nameof(GetSetting),
                 () => this.Persistence.QueryForObject<SystemSetting>(SystemsettingNamespace, "GetSetting", name),
                 args: name);
         }
@@ -57,18 +58,9 @@ namespace Mercurius.Sparrow.Services.Core
         public ResponseCollection<SystemSetting> GetSettings(string category)
         {
             return this.InvokeService(
-                "GetSettings",
+                nameof(GetSettings),
                 () => this.Persistence.QueryForList<SystemSetting>(SystemsettingNamespace, "GetSettings", category),
                 args: category);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        protected override string GetModelName()
-        {
-            return Constants.Model_Basic;
         }
 
         #endregion

@@ -14,6 +14,7 @@ namespace Mercurius.Sparrow.Services.RBAC
     /// <summary>
     /// 用户服务接口实现。
     /// </summary>
+    [Module("基于角色的访问控制模块")]
     public class UserService : ServiceSupport, IUserService
     {
         #region IUserService接口实现
@@ -27,7 +28,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response UpdateUserStatus(string userId, int status)
         {
             return this.InvokeService(
-                "UpdateUserStatus",
+                nameof(UpdateUserStatus),
                 () =>
                 {
                     this.Persistence.Update(UserNamespace, "UpdateUserStatus", new { UserId = userId, Status = status });
@@ -47,7 +48,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response ChangePassword(string id, string oldPassword, string newPassword)
         {
             return this.InvokeService(
-                "ChangePassword",
+                nameof(ChangePassword),
                 () =>
                 {
                     if (oldPassword == newPassword)
@@ -106,7 +107,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             string[] permissions)
         {
             var result = this.InvokeService(
-                "CreateOrUpdateUser",
+                nameof(CreateOrUpdateUser),
                 () =>
                 {
                     this.Persistence.Update(UserNamespace, "CreateOrUpdateUser", user);
@@ -188,7 +189,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response CreateOrUpdateUserGroup(UserGroup userGroup)
         {
             return this.InvokeService(
-                "CreateOrUpdateUserGroup",
+                nameof(CreateOrUpdateUserGroup),
                 () =>
                 {
                     this.Persistence.Update(UserNamespace, "CreateOrUpdateUserGroup", userGroup);
@@ -206,7 +207,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<User> GetUser(string id)
         {
             return this.InvokeService(
-                "GetUser",
+                nameof(GetUser),
                 () => this.Persistence.QueryForObject<User>(UserNamespace, "GetUser", id),
                 false,
                 id);
@@ -219,7 +220,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// <returns>用户信息</returns>
         public Response<User> GetUserByAccount(string account)
         {
-            return this.InvokeService("GetUserByAccount", () => this.Persistence.QueryForObject<User>(UserNamespace, "GetUserByAccount", account), false, account);
+            return this.InvokeService(nameof(GetUserByAccount), () => this.Persistence.QueryForObject<User>(UserNamespace, "GetUserByAccount", account), false, account);
         }
 
         /// <summary>
@@ -233,7 +234,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             password = password.Encrypt();
 
             return this.InvokeService(
-                "ValidateUser",
+                nameof(ValidateUser),
                 () =>
                 this.Persistence.QueryForObject<User>(UserNamespace, "ValidateUser", new { Account = account, Password = password }),
                 false,
@@ -249,7 +250,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response CreateOrUpdateHomeShortcut(HomeShortcut homeShortcut)
         {
             return this.InvokeService(
-                "CreateOrUpdateHomeShortcut",
+                nameof(CreateOrUpdateHomeShortcut),
                 () =>
                 {
                     this.Persistence.Create(HomeShortcutNamespace, "CreateOrUpdate", homeShortcut);
@@ -268,7 +269,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response RemoveHomeShortcut(string userId, params string[] args)
         {
             return this.InvokeService(
-                "RemoveHomeShortcut",
+                nameof(RemoveHomeShortcut),
                 () =>
                 {
                     if (!args.IsEmpty())
@@ -290,7 +291,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<HomeShortcut> GetHomeShortcut(string id)
         {
             return this.InvokeService(
-                "GetHomeShortcut",
+                nameof(GetHomeShortcut),
                 () => this.Persistence.QueryForObject<HomeShortcut>(HomeShortcutNamespace, "GetHomeShortcut", id),
                 args: id);
         }
@@ -303,7 +304,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<HomeShortcut> GetHomeShortcuts(string userId)
         {
             return this.InvokeService(
-                "GetHomeShortcuts",
+                nameof(GetHomeShortcuts),
                 () => this.Persistence.QueryForList<HomeShortcut>(HomeShortcutNamespace, "GetHomeShortcuts", userId),
                 args: userId);
         }
@@ -318,7 +319,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             so = so ?? new UserSO();
 
             return this.InvokePagingService(
-                "GetUsers",
+                nameof(GetUsers),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(UserNamespace, "GetUsers", out totalRecords, so),
                 args: so);
         }
@@ -331,7 +332,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<User> GetUsersByGroup(string id)
         {
             return this.InvokeService(
-                "GetUsersByGroup",
+                nameof(GetUsersByGroup),
                 () => this.Persistence.QueryForList<User>(UserNamespace, "GetUsersByGroup", id),
                 args: id);
         }
@@ -344,7 +345,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<User> GetUnAllotGroupUsers(string userGroupId)
         {
             return this.InvokeService(
-                "GetUnAllotGroupUsers",
+                nameof(GetUnAllotGroupUsers),
                 () => this.Persistence.QueryForList<User>(UserNamespace, "GetUnAllotGroupUsers", userGroupId));
         }
 
@@ -356,7 +357,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<UserGroup> GetUserGroup(string id)
         {
             return this.InvokeService(
-                "GetUserGroup",
+                nameof(GetUserGroup),
                 () => this.Persistence.QueryForObject<UserGroup>(UserNamespace, "GetUserGroup", id),
                 args: id);
         }
@@ -368,7 +369,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<UserGroup> GetUserGroups()
         {
             return this.InvokeService(
-                "GetUserGroups",
+                nameof(GetUserGroups),
                 () => this.Persistence.QueryForList<UserGroup>(UserNamespace, "GetUserGroups"));
         }
 
@@ -380,7 +381,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response AddUserGroupMembers(string id, params string[] args)
         {
             return this.InvokeService(
-                "AddUserGroupMembers",
+                nameof(AddUserGroupMembers),
                 () =>
                 {
                     var members = args.IsEmpty() ? null :
@@ -417,7 +418,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response RemoveUserGroupMember(string id, string userId)
         {
             return this.InvokeService(
-                "RemoveUserGroupMember",
+                nameof(RemoveUserGroupMember),
                 () =>
                 {
                     this.Persistence.Delete(UserNamespace, "RemoveUserGroupMember", new { UserGroupId = id, UserId = userId });
@@ -428,19 +429,6 @@ namespace Mercurius.Sparrow.Services.RBAC
                 },
                 id,
                 userId);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        /// <summary>
-        /// 获取模块名称。
-        /// </summary>
-        /// <returns>模块名称</returns>
-        protected override string GetModelName()
-        {
-            return Constants.Model_RBAC;
         }
 
         #endregion

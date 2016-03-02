@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
@@ -31,6 +32,11 @@ namespace Mercurius.Sparrow.Services.Support
         /// 线程锁。
         /// </summary>
         private static object _locker = new object();
+
+        /// <summary>
+        /// 模块字典。
+        /// </summary>
+        private static readonly Dictionary<Type, string> _dictModuleNames;
 
         /// <summary>
         /// 缓存键前缀。
@@ -85,18 +91,9 @@ namespace Mercurius.Sparrow.Services.Support
         /// </summary>
         static ServiceSupport()
         {
+            _dictModuleNames = new Dictionary<Type, string>();
             _dictCacheKeyPrefix = new Dictionary<Type, string>();
         }
-
-        #endregion
-
-        #region 抽象方法
-
-        /// <summary>
-        /// 获取模块名称。
-        /// </summary>
-        /// <returns>模块名称</returns>
-        protected abstract string GetModelName();
 
         #endregion
 
@@ -392,6 +389,28 @@ namespace Mercurius.Sparrow.Services.Support
         #endregion
 
         #region 私有方法
+
+        /// <summary>
+        /// 获取模块名称。
+        /// </summary>
+        /// <returns>模块名称</returns>
+        private string GetModelName()
+        {
+            var type = this.GetType();
+
+            lock (_locker)
+            {
+                if (!_dictModuleNames.ContainsKey(type))
+                {
+                    var attributre = type.GetCustomAttribute<ModuleAttribute>();
+                    var moduleName = attributre != null ? attributre.Name : type.Namespace.Split('.').LastOrDefault();
+
+                    _dictModuleNames.Add(type, moduleName);
+                }
+            }
+
+            return _dictModuleNames[type];
+        }
 
         /// <summary>
         /// 获取缓存键前缀。

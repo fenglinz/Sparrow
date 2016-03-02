@@ -10,10 +10,11 @@ using static Mercurius.Sparrow.Repositories.StatementNamespaces.Core;
 
 namespace Mercurius.Sparrow.Services.Core
 {
-	/// <summary>
-	/// 日志服务接口实现。
-	/// </summary>
-	public class LoggerService : ServiceSupport, ILoggerService
+    /// <summary>
+    /// 日志服务接口实现。
+    /// </summary>
+    [Module("日志管理")]
+    public class LoggerService : ServiceSupport, ILoggerService
 	{
 		#region ILoggerService接口实现
 
@@ -24,7 +25,7 @@ namespace Mercurius.Sparrow.Services.Core
 		public ResponseCollection<Partition> GetPartitions()
 		{
 			return this.InvokeService(
-				"GetPartitions",
+                nameof(GetPartitions),
 				() =>
 				{
 					var partitions = this.Persistence.QueryForDataTable(RepositoryUtilsNamespace, "GetPartitions", "SystemLog").GetDatas<Partition>();
@@ -48,7 +49,7 @@ namespace Mercurius.Sparrow.Services.Core
 		public Response ClearLogs()
 		{
 			return this.InvokeService(
-				"ClearLogs",
+                nameof(ClearLogs),
 				() =>
 				{
 					this.Persistence.Delete(LoggerNamespace, "ClearLogs");
@@ -65,36 +66,22 @@ namespace Mercurius.Sparrow.Services.Core
 		/// <returns>日志信息</returns>
 		public Response<Log> GetLog(string partition, string id)
 		{
-			return this.InvokeService("GetLog", () => this.Persistence.QueryForObject<Log>(LoggerNamespace, "GetLog", new { Partition = partition, Id = id }), true, partition, id);
+			return this.InvokeService(nameof(GetLog), () => this.Persistence.QueryForObject<Log>(LoggerNamespace, "GetLog", new { Partition = partition, Id = id }), true, partition, id);
 		}
 
 		/// <summary>
 		/// 获取日志信息。
 		/// </summary>
-		/// <param name="partition">分区信息</param>
 		/// <param name="so">日志查询条件</param>
 		/// <returns>日志信息列表</returns>
 		public ResponseCollection<Log> GetLogs(LogSO so)
 		{
 			var totalRecords = 0;
-			var result = this.InvokeService("GetLogs", () => this.Persistence.QueryForPaginatedList<Log>(LoggerNamespace, "GetLogs", out totalRecords, so), false, so);
+			var result = this.InvokeService(nameof(GetLogs), () => this.Persistence.QueryForPaginatedList<Log>(LoggerNamespace, "GetLogs", out totalRecords, so), false, so);
 
 			result.TotalRecords = totalRecords;
 
 			return result;
-		}
-
-		#endregion
-
-		#region 重写基类方法
-
-		/// <summary>
-		/// 获取模块名称。
-		/// </summary>
-		/// <returns>模块名称</returns>
-		protected override string GetModelName()
-		{
-			return "日志管理";
 		}
 
 		#endregion

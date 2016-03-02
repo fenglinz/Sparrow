@@ -279,7 +279,7 @@ namespace Mercurius.Sparrow.Backstage.Extensions
                 viewName = viewPath.Substring(viewPath.LastIndexOf('/') + 1).Replace(".cshtml", string.Empty);
             }
 
-            var resources = _globalizationService.GetResouces(controller, viewName, area);
+            var resources = _globalizationService.GetResources(controller, viewName, area);
 
             return resources.ContainsKey(key) ? resources[key] : key;
         }

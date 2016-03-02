@@ -18,7 +18,7 @@
     </select>
 
     <!-- 获取视图资源信息 -->
-    <select id="GetResouces" parameterClass="Params" resultClass="DataTable">
+    <select id="GetResources" parameterClass="Params" resultClass="DataTable">
       <![CDATA[
         SELECT
           [Key]

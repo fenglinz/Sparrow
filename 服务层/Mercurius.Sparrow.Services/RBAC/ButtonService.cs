@@ -10,6 +10,7 @@ namespace Mercurius.Sparrow.Services.RBAC
     /// <summary>
     /// 按钮信息服务接口实现。
     /// </summary>
+    [Module("基于角色的访问控制模块")]
     public class ButtonService : ServiceSupport, IButtonService
     {
         #region 实现IButtonService接口
@@ -22,7 +23,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<Button> GetButton(string id)
         {
             return this.InvokeService(
-                "GetButton",
+                nameof(GetButton),
                 () => this.Persistence.QueryForObject<Button>(ButtonNamespace, "GetButtons", id),
                 args: id);
         }
@@ -33,7 +34,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// <returns>按钮信息列表</returns>
         public ResponseCollection<Button> GetButtons()
         {
-            return this.InvokeService("GetButtons", () => this.Persistence.QueryForList<Button>(ButtonNamespace, "GetButtons"));
+            return this.InvokeService(nameof(GetButtons), () => this.Persistence.QueryForList<Button>(ButtonNamespace, "GetButtons"));
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// <returns>按钮信息列表</returns>
         public ResponseCollection<Button> GetUnUsedButtons(string systemMenuId)
         {
-            return this.InvokeService("GetUnUsedButtons",
+            return this.InvokeService(nameof(GetUnUsedButtons),
                 () => this.Persistence.QueryForList<Button>(ButtonNamespace, "GetUnUsedButtons", systemMenuId),
                 args: systemMenuId);
         }
@@ -56,7 +57,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response CreateOrUpdate(Button button)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Update(ButtonNamespace, "CreateOrUpdate", button);
@@ -65,19 +66,6 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.ClearCache<SystemMenu>();
                 },
                 button);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        /// <summary>
-        /// 获取模块名称。
-        /// </summary>
-        /// <returns>模块名称</returns>
-        protected override string GetModelName()
-        {
-            return Constants.Model_RBAC;
         }
 
         #endregion

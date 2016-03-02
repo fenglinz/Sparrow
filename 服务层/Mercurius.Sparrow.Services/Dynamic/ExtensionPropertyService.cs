@@ -14,6 +14,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
     /// <summary>
     /// 扩展属性业务逻辑接口实现。 
     /// </summary>
+    [Module("动态页面")]
     public class ExtensionPropertyService : ServiceSupport, IExtensionPropertyService
     {
         #region 常量
@@ -32,7 +33,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         public Response CreateOrUpdate(ExtensionProperty extensionProperty)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Update(NS, "CreateOrUpdate", extensionProperty);
@@ -52,7 +53,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         {
             var args = new { EntityId = entityId, Instances = instances };
 
-            return this.InvokeService("CreateInstances", () =>
+            return this.InvokeService(nameof(CreateInstances), () =>
             {
                 this.Persistence.Create(NS, "CreateInstances", args);
 
@@ -67,7 +68,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// <returns>返回删除结果</returns>
         public Response Remove(Guid id)
         {
-            return this.InvokeService("Remove", () =>
+            return this.InvokeService(nameof(Remove), () =>
             {
                 this.Persistence.Delete(NS, "Remove", id);
 
@@ -82,7 +83,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// <returns>返回删除的结果</returns>
         public Response RemoveInstances(string entityId)
         {
-            return this.InvokeService("RemoveInstances", () =>
+            return this.InvokeService(nameof(RemoveInstances), () =>
             {
                 this.Persistence.Delete(NS, "RemoveInstances", entityId);
 
@@ -96,7 +97,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// <returns>扩展属性分类集合</returns>
         public ResponseCollection<string> GetCategories()
         {
-            return this.InvokeService("GetCategories", () => this.Persistence.QueryForList<string>(NS, "GetCategories"), false);
+            return this.InvokeService(nameof(GetCategories), () => this.Persistence.QueryForList<string>(NS, "GetCategories"), false);
         }
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// <returns>分组集合</returns>
         public ResponseCollection<string> GetGroupNames(string category)
         {
-            return this.InvokeService("GetGroupNames",
+            return this.InvokeService(nameof(GetGroupNames),
                 () => this.Persistence.QueryForList<string>(NS, "GetGroupNames", category), false, category);
         }
 
@@ -118,7 +119,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         public Response<ExtensionProperty> GetExtensionPropertyById(Guid id)
         {
             return this.InvokeService(
-                "GetExtensionPropertyById",
+                nameof(GetExtensionPropertyById),
                 () => this.Persistence.QueryForObject<ExtensionProperty>(NS, "GetById", id),
                 args: id);
         }
@@ -133,7 +134,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         {
             var args = new { Category = category, EntityId = entityId };
 
-            return this.InvokeService("GetExtensionProperties",
+            return this.InvokeService(nameof(GetExtensionProperties),
                 () => this.Persistence.QueryForList<ExtensionProperty>(NS, "GetExtensionPropertiesByCategory", args),
                 args: args);
         }
@@ -148,18 +149,9 @@ namespace Mercurius.Sparrow.Services.Dynamic
             so = so ?? new ExtensionPropertySO();
 
             return this.InvokePagingService(
-                "SearchExtensionProperties",
+                nameof(SearchExtensionProperties),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<ExtensionProperty>(NS, "SearchExtensionProperties", out totalRecords, so),
                 args: so);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        protected override string GetModelName()
-        {
-            return "动态页面";
         }
 
         #endregion

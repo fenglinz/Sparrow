@@ -10,6 +10,7 @@ namespace Mercurius.Sparrow.Services.RBAC
     /// <summary>
     /// 组织信息服务接口实现。
     /// </summary>
+    [Module("基于角色的访问控制模块")]
     public class OrganizationService : ServiceSupport, IOrganizationService
     {
         #region IOrganizationService接口实现
@@ -22,7 +23,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<Organization> GetOrganizationById(string id)
         {
             return this.InvokeService(
-                "GetOrganizationById",
+                nameof(GetOrganizationById),
                 () => this.Persistence.QueryForObject<Organization>(OrganizationNamespace, "GetOrganization", id),
                 args: id);
         }
@@ -34,7 +35,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<Organization> GetOrganizations()
         {
             return this.InvokeService(
-                "GetOrganizations",
+                nameof(GetOrganizations),
                 () => this.Persistence.QueryForList<Organization>(OrganizationNamespace, "GetOrganizations"));
         }
 
@@ -45,7 +46,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public ResponseCollection<StaffOrganize> GetStaffOrganizes()
         {
             return this.InvokeService(
-                "GetStaffOrganizes",
+                nameof(GetStaffOrganizes),
                 () => this.Persistence.QueryForList<StaffOrganize>(OrganizationNamespace, "GetStaffOrganizes"));
         }
 
@@ -57,7 +58,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response CreateOrUpdate(Organization org)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Update(OrganizationNamespace, "CreateOrUpdate", org);
@@ -66,19 +67,6 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.ClearCache<StaffOrganize>();
                 },
                 org);
-        }
-
-        #endregion
-
-        #region 重写基类方法
-
-        /// <summary>
-        /// 获取模块名称。
-        /// </summary>
-        /// <returns>模块名称</returns>
-        protected override string GetModelName()
-        {
-            return Constants.Model_RBAC;
         }
 
         #endregion
