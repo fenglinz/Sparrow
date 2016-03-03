@@ -10598,8 +10598,6 @@ input.ace + .lbl.padding-0::before {
   padding-bottom: 0;
 }
 /* tables */
-th,
-td,
 .table-bordered {
   border-radius: 0 !important;
 }
