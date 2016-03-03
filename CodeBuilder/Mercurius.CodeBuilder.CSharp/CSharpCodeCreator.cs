@@ -64,9 +64,9 @@ namespace Mercurius.CodeBuilder.CSharp
                     var texts = reader.ReadToEnd();
                     reader.Dispose();
 
-                    if (texts.Contains("Mercurius.Siskin"))
+                    if (texts.Contains("Mercurius.Sparrow"))
                     {
-                        texts = texts.Replace("Mercurius.Siskin", configuration.BaseNamespace);
+                        texts = texts.Replace("Mercurius.Sparrow", configuration.BaseNamespace);
 
                         var writer = new StreamWriter(fileName, false, Encoding.UTF8);
 

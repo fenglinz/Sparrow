@@ -20,6 +20,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
     /// <![CDATA[<summary>]]>
     /// <xsl:value-of select="./table/@description" />业务逻辑接口实现。 
     /// <![CDATA[</summary>]]>
+    [Module("<xsl:value-of select="./table/@moduleDescription"/>")]
     public class <xsl:value-of select="./table/@className"/>Service : ServiceSupport, I<xsl:value-of select="./table/@className" />Service
     {
         #region 常量
@@ -43,7 +44,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
         public Response Create(<xsl:value-of select="./table/@className" /><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
             return this.InvokeService(
-                "Create",
+                nameof(Create),
                 () => 
                 {
                     this.Persistence.Create(NS, "Create", <xsl:value-of select="./table/@camelClassName" />);
@@ -62,7 +63,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
         public Response Update(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
             return this.InvokeService(
-                "Update",
+                nameof(Update),
                 () =>
                 {
                     this.Persistence.Update(NS, "Update", <xsl:value-of select="./table/@camelClassName" />);
@@ -81,7 +82,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
         public Response CreateOrUpdate(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
             return this.InvokeService(
-                "CreateOrUpdate",
+                nameof(CreateOrUpdate),
                 () =>
                 {
                     this.Persistence.Update(NS, "CreateOrUpdate", <xsl:value-of select="./table/@camelClassName"/>);
@@ -101,7 +102,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
         /// &lt;returns>返回删除结果&lt;/returns>
         public Response Remove(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
         {
-            return this.InvokeService("Remove", () =>
+            return this.InvokeService(nameof(Remove), () =>
             {
                 this.Persistence.Delete(NS, "Remove", id);
 
@@ -128,7 +129,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
         {
             var args = <xsl:call-template name="GetByIdParams" />;
              
-            return this.InvokeService("Remove", () =>
+            return this.InvokeService(nameof(Remove), () =>
             {
                 this.Persistence.Delete(NS, "Remove", args);
 
@@ -148,7 +149,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
         public Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
         {
             return this.InvokeService(
-                "Get<xsl:value-of select="./table/@className"/>ById",
+                nameof(Get<xsl:value-of select="./table/@className"/>ById),
                 () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(NS, "GetById", id),
                 args: id);
         }
@@ -171,7 +172,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
             var args = <xsl:call-template name="GetByIdParams" />;
 
             return this.InvokeService(
-                "Get<xsl:value-of select="./table/@className"/>ById",
+                nameof(Get<xsl:value-of select="./table/@className"/>ById),
                 () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(NS, "GetById", args),
                 args: args);
         }
@@ -190,20 +191,11 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
 
             return this.InvokePagingService(
-                "Search<xsl:value-of select="./table/@pluralClassName" />",
+                nameof(Search<xsl:value-of select="./table/@pluralClassName" />),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList&lt;<xsl:value-of select="./table/@className"/>>(NS, "Search<xsl:value-of select="./table/@pluralClassName" />", out totalRecords, so),
                 args: so);
         }
       </xsl:if>
-        #endregion
-
-        #region 重写基类方法
-
-        protected override string GetModelName()
-        {
-            return "<xsl:value-of select="./table/@moduleDescription"/>";
-        }
-
         #endregion
     }
 }
