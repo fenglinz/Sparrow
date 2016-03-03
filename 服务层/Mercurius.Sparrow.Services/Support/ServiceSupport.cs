@@ -403,7 +403,7 @@ namespace Mercurius.Sparrow.Services.Support
                 if (!_dictModuleNames.ContainsKey(type))
                 {
                     var attributre = type.GetCustomAttribute<ModuleAttribute>();
-                    var moduleName = attributre != null ? attributre.Name : type.Namespace.Split('.').LastOrDefault();
+                    var moduleName = attributre != null || !string.IsNullOrWhiteSpace(attributre.Name) ? attributre.Name : type.Namespace.Split('.').LastOrDefault();
 
                     _dictModuleNames.Add(type, moduleName);
                 }
