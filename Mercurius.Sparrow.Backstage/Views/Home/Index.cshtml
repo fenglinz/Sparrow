@@ -21,52 +21,6 @@
                 margin-left: 0;
                 margin-bottom: 5px;
             }
-
-        .shortcuticons {
-            float: left;
-            border: solid 1px #ccc;
-            -ms-border-radius: 5px;
-            border-radius: 5px;
-            width: 85px;
-            height: 68px;
-            margin: 0 3px 0 0;
-            padding: 10px 0;
-            cursor: pointer;
-            vertical-align: middle;
-            text-align: center;
-            -ms-word-break: keep-all;
-            -moz-word-break: keep-all;
-            -o-word-break: keep-all;
-            word-break: keep-all;
-            white-space: nowrap;
-            overflow: hidden;
-            -ms-text-overflow: ellipsis;
-            -o-text-overflow: ellipsis;
-            -moz-text-overflow: ellipsis;
-            text-overflow: ellipsis;
-        }
-
-            .shortcuticons > i {
-                display: block;
-            }
-
-            .shortcuticons:hover {
-                color: #FFF;
-                -ms-border-radius: 5px;
-                border-radius: 5px;
-                background-image: -webkit-linear-gradient(top, #428bca 0, #2d6ca2 100%);
-                background-image: -o-linear-gradient(top, #428bca 0, #2d6ca2 100%);
-                background-image: -webkit-gradient(linear, left top, left bottom, from(#428bca), to(#2d6ca2));
-                background-image: linear-gradient(to bottom, #428bca 0, #2d6ca2 100%);
-                -webkit-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
-                -moz-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
-                -o-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
-                filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-                background-repeat: repeat-x;
-                border-color: #2b669a;
-                font-weight: bold;
-            }
     </style>
 }
 @section Scripts{
@@ -75,71 +29,58 @@
             mercurius.FixedTableHeader('#logOnGrid', 320);
         });
 
-        /**修改密码**/
+        @*查看用户登录/登出日志*@
+        function showlogs() {
+            var url = "@Url.Action("ShowLogs", "Home", new {@Area = ""})";
+
+            mercurius.OpenDialog(url, 'ShowLogs', '查看登录/登出日志', 720, 400, { statusbar: false });
+        }
+
+        @*修改密码*@
         function editpwd() {
             var url = "@Url.Action("ChangePassword", "User", new {@Area = "Admin"})";
 
             mercurius.OpenDialog(url, 'ChangePassword', '修改登录密码', 400, 242);
         }
 
-        //新增快捷功能
+        @*新增快捷功能*@
         function add_HomeShortcut() {
             var url = "@Url.Action("CreateOrUpdate", "HomeShortcut", new {@Area = "Admin"})";
             mercurius.OpenDialog(url, 'ChooseImageContainer', '首页快捷功能信息-添加', 450, 300);
         }
 
-        //快捷功能点击事件
+        @*快捷功能点击事件*@
         function ClickShortcut(url, target) {
             top.NavMenuUrl(url, target);
         }
     </script>
 }
 <div class="header">快捷访问列表</div>
-<div style="padding:2px 0 5px 16px;">
+<div style="padding: 2px 0 5px 16px;">
     @if (!homeShortcuts.IsEmpty())
     {
         <div class="row">
             @foreach (var item in homeShortcuts)
-                {
-                <div onclick="ClickShortcut('@item.NavigateUrl','@item.Target')" class="shortcuticons">
+            {
+                <div onclick="ClickShortcut('@item.NavigateUrl', '@item.Target')" class="shortcuticons">
                     <i class="@item.Image fa-2x"></i>
                     <span>@item.Name</span>
                 </div>
             }
         </div>
     }
-    <div class="row" style="margin-top:3px;">
+    <div class="row" style="margin-top: 3px;">
         <a href="javascript:void(0)" onclick="add_HomeShortcut()" class="btn btn-default">
             <i class="glyphicon glyphicon-plus"></i> 添加新的快捷功能
         </a>
     </div>
 </div>
-<div class="header">当前登录情况</div>
-<div style="padding:5px 0 5px 0;">
-    <img src="~/Content/Images/exclamation_octagon_fram.png" style="vertical-align: middle;margin-bottom: 3px;" width="16" height="16" alt="tip" />
-    提示：为了账号的安全，如果上面的登录情况不正常，建议您马上
-    <a href="javascript:void(0);" title="修改登录密码" style="text-decoration: underline;color: Blue;" onclick="editpwd()">密码修改</a>
+<div class="panel panel-default">
+    <div class="panel-heading"><i class="glyphicon glyphicon-th-large"></i> 当前登录情况</div>
+    <div class="panel-body">
+        <img src="~/Content/Images/exclamation_octagon_fram.png" style="vertical-align: middle;margin-bottom: 3px;" width="16" height="16" alt="tip" />
+        <a href="javascript:void(0);" style="text-decoration: underline;color: Blue;" onclick="showlogs()">查看日志</a>
+        (提示：为了账号的安全，如果您的登录情况不正常，建议您马上
+        <a href="javascript:void(0);" style="text-decoration: underline;color: Blue;" onclick="editpwd()">密码修改</a>)
+    </div>
 </div>
-@if (!logOnOffs.IsEmpty())
-{
-    var index = 0;
-    <table id="logOnGrid" class="grid">
-        <thead>
-            <tr>
-                <td style="width:50px;">编号</td>
-                <td style="width:150px;">时间</td>
-                <td>登录/登出</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in logOnOffs)
-                {
-                <tr>
-                    <td class="text-center">@(++index)</td>
-                    <td class="text-center">@item.RecordDateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                    <td>@item.RecordContent</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}

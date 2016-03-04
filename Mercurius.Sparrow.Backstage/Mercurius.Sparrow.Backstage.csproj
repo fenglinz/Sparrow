@@ -611,6 +611,7 @@
     <Content Include="Views\Shared\_LogOnLayout.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Areas\Admin\Views\SystemSetting\Index.cshtml" />
+    <None Include="Views\Home\ShowLogs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Shared\" />

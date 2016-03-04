@@ -43,14 +43,9 @@ namespace Mercurius.Sparrow.Backstage.Controllers
 
         public ActionResult Index()
         {
-            var totalRecords = 0;
             var rspHomeShortcuts = this.UserService.GetHomeShortcuts(WebHelper.GetLogOnUserId());
 
             this.ViewBag.HomeShortcuts = rspHomeShortcuts.Datas;
-            this.ViewBag.LogOnOffs = this.DynamicQuery
-                .Where<OperationRecord>(m => m.BusinessId, WebHelper.GetLogOnUserId())
-                .OrderBy(m => m.RecordDateTime, OrderBy.Desc)
-                .PagedList(1, 20, out totalRecords);
 
             return this.View();
         }
@@ -61,6 +56,20 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             var rspMenus = this.PermissionService.GetAccessibleMenus(WebHelper.GetLogOnUserId());
 
             return this.Json(rspMenus.Datas);
+        }
+
+        public ActionResult ShowLogs(int pageIndex = 1, int pageSize = 20)
+        {
+
+            var totalRecords = 0;
+            var model = this.DynamicQuery
+                .Where<OperationRecord>(m => m.BusinessId, WebHelper.GetLogOnUserId())
+                .OrderBy(m => m.RecordDateTime, OrderBy.Desc)
+                .PagedList(pageIndex, pageSize, out totalRecords);
+
+            this.ViewBag.TotalRecords = totalRecords;
+
+            return View(model);
         }
 
         public ActionResult About()
