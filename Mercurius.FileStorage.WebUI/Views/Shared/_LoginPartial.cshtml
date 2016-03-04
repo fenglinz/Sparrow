@@ -8,7 +8,7 @@
             <li>
                 <a href="javascript:void(0)">@("你好，" + WebHelper.GetLogOnUserName())</a>
             </li>
-            <li><a href="javascript:confirm('是否确定注销？')? document.getElementById('logoutForm').submit():void(0)">注销</a></li>
+            <li><a href="javascript:confirm('是否确定注销？',function(){document.getElementById('logoutForm').submit();})">注销</a></li>
         </ul>
     }
 }

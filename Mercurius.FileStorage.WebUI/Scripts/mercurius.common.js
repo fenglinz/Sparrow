@@ -661,5 +661,7 @@
         Countdown: Countdown
     };
 
+    window.alert = layer.alert;
+    window.confirm = layer.confirm;
     window.mercurius = mercurius;
 })();

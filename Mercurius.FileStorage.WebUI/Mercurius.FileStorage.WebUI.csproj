@@ -388,7 +388,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj">
