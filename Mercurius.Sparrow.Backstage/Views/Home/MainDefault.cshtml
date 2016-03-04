@@ -56,9 +56,9 @@
 
 @helper ShowChildren(IEnumerable<SystemMenu> menus, string parentId)
 {
-if (menus.Any(m => m.ParentId == parentId))
-{
-    var children = menus.Where(s => s.ParentId == parentId);
+    if (menus.Any(m => m.ParentId == parentId))
+    {
+        var children = menus.Where(s => s.ParentId == parentId);
         <ul class="submenu">
             @foreach (var item in children)
             {
@@ -76,5 +76,5 @@ if (menus.Any(m => m.ParentId == parentId))
                 </li>
             }
         </ul>
-}
+    }
 }

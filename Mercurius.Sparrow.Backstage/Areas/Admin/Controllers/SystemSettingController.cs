@@ -44,26 +44,26 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
                 Value = level
             });
 
-            return rsp.IsSuccess ? this.Alert("设置成功！") : this.Alert("设置失败，错误详情：" + rsp.ErrorMessage, AlertType.Error);
+            return rsp.IsSuccess ? this.AlertWithRefresh("设置成功！") : this.Alert("设置失败，错误详情：" + rsp.ErrorMessage, AlertType.Error);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SaveProductInfo(string productName, string productVersion)
         {
-			var productNameId = this.Request.Params["productNameId"];
-			var productVersionId = this.Request.Params["productVersionId"];
+            var productNameId = this.Request.Params["productNameId"];
+            var productVersionId = this.Request.Params["productVersionId"];
 
-			if (string.IsNullOrWhiteSpace(productNameId))
-			{
-				productNameId = Guid.NewGuid().ToString();
-			}
+            if (string.IsNullOrWhiteSpace(productNameId))
+            {
+                productNameId = Guid.NewGuid().ToString();
+            }
 
-			if (string.IsNullOrWhiteSpace(productVersionId))
-			{
-				productVersionId = Guid.NewGuid().ToString();
-			}
-			
+            if (string.IsNullOrWhiteSpace(productVersionId))
+            {
+                productVersionId = Guid.NewGuid().ToString();
+            }
+
             this.SystemSettingService.SaveSetting(new SystemSetting
             {
                 Id = productNameId,
@@ -79,7 +79,14 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
                 Value = productVersion
             });
 
-            return this.Alert("设置成功！");
+            return AlertWithRefresh("设置成功！");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ClearCache()
+        {
+            return this.AlertWithRefresh("清除成功！");
         }
     }
 }

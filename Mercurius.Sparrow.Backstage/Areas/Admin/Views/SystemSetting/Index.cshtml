@@ -1,70 +1,88 @@
 ﻿@using Mercurius.Sparrow.Contracts
 @using Mercurius.Sparrow.Entities.Core
 @{
-	var rspLogLevel = this.ViewBag.LogLevel as Response<SystemSetting>;
-	var productInfos = this.ViewBag.ProductInfos as ResponseCollection<SystemSetting>;
+    var rspLogLevel = this.ViewBag.LogLevel as Response<SystemSetting>;
+    var productInfos = this.ViewBag.ProductInfos as ResponseCollection<SystemSetting>;
 
-	var logLevel = (rspLogLevel != null && rspLogLevel.Data != null && rspLogLevel.IsSuccess) ? rspLogLevel.Data.Value : "1";
-	var productName = productInfos.Datas.IsEmpty() ? null : productInfos.Datas.FirstOrDefault(p => p.Name == "ProductName");
-	var productVersion = productInfos.Datas.IsEmpty() ? null : productInfos.Datas.FirstOrDefault(p => p.Name == "ProductVersion");
+    var logLevel = (rspLogLevel != null && rspLogLevel.Data != null && rspLogLevel.IsSuccess) ? rspLogLevel.Data.Value : "1";
+    var productName = productInfos.Datas.IsEmpty() ? null : productInfos.Datas.FirstOrDefault(p => p.Name == "ProductName");
+    var productVersion = productInfos.Datas.IsEmpty() ? null : productInfos.Datas.FirstOrDefault(p => p.Name == "ProductVersion");
 }
 @section Styles{
-	<style type="text/css">
-		.form-group {
-			margin-bottom: 0;
-		}
-	</style>
+    <style type="text/css">
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
 }
 <div class="header">系统设置</div>
 
 <div class="panel panel-default" style="margin-top: 1px;">
-	<div class="panel-heading">
-		<b>设置日志记录级别</b>
-	</div>
-	<div class="panel-body">
-		@using (Ajax.BeginForm("SaveLogLevlSetting", null, new AjaxOptions { HttpMethod = "POST" }, new { @class = "form-inline", @role = "form" }))
-		{
-			<div class="form-group">
-				<label class="control-label">
-					日志记录级别
-					<select class="form-control" name="level" style="width:200px;">
-						<option value="0" @(logLevel == "0" ? "selected" : string.Empty)>全部</option>
-						<option value="1" @(logLevel == "1" ? "selected" : string.Empty)>调试</option>
-						<option value="2" @(logLevel == "2" ? "selected" : string.Empty)>普通</option>
-						<option value="3" @(logLevel == "3" ? "selected" : string.Empty)>警告</option>
-						<option value="4" @(logLevel == "4" ? "selected" : string.Empty)>错误</option>
-						<option value="5" @(logLevel == "5" ? "selected" : string.Empty)>记录</option>
-					</select>
-				</label>
-			</div>
-			<button type="submit" class="btn btn-primary">
-				<i class="glyphicon glyphicon-floppy-saved"></i> 保存
-			</button>
-		}
-	</div>
+    <div class="panel-heading">
+        <b>设置日志记录级别</b>
+    </div>
+    <div class="panel-body">
+        @using (Ajax.BeginForm("SaveLogLevlSetting", null, new AjaxOptions { HttpMethod = "POST" }, new { @class = "form-inline", @role = "form" }))
+        {
+            <div class="form-group">
+                <label class="control-label">
+                    日志记录级别
+                    <select class="form-control" name="level" style="width:200px;">
+                        <option value="0" @(logLevel == "0" ? "selected" : string.Empty)>全部</option>
+                        <option value="1" @(logLevel == "1" ? "selected" : string.Empty)>调试</option>
+                        <option value="2" @(logLevel == "2" ? "selected" : string.Empty)>普通</option>
+                        <option value="3" @(logLevel == "3" ? "selected" : string.Empty)>警告</option>
+                        <option value="4" @(logLevel == "4" ? "selected" : string.Empty)>错误</option>
+                        <option value="5" @(logLevel == "5" ? "selected" : string.Empty)>记录</option>
+                    </select>
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="glyphicon glyphicon-floppy-saved"></i> 保存
+            </button>}
+    </div>
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading"><b>设置产品信息</b></div>
-	<div class="panel-body">
-		@using (Ajax.BeginForm("SaveProductInfo", null, new AjaxOptions { HttpMethod = "POST" }, new { @class = "form-inline", @role = "form" }))
-		{
-			@Html.AntiForgeryToken()
-			@Html.Hidden("productNameId", productName != null ? productName.Id : string.Empty)
-			@Html.Hidden("productVersionId", productVersion != null ? productVersion.Id : string.Empty)
-			<div class="form-group">
-				<label class="control-label">
-					产品名称
-					<input name="productName" type="text" class="form-control" value="@(productName==null?string.Empty :productName.Value)" style="width:400px; display:inline-block;" />
-				</label>
-				<label class="control-label" style="margin-left:15px;">
-					版本
-					<input name="productVersion" type="text" class="form-control" value="@(productVersion == null ? string.Empty : productVersion.Value)" style="width:120px;display:inline-block" />
-				</label>
-				<button type="submit" class="btn btn-primary">
-					<i class="glyphicon glyphicon-floppy-saved"></i> 保存
-				</button>
-			</div>
-		}
-	</div>
+    <div class="panel-heading">
+        <b>设置产品信息</b>
+    </div>
+    <div class="panel-body">
+        @using (Ajax.BeginForm("SaveProductInfo", null, new AjaxOptions { HttpMethod = "POST" }, new { @class = "form-inline", @role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("productNameId", productName != null ? productName.Id : string.Empty)
+            @Html.Hidden("productVersionId", productVersion != null ? productVersion.Id : string.Empty)
+            <div class="form-group">
+                <label class="control-label">
+                    产品名称
+                    <input name="productName" type="text" class="form-control" value="@(productName == null ? string.Empty : productName.Value)" style="width: 400px; display: inline-block;" />
+                </label>
+                <label class="control-label" style="margin-left: 15px;">
+                    版本
+                    <input name="productVersion" type="text" class="form-control" value="@(productVersion == null ? string.Empty : productVersion.Value)" style="width: 120px; display: inline-block" />
+                </label>
+                <button type="submit" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-floppy-saved"></i> 保存
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>服务器管理</b>
+    </div>
+    <div class="panel-body">
+        @using (Ajax.BeginForm("ClearCache", "SystemSetting", null, new AjaxOptions { HttpMethod = "POST", Confirm = "是否确定清空缓存？"}, new { @class = "form-inline" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="glyphicon glyphicon-trash"></i> 清空缓存
+                </button>
+            </div>
+        }
+    </div>
 </div>
