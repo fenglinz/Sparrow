@@ -658,8 +658,22 @@
         FixedTableHeader: FixedTableHeader,
         ApplyTableStyle: ApplyTableStyle,
         ShowTreeView: ShowTreeView,
-        Countdown: Countdown
+        Countdown: Countdown,
+        tips: function () {
+            $('[data-tip]').each(function () {
+                var $this = this;
+                var text = $(this).text().trim();
+                var maxLength = $(this).attr('data-tip');
+
+                $(this).attr('title', text);
+                $(this).attr('data-toggle', 'tooltip');
+                $(this).attr('data-placement', 'bottom');
+                $(this).text(text.length > maxLength ? text.substr(0, maxLength) + '...' : text);
+            }).tooltip();
+        }
     };
 
     window.mercurius = mercurius;
+    window.alert = mercurius.ShowWarningMessage;
+    window.confirm = mercurius.ShowConfirmMessage;
 })();

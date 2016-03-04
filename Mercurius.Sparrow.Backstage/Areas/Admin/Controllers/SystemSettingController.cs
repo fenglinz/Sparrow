@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Autofac;
+using Mercurius.Infrastructure.Cache;
+using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core;
 
@@ -82,10 +85,22 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return AlertWithRefresh("设置成功！");
         }
 
+        public ActionResult ShowCaches()
+        {
+            var cache = AutofacConfig.Container.Resolve<ICacheProvider>();
+            var keys = cache.GetAllKeys();
+
+            return View(keys);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ClearCache()
         {
+            var cache = AutofacConfig.Container.Resolve<ICacheProvider>();
+
+            cache.Clear();
+
             return this.AlertWithRefresh("清除成功！");
         }
     }

@@ -70,6 +70,14 @@ namespace Mercurius.Infrastructure.Cache
 
         #endregion
 
+        #region ICacheProvider接口实现
+
+        /// <summary>
+        /// 将数据添加到缓存。
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="timeSpan">保存时间</param>
         public void Add(string key, object value, TimeSpan? timeSpan = null)
         {
             if (value is DataTable)
@@ -85,6 +93,35 @@ namespace Mercurius.Infrastructure.Cache
             }
         }
 
+        /// <summary>
+        /// 移除缓存。
+        /// </summary>
+        /// <param name="key">键</param>
+        public void Remove(string key)
+        {
+            lock (this._locker)
+            {
+                this._redisClient.Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// 移除以指定键开始的缓存。
+        /// </summary>
+        /// <param name="key">键</param>
+        public void RemoveStarts(string key)
+        {
+            lock (this._locker)
+            {
+                var keys = this._redisClient.SearchKeys($"{key}*");
+
+                this._redisClient.RemoveAll(keys);
+            }
+        }
+
+        /// <summary>
+        /// 清空缓存。
+        /// </summary>
         public void Clear()
         {
             lock (this._locker)
@@ -95,6 +132,12 @@ namespace Mercurius.Infrastructure.Cache
             }
         }
 
+        /// <summary>
+        /// 获取缓存中的数据。
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="key">键</param>
+        /// <returns>值</returns>
         public T Get<T>(string key)
         {
             lock (this._locker)
@@ -103,22 +146,15 @@ namespace Mercurius.Infrastructure.Cache
             }
         }
 
-        public void Remove(string key)
+        /// <summary>
+        /// 获取所有缓存键。
+        /// </summary>
+        /// <returns>缓存键集合</returns>
+        public IList<string> GetAllKeys()
         {
-            lock (this._locker)
-            {
-                this._redisClient.Remove(key);
-            }
+            return this._redisClient.GetAllKeys();
         }
 
-        public void RemoveStarts(string key)
-        {
-            lock (this._locker)
-            {
-                var keys = this._redisClient.SearchKeys($"{key}*");
-
-                this._redisClient.RemoveAll(keys);
-            }
-        }
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Mercurius.Infrastructure.Cache
 {
@@ -39,5 +40,11 @@ namespace Mercurius.Infrastructure.Cache
         /// <param name="key">键</param>
         /// <returns>值</returns>
         T Get<T>(string key);
+
+        /// <summary>
+        /// 获取所有缓存键。
+        /// </summary>
+        /// <returns>缓存键集合</returns>
+        IList<string> GetAllKeys();
     }
 }

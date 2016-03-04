@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using SysCache = System.Web.Caching.Cache;
 
@@ -77,6 +79,23 @@ namespace Mercurius.Infrastructure.Cache
         public T Get<T>(string key)
         {
             return (T)HttpRuntime.Cache.Get(key);
+        }
+
+        /// <summary>
+        /// 获取所有缓存键。
+        /// </summary>
+        /// <returns>缓存键集合</returns>
+        public IList<string> GetAllKeys()
+        {
+            var result = new List<string>();
+            var enumerator = HttpRuntime.Cache.GetEnumerator();
+
+            while (enumerator.MoveNext())
+            {
+                result.Add(enumerator.Key.ToString());
+            }
+
+            return result;
         }
 
         #endregion

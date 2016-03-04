@@ -1,0 +1,44 @@
+﻿@model IList<string>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            mercurius.FixedTableHeader('#caches', 50);
+
+            mercurius.tips({ container: 'body' });
+        });
+    </script>
+}
+
+<table id="caches" class="grid">
+    <thead>
+        <tr>
+            <td style="width: 60px;">序号</td>
+            <td style="width: 350px">键</td>
+            <td>值</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.IsEmpty())
+        {
+            <tr>
+                <td colspan="3" class="empty-data">
+                    @Html.GetGlobalValue("empty-data")
+                </td>
+            </tr>
+        }
+        else
+        {
+            var index = 1;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(index++)</td>
+                    <td>@item</td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

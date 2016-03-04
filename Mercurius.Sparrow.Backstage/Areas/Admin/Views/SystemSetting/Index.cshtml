@@ -15,8 +15,23 @@
         }
     </style>
 }
-<div class="header">系统设置</div>
 
+@section Scripts
+{
+    <script type="text/javascript">
+        function viewCache() {
+            mercurius.OpenDialog('@Url.Action("ShowCaches")', 'ShowCaches', '显示所有缓存', 720, 500, { statusbar: false });
+        }
+
+        function clearCache() {
+            confirm('是否确定清空缓存？', function() {
+                $('#frmClearCache').submit();
+            });
+        }
+    </script>
+}
+
+<div class="header">系统设置</div>
 <div class="panel panel-default" style="margin-top: 1px;">
     <div class="panel-heading">
         <b>设置日志记录级别</b>
@@ -39,7 +54,8 @@
             </div>
             <button type="submit" class="btn btn-primary">
                 <i class="glyphicon glyphicon-floppy-saved"></i> 保存
-            </button>}
+            </button>
+        }
     </div>
 </div>
 
@@ -75,11 +91,14 @@
         <b>服务器管理</b>
     </div>
     <div class="panel-body">
-        @using (Ajax.BeginForm("ClearCache", "SystemSetting", null, new AjaxOptions { HttpMethod = "POST", Confirm = "是否确定清空缓存？"}, new { @class = "form-inline" }))
+        @using (Ajax.BeginForm("ClearCache", "SystemSetting", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmClearCache", @class = "form-inline" }))
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">
+                <a class="btn btn-primary" onclick="viewCache()">
+                    <i class="glyphicon glyphicon-tasks"></i> 查看缓存
+                </a>
+                <button type="button" class="btn btn-danger" onclick="clearCache()">
                     <i class="glyphicon glyphicon-trash"></i> 清空缓存
                 </button>
             </div>

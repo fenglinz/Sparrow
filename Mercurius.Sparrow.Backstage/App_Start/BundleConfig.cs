@@ -24,6 +24,7 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/MessageBox/msgbox.js",
                 "~/Scripts/jquery.pullbox.js",
                 "~/Scripts/Dialog/dialog-plus.js",
+                "~/Scripts/Layer/layer.js",
                 "~/Scripts/mercurius.common.js",
                 "~/Scripts/Main.js"));
 
@@ -37,6 +38,7 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/bootstrap-datetimepicker.js",
                 "~/Scripts/locales/bootstrap-datepicker.zh-CN.js",
                 "~/Scripts/Dialog/dialog.js",
+                "~/Scripts/Layer/layer.js",
                 "~/Scripts/mercurius.common.js"));
 
             // 验证JS。
