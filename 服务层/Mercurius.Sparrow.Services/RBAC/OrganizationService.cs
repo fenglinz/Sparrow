@@ -63,6 +63,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                 {
                     this.Persistence.Update(OrganizationNamespace, "CreateOrUpdate", org);
 
+                    this.ClearCache<User>();
                     this.ClearCache<Organization>();
                     this.ClearCache<StaffOrganize>();
                 },

@@ -37,6 +37,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return this.View();
         }
 
+        #region 记录日志的级别设置
+
+        /// <summary>
+        /// 设置记录日志的级别。
+        /// </summary>
+        /// <param name="level">级别</param>
+        /// <returns>设置通知</returns>
         [HttpPost]
         public ActionResult SaveLogLevlSetting(string level)
         {
@@ -50,6 +57,16 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return rsp.IsSuccess ? this.AlertWithRefresh("设置成功！") : this.Alert("设置失败，错误详情：" + rsp.ErrorMessage, AlertType.Error);
         }
 
+        #endregion
+
+        #region 保存产品信息
+
+        /// <summary>
+        /// 保存产品信息。
+        /// </summary>
+        /// <param name="productName">产品名称</param>
+        /// <param name="productVersion">显示版本</param>
+        /// <returns>保存结果通知</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SaveProductInfo(string productName, string productVersion)
@@ -85,12 +102,41 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return AlertWithRefresh("设置成功！");
         }
 
+        #endregion
+
+        #region 缓存管理
+
         public ActionResult ShowCaches()
         {
             var cache = AutofacConfig.Container.Resolve<ICacheProvider>();
             var keys = cache.GetAllKeys();
 
             return View(keys);
+        }
+
+        [HttpPost]
+        public ActionResult ShowCacheValue(string key)
+        {
+            var cache = AutofacConfig.Container.Resolve<ICacheProvider>();
+
+            try
+            {
+                return Json(new { Value = cache.Get<string>(key) });
+            }
+            catch (Exception)
+            {
+                return Json(new {Value = ""});
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RemoveCacheValue(string key)
+        {
+            var cache = AutofacConfig.Container.Resolve<ICacheProvider>();
+
+            cache.Remove(key);
+
+            return Json(new { IsSuccess = true });
         }
 
         [HttpPost]
@@ -102,6 +148,21 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             cache.Clear();
 
             return this.AlertWithRefresh("清除成功！");
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 重启Web服务器。
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetWebServer()
+        {
+            AppDomain.Unload(AppDomain.CurrentDomain);
+
+            return Json(true);
         }
     }
 }

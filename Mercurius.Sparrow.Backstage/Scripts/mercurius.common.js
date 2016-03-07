@@ -555,15 +555,22 @@
                 locale: moment.locale('zh-cn')
             });
         },
-        OnWaitProcess: function (callback) {
+        BeginLoading: function () {
             top.$("#loading").show();
+        },
+        EndLoading: function () {
+            top.$("#loading").hide();
+        },
+        OnWaitProcess: function (callback) {
+            mercurius.BeginLoading();
+
             var result = callback();
-            top.$('#loading').hide();
 
             return result;
         },
         Reloading: function () {
             return mercurius.OnWaitProcess(function () {
+                mercurius.BeginLoading();
                 window.location.reload();
 
                 return false;

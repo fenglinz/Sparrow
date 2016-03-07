@@ -1,13 +1,59 @@
 ﻿@model IList<string>
 
+@section Styles
+{
+    <style type="text/css">
+        .cache-value {
+            width: 700px;
+            padding: 5px;
+            overflow-y: auto;
+            max-height: 80px;
+            background: limegreen;
+            border: 1px dotted #ccc;
+        }
+    </style>
+}
+
 @section Scripts
 {
     <script type="text/javascript">
         $(document).ready(function () {
             mercurius.FixedTableHeader('#caches', 50);
-
-            mercurius.tips({ container: 'body' });
         });
+
+        function ShowCacheValue(element, key) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("ShowCacheValue")',
+                data: { key: key },
+                dataType: 'JSON',
+                success: function (rs) {
+                    if ($(element).text().trim() == '显示') {
+                        $(element).parent().parent().after('<div class="cache-value">' + rs.Value + '</div>');
+                        $(element).html('<i class="glyphicon glyphicon-menu-up"></i> 隐藏');
+                    } else {
+                        $(element).parent().parent().next().remove();
+                        $(element).html('<i class="glyphicon glyphicon-menu-down"></i> 显示');
+                    }
+                }
+            });
+        }
+
+        function RemoveCache(key) {
+            confirm('是否确定删除此缓存？', function () {
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("RemoveCacheValue")',
+                    data: { key: key },
+                    success: function (rs) {
+                        window.location.reload();
+                    }
+                });
+            });
+
+        }
     </script>
 }
 
@@ -15,8 +61,8 @@
     <thead>
         <tr>
             <td style="width: 60px;">序号</td>
-            <td style="width: 350px">键</td>
-            <td>值</td>
+            <td style="width: 500px">键</td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
@@ -34,9 +80,16 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td>@(index++)</td>
+                    <td class="text-center">@(index++)</td>
                     <td>@item</td>
-                    <td></td>
+                    <td>
+                        <span class="btn btn-sm btn-primary" onclick="ShowCacheValue(this,'@item')">
+                            <i class="glyphicon glyphicon-menu-down"></i> 显示
+                        </span>
+                        <span class="btn btn-sm btn-danger" onclick="RemoveCache('@item')">
+                            <i class="glyphicon glyphicon-trash"></i> 删除
+                        </span>
+                    </td>
                 </tr>
             }
         }

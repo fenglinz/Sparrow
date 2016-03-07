@@ -24,8 +24,15 @@
         }
 
         function clearCache() {
-            confirm('是否确定清空缓存？', function() {
+            confirm('是否确定清空缓存？', function () {
                 $('#frmClearCache').submit();
+            });
+        }
+
+        function resetIIS() {
+            confirm('是否重启Web服务器(IIS)？', function () {
+                mercurius.BeginLoading();
+                $('#frmResetWebServer').submit();
             });
         }
     </script>
@@ -101,7 +108,14 @@
                 <button type="button" class="btn btn-danger" onclick="clearCache()">
                     <i class="glyphicon glyphicon-trash"></i> 清空缓存
                 </button>
+                <button type="button" class="btn btn-danger" onclick="resetIIS()">
+                    <i class="glyphicon glyphicon-refresh"></i> 重启Web服务器(IIS)
+                </button>
             </div>
+        }
+        @using (Html.BeginForm("ResetWebServer", "SystemSetting", FormMethod.Post, new { @id = "frmResetWebServer" }))
+        {
+            @Html.AntiForgeryToken()
         }
     </div>
 </div>
