@@ -7,8 +7,15 @@ using System.Web.Routing;
 
 namespace Mercurius.FileStorage.WebUI
 {
+    /// <summary>
+    /// 路由配置。
+    /// </summary>
     public class RouteConfig
     {
+        /// <summary>
+        /// 路由注册。
+        /// </summary>
+        /// <param name="routes">路由集合</param>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");

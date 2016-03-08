@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 
 namespace Mercurius.Sparrow.Entities

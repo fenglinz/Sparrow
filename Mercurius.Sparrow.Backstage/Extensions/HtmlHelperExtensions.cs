@@ -13,7 +13,7 @@ using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.RBAC;
 
-namespace Mercurius.Sparrow.Backstage.Extensions
+namespace Mercurius.Sparrow.Mvc.Extensions
 {
     /// <summary>
     /// HtmlHelper扩展。

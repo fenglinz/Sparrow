@@ -33,7 +33,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional });
+                new { action = "Index", id = UrlParameter.Optional },
+                new[] { "Mercurius.Sparrow.Backstage.Areas.Admin.Controllers" }
+                );
         }
 
         #endregion

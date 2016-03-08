@@ -8,7 +8,6 @@ using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.RBAC;
-using Mercurius.Sparrow.Backstage.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {

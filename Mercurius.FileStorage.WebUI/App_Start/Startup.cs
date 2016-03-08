@@ -16,8 +16,15 @@ using Owin;
 [assembly: OwinStartup(typeof(Startup))]
 namespace Mercurius.FileStorage.WebUI
 {
-    public partial class Startup
+    /// <summary>
+    /// Web API启动配置。
+    /// </summary>
+    public class Startup
     {
+        /// <summary>
+        /// Web API配置。
+        /// </summary>
+        /// <param name="app">app启动对象</param>
         public void Configuration(IAppBuilder app)
         {
             app.UseAutofacMiddleware(AutofacConfig.Container);

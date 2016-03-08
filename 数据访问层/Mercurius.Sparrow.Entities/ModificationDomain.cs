@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.Sparrow.Entities
 {
     /// <summary>
     /// 记录修改者信息的实体。
     /// </summary>
+    [Serializable]
     public abstract class ModificationDomain : CreationDomain
     {
         #region 属性

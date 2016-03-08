@@ -154,6 +154,37 @@ namespace Mercurius.Infrastructure
             FormsAuthentication.SetAuthCookie($"{userId},{name}", createPersistentCookie);
         }
 
+
+        /// <summary>
+        /// 将用户基本信息保存到Session中。
+        /// </summary>
+        /// <typeparam name="T">用户基本信息类型</typeparam>
+        /// <param name="entity">用户基本信息</param>
+        public static void AddToSession<T>(T entity)
+        {
+            if (HttpContext.Current == null || string.IsNullOrWhiteSpace(GetLogOnUserId()))
+            {
+                return;
+            }
+
+            HttpContext.Current.Session[GetLogOnUserId()] = entity;
+        }
+
+        /// <summary>
+        /// 从Session中获取保存的用户基本信息。
+        /// </summary>
+        /// <typeparam name="T">用户基本信息类型</typeparam>
+        /// <returns>用户基本信息</returns>
+        public static T GetFromSession<T>()
+        {
+            if (HttpContext.Current == null || string.IsNullOrWhiteSpace(GetLogOnUserId()))
+            {
+                return default(T);
+            }
+
+            return (T)HttpContext.Current.Session[GetLogOnUserId()];
+        }
+
         #endregion
 
         #region 私有方法

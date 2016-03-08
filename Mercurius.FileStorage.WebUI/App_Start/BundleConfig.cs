@@ -3,9 +3,15 @@ using System.Web.Optimization;
 
 namespace Mercurius.FileStorage.WebUI
 {
+    /// <summary>
+    /// js、css压缩处理。
+    /// </summary>
     public class BundleConfig
     {
-        // 有关绑定的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301862
+        /// <summary>
+        /// 注册js、css压缩。
+        /// </summary>
+        /// <param name="bundles">压缩集合</param>
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(

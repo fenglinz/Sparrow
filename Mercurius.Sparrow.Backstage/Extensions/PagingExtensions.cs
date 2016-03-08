@@ -11,7 +11,7 @@ using System.Web.Routing;
 using System.Web.WebPages;
 using Mercurius.Sparrow.Entities;
 
-namespace Mercurius.Sparrow.Backstage.Extensions
+namespace Mercurius.Sparrow.Mvc.Extensions
 {
     /// <summary>
     /// 分页扩展。

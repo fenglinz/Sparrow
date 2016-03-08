@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -7,7 +8,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.WebPages;
 using Autofac.Integration.Mvc;
+using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Autofac;
 
 namespace Mercurius.Sparrow.Backstage
@@ -28,7 +31,7 @@ namespace Mercurius.Sparrow.Backstage
         /// <summary>
         /// 默认构造方法。
         /// </summary>
-        public MvcApplication()
+        protected MvcApplication()
         {
             this.PreSendRequestHeaders += (sender, e) =>
             {
@@ -70,11 +73,13 @@ namespace Mercurius.Sparrow.Backstage
             // 设置Asp.Net MVC依赖解析。
             DependencyResolver.SetResolver(new AutofacDependencyResolver(AutofacConfig.Container));
         }
+        
+        #region 私有方法
 
         /// <summary>
         /// 移除Web Form视图引擎。
         /// </summary>
-        protected void RemoveWebFormEngines()
+        private void RemoveWebFormEngines()
         {
             var viewEngines = ViewEngines.Engines;
             var webFormEngines = viewEngines.OfType<WebFormViewEngine>().FirstOrDefault();
@@ -83,5 +88,7 @@ namespace Mercurius.Sparrow.Backstage
                 viewEngines.Remove(webFormEngines);
             }
         }
+
+        #endregion
     }
 }

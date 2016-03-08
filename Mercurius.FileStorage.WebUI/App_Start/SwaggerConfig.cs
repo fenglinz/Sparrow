@@ -4,8 +4,6 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Http;
-using Mercurius.FileStorage.WebUI;
-using Mercurius.Infrastructure;
 using Swashbuckle.Application;
 
 namespace Mercurius.FileStorage.WebUI

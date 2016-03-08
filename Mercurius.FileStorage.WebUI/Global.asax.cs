@@ -30,6 +30,9 @@ namespace Mercurius.FileStorage.WebUI
             // Web API Help 配置
             SwaggerConfig.Register(GlobalConfiguration.Configuration);
 
+            // Web API配置
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+
             // 过滤器配置.
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 

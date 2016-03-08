@@ -9,6 +9,7 @@ namespace Mercurius.Sparrow.Entities
     /// <summary>
     /// 领域信息基类。
     /// </summary>
+    [Serializable]
     public abstract class Domain
     {
         #region 属性

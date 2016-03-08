@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.WebPages;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.Core;
@@ -15,10 +17,12 @@ namespace Mercurius.Sparrow.Backstage.Controllers
     /// <summary>
     /// 账户信息处理控制器。
     /// </summary>
+    [AllowAnonymous]
     public class AccountController : BaseController
     {
         #region 常量
 
+        private const string InstallationKey = "Installation.Flag";
         private const string SessionVerifyCode = "session_verifyCode";
 
         /// <summary>
@@ -63,6 +67,18 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         /// <returns></returns>
         public ActionResult LogOn()
         {
+            var needInstallation = false;
+
+            if (ConfigurationManager.AppSettings[InstallationKey] != null)
+            {
+                needInstallation = ConfigurationManager.AppSettings[InstallationKey].AsBool(false);
+            }
+
+            if (needInstallation)
+            {
+                return RedirectToAction("Index", "Home", new { @Area = "Installation" });
+            }
+
             return this.View();
         }
 
@@ -96,9 +112,7 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             else
             {
                 result = LogOnSuccess;
-                WebHelper.SetAuthCookie(
-                    rspUser.Data.Id,
-                    $"{rspUser.Data.Name}({rspUser.Data.Account})");
+                WebHelper.SetAuthCookie(rspUser.Data.Id, $"{rspUser.Data.Name}({rspUser.Data.Account})");
 
                 this.DynamicQuery.Create(new OperationRecord
                 {
@@ -121,8 +135,8 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             {
                 BusinessId = WebHelper.GetLogOnUserId(),
                 BusinessType = "用户登录/登出",
-				UserId = WebHelper.GetLogOnUserId(),
-				RecordDateTime = DateTime.Now,
+                UserId = WebHelper.GetLogOnUserId(),
+                RecordDateTime = DateTime.Now,
                 RecordContent = $"于({WebHelper.GetClientIPAddress()})登出"
             });
 

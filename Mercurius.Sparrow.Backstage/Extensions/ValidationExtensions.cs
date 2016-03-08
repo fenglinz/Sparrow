@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using HtmlHelper = System.Web.WebPages.Html.HtmlHelper;
 
-namespace Mercurius.Sparrow.Backstage.Extensions
+namespace Mercurius.Sparrow.Mvc.Extensions
 {
     #region 验证规则枚举
 

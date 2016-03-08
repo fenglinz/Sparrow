@@ -15,6 +15,10 @@ using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace Mercurius.FileStorage.WebUI.Controllers
 {
+    /// <summary>
+    /// 文件处理控制器。
+    /// </summary>
+    [AllowAnonymous]
     public class FileController : Controller
     {
         #region 静态字段
@@ -98,12 +102,13 @@ namespace Mercurius.FileStorage.WebUI.Controllers
                     var arrayICI = ImageCodecInfo.GetImageEncoders();
                     ImageCodecInfo jpegICI = null;
 
-                    for (int x = 0; x < arrayICI.Length; x++)
+                    for (var x = 0; x < arrayICI.Length; x++)
                     {
                         if (arrayICI[x].FormatDescription.Equals("JPEG"))
                         {
                             // 设置jpeg编码
                             jpegICI = arrayICI[x];
+
                             break;
                         }
                     }

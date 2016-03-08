@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.Sparrow.Entities
 {
     /// <summary>
     /// 记录创建信息的实体。
     /// </summary>
+    [Serializable]
     public abstract class CreationDomain : Domain
     {
         #region 属性

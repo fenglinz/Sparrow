@@ -10,6 +10,10 @@ using Mercurius.Sparrow.Contracts.RBAC;
 
 namespace Mercurius.FileStorage.WebUI.Controllers
 {
+    /// <summary>
+    /// 账户管理控制器。
+    /// </summary>
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         #region 常量
@@ -36,6 +40,13 @@ namespace Mercurius.FileStorage.WebUI.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// 登录处理。
+        /// </summary>
+        /// <param name="account">账号</param>
+        /// <param name="password">密码</param>
+        /// <param name="verifyCode">验证码</param>
+        /// <returns>处理结果</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOn(string account, string password, string verifyCode)
@@ -81,6 +92,10 @@ namespace Mercurius.FileStorage.WebUI.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 退出。
+        /// </summary>
+        /// <returns>处理结果</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
@@ -90,6 +105,10 @@ namespace Mercurius.FileStorage.WebUI.Controllers
             return this.RedirectToAction("LogOn", "Account");
         }
 
+        /// <summary>
+        /// 获取验证码。
+        /// </summary>
+        /// <returns>处理结果</returns>
         public ActionResult GetVerifyCode()
         {
             var verifyCode = SecurityExtensions.CreateVerifyCode(4);

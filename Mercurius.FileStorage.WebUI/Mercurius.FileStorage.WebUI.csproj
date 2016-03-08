@@ -242,6 +242,12 @@
     <Compile Include="..\Mercurius.Sparrow.Backstage\Autofac\IBatisNetModule.cs">
       <Link>Autofac\IBatisNetModule.cs</Link>
     </Compile>
+    <Compile Include="..\Mercurius.Sparrow.Backstage\Extensions\MercuriusAuthorizeAttribute.cs">
+      <Link>Extensions\MercuriusAuthorizeAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Mercurius.Sparrow.Backstage\Extensions\PagingExtensions.cs">
+      <Link>Extensions\PagingExtensions.cs</Link>
+    </Compile>
     <Compile Include="Apis\WebApiUtil.cs" />
     <Compile Include="Apis\Core\Controllers\FileStorageController.cs" />
     <Compile Include="Apis\Extensions\CustomMultipartFormDataStreamProvider.cs" />
@@ -253,7 +259,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Extensions\PagingExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

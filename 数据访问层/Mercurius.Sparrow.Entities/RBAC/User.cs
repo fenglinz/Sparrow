@@ -8,6 +8,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
     /// <summary>
     /// 用户信息。
     /// </summary>
+    [Serializable]
 	[Table("RBAC.User")]
     public class User : ModificationDomain
     {
@@ -115,13 +116,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
         /// <summary>
         /// 获取性别名称。
         /// </summary>
-        public virtual string SexName
-        {
-            get
-            {
-                return this.Sex == 0 ? "女" : this.Sex == 1 ? "男" : "未知";
-            }
-        }
+        public virtual string SexName => this.Sex == 0 ? "女" : this.Sex == 1 ? "男" : "未知";
 
         /// <summary>
         /// 获取或者设置汇报者姓名。
