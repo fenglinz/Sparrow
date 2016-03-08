@@ -23,15 +23,5 @@ namespace Mercurius.Sparrow.Entities.Swagger
         public IList<string> produces;
 
         public IList<Parameter> parameters;
-
-        //public IDictionary<string, Response> responses;
-
-        //public IList<string> schemes;
-
-        //public bool deprecated;
-
-        //public IList<IDictionary<string, IEnumerable<string>>> security;
-
-        //public Dictionary<string, object> vendorExtensions = new Dictionary<string, object>();
     }
 }

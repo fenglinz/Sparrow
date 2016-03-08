@@ -54,7 +54,7 @@
           )
           VALUES
           (
-            #Id#,
+            NEWID(),
             #ParentId#,
             #Name#,
             #Value#

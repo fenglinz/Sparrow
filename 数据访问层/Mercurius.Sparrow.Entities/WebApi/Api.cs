@@ -42,18 +42,6 @@ namespace Mercurius.Sparrow.Entities.WebApi
         public virtual string HttpVerb { get; set; }
 
         /// <summary>
-        /// 控制器类型
-        /// </summary>
-        [Display(Name = "控制器类型")]
-        public int? Type { get; set; }
-
-        /// <summary>
-        /// 控制器名称
-        /// </summary>
-        [Display(Name = "控制器名称")]
-        public virtual string Controller { get; set; }
-
-        /// <summary>
         /// 描述。
         /// </summary>
         [Display(Name = "描述")]
@@ -89,25 +77,21 @@ namespace Mercurius.Sparrow.Entities.WebApi
                 {
                     HttpVerb = "GET";
                     Description = _item.get.summary;
-                    Controller = _item.get.tags[0];
                 }
                 else if (_item.post != null)
                 {
                     HttpVerb = "POST";
                     Description = _item.post.summary;
-                    Controller = _item.post.tags[0];
                 }
                 else if (_item.put != null)
                 {
                     HttpVerb = "PUT";
                     Description = _item.put.summary;
-                    Controller = _item.put.tags[0];
                 }
                 else
                 {
                     HttpVerb = "DELETE";
                     Description = _item.delete.summary;
-                    Controller = _item.delete.tags[0];
                 }
             }
         }
@@ -119,13 +103,12 @@ namespace Mercurius.Sparrow.Entities.WebApi
         /// <returns></returns>
         public Api ToNewApi(Api model)
         {
-            //this.Id = model.Id > 0 ? model.Id : this.Id;
             this.Route = model.Route;
             this.Description = model.Description;
             this.HttpVerb = model.HttpVerb;
             this.ModifyDateTime = DateTime.Now;
-            this.ModifyUserId = WebHelper.GetLogOnUserId() ?? string.Empty;
-            this.ModifyUserName = WebHelper.GetLogOnUserName() ?? string.Empty;
+            this.ModifyUserId = WebHelper.GetLogOnUserId();
+            this.ModifyUserName = WebHelper.GetLogOnUserName();
 
             return this;
         }

@@ -10,7 +10,7 @@ namespace Mercurius.Sparrow.Entities.Swagger
     public class PathItem
     {
         [JsonProperty("$ref")]
-        public string @ref;
+        public string Ref;
 
         public Operation get;
 

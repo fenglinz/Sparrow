@@ -52,7 +52,16 @@
                 $.ajax({
                     type:'POST',
                     cache:false,
-                    url:''
+                    url:'@Url.Action("SaveSetting", "SystemSetting", new {@Area="Admin"})',
+                    data:{name:'WebApiDocumentUrl',value:$('#webApiUrl').val().trim()},
+                    dataType:'JSON',
+                    success:function(rs) {
+                        if (rs.IsSuccess) {
+                            mercurius.ShowTipsMessage('修改成功！', 3000, 4);
+                        } else {
+                            alert('修改失败，失败原因：' + rs.ErrorMessage);
+                        }
+                    }
                 });
             }
         }
@@ -107,10 +116,10 @@
             <tr>
                 <td style="width: 50px;">序号</td>
                 <td style="width: 80px;">访问方式</td>
-                <td style="width: 200px;">控制器</td>
                 <td style="width: 300px;">路由地址 </td>
                 <td style="width: 230px;">描述</td>
-                <td style="width: 150px;">添加时间</td>
+                <td style="width: 120px">添加者</td>
+                <td>添加时间</td>
             </tr>
         </thead>
         <tbody>
@@ -122,9 +131,9 @@
                         <td style="display:none;">@item.Id</td>
                         <td class="text-center">@item.RowIndex</td>
                         <td>@item.HttpVerb</td>
-                        <td>@item.Controller</td>
                         <td>@item.Route </td>
                         <td>@item.Description</td>
+                        <td>@item.CreateUserName</td>
                         <td>@item.CreateDateTime.ToString()</td>
                     </tr>
                 }

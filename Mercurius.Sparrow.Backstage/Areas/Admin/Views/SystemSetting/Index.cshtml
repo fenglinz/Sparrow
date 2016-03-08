@@ -29,6 +29,23 @@
             });
         }
 
+        function saveLogLevel() {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("SaveSetting","SystemSetting", new {@Area="Admin"})',
+                data: { name: 'LogLevel', value: $('#level').val() },
+                dataType: 'json',
+                success: function (rs) {
+                    if (rs.IsSuccess) {
+                        mercurius.ShowTipsMessage('修改成功！', 3000, 4);
+                    } else {
+                        alert('修改失败，失败原因：' + rs.ErrorMessage);
+                    }
+                }
+            });
+        }
+
         function resetIIS() {
             confirm('是否重启Web服务器(IIS)？', function () {
                 mercurius.BeginLoading();
@@ -44,12 +61,11 @@
         <b>设置日志记录级别</b>
     </div>
     <div class="panel-body">
-        @using (Ajax.BeginForm("SaveLogLevlSetting", null, new AjaxOptions { HttpMethod = "POST" }, new { @class = "form-inline", @role = "form" }))
-        {
+        <div class="form-inline">
             <div class="form-group">
                 <label class="control-label">
                     日志记录级别
-                    <select class="form-control" name="level" style="width:200px;">
+                    <select class="form-control" id="level" style="width:200px;">
                         <option value="0" @(logLevel == "0" ? "selected" : string.Empty)>全部</option>
                         <option value="1" @(logLevel == "1" ? "selected" : string.Empty)>调试</option>
                         <option value="2" @(logLevel == "2" ? "selected" : string.Empty)>普通</option>
@@ -59,10 +75,10 @@
                     </select>
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary">
+            <button type="button" class="btn btn-primary" onclick="saveLogLevel()">
                 <i class="glyphicon glyphicon-floppy-saved"></i> 保存
             </button>
-        }
+        </div>
     </div>
 </div>
 

@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Mvc;
+using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Contracts.WebApi;
@@ -81,17 +82,19 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             if (model.Id > 0)
             {
                 var api = ApiService.GetApiById(model.Id);
+
                 if (!api.IsSuccess || api.Data == null)
                 {
                     return this.Alert("获取详细失败，失败详情：" + api.ErrorMessage);
                 }
 
-                var updateResult = ApiService.Update(api.Data.ToNewApi(model));
+                var updateResult = ApiService.CreateOrUpdate(api.Data.ToNewApi(model));
 
                 return updateResult.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("保存失败，失败详情：" + updateResult.ErrorMessage);
             }
-            //添加新路由规则
-            var createResult = ApiService.Create(model);
+
+            // 添加新路由规则
+            var createResult = ApiService.CreateOrUpdate(model);
 
             return createResult.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("保存失败，失败详情：" + createResult.ErrorMessage);
         }
@@ -134,21 +137,20 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
 
             // 反序列得到的路由规则数据
             var model = JsonConvert.DeserializeObject<SwaggerDocument>(strRoute);
-            var routes = model.paths.Select(item => new Api { Route = item.Key, Item = item.Value, Type = 2 });
+            var routes = model.paths.Select(item => new Api { CreateUserId = WebHelper.GetLogOnUserId(), Route = item.Key, Item = item.Value });
 
             // 清空路由信息表
             this.ApiService.Truncate();
 
             // 添加新的路由信息
-            var message = (from item in routes select ApiService.Create(item) into result where !result.IsSuccess select result.ErrorMessage).FirstOrDefault();
+            var rsp = this.ApiService.Adds(routes.ToArray());
 
-            return Json(new Response { ErrorMessage = message });
+            return Json(new Response { ErrorMessage = rsp.ErrorMessage });
         }
 
         [HttpPost]
         public ActionResult SaveWebApiDocumentUrl(string url)
         {
-
             var rsp = this.SystemSettingService.SaveSetting(new SystemSetting
             {
                 Name = WebApiDocumentUrlSettingName,

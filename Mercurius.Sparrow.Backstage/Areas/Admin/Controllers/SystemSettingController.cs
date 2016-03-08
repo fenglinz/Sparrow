@@ -37,28 +37,18 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return this.View();
         }
 
-        #region 记录日志的级别设置
-
-        /// <summary>
-        /// 设置记录日志的级别。
-        /// </summary>
-        /// <param name="level">级别</param>
-        /// <returns>设置通知</returns>
         [HttpPost]
-        public ActionResult SaveLogLevlSetting(string level)
+        public ActionResult SaveSetting(string name, string value)
         {
             var rsp = this.SystemSettingService.SaveSetting(new SystemSetting
             {
-                Id = Guid.NewGuid().ToString(),
-                Name = "LogLevel",
-                Value = level
+                Name = name,
+                Value = value
             });
 
-            return rsp.IsSuccess ? this.AlertWithRefresh("设置成功！") : this.Alert("设置失败，错误详情：" + rsp.ErrorMessage, AlertType.Error);
+            return Json(rsp);
         }
-
-        #endregion
-
+        
         #region 保存产品信息
 
         /// <summary>
@@ -125,7 +115,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                return Json(new {Value = ""});
+                return Json(new { Value = "" });
             }
         }
 

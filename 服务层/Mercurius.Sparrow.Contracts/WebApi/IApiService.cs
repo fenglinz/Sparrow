@@ -16,16 +16,9 @@ namespace Mercurius.Sparrow.Contracts.WebApi
         /// <summary>
         /// 添加Web API信息。
         /// </summary>
-        /// <param name="api">Web API信息</param>
+        /// <param name="apis">Web API信息</param>
         /// <returns>返回添加结果</returns>
-        Response Create(Api api);
-
-        /// <summary>
-        /// 编辑Web API信息。
-        /// </summary>
-        /// <param name="api">Web API信息</param>
-        /// <returns>返回编辑结果</returns>
-        Response Update(Api api);
+        Response Adds(IList<Api> apis);
 
         /// <summary>
         /// 添加或者编辑Web API信息

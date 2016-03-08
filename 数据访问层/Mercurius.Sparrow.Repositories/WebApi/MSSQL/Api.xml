@@ -6,58 +6,42 @@
   </alias>
   <statements>
     <!-- 添加Web API信息信息。 -->
-    <insert id="Create" parameterClass="Api">
-      <![CDATA[
-        IF EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Route] = #Route# AND [HttpVerb] = #HttpVerb#)
-        BEGIN
-           RAISERROR('已添加具有相同项的路由规则',16,1)
-           RETURN;
-        END
-        
-        INSERT INTO [WebApi].[Api]
-        (
-          [Route],
-          [HttpVerb],
-          [Description],
-          [Controller],
-          [Type],
-          [ParentId],
-          [CreateUserId],
-          [CreateDateTime],
-          [ModifyUserId],
-          [ModifyDateTime]
-        )
-        VALUES
-        (
-          #Route#,
-          #HttpVerb#,
-          #Description#,
-          #Controller#,
-          #Type#,
-          #ParentId#,
-          #CreateUserId#,
-          GETDATE(),
-          #ModifyUserId#,
-          #ModifyDateTime#
-        )
-      ]]>
+    <insert id="Create" parameterClass="Params">
+      <isNotNull property=".">
+        <iterate property="Apis" open="" conjunction=";" close="">
+          <![CDATA[
+            IF EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Route]=#Apis[].Route# AND [HttpVerb]=#Apis[].HttpVerb#)
+            BEGIN
+              UPDATE [WebApi].[Api]
+              SET
+                [Description]=#Apis[].Description#,
+                [ModifyUserId]=#ModifyUserId#,
+                [ModifyDateTime]=GETDATE()
+              WHERE [Route]=#Apis[].Route# AND [HttpVerb]=#Apis[].HttpVerb#
+            END
+            ELSE
+            BEGIN
+              INSERT INTO [WebApi].[Api]
+              (
+                [Route],
+                [HttpVerb],
+                [Description],
+                [CreateUserId],
+                [CreateDateTime]
+              )
+              VALUES
+              (
+                #Apis[].Route#,
+                #Apis[].HttpVerb#,
+                #Apis[].Description#,
+                #CreateUserId#,
+                GETDATE()
+              )
+            END
+          ]]>
+        </iterate>
+      </isNotNull>
     </insert>
-
-    <!-- 更新Web API信息信息。 -->
-    <update id="Update" parameterClass="Api">
-      <![CDATA[
-        UPDATE [WebApi].[Api]
-        SET
-          [Route]=#Route#,
-          [HttpVerb]=#HttpVerb#,
-          [Description]=#Description#,
-          [CreateUserId]=#CreateUserId#,
-          [CreateDateTime]=#CreateDateTime#,
-          [ModifyUserId]=#ModifyUserId#,
-          [ModifyDateTime]=#ModifyDateTime#
-        WHERE [Id]=#Id#
-      ]]>
-    </update>
 
     <!-- 添加或者更新Web API信息信息。 -->
     <update id="CreateOrUpdate" parameterClass="Api">
@@ -68,10 +52,8 @@
             [Route]=#Route#,
             [HttpVerb]=#HttpVerb#,
             [Description]=#Description#,
-            [CreateUserId]=#CreateUserId#,
-            [CreateDateTime]=#CreateDateTime#,
             [ModifyUserId]=#ModifyUserId#,
-            [ModifyDateTime]=#ModifyDateTime#
+            [ModifyDateTime]=GETDATE()
           WHERE [Id]=#Id#
         ELSE
           INSERT INTO [WebApi].[Api]
@@ -80,9 +62,7 @@
             [HttpVerb],
             [Description],
             [CreateUserId],
-            [CreateDateTime],
-            [ModifyUserId],
-            [ModifyDateTime]
+            [CreateDateTime]
           )
           VALUES
           (
@@ -90,8 +70,6 @@
             #HttpVerb#,
             #Description#,
             #CreateUserId#,
-            #CreateDateTime#,
-            #ModifyUserId#,
             GETDATE()
           )
       ]]>
@@ -100,10 +78,10 @@
     <!-- 删除Web API信息信息。 -->
     <delete id="Remove" parameterClass="int">
       <![CDATA[
-        IF NOT EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Id] = #value#)
+        IF NOT EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Id]=#value#)
         BEGIN
-           RAISERROR('该路由项不存在,请核对',16,1)
-           RETURN;
+          RAISERROR('该路由项不存在,请核对',16,1)
+          RETURN;
         END
         DELETE FROM [WebApi].[Api] WHERE [Id]=#value#
       ]]>
@@ -111,7 +89,12 @@
 
     <!--清空路由表信息-->
     <delete id="Truncate">
-      <![CDATA[TRUNCATE TABLE WebApi.[Api]]]>
+      <![CDATA[
+        BEGIN
+          TRUNCATE TABLE WebApi.[Api];
+          TRUNCATE TABLE WebApi.[RolePermission];
+        END
+      ]]>
     </delete>
 
     <!-- 根据主键获取Web API信息信息。 -->
@@ -122,9 +105,6 @@
           [Route] AS Route,
           [HttpVerb] AS HttpVerb,
           [Description] AS Description,
-          [Controller] AS Controller,
-          [Type]AS Type,
-          [ParentId] AS ParentId,
           [CreateUserId] AS CreateUserId,
           [CreateDateTime] AS CreateDateTime,
           [ModifyUserId] AS ModifyUserId,
@@ -139,18 +119,21 @@
       <![CDATA[
         WITH CTE AS(
           SELECT
-            [Id] AS Id,
-            [Route] AS Route,
-            [HttpVerb] AS HttpVerb,
-            [Description] AS Description,
-            [Controller] AS Controller,
-            [Type]AS Type,
-            [ParentId] AS ParentId,
-            [CreateUserId] AS CreateUserId,
-            [CreateDateTime] AS CreateDateTime,
-            [ModifyUserId] AS ModifyUserId,
-            [ModifyDateTime] AS ModifyDateTime
-          FROM [WebApi].[Api]
+            a.[Id] AS Id,
+            a.[Route] AS Route,
+            a.[HttpVerb] AS HttpVerb,
+            a.[Description] AS Description,
+            a.[CreateUserId] AS CreateUserId,
+            u1.[Name] AS CreateUserName,
+            a.[CreateDateTime] AS CreateDateTime,
+            a.[ModifyUserId] AS ModifyUserId,
+            u2.[Name] AS ModifyUserName,
+            a.[ModifyDateTime] AS ModifyDateTime
+          FROM [WebApi].[Api] a
+          LEFT JOIN [RBAC].[User] u1
+            ON a.CreateUserId=u1.Id
+          LEFT JOIN [RBAC].[User] u2
+            ON a.ModifyUserId=u2.Id
       ]]>
       <include refid="searchConditions" />
       <![CDATA[
@@ -177,13 +160,15 @@
     <!--获取用户权限列表-->
     <select id ="GetUserPower" resultClass="Api" parameterClass="int">
       <![CDATA[
-      BEGIN
-          IF EXISTS(SELECT *FROM WebApi.[User] WHERE Id = #value#)
-          BEGIN
-          SELECT *FROM WebApi.[Api] WHERE Id IN(SELECT ApiId FROM WebApi.[RolePermission] WHERE RoleId IN(SELECT RoleId FROM WebApi.[UserRole]     WHERE UserId = 
-          (SELECT Id FROM WebApi.[User] WHERE Id = #value#)))
-          END
-      END
+        SELECT
+          * 
+        FROM WebApi.[Api]
+        WHERE Id IN(
+          SELECT
+            ApiId
+          FROM WebApi.[RolePermission] 
+          WHERE UserId=#value#
+        )
       ]]>
     </select>
 

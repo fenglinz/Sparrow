@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.WebApi;
 using Mercurius.Sparrow.Entities.WebApi.SO;
@@ -27,37 +28,27 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <summary>
         /// 添加Web API信息。
         /// </summary>
-        /// <param name="api">Web API信息</param>
+        /// <param name="apis">Web API信息</param>
         /// <returns>返回结果</returns>
-        public Response Create(Api api)
+        public Response Adds(IList<Api> apis)
         {
+            var args = new
+            {
+                Apis = apis,
+                CreateUserId = apis?.FirstOrDefault().CreateUserId,
+                ModifyUserId = apis?.FirstOrDefault().ModifyUserId
+            };
+
             return this.InvokeService(
-                nameof(Create),
+                nameof(Adds),
                 () =>
                 {
-                    this.Persistence.Create(NS, "Create", api);
+                    this.Persistence.Create(NS, "Create", args);
 
                     this.ClearCache<Api>();
+                    this.ClearCache<RolePermission>();
                 },
-                api);
-        }
-
-        /// <summary>
-        /// 编辑Web API信息。
-        /// </summary>
-        /// <param name="api">Web API信息</param>
-        /// <returns>返回结果</returns>
-        public Response Update(Api api)
-        {
-            return this.InvokeService(
-                nameof(Update),
-                () =>
-                {
-                    this.Persistence.Update(NS, "Update", api);
-
-                    this.ClearCache<Api>();
-                },
-                api);
+                args);
         }
 
         /// <summary>
