@@ -33,14 +33,14 @@
         function showlogs() {
             var url = "@Url.Action("ShowLogs", "Home", new {@Area = ""})";
 
-            mercurius.OpenDialog(url, 'ShowLogs', '查看登录/登出日志', 720, 400, { statusbar: false });
+            mercurius.OpenDialog(url, 'ShowLogs', '查看登录/登出日志', 720, 430, { statusbar: false });
         }
 
         @*修改密码*@
         function editpwd() {
             var url = "@Url.Action("ChangePassword", "User", new {@Area = "Admin"})";
 
-            mercurius.OpenDialog(url, 'ChangePassword', '修改登录密码', 400, 242);
+            mercurius.OpenDialog(url, 'ChangePassword', '修改登录密码', 400, 210);
         }
 
         @*新增快捷功能*@

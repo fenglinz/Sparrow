@@ -4,10 +4,9 @@
 
 @section Scripts
 {
-    @Scripts.Render("~/bundles/treetable")
     <script type="text/javascript">
         $(function () {
-            mercurius.FixedTableHeader("#dnd-example", 112, { multiple:true ,triggerRowChecked: false });
+            mercurius.FixedTableHeader("#dnd-example", 120, { multiple:true ,triggerRowChecked: true });
         });
 
         @Html.RenderButtonScript("返回",@<text>
@@ -40,24 +39,23 @@
             });
         }
         </text>)
-
     </script>
 }
 
 <div class="header">注：分配权限 - 该功能谨慎使用！</div>
 @Html.RenderAccessibleButtons()
-<form id="power">
+@using (Html.BeginForm(""))
+{
     <input type="hidden" name="RoleId" value="@ViewBag.RoleId" />
     <table id="dnd-example" class="grid">
         <thead>
             <tr>
-                <th style="width: 40px;">
+                <td style="width: 40px;">
                     <label class="check-all"></label>
-                </th>
-                <th style="width: 100px;">访问方式</th>
-                <th style="width: 150px;">控制器</th>
-                <th style="width: 200px;">路由地址</th>
-                <th>描述</th>
+                </td>
+                <td style="width: 100px;">访问方式</td>
+                <td style="width: 200px;">路由地址</td>
+                <td>描述</td>
             </tr>
         </thead>
         <tbody>
@@ -66,27 +64,27 @@
                 foreach (var item in Model.Datas)
                 {
                     <tr>
-                        <td>
+                        <td class="text-center">
                             <input type="checkbox" value="@item.Id" name="ApiId" @(item.CanAccess == 1 ? "checked" : "") />
                         </td>
                         <td>@item.HttpVerb</td>
-                        <td>@item.Controller</td>
                         <td>@item.Route</td>
-                        <td>@(item.Description ?? string.Empty)</td>
+                        <td>@item.Description</td>
                     </tr>
                 }
-            }else if (Model.IsSuccess())
+            }
+            else if (Model.IsSuccess())
             {
                 <tr>
-                    <td colspan="5" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                    <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
                 </tr>
             }
             else
             {
                 <tr>
-                    <td colspan="5" class="error">@Model.GetErrorMessage()</td>
+                    <td colspan="4" class="error">@Model.GetErrorMessage()</td>
                 </tr>
             }
         </tbody>
     </table>
-</form>
+}

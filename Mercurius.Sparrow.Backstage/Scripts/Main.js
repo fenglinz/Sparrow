@@ -10,7 +10,7 @@ function iframeresize() {
     function resizeU() {
         var divkuangH = $(window).height();
         $("#sidebar").height(divkuangH - 48);
-        $("#MainContent").height(divkuangH - 48);
+        $("#MainContent").height(divkuangH - 50);
     }
 
     resizeU();

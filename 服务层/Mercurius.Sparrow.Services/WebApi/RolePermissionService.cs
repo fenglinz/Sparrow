@@ -27,98 +27,33 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <summary>
         /// 添加WebApi权限列表。
         /// </summary>
-        /// <param name="rolePermission">WebApi权限列表</param>
-        /// <returns>返回结果</returns>
-        public Response Create(RolePermission rolePermission)
+        /// <param name="roleId">角色编号</param>
+        /// <param name="permissions">角色权限集合</param>
+        /// <returns>返回添加结果</returns>
+        public Response Create(int roleId, IList<RolePermission> permissions)
         {
+            var args = new { RoleId = roleId, Permissions = permissions };
+
             return this.InvokeService(
                 nameof(Create),
                 () =>
                 {
-                    this.Persistence.Create(NS, "Create", rolePermission);
+                    this.Persistence.Create(NS, "Create", args);
 
                     this.ClearCache<RolePermission>();
                 },
-                rolePermission);
-        }
-
-        /// <summary>
-        /// 编辑WebApi权限列表。
-        /// </summary>
-        /// <param name="rolePermission">WebApi权限列表</param>
-        /// <returns>返回结果</returns>
-        public Response Update(RolePermission rolePermission)
-        {
-            return this.InvokeService(
-                nameof(Update),
-                () =>
-                {
-                    this.Persistence.Update(NS, "Update", rolePermission);
-
-                    this.ClearCache<RolePermission>();
-                },
-                rolePermission);
-        }
-
-        /// <summary>
-        /// 添加或者编辑WebApi权限列表
-        /// </summary>
-        /// <param name="rolePermission">WebApi权限列表</param>
-        /// <returns>返回添加或保存结果</returns>
-        public Response CreateOrUpdate(RolePermission rolePermission)
-        {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Update(NS, "CreateOrUpdate", rolePermission);
-
-                    this.ClearCache<RolePermission>();
-                },
-                rolePermission);
-        }
-
-        /// <summary>
-        /// 根据主键删除WebApi权限列表信息。
-        /// </summary>
-        /// <param name="id">编号</param>
-        /// <returns>返回删除结果</returns>
-        public Response Remove(int id)
-        {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<RolePermission>();
-            }, id);
-        }
-
-        /// <summary>
-        /// 根据主键获取WebApi权限列表信息。
-        /// </summary>
-        /// <param name="id">编号</param>
-        /// <returns>返回WebApi权限列表查询结果</returns>
-        public Response<RolePermission> GetRolePermissionById(int id)
-        {
-            return this.InvokeService(
-                nameof(GetRolePermissionById),
-                () => this.Persistence.QueryForObject<RolePermission>(NS, "GetById", id),
-                args: id);
+                args);
         }
 
         /// <summary>
         /// 查询并分页获取WebApi权限列表信息。
         /// </summary>
-        /// <param name="so">查询条件</param>
-        /// <returns>返回WebApi权限列表的分页查询结果</returns>
-        public ResponseCollection<RolePermission> SearchRolePermissions(RolePermissionSO so)
+        /// <param name="roleId">角色编号</param>
+        /// <returns>返回结果</returns>
+        public ResponseCollection<RolePermission> GetRolePermissions(int roleId)
         {
-            so = so ?? new RolePermissionSO();
-
-            return this.InvokePagingService(
-                nameof(SearchRolePermissions),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<RolePermission>(NS, "SearchRolePermissions", out totalRecords, so),
-                args: so);
+            return this.InvokeService(nameof(GetRolePermissions),
+                () => this.Persistence.QueryForList<RolePermission>(NS, "GetRolePermissions", roleId), args: roleId);
         }
 
         #endregion
