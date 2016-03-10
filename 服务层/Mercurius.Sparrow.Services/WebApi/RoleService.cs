@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.WebApi;
 using Mercurius.Sparrow.Entities.WebApi.SO;
@@ -26,42 +27,6 @@ namespace Mercurius.Sparrow.Services.WebApi
         #region IRoleService接口实现 
 
         /// <summary>
-        /// 添加Web API角色。
-        /// </summary>
-        /// <param name="role">Web API角色</param>
-        /// <returns>返回结果</returns>
-        public Response Create(Role role)
-        {
-            return this.InvokeService(
-                nameof(Create),
-                () =>
-                {
-                    this.Persistence.Create(NS, "Create", role);
-
-                    this.ClearCache<Role>();
-                },
-                role);
-        }
-
-        /// <summary>
-        /// 编辑Web API角色。
-        /// </summary>
-        /// <param name="role">Web API角色</param>
-        /// <returns>返回结果</returns>
-        public Response Update(Role role)
-        {
-            return this.InvokeService(
-                nameof(Update),
-                () =>
-                {
-                    this.Persistence.Update(NS, "Update", role);
-
-                    this.ClearCache<Role>();
-                },
-                role);
-        }
-
-        /// <summary>
         /// 添加或者编辑Web API角色
         /// </summary>
         /// <param name="role">Web API角色</param>
@@ -80,6 +45,22 @@ namespace Mercurius.Sparrow.Services.WebApi
         }
 
         /// <summary>
+        /// 根据主键删除Web API角色信息。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>返回删除结果</returns>
+        public Response Remove(int id)
+        {
+            return this.InvokeService(nameof(Remove), () =>
+            {
+                this.Persistence.Delete(NS, "Remove", id);
+
+                this.ClearCache<Role>();
+                this.ClearCache<User>();
+            }, id);
+        }
+
+        /// <summary>
         /// 添加角色成员。
         /// </summary>
         /// <param name="roleId">角色编号</param>
@@ -95,22 +76,8 @@ namespace Mercurius.Sparrow.Services.WebApi
                     this.Persistence.Create(NS, "AddMember", args);
 
                     this.ClearCache<Role>();
+                    this.ClearCache<User>();
                 }, args);
-        }
-
-        /// <summary>
-        /// 根据主键删除Web API角色信息。
-        /// </summary>
-        /// <param name="id">角色编号</param>
-        /// <returns>返回删除结果</returns>
-        public Response Remove(int id)
-        {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<Role>();
-            }, id);
         }
 
         /// <summary>
@@ -129,6 +96,7 @@ namespace Mercurius.Sparrow.Services.WebApi
                     this.Persistence.Delete(NS, "RemoveMember", args);
 
                     this.ClearCache<Role>();
+                    this.ClearCache<User>();
                 }, args);
         }
 
@@ -184,30 +152,41 @@ namespace Mercurius.Sparrow.Services.WebApi
         }
 
         /// <summary>
-        /// 获取已分配及未分配角色的权限
+        /// 添加WebApi权限列表。
         /// </summary>
-        /// <param name="roleId"></param>
-        /// <returns></returns>
-        public ResponseCollection<Api> GetRolePower(int roleId)
+        /// <param name="roleId">角色编号</param>
+        /// <param name="apis">Web Api集合</param>
+        /// <returns>返回添加结果</returns>
+        public Response AllotPermissions(int roleId, IList<int> apis)
         {
-            return this.InvokeService(nameof(GetRolePower), () => this.Persistence.QueryForList<Api>(ApiNS, "GetRolePower", roleId), args: roleId);
+            var args = new
+            {
+                RoleId = roleId,
+                CreateUserId = WebHelper.GetLogOnUserId(),
+                Apis = apis
+            };
+
+            return this.InvokeService(
+                nameof(AllotPermissions),
+                () =>
+                {
+                    this.Persistence.Create(NS, "AllotPermissions", args);
+
+                    this.ClearCache<Api>();
+                    this.ClearCache<Role>();
+                },
+                args);
         }
 
         /// <summary>
-        /// 分配用户权限
+        /// 查询并分页获取WebApi权限列表信息。
         /// </summary>
-        /// <returns></returns>
-        public Response AllotUserPower(Role role)
+        /// <param name="roleId">角色编号</param>
+        /// <returns>返回结果</returns>
+        public ResponseCollection<Api> GetRolePermissions(int roleId)
         {
-            return this.InvokeService(
-                nameof(AllotUserPower),
-                () =>
-                {
-                    this.Persistence.Update(NS, "AllotUserPower", role);
-
-                    this.ClearCache<Role>();
-                },
-                role);
+            return this.InvokeService(nameof(GetRolePermissions),
+                () => this.Persistence.QueryForList<Api>(NS, "GetRolePermissions", roleId), args: roleId);
         }
 
         #endregion

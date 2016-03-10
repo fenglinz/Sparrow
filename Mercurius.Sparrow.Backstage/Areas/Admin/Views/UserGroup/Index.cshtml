@@ -83,7 +83,7 @@
             var userGroupName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
 
             if (mercurius.HasSingleRowSelected(userGroupId)) {
-                var url = '@Url.Action("AllotPermission")/?id=' + userGroupId + '&name=' + escape(userGroupName);
+                var url = '@Url.Action("AllotPermissions")/?id=' + userGroupId + '&name=' + escape(userGroupName);
 
                 mercurius.NavigateUrl(url);
             }

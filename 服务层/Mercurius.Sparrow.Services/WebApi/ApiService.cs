@@ -46,7 +46,7 @@ namespace Mercurius.Sparrow.Services.WebApi
                     this.Persistence.Create(NS, "Create", args);
 
                     this.ClearCache<Api>();
-                    this.ClearCache<RolePermission>();
+                    this.ClearCache<Role>();
                 },
                 args);
         }

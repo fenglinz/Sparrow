@@ -45,6 +45,5 @@
     <sqlMap embedded="WebApi.MSSQL.Api.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="WebApi.MSSQL.User.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="WebApi.MSSQL.Role.xml, Mercurius.Sparrow.Repositories" />
-    <sqlMap embedded="WebApi.MSSQL.RolePermission.xml, Mercurius.Sparrow.Repositories" />
   </sqlMaps>
 </sqlMapConfig>

@@ -18,24 +18,7 @@
         @Html.RenderButtonScript("保存",@<text>
         function @item.NavigateUrl () {
             mercurius.ShowConfirmMessage('注您确认要保存此操作吗？', function (r) {
-                if (r) {
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        url: '@Url.Action("ConfirmAllotPermission")',
-                        data: $("#power").serialize(),
-                        dataType: 'JSON',
-                        success: function (xhr) {
-                            if (xhr.IsSuccess) {
-                                mercurius.ShowTipsMessage('权限分配成功', '2000', 4);
-
-                                mercurius.Back();
-                            } else {
-                                mercurius.ShowWarningMessage(xhr.ErrorMessage);
-                            }
-                        }
-                    });
-                }
+                $('#frmAllot').submit();
             });
         }
         </text>)
@@ -44,9 +27,8 @@
 
 <div class="header">注：分配权限 - 该功能谨慎使用！</div>
 @Html.RenderAccessibleButtons()
-@using (Html.BeginForm(""))
+@using (Ajax.BeginForm("ConfirmAllotPermissions", "Role", new { @roleId = this.ViewBag.RoleId }, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmAllot" }))
 {
-    <input type="hidden" name="RoleId" value="@ViewBag.RoleId" />
     <table id="dnd-example" class="grid">
         <thead>
             <tr>
@@ -54,7 +36,7 @@
                     <label class="check-all"></label>
                 </td>
                 <td style="width: 100px;">访问方式</td>
-                <td style="width: 200px;">路由地址</td>
+                <td style="width: 500px;">路由地址</td>
                 <td>描述</td>
             </tr>
         </thead>
@@ -65,9 +47,9 @@
                 {
                     <tr>
                         <td class="text-center">
-                            <input type="checkbox" value="@item.Id" name="ApiId" @(item.CanAccess == 1 ? "checked" : "") />
+                            <input type="checkbox" value="@item.Id" name="ApiId" @(item.HasPermission ? "checked" : "") />
                         </td>
-                        <td>@item.HttpVerb</td>
+                        <td class="text-center">@item.HttpVerb</td>
                         <td>@item.Route</td>
                         <td>@item.Description</td>
                     </tr>

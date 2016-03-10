@@ -81,14 +81,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         {
             if (model.Id > 0)
             {
-                var api = ApiService.GetApiById(model.Id);
+                model.Initialize();
 
-                if (!api.IsSuccess || api.Data == null)
-                {
-                    return this.Alert("获取详细失败，失败详情：" + api.ErrorMessage);
-                }
-
-                var updateResult = ApiService.CreateOrUpdate(api.Data.ToNewApi(model));
+                var updateResult = ApiService.CreateOrUpdate(model);
 
                 return updateResult.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("保存失败，失败详情：" + updateResult.ErrorMessage);
             }

@@ -1,0 +1,63 @@
+﻿@using Mercurius.Sparrow.Entities.WebApi
+
+@model ResponseCollection<Api>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            mercurius.FixedTableHeader("#dnd-example", 120, { multiple: true, triggerRowChecked: true });
+        });
+    </script>
+}
+
+<div class="header">查看角色权限</div>
+<div class="panel panel-default toolbar">
+    <div class="panel-heading">
+        <div class="right">
+            <a class="btn btn-default" href="@Url.Action("Index")">
+                <i class="glyphicon glyphicon-chevron-left"></i> 返回
+            </a>
+        </div>
+    </div>
+</div>
+<table id="dnd-example" class="grid">
+    <thead>
+        <tr>
+            <td style="width: 40px;">
+                <label class="check-all"></label>
+            </td>
+            <td style="width: 100px;">访问方式</td>
+            <td style="width: 500px;">路由地址</td>
+            <td>描述</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HasData())
+        {
+            foreach (var item in Model.Datas)
+            {
+                <tr>
+                    <td class="text-center">
+                        <input type="checkbox" value="@item.Id" name="ApiId" @(item.HasPermission ? "checked" : "") disabled="disabled" />
+                    </td>
+                    <td class="text-center">@item.HttpVerb</td>
+                    <td>@item.Route</td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        }
+        else if (Model.IsSuccess())
+        {
+            <tr>
+                <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="error">@Model.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>

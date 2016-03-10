@@ -22,12 +22,6 @@ namespace Mercurius.Sparrow.Entities.WebApi
         public virtual int Id { get; set; }
 
         /// <summary>
-        /// 父级ID
-        /// </summary>
-        [Display(Name = "父级ID")]
-        public virtual int? ParentId { get; set; }
-
-        /// <summary>
         /// Http路由。
         /// </summary>
         [Display(Name = "Http路由")]
@@ -48,18 +42,14 @@ namespace Mercurius.Sparrow.Entities.WebApi
         [StringLength(2000, ErrorMessage = "描述不能超过{1}个字符。")]
         public virtual string Description { get; set; }
 
-        /// <summary>
-        /// 获取或者设置用户是否具有访问权限。
-        /// </summary>
-        public virtual int CanAccess { get; set; }
-
-        /// <summary>
-        /// 排序
-        /// </summary>
-        [Display(Name = "排序")]
-        public virtual int? Sort { get; set; }
-
         #endregion
+
+        #region 业务属性
+
+        /// <summary>
+        /// 是否拥有权限。
+        /// </summary>
+        public bool HasPermission { get; set; }
 
         private PathItem _item;
 
@@ -96,21 +86,6 @@ namespace Mercurius.Sparrow.Entities.WebApi
             }
         }
 
-        /// <summary>
-        /// 转换
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public Api ToNewApi(Api model)
-        {
-            this.Route = model.Route;
-            this.Description = model.Description;
-            this.HttpVerb = model.HttpVerb;
-            this.ModifyDateTime = DateTime.Now;
-            this.ModifyUserId = WebHelper.GetLogOnUserId();
-            this.ModifyUserName = WebHelper.GetLogOnUserName();
-
-            return this;
-        }
+        #endregion
     }
 }

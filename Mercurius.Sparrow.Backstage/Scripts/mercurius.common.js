@@ -612,17 +612,15 @@
         IsNullOrEmpty: IsNullOrEmpty,
         OnRemoveToRecycbin: function (param) {
             ShowConfirmMessage('注：您确认要把此数据放入回收站吗？', function (r) {
-                if (r) {
-                    AjaxHelper(mercurius.BaseUrl + '/Admin/Recyclebin/RemoveToRecyclebin', param, function (rs) {
-                        if (rs.IsSuccess) {
-                            ShowTipsMessage("删除成功！", 2000, 4);
-                            mercurius.Reloading();
-                        }
-                        else {
-                            ShowTipsMessage("<span style='color:red'>删除失败！  失败原因：" + rs.Data + "</span>", 4000, 5);
-                        }
-                    });
-                }
+                AjaxHelper(mercurius.BaseUrl + '/Admin/Recyclebin/RemoveToRecyclebin', param, function (rs) {
+                    if (rs.IsSuccess) {
+                        ShowTipsMessage("删除成功！", 2000, 4);
+                        mercurius.Reloading();
+                    }
+                    else {
+                        ShowTipsMessage("<span style='color:red'>删除失败！  失败原因：" + rs.Data + "</span>", 4000, 5);
+                    }
+                });
             });
         },
         OnRemoveData: function (url, parm) {

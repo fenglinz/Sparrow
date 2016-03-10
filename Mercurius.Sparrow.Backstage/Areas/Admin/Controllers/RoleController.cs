@@ -161,7 +161,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">角色编号</param>
         /// <param name="role">角色名称</param>
         /// <returns>操作结果</returns>
-        public ActionResult AllotPermission(string id, string role)
+        public ActionResult AllotPermissions(string id, string role)
         {
             var rspSystemMenus = this.PermissionService.GetSystemMenusWithAllotedByRole(id);
 
@@ -178,7 +178,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="selecteds">已选择的可访问的资源</param>
         /// <returns>操作结果</returns>
         [HttpPost]
-        public ActionResult ConfirmAllotPermission(string selecteds)
+        public ActionResult ConfirmAllotPermissions(string selecteds)
         {
             var result = "分配成功！";
 

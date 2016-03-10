@@ -5,45 +5,6 @@
     <typeAlias alias="WebApiRoleSO" type="Mercurius.Sparrow.Entities.WebApi.SO.RoleSO, Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
-    <!-- 添加Web API角色信息。 -->
-    <insert id="Create" parameterClass="WebApiRole">
-      <![CDATA[
-        INSERT INTO [WebApi].[Role]
-        (
-          [Name],
-          [Description],
-          [CreateUserId],
-          [CreateDateTime],
-          [ModifyUserId],
-          [ModifyDateTime]
-        )
-        VALUES
-        (
-          #Name#,
-          #Description#,
-          #CreateUserId#,
-          #CreateDateTime#,
-          #ModifyUserId#,
-          #ModifyDateTime#
-        )
-      ]]>
-    </insert>
-
-    <!-- 更新Web API角色信息。 -->
-    <update id="Update" parameterClass="WebApiRole">
-      <![CDATA[
-        UPDATE [WebApi].[Role]
-        SET
-          [Name]=#Name#,
-          [Description]=#Description#,
-          [CreateUserId]=#CreateUserId#,
-          [CreateDateTime]=#CreateDateTime#,
-          [ModifyUserId]=#ModifyUserId#,
-          [ModifyDateTime]=#ModifyDateTime#
-        WHERE [Id]=#Id#
-      ]]>
-    </update>
-
     <!-- 添加或者更新Web API角色信息。 -->
     <update id="CreateOrUpdate" parameterClass="WebApiRole">
       <![CDATA[
@@ -52,10 +13,8 @@
           SET
             [Name]=#Name#,
             [Description]=#Description#,
-            [CreateUserId]=#CreateUserId#,
-            [CreateDateTime]=#CreateDateTime#,
             [ModifyUserId]=#ModifyUserId#,
-            [ModifyDateTime]=#ModifyDateTime#
+            [ModifyDateTime]=GETDATE()
           WHERE Id=#Id#
         ELSE
           INSERT INTO [WebApi].[Role]
@@ -63,18 +22,14 @@
             [Name],
             [Description],
             [CreateUserId],
-            [CreateDateTime],
-            [ModifyUserId],
-            [ModifyDateTime]
+            [CreateDateTime]
           )
           VALUES
           (
             #Name#,
             #Description#,
             #CreateUserId#,
-            #CreateDateTime#,
-            #ModifyUserId#,
-            #ModifyDateTime#
+            GETDATE()
           )
       ]]>
     </update>
@@ -211,38 +166,47 @@
       </dynamic>
     </select>
 
-    <!--分配用户权限-->
-    <update id="AllotUserPower" parameterClass="Role">
+    <!-- 添加WebApi权限列表信息。 -->
+    <insert id="AllotPermissions" parameterClass="Params">
       <![CDATA[
-      IF NOT EXISTS(SELECT * FROM [WebApi].[Role] WHERE Id=#Id#)
-      BEGIN
-         RAISERROR('角色ID不合法',16,1)
-         RETURN;
-      END
+        DELETE FROM [WebApi].[RolePermission] WHERE [RoleId]=#RoleId#;
       ]]>
-      <isNotNull property="RolePermissions">
-        DELETE FROM [WebApi].[RolePermission] WHERE RoleId = #Id#
-        <iterate property="RolePermissions" conjunction=" " open="" close=""  >
-          <![CDATA[
-        INSERT INTO [WebApi].[RolePermission]
-        (
-          [RoleId],
-          [ApiId],
-          [CreateUserId],
-          [CreateDateTime]
-        )
-        VALUES
-        (
-          #Id#,
-          #RolePermissions[]#,
-          #CreateUserId#,
-          GETDATE()
-        )
-      ]]>
-        </iterate>
-      </isNotNull>
-    </update>
+      <iterate property="Apis" open="" conjunction=";" close=";">
+        <![CDATA[
+          INSERT INTO [WebApi].[RolePermission]
+          (
+            [RoleId],
+            [ApiId],
+            [CreateUserId],
+            [CreateDateTime]
+          )
+          VALUES
+          (
+            #RoleId#,
+            #Apis[]#,
+            #CreateUserId#,
+            GETDATE()
+          )
+        ]]>
+      </iterate>
+    </insert>
 
+    <!-- 分页返回满足查询条件的WebApi权限列表信息。 -->
+    <select id="GetRolePermissions" parameterClass="int" resultClass="Api">
+      <![CDATA[
+        SELECT
+          a.[Id] AS Id,
+          a.[Route] AS Route,
+          a.[HttpVerb] AS HttpVerb,
+          a.[Description] AS Description,
+          CASE WHEN p.ApiId IS NULL THEN 0 ELSE 1 END AS HasPermission
+        FROM WebApi.Api a
+        OUTER APPLY (
+	        SELECT ApiId FROM WebApi.RolePermission WHERE ApiId=a.Id AND RoleId=#value#
+        ) p
+      ]]>
+    </select>
+    
     <!-- 查询条件。 -->
     <sql id="searchConditions">
       <dynamic prepend="WHERE">

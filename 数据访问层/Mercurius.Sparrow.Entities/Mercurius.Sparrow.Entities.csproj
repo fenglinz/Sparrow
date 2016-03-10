@@ -138,13 +138,11 @@
     <Compile Include="Swagger\Tag.cs" />
     <Compile Include="WebApi\Api.cs" />
     <Compile Include="WebApi\Role.cs" />
-    <Compile Include="WebApi\RolePermission.cs" />
     <Compile Include="WebApi\Token.cs" />
     <Compile Include="WebApi\User.cs" />
     <Compile Include="Core\SO\FileStorageSO.cs" />
     <Compile Include="WebApi\SO\ApiSO.cs" />
     <Compile Include="WebApi\SO\RoleSO.cs" />
-    <Compile Include="WebApi\SO\RolePermissionSO.cs" />
     <Compile Include="WebApi\SO\UserSO.cs" />
     <Compile Include="Dynamic\ExtensionProperty.cs" />
     <Compile Include="Dynamic\ExtensionPropertyInstance.cs" />

@@ -172,7 +172,6 @@
     <EmbeddedResource Include="Core\MSSQL\FileStorage.xml" />
     <EmbeddedResource Include="WebApi\MSSQL\Api.xml" />
     <EmbeddedResource Include="WebApi\MSSQL\Role.xml" />
-    <EmbeddedResource Include="WebApi\MSSQL\RolePermission.xml" />
     <EmbeddedResource Include="WebApi\MSSQL\User.xml" />
   </ItemGroup>
   <ItemGroup>

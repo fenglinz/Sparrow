@@ -14,20 +14,6 @@ namespace Mercurius.Sparrow.Contracts.WebApi
     public interface IRoleService
     {
         /// <summary>
-        /// 添加Web API角色。
-        /// </summary>
-        /// <param name="role">Web API角色</param>
-        /// <returns>返回添加结果</returns>
-        Response Create(Role role);
-
-        /// <summary>
-        /// 编辑Web API角色。
-        /// </summary>
-        /// <param name="role">Web API角色</param>
-        /// <returns>返回编辑结果</returns>
-        Response Update(Role role);
-
-        /// <summary>
         /// 添加或者编辑Web API角色
         /// </summary>
         /// <param name="role">Web API角色</param>
@@ -87,16 +73,18 @@ namespace Mercurius.Sparrow.Contracts.WebApi
         ResponseCollection<User> GetUnAllotUsers(int roleId, string account = null);
 
         /// <summary>
-        /// 获取已分配及未分配角色的权限
+        /// 添加WebApi权限列表。
         /// </summary>
-        /// <param name="roleId"></param>
-        /// <returns></returns>
-        ResponseCollection<Api> GetRolePower(int roleId);
+        /// <param name="roleId">角色编号</param>
+        /// <param name="apis">Web Api集合</param>
+        /// <returns>返回添加结果</returns>
+        Response AllotPermissions(int roleId, IList<int> apis);
 
         /// <summary>
-        /// 分配用户权限
+        /// 获取拥有的权限。
         /// </summary>
-        /// <returns></returns>
-        Response AllotUserPower(Role role);
+        /// <param name="roleId">角色编号</param>
+        /// <returns>返回结果</returns>
+        ResponseCollection<Api> GetRolePermissions(int roleId);
     }
 }

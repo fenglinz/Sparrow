@@ -435,7 +435,7 @@
     <Content Include="Areas\Admin\Views\Recyclebin\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Recyclebin\Navigation.cshtml" />
     <Content Include="Areas\Admin\Views\Recyclebin\ViewDetail.cshtml" />
-    <Content Include="Areas\Admin\Views\Role\AllotPermission.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\AllotPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\Role\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Role\ViewRoleDetails.cshtml" />
@@ -444,7 +444,7 @@
     <Content Include="Areas\Admin\Views\SystemMenu\Icons.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroup\AllotMembers.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\AllotPermission.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroup\AllotPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroup\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroup\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroup\ViewDetails.cshtml" />
@@ -483,7 +483,7 @@
     <Content Include="Areas\WebApi\Views\Role\AllotMembers.cshtml" />
     <Content Include="Areas\WebApi\Views\Role\_UnAllotUsers.cshtml" />
     <Content Include="Areas\WebApi\Views\Role\_AllotUsers.cshtml" />
-    <Content Include="Areas\WebApi\Views\Role\AllotPermission.cshtml" />
+    <Content Include="Areas\WebApi\Views\Role\AllotPermissions.cshtml" />
     <Content Include="Areas\WebApi\Views\Route\CreateOrUpdate.cshtml" />
     <Content Include="Areas\WebApi\Views\Route\Index.cshtml" />
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\CreateOrUpdate.cshtml" />
@@ -584,6 +584,7 @@
     <Content Include="Areas\Installation\Views\web.config" />
     <Content Include="Areas\Installation\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Installation\Views\Home\Index.cshtml" />
+    <None Include="Areas\WebApi\Views\Role\ViewDetails.cshtml" />
     <None Include="Properties\PublishProfiles\LocalFileSystem.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />

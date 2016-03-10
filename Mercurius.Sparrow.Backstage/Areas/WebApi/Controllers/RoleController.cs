@@ -18,6 +18,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
     {
         #region 属性
 
+        /// <summary>
+        /// 角色服务对象。
+        /// </summary>
         public IRoleService RoleService { get; set; }
 
         #endregion
@@ -56,6 +59,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return Json(this.RoleService.Remove(id));
         }
 
+        #region 角色成员管理
+
         public ActionResult AllotMembers(int id)
         {
             this.ViewBag.RoleId = id;
@@ -93,22 +98,35 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return Json(this.RoleService.RemoveMember(roleId, userId));
         }
 
+        #endregion
+
+        #region 角色权限管理
+
         [HttpGet]
-        public ActionResult AllotPermission(int? id)
+        public ActionResult AllotPermissions(int id)
         {
-            var routes = this.RoleService.GetRolePower(id.Value);
+            var rolePermissions = this.RoleService.GetRolePermissions(id);
 
             this.ViewBag.RoleId = id;
 
-            return View(routes);
+            return View(rolePermissions);
+        }
+
+        public ActionResult ViewDetails(int id)
+        {
+            var rolePermissions = this.RoleService.GetRolePermissions(id);
+
+            return View(rolePermissions);
         }
 
         [HttpPost]
-        public ActionResult ConfirmAllotPermission(int roleId, int[] apiId)
+        public ActionResult ConfirmAllotPermissions(int roleId, int[] apiId)
         {
-            var role = new Role { Id = roleId, RolePermissions = apiId };
+            var rsp = this.RoleService.AllotPermissions(roleId, apiId);
 
-            return Json(RoleService.AllotUserPower(role));
+            return rsp.IsSuccess ? AlertWithRefresh("保存成功！") : Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
         }
+
+        #endregion
     }
 }

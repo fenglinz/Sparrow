@@ -1,11 +1,9 @@
-﻿@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.RBAC
-@{
-    var systemMenus = this.ViewBag.SystemMenus as ResponseCollection<SystemMenu>;
-}
+﻿@using Mercurius.Sparrow.Entities.RBAC
+@using Mercurius.Sparrow.Contracts
+
+@model ResponseCollection<SystemMenu>
 @section Styles{
     @Styles.Render("~/Content/treetable/css")
-
     <style type="text/css">
         .fa-2x {
             font-size: 1.5em;
@@ -31,10 +29,10 @@
     @Scripts.Render("~/bundles/treetable")
     <script type="text/javascript">
         $(function () {
-            mercurius.FixedTableHeader("#dnd-example", 112, { multiple:true ,triggerRowChecked: false });
+            mercurius.FixedTableHeader("#dnd-example", 115, {multiple:true, triggerRowChecked: false });
             $("#dnd-example").treetable({
                 expandable: true,
-                // collapsed收缩；expanded展开。
+                // collapsed：收缩；expanded：展开。
                 initialState: "expanded"
             });
 
@@ -51,6 +49,7 @@
             });
         });
 
+        // 返回
         @Html.RenderButtonScript("返回",@<text>
         function @item.NavigateUrl () {
             mercurius.NavigateUrl('@Url.Action("Index")');
@@ -59,31 +58,32 @@
 
         @Html.RenderButtonScript("保存",@<text>
         function @item.NavigateUrl () {
-            mercurius.ShowConfirmMessage('注您确认要保存此操作吗？', function () {
-                $.ajax({
-                    type: 'POST',
-                    cache: false,
-                    url: '@Url.Action("ConfirmAllotPermission")',
-                    data: { roleId: $('#roleId').val(), selecteds: mercurius.GetCheckboxValue() },
-                    dataType: 'JSON',
-                    complete: function (xhr) {
-                        if (xhr.status == 200) {
-                            mercurius.ShowTipsMessage(xhr.responseJSON.Data, '4000', 4);
+            mercurius.ShowConfirmMessage('注：您确认要保存此操作吗？', function (r) {
+                if (r) {
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        url: '@Url.Action("ConfirmAllotPermissions")',
+                        data: { id: $('#userGroupId').val(), selecteds: GetCheckboxValue() },
+                        dataType: 'JSON',
+                        complete: function (xhr) {
+                            if (xhr.status == 200) {
+                                mercurius.ShowTipsMessage(xhr.responseJSON.Data, '4000', 4);
 
-                            mercurius.Back();
-                        } else {
-                            mercurius.ShowWarningMessage(xhr.statusText);
+                                mercurius.back();
+                            } else {
+                                mercurius.ShowWarningMessage(xhr.statusText);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             });
         }
         </text>)
-
     </script>
 }
-<input id="roleId" type="hidden" value="@this.ViewBag.Id" />
-<div class="header">所属角色【@this.ViewBag.Role】 &nbsp;&nbsp;<span style="color: Red;">注：分配权限 - 该功能谨慎使用！</span></div>
+<input id="userGroupId" type="hidden" value="@this.ViewBag.Id" />
+<div class="header">所属用户组【@this.ViewBag.UserGroup】 &nbsp;&nbsp;<span style="color: Red;">注：分配权限 - 该功能谨慎使用！</span></div>
 @Html.RenderAccessibleButtons()
 <table class="treetable" id="dnd-example">
     <thead>
@@ -97,16 +97,16 @@
         </tr>
     </thead>
     <tbody>
-        @if (systemMenus.HasData())
+        @if (Model.HasData())
         {
-            var menus = systemMenus.Datas.Where(s => s.Category != 3);
-            var buttons = systemMenus.Datas.Where(s => s.Category == 3);
+            var menus = Model.Datas.Where(s => s.Category != 3);
+            var buttons = Model.Datas.Where(s => s.Category == 3);
 
             foreach (var systemMenu in menus)
             {
                 var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
 
-                <tr id="@systemMenu.Id" data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
+                <tr data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
                     <td style="padding-left: 20px;">
                         <span class="@(menus.IsParent(systemMenu.Id)?"folder":"file")"></span>@systemMenu.Name
                     </td>
@@ -120,15 +120,16 @@
                         @foreach (var btn in btns)
                         {
                             <label>
-                                <input id="@string.Format("ckb{0}", btn.Id)" @(btn.CanAccess ? "checked" : string.Empty) type="checkbox" value="@btn.Id" name="checkbox" />
+                                <input @(btn.CanAccess ? "checked" : string.Empty) type="checkbox" value="@btn.Id" name="checkbox" />
                                 @btn.Name
                             </label>
                         }
                     </td>
                     <td style="display: none;">@systemMenu.Id</td>
-                </tr>}
+                </tr>
+            }
         }
-        else if (systemMenus.IsSuccess())
+        else if (Model.IsSuccess())
         {
             <tr>
                 <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
@@ -137,7 +138,7 @@
         else
         {
             <tr>
-                <td colspan="4" class="empty-data">@systemMenus.GetErrorMessage()</td>
+                <td colspan="4" class="empty-data">@Model.GetErrorMessage()</td>
             </tr>
         }
     </tbody>

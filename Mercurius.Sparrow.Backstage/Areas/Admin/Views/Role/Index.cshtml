@@ -67,7 +67,7 @@
             var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
 
             if (mercurius.HasSingleRowSelected(roleId)) {
-                var url = '@Url.Action("AllotPermission")/?id=' + roleId + '&role=' + escape(roleName);
+                var url = '@Url.Action("AllotPermissions", "Role", new {@Area= "Admin" })/?id=' + roleId + '&role=' + escape(roleName);
 
                 mercurius.NavigateUrl(url);
             }

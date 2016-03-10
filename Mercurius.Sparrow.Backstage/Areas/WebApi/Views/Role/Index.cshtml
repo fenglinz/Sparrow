@@ -8,7 +8,7 @@
         $(document).ready(function() {
             mercurius.FixedTableHeader('#tbRoles', 155);
         });
-       
+
         @Html.RenderButtonScript("新增", @<text>
         function @(item.NavigateUrl)(){
             mercurius.OpenDialog('@Url.Action("CreateOrUpdate", "Role")','CreateOrUpdate','添加角色',550, 180);
@@ -54,13 +54,24 @@
         }
         </text>)
 
-        @Html.RenderButtonScript("分配权限",@<text>
+        @Html.RenderButtonScript("分配权限", @<text>
         function @(item.NavigateUrl)() {
-
             var roleId = $('#tbRoles tr.selected').find('td:eq(3)').text().trim();
 
             if (mercurius.HasSingleRowSelected(roleId)) {
-                var url = '@Url.Action("AllotPermission","Role")/' + roleId;
+                var url = '@Url.Action("AllotPermissions","Role")/' + roleId;
+
+                mercurius.NavigateUrl(url);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("详细", @<text>
+        function @(item.NavigateUrl)() {
+            var roleId = $('#tbRoles tr.selected').find('td:eq(3)').text().trim();
+
+            if (mercurius.HasSingleRowSelected(roleId)) {
+                var url = '@Url.Action("ViewDetails", "Role")/' + roleId;
 
                 mercurius.NavigateUrl(url);
             }

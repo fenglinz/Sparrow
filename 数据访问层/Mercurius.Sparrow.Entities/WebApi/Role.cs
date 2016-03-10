@@ -34,12 +34,6 @@ namespace Mercurius.Sparrow.Entities.WebApi
         public virtual string Description { get; set; }
 
         #endregion
-
-        #region 业务属性
-
-        public IList<int> RolePermissions { get; set; }
-
-        #endregion
     }
 }
   

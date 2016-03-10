@@ -224,7 +224,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">用户组编号</param>
         /// <param name="name">用户组名称</param>
         /// <returns>执行结果</returns>
-        public ActionResult AllotPermission(string id, string name)
+        public ActionResult AllotPermissions(string id, string name)
         {
             var model = this.PermissionService.GetSystemMenusWithAllotedByUserGroup(id);
 
@@ -241,7 +241,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="selecteds">拥有访问权限的资源</param>
         /// <returns>执行结果</returns>
         [HttpPost]
-        public ActionResult ConfirmAllotPermission(string id, string selecteds)
+        public ActionResult ConfirmAllotPermissions(string id, string selecteds)
         {
             var menus = selecteds.Split(',');
             var rspAllot = this.PermissionService.AllotPermissionByUserGroup(id, menus);

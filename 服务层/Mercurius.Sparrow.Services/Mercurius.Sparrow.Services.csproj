@@ -110,7 +110,6 @@
     <Compile Include="Core\FileStorageService.cs" />
     <Compile Include="WebApi\ApiService.cs" />
     <Compile Include="WebApi\RoleService.cs" />
-    <Compile Include="WebApi\RolePermissionService.cs" />
     <Compile Include="WebApi\UserService.cs" />
     <Compile Include="Dynamic\ExtensionPropertyService.cs" />
   </ItemGroup>
