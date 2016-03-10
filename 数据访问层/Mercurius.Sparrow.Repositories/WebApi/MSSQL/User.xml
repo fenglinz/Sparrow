@@ -5,61 +5,6 @@
     <typeAlias alias="WebApiUserSO" type="Mercurius.Sparrow.Entities.WebApi.SO.UserSO, Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
-    <!-- 添加WebApi用户信息。 -->
-    <insert id="Create" parameterClass="WebApiUser">
-      <![CDATA[
-        INSERT INTO [WebApi].[User]
-        (
-          [Account],
-          [Password],
-          [Description],
-          [Status],
-          [CreateUserId],
-          [CreateDateTime],
-          [ModifyUserId],
-          [ModifyDateTime]
-        )
-        VALUES
-        (
-          #Account#,
-          #Password#,
-          #Description#,
-          #Status#,
-          #CreateUserId#,
-          #CreateDateTime#,
-          #ModifyUserId#,
-          #ModifyDateTime#
-        )
-      ]]>
-    </insert>
-
-    <!-- 更新WebApi用户信息。 -->
-    <update id="Update" parameterClass="WebApiUser">
-      <![CDATA[
-        UPDATE [WebApi].[User]
-        SET
-          [Account]=#Account#,
-          [Password]=#Password#,
-          [Description]=#Description#,
-          [Status]=#Status#,
-          [CreateUserId]=#CreateUserId#,
-          [CreateDateTime]=#CreateDateTime#,
-          [ModifyUserId]=#ModifyUserId#,
-          [ModifyDateTime]=#ModifyDateTime#
-        WHERE [Id]=#Id#
-      ]]>
-    </update>
-
-    <!-- 修改用户状态 -->
-    <update id="ChangeStatus" parameterClass="Params">
-      <![CDATA[
-        UPDATE [WebApi].[User]
-        SET
-          [Status]=#Status#
-        WHERE [Id]=#Id#
-      ]]>
-    </update>
-
     <!-- 添加或者更新WebApi用户信息。 -->
     <update id="CreateOrUpdate" parameterClass="WebApiUser">
       <![CDATA[
@@ -76,10 +21,8 @@
       <![CDATA[
             [Description]=#Description#,
             [Status]=#Status#,
-            [CreateUserId]=#CreateUserId#,
-            [CreateDateTime]=#CreateDateTime#,
             [ModifyUserId]=#ModifyUserId#,
-            [ModifyDateTime]=#ModifyDateTime#
+            [ModifyDateTime]=GETDATE()
           WHERE [Id]=#Id#
         ELSE
           INSERT INTO [WebApi].[User]
@@ -89,9 +32,7 @@
             [Description],
             [Status],
             [CreateUserId],
-            [CreateDateTime],
-            [ModifyUserId],
-            [ModifyDateTime]
+            [CreateDateTime]
           )
           VALUES
           (
@@ -100,17 +41,26 @@
             #Description#,
             #Status#,
             #CreateUserId#,
-            #CreateDateTime#,
-            #ModifyUserId#,
-            #ModifyDateTime#
+            GETDATE()
           )
+      ]]>
+    </update>
+
+    <!-- 修改用户状态 -->
+    <update id="ChangeStatus" parameterClass="Params">
+      <![CDATA[
+        UPDATE [WebApi].[User]
+        SET
+          [Status]=#Status#
+        WHERE [Id]=#Id#
       ]]>
     </update>
 
     <!-- 删除WebApi用户信息。 -->
     <delete id="Remove" parameterClass="int">
       <![CDATA[
-        DELETE FROM [WebApi].[User] WHERE [Id]=#value#
+        DELETE FROM [WebApi].[User] WHERE [Id]=#value#;
+        DELETE FROM [WebApi].[UserRole] WHERE [UserId]=#value#;
       ]]>
     </delete>
 
@@ -150,6 +100,19 @@
       ]]>
     </select>
 
+    <!-- 验证用户 -->
+    <select id="ValidateAccount" parameterClass="Params" resultClass="WebApiUser">
+      <![CDATA[
+        SELECT 
+          Id,
+          Account,
+          Password,
+          Status
+        FROM WebApi.[User]
+        WHERE Account=#Account# AND [Password]=#Password#
+      ]]>
+    </select>
+
     <!-- 分页返回满足查询条件的WebApi用户信息。 -->
     <select id="SearchUsers" parameterClass="WebApiUserSO" resultClass="WebApiUser">
       <![CDATA[
@@ -186,18 +149,6 @@
         SELECT COUNT(*) FROM [WebApi].[User]
       ]]>
       <include refid="searchConditions" />
-    </select>
-
-    <!-- 验证用户 -->
-    <select id="ValidateAccount" parameterClass="Params" resultClass="WebApiUser">
-      <![CDATA[
-        SELECT 
-          Id,
-          Account,
-          Password,
-          Status
-        FROM WebApi.[User] WHERE Account=#Account# AND [Password]=#Password#
-      ]]>
     </select>
 
     <!-- 查询条件。 -->

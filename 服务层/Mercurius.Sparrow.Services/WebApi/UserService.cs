@@ -26,43 +26,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         #endregion
 
         #region IUserService接口实现 
-
-        /// <summary>
-        /// 添加WebApi用户。
-        /// </summary>
-        /// <param name="user">WebApi用户</param>
-        /// <returns>返回结果</returns>
-        public Response Create(User user)
-        {
-            return this.InvokeService(
-                nameof(Create),
-                () =>
-                {
-                    this.Persistence.Create(NS, "Create", user);
-
-                    this.ClearCache<User>();
-                },
-                user);
-        }
-
-        /// <summary>
-        /// 编辑WebApi用户。
-        /// </summary>
-        /// <param name="user">WebApi用户</param>
-        /// <returns>返回结果</returns>
-        public Response Update(User user)
-        {
-            return this.InvokeService(
-                nameof(Update),
-                () =>
-                {
-                    this.Persistence.Update(NS, "Update", user);
-
-                    this.ClearCache<User>();
-                },
-                user);
-        }
-
+        
         /// <summary>
         /// 添加或者编辑WebApi用户
         /// </summary>
@@ -168,31 +132,6 @@ namespace Mercurius.Sparrow.Services.WebApi
                 nameof(SearchUsers),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(NS, "SearchUsers", out totalRecords, so),
                 args: so);
-        }
-
-        /// <summary>
-        ///  获取用户所有权限,并验证用户是否有权限访问该路由
-        /// </summary>
-        /// <param name="route">访问的路由</param>
-        /// <returns></returns>
-        public Response HasPower(string route)
-        {
-            var user = WebHelper.GetLogOnUserId();
-            if (string.IsNullOrEmpty(user))
-            {
-                return new Response { ErrorMessage = "未授权用户" };
-            }
-
-            var permission = this.InvokeService(nameof(HasPower), () => this.Persistence.QueryForList<Api>(ApiNS, "GetUserPower", user), args: user);
-
-            if (!permission.IsSuccess || permission.Datas.IsEmpty())
-            {
-                return new Response { ErrorMessage = permission.ErrorMessage ?? "用户不存在" };
-            }
-
-            var power = permission.Datas.Select(x => x.Route.Equals(route, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
-
-            return power ? new Response() : new Response { ErrorMessage = "无权限访问" };
         }
 
         #endregion

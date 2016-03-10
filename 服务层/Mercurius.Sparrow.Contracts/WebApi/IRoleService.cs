@@ -29,19 +29,19 @@ namespace Mercurius.Sparrow.Contracts.WebApi
         Response AddMember(int roleId, int userId);
 
         /// <summary>
-        /// 根据主键删除Web API角色信息。
-        /// </summary>
-        /// <param name="id">角色编号</param>
-        /// <returns>返回删除结果</returns>
-        Response Remove(int id);
-
-        /// <summary>
         /// 删除角色成员。
         /// </summary>
         /// <param name="roleId">角色编号</param>
         /// <param name="userId">用户编号</param>
         /// <returns>返回删除结果</returns>
         Response RemoveMember(int roleId, int userId);
+
+        /// <summary>
+        /// 根据主键删除Web API角色信息。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>返回删除结果</returns>
+        Response Remove(int id);
 
         /// <summary>
         /// 根据主键获取Web API角色信息。

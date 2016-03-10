@@ -34,6 +34,15 @@
       ]]>
     </update>
 
+    <!-- 删除Web API角色信息。 -->
+    <delete id="Remove" parameterClass="int">
+      <![CDATA[
+        DELETE FROM [WebApi].[Role] WHERE Id=#value#;
+        DELETE FROM [WebApi].[UserRole] WHERE RoleId=#value#;
+        DELETE FROM [WebApi].[RolePermission] WHERE RoleId=#value#;
+      ]]>
+    </delete>
+
     <!-- 添加角色成员 -->
     <insert id="AddMember" parameterClass="Params">
       <![CDATA[
@@ -56,13 +65,6 @@
           )
       ]]>
     </insert>
-
-    <!-- 删除Web API角色信息。 -->
-    <delete id="Remove" parameterClass="int">
-      <![CDATA[
-        DELETE FROM [WebApi].[Role] WHERE Id=#value#
-      ]]>
-    </delete>
 
     <!-- 删除角色成员 -->
     <delete id="RemoveMember" parameterClass="Params">

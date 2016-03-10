@@ -14,20 +14,6 @@ namespace Mercurius.Sparrow.Contracts.WebApi
     public interface IUserService
     {
         /// <summary>
-        /// 添加WebApi用户。
-        /// </summary>
-        /// <param name="user">WebApi用户</param>
-        /// <returns>返回添加结果</returns>
-        Response Create(User user);
-
-        /// <summary>
-        /// 编辑WebApi用户。
-        /// </summary>
-        /// <param name="user">WebApi用户</param>
-        /// <returns>返回编辑结果</returns>
-        Response Update(User user);
-
-        /// <summary>
         /// 添加或者编辑WebApi用户
         /// </summary>
         /// <param name="user">WebApi用户</param>
@@ -77,12 +63,5 @@ namespace Mercurius.Sparrow.Contracts.WebApi
         /// <param name="so">查询条件</param>
         /// <returns>返回结果</returns>
         ResponseCollection<User> SearchUsers(UserSO so);
-
-        /// <summary>
-        ///  获取用户所有权限,并验证用户是否有权限访问该路由
-        /// </summary>
-        /// <param name="route">访问的路由</param>
-        /// <returns></returns>
-        Response HasPower(string route);
     }
 }

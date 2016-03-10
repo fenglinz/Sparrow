@@ -6,8 +6,11 @@ using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.WebApi;
 using Mercurius.Sparrow.Entities.WebApi.SO;
 using Mercurius.Sparrow.Contracts.WebApi;
+using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Repositories;
 using Mercurius.Sparrow.Services.Support;
+using Role = Mercurius.Sparrow.Entities.WebApi.Role;
+using User = Mercurius.Sparrow.Entities.WebApi.User;
 
 namespace Mercurius.Sparrow.Services.WebApi
 {
@@ -42,22 +45,6 @@ namespace Mercurius.Sparrow.Services.WebApi
                     this.ClearCache<Role>();
                 },
                 role);
-        }
-
-        /// <summary>
-        /// 根据主键删除Web API角色信息。
-        /// </summary>
-        /// <param name="id">角色编号</param>
-        /// <returns>返回删除结果</returns>
-        public Response Remove(int id)
-        {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<Role>();
-                this.ClearCache<User>();
-            }, id);
         }
 
         /// <summary>
@@ -98,6 +85,23 @@ namespace Mercurius.Sparrow.Services.WebApi
                     this.ClearCache<Role>();
                     this.ClearCache<User>();
                 }, args);
+        }
+
+        /// <summary>
+        /// 根据主键删除Web API角色信息。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>返回删除结果</returns>
+        public Response Remove(int id)
+        {
+            return this.InvokeService(nameof(Remove), () =>
+            {
+                this.Persistence.Delete(NS, "Remove", id);
+
+                this.ClearCache<Role>();
+                this.ClearCache<User>();
+                this.ClearCache<UserRole>();
+            }, id);
         }
 
         /// <summary>

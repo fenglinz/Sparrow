@@ -75,7 +75,7 @@ namespace Mercurius.Sparrow.Portal.Attributes
             /// <returns></returns>
             public Response HasPower(string route)
             {
-                return UserService.HasPower(route);
+                return null; //UserService.HasPower(route);
             }
 
             #endregion
