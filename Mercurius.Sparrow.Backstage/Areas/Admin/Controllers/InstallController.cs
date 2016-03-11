@@ -4,22 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Mercurius.Sparrow.Backstage.Areas.Installation.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
     /// <summary>
-    /// 安装首页。
+    /// Web应用程序安装控制器。
     /// </summary>
     [AllowAnonymous]
-    public class HomeController : BaseController
+    public class InstallController : BaseController
     {
         public ActionResult Index()
         {
             return View();
-        }
-
-        public ActionResult Initialization()
-        {
-            return View("Index");
         }
     }
 }

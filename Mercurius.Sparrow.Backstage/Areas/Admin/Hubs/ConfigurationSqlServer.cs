@@ -13,12 +13,12 @@ using System.Xml.XPath;
 using Mercurius.Infrastructure.Ado;
 using Microsoft.AspNet.SignalR;
 
-namespace Mercurius.Sparrow.Backstage.Areas.Installation.Hubs
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Hubs
 {
     /// <summary>
     /// Microsoft SQL Server配置。
     /// </summary>
-    public class ConfigMSSQL : Hub
+    public class ConfigurationSqlServer : Hub
     {
         /// <summary>
         /// 初始化应用程序。
@@ -27,7 +27,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Installation.Hubs
         /// <param name="account">数据库登录账号</param>
         /// <param name="password">数据库登录密码</param>
         /// <param name="dbName">数据库名称</param>
-        public void Initialization(string host, string account, string password, string dbName)
+        public void Configure(string host, string account, string password, string dbName)
         {
             this.SendMessage("--start--");
 
@@ -97,7 +97,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Installation.Hubs
         }
 
         /// <summary>
-        /// 创建数据库架构。
+        /// 执行数据库脚本。
         /// </summary>
         /// <param name="connection">数据库连接对象</param>
         /// <param name="script">脚本名称</param>
@@ -196,11 +196,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Installation.Hubs
             var webConfigFile = $@"{AppDomain.CurrentDomain.BaseDirectory}\Web.config";
             var xdocument = XDocument.Load(webConfigFile);
 
-            var element = xdocument.XPathSelectElement("//appSettings/add[@key='Installation.Flag']");
+            var element = xdocument.XPathSelectElement("//appSettings/add[@key='Install.Status']");
 
             if (element != null)
             {
-                element.Attribute("value")?.SetValue(false);
+                element.Attribute("value")?.SetValue(1);
 
                 this.SendMessage("--end--");
 

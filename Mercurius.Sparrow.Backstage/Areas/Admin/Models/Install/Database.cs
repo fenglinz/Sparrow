@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Mercurius.Sparrow.Backstage.Areas.Installation.Models.Home
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.Models.Install
 {
     /// <summary>
     /// 数据库信息。

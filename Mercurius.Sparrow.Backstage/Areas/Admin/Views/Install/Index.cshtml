@@ -1,4 +1,4 @@
-﻿@model Mercurius.Sparrow.Backstage.Areas.Installation.Models.Home.Database
+﻿@model Mercurius.Sparrow.Backstage.Areas.Admin.Models.Install.Database
 
 @{
     this.ViewBag.Title = "数据库配置";
@@ -21,7 +21,7 @@
     <script type="text/javascript" src="~/signalr/hubs"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var hub = $.connection.configMSSQL;
+            var hub = $.connection.configurationSqlServer;
 
             hub.client.Message = function (message) {
                 if (message == '--start--') {
@@ -36,7 +36,7 @@
 
             $.connection.hub.start().done(function () {
                 $('#btnNext').click(function () {
-                    hub.server.initialization($('#Host').val(), $('#Account').val(), $('#Password').val(), $('#DatabaseName').val());
+                    hub.server.configure($('#Host').val(), $('#Account').val(), $('#Password').val(), $('#DatabaseName').val());
                 });
             });
         });
@@ -83,6 +83,5 @@
     </div>
 </div>
 
-<div id="messages" class="alert alert-success" style="display: none;height: 400px; overflow: auto;">
-
+<div id="messages" class="alert alert-success" style="display: none; margin-top: 15px; height: 300px; overflow: auto;">
 </div>

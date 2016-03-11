@@ -243,6 +243,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ButtonController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeShortcutController.cs" />
+    <Compile Include="Areas\Admin\Controllers\InstallController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Admin\Controllers\RecyclebinController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
@@ -260,10 +261,8 @@
     <Compile Include="Areas\DynamicPage\Models\Configuration\SearchConfigModel.cs" />
     <Compile Include="Areas\DynamicPage\Models\Dynamic\CreateOrUpdateModel.cs" />
     <Compile Include="Areas\DynamicPage\Models\Dynamic\SearchModel.cs" />
-    <Compile Include="Areas\Installation\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Installation\Hubs\ConfigMSSQL.cs" />
-    <Compile Include="Areas\Installation\InstallationAreaRegistration.cs" />
-    <Compile Include="Areas\Installation\Models\Home\Database.cs" />
+    <Compile Include="Areas\Admin\Hubs\ConfigurationSqlServer.cs" />
+    <Compile Include="Areas\Admin\Models\Install\Database.cs" />
     <Compile Include="Areas\WebApi\Controllers\RoleController.cs" />
     <Compile Include="Areas\WebApi\Controllers\RouteController.cs" />
     <Compile Include="Areas\WebApi\Controllers\UserController.cs" />
@@ -583,9 +582,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\fonts\OpenSans-300.woff" />
     <Content Include="Content\fonts\OpenSans-400.woff" />
-    <Content Include="Areas\Installation\Views\web.config" />
-    <Content Include="Areas\Installation\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Installation\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Install\Index.cshtml" />
     <None Include="Areas\WebApi\Views\Role\ViewDetails.cshtml" />
     <None Include="Properties\PublishProfiles\LocalFileSystem.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -646,7 +643,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\Installation\Views\Shared\" />
     <Folder Include="Areas\WebApi\Models\" />
     <Folder Include="Areas\WebApi\Views\Shared\" />
     <Folder Include="Models\" />

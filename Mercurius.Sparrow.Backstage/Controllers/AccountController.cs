@@ -22,7 +22,7 @@ namespace Mercurius.Sparrow.Backstage.Controllers
     {
         #region 常量
 
-        private const string InstallationKey = "Installation.Flag";
+        private const string InstallStatusKey = "Install.Status";
         private const string SessionVerifyCode = "session_verifyCode";
 
         /// <summary>
@@ -67,16 +67,16 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         /// <returns></returns>
         public ActionResult LogOn()
         {
-            var needInstallation = false;
+            var installStatus = 1;
 
-            if (ConfigurationManager.AppSettings[InstallationKey] != null)
+            if (ConfigurationManager.AppSettings[InstallStatusKey] != null)
             {
-                needInstallation = ConfigurationManager.AppSettings[InstallationKey].AsBool(false);
+                installStatus = ConfigurationManager.AppSettings[InstallStatusKey].AsInt(0);
             }
 
-            if (needInstallation)
+            if (installStatus == 0)
             {
-                return RedirectToAction("Index", "Home", new { @Area = "Installation" });
+                return RedirectToAction("Index", "Install", new { @Area = "Admin" });
             }
 
             return this.View();
