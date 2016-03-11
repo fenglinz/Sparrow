@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.WebPages;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Mercurius.Infrastructure.Ado;
@@ -40,36 +41,32 @@ namespace Mercurius.Sparrow.Backstage.Areas.Installation.Hubs
                 {
                     var connection = dbHelper.OpenSession();
 
-                    this.SendMessage("数据库连接正常！");
+                    this.SendMessage("开始配置数据库...");
+                    var directory = $@"{AppDomain.CurrentDomain.BaseDirectory}\App_Data\Scripts\MSSQL";
+                    var scriptFiles = from f in Directory.GetFiles(directory, "*.sql")
+                                      let file = Path.GetFileName(f).Replace(".sql", "")
+                                      let sort = file.Substring(file.IndexOf("-")).AsInt(0)
+                                      orderby sort ascending
+                                      select file;
 
-                    this.SendMessage("开始创建架构...");
-                    this.ExecuteScript(connection, "schemas");
-                    this.SendMessage("架构创建完成！");
+                    foreach (var script in scriptFiles)
+                    {
+                        this.ExecuteScript(connection, script);
+                    }
 
-                    this.SendMessage("开始导入表结构和数据...");
-                    this.ExecuteScript(connection, "RBAC");
-                    this.SendMessage("<span style=\"margin-left:25px;\">权限控制相关表和数据导入完成！</span>");
-
-                    this.ExecuteScript(connection, "Dynamic");
-                    this.SendMessage("<span style=\"margin-left:25px;\">动态查询相关的表和数据导入完成！</span>");
-
-                    this.ExecuteScript(connection, "WebApi");
-                    this.SendMessage("<span style=\"margin-left:25px;\">相关的表和数据导入完成！</span>");
-
-                    this.ExecuteScript(connection, "dbo");
-                    this.SendMessage("表结构和数据导入完成！");
+                    this.SendMessage("数据库配置完成！");
                 }
 
                 this.ResetConfigSettings(host, account, password, dbName);
 
                 this.RemarkInstalled();
+
+                this.SendMessage("--end--");
             }
             catch (Exception e)
             {
                 this.SendMessage("出现错误，错误详情：" + e.Message);
             }
-
-            this.SendMessage("--end--");
         }
 
         #region 私有方法
@@ -106,6 +103,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.Installation.Hubs
         /// <param name="script">脚本名称</param>
         private void ExecuteScript(DbConnection connection, string script)
         {
+            this.SendMessage($"<span style=\"margin-left:25px;\">开始导入{script}脚本...</span>");
+
             var command = connection.CreateCommand();
             var commandTexts = this.ResolveScripts(script);
 
@@ -116,6 +115,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.Installation.Hubs
                 command.CommandText = commandText;
                 command.ExecuteNonQuery();
             }
+
+            this.SendMessage($"<span style=\"margin-left:25px;\">{script}脚本导入成功！</span>");
         }
 
         /// <summary>
@@ -148,7 +149,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Installation.Hubs
                     }
                     else
                     {
-                        commandText.AppendFormat("{0} ", temp);
+                        commandText.AppendFormat("{0}{1}", temp, Environment.NewLine);
                     }
                 }
 

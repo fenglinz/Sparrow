@@ -293,11 +293,12 @@
     <Content Include="App_Data\IBatisNet\Oracle\SqlConfig-Writer.xml" />
     <Content Include="App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml" />
     <Content Include="App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml" />
-    <Content Include="App_Data\Scripts\MSSQL\dbo.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\Dynamic.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\RBAC.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\schemas.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\WebApi.sql" />
+    <Content Include="App_Data\Scripts\MSSQL\05-dbo.sql" />
+    <Content Include="App_Data\Scripts\MSSQL\03-Dynamic.sql" />
+    <Content Include="App_Data\Scripts\MSSQL\06-Functions.sql" />
+    <Content Include="App_Data\Scripts\MSSQL\02-RBAC.sql" />
+    <Content Include="App_Data\Scripts\MSSQL\01-Schemas.sql" />
+    <Content Include="App_Data\Scripts\MSSQL\04-WebApi.sql" />
     <Content Include="Content\ace-fonts.css" />
     <Content Include="Content\ace-ie.css" />
     <Content Include="Content\ace-part2.css" />
