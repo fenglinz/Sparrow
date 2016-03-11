@@ -123,7 +123,7 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && !Model.Datas.IsEmpty())
+            @if (Model.HasData())
             {
                 foreach (var item in Model.Datas)
                 {
@@ -137,6 +137,12 @@
                         <td>@item.CreateDateTime.ToString()</td>
                     </tr>
                 }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                </tr>
             }
         </tbody>
     </table>

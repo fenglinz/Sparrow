@@ -64,9 +64,7 @@ function NavMenuUrl(url, target) {
 /**安全退出**/
 function OnLogOff() {
     top.mercurius.ShowConfirmMessage('确定要安全退出吗？', function (r) {
-        if (r) {
-            window.location.href = mercurius.BaseUrl + '/Account/LogOff';
-        }
+        window.location.href = mercurius.BaseUrl + '/Account/LogOff';
     });
 }
 

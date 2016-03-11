@@ -24,11 +24,11 @@
             var hub = $.connection.configMSSQL;
 
             hub.client.Message = function (message) {
-                if (message=='--start--') {
+                if (message == '--start--') {
                     $('#messages').show();
                     $('#messages').html('');
-                }else if (message == '--end--') {
-
+                } else if (message == '--end--') {
+                    window.location.href = '@Url.Action("LogOn","Account", new {@Area=""})';
                 } else {
                     $('#messages').append('<p>' + message + '</p>');
                 }
