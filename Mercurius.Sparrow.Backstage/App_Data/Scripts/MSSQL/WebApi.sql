@@ -1,17 +1,15 @@
 CREATE TABLE [WebApi].[Api]
-    (
-      [Id] INT NOT NULL
-               IDENTITY(1, 1) ,
-      [Route] NVARCHAR(500) NULL ,
-      [HttpVerb] NVARCHAR(50) NULL ,
-      [Description] NVARCHAR(2000) NULL ,
-      [CreateUserId] NVARCHAR(36) NULL ,
-      [CreateDateTime] DATETIME NULL ,
-      [ModifyUserId] NVARCHAR(36) NULL ,
-      [ModifyDateTime] DATETIME NULL
-    );
-
-
+(
+  [Id] INT NOT NULL
+           IDENTITY(1, 1) ,
+  [Route] NVARCHAR(500) NULL ,
+  [HttpVerb] NVARCHAR(50) NULL ,
+  [Description] NVARCHAR(2000) NULL ,
+  [CreateUserId] NVARCHAR(36) NULL ,
+  [CreateDateTime] DATETIME NULL ,
+  [ModifyUserId] NVARCHAR(36) NULL ,
+  [ModifyDateTime] DATETIME NULL
+);
 GO
 IF ( ( SELECT   COUNT(*)
        FROM     fn_listextendedproperty('MS_Description', 'SCHEMA', N'WebApi',
@@ -68,27 +66,17 @@ ELSE
         @level2name = N'Description';
 GO
 
--- ----------------------------
--- Records of Api
--- ----------------------------
-SET IDENTITY_INSERT [WebApi].[Api] ON;
-GO
-SET IDENTITY_INSERT [WebApi].[Api] OFF;
-GO
-
 CREATE TABLE [WebApi].[Role]
-    (
-      [Id] INT NOT NULL
-               IDENTITY(1, 1) ,
-      [Name] NVARCHAR(50) NULL ,
-      [Description] NVARCHAR(2000) NULL ,
-      [CreateUserId] NVARCHAR(36) NULL ,
-      [CreateDateTime] DATETIME NULL ,
-      [ModifyUserId] NVARCHAR(36) NULL ,
-      [ModifyDateTime] DATETIME NULL
-    );
-
-
+(
+  [Id] INT NOT NULL
+           IDENTITY(1, 1) ,
+  [Name] NVARCHAR(50) NULL ,
+  [Description] NVARCHAR(2000) NULL ,
+  [CreateUserId] NVARCHAR(36) NULL ,
+  [CreateDateTime] DATETIME NULL ,
+  [ModifyUserId] NVARCHAR(36) NULL ,
+  [ModifyDateTime] DATETIME NULL
+);
 GO
 DBCC CHECKIDENT(N'[WebApi].[Role]', RESEED, 2);
 GO
@@ -104,45 +92,15 @@ ELSE
         @value = N'Web Api角色', @level0type = 'SCHEMA', @level0name = N'WebApi',
         @level1type = 'TABLE', @level1name = N'Role';
 GO
-
--- ----------------------------
--- Records of Role
--- ----------------------------
-SET IDENTITY_INSERT [WebApi].[Role] ON;
-GO
-INSERT  INTO [WebApi].[Role]
-        ( [Id] ,
-          [Name] ,
-          [Description] ,
-          [CreateUserId] ,
-          [CreateDateTime] ,
-          [ModifyUserId] ,
-          [ModifyDateTime]
-        )
-VALUES  ( N'1' ,
-          N'开发者' ,
-          N'开发者账号' ,
-          NULL ,
-          NULL ,
-          NULL ,
-          NULL
-        );
-GO
-GO
-SET IDENTITY_INSERT [WebApi].[Role] OFF;
-GO
-
 CREATE TABLE [WebApi].[RolePermission]
-    (
-      [Id] INT NOT NULL
-               IDENTITY(1, 1) ,
-      [UserId] INT NOT NULL ,
-      [ApiId] INT NOT NULL ,
-      [CreateUserId] NVARCHAR(36) NULL ,
-      [CreateDateTime] DATETIME NULL
-    );
-
-
+(
+  [Id] INT NOT NULL
+           IDENTITY(1, 1) ,
+  [UserId] INT NOT NULL ,
+  [ApiId] INT NOT NULL ,
+  [CreateUserId] NVARCHAR(36) NULL ,
+  [CreateDateTime] DATETIME NULL
+);
 GO
 IF ( ( SELECT   COUNT(*)
        FROM     fn_listextendedproperty('MS_Description', 'SCHEMA', N'WebApi',
@@ -159,29 +117,19 @@ ELSE
         @level1name = N'RolePermission';
 GO
 
--- ----------------------------
--- Records of RolePermission
--- ----------------------------
-SET IDENTITY_INSERT [WebApi].[RolePermission] ON;
-GO
-SET IDENTITY_INSERT [WebApi].[RolePermission] OFF;
-GO
-
 CREATE TABLE [WebApi].[User]
-    (
-      [Id] INT NOT NULL
-               IDENTITY(1, 1) ,
-      [Account] NVARCHAR(50) NULL ,
-      [Password] NVARCHAR(50) NULL ,
-      [Description] NVARCHAR(2000) NULL ,
-      [Status] INT NULL ,
-      [CreateUserId] NVARCHAR(36) NULL ,
-      [CreateDateTime] DATETIME NULL ,
-      [ModifyUserId] NVARCHAR(36) NULL ,
-      [ModifyDateTime] DATETIME NULL
-    );
-
-
+(
+  [Id] INT NOT NULL
+           IDENTITY(1, 1) ,
+  [Account] NVARCHAR(50) NULL ,
+  [Password] NVARCHAR(50) NULL ,
+  [Description] NVARCHAR(2000) NULL ,
+  [Status] INT NULL ,
+  [CreateUserId] NVARCHAR(36) NULL ,
+  [CreateDateTime] DATETIME NULL ,
+  [ModifyUserId] NVARCHAR(36) NULL ,
+  [ModifyDateTime] DATETIME NULL
+);
 GO
 DBCC CHECKIDENT(N'[WebApi].[User]', RESEED, 3);
 GO
@@ -241,57 +189,44 @@ ELSE
         @level1name = N'User', @level2type = 'COLUMN',
         @level2name = N'Description';
 GO
-
--- ----------------------------
--- Records of User
--- ----------------------------
 SET IDENTITY_INSERT [WebApi].[User] ON;
 GO
 INSERT  INTO [WebApi].[User]
-        ( [Id] ,
-          [Account] ,
-          [Password] ,
-          [Description] ,
-          [Status] ,
-          [CreateUserId] ,
-          [CreateDateTime] ,
-          [ModifyUserId] ,
-          [ModifyDateTime]
-        )
+( [Id] ,
+  [Account] ,
+  [Password] ,
+  [Description] ,
+  [Status] ,
+  [CreateUserId] ,
+  [CreateDateTime] ,
+  [ModifyUserId] ,
+  [ModifyDateTime]
+)
 VALUES  ( N'1' ,
-          N'dezo' ,
-          N'0fd06b4bf05d5854778cf140e904ca0f' ,
-          N'德忠用户' ,
-          N'1' ,
-          NULL ,
-          NULL ,
-          NULL ,
-          NULL
-        );
-GO
+  N'dezo' ,
+  N'0fd06b4bf05d5854778cf140e904ca0f' ,
+  N'德忠用户' ,
+  N'1' ,
+  NULL ,
+  NULL ,
+  NULL ,
+  NULL
+);
 GO
 SET IDENTITY_INSERT [WebApi].[User] OFF;
 GO
-
 CREATE TABLE [WebApi].[UserRole]
-    (
-      [Id] INT NOT NULL
-               IDENTITY(1, 1) ,
-      [UserId] INT NOT NULL ,
-      [RoleId] INT NOT NULL ,
-      [CreateUserId] NVARCHAR(36) NULL ,
-      [CreateDateTime] DATETIME NULL
-    );
-
+(
+  [Id] INT NOT NULL
+           IDENTITY(1, 1) ,
+  [UserId] INT NOT NULL ,
+  [RoleId] INT NOT NULL ,
+  [CreateUserId] NVARCHAR(36) NULL ,
+  [CreateDateTime] DATETIME NULL
+);
 GO
 DBCC CHECKIDENT(N'[WebApi].[UserRole]', RESEED, 4);
 GO
-
-SET IDENTITY_INSERT [WebApi].[UserRole] ON;
-GO
-SET IDENTITY_INSERT [WebApi].[UserRole] OFF;
-GO
-
 ALTER TABLE [WebApi].[Api] ADD PRIMARY KEY ([Id]);
 GO
 ALTER TABLE [WebApi].[Role] ADD PRIMARY KEY ([Id]);

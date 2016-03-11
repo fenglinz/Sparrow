@@ -15,11 +15,38 @@
     </style>
 }
 
+@section Scripts
+{
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var hub = $.connection.configMSSQL;
+
+            hub.client.Message = function (message) {
+                if (message=='--start--') {
+                    $('#messages').show();
+                    $('#messages').html('');
+                }else if (message == '--end--') {
+
+                } else {
+                    $('#messages').append('<p>' + message + '</p>');
+                }
+            };
+
+            $.connection.hub.start().done(function () {
+                $('#btnNext').click(function () {
+                    hub.server.initialization($('#Host').val(), $('#Account').val(), $('#Password').val(), $('#DatabaseName').val());
+                });
+            });
+        });
+    </script>
+}
+
 <div class="panel panel-primary">
     <div class="panel-heading">数据库配置</div>
     <div class="panel-body">
-        @using (Html.BeginForm("Initialization", "Home", new { @Area = "Installation" }, FormMethod.Post, new { @class = "form-horizontal", @autocomplete = "off" }))
-        {
+        <div class="form-horizontal">
             <div class="form-group">
                 @Html.LabelFor(m => m.Host, new { @class = "control-label col-sm-3" })
                 <div class="col-sm-7">
@@ -47,11 +74,15 @@
             <div class="form-group">
                 <label class="col-sm-3"></label>
                 <div class="col-sm-7">
-                    <button type="submit" class="btn btn-primary">
+                    <button id="btnNext" type="submit" class="btn btn-primary">
                         <i class="glyphicon glyphicon-chevron-right"></i> 下一步
                     </button>
                 </div>
             </div>
-        }
+        </div>
     </div>
+</div>
+
+<div id="messages" class="alert alert-success" style="display: none;height: 400px; overflow: auto;">
+
 </div>

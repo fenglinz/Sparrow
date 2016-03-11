@@ -15,7 +15,6 @@ CREATE TABLE [RBAC].[Button]
       [ModifyDateTime] DATETIME NULL
     );
 
-
 GO
 IF ( ( SELECT   COUNT(*)
        FROM     fn_listextendedproperty('MS_Description', 'SCHEMA', N'RBAC',
@@ -211,9 +210,6 @@ ELSE
         @level2name = N'ModifyDateTime';
 GO
 
--- ----------------------------
--- Records of Button
--- ----------------------------
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
           [Name] ,
@@ -243,7 +239,6 @@ VALUES  ( N'020e2c2a-e203-4694-85ef-c73bd301ad72' ,
           N'48f3889c-af8d-401f-ada2-c383031af92d' ,
           N'2015-03-12 15:56:09.410'
         );
-GO
 GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
@@ -275,7 +270,6 @@ VALUES  ( N'067b2de9-037f-4bb9-8a41-285eb3fc7267' ,
           N'2015-03-28 00:01:55.903'
         );
 GO
-GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
           [Name] ,
@@ -305,7 +299,6 @@ VALUES  ( N'0e8c3c59-586a-48a0-a1ef-5a83f4a2d6fd' ,
           N'48f3889c-af8d-401f-ada2-c383031af92d' ,
           N'2015-03-12 15:56:19.470'
         );
-GO
 GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
@@ -337,7 +330,6 @@ VALUES  ( N'13f9189c-ccbe-4e4a-8292-d408fa8d119f' ,
           N'2015-03-12 15:44:41.430'
         );
 GO
-GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
           [Name] ,
@@ -367,7 +359,6 @@ VALUES  ( N'1b88ce60-6438-4bb9-891d-c0bf4832e2d5' ,
           N'48f3889c-af8d-401f-ada2-c383031af92d' ,
           N'2015-03-12 15:45:01.670'
         );
-GO
 GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
@@ -399,7 +390,6 @@ VALUES  ( N'2e5d2d97-1367-4036-8040-cfcd261e9e5f' ,
           N'2015-03-12 15:52:12.960'
         );
 GO
-GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
           [Name] ,
@@ -429,7 +419,6 @@ VALUES  ( N'2f1a1ba6-276e-4e7f-a219-ecfdb50e63fb' ,
           N'48f3889c-af8d-401f-ada2-c383031af92d' ,
           N'2015-03-12 15:50:36.663'
         );
-GO
 GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
@@ -461,7 +450,6 @@ VALUES  ( N'3194373e-1b97-4c92-9cd2-4778b00c3b13' ,
           N'2015-03-12 15:53:07.433'
         );
 GO
-GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
           [Name] ,
@@ -491,7 +479,6 @@ VALUES  ( N'42cef74b-2c60-4d62-93b8-d0f6d16ca3b0' ,
           N'48f3889c-af8d-401f-ada2-c383031af92d' ,
           N'2015-03-12 15:45:21.980'
         );
-GO
 GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
@@ -523,7 +510,6 @@ VALUES  ( N'43334b34-f78e-4187-ad2f-1600bb932896' ,
           N'2015-03-12 15:45:40.533'
         );
 GO
-GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
           [Name] ,
@@ -553,7 +539,6 @@ VALUES  ( N'43334b34-f78e-4187-ad2f-1610bb912896' ,
           N'48f3889c-af8d-401f-ada2-c383031af92d' ,
           N'2015-03-12 15:46:00.973'
         );
-GO
 GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
@@ -585,7 +570,6 @@ VALUES  ( N'43334b34-f78e-4187-ad2f-1610bb932896' ,
           N'2015-03-12 15:45:48.883'
         );
 GO
-GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
           [Name] ,
@@ -615,7 +599,6 @@ VALUES  ( N'58d19434-705a-4199-acdc-b6d0322501bf' ,
           N'48f3889c-af8d-401f-ada2-c383031af92d' ,
           N'2015-03-12 15:45:31.510'
         );
-GO
 GO
 INSERT  INTO [RBAC].[Button]
         ( [Id] ,
