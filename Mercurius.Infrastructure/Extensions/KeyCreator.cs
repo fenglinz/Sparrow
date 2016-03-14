@@ -38,7 +38,7 @@ namespace Mercurius.Infrastructure
         {
             var buffer = new byte[(hexString.Length / 2) + 1];
 
-            for (int i = 0; i <= ((hexString.Length / 2) - 1); i++)
+            for (var i = 0; i <= ((hexString.Length / 2) - 1); i++)
             {
                 buffer[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 0x10);
             }
@@ -55,9 +55,9 @@ namespace Mercurius.Infrastructure
         {
             var builder = new StringBuilder(0x40);
 
-            for (int i = 0; i < bytes.Length; i++)
+            foreach (byte t in bytes)
             {
-                builder.Append($"{bytes[i]:X2}");
+                builder.Append($"{t:X2}");
             }
 
             return builder.ToString();

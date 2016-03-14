@@ -114,7 +114,7 @@
         <b>服务器管理</b>
     </div>
     <div class="panel-body">
-        @using (Ajax.BeginForm("ClearCache", "SystemSetting", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmClearCache", @class = "form-inline" }))
+        @using (Ajax.BeginForm("ClearCache", "SystemSetting", null, new AjaxOptions {HttpMethod = "POST"}, new {@id = "frmClearCache", @class = "form-inline"}))
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
@@ -124,14 +124,7 @@
                 <button type="button" class="btn btn-danger" onclick="clearCache()">
                     <i class="glyphicon glyphicon-trash"></i> 清空缓存
                 </button>
-                <button type="button" class="btn btn-danger" onclick="resetIIS()">
-                    <i class="glyphicon glyphicon-refresh"></i> 重启Web服务器(IIS)
-                </button>
             </div>
-        }
-        @using (Html.BeginForm("ResetWebServer", "SystemSetting", FormMethod.Post, new { @id = "frmResetWebServer" }))
-        {
-            @Html.AntiForgeryToken()
         }
     </div>
 </div>

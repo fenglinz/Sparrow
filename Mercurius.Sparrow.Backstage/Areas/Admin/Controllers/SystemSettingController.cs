@@ -141,18 +141,5 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         }
 
         #endregion
-
-        /// <summary>
-        /// 重启Web服务器。
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ResetWebServer()
-        {
-            AppDomain.Unload(AppDomain.CurrentDomain);
-
-            return Json(true);
-        }
     }
 }
