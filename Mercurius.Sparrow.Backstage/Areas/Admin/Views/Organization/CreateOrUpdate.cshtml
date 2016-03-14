@@ -1,24 +1,27 @@
-﻿@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.RBAC
+﻿@using Mercurius.Sparrow.Entities.RBAC
+
 @{
     var orgList = ViewBag.OrganizationList as ResponseCollection<Organization>;
     var tree = orgList.Datas.AsTree(o => o.ParentId == "0", (p, i) => i.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name });
 }
+
 @model Organization
+
 @section Styles{
     @Styles.Render("~/Content/tree/css")
 }
+
 @section Scripts
 {
     @Scripts.Render("~/bundles/tree", "~/bundles/validate")
     <script type="text/javascript">
         $(document).ready(function () {
             $('#ManagerName').click(function () {
-                mercurius.OpenDialog('@Url.Action("ChooseUser", "User",new { @type="manager"})', 'ChooseUser', '选择部门负责人', 650, 500, { statusbar: false, x: 'right', y: 'bottom' });
+                mercurius.OpenDialog('@Url.Action("ChooseUser", "User",new { @type="manager"})', 'ChooseUser', '选择部门负责人', 720, 500, { statusbar: false, x: 'right', y: 'bottom' });
             });
 
             $('#AssistantManagerName').click(function () {
-                mercurius.OpenDialog('@Url.Action("ChooseUser", "User", new { @type="assistant" })', 'ChooseUser', '选择部门助理', 650, 500, { statusbar: false, x: 'right', y: 'bottom' });
+                mercurius.OpenDialog('@Url.Action("ChooseUser", "User", new { @type="assistant" })', 'ChooseUser', '选择部门助理', 720, 500, { statusbar: false, x: 'right', y: 'bottom' });
             });
         });
 

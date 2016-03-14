@@ -1,9 +1,45 @@
 ﻿@using Mercurius.Sparrow.Entities.RBAC
-@using Mercurius.Sparrow.Contracts
 
 @{
     var buttons = this.ViewBag.Buttons as ResponseCollection<Button>;
     var systemButtons = this.ViewBag.SystemButtons as ResponseCollection<SystemMenu>;
+}
+
+@section Styles{
+    <style type="text/css">
+        .fa-2x {
+            font-size: 1.8em;
+        }
+
+        .btn {
+            width: 63px;
+            height: 58px;
+            margin: 3px 0 0 2px;
+            -moz-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            -moz-word-break: break-all;
+            -o-word-break: break-all;
+            word-break: break-all;
+            overflow: hidden;
+            font-size: 12px;
+        }
+
+            .btn > i {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+        .col-sm-6 {
+            padding: 0;
+        }
+
+        .panel-body {
+            padding: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin-bottom: 5px;
+        }
+    </style>
 }
 
 @section Scripts{
@@ -67,42 +103,6 @@
             $(e).addClass("btn-primary"); //添加选中样式
         }
     </script>
-}
-@section Styles{
-    <style type="text/css">
-        .fa-2x {
-            font-size: 1.8em;
-        }
-
-        .btn {
-            width: 63px;
-            height: 58px;
-            margin: 3px 0 0 2px;
-            -moz-text-overflow: ellipsis;
-            text-overflow: ellipsis;
-            -moz-word-break: break-all;
-            -o-word-break: break-all;
-            word-break: break-all;
-            overflow: hidden;
-            font-size: 12px;
-        }
-
-        .btn > i {
-                display: block;
-                margin-bottom: 5px;
-            }
-
-        .col-sm-6 {
-            padding: 0;
-        }
-
-        .panel-body {
-            padding: 0;
-            overflow-y: auto;
-            overflow-x: hidden;
-            margin-bottom: 5px;
-        }
-    </style>
 }
 
 <div id="Buttonlist" class="form-horizontal form">

@@ -1,12 +1,13 @@
-﻿@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.RBAC
+﻿@using Mercurius.Sparrow.Entities.RBAC
 
 @{
     var roles = this.ViewBag.Roles as ResponseCollection<Role>;
 }
+
 @section Styles{
     @Styles.Render("~/Content/treetable/css")
 }
+
 @section Scripts
 {
     @Scripts.Render("~/bundles/treetable")

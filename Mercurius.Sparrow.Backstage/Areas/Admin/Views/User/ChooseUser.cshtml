@@ -1,14 +1,16 @@
-﻿@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.RBAC
+﻿@using Mercurius.Sparrow.Entities.RBAC
 @using Mercurius.Sparrow.Entities.RBAC.SO
+
 @{
     var so = this.ViewBag.SO as UserSO;
     var organizations = this.ViewBag.Organizations as ResponseCollection<Organization>;
 }
+
 @section Styles
 {
     @Styles.Render("~/Content/tree/css")
 }
+
 @section Scripts
 {
     @Scripts.Render("~/bundles/tree")
@@ -86,6 +88,7 @@
         <button type="button" class="btn btn-sm btn-default" onclick="$('#searchCategory').val('Code'); $('#searchValue').val('');">
             <i class="glyphicon glyphicon-remove"></i> 重置
         </button>
+        <b class="text-danger">（*注：双击选择用户！）</b>
     }
 </div>
 

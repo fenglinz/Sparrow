@@ -1,12 +1,11 @@
-﻿@using Mercurius.Infrastructure
-@using Mercurius.Sparrow.Entities.RBAC
-@using Mercurius.Sparrow.Contracts
+﻿@using Mercurius.Sparrow.Entities.RBAC
 @using Mercurius.Sparrow.Entities.RBAC.SO
 
 @{
     var so = this.ViewBag.SO as UserSO;
     var rspUsers = this.ViewBag.ResponseUsers as ResponseCollection<User>;
 }
+
 @section Styles{
     @Styles.Render("~/Content/treetable/css")
     <style type="text/css">
@@ -17,6 +16,7 @@
         }
     </style>
 }
+
 @section Scripts
 {
     @Scripts.Render("~/bundles/treetable")
@@ -106,6 +106,7 @@
         </text>)
     </script>
 }
+
 <div class="header">用户信息列表</div>
 @using (Html.BeginForm("Users", "User", FormMethod.Post, new { @autocomplete = "off" }))
 {

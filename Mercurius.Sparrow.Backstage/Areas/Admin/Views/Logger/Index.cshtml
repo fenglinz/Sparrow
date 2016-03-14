@@ -1,6 +1,4 @@
-﻿@using Mercurius.Infrastructure
-@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.Core
+﻿@using Mercurius.Sparrow.Entities.Core
 @using Mercurius.Sparrow.Entities.Core.SO
 
 @model LogSO
@@ -11,6 +9,7 @@
     var logs = this.ViewBag.Logs as ResponseCollection<Log>;
     var partitions = this.ViewBag.Partitions as ResponseCollection<Partition>;
 }
+
 @section Styles{
     <style type="text/css">
         .form-inline {
@@ -47,6 +46,7 @@
             }
     </style>
 }
+
 @section Scripts{
     <script type="text/javascript">
         var minDate = "2014-01-01";

@@ -1,11 +1,10 @@
-﻿@using Mercurius.Infrastructure
-@using Mercurius.Sparrow.Contracts
+﻿@model ResponseCollection<string>
 
-@model ResponseCollection<string>
 @section Styles
 {
     @Styles.Render("~/Content/tree/css")
 }
+
 @section Scripts
 {
     @Scripts.Render("~/bundles/tree")
@@ -33,23 +32,20 @@
         <li>
             <span class="folder"></span><i data="" class="selected">全部业务</i>
             <ul id="blList">
-                @if (Model.IsSuccess)
+                @if (Model.HasData())
                 {
-                    if (Model.Datas.IsEmpty())
+                    foreach (var data in Model.Datas)
                     {
                         <li>
-                            <span class="file empty-data"></span>无分类信息
+                            <span class="file"></span><i data="@data">@data</i>
                         </li>
                     }
-                    else
-                    {
-                        foreach (var data in Model.Datas)
-                        {
-                            <li>
-                                <span class="file"></span><i data="@data">@data</i>
-                            </li>
-                        }
-                    }
+                }
+                else if (Model.IsSuccess())
+                {
+                    <li>
+                        <span class="file empty-data"></span>无分类信息
+                    </li>
                 }
                 else
                 {

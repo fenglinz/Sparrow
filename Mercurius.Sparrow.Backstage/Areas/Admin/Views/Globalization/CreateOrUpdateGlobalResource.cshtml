@@ -1,4 +1,7 @@
 ﻿@using Mercurius.Sparrow.Entities.Core
+
+@model Globalization
+
 @section Scripts
 {
     @Scripts.Render("~/bundles/validate")
@@ -11,7 +14,7 @@
         }
     </script>
 }
-@model Globalization
+
 @using (Ajax.BeginForm("CreateOrUpdateGlobalResource", "Globalization", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frm1", @class = "form-horizontal form" }))
 {
     <div class="form-group form-group-sm">

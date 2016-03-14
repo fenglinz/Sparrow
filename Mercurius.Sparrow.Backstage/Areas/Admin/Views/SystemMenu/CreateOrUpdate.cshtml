@@ -1,7 +1,11 @@
 ﻿@using Mercurius.Sparrow.Entities.RBAC
+
 @{
     var systemMenus = this.ViewData["SystemMenus"] as IList<SystemMenu>;
 }
+
+@model SystemMenu
+
 @section Styles{
     @Styles.Render("~/Content/tree/css")
     <style type="text/css">
@@ -23,6 +27,7 @@
             }
     </style>
 }
+
 @section Scripts{
     @Scripts.Render("~/bundles/tree", "~/bundles/validate")
     <script type="text/javascript">
@@ -56,7 +61,7 @@
         }
     </script>
 }
-@model SystemMenu
+
 @using (Ajax.BeginForm("CreateOrUpdate", "SystemMenu", null, new AjaxOptions() { HttpMethod = "POST" }, new { @id = "form1", @class = "form-horizontal form", @role = "form" }))
 {
     @Html.Hidden("Id", (string)this.ViewBag.Id)
@@ -140,4 +145,4 @@
             @Html.TextAreaFor(m => m.NavigateUrl, new { @class = "form-control", @style = "height: 50px;" })
         </div>
     </div>
-}
+                }

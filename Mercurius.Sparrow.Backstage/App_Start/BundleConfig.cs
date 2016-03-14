@@ -14,7 +14,7 @@ namespace Mercurius.Sparrow.Backstage
         /// <param name="bundles"></param>
         public static void RegisterBundles(BundleCollection bundles)
         {
-            // 主框架js.
+            // 主框架js
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.unobtrusive-ajax.js",
@@ -28,7 +28,7 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/mercurius.common.js",
                 "~/Scripts/Main.js"));
 
-            // 工作界面公共JS。
+            // 工作界面公共JS
             bundles.Add(new ScriptBundle("~/bundles/common").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/sea.js",
@@ -41,17 +41,17 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/Layer/layer.js",
                 "~/Scripts/mercurius.common.js"));
 
-            // 验证JS。
+            // 验证JS
             bundles.Add(new ScriptBundle("~/bundles/validate").Include(
                         "~/Scripts/Validator/JValidator.js"));
 
-            // 树形表格JS。
+            // 树形表格JS
             bundles.Add(new ScriptBundle("~/bundles/treetable").Include("~/Scripts/TreeTable/jquery.treeTable.js"));
 
-            // 树形视图JS。
+            // 树形视图JS
             bundles.Add(new ScriptBundle("~/bundles/tree").Include("~/Scripts/jquery.treeview.js"));
 
-            // Modernizr JS。
+            // Modernizr JS
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include("~/Scripts/modernizr-*"));
 
             // highchart JS
@@ -59,13 +59,19 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/Highcharts-4.0.3/js/highcharts.js",
                 "~/Scripts/Highcharts-4.0.3/js/themes/dark-blue.js"));
 
+            // Kindeditor JS
+            bundles.Add(new ScriptBundle("~/bundles/kindeditor").Include(
+                "~/Scripts/Kindeditor/kindeditor-all-min.js",
+                "~/Scripts/Kindeditor/kindeditor.config.js",
+                "~/Scripts/Kindeditor/lang/zh_CN.js"));
+
 			// 文件上传
 			bundles.Add(new ScriptBundle("~/bundles/upload").Include(
                 "~/Scripts/Bootstrap-FileInput/fileinput.js",
                 "~/Scripts/Bootstrap-FileInput/fileinput_locale_zh.js"
                 ));
 
-            // 公共CSS。
+            // 公共CSS
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
@@ -74,19 +80,19 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Content/ui-dialog.css",
                 "~/Content/Common.css"));
 
-            // 树形表格CSS。
+            // 树形表格CSS
             bundles.Add(new StyleBundle("~/Content/treetable/css").Include(
                 "~/Content/TreeTable/jquery.treeTable.css",
                 "~/Content/TreeTable/jquery.treetable.theme.default.css",
                 "~/Content/TreeTable/custom.css"));
 
-            // 树形视图CSS。
+            // 树形视图CSS
             bundles.Add(new StyleBundle("~/Content/tree/css").Include("~/Content/Tree/jquery.treeview.css"));
 
-            // 登录页面的CSS。
+            // 登录页面的CSS
             bundles.Add(new StyleBundle("~/Content/logon/css").Include("~/Content/LogOn/LogOn.css"));
 
-            // 主页面CSS。
+            // 主页面CSS
             bundles.Add(new StyleBundle("~/Content/main/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/font-awesome.css",

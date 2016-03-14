@@ -1,4 +1,7 @@
 ﻿@using Mercurius.Sparrow.Entities.Core
+
+@model Globalization
+
 @section Scripts
 {
     @Scripts.Render("~/bundles/validate")
@@ -11,7 +14,7 @@
         }
     </script>
 }
-@model Globalization
+
 @using (Ajax.BeginForm("CreateOrUpdateLocalResource", "Globalization", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frm1", @class = "form-horizontal form" }))
 {
     @Html.HiddenFor(m => m.Id)

@@ -1,13 +1,13 @@
-﻿@using Mercurius.Infrastructure
-@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.RBAC
+﻿@using Mercurius.Sparrow.Entities.RBAC
 @using Mercurius.Sparrow.Backstage.Areas.Admin.Models.User
+
 @{
     var departments = this.ViewBag.Departments as ResponseCollection<Organization>;
     var systemMenus = this.ViewBag.SystemMenus as ResponseCollection<SystemMenu>;
     var roles = this.ViewBag.Roles as ResponseCollection<Role>;
     var userGroups = this.ViewBag.UserGroups as ResponseCollection<UserGroup>;
 }
+
 @section Styles{
     @Styles.Render("~/Content/tree/css", "~/Content/treetable/css")
     <style type="text/css">
@@ -39,6 +39,7 @@
             }
     </style>
 }
+
 @section Scripts
 {
     @Scripts.Render("~/bundles/tree", "~/bundles/treetable", "~/bundles/validate")
@@ -80,7 +81,7 @@
             });
 
             $('#reporterName').click(function () {
-                mercurius.OpenDialog('@Url.Action("ChooseUser", "User",new { ExcludeReporter = (Model ==null || Model.User==null) ? "" : Model.User.Id })', 'ChooseUser', '选择用户', 650, 500, { statusbar: false, x: 'right', y: 'bottom' });
+                mercurius.OpenDialog('@Url.Action("ChooseUser", "User",new { ExcludeReporter = (Model ==null || Model.User==null) ? "" : Model.User.Id })', 'ChooseUser', '选择用户', 720, 500, { statusbar: false, x: 'right', y: 'bottom' });
             });
 
             $('#dnd-example > tbody > tr > td.text-center :checkbox').click(function () {
