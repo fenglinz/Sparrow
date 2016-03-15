@@ -1,170 +1,156 @@
 ﻿@{
-	this.Layout = "~/Views/Shared/_LogOnLayout.cshtml";
-	this.ViewBag.Title = "用户登录";
+    this.Layout = "~/Views/Shared/_BaseLayout.cshtml";
 }
-@section Scripts{
-	<script type="text/javascript">
-		if (top.location != self.location) top.location = self.location;
-
-		document.onkeydown = function (e) {
-			// 火狐中是 window.event
-			if (!e) e = window.event;
-
-			if ((e.keyCode || e.which) == 13) {
-				var obtnSearch = document.getElementById("btnLogOn");
-
-				//让另一个控件获得焦点就等于让文本输入框失去焦点
-				obtnSearch.focus();
-				obtnSearch.click();
-			}
-		};
-
-		function GetNewVerifyCode() {
-			$('#txtVerifyCode').val('');
-			$('#imgVerifyCode').attr('src', '@Url.Action("GetVerifyCode", "Account", new {@Area = ""})/?time=' + Math.random());
-		}
-
-		function LoginBtn() {
-			var name = $("#txtUserName").val();
-			var pwd = $("#txtUserPwd").val();
-			var code = $("#txtCode").val();
-			$("#errorMsg0").html("");
-			$("#errorMsg1").html("");
-			$("#errorMsg2").html("");
-			if (name == "") {
-				$("#txtUserName").focus();
-				$("#errorMsg0").html("账户不能为空");
-				return false;
-			} else if (pwd == "") {
-				$("#txtUserPwd").focus();
-				$("#errorMsg1").html("密码不能为空");
-				return false;
-			} else if (code == "") {
-				$("#txtCode").focus();
-				$("#errorMsg2").html("验证码不能为空");
-				return false;
-			} else {
-				return true;
-			}
-		}
-
-		// 数据验证完整性
-		function CheckUserDataValid() {
-			if (!LoginBtn()) {
-				return false;
-			} else {
-				CheckingLogin(1);
-				var name = $("#txtUserName").val();
-				var password = $("#txtPassword").val();
-				var verifyCode = $("#txtVerifyCode").val();
-
-				$.ajax({
-					type: 'POST',
-					dataType: "JSON",
-					url: '@Url.Action("LogOn", "Account")',
-					data: { name: name, password: password, verifyCode: verifyCode },
-					cache: false,
-					async: true,
-					success: function (rs) {
-						if (parseInt(rs) == 1) {
-							$("#txtVerifyCode").focus();
-							$("#errorMsg2").html("验证码输入不正确！");
-							CheckingLogin(0);
-							GetNewVerifyCode();
-
-							return false;
-						} else if (parseInt(rs) == 2) {
-							$("#txtUserName").focus();
-							$("#errorMsg0").html("账户或密码有错误！");
-							CheckingLogin(0);
-							GetNewVerifyCode();
-
-							return false;
-						} else if (parseInt(rs) == 3) {
-							$("#txtUserName").focus();
-							$("#errorMsg0").html("账户被锁,联系管理员！");
-							CheckingLogin(0);
-							GetNewVerifyCode();
-
-							return false;
-						} else if (parseInt(rs) == 4) {
-							$("#txtUserName").focus();
-							$("#errorMsg0").html("该用户已经登录！");
-							CheckingLogin(0);
-							GetNewVerifyCode();
-
-							return false;
-						} else if (parseInt(rs) == 5) {
-							$("#errorMsg2").html('');
-
-							OnLogOnSuccess();
-						} else {
-							CheckingLogin(0);
-							alert('服务器连接不上,联系管理员！');
-							window.location.href = window.location.href.replace('#', '');
-
-							return false;
-						}
-					}
-				});
-			}
-		}
-
-		// 登录成功的处理。
-		function OnLogOnSuccess() {
-			window.location.href = '@Url.Action("MainSwitch", "Home")';
-			return false;
-		}
-
-		// 清空
-		function resetInput() {
-			$("#txtUserName").focus();
-			$("#txtUserName").val("");
-			$("#txtUserPwd").val("");
-		}
-
-		function CheckingLogin(id) {
-			if (id == 1) {
-				$("#btnLogOn").prop("disabled", true);
-
-				$(".load").show();
-			} else {
-				$(".load").hide();
-				$("#btnLogOn").prop("disabled", false);
-			}
-		}
-	</script>
+@section Head
+{
+    @Styles.Render("~/Content/css", "~/Content/logon/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/Common")
+    <!--[if lt IE 8]>
+    <script src="@Url.Content("~/Scripts/html5shiv.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
+    <![endif]-->
 }
-
-<div id="loginbox" class="panel panel-primary">
-	<div class="panel-heading">
-		<h3 class="panel-title">用户登录</h3>
-	</div>
-	<div class="panel-body">
-		<div class="input-group">
-			<label for="txtUserName" class="input-group-addon"><i class="glyphicon glyphicon-user"></i></label>
-			<input type="text" id="txtUserName" value="" class="form-control" style="width: 300px;" autofocus="true" placeholder="账户" />
-			<span id="errorMsg0" style="line-height: 34px;margin-left: 3px;" class="text-danger"></span>
-		</div>
-
-		<div class="input-group">
-			<label for="txtPassword" class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></label>
-			<input type="password" onpaste="return false;" id="txtPassword" value="" class="form-control" style="width: 300px;" placeholder="密码" />&nbsp;
-			<span id="errorMsg1" style="line-height: 34px;margin-left: 3px;" class="text-danger"></span>
-		</div>
-		<div class="input-group">
-			<span class="input-group-addon" style="background-color: transparent; border: none; width: 40px;">&nbsp;</span>
-			<input id="txtVerifyCode" maxlength="4" class="form-control" style="-ms-ime-mode: disabled; ime-mode: disabled; width: 189px; text-transform: uppercase;" />
-			<img src="@Url.Action("GetVerifyCode", "Account")" class="verifyCode" id="imgVerifyCode" alt="点击切换验证码"
-				 title="点击切换验证码" onclick="GetNewVerifyCode()" />
-			<span id="errorMsg2" class="text-danger" style="line-height: 34px;margin-left: 3px;"></span>
-		</div>
-		<div class="form-actions">
-			<span class="pull-left">
-				<button id="btnLogOn" class="btn btn-primary" onclick="return CheckUserDataValid();">
-					<i class="glyphicon glyphicon-log-in"></i> <span id="btnLogOnT">登录</span>
-				</button>
-			</span>
-		</div>
-	</div>
+<div class="container-fluid">
+    <div class="top-header">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="logo">
+                    <h1>
+                        @Html.GetProductName() @Html.GetProductVersion()
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="row required">
+            最佳浏览环境：IE10+、Chrome 25+、Firefox 20+。
+        </div>
+    </div>
+    <div id="loginbox" class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">用户登录</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-lg">
+                <div class="input-group input-group-lg">
+                    <label for="txtUserName" class="input-group-addon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </label>
+                    <input type="text" id="txtUserName" class="form-control" placeholder="请输入账户" autofocus />
+                </div>
+                <div class="input-group input-group-lg">
+                    <label for="txtPassword" class="input-group-addon">
+                        <i class="glyphicon glyphicon-lock"></i>
+                    </label>
+                    <input type="password" onpaste="return false;" id="txtPassword" class="form-control" placeholder="请输入密码" />
+                </div>
+                <div class="input-group input-group-lg">
+                    <label for="txtVerifyCode" class="input-group-addon">
+                        <i class="glyphicon glyphicon-qrcode"></i>
+                    </label>
+                    <input id="txtVerifyCode" maxlength="4" class="form-control" style="-ms-ime-mode: disabled; ime-mode: disabled; text-transform: uppercase;" />
+                    <span class="input-group-addon" style="padding: 0;">
+                        <img src="@Url.Action("GetVerifyCode", "Account")" class="verifyCode" id="imgVerifyCode" alt="点击切换验证码" onclick="GetNewVerifyCode()" />
+                    </span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <span class="pull-left">
+                    <button id="btnLogOn" class="btn btn-primary btn-lg" onclick="return CheckUserDataValid();">
+                        <i id="btnLogOnIcon" class="fa fa-spinner"></i> 登录
+                    </button>
+                    <span id="errorMsg" style="line-height: 42px;" class="text-danger"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy; @DateTime.Now.Year 版权所有
+    </footer>
 </div>
+<script type="text/javascript">
+    if (top.location != self.location) top.location = self.location;
+
+    document.onkeydown = function (e) {
+        if (!e) e = window.event;
+
+        if ((e.keyCode || e.which) == 13) {
+            var obtnSearch = document.getElementById("btnLogOn");
+
+            obtnSearch.focus();
+            obtnSearch.click();
+        }
+    };
+
+    function GetNewVerifyCode() {
+        $('#txtVerifyCode').val('');
+        $('#imgVerifyCode').attr('src', '@Url.Action("GetVerifyCode", "Account", new {@Area = ""})/?time=' + Math.random());
+    }
+
+    function LoginBtn() {
+        var name = $('#txtUserName').val();
+        var password = $('#txtPassword').val();
+        var verifyCode = $('#txtVerifyCode').val();
+
+        if (name == '') {
+            $('#txtUserName').focus();
+            $('#errorMsg').html('账户不能为空！');
+
+            return false;
+        } else if (password == '') {
+            $('#txtPassword').focus();
+            $('#errorMsg').html('密码不能为空！');
+
+            return false;
+        } else if (verifyCode == '') {
+            $('#txtVerifyCode').focus();
+            $('#errorMsg').html('验证码不能为空！');
+
+            return false;
+        } else {
+            $('#errorMsg').html('');
+
+            return true;
+        }
+    }
+
+    // 数据验证完整性
+    function CheckUserDataValid() {
+        if (LoginBtn()) {
+            CheckingLogin(1);
+
+            var name = $('#txtUserName').val();
+            var password = $('#txtPassword').val();
+            var verifyCode = $('#txtVerifyCode').val();
+
+            $.ajax({
+                type: 'POST',
+                dataType: "JSON",
+                url: '@Url.Action("LogOn", "Account")',
+                data: { name: name, password: password, verifyCode: verifyCode },
+                cache: false,
+                dataType: 'JSON',
+                success: function (rs) {
+                    if (rs != '') {
+                        CheckingLogin(0);
+                        GetNewVerifyCode();
+
+                        alert(rs);
+                    } else {
+                        window.location.href = '@Url.Action("MainSwitch", "Home")';
+                    }
+                }
+            });
+        }
+    }
+
+    function CheckingLogin(id) {
+        if (id == 1) {
+            $('#btnLogOn').prop('disabled', true);
+            $('#btnLogOnIcon').addClass('fa-spin');
+        } else {
+            $('#btnLogOn').prop('disabled', false);
+            $('#btnLogOnIcon').removeClass('fa-spin');
+        }
+    }
+</script>

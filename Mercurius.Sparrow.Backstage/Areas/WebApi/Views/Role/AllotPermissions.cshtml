@@ -1,6 +1,4 @@
-﻿@using Mercurius.Sparrow.Entities.WebApi
-
-@model ResponseCollection<Api>
+﻿@model ResponseCollection<Api>
 
 @section Scripts
 {
@@ -24,7 +22,6 @@
         </text>)
     </script>
 }
-
 <div class="header">注：分配权限 - 该功能谨慎使用！</div>
 @Html.RenderAccessibleButtons()
 @using (Ajax.BeginForm("ConfirmAllotPermissions", "Role", new { @roleId = this.ViewBag.RoleId }, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmAllot" }))

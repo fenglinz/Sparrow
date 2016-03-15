@@ -28,27 +28,27 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         /// <summary>
         /// 验证码错误。
         /// </summary>
-        private const string VerifyCodeError = "1";
+        private const string VerifyCodeError = "验证码错误！";
 
         /// <summary>
         /// 账号或密码错误。
         /// </summary>
-        private const string AccountOrPasswordError = "2";
+        private const string AccountOrPasswordError = "账号或密码错误！";
 
         /// <summary>
         /// 账户被锁。
         /// </summary>
-        private const string AccountLocked = "3";
+        private const string AccountLocked = "账户被锁！";
 
         /// <summary>
         /// 用户已经登录。
         /// </summary>
-        private const string AccountAlreadyLogOn = "4";
+        private const string AccountAlreadyLogOn = "用户已经登录！";
 
         /// <summary>
         /// 登录成功。
         /// </summary>
-        private const string LogOnSuccess = "5";
+        private const string LogOnValidateError = "用户信息查询失败，请检查数据库服务器是否正常！";
 
         #endregion
 
@@ -85,21 +85,19 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         [HttpPost]
         public ActionResult LogOn(string name, string password, string verifyCode)
         {
-            var result = string.Empty;
-
             if (string.Compare(verifyCode, Convert.ToString(this.Session[SessionVerifyCode]), StringComparison.OrdinalIgnoreCase) != 0)
             {
-                result = VerifyCodeError;
-
-                return this.Json(result);
+                return this.Json(VerifyCodeError);
             }
 
             var rspUser = this.UserService.ValidateUser(name, password);
 
             if (!rspUser.IsSuccess)
             {
-                return this.Json(result);
+                return this.Json(LogOnValidateError);
             }
+
+            var result = string.Empty;
 
             if (rspUser.Data == null)
             {
@@ -111,7 +109,6 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             }
             else
             {
-                result = LogOnSuccess;
                 WebHelper.SetAuthCookie(rspUser.Data.Id, $"{rspUser.Data.Name}({rspUser.Data.Account})");
 
                 this.DynamicQuery.Create(new OperationRecord

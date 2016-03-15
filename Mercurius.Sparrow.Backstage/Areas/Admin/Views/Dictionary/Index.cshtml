@@ -1,6 +1,5 @@
-﻿@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.Core
-@model ResponseCollection<Dictionary>
+﻿@model ResponseCollection<Dictionary>
+
 @section Styles{
     @Styles.Render("~/Content/treetable/css")
     <style type="text/css">
@@ -9,6 +8,7 @@
         }
     </style>
 }
+
 @section Scripts{
     @Scripts.Render("~/bundles/validate", "~/bundles/treetable")
     <script type="text/javascript">
@@ -110,7 +110,6 @@
         }
     </script>
 }
-
 <div class="header">字典信息管理</div>
 <div class="toolbar panel panel-default">
     <div class="panel-heading">
@@ -141,7 +140,6 @@
         </div>
     </div>
 </div>
-
 <div id="content">
     <table class="treetable" id="dnd-example">
         <thead>

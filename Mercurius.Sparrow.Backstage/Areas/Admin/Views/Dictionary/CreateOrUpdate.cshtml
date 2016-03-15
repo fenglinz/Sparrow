@@ -1,10 +1,10 @@
-﻿@using Mercurius.Sparrow.Entities.Core
-@using Mercurius.Sparrow.Contracts
-@model Dictionary
+﻿@model Dictionary
+
 @{
     var categories = this.ViewBag.Categories as ResponseCollection<Dictionary>;
     var trees = categories.Datas.AsTree(d => string.IsNullOrWhiteSpace(d.ParentId) || d.ParentId == "0", (p, c) => c.ParentId == p.Id, d => new TreeNode { Id = d.Id, Text = d.Key, Checked = d.Id == this.ViewBag.ParentId });
 }
+
 @section Styles
 {
     @Styles.Render("~/Content/tree/css")
@@ -22,6 +22,7 @@
         }
     </style>
 }
+
 @section Scripts{
     @Scripts.Render("~/bundles/validate", "~/bundles/tree")
     <script type="text/javascript">
@@ -48,9 +49,7 @@
         }
     </script>
 }
-@using (Ajax.BeginForm("CreateOrUpdate", "Dictionary", null,
-                                                                new AjaxOptions() { HttpMethod = "POST", OnSuccess = "onSuccess" },
-                                                                new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
+@using (Ajax.BeginForm("CreateOrUpdate", "Dictionary", null, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "onSuccess" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
 {
     @Html.HiddenFor(m => m.Id)
     <div class="form-group form-group-sm">

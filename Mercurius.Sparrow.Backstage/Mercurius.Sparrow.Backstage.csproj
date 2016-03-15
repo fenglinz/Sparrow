@@ -337,11 +337,6 @@
     <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\loading1.gif" />
     <Content Include="Content\Images\validatebox_warning.png" />
-    <Content Include="Content\LogOn\Images\137.png" />
-    <Content Include="Content\LogOn\Images\bg.jpg" />
-    <Content Include="Content\LogOn\Images\bg2.png" />
-    <Content Include="Content\LogOn\Images\loading.gif" />
-    <Content Include="Content\LogOn\Images\logon-v2-load.png" />
     <Content Include="Content\LogOn\LogOn.css" />
     <Content Include="Content\MessageBox\gb_tip_layer.png" />
     <Content Include="Content\MessageBox\msgbox.css" />
@@ -465,8 +460,7 @@
     <Content Include="Areas\DynamicPage\Views\Configuration\ShowSearchConfig.cshtml" />
     <Content Include="Areas\DynamicPage\Views\Dynamic\CreateOrUpdate.cshtml" />
     <Content Include="Areas\DynamicPage\Views\Dynamic\Index.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\web.config" />
+    <Content Include="Areas\DynamicPage\Views\Web.config" />
     <Content Include="Areas\DynamicPage\Views\_ViewStart.cshtml" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -475,7 +469,7 @@
     <Content Include="Areas\DynamicPage\Views\Dynamic\ViewDetail.cshtml" />
     <Content Include="Areas\Admin\Views\User\ChooseUser.cshtml" />
     <Content Include="Areas\Admin\Views\User\_ChooseUsers.cshtml" />
-    <Content Include="Areas\WebApi\Views\web.config" />
+    <Content Include="Areas\WebApi\Views\Web.config" />
     <Content Include="Areas\WebApi\Views\_ViewStart.cshtml" />
     <Content Include="Areas\WebApi\Views\User\Index.cshtml" />
     <Content Include="Areas\WebApi\Views\User\CreateOrUpdate.cshtml" />
@@ -838,13 +832,14 @@
     <Content Include="Views\Home\MainDefault.cshtml" />
     <Content Include="Areas\Admin\Views\Logger\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Logger\ViewDetails.cshtml" />
-    <Content Include="Views\Shared\_LogOnLayout.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Areas\Admin\Views\SystemSetting\Index.cshtml" />
     <None Include="Views\Home\ShowLogs.cshtml" />
+    <Content Include="Views\Shared\_BaseLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\DynamicPage\Views\Shared\" />
     <Folder Include="Areas\WebApi\Models\" />
     <Folder Include="Areas\WebApi\Views\Shared\" />
     <Folder Include="Models\" />

@@ -1,4 +1,4 @@
-﻿@model Mercurius.Sparrow.Entities.WebApi.User
+﻿@model User
 
 @section Scripts{
     @Scripts.Render("~/bundles/validate")
@@ -10,7 +10,6 @@
         }
     </script>
 }
-
 @using (Ajax.BeginForm("CreateOrUpdate", "User", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @autocomplete = "off" }))
 {
     @Html.AntiForgeryToken()

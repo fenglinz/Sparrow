@@ -1,6 +1,4 @@
-﻿@using Mercurius.Sparrow.Entities.Dynamic
-
-@model ExtensionProperty
+﻿@model ExtensionProperty
 
 @{
     var categories = this.ViewBag.Categories as ResponseCollection<string>;
@@ -111,7 +109,6 @@
         }
     </script>
 }
-
 @using (Ajax.BeginForm("CreateOrUpdate", "ExtensionProperty", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form" }))
 {
     @Html.HiddenFor(m => m.Id)

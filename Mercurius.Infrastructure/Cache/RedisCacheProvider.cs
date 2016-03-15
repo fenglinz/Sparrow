@@ -80,16 +80,19 @@ namespace Mercurius.Infrastructure.Cache
         /// <param name="timeSpan">保存时间</param>
         public void Add(string key, object value, TimeSpan? timeSpan = null)
         {
-            if (value is DataTable)
+            lock (this._locker)
             {
-                var b = timeSpan.HasValue
-                ? this._redisClient.Set(key, value.AsJson(), timeSpan.Value)
-                : this._redisClient.Set(key, value.AsJson());
-            }
-            else {
-                var b = timeSpan.HasValue
-                    ? this._redisClient.Set(key, value, timeSpan.Value)
-                    : this._redisClient.Set(key, value);
+                if (value is DataTable)
+                {
+                    var b = timeSpan.HasValue
+                    ? this._redisClient.Set(key, value.AsJson(), timeSpan.Value)
+                    : this._redisClient.Set(key, value.AsJson());
+                }
+                else {
+                    var b = timeSpan.HasValue
+                        ? this._redisClient.Set(key, value, timeSpan.Value)
+                        : this._redisClient.Set(key, value);
+                }
             }
         }
 

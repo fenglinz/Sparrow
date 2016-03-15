@@ -1,6 +1,4 @@
-﻿@using Mercurius.Sparrow.Entities.RBAC
-
-@{
+﻿@{
     var roles = this.ViewBag.Roles as ResponseCollection<Role>;
     var roleUsers = this.ViewBag.RoleUsers as ResponseCollection<UserRole>;
     var staffOrganizes = this.ViewBag.StaffOrganizes as ResponseCollection<StaffOrganize>;
@@ -89,7 +87,6 @@
         }
     </script>
 }
-
 <ul class="nav nav-tabs" role="tablist">
     <li class="active"><a href="#basic" role="tab" data-toggle="tab">基本信息</a></li>
     <li><a href="#members" role="tab" data-toggle="tab">角色成员</a></li>

@@ -1,7 +1,4 @@
-﻿@using Mercurius.Sparrow.Entities.RBAC
-@using Mercurius.Sparrow.Entities.RBAC.SO
-
-@{
+﻿@{
     var so = this.ViewBag.SO as UserSO;
     var organizations = this.ViewBag.Organizations as ResponseCollection<Organization>;
 }
@@ -70,7 +67,6 @@
         }
     </script>
 }
-
 <div class="row" style="margin:0 0 5px 5px;">
     @using (Ajax.BeginForm("GetUsers", "User", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "users", OnSuccess = "ChoosedUsersHandler" }))
     {

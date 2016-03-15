@@ -1,5 +1,6 @@
-﻿@using Mercurius.Sparrow.Entities.RBAC
-@using Mercurius.Sparrow.Backstage.Areas.Admin.Models.User
+﻿@using Mercurius.Sparrow.Backstage.Areas.Admin.Models.User
+
+@model CreateOrUpdateVM
 
 @{
     var departments = this.ViewBag.Departments as ResponseCollection<Organization>;
@@ -170,7 +171,6 @@
         }
     </script>
 }
-@model CreateOrUpdateVM
 @using (Ajax.BeginForm("CreateOrUpdate", "User", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
 {
     @Html.AntiForgeryToken()

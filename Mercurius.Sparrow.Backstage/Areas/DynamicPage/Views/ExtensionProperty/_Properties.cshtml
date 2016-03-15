@@ -1,7 +1,4 @@
-﻿@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.Dynamic
-
-@model ResponseCollection<ExtensionProperty>
+﻿@model ResponseCollection<ExtensionProperty>
 
 <table id="tbDefinition" class="grid">
     <thead>
@@ -50,16 +47,16 @@
 
 @helper ShowControlType(int type)
 {
-switch (type)
-{
-    case 1:<text>1-文本框</text>
-        break;
+    switch (type)
+    {
+        case 1:<text>1-文本框</text>
+            break;
 
-    case 2:<text>2-下拉框</text>
-        break;
-    case 3:<text>3-单选框</text>
-        break;
-    case 4:<text>4-复选框</text>
-        break;
-}
+        case 2:<text>2-下拉框</text>
+            break;
+        case 3:<text>3-单选框</text>
+            break;
+        case 4:<text>4-复选框</text>
+            break;
+    }
 }

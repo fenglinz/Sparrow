@@ -1,4 +1,5 @@
 ﻿@using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
+
 @model CreateOrUpdateModel
 
 @section Styles{
@@ -11,14 +12,13 @@
         }
     </style>
 }
-
 @if (Model.Table != null)
 {
-	var columns = Model.GetColumns();
-	var showColumns = columns.Where(s => !s.IsPrimaryKey);
+    var columns = Model.GetColumns();
+    var showColumns = columns.Where(s => !s.IsPrimaryKey);
 
     <div class="header">
-        查看<text>@Model.Table.Comments</text>信息
+        查看@(Model.Table.Comments)信息
     </div>
     <div class="form-horizontal" style="margin-top:10px;">
         @foreach (var item in showColumns)
@@ -39,13 +39,14 @@
                             @Html.CreateDropdownList(item.DictionaryKey, new { @id = item.Column, name = item.Column, @class = "form-control", @disabled = "disabled" }, Model.GetValue(item.Name))
                         }
                     </div>
-                </div>}
+                </div>
+            }
         }
         <div class="form-group form-group-sm">
             <label class="col-sm-2">&nbsp;</label>
             <div class="col-sm-8">
                 <a href="@Url.Action("Index", new { @id = string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name) })" class="btn btn-default">
-                <i class="glyphicon glyphicon-chevron-left"></i> 返回
+                    <i class="glyphicon glyphicon-chevron-left"></i> 返回
                 </a>
             </div>
         </div>

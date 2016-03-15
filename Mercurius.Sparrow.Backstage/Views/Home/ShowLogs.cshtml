@@ -1,4 +1,4 @@
-﻿@model IList<Mercurius.Sparrow.Entities.Core.OperationRecord>
+﻿@model IList<OperationRecord>
 
 @section Scripts
 {
@@ -8,7 +8,6 @@
         });
     </script>
 }
-
 @if (!Model.IsEmpty())
 {
     var index = (this.Request.Params["pageIndex"].AsInt(1) - 1) * this.Request.Params["pageSize"].AsInt(20);

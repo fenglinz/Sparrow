@@ -1,5 +1,7 @@
 ﻿@using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
+
 @model CreateOrUpdateModel
+
 @section Styles{
     <style type="text/css">
         [validate-rule*=date],
@@ -8,6 +10,7 @@
         }
     </style>
 }
+
 @section Scripts{
     @Scripts.Render("~/bundles/validate")
 
@@ -48,15 +51,9 @@
     var showColumns = columns.Where(s => !s.IsPrimaryKey);
 
     <div class="header">
-        添加或者编辑<text>@Model.Table.Comments</text>
+        添加或者编辑@(Model.Table.Comments)
     </div>
-    using (Html.BeginForm("Save", "Dynamic", FormMethod.Post, new
-    {
-        @id = "frmSave",
-        @class = "form-horizontal",
-        @autocomplete = "off",
-        @style = "margin-top:10px;"
-    }))
+    using (Html.BeginForm("Save", "Dynamic", FormMethod.Post, new { @id = "frmSave", @class = "form-horizontal", @autocomplete = "off", @style = "margin-top:10px;" }))
     {
         @Html.AntiForgeryToken()
         <input type="hidden" name="table" value="@string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name)" />
@@ -65,7 +62,8 @@
         {
             foreach (var item in primaryKeys)
             {
-                <input type="hidden" name="@item.PropertyName" value="@Model.GetValue(item.Name)" />  }
+                <input type="hidden" name="@item.PropertyName" value="@Model.GetValue(item.Name)" />  
+            }
         }
 
         foreach (var item in showColumns)
@@ -92,20 +90,24 @@
 
                             if (item.DataLength > 255)
                             {
-                                <textarea id="@item.Column" name="@item.Column" class="form-control" maxlength="@item.DataLength" rows="5" @Html.Raw(validateAttribute)> @Model.GetValue(item.Name)</textarea>}
+                                <textarea id="@item.Column" name="@item.Column" class="form-control" maxlength="@item.DataLength" rows="5" @Html.Raw(validateAttribute)> @Model.GetValue(item.Name)</textarea>
+                            }
                             else
                             {
-                                <input id="@item.Column" name="@item.Column" type="text" class="form-control" value="@Model.GetValue(item.Name)" maxlength="@item.DataLength" @Html.Raw(validateAttribute) />}
+                                <input id="@item.Column" name="@item.Column" type="text" class="form-control" value="@Model.GetValue(item.Name)" maxlength="@item.DataLength" @Html.Raw(validateAttribute) />
+                            }
                         }
                         else
                         {
                             @Html.CreateDropdownList(item.DictionaryKey, new { @id = item.Column, name = item.Column, @class = "form-control" }, Model.GetValue(item.Name))
                         }
                     </div>
-                </div>  }
+                </div>
+            }
             else if (!string.IsNullOrWhiteSpace(item.DefaultValue))
             {
-                <input type="hidden" name="@item.Column" value="@Model.GetValue(item.Name)" />  }
+                <input type="hidden" name="@item.Column" value="@Model.GetValue(item.Name)" />
+            }
         }
         <div class="form-group form-group-sm">
             <label class="col-sm-2">&nbsp;</label>

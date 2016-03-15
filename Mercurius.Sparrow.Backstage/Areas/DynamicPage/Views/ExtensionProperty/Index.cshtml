@@ -1,7 +1,4 @@
-﻿@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.Dynamic
-
-@model ResponseCollection<ExtensionProperty>
+﻿@model ResponseCollection<ExtensionProperty>
 
 @{
     var categories = this.ViewBag.Categories as ResponseCollection<string>;
@@ -78,7 +75,6 @@
         </text>)
     </script>
 }
-
 <div class="header">动态属性管理</div>
 <div class="row">
     <div class="col-sm-3" style="padding-right: 0;">

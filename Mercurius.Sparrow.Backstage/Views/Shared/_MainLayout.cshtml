@@ -1,14 +1,8 @@
-﻿<!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="expires" content="0">
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta http-equiv="Cache-Control" content="no-store, must-revalidate">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
-    <title>@Html.GetProductName()</title>
+﻿@{
+    Layout = "_BaseLayout.cshtml";
+}
+@section Head
+{
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="@Url.Content("~/Content/ace-part2.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Content/ace-ie.css")" />
@@ -20,128 +14,124 @@
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
     <script src="@Url.Content("~/Scripts/html5shiv.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
+        <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
     <![endif]-->
     @Scripts.Render("~/bundles/main")
-</head>
-<body class="no-skin">
-    <div id="navbar" class="navbar navbar-default">
-        <script type="text/javascript">
-            try {
-                ace.settings.check('navbar', 'fixed');
-            } catch (e) { }
-        </script>
-
-        <div class="navbar-container" id="navbar-container">
-            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
-                <span class="sr-only">Toggle sidebar</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <div class="navbar-header pull-left">
-                <a href="@Url.Action("About","Home")" target="main" class="navbar-brand">
-                    <small>
-                        <i class="fa fa-leaf"></i>
-                        @Html.GetProductName() @Html.GetProductVersion()
-                    </small>
-                </a>
-            </div>
-            <div class="navbar-buttons navbar-header pull-right" role="navigation">
-                <ul class="nav ace-nav">
-                    <li class="light-blue">
-                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                            <img class="nav-user-photo" style="margin-right:0;" src="~/Content/avatars/user.jpg" alt="Jason's Photo" />
-                            <span class="user-info">
-                                @WebHelper.GetLogOnUserName()
-                            </span>
-                            <i class="ace-icon fa fa-caret-down"></i>
-                        </a>
-                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                            <li>
-                                <a href="@Url.Action("CurrentUser", "User", new { @Area = "Admin" })" target="main">
-                                    <i class="ace-icon fa fa-user"></i>
-                                    个人信息
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#" onclick="OnLogOff();">
-                                    <i class="ace-icon fa fa-power-off"></i>
-                                    退出
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="main-container" id="main-container">
-        <script type="text/javascript">
-            try {
-                ace.settings.check('main-container', 'fixed');
-            } catch (e) { }
-        </script>
-        <div id="sidebar" class="sidebar responsive" style="border-bottom-width: 1px;" data-sidebar="true" data-sidebar-scroll="true" data-sidebar-hover="true">
-            <script type="text/javascript">
-                try {
-                    ace.settings.check('sidebar', 'fixed');
-                } catch (e) { }
-            </script>
-
-            <ul class="nav nav-list">
-                <li class="active">
-                    <a href="#" onclick="OnSidebarItemClick(this, '/Home/Index', 'Iframe')">
-                        <i class="menu-icon fa fa-tachometer"></i>
-                        <span class="menu-text"> 工作台 </span>
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                @RenderBody()
-            </ul>
-            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-                <i class="ace-icon fa fa-2x fa-angle-double-left" data-icon1="ace-icon fa fa-2x fa-angle-double-left" data-icon2="ace-icon fa fa-2x fa-angle-double-right"></i>
-            </div>
-            <script type="text/javascript">
-                try {
-                    ace.settings.check('sidebar', 'collapsed');
-                } catch (e) { }
-            </script>
-        </div>
-        <div class="main-content">
-            <div class="page-content" style="padding: 0; margin: 0;">
-                <div id="loading">
-                    <i class="fa fa-5x fa-spinner fa-pulse"></i>
-                </div>
-                <div id="MainContent">
-                    <iframe frameborder="0" height="100%" id="main" name="main" scrolling="auto" src="@Url.Action("Index", "Home")" width="100%" style="padding: 0"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
+}
+<div id="navbar" class="navbar navbar-default">
     <script type="text/javascript">
-        mercurius.BaseUrl = '@Html.GetBaseUrl()';
-
-        $(document).ready(function () {
-            window.dialog = dialog;
-
-            $('#loading').css({
-                'padding-left': ($(window).width() - 280) / 2,
-                'padding-top': ($(window).height() - 135) / 2
-            });
-
-            $('#menu-toggler').click(function () {
-                if ($(this).hasClass('display')) {
-                    $(this).removeClass('display');
-                    $('#sidebar').removeClass('display');
-                } else {
-                    $(this).addClass('display');
-                    $('#sidebar').addClass('display');
-                }
-            })
-        });
+        try {
+            ace.settings.check('navbar', 'fixed');
+        } catch (e) { }
     </script>
-    @RenderSection("Scripts", false)
-</body>
-</html>
+    <div class="navbar-container" id="navbar-container">
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+            <span class="sr-only">Toggle sidebar</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-header pull-left">
+            <a href="@Url.Action("About","Home")" target="main" class="navbar-brand">
+                <small>
+                    <i class="fa fa-leaf"></i>
+                    @Html.GetProductName() @Html.GetProductVersion()
+                </small>
+            </a>
+        </div>
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo" style="margin-right:0;" src="~/Content/avatars/user.jpg" alt="Jason's Photo" />
+                        <span class="user-info">
+                            @WebHelper.GetLogOnUserName()
+                        </span>
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <a href="@Url.Action("CurrentUser", "User", new { @Area = "Admin" })" target="main">
+                                <i class="ace-icon fa fa-user"></i>
+                                个人信息
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" onclick="OnLogOff();">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                退出
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed');
+        } catch (e) { }
+    </script>
+    <div id="sidebar" class="sidebar responsive" style="border-bottom-width: 1px;" data-sidebar="true" data-sidebar-scroll="true" data-sidebar-hover="true">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('sidebar', 'fixed');
+            } catch (e) { }
+        </script>
+
+        <ul class="nav nav-list">
+            <li class="active">
+                <a href="#" onclick="OnSidebarItemClick(this, '/Home/Index', 'Iframe')">
+                    <i class="menu-icon fa fa-tachometer"></i>
+                    <span class="menu-text"> 工作台 </span>
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @RenderBody()
+        </ul>
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i class="ace-icon fa fa-2x fa-angle-double-left" data-icon1="ace-icon fa fa-2x fa-angle-double-left" data-icon2="ace-icon fa fa-2x fa-angle-double-right"></i>
+        </div>
+        <script type="text/javascript">
+            try {
+                ace.settings.check('sidebar', 'collapsed');
+            } catch (e) { }
+        </script>
+    </div>
+    <div class="main-content">
+        <div class="page-content" style="padding: 0; margin: 0;">
+            <div id="loading">
+                <i class="fa fa-5x fa-spinner fa-pulse"></i>
+            </div>
+            <div id="MainContent">
+                <iframe frameborder="0" height="100%" id="main" name="main" scrolling="auto" src="@Url.Action("Index", "Home")" width="100%" style="padding: 0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    mercurius.BaseUrl = '@Html.GetBaseUrl()';
+
+    $(document).ready(function () {
+        window.dialog = dialog;
+
+        $('#loading').css({
+            'padding-left': ($(window).width() - 280) / 2,
+            'padding-top': ($(window).height() - 135) / 2
+        });
+
+        $('#menu-toggler').click(function () {
+            if ($(this).hasClass('display')) {
+                $(this).removeClass('display');
+                $('#sidebar').removeClass('display');
+            } else {
+                $(this).addClass('display');
+                $('#sidebar').addClass('display');
+            }
+        })
+    });
+</script>
+@RenderSection("Scripts", false)

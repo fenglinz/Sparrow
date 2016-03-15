@@ -1,14 +1,15 @@
-﻿@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.RBAC
-@{
+﻿@{
     var userGroups = this.ViewBag.UserGroups as ResponseCollection<UserGroup>;
     var tree = userGroups.Datas.AsTree(u => u.ParentId == "0", (p, u) => u.ParentId == p.Id, u => new TreeNode { Id = u.Id, Text = u.Name });
 }
+
 @model UserGroup
+
 @section Styles
     {
     @Styles.Render("~/Content/tree/css")
 }
+
 @section Scripts
 {
     @Scripts.Render("~/bundles/tree", "~/bundles/validate")

@@ -1,6 +1,4 @@
-﻿@using Mercurius.Sparrow.Entities.RBAC
-
-@{
+﻿@{
     var systemMenus = this.ViewData["SystemMenus"] as IList<SystemMenu>;
 }
 
@@ -61,7 +59,6 @@
         }
     </script>
 }
-
 @using (Ajax.BeginForm("CreateOrUpdate", "SystemMenu", null, new AjaxOptions() { HttpMethod = "POST" }, new { @id = "form1", @class = "form-horizontal form", @role = "form" }))
 {
     @Html.Hidden("Id", (string)this.ViewBag.Id)

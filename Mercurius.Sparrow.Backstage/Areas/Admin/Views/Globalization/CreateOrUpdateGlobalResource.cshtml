@@ -1,6 +1,4 @@
-﻿@using Mercurius.Sparrow.Entities.Core
-
-@model Globalization
+﻿@model Globalization
 
 @section Scripts
 {
@@ -14,7 +12,6 @@
         }
     </script>
 }
-
 @using (Ajax.BeginForm("CreateOrUpdateGlobalResource", "Globalization", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frm1", @class = "form-horizontal form" }))
 {
     <div class="form-group form-group-sm">

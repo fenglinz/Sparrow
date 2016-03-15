@@ -1,4 +1,6 @@
-﻿@section Styles{
+﻿@model Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration.SearchConfigModel
+
+@section Styles{
     <link rel="stylesheet" type="text/css" href="~/Content/themes/base/all.css" />
     <style type="text/css">
         .alert {
@@ -65,6 +67,7 @@
                 }
     </style>
 }
+
 @section Scripts{
     <script type="text/javascript" src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
     <script type="text/javascript">
@@ -181,9 +184,6 @@
         </div>
     </script>
 }
-
-@model Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration.SearchConfigModel
-
 @if (Model.Table != null)
 {
     using (Ajax.BeginForm("SaveSearchConfig", "Configuration", new { @id = string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name) }, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSaveSearch", @class = "form-horizontal form", @role = "form" }))

@@ -1,7 +1,4 @@
-﻿@using Mercurius.Sparrow.Contracts
-@using Mercurius.Sparrow.Entities.WebApi
-
-@model ResponseCollection<User>
+﻿@model ResponseCollection<User>
 
 @section Scripts
 {
@@ -84,11 +81,8 @@
         </text>)
     </script>
 }
-
 <div class="header">Web API用户一览</div>
-
 @Html.RenderAccessibleButtons()
-
 <table id="tbUsers" class="grid">
     <thead>
         <tr>
@@ -128,7 +122,6 @@
         }
     </tbody>
 </table>
-
 @Html.Paging(Model.TotalRecords)
 
 @helper DisplayStatus(int? status)

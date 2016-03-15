@@ -2,7 +2,8 @@
     var index = 1;
 }
 
-@model IList<Mercurius.Infrastructure.Ado.Table>
+@model IList<Table>
+
 @section Styles
 {
     <style type="text/css">
@@ -25,6 +26,7 @@
         }
     </style>
 }
+
 @section Scripts{
     <script type="text/javascript">
         function OnTableComments(table, comments) {
@@ -59,10 +61,7 @@
         }
     </script>
 }
-
-<div class="header">
-    数据库表一览
-</div>
+<div class="header">数据库表一览</div>
 <table class="grid" style="margin-bottom:150px;">
     <thead>
         <tr>
@@ -78,8 +77,8 @@
         {
             <tr>
                 <td style="text-align:center;">@(index++)</td>
-                <td>@string.Format("{0}.{1}",item.Schema,item.Name)</td>
-                <td class="text-center">@(item.IsView?"视图" :"表")</td>
+                <td>@string.Format("{0}.{1}", item.Schema, item.Name)</td>
+                <td class="text-center">@(item.IsView ? "视图" : "表")</td>
                 <td class="input-group">
                     <input type="text" class="form-control" value="@item.Comments" onchange="OnComments('@item.Name',this.value);" />
                     <span class="input-group-btn">
@@ -102,7 +101,7 @@
                     </div>
                     <div class="btn-group">
                         <a href="@Url.Action("Index","Dynamic", new { @id=string.Format("{0}.{1}",item.Schema, item.Name)})" class="btn btn-default">
-                        <i class="glyphicon glyphicon-eye-open"></i> 管理
+                            <i class="glyphicon glyphicon-eye-open"></i> 管理
                         </a>
                     </div>
                 </td>
