@@ -130,10 +130,10 @@ html, body {
 footer {
     color: #fff;
     width: 100%;
-    height: 36px;
-    line-height: 36px;
+    height: 42px;
+    line-height: 42px;
     text-align: center;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     background-color: #2d70b2;
     -ms-text-shadow: 0 1px 0 #2d70b2;

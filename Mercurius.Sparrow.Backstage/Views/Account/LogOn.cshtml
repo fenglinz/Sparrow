@@ -82,6 +82,17 @@
         }
     };
 
+    $(document).ready(function () {
+        ResetPanelMiddle();
+        window.resize = ResetPanelMiddle;
+    });
+
+    function ResetPanelMiddle() {
+        $('#loginbox').css({
+            'margin-top': ($(window).height() - 450) / 2
+        });
+    }
+
     function GetNewVerifyCode() {
         $('#txtVerifyCode').val('');
         $('#imgVerifyCode').attr('src', '@Url.Action("GetVerifyCode", "Account", new {@Area = ""})/?time=' + Math.random());
