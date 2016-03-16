@@ -24,9 +24,12 @@
 }
 
 @section Scripts{
+    @Scripts.Render("~/bundles/UEditor")
     <script type="text/javascript">
         $(document).ready(function () {
             mercurius.FixedTableHeader('#logOnGrid', 320);
+
+            var ue = UE.getEditor('richBox');
         });
 
         @*查看用户登录/登出日志*@
@@ -83,4 +86,8 @@
         (提示：为了账号的安全，如果您的登录情况不正常，建议您马上
         <a href="javascript:void(0);" style="text-decoration: underline;color: Blue;" onclick="editpwd()">密码修改</a>)
     </div>
+</div>
+
+<div>
+    <script type="text/plain" id="richBox" style="width: 100%;height: 240px;"></script>
 </div>

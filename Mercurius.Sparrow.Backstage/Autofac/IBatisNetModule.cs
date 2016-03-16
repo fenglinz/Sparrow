@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Autofac;
-using Autofac.Core;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
 using Mercurius.Infrastructure.Dynamic;
@@ -16,6 +15,10 @@ namespace Mercurius.Sparrow.Autofac
     /// </summary>
     public class IBatisNetModule : Module
     {
+        /// <summary>
+        /// 模块加载处理。
+        /// </summary>
+        /// <param name="builder">Autofac容器</param>
         protected override void Load(ContainerBuilder builder)
         {
             // 注册IBatisNet。
@@ -30,27 +33,9 @@ namespace Mercurius.Sparrow.Autofac
 
             builder.Register(c => new SqlMapperManager(c.Resolve<ISqlMapper>()))
                 .SingleInstance();
-            
-            builder.Register(c => new Persistence { SqlMapperManager = c.Resolve<SqlMapperManager>() })
-                .InstancePerLifetimeScope()
-                .OnActivated(p =>
-                {
-                    var sqlMapper = p.Instance.SqlMapperManager[RWDecision.Write];
 
-                    if (sqlMapper.LocalSession != null && !sqlMapper.LocalSession.IsTransactionStart)
-                    {
-                        sqlMapper.BeginTransaction();
-                    }
-                })
-                .OnRelease(p =>
-                {
-                    var sqlMapper = p.SqlMapperManager[RWDecision.Write];
-
-                    if (sqlMapper.LocalSession!=null && sqlMapper.LocalSession.IsTransactionStart)
-                    {
-                        sqlMapper.CommitTransaction();
-                    }
-                });
+            builder.Register(c => new Persistence {SqlMapperManager = c.Resolve<SqlMapperManager>()})
+                .InstancePerLifetimeScope();
 
             // 注册基于SQL Server的DynamicQueryProvider
             builder.Register(c => new IBatisNetMSSQLDynamicQueryProvider(c.Resolve<ISqlMapper>()))

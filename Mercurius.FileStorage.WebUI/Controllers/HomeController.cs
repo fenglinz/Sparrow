@@ -13,10 +13,16 @@ using Mercurius.Sparrow.Entities.Core.SO;
 
 namespace Mercurius.FileStorage.WebUI.Controllers
 {
+    /// <summary>
+    /// 首页控制器。
+    /// </summary>
     public class HomeController : Controller
     {
         #region 静态方法
 
+        /// <summary>
+        /// 上传文件保存目录。
+        /// </summary>
         private static readonly string UploadFileSavedDirectory = ConfigurationManager.AppSettings["UploadFileSavedDirectory"];
 
         #endregion
@@ -32,6 +38,11 @@ namespace Mercurius.FileStorage.WebUI.Controllers
 
         #region 首页&搜索
 
+        /// <summary>
+        /// 显示首页。
+        /// </summary>
+        /// <param name="so">搜索条件</param>
+        /// <returns>显示结果</returns>
         public ActionResult Index(FileStorageSO so)
         {
             this.ViewBag.SO = so;
@@ -41,6 +52,11 @@ namespace Mercurius.FileStorage.WebUI.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// 搜索文件。
+        /// </summary>
+        /// <param name="so">搜索条件</param>
+        /// <returns>显示搜索结果</returns>
         [HttpPost]
         public ActionResult SearchFileStorages(FileStorageSO so)
         {
@@ -55,6 +71,11 @@ namespace Mercurius.FileStorage.WebUI.Controllers
 
         #region 文件上传
 
+        /// <summary>
+        /// 显示文件上传界面。
+        /// </summary>
+        /// <param name="id">文件编号</param>
+        /// <returns>显示文件上传界面</returns>
         public ActionResult Upload(int? id = null)
         {
             if (id.HasValue)
@@ -67,6 +88,13 @@ namespace Mercurius.FileStorage.WebUI.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 上传文件。
+        /// </summary>
+        /// <param name="id">文件编号</param>
+        /// <param name="saveAsPath">保存路径</param>
+        /// <param name="description">文件描述</param>
+        /// <returns>上传结果</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Upload(int? id, string saveAsPath, string description)
@@ -123,6 +151,11 @@ namespace Mercurius.FileStorage.WebUI.Controllers
 
         #region 删除文件
 
+        /// <summary>
+        /// 删除文件。
+        /// </summary>
+        /// <param name="id">文件编号</param>
+        /// <returns>删除结果</returns>
         [HttpPost]
         public ActionResult Remove(int id)
         {
@@ -154,6 +187,10 @@ namespace Mercurius.FileStorage.WebUI.Controllers
 
         #region 私有方法
 
+        /// <summary>
+        /// 获取文件保存目录。
+        /// </summary>
+        /// <returns>文件保存目录</returns>
         private string GetSavedDirectory()
         {
             var saveAsDirectory = $"{UploadFileSavedDirectory}/{DateTime.Now.ToString("yyyyMM")}";
@@ -167,6 +204,10 @@ namespace Mercurius.FileStorage.WebUI.Controllers
             return saveAsDirectory;
         }
 
+        /// <summary>
+        /// 删除压缩文件。
+        /// </summary>
+        /// <param name="file">文件名</param>
         private void RemoveCompressionImage(string file)
         {
             var directory = $@"{Path.GetDirectoryName(file)}\Compression";

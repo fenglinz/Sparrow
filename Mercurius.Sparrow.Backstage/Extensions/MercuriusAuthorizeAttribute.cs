@@ -20,6 +20,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     {
         #region 字段
 
+        /// <summary>
+        /// 用户信息。
+        /// </summary>
         private User _user;
 
         #endregion

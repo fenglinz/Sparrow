@@ -59,17 +59,16 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/Highcharts-4.0.3/js/highcharts.js",
                 "~/Scripts/Highcharts-4.0.3/js/themes/dark-blue.js"));
 
-            // Kindeditor JS
-            bundles.Add(new ScriptBundle("~/bundles/kindeditor").Include(
-                "~/Scripts/Kindeditor/kindeditor-all-min.js",
-                "~/Scripts/Kindeditor/kindeditor.config.js",
-                "~/Scripts/Kindeditor/lang/zh_CN.js"));
+            // UEditor JS
+            bundles.Add(new ScriptBundle("~/bundles/UEditor").Include(
+                "~/Scripts/UEditor/ueditor.config.js",
+                "~/Scripts/UEditor/ueditor.all.js",
+                "~/Scripts/UEditor/lang/zh-cn/zh-cn.js"));
 
 			// 文件上传
 			bundles.Add(new ScriptBundle("~/bundles/upload").Include(
                 "~/Scripts/Bootstrap-FileInput/fileinput.js",
-                "~/Scripts/Bootstrap-FileInput/fileinput_locale_zh.js"
-                ));
+                "~/Scripts/Bootstrap-FileInput/fileinput_locale_zh.js"));
 
             // 公共CSS
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -105,8 +104,7 @@ namespace Mercurius.Sparrow.Backstage
 
 			// 文件上传css
 			bundles.Add(new StyleBundle("~/Content/upload/css").Include(
-                "~/Content/bootstrap-fileinput/css/fileinput.css"
-                ));
+                "~/Content/bootstrap-fileinput/css/fileinput.css"));
 
             //BundleTable.EnableOptimizations = true;
         }
