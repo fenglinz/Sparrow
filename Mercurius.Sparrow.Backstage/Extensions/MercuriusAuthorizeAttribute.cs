@@ -23,7 +23,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 用户信息。
         /// </summary>
-        private User _user;
+        private User _user = null;
 
         #endregion
 

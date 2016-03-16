@@ -25,6 +25,9 @@ namespace Mercurius.Sparrow.Autofac
 
         #region 属性
 
+        /// <summary>
+        /// Autofac容器。
+        /// </summary>
         public static IContainer Container { get; private set; }
 
         #endregion

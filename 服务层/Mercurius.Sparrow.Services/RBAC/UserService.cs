@@ -110,62 +110,65 @@ namespace Mercurius.Sparrow.Services.RBAC
                 nameof(CreateOrUpdateUser),
                 () =>
                 {
-                    this.Persistence.Update(UserNamespace, "CreateOrUpdateUser", user);
+                    using (this.Persistence.BeginTransaction())
+                    {
+                        this.Persistence.Update(UserNamespace, "CreateOrUpdateUser", user);
 
-                    var relations = departments.IsEmpty() ? null :
-                        departments.Select(arg => new StaffOrganize
+                        var relations = departments.IsEmpty() ? null :
+                            departments.Select(arg => new StaffOrganize
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                UserId = user.Id,
+                                OrganizationId = arg,
+                                CreateUserId = WebHelper.GetLogOnUserId(),
+                                CreateUserName = WebHelper.GetLogOnUserName(),
+                                CreateDateTime = DateTime.Now
+                            }).ToList();
+
+                        this.Persistence.Create(OrganizationNamespace, "CreateOrUpdateRelation", new { UserId = user.Id, StaffOrganizes = relations });
+
+                        var roleRelations = roles.IsEmpty() ? null : roles.Select(arg => new UserRole
                         {
                             Id = Guid.NewGuid().ToString(),
                             UserId = user.Id,
-                            OrganizationId = arg,
+                            RoleId = arg,
                             CreateUserId = WebHelper.GetLogOnUserId(),
                             CreateUserName = WebHelper.GetLogOnUserName(),
                             CreateDateTime = DateTime.Now
                         }).ToList();
 
-                    this.Persistence.Create(OrganizationNamespace, "CreateOrUpdateRelation", new { UserId = user.Id, StaffOrganizes = relations });
+                        this.Persistence.Create(RoleNamespace, "CreateOrUpdateRelation", new { UserId = user.Id, UserRoles = roleRelations });
 
-                    var roleRelations = roles.IsEmpty() ? null : roles.Select(arg => new UserRole
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UserId = user.Id,
-                        RoleId = arg,
-                        CreateUserId = WebHelper.GetLogOnUserId(),
-                        CreateUserName = WebHelper.GetLogOnUserName(),
-                        CreateDateTime = DateTime.Now
-                    }).ToList();
+                        var userGroupPermissions = groups.IsEmpty() ? null : groups.Select(arg => new UserGroupRelation
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            UserId = user.Id,
+                            UserGroupId = arg,
+                            CreateUserId = WebHelper.GetLogOnUserId(),
+                            CreateUserName = WebHelper.GetLogOnUserName(),
+                            CreateDateTime = DateTime.Now
+                        }).ToList();
 
-                    this.Persistence.Create(RoleNamespace, "CreateOrUpdateRelation", new { UserId = user.Id, UserRoles = roleRelations });
+                        this.Persistence.Create(UserNamespace, "CreateOrUpdateRelation", new { UserId = user.Id, UserGroupRelations = userGroupPermissions });
 
-                    var userGroupPermissions = groups.IsEmpty() ? null : groups.Select(arg => new UserGroupRelation
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UserId = user.Id,
-                        UserGroupId = arg,
-                        CreateUserId = WebHelper.GetLogOnUserId(),
-                        CreateUserName = WebHelper.GetLogOnUserName(),
-                        CreateDateTime = DateTime.Now
-                    }).ToList();
+                        var userPermissions = permissions.IsEmpty() ? null : permissions.Select(arg => new UserPermission
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            UserId = user.Id,
+                            SystemMenuId = arg,
+                            CreateUserId = WebHelper.GetLogOnUserId(),
+                            CreateUserName = WebHelper.GetLogOnUserName(),
+                            CreateDateTime = DateTime.Now
+                        }).ToList();
 
-                    this.Persistence.Create(UserNamespace, "CreateOrUpdateRelation", new { UserId = user.Id, UserGroupRelations = userGroupPermissions });
+                        this.Persistence.Create(PermissionNamespace, "AllotPermissionByUser", new { UserId = user.Id, UserPermissions = userPermissions });
 
-                    var userPermissions = permissions.IsEmpty() ? null : permissions.Select(arg => new UserPermission
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UserId = user.Id,
-                        SystemMenuId = arg,
-                        CreateUserId = WebHelper.GetLogOnUserId(),
-                        CreateUserName = WebHelper.GetLogOnUserName(),
-                        CreateDateTime = DateTime.Now
-                    }).ToList();
-
-                    this.Persistence.Create(PermissionNamespace, "AllotPermissionByUser", new { UserId = user.Id, UserPermissions = userPermissions });
-
-                    this.ClearCache<User>();
-                    this.ClearCache<Role>();
-                    this.ClearCache<SystemMenu>();
-                    this.ClearCache<Organization>();
-                    this.ClearCache<StaffOrganize>();
+                        this.ClearCache<User>();
+                        this.ClearCache<Role>();
+                        this.ClearCache<SystemMenu>();
+                        this.ClearCache<Organization>();
+                        this.ClearCache<StaffOrganize>();
+                    }
                 },
                 user,
                 departments,

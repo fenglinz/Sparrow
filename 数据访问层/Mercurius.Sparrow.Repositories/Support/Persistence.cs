@@ -10,7 +10,7 @@ namespace Mercurius.Sparrow.Repositories
     /// <summary>
     /// 基于IBatis.Net持久化类。
     /// </summary>
-    public sealed class Persistence
+    public sealed class Persistence : IDisposable
     {
         #region 属性
 
@@ -22,6 +22,21 @@ namespace Mercurius.Sparrow.Repositories
         #endregion
 
         #region 公开方法
+
+        /// <summary>
+        /// 开始事务。
+        /// </summary>
+        public Persistence BeginTransaction()
+        {
+            var sqlMapper = this.SqlMapperManager[RWDecision.Write];
+
+            if (sqlMapper.LocalSession?.IsTransactionStart != true)
+            {
+                sqlMapper.BeginTransaction(true);
+            }
+
+            return this;
+        }
 
         /// <summary>
         /// 创建实体信息。
@@ -168,6 +183,23 @@ namespace Mercurius.Sparrow.Repositories
         public void ExecuteStoredProcedure(RWDecision rw, string produceName, Action<IDbCommand> commandHandler = null)
         {
             this.SqlMapperManager[rw].ExecuteStoredProcedure(produceName, commandHandler);
+        }
+
+        #endregion
+
+        #region IDisposable接口实现
+
+        /// <summary>
+        /// 释放资源时清理事务。
+        /// </summary>
+        public void Dispose()
+        {
+            var sqlMapper = this.SqlMapperManager[RWDecision.Write];
+
+            if (sqlMapper.LocalSession?.IsTransactionStart == true)
+            {
+                sqlMapper.CommitTransaction(true);
+            }
         }
 
         #endregion
