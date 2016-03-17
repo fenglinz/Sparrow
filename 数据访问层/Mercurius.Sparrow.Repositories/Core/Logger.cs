@@ -121,7 +121,7 @@ namespace Mercurius.Sparrow.Repositories.Core
                 Level.Record,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnUserName(),
+                WebHelper.GetLogOnAccount(),
                 () => Log.Create(model, message, message, Level.Record),
                 ar =>
                 {
@@ -147,7 +147,7 @@ namespace Mercurius.Sparrow.Repositories.Core
                 level,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnUserName(),
+                WebHelper.GetLogOnAccount(),
                 () => Log.Create(model, summary, details, level),
                 ar =>
                 {
@@ -173,7 +173,7 @@ namespace Mercurius.Sparrow.Repositories.Core
                 Level.Debug,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnUserName(),
+                WebHelper.GetLogOnAccount(),
                 () =>
                 {
                     var summary = Constants.ExecuteBefore;
@@ -212,7 +212,7 @@ namespace Mercurius.Sparrow.Repositories.Core
                 Level.Debug,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnUserName(),
+                WebHelper.GetLogOnAccount(),
                 () =>
                 {
                     var summary = Constants.ExecuteAfter;
@@ -258,7 +258,7 @@ namespace Mercurius.Sparrow.Repositories.Core
                 Level.Error,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnUserName(),
+                WebHelper.GetLogOnAccount(),
                 () =>
                 {
                     var summary = $"{Constants.ExceptionOccurred}：{exception.Message}";

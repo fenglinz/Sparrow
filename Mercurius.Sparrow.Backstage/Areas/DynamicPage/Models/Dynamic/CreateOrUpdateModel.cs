@@ -98,7 +98,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
                             break;
 
                         case "CurrentUserName":
-                            result = WebHelper.GetLogOnUserName();
+                            result = WebHelper.GetLogOnAccount();
 
                             break;
                     }

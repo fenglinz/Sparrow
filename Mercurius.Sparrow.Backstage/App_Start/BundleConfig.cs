@@ -59,14 +59,13 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/Highcharts-4.0.3/js/highcharts.js",
                 "~/Scripts/Highcharts-4.0.3/js/themes/dark-blue.js"));
 
-            // UEditor JS
-            bundles.Add(new ScriptBundle("~/bundles/UEditor").Include(
-                "~/Scripts/UEditor/ueditor.config.js",
-                "~/Scripts/UEditor/ueditor.all.js",
-                "~/Scripts/UEditor/lang/zh-cn/zh-cn.js"));
+            // RichEditor JS
+            bundles.Add(new ScriptBundle("~/bundles/RichEditor").Include(
+                "~/Scripts/RichEditor/wangEditor.js",
+                "~/Scripts/RichEditor/highlight.pack.js"));
 
-			// 文件上传
-			bundles.Add(new ScriptBundle("~/bundles/upload").Include(
+            // 文件上传
+            bundles.Add(new ScriptBundle("~/bundles/upload").Include(
                 "~/Scripts/Bootstrap-FileInput/fileinput.js",
                 "~/Scripts/Bootstrap-FileInput/fileinput_locale_zh.js"));
 
@@ -100,11 +99,15 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Content/ace-skins.css",
                 "~/Content/ui-dialog.css",
                 "~/Content/MessageBox/msgbox.css",
-				"~/Content/Common.css"));
+                "~/Content/Common.css"));
 
-			// 文件上传css
-			bundles.Add(new StyleBundle("~/Content/upload/css").Include(
+            // 文件上传css
+            bundles.Add(new StyleBundle("~/Content/upload/css").Include(
                 "~/Content/bootstrap-fileinput/css/fileinput.css"));
+
+            bundles.Add(new StyleBundle("~/Content/RichEditor/css").Include(
+                "~/Scripts/RichEditor/css/wangEditor.css",
+                "~/Scripts/RichEditor/css/highlight.github.css"));
 
             //BundleTable.EnableOptimizations = true;
         }

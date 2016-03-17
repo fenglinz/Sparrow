@@ -31,7 +31,7 @@
             padding: '20px 30px 20px 30px',
             okValue: '<i class="glyphicon glyphicon-ok"></i> 确定',
             ok: function () {
-                callBack(true);
+                if (callBack != undefined) { callBack(true); }
             },
             cancelValue: '<i class="glyphicon glyphicon-off"></i> 取消',
             cancel: function () { }

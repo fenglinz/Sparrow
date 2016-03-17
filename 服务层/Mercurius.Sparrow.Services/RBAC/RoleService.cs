@@ -1,6 +1,5 @@
 ﻿using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Services.Support;
 using static Mercurius.Sparrow.Repositories.StatementNamespaces.RBAC;

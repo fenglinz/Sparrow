@@ -54,12 +54,8 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public static string GetBaseUrl(this HtmlHelper html)
         {
             var request = html.ViewContext.HttpContext.Request;
-            var port = request.Url.Port;
-            var scheme = request.Url.Scheme;
-            var needPort = (scheme == "http" && port != 80) || (scheme == "https" && port != 443);
-
-            return
-                $"{scheme}://{(needPort ? $"{request.Url.Host}:{port}" : request.Url.Host)}{(request.ApplicationPath == "/" ? string.Empty : request.ApplicationPath)}";
+            
+            return $"{request.ApplicationPath}";
         }
 
         /// <summary>

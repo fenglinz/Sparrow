@@ -175,7 +175,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                         Value = Convert.ToString(a),
                         CreateDateTime = DateTime.Now,
                         CreateUserId = WebHelper.GetLogOnUserId(),
-                        CreateUserName = WebHelper.GetLogOnUserName()
+                        CreateUserName = WebHelper.GetLogOnAccount()
                     });
 
                     var obj = new { Schema = items.FirstOrDefault(), Table = items.LastOrDefault(), Column = column, Recyclebins = recyclebins.ToArray() };

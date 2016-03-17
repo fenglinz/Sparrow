@@ -81,7 +81,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                             Id = id,
                             Password = newPassword,
                             ModifyUserId = WebHelper.GetLogOnUserId(),
-                            ModifyUserName = WebHelper.GetLogOnUserName(),
+                            ModifyUserName = WebHelper.GetLogOnAccount(),
                             ModifyDateTime = DateTime.Now
                         });
                 },
@@ -121,7 +121,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                                 UserId = user.Id,
                                 OrganizationId = arg,
                                 CreateUserId = WebHelper.GetLogOnUserId(),
-                                CreateUserName = WebHelper.GetLogOnUserName(),
+                                CreateUserName = WebHelper.GetLogOnAccount(),
                                 CreateDateTime = DateTime.Now
                             }).ToList();
 
@@ -133,7 +133,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                             UserId = user.Id,
                             RoleId = arg,
                             CreateUserId = WebHelper.GetLogOnUserId(),
-                            CreateUserName = WebHelper.GetLogOnUserName(),
+                            CreateUserName = WebHelper.GetLogOnAccount(),
                             CreateDateTime = DateTime.Now
                         }).ToList();
 
@@ -145,7 +145,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                             UserId = user.Id,
                             UserGroupId = arg,
                             CreateUserId = WebHelper.GetLogOnUserId(),
-                            CreateUserName = WebHelper.GetLogOnUserName(),
+                            CreateUserName = WebHelper.GetLogOnAccount(),
                             CreateDateTime = DateTime.Now
                         }).ToList();
 
@@ -157,7 +157,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                             UserId = user.Id,
                             SystemMenuId = arg,
                             CreateUserId = WebHelper.GetLogOnUserId(),
-                            CreateUserName = WebHelper.GetLogOnUserName(),
+                            CreateUserName = WebHelper.GetLogOnAccount(),
                             CreateDateTime = DateTime.Now
                         }).ToList();
 
@@ -398,7 +398,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                               UserGroupId = id,
                               UserId = arg,
                               CreateUserId = WebHelper.GetLogOnUserId(),
-                              CreateUserName = WebHelper.GetLogOnUserName(),
+                              CreateUserName = WebHelper.GetLogOnAccount(),
                               CreateDateTime = DateTime.Now
                           }
                         ).ToArray();

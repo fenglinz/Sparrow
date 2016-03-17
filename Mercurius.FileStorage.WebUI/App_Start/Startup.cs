@@ -62,7 +62,7 @@ namespace Mercurius.FileStorage.WebUI
                                     else
                                     {
                                         var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-                                        identity.AddClaim(new Claim(ClaimTypes.Name, account.Data.Account));
+                                        identity.AddClaim(new Claim(ClaimTypes.Name, $"{account.Data.Id},{account.Data.Account},{account.Data.Account}"));
                                         identity.AddClaim(new Claim("sub", account.Data.Id.ToString()));
                                         identity.AddClaim(new Claim("role", "user"));
 

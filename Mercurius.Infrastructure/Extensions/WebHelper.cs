@@ -118,10 +118,31 @@ namespace Mercurius.Infrastructure
         }
 
         /// <summary>
-        /// 获取登录用户名。
+        /// 获取登录账户。
         /// </summary>
-        /// <returns>登录用户名</returns>
-        public static string GetLogOnUserName()
+        /// <returns>登录账户</returns>
+        public static string GetLogOnAccount()
+        {
+            if (HttpContext.Current == null)
+            {
+                return null;
+            }
+
+            if (HttpContext.Current.User == null || HttpContext.Current.User.Identity == null)
+            {
+                return null;
+            }
+
+            var identity = HttpContext.Current.User.Identity;
+
+            return identity.IsAuthenticated ? identity.Name.Split(',')[1] : null;
+        }
+
+        /// <summary>
+        /// 获取登录名称。
+        /// </summary>
+        /// <returns>登录名称</returns>
+        public static string GetLogOnName()
         {
             if (HttpContext.Current == null)
             {
@@ -142,47 +163,17 @@ namespace Mercurius.Infrastructure
         /// 设置身份认证票证。
         /// </summary>
         /// <param name="userId">用户编号</param>
+        /// <param name="account">账号</param>
         /// <param name="name">姓名</param>
         /// <param name="createPersistentCookie">是否创建持久Cookie</param>
-        public static void SetAuthCookie(string userId, string name = null, bool createPersistentCookie = true)
+        public static void SetAuthCookie(string userId, string account, string name = null, bool createPersistentCookie = true)
         {
             if (HttpContext.Current == null)
             {
                 return;
             }
 
-            FormsAuthentication.SetAuthCookie($"{userId},{name}", createPersistentCookie);
-        }
-
-
-        /// <summary>
-        /// 将用户基本信息保存到Session中。
-        /// </summary>
-        /// <typeparam name="T">用户基本信息类型</typeparam>
-        /// <param name="entity">用户基本信息</param>
-        public static void AddToSession<T>(T entity)
-        {
-            if (HttpContext.Current == null || string.IsNullOrWhiteSpace(GetLogOnUserId()))
-            {
-                return;
-            }
-
-            HttpContext.Current.Session[GetLogOnUserId()] = entity;
-        }
-
-        /// <summary>
-        /// 从Session中获取保存的用户基本信息。
-        /// </summary>
-        /// <typeparam name="T">用户基本信息类型</typeparam>
-        /// <returns>用户基本信息</returns>
-        public static T GetFromSession<T>()
-        {
-            if (HttpContext.Current == null || string.IsNullOrWhiteSpace(GetLogOnUserId()))
-            {
-                return default(T);
-            }
-
-            return (T)HttpContext.Current.Session[GetLogOnUserId()];
+            FormsAuthentication.SetAuthCookie($"{userId},{account},{name}", createPersistentCookie);
         }
 
         #endregion

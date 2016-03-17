@@ -112,7 +112,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
                                               UserId = s,
                                               CreateDateTime = DateTime.Now,
                                               CreateUserId = WebHelper.GetLogOnUserId(),
-                                              CreateUserName = WebHelper.GetLogOnUserName()
+                                              CreateUserName = WebHelper.GetLogOnAccount()
                                           }
 
                                       ).ToList();

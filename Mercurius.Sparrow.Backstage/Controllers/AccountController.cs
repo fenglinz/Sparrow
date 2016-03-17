@@ -109,7 +109,7 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             }
             else
             {
-                WebHelper.SetAuthCookie(rspUser.Data.Id, $"{rspUser.Data.Name}({rspUser.Data.Account})");
+                WebHelper.SetAuthCookie(rspUser.Data.Id, rspUser.Data.Account, rspUser.Data.Name);
 
                 this.DynamicQuery.Create(new OperationRecord
                 {
@@ -152,15 +152,6 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             var ms = new MemoryStream(buffers);
 
             return this.File(ms, "image/jpeg");
-        }
-
-        public ActionResult ChangeLanguage(string language, string returnUrl)
-        {
-            var cookie = new HttpCookie("language", language) { Expires = DateTime.Now.AddDays(30) };
-
-            this.Response.SetCookie(cookie);
-
-            return this.Redirect(returnUrl);
         }
     }
 }

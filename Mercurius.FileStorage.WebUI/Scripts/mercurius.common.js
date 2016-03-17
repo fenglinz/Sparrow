@@ -31,7 +31,7 @@
             padding: '20px 30px 20px 30px',
             okValue: '<i class="glyphicon glyphicon-ok"></i> 确定',
             ok: function () {
-                callBack(true);
+                if (callBack != undefined) { callBack(true); }
             },
             cancelValue: '<i class="glyphicon glyphicon-off"></i> 取消',
             cancel: function () { }
@@ -555,15 +555,22 @@
                 locale: moment.locale('zh-cn')
             });
         },
-        OnWaitProcess: function (callback) {
+        BeginLoading: function () {
             top.$("#loading").show();
+        },
+        EndLoading: function () {
+            top.$("#loading").hide();
+        },
+        OnWaitProcess: function (callback) {
+            mercurius.BeginLoading();
+
             var result = callback();
-            top.$('#loading').hide();
 
             return result;
         },
         Reloading: function () {
             return mercurius.OnWaitProcess(function () {
+                mercurius.BeginLoading();
                 window.location.reload();
 
                 return false;
@@ -605,17 +612,15 @@
         IsNullOrEmpty: IsNullOrEmpty,
         OnRemoveToRecycbin: function (param) {
             ShowConfirmMessage('注：您确认要把此数据放入回收站吗？', function (r) {
-                if (r) {
-                    AjaxHelper(mercurius.BaseUrl + '/Admin/Recyclebin/RemoveToRecyclebin', param, function (rs) {
-                        if (rs.IsSuccess) {
-                            ShowTipsMessage("删除成功！", 2000, 4);
-                            mercurius.Reloading();
-                        }
-                        else {
-                            ShowTipsMessage("<span style='color:red'>删除失败！  失败原因：" + rs.Data + "</span>", 4000, 5);
-                        }
-                    });
-                }
+                AjaxHelper(mercurius.BaseUrl + '/Admin/Recyclebin/RemoveToRecyclebin', param, function (rs) {
+                    if (rs.IsSuccess) {
+                        ShowTipsMessage("删除成功！", 2000, 4);
+                        mercurius.Reloading();
+                    }
+                    else {
+                        ShowTipsMessage("<span style='color:red'>删除失败！  失败原因：" + rs.Data + "</span>", 4000, 5);
+                    }
+                });
             });
         },
         OnRemoveData: function (url, parm) {
@@ -658,10 +663,22 @@
         FixedTableHeader: FixedTableHeader,
         ApplyTableStyle: ApplyTableStyle,
         ShowTreeView: ShowTreeView,
-        Countdown: Countdown
+        Countdown: Countdown,
+        tips: function () {
+            $('[data-tip]').each(function () {
+                var $this = this;
+                var text = $(this).text().trim();
+                var maxLength = $(this).attr('data-tip');
+
+                $(this).attr('title', text);
+                $(this).attr('data-toggle', 'tooltip');
+                $(this).attr('data-placement', 'bottom');
+                $(this).text(text.length > maxLength ? text.substr(0, maxLength) + '...' : text);
+            }).tooltip();
+        }
     };
 
-    window.alert = layer.alert;
-    window.confirm = layer.confirm;
     window.mercurius = mercurius;
+    window.alert = mercurius.ShowWarningMessage;
+    window.confirm = mercurius.ShowConfirmMessage;
 })();

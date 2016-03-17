@@ -46,6 +46,9 @@ namespace Mercurius.FileStorage.WebUI
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            // 登录页面的CSS
+            bundles.Add(new StyleBundle("~/Content/logon/css").Include("~/Content/LogOn/LogOn.css"));
+
             bundles.Add(new StyleBundle("~/DatetimePicker/css").Include(
                 "~/Content/bootstrap-datetimepicker.css"));
 

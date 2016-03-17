@@ -382,9 +382,9 @@
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Scripts\Web.config" />
     <None Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_LayoutOn.cshtml" />
     <Content Include="Views\Home\_FileStorages.cshtml" />
     <Content Include="Views\Home\Upload.cshtml" />
+    <Content Include="Views\Shared\_BaseLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Apis\Core\Models\" />

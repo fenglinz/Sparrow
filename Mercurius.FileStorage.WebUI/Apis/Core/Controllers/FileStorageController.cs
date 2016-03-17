@@ -19,6 +19,7 @@ namespace Mercurius.FileStorage.WebUI.Apis.Core.Controllers
     /// <summary>
     /// 文件管理控制器。
     /// </summary>
+    [Authorize]
     public class FileStorageController : ApiController
     {
         #region 字段

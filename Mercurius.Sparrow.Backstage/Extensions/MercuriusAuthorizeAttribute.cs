@@ -70,7 +70,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
                         if (current.IsSuccess)
                         {
-                            WebHelper.AddToSession(current.Data);
+                            //WebHelper.AddToSession(current.Data);
                         }
                     }
                 }
