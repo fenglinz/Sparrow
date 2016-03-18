@@ -27,12 +27,24 @@ namespace Mercurius.Infrastructure.Cache
         /// </summary>
         private const string PORT_KEY = "Cache.Redis.Port";
 
+        /// <summary>
+        /// Redis登录密码。
+        /// </summary>
+        private const string PASSWORD_KEY = "Cache.Redis.Password";
+
+        /// <summary>
+        /// Redis数据库。
+        /// </summary>
+        private const string DATABASE_KEY = "Cache.Redis.Database";
+
         #endregion
 
         #region 字段
 
         private static readonly string Host;
         private static readonly int Port;
+        private static readonly string Password;
+        private static readonly int Database;
 
         private object _locker = new object();
         private readonly RedisClient _redisClient;
@@ -48,6 +60,10 @@ namespace Mercurius.Infrastructure.Cache
         {
             Host = ConfigurationManager.AppSettings[HOST_KEY];
             Port = int.Parse(ConfigurationManager.AppSettings[PORT_KEY]);
+            Password = ConfigurationManager.AppSettings[PASSWORD_KEY];
+            Database = int.Parse(ConfigurationManager.AppSettings[DATABASE_KEY]);
+
+            Password = string.IsNullOrWhiteSpace(Password) ? null : Password;
         }
 
         /// <summary>
@@ -55,7 +71,7 @@ namespace Mercurius.Infrastructure.Cache
         /// </summary>
         public RedisCacheProvider()
         {
-            this._redisClient = new RedisClient(Host, Port);
+            this._redisClient = new RedisClient(Host, Port, Password, Database);
         }
 
         /// <summary>
@@ -63,9 +79,12 @@ namespace Mercurius.Infrastructure.Cache
         /// </summary>
         /// <param name="host">主机地址</param>
         /// <param name="port">端口号</param>
-        public RedisCacheProvider(string host, int port = 6379)
+        /// <param name="password">密码</param>
+        /// <param name="database">数据库</param>
+        public RedisCacheProvider(string host,
+            int port = 6379, string password = null, long database = 0)
         {
-            this._redisClient = new RedisClient(host, port);
+            this._redisClient = new RedisClient(host, port, password, database);
         }
 
         #endregion
