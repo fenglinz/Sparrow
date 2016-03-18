@@ -27,6 +27,7 @@ namespace Mercurius.FileStorage.WebUI
         /// <param name="app">应用程序启动对象</param>
         public void Configuration(IAppBuilder app)
         {
+            app.MapSignalR();
             app.UseAutofacMiddleware(AutofacConfig.Container);
 
             // 自定义OAuth验证提供者实现。

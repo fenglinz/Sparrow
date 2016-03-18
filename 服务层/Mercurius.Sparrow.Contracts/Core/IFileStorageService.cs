@@ -14,20 +14,6 @@ namespace Mercurius.Sparrow.Contracts.Core
     public interface IFileStorageService
     {
         /// <summary>
-        /// 添加上传文件。
-        /// </summary>
-        /// <param name="fileStorage">上传文件</param>
-        /// <returns>返回添加结果</returns>
-        Response Create(FileStorage fileStorage);
-
-        /// <summary>
-        /// 编辑上传文件。
-        /// </summary>
-        /// <param name="fileStorage">上传文件</param>
-        /// <returns>返回编辑结果</returns>
-        Response Update(FileStorage fileStorage);
-
-        /// <summary>
         /// 添加或者编辑上传文件
         /// </summary>
         /// <param name="fileStorage">上传文件</param>

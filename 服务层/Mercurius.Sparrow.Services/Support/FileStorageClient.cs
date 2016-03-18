@@ -41,7 +41,7 @@ namespace Mercurius.Sparrow.Services.Support
             {
                 return new Response<string> { ErrorMessage = FileNotExists };
             }
-            
+
             var datas = new NameValueCollection();
 
             if (!string.IsNullOrWhiteSpace(replacedFile))
@@ -218,6 +218,7 @@ namespace Mercurius.Sparrow.Services.Support
                     foreach (string key in datas.Keys)
                     {
                         stream.Write(boundarybytes, 0, boundarybytes.Length);
+
                         var formitem = string.Format(formdataTemplate, key, datas[key]);
                         var formitembytes = Encoding.UTF8.GetBytes(formitem);
 

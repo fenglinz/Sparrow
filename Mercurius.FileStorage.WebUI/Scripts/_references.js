@@ -16,6 +16,7 @@
 /// <reference path="fileinput_locale_zh.js" />
 /// <reference path="html5shiv.min.js" />
 /// <reference path="html5shiv-printshiv.min.js" />
+/// <reference path="jquery.signalr-2.2.0.min.js" />
 /// <reference path="jquery.unobtrusive-ajax.min.js" />
 /// <reference path="jquery.validate.min.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />

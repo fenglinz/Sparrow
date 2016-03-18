@@ -26,42 +26,6 @@ namespace Mercurius.Sparrow.Services.Core
         #region IFileStorageService接口实现 
 
         /// <summary>
-        /// 添加上传文件。
-        /// </summary>
-        /// <param name="fileStorage">上传文件</param>
-        /// <returns>返回结果</returns>
-        public Response Create(FileStorage fileStorage)
-        {
-            return this.InvokeService(
-                nameof(Create),
-                () =>
-                {
-                    this.Persistence.Create(NS, "Create", fileStorage);
-
-                    this.ClearCache<FileStorage>();
-                },
-                fileStorage);
-        }
-
-        /// <summary>
-        /// 编辑上传文件。
-        /// </summary>
-        /// <param name="fileStorage">上传文件</param>
-        /// <returns>返回结果</returns>
-        public Response Update(FileStorage fileStorage)
-        {
-            return this.InvokeService(
-                nameof(Update),
-                () =>
-                {
-                    this.Persistence.Update(NS, "Update", fileStorage);
-
-                    this.ClearCache<FileStorage>();
-                },
-                fileStorage);
-        }
-
-        /// <summary>
         /// 添加或者编辑上传文件
         /// </summary>
         /// <param name="fileStorage">上传文件</param>
@@ -123,7 +87,6 @@ namespace Mercurius.Sparrow.Services.Core
                 () => this.Persistence.QueryForObject<FileStorage>(NS, "GetById", id),
                 args: id);
         }
-
 
         /// <summary>
         /// 根据保存位置获取文件信息。

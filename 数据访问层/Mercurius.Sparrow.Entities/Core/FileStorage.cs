@@ -56,6 +56,12 @@ namespace Mercurius.Sparrow.Entities.Core
         public virtual string SaveAsPath { get; set; }
 
         /// <summary>
+        /// 扫描状态。
+        /// </summary>
+        [Display(Name = "扫描状态")]
+        public virtual int? ScanStatus { get; set; }
+
+        /// <summary>
         /// 上传者编号。
         /// </summary>
         [Display(Name = "上传者编号")]

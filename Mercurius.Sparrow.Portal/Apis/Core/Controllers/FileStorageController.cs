@@ -84,7 +84,7 @@ namespace Mercurius.Sparrow.Portal.Apis.Core.Controllers
                     UploadUserId = user.Id
                 };
 
-                var rsp = this.FileStorageService.Create(fileStorage);
+                var rsp = this.FileStorageService.CreateOrUpdate(fileStorage);
 
                 if (rsp.IsSuccess)
                 {
@@ -146,7 +146,7 @@ namespace Mercurius.Sparrow.Portal.Apis.Core.Controllers
                     UploadUserId = user.Id
                 };
 
-                var rsp = this.FileStorageService.Create(fileStorage);
+                var rsp = this.FileStorageService.CreateOrUpdate(fileStorage);
 
                 if (rsp.IsSuccess)
                 {

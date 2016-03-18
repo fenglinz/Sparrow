@@ -5,48 +5,6 @@
     <typeAlias alias="FileStorageSO" type="Mercurius.Sparrow.Entities.Core.SO.FileStorageSO,Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
-    <!-- 添加上传文件信息。 -->
-    <insert id="Create" parameterClass="FileStorage">
-      <![CDATA[
-        INSERT INTO [FileStorage]
-        (
-          [FileName],
-          [ContentType],
-          [FileSize],
-          [Description],
-          [SaveAsPath],
-          [UploadUserId],
-          [UploadDateTime]
-        )
-        VALUES
-        (
-          #FileName#,
-          #ContentType#,
-          #FileSize#,
-          #Description#,
-          #SaveAsPath#,
-          #UploadUserId#,
-          GETDATE()
-        )
-      ]]>
-    </insert>
-
-    <!-- 更新上传文件信息。 -->
-    <update id="Update" parameterClass="FileStorage">
-      <![CDATA[
-        UPDATE [FileStorage]
-        SET
-          [FileName]=#FileName#,
-          [ContentType]=#ContentType#,
-          [FileSize]=#FileSize#,
-          [Description]=#Description#,
-          [SaveAsPath]=#SaveAsPath#,
-          [UploadUserId]=#UploadUserId#,
-          [UploadDateTime]=GETDATE()
-        WHERE [Id]=#Id#
-      ]]>
-    </update>
-
     <!-- 添加或者更新上传文件信息。 -->
     <update id="CreateOrUpdate" parameterClass="FileStorage">
       <![CDATA[
