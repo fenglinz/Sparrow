@@ -54,8 +54,8 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public static string GetBaseUrl(this HtmlHelper html)
         {
             var request = html.ViewContext.HttpContext.Request;
-            
-            return $"{request.ApplicationPath}";
+
+            return request.ApplicationPath == "/" ? string.Empty : request.ApplicationPath;
         }
 
         /// <summary>
