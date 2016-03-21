@@ -3,26 +3,14 @@
 namespace Mercurius.Sparrow.Backstage.Areas.Admin
 {
     /// <summary>
-    /// Admin区域注册类。
+    /// 权限管理区域注册。
     /// </summary>
     public class AdminAreaRegistration : AreaRegistration
     {
-        #region 属性
-
         /// <summary>
         /// 获取区域名称。
         /// </summary>
-        public override string AreaName
-        {
-            get
-            {
-                return "Admin";
-            }
-        }
-
-        #endregion
-
-        #region 重写基类方法
+        public override string AreaName => "Admin";
 
         /// <summary>
         /// 注册Admin区域路由。
@@ -34,10 +22,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },
-                new[] { "Mercurius.Sparrow.Backstage.Areas.Admin.Controllers" }
-                );
+                new[] { "Mercurius.Sparrow.Backstage.Areas.Admin.Controllers" });
         }
-
-        #endregion
     }
 }
