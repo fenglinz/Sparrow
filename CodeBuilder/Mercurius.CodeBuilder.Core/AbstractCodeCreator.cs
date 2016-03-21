@@ -50,7 +50,7 @@ namespace Mercurius.CodeBuilder.Core
         /// <summary>
         /// 初始化处理。
         /// </summary>
-        protected abstract void Initialize(Configuration configuration);
+        public abstract void Initialize(Configuration configuration);
 
         /// <summary>
         /// 代码生成处理。

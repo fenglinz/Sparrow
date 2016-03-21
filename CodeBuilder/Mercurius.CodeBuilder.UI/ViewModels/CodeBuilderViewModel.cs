@@ -43,6 +43,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         private ICommand _loadedCommand;
         private ICommand _buildingCommand;
         private ICommand _selectFolderCommand;
+        private ICommand _initializeProjectCommand;
         private ICommand _createTableDefinitionCommand;
 
         #endregion
@@ -72,6 +73,172 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 });
             }
         }
+
+        public ICommand InitializeProjectCommand
+        {
+            get
+            {
+                return this._initializeProjectCommand ??
+                       (this._initializeProjectCommand = new DelegateCommand(() =>
+                       {
+                           if (!File.Exists(@"Projects\CSharp.zip"))
+                           {
+                               MessageBox.Show("请在应用程序的Projects文件夹中存入CSharp.zip基础项目文件。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
+                              
+                               return;
+                           }
+
+                           var codeCreator = ServiceLocator.Current.GetInstance<AbstractCodeCreator>(this.Configuration.Language);
+
+                           if (codeCreator != null)
+                           {
+                               codeCreator.Initialize(this.Configuration);
+
+                               MessageBox.Show("导入完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                           }
+                       }));
+            }
+        }
+
+        public ICommand CreateTableDefinitionCommand
+        {
+            get
+            {
+                return this._createTableDefinitionCommand ??
+                       (this._createTableDefinitionCommand = new DelegateCommand(() =>
+                       {
+                           var dialog = new SaveFileDialog
+                           {
+                               Filter = "Excel文件|*.xls",
+                               FileName = $"{Configuration.CurrentDatabase.Name}数据库的表结构文档.xls"
+                           };
+
+                           if (dialog.ShowDialog() == DialogResult.OK)
+                           {
+                               try
+                               {
+                                   var tables = (from t in Configuration.Tables
+                                                 select new Table
+                                                 {
+                                                     Name = t.Name,
+                                                     Schema = t.Schema,
+                                                     Comments = t.Description,
+                                                     Columns = t.Columns.Select(c => new Column
+                                                     {
+                                                         Name = c.Name,
+                                                         DataType = c.SqlType,
+                                                         DataLength = c.Length,
+                                                         Description = c.Description,
+                                                         IsIdentity = c.IsIdentity,
+                                                         IsNullable = c.Nullable
+                                                     }).ToList()
+                                                 }).ToList();
+
+                                   var export = new ExportTablesDefinition();
+
+                                   export.Export(tables, dialog.OpenFile());
+
+                                   MessageBox.Show("表定义文档生成成功！", "提示", MessageBoxButton.OK);
+                               }
+                               catch (Exception e)
+                               {
+                                   MessageBox.Show("出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
+                               }
+                           }
+                       }));
+            }
+        }
+
+        /// <summary>
+        /// 生成代码命令。
+        /// </summary>
+        public ICommand BuildingCommand
+        {
+            get
+            {
+                return this._buildingCommand ?? (this._buildingCommand = new DelegateCommand(() =>
+                {
+                    if (string.IsNullOrWhiteSpace(this.Configuration.OutputFolder) ||
+                        !Directory.Exists(this.Configuration.OutputFolder))
+                    {
+                        MessageBox.Show("请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                        return;
+                    }
+
+                    try
+                    {
+                        var codeCreator =
+                            ServiceLocator.Current.GetInstance<AbstractCodeCreator>(this.Configuration.Language);
+
+                        if (codeCreator != null)
+                        {
+                            codeCreator.Create(this.Configuration);
+
+                            MessageBox.Show("生成完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("生成不成功，请稍后重试！\n错误详情：" + e.Message, "错误", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                    }
+                }));
+            }
+        }
+
+        /// <summary>
+        /// 选择代码生成保存目录的命令。
+        /// </summary>
+        public ICommand SelectFolderCommand
+        {
+            get
+            {
+                return this._selectFolderCommand ?? (this._selectFolderCommand = new DelegateCommand(() =>
+                {
+                    var dialog = new FolderBrowserDialog
+                    {
+                        Description = "选择代码生成保存目录",
+                        SelectedPath = this.Configuration.OutputFolder
+                    };
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        this.Configuration.OutputFolder = dialog.SelectedPath;
+                    }
+                }));
+            }
+        }
+
+        #endregion
+
+        #region 构造方法
+
+        public CodeBuilderViewModel(IEventAggregator eventAggregator)
+        {
+            this._eventAggregator = eventAggregator;
+
+            this.Configuration = new Configuration
+            {
+                Language = "C#"
+            };
+
+            var currentUserName = WindowsIdentity.GetCurrent().Name;
+
+            if (!string.IsNullOrWhiteSpace(currentUserName) && currentUserName.Contains('\\'))
+            {
+                this.Configuration.Author = currentUserName.Split('\\')[1];
+            }
+
+            this._eventAggregator.GetEvent<OpenCodeBuildViewEvent>().Subscribe(arg =>
+            {
+                this.Configuration.CurrentDatabase = arg;
+            });
+        }
+
+        #endregion
+
+        #region 私有方法
 
         private void FillTableDetails()
         {
@@ -114,154 +281,6 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     this._eventAggregator.GetEvent<LoadedTablesCompletedEvent>().Publish(true);
                 }
             }
-        }
-
-        public ICommand CreateTableDefinitionCommand
-        {
-            get
-            {
-                if (this._createTableDefinitionCommand == null)
-                {
-                    this._createTableDefinitionCommand = new DelegateCommand(() =>
-                    {
-                        var dialog = new SaveFileDialog
-                        {
-                            Filter = "Excel文件|*.xls",
-                            FileName = $"{Configuration.CurrentDatabase.Name}数据库的表结构文档.xls"
-                        };
-
-                        if (dialog.ShowDialog() == DialogResult.OK)
-                        {
-                            try
-                            {
-                                var tables = (from t in Configuration.Tables
-                                              select new Table
-                                              {
-                                                  Name = t.Name,
-                                                  Schema = t.Schema,
-                                                  Comments = t.Description,
-                                                  Columns = t.Columns.Select(c => new Column
-                                                  {
-                                                      Name = c.Name,
-                                                      DataType = c.SqlType,
-                                                      DataLength = c.Length,
-                                                      Description = c.Description,
-                                                      IsIdentity = c.IsIdentity,
-                                                      IsNullable = c.Nullable
-                                                  }).ToList()
-                                              }).ToList();
-
-                                var export = new ExportTablesDefinition();
-
-                                export.Export(tables, dialog.OpenFile());
-
-                                MessageBox.Show("表定义文档生成成功！", "提示", MessageBoxButton.OK);
-                            }
-                            catch (Exception e)
-                            {
-                                MessageBox.Show("出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
-                            }
-                        }
-                    });
-                }
-
-                return this._createTableDefinitionCommand;
-            }
-        }
-
-        /// <summary>
-        /// 生成代码命令。
-        /// </summary>
-        public ICommand BuildingCommand
-        {
-            get
-            {
-                if (this._buildingCommand == null)
-                {
-                    this._buildingCommand = new DelegateCommand(() =>
-                    {
-                        if (string.IsNullOrWhiteSpace(this.Configuration.OutputFolder) || !Directory.Exists(this.Configuration.OutputFolder))
-                        {
-                            MessageBox.Show("请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-                            return;
-                        }
-
-                        try
-                        {
-                            var codeCreator =
-                                ServiceLocator.Current.GetInstance<AbstractCodeCreator>(this.Configuration.Language);
-
-                            if (codeCreator != null)
-                            {
-                                codeCreator.Create(this.Configuration);
-
-                                MessageBox.Show("生成完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            MessageBox.Show("生成不成功，请稍后重试！\n错误详情：" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    });
-                }
-
-                return this._buildingCommand;
-            }
-        }
-
-        /// <summary>
-        /// 选择代码生成保存目录的命令。
-        /// </summary>
-        public ICommand SelectFolderCommand
-        {
-            get
-            {
-                if (this._selectFolderCommand == null)
-                {
-                    this._selectFolderCommand = new DelegateCommand(() =>
-                    {
-                        var dialog = new FolderBrowserDialog
-                        {
-                            Description = "选择代码生成保存目录",
-                            SelectedPath = this.Configuration.OutputFolder
-                        };
-
-                        if (dialog.ShowDialog() == DialogResult.OK)
-                        {
-                            this.Configuration.OutputFolder = dialog.SelectedPath;
-                        }
-                    });
-                }
-
-                return this._selectFolderCommand;
-            }
-        }
-
-        #endregion
-
-        #region 构造方法
-
-        public CodeBuilderViewModel(IEventAggregator eventAggregator)
-        {
-            this._eventAggregator = eventAggregator;
-
-            this.Configuration = new Configuration
-            {
-                Language = "C#"
-            };
-
-            var currentUserName = WindowsIdentity.GetCurrent().Name;
-
-            if (!string.IsNullOrWhiteSpace(currentUserName) && currentUserName.Contains('\\'))
-            {
-                this.Configuration.Author = currentUserName.Split('\\')[1];
-            }
-
-            this._eventAggregator.GetEvent<OpenCodeBuildViewEvent>().Subscribe(arg =>
-            {
-                this.Configuration.CurrentDatabase = arg;
-            });
         }
 
         #endregion

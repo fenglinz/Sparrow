@@ -284,10 +284,15 @@
                     HorizontalAlignment="Right"
                     Command="{Binding CreateTableDefinitionCommand }"
                     Content="生成表定义文档" />
-            <Button Margin="0,8,165,0"
+            <Button Margin="0,8,160,0"
+                    HorizontalAlignment="Right"
+                    Command="{Binding InitializeProject}" 
+                    Content="初始化项目"
+                    ToolTip="请在应用程序的Projects文件夹中存入CSharp.zip基础项目文件。" />
+            <Button Margin="0,8,287,0"
                     HorizontalAlignment="Right"
                     Command="{Binding BuildingCommand}"
-                    Content="生成" />
+                    Content="生成" IsDefault="True" />
         </Grid>
     </Grid>
 </UserControl>

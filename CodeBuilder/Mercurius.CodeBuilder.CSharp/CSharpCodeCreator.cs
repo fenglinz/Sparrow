@@ -28,7 +28,11 @@ namespace Mercurius.CodeBuilder.CSharp
 
         #endregion
 
-        protected override void Initialize(Configuration configuration)
+        /// <summary>
+        /// 项目初始化。
+        /// </summary>
+        /// <param name="configuration">初始化配置</param>
+        public override void Initialize(Configuration configuration)
         {
             if (File.Exists(@"Projects\CSharp.zip"))
             {
@@ -39,9 +43,9 @@ namespace Mercurius.CodeBuilder.CSharp
 
                 var entries = zipFile.Entries.ToList();
 
-                for (var i = 0; i < entries.Count; i++)
+                foreach (var t in entries)
                 {
-                    entries[i].FileName = entries[i].FileName.Replace("Mercurius.Siskin", configuration.BaseNamespace);
+                    t.FileName = t.FileName.Replace("Mercurius.Sparrow", configuration.BaseNamespace);
                 }
 
                 zipFile.ExtractAll(configuration.OutputFolder, ExtractExistingFileAction.OverwriteSilently);
