@@ -96,31 +96,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RBAC\Oracle\HomeShortcut.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RBAC\Oracle\Organization.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RBAC\Oracle\Permission.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RBAC\Oracle\Recyclebin.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RBAC\Oracle\Role.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RBAC\Oracle\User.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="RBAC\Oracle\Button.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -165,10 +140,6 @@
     <EmbeddedResource Include="Core\MSSQL\Logger.xml" />
     <EmbeddedResource Include="Core\MSSQL\RepositoryUtils.xml" />
     <EmbeddedResource Include="Core\MSSQL\SystemSetting.xml" />
-    <EmbeddedResource Include="Core\Oracle\Dictionary.xml" />
-    <EmbeddedResource Include="Core\Oracle\Globalization.xml" />
-    <EmbeddedResource Include="Core\Oracle\Logger.xml" />
-    <EmbeddedResource Include="Core\Oracle\RepositoryUtils.xml" />
     <EmbeddedResource Include="Core\MSSQL\FileStorage.xml" />
     <EmbeddedResource Include="WebApi\MSSQL\Api.xml" />
     <EmbeddedResource Include="WebApi\MSSQL\Role.xml" />

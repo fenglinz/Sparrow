@@ -29,13 +29,6 @@ namespace Mercurius.Sparrow.Entities.Core
         public virtual string LogOnId { get; set; }
 
         /// <summary>
-        /// 获取或者设置登录用户名。
-        /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants)
-            , ErrorMessageResourceName = "MaxStringLength")]
-        public virtual string LogOnName { get; set; }
-
-        /// <summary>
         /// 获取或者设置用户登录IP地址。
         /// </summary>
         [StringLength(50, ErrorMessageResourceType = typeof(Constants)
@@ -72,6 +65,15 @@ namespace Mercurius.Sparrow.Entities.Core
         [StringLength(50, ErrorMessageResourceType = typeof(Constants)
             , ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Level { get; set; }
+
+        #endregion
+
+        #region 业务属性
+
+        /// <summary>
+        /// 获取或者设置登录名。
+        /// </summary>
+        public string LogOnName { get; set; }
 
         #endregion
 

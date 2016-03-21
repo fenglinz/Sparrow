@@ -31,7 +31,7 @@ namespace Mercurius.Sparrow.Repositories.Core
         /// <param name="logOnId">登录者Id</param>
         /// <param name="logOnName">登录者名称</param>
         /// <param name="callback">回调处理函数</param>
-        private delegate void WriteLogDelegate(Level level, string logOnIp, string logOnId, string logOnName, Func<Log> callback);
+        private delegate void WriteLogDelegate(Level level, string logOnIp, string logOnId, Func<Log> callback);
 
         #endregion
 
@@ -121,7 +121,6 @@ namespace Mercurius.Sparrow.Repositories.Core
                 Level.Record,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnAccount(),
                 () => Log.Create(model, message, message, Level.Record),
                 ar =>
                 {
@@ -147,7 +146,6 @@ namespace Mercurius.Sparrow.Repositories.Core
                 level,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnAccount(),
                 () => Log.Create(model, summary, details, level),
                 ar =>
                 {
@@ -173,7 +171,6 @@ namespace Mercurius.Sparrow.Repositories.Core
                 Level.Debug,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnAccount(),
                 () =>
                 {
                     var summary = Constants.ExecuteBefore;
@@ -212,7 +209,6 @@ namespace Mercurius.Sparrow.Repositories.Core
                 Level.Debug,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnAccount(),
                 () =>
                 {
                     var summary = Constants.ExecuteAfter;
@@ -258,7 +254,6 @@ namespace Mercurius.Sparrow.Repositories.Core
                 Level.Error,
                 WebHelper.GetClientIPAddress(),
                 WebHelper.GetLogOnUserId(),
-                WebHelper.GetLogOnAccount(),
                 () =>
                 {
                     var summary = $"{Constants.ExceptionOccurred}：{exception.Message}";
@@ -304,9 +299,8 @@ namespace Mercurius.Sparrow.Repositories.Core
         /// <param name="level">日志级别</param>
         /// <param name="logOnIp">登录者IP地址</param>
         /// <param name="logOnId">登录者Id</param>
-        /// <param name="logOnName">登录者名称</param>
         /// <param name="callback">回调处理函数</param>
-        private void WriteLog(Level level, string logOnIp, string logOnId, string logOnName, Func<Log> callback)
+        private void WriteLog(Level level, string logOnIp, string logOnId, Func<Log> callback)
         {
             try
             {
@@ -316,7 +310,6 @@ namespace Mercurius.Sparrow.Repositories.Core
 
                     log.LogOnIP = logOnIp;
                     log.LogOnId = logOnId;
-                    log.LogOnName = logOnName;
 
                     this.SqlMapperManager[RWDecision.Write].Insert(this.GetFullStatementId("Write"), log);
                 }

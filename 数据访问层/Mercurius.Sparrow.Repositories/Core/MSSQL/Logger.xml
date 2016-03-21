@@ -18,16 +18,18 @@
     <select id="GetLog" parameterClass="Params" resultClass="Log">
       <![CDATA[
         SELECT
-          Id
-          ,LogOnId
-          ,LogOnName
-          ,LogOnIP
-          ,ModelName
-          ,Summary
-          ,Details
-          ,LogLevel AS [Level]
-          ,OccurrenceDateTime
-        FROM SYSTEMLOG
+          TOP 1
+          a.Id
+          ,a.LogOnId
+          ,a.LogOnIP
+          ,u.Name AS LogOnName
+          ,a.ModelName
+          ,a.Summary
+          ,a.Details
+          ,a.LogLevel AS [Level]
+          ,a.OccurrenceDateTime
+        FROM SystemLog a
+        LEFT JOIN [RBAC].[User] u ON a.LogOnId=u.Id
       ]]>
       <dynamic>
         <isNotNull property="Partition">
@@ -37,91 +39,8 @@
         </isNotNull>
       </dynamic>
       <![CDATA[
-        WHERE Id=#Id#
+        WHERE a.Id=#Id#
       ]]>
-    </select>
-
-    <!-- 获取日志信息 -->
-    <select id="GetLogs" parameterClass="LogSO" resultClass="Log">
-      <![CDATA[
-        WITH CTE AS(
-          SELECT 
-            Id,
-            LogOnId,
-            LogOnName,
-            LogOnIP,
-            ModelName,
-            Summary,
-            LogLevel AS [Level],
-            OccurrenceDateTime,
-            ROW_NUMBER() OVER(ORDER BY OccurrenceDateTime DESC) AS RowIndex
-          FROM SYSTEMLOG 
-      ]]>
-      <dynamic prepend="WHERE">
-        <isNotEmpty property="Partition">
-          PARTITION($Partition$)
-        </isNotEmpty>
-        <isNotEmpty property="Level" prepend="AND">
-          LogLevel=#Level#
-        </isNotEmpty>
-        <isNotNull property="StartDate" prepend="AND">
-          OccurrenceDateTime>=#StartDate#
-        </isNotNull>
-        <isNotNull property="EndDate" prepend="AND">
-          <![CDATA[
-            OccurrenceDateTime<=#EndDate#
-          ]]>
-        </isNotNull>
-        <isNotEmpty property="LogOnName" prepend="AND">
-          LOGONNAME LIKE '%'+#LogOnName#+'%'
-        </isNotEmpty>
-        <isNotEmpty property="LogOnIP" prepend="AND">
-          LOGONIP LIKE '%'+#LogOnIP#+'%'
-        </isNotEmpty>
-        <isNotEmpty property="ModelName" prepend="AND">
-          MODELNAME LIKE '%'+#ModelName#+'%'
-        </isNotEmpty>
-      </dynamic>
-      <![CDATA[
-        )
-        SELECT * FROM CTE 
-        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
-        ORDER BY RowIndex ASC
-      ]]>
-    </select>
-
-    <!-- 获取日志信息查询记录数 -->
-    <select id="GetLogsCount" parameterClass="Params" resultClass="int">
-      <![CDATA[
-        SELECT 
-          COUNT(*)
-        FROM SYSTEMLOG 
-      ]]>
-      <dynamic prepend="WHERE">
-        <isNotEmpty property="Partition">
-          PARTITION($Partition$)
-        </isNotEmpty>
-        <isNotEmpty property="Level" prepend="AND">
-          LogLevel=#Level#
-        </isNotEmpty>
-        <isNotNull property="StartDate" prepend="AND">
-          OccurrenceDateTime>=#StartDate#
-        </isNotNull>
-        <isNotNull property="EndDate" prepend="AND">
-          <![CDATA[
-            OccurrenceDateTime<=#EndDate#
-          ]]>
-        </isNotNull>
-        <isNotEmpty property="LogOnName" prepend="AND">
-          LOGONNAME LIKE '%'+#LogOnName#+'%'
-        </isNotEmpty>
-        <isNotEmpty property="LogOnIP" prepend="AND">
-          LOGONIP LIKE '%'+#LogOnIP#+'%'
-        </isNotEmpty>
-        <isNotEmpty property="ModelName" prepend="AND">
-          MODELNAME LIKE '%'+#ModelName#+'%'
-        </isNotEmpty>
-      </dynamic>
     </select>
 
     <!-- 添加日志信息 -->
@@ -131,7 +50,6 @@
         (
           Id
           ,LogOnId
-          ,LogOnName
           ,LogOnIP
           ,ModelName
           ,Summary
@@ -143,7 +61,6 @@
         (
           #Id#
           ,#LogOnId#
-          ,#LogOnName#
           ,#LogOnIP#
           ,#ModelName#
           ,#Summary#
@@ -160,5 +77,68 @@
         TRUNCATE TABLE SystemLog
       ]]>
     </delete>
+
+    <!-- 获取日志信息 -->
+    <select id="GetLogs" parameterClass="LogSO" resultClass="Log">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT 
+            a.Id,
+            a.LogOnId,
+            u.Name AS LogOnName,
+            a.LogOnIP,
+            a.ModelName,
+            a.Summary,
+            a.LogLevel AS [Level],
+            a.OccurrenceDateTime,
+            ROW_NUMBER() OVER(ORDER BY OccurrenceDateTime DESC) AS RowIndex
+          FROM SystemLog a
+          LEFT JOIN [RBAC].[User] u ON a.LogOnId=u.Id
+      ]]>
+      <include refid="Conditions" />
+      <![CDATA[
+        )
+        SELECT * FROM CTE 
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 获取日志信息查询记录数 -->
+    <select id="GetLogsCount" parameterClass="Params" resultClass="int">
+      <![CDATA[
+        SELECT 
+          COUNT(*)
+        FROM SystemLog 
+      ]]>
+      <include refid="Conditions" />
+    </select>
+
+    <sql id="Conditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotEmpty property="Partition">
+            Partition($Partition$)
+          </isNotEmpty>
+          <isNotEmpty property="Level" prepend="AND">
+            LogLevel=#Level#
+          </isNotEmpty>
+          <isNotNull property="StartDate" prepend="AND">
+            OccurrenceDateTime>=#StartDate#
+          </isNotNull>
+          <isNotNull property="EndDate" prepend="AND">
+            <![CDATA[
+            OccurrenceDateTime<=#EndDate#
+          ]]>
+          </isNotNull>
+          <isNotEmpty property="LogOnIP" prepend="AND">
+            LogOnIP LIKE '%'+#LogOnIP#+'%'
+          </isNotEmpty>
+          <isNotEmpty property="ModelName" prepend="AND">
+            ModelName LIKE '%'+#ModelName#+'%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </sql>
   </statements>
 </sqlMap>
