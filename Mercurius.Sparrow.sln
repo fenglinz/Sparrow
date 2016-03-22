@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Backstage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Portal", "Mercurius.Sparrow.Portal\Mercurius.Sparrow.Portal.csproj", "{6E9CCA90-4BF9-4E64-BA33-EB8786F588D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.FileStorageSystem", "Mercurius.FileStorage.WebUI\Mercurius.FileStorageSystem.csproj", "{E0E9780E-900E-466F-A805-F48E64C861E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.FileStorageSystem", "Mercurius.FileStorageSystem\Mercurius.FileStorageSystem.csproj", "{E0E9780E-900E-466F-A805-F48E64C861E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceStack.Redis", "ServiceStack.Redis", "{8D1496D2-E6AF-4F70-B708-AF4DF0224BAD}"
 	ProjectSection(SolutionItems) = preProject
