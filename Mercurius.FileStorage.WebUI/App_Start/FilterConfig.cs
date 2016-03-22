@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using Mercurius.Sparrow.Mvc.Extensions;
 
-namespace Mercurius.FileStorage.WebUI
+namespace Mercurius.FileStorageSystem
 {
     /// <summary>
     /// 过滤器配置。

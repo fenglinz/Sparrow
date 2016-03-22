@@ -10,11 +10,11 @@ using System.Web.Http;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.Core;
-using Mercurius.FileStorage.WebUI.Apis.Extensions;
+using Mercurius.FileStorageSystem.Apis.Extensions;
 using Mercurius.Sparrow.Entities.Core;
-using static Mercurius.FileStorage.WebUI.Apis.WebApiUtil;
+using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
 
-namespace Mercurius.FileStorage.WebUI.Apis.Core.Controllers
+namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 {
     /// <summary>
     /// 文件管理控制器。

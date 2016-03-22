@@ -7,7 +7,7 @@ using Mercurius.Infrastructure.Dynamic;
 using Mercurius.Sparrow.Autofac;
 using Microsoft.AspNet.SignalR;
 
-namespace Mercurius.FileStorage.WebUI.SignalRHubs
+namespace Mercurius.FileStorageSystem.SignalRHubs
 {
     /// <summary>
     /// 清理未使用的文件集线器。

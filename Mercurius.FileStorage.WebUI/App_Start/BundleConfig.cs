@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Mercurius.FileStorage.WebUI
+namespace Mercurius.FileStorageSystem
 {
     /// <summary>
     /// js、css压缩处理。

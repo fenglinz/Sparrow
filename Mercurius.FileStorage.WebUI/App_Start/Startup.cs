@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
-using Mercurius.FileStorage.WebUI;
+using Mercurius.FileStorageSystem;
 using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts.WebApi;
 using Microsoft.Owin;
@@ -14,7 +14,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 
 [assembly: OwinStartup(typeof(Startup))]
-namespace Mercurius.FileStorage.WebUI
+namespace Mercurius.FileStorageSystem
 {
     /// <summary>
     /// Web API启动配置。

@@ -10,7 +10,7 @@ using System.Web.WebPages;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.RBAC;
 
-namespace Mercurius.FileStorage.WebUI.Controllers
+namespace Mercurius.FileStorageSystem.Controllers
 {
     /// <summary>
     /// 账户管理控制器。

@@ -9,7 +9,7 @@ using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.RBAC;
 
-namespace Mercurius.FileStorage.WebUI.Apis
+namespace Mercurius.FileStorageSystem.Apis
 {
     /// <summary>
     /// Web API基类。

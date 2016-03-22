@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 
-namespace Mercurius.FileStorage.WebUI.Apis.Extensions
+namespace Mercurius.FileStorageSystem.Apis.Extensions
 {
     /// <summary>
     /// 自定义文件上传处理程序。

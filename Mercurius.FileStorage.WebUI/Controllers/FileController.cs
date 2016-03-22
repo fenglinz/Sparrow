@@ -13,7 +13,7 @@ using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core;
 using Encoder = System.Drawing.Imaging.Encoder;
 
-namespace Mercurius.FileStorage.WebUI.Controllers
+namespace Mercurius.FileStorageSystem.Controllers
 {
     /// <summary>
     /// 文件处理控制器。

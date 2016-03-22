@@ -9,7 +9,7 @@ using System.Web.Routing;
 using Autofac.Integration.Mvc;
 using Mercurius.Sparrow.Autofac;
 
-namespace Mercurius.FileStorage.WebUI
+namespace Mercurius.FileStorageSystem
 {
     /// <summary>
     /// 应用程序公共请求处理。

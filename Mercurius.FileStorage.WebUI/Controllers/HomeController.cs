@@ -11,7 +11,7 @@ using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Entities.Core.SO;
 
-namespace Mercurius.FileStorage.WebUI.Controllers
+namespace Mercurius.FileStorageSystem.Controllers
 {
     /// <summary>
     /// 首页控制器。
