@@ -58,24 +58,22 @@
         @Html.RenderButtonScript("保存",@<text>
         function @item.NavigateUrl () {
             mercurius.ShowConfirmMessage('注：您确认要保存此操作吗？', function (r) {
-                if (r) {
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        url: '@Url.Action("ConfirmAllotPermissions")',
-                        data: { id: $('#userGroupId').val(), selecteds: GetCheckboxValue() },
-                        dataType: 'JSON',
-                        complete: function (xhr) {
-                            if (xhr.status == 200) {
-                                mercurius.ShowTipsMessage(xhr.responseJSON.Data, '4000', 4);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("ConfirmAllotPermissions")',
+                    data: { id: $('#userGroupId').val(), selecteds: mercurius.GetCheckboxValue() },
+                    dataType: 'JSON',
+                    complete: function (xhr) {
+                        if (xhr.status == 200) {
+                            mercurius.ShowTipsMessage(xhr.responseJSON.Data, '4000', 4);
 
-                                mercurius.back();
-                            } else {
-                                mercurius.ShowWarningMessage(xhr.statusText);
-                            }
+                            mercurius.back();
+                        } else {
+                            mercurius.ShowWarningMessage(xhr.statusText);
                         }
-                    });
-                }
+                    }
+                });
             });
         }
         </text>)

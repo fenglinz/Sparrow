@@ -213,10 +213,7 @@
             return true;
         });
     }
-    /**
-    获取选中复选框值
-    值：1,2,3,4
-    **/
+
     function GetCheckboxValue(table) {
         var reVal = '';
 
@@ -226,17 +223,6 @@
             reVal += $(this).val() + ',';
         });
 
-        reVal = reVal.substr(0, reVal.length - 1);
-
-        return reVal;
-    }
-
-    function GetGridCheckboxValue() {
-        var reVal = '';
-
-        $('.grid tbody :checked').each(function () {
-            reVal += $(this).val() + ',';
-        });
         reVal = reVal.substr(0, reVal.length - 1);
 
         return reVal;
@@ -658,7 +644,6 @@
         GetQueryString: GetQueryString,
         SetNumberInputOnly: SetNumberInputOnly,
         GetCheckboxValue: GetCheckboxValue,
-        GetGridCheckboxValue: GetGridCheckboxValue,
         KeepHeight: KeepHeight,
         FixedTableHeader: FixedTableHeader,
         ApplyTableStyle: ApplyTableStyle,

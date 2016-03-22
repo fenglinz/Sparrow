@@ -69,8 +69,6 @@
                     complete: function (xhr) {
                         if (xhr.status == 200) {
                             mercurius.ShowTipsMessage(xhr.responseJSON.Data, '4000', 4);
-
-                            mercurius.Back();
                         } else {
                             mercurius.ShowWarningMessage(xhr.statusText);
                         }
@@ -79,7 +77,6 @@
             });
         }
         </text>)
-
     </script>
 }
 <input id="roleId" type="hidden" value="@this.ViewBag.Id" />
