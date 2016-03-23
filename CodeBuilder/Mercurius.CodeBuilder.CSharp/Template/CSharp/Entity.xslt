@@ -18,6 +18,7 @@ using Mercurius.Infrastructure.Ado;
 <xsl:call-template name="namespace" />
 {
     <xsl:call-template name="classDescription" />
+    [Serializable]
     [Table("<xsl:value-of select="./table/@table" />")]
     public class <xsl:value-of select="./table/@className" /> : Domain
     {

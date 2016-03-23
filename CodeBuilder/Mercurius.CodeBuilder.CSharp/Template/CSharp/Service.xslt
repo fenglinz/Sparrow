@@ -151,7 +151,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
             return this.InvokeService(
                 nameof(Get<xsl:value-of select="./table/@className"/>ById),
                 () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(NS, "GetById", id),
-                args: id);
+                id);
         }
         </xsl:when>
         <xsl:otherwise>
@@ -174,7 +174,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
             return this.InvokeService(
                 nameof(Get<xsl:value-of select="./table/@className"/>ById),
                 () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(NS, "GetById", args),
-                args: args);
+                args);
         }
         </xsl:otherwise>
       </xsl:choose>
@@ -193,7 +193,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
             return this.InvokePagingService(
                 nameof(Search<xsl:value-of select="./table/@pluralClassName" />),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList&lt;<xsl:value-of select="./table/@className"/>>(NS, "Search<xsl:value-of select="./table/@pluralClassName" />", out totalRecords, so),
-                args: so);
+                so);
         }
       </xsl:if>
         #endregion
