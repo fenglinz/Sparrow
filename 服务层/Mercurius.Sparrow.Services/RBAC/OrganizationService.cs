@@ -25,7 +25,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetOrganizationById),
                 () => this.Persistence.QueryForObject<Organization>(OrganizationNamespace, "GetOrganization", id),
-                args: id);
+                id);
         }
 
         /// <summary>

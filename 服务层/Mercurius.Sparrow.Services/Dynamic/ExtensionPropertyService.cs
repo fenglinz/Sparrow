@@ -108,7 +108,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         public ResponseCollection<string> GetGroupNames(string category)
         {
             return this.InvokeService(nameof(GetGroupNames),
-                () => this.Persistence.QueryForList<string>(NS, "GetGroupNames", category), false, category);
+                () => this.Persistence.QueryForList<string>(NS, "GetGroupNames", category), category, false);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
             return this.InvokeService(
                 nameof(GetExtensionPropertyById),
                 () => this.Persistence.QueryForObject<ExtensionProperty>(NS, "GetById", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
 
             return this.InvokeService(nameof(GetExtensionProperties),
                 () => this.Persistence.QueryForList<ExtensionProperty>(NS, "GetExtensionPropertiesByCategory", args),
-                args: args);
+                args);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
             return this.InvokePagingService(
                 nameof(SearchExtensionProperties),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<ExtensionProperty>(NS, "SearchExtensionProperties", out totalRecords, so),
-                args: so);
+                so);
         }
 
         #endregion

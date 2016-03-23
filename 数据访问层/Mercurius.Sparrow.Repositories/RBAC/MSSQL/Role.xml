@@ -19,32 +19,6 @@
     <!-- 添加或者编辑角色信息 -->
     <update id="CreateOrUpdate" parameterClass="Role">
       <![CDATA[
-        BEGIN
-          DELETE FROM RBAC.UserRole WHERE RoleId=#Id#;
-      ]]>
-      <isNotNull property="UserRoles">
-        <iterate property="UserRoles" open="" close=";" conjunction=";">
-          <![CDATA[
-            INSERT INTO RBAC.UserRole
-            (
-              Id,
-              UserId,
-              RoleId,
-              CreateUserId,
-              CreateDateTime
-            )
-            VALUES
-            (
-              #UserRoles[].Id#,
-              #UserRoles[].UserId#,
-              #UserRoles[].RoleId#,
-              #UserRoles[].CreateUserId#,
-              #UserRoles[].CreateDateTime#
-            )
-          ]]>
-        </iterate>
-      </isNotNull>
-      <![CDATA[
         IF EXISTS(SELECT * FROM RBAC.Role WHERE Id=#Id#)
           UPDATE RBAC.Role
           SET
@@ -53,7 +27,7 @@
             Remark=#Remark#,
             Sort=#Sort#,
             ModifyUserId=#ModifyUserId#,
-            ModifyDateTime=#ModifyDateTime#
+            ModifyDateTime=GETDATE()
           WHERE Id=#Id#
         ELSE
           INSERT INTO RBAC.Role
@@ -76,9 +50,8 @@
             #Sort#,
             1,
             #CreateUserId#,
-            #CreateDateTime#
+            GETDATE()
           )
-        END;
       ]]>
     </update>
 
@@ -90,30 +63,32 @@
       ]]>
       <dynamic>
         <isNotNull property="UserRoles">
-          <iterate property="UserRoles" open="" close=";" conjunction=";">
+          <![CDATA[
+            INSERT INTO RBAC.UserRole
+            (
+              Id,
+              UserId,
+              RoleId,
+              CreateUserId,
+              CreateDateTime
+            )
+            VALUES
+          ]]>
+          <iterate property="UserRoles" open="" close=";" conjunction=",">
             <![CDATA[
-              INSERT INTO RBAC.UserRole
               (
-                Id,
-                UserId,
-                RoleId,
-                CreateUserId,
-                CreateDateTime
-              )
-              VALUES
-              (
-                #UserRoles[].Id#,
+                NEWID(),
                 #UserRoles[].UserId#,
                 #UserRoles[].RoleId#,
                 #UserRoles[].CreateUserId#,
-                #UserRoles[].CreateDateTime#
+                GETDATE()
               )
             ]]>
           </iterate>
         </isNotNull>
       </dynamic>
       <![CDATA[
-        END;
+        END
       ]]>
     </insert>
 

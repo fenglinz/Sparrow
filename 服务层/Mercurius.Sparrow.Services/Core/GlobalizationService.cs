@@ -28,8 +28,7 @@ namespace Mercurius.Sparrow.Services.Core
         {
             var result = this.InvokeService(
                 nameof(GetGlobalResource),
-                () => this.Persistence.QueryForObject<string>(GlobalizationNamespace, "GetGlobalResource", key),
-                args: key);
+                () => this.Persistence.QueryForObject<string>(GlobalizationNamespace, "GetGlobalResource", key), key);
 
             return (result.IsSuccess && !string.IsNullOrWhiteSpace(result.Data)) ? result.Data : key;
         }
@@ -43,11 +42,13 @@ namespace Mercurius.Sparrow.Services.Core
         /// <returns>资源信息字典</returns>
         public Dictionary<string, string> GetResources(string controller, string view, string area = null)
         {
-            var result = this.InvokeService(
+            var args = new { Area = area, Controller = controller, View = view };
+
+            return this.InvokeService(
                 nameof(GetResources),
                 () =>
                 {
-                    var table = this.Persistence.QueryForDataTable(GlobalizationNamespace, "GetResources", new { Area = area, Controller = controller, View = view });
+                    var table = this.Persistence.QueryForDataTable(GlobalizationNamespace, "GetResources", args);
 
                     var dict = new Dictionary<string, string>();
 
@@ -66,13 +67,7 @@ namespace Mercurius.Sparrow.Services.Core
                     }
 
                     return dict;
-                },
-                true,
-                controller,
-                view,
-                area);
-
-            return result.IsSuccess ? result.Data : null;
+                }, args).Data;
         }
 
         /// <summary>
@@ -84,8 +79,7 @@ namespace Mercurius.Sparrow.Services.Core
         {
             return this.InvokeService(
                 nameof(GetResource),
-                () => this.Persistence.QueryForObject<Globalization>(GlobalizationNamespace, "GetResource", id),
-                args: id);
+                () => this.Persistence.QueryForObject<Globalization>(GlobalizationNamespace, "GetResource", id), id);
         }
 
         /// <summary>
@@ -99,11 +93,11 @@ namespace Mercurius.Sparrow.Services.Core
                 nameof(GetGlobalResources),
                 (out int totalRecords) =>
                 this.Persistence.QueryForPaginatedList<Globalization>(
-					GlobalizationNamespace,
+                    GlobalizationNamespace,
                     "GetGlobalResources",
                     out totalRecords,
                     so),
-                args: so);
+                so);
         }
 
         /// <summary>
@@ -117,7 +111,7 @@ namespace Mercurius.Sparrow.Services.Core
                 nameof(GetLocalResources),
                 (out int records) =>
                 this.Persistence.QueryForPaginatedList<Globalization>(GlobalizationNamespace, "GetLocalResources", out records, so),
-                args: so);
+                so);
         }
 
         /// <summary>
@@ -128,20 +122,19 @@ namespace Mercurius.Sparrow.Services.Core
         /// <param name="remark">备注信息</param>
         public Response CreateOrUpdateGlobalResource(string key, string value, string remark)
         {
+            var args = new { Key = key, Value = value, Remark = remark };
+
             return this.InvokeService(
                 nameof(CreateOrUpdateGlobalResource),
                 () =>
                 {
                     this.Persistence.Create(
-						GlobalizationNamespace,
+                        GlobalizationNamespace,
                         "CreateOrUpdateGlobalResource",
-                        new { Key = key, Value = value, Remark = remark });
+                        args);
 
                     this.ClearCache<Globalization>();
-                },
-                key,
-                value,
-                remark);
+                }, args);
         }
 
         /// <summary>

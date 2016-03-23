@@ -105,16 +105,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
                                       where
                                           !string.IsNullOrWhiteSpace(s)
                                       select
-                                          new UserRole
-                                          {
-                                              Id = Guid.NewGuid().ToString(),
-                                              RoleId = role.Id,
-                                              UserId = s,
-                                              CreateDateTime = DateTime.Now,
-                                              CreateUserId = WebHelper.GetLogOnUserId(),
-                                              CreateUserName = WebHelper.GetLogOnAccount()
-                                          }
-
+                                          new UserRole { RoleId = role.Id, UserId = s, CreateUserId = WebHelper.GetLogOnUserId(), }
                                       ).ToList();
                 }
 

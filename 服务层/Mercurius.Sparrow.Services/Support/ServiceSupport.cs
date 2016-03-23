@@ -103,10 +103,10 @@ namespace Mercurius.Sparrow.Services.Support
         /// 执行服务。
         /// </summary>
         /// <param name="method">方法名</param>
-        /// <param name="callback">回调方法</param>
         /// <param name="args">方法参数</param>
+        /// <param name="callback">回调方法</param>
         /// <returns>操作结果</returns>
-        protected Response InvokeService(string method, Action callback, params object[] args)
+        protected Response InvokeService(string method, Action callback, object args = null)
         {
             var model = this.GetModelName();
 
@@ -131,7 +131,7 @@ namespace Mercurius.Sparrow.Services.Support
 
             stopwatch.Stop();
 
-            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, result, args);
+            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
 
             return result;
         }
@@ -142,14 +142,14 @@ namespace Mercurius.Sparrow.Services.Support
         /// <typeparam name="T">返回类型</typeparam>
         /// <param name="method">方法名</param>
         /// <param name="callback">回调方法</param>
-        /// <param name="cacheable">是否缓存数据</param>
         /// <param name="args">参数列表</param>
+        /// <param name="cacheable">是否缓存数据</param>
         /// <returns>服务返回结果</returns>
         protected Response<T> InvokeService<T>(
             string method,
             Func<T> callback,
-            bool cacheable = true,
-            params object[] args)
+            object args = null,
+            bool cacheable = true)
         {
             var model = this.GetModelName();
 
@@ -194,7 +194,7 @@ namespace Mercurius.Sparrow.Services.Support
 
             stopwatch.Stop();
 
-            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, result, args);
+            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
 
             return result;
         }
@@ -205,14 +205,14 @@ namespace Mercurius.Sparrow.Services.Support
         /// <typeparam name="T">返回类型</typeparam>
         /// <param name="method">方法名</param>
         /// <param name="handler">回调方法</param>
-        /// <param name="cacheable">是否缓存数据</param>
         /// <param name="args">参数列表</param>
+        /// <param name="cacheable">是否缓存数据</param>
         /// <returns>服务返回结果</returns>
         protected ResponseCollection<T> InvokeService<T>(
             string method,
             Func<IList<T>> handler,
-            bool cacheable = true,
-            params object[] args)
+            object args = null,
+            bool cacheable = true)
         {
             var model = this.GetModelName();
 
@@ -257,7 +257,7 @@ namespace Mercurius.Sparrow.Services.Support
 
             stopwatch.Stop();
 
-            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, result, args);
+            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
 
             return result;
         }
@@ -268,14 +268,14 @@ namespace Mercurius.Sparrow.Services.Support
         /// <typeparam name="T">返回类型</typeparam>
         /// <param name="method">方法名</param>
         /// <param name="handler">回调方法</param>
-        /// <param name="cacheable">是否缓存数据</param>
         /// <param name="args">参数列表</param>
+        /// <param name="cacheable">是否缓存数据</param>
         /// <returns>服务返回结果</returns>
         protected ResponseCollection<T> InvokePagingService<T>(
             string method,
             PagingServiceCallback<T> handler,
-            bool cacheable = true,
-            params object[] args)
+            object args = null,
+            bool cacheable = true)
         {
             var model = this.GetModelName();
 
@@ -326,7 +326,7 @@ namespace Mercurius.Sparrow.Services.Support
 
             stopwatch.Stop();
 
-            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, result, args);
+            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
 
             return result;
         }

@@ -28,7 +28,7 @@
         function @(item.NavigateUrl)() {
             var url = '@Url.Action("CreateOrUpdate")/?parentId=' + GetSelectedValue();
 
-            mercurius.OpenDialog(url, 'CreateOrUpdateForm', '系统角色信息 - 添加', 600, 375);
+            mercurius.OpenDialog(url, 'CreateOrUpdateForm', '系统角色信息 - 添加', 500, 280);
         }
         </text>)
 
@@ -39,7 +39,7 @@
             if (mercurius.HasSingleRowSelected(roleId)) {
                 var url = '@Url.Action("CreateOrUpdate")/?id=' + roleId;
 
-                mercurius.OpenDialog(url, 'CreateOrUpdateForm', '系统角色信息 - 编辑', 600, 375);
+                mercurius.OpenDialog(url, 'CreateOrUpdateForm', '系统角色信息 - 编辑', 500, 280);
             }
         }
         </text>)

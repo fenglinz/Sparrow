@@ -47,7 +47,7 @@ namespace Mercurius.Sparrow.Services.Core
             return this.InvokeService(
                 nameof(GetSetting),
                 () => this.Persistence.QueryForObject<SystemSetting>(SystemsettingNamespace, "GetSetting", name),
-                args: name);
+                name);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Mercurius.Sparrow.Services.Core
             return this.InvokeService(
                 nameof(GetSettings),
                 () => this.Persistence.QueryForList<SystemSetting>(SystemsettingNamespace, "GetSettings", category),
-                args: category);
+                category);
         }
 
         #endregion

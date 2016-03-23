@@ -49,12 +49,12 @@ namespace Mercurius.Sparrow.Autofac
                     _builder.RegisterModule<IBatisNetModule>();
 
                     // 注册缓存。
-                    //_builder.RegisterType<DefaultCacheProvider>()
-                    //    .As<ICacheProvider>()
-                    //    .InstancePerLifetimeScope();
-                    _builder.Register(c => new RedisCacheProvider())
+                    _builder.RegisterType<DefaultCacheProvider>()
                         .As<ICacheProvider>()
                         .InstancePerLifetimeScope();
+                    //_builder.Register(c => new RedisCacheProvider())
+                    //    .As<ICacheProvider>()
+                    //    .InstancePerLifetimeScope();
 
                     // 注册Logger。
                     _builder.Register(c => new Logger { Cache = c.Resolve<ICacheProvider>(), SqlMapperManager = c.Resolve<SqlMapperManager>() })

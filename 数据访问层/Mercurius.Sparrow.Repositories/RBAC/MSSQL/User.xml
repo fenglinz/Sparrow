@@ -185,7 +185,7 @@
         </isNotNull>
       </dynamic>
       <![CDATA[
-        END;
+        END
       ]]>
     </insert>
 
@@ -465,6 +465,30 @@
           </isNotNull>
         </isNotNull>
       </dynamic>
+    </select>
+
+    <!-- 获取角色用户 -->
+    <select id="GetUsersByRole" parameterClass="string" resultClass="User">
+      <![CDATA[
+        SELECT
+          a.*
+        FROM RBAC.[User] a
+        INNER JOIN RBAC.UserRole b
+          ON a.Id=b.UserId
+        WHERE b.RoleId=#value#
+      ]]>
+    </select>
+
+    <!-- 获取未分配角色的用户 -->
+    <select id="GetUnAllotRoleUsers" parameterClass="string" resultClass="User">
+      <![CDATA[
+        SELECT
+          a.*
+        FROM RBAC.[User] a
+        INNER JOIN RBAC.UserRole b
+          ON a.Id=b.UserId
+        WHERE b.RoleId<>#value#
+      ]]>
     </select>
 
     <!-- 获取用户组成员 -->

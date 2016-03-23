@@ -41,7 +41,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetRole),
                 () => this.Persistence.QueryForObject<Role>(RoleNamespace, "GetRoleById", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetRolesByUser),
                 () => this.Persistence.QueryForList<Role>(RoleNamespace, "GetRolesByUser", userId),
-                args: userId);
+                userId);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetRoleUsers),
                 () => this.Persistence.QueryForList<UserRole>(RoleNamespace, "GetRoleUsers", roleId),
-                args: roleId);
+                roleId);
         }
 
         #endregion

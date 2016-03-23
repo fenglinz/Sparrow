@@ -25,7 +25,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetButton),
                 () => this.Persistence.QueryForObject<Button>(ButtonNamespace, "GetButtons", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         {
             return this.InvokeService(nameof(GetUnUsedButtons),
                 () => this.Persistence.QueryForList<Button>(ButtonNamespace, "GetUnUsedButtons", systemMenuId),
-                args: systemMenuId);
+                systemMenuId);
         }
 
         /// <summary>

@@ -99,9 +99,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                         this.ClearCache<Button>();
                         this.ClearCache<SystemMenu>();
                     }
-                },
-                systemMenuId,
-                buttonId);
+                }, new { systemMenuId, buttonId });
         }
 
         /// <summary>
@@ -128,9 +126,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.Persistence.Create(PermissionNamespace, "AllotPermissionByRole", new { RoleId = roleId, RolePermissions = permissions });
 
                     this.ClearCache<SystemMenu>();
-                },
-                roleId,
-                args);
+                }, new { roleId, args });
         }
 
         /// <summary>
@@ -157,9 +153,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.Persistence.Create(PermissionNamespace, "AllotPermissionByUserGroup", new { UserGroupId = userGroupId, UserGroupPermissions = permissions });
 
                     this.ClearCache<SystemMenu>();
-                },
-                userGroupId,
-                args);
+                }, new { userGroupId, args });
         }
 
         /// <summary>
@@ -172,7 +166,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetSystemMenu),
                 () => this.Persistence.QueryForObject<SystemMenu>(PermissionNamespace, "GetSystemMenu", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -196,7 +190,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetSystemMenuButtons),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenuButtons", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -209,7 +203,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetSystemMenusWithAlloted),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAlloted", userId).AsSorted<SystemMenu, string>(),
-                args: userId);
+                userId);
         }
 
         /// <summary>
@@ -222,7 +216,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetSystemMenusWithAllotedByUser),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByUser", id).AsSorted<SystemMenu, string>(),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -235,7 +229,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetSystemMenusWithAllotedByRole),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByRole", id).AsSorted<SystemMenu, string>(),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -248,7 +242,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetSystemMenusWithAllotedByUserGroup),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByUserGroup", id).AsSorted<SystemMenu, string>(),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -261,7 +255,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetAccessibleMenus),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetAccessibleMenusByUser", userId).AsSorted<SystemMenu, string>(),
-                args: userId);
+                userId);
         }
 
         /// <summary>
@@ -275,9 +269,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetAccessibleButtons),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetAccessibleButtons", new { UserId = userId, NavigateUrl = navigateUrl }),
-                true,
-                userId,
-                navigateUrl);
+                new { userId, navigateUrl });
         }
 
         #endregion

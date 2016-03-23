@@ -55,10 +55,7 @@ namespace Mercurius.Sparrow.Repositories
 
                 command.CommandText = produceName;
 
-                if (commandHandler != null)
-                {
-                    commandHandler(command);
-                }
+                commandHandler?.Invoke(command);
 
                 session.Connection.Open();
                 command.ExecuteNonQuery();

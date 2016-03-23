@@ -114,7 +114,7 @@ namespace Mercurius.Sparrow.Services.WebApi
             return this.InvokeService(
                 nameof(GetRoleById),
                 () => this.Persistence.QueryForObject<Role>(NS, "GetById", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Mercurius.Sparrow.Services.WebApi
             return this.InvokePagingService(
                 nameof(SearchRoles),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<Role>(NS, "SearchRoles", out totalRecords, so),
-                args: so);
+                so);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <returns>已分配的用户信息</returns>
         public ResponseCollection<User> GetAllotUsers(int id)
         {
-            return this.InvokeService(nameof(GetAllotUsers), () => this.Persistence.QueryForList<User>(NS, "GetAllotUsers", id), args: id);
+            return this.InvokeService(nameof(GetAllotUsers), () => this.Persistence.QueryForList<User>(NS, "GetAllotUsers", id), id);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         {
             var args = new { RoleId = roleId, Account = account };
 
-            return this.InvokeService(nameof(GetUnAllotUsers), () => this.Persistence.QueryForList<User>(NS, "GetUnAllotUsers", args), args: args);
+            return this.InvokeService(nameof(GetUnAllotUsers), () => this.Persistence.QueryForList<User>(NS, "GetUnAllotUsers", args), args);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         public ResponseCollection<Api> GetRolePermissions(int roleId)
         {
             return this.InvokeService(nameof(GetRolePermissions),
-                () => this.Persistence.QueryForList<Api>(NS, "GetRolePermissions", roleId), args: roleId);
+                () => this.Persistence.QueryForList<Api>(NS, "GetRolePermissions", roleId), roleId);
         }
 
         #endregion

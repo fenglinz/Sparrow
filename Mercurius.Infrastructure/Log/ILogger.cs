@@ -41,7 +41,7 @@ namespace Mercurius.Infrastructure.Log
         /// <param name="method">需要记录日志的方法</param>
         /// <param name="model">所属模块</param>
         /// <param name="args">方法参数列表</param>
-        void BeforeExecution(string model, string type, string method, params object[] args);
+        void BeforeExecution(string model, string type, string method, object args = null);
 
         /// <summary>
         /// 记录方法执行完后的日志。
@@ -50,10 +50,9 @@ namespace Mercurius.Infrastructure.Log
         /// <param name="type">类型名称</param>
         /// <param name="method">需要记录日志的方法</param>
         /// <param name="elapsed">方法执行完运行的时间</param>
-        /// <param name="returnValue">返回值</param>
         /// <param name="args">方法参数列表</param>
-        void AfterExecution(string model, string type, string method, TimeSpan elapsed, object returnValue = null,
-            params object[] args);
+        /// <param name="returnValue">返回值</param>
+        void AfterExecution(string model, string type, string method, TimeSpan elapsed, object args = null, object returnValue = null);
 
         /// <summary>
         /// 记录异常日志信息。
@@ -63,6 +62,6 @@ namespace Mercurius.Infrastructure.Log
         /// <param name="method">需要记录日志的方法</param>
         /// <param name="exception">异常</param>
         /// <param name="args">方法参数列表</param>
-        void Abnormal(string model, string type, string method, Exception exception, params object[] args);
+        void Abnormal(string model, string type, string method, Exception exception, object args = null);
     }
 }

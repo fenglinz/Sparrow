@@ -485,6 +485,9 @@
     <Content Include="Areas\WebApi\Views\Route\Index.cshtml" />
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\CreateOrUpdate.cshtml" />
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\_RenderProperties.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\AllotMembers.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\_UnAllotRoleUsers.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\_UserRoleMembers.cshtml" />
     <None Include="Areas\Admin\Views\SystemSetting\ShowCaches.cshtml" />
     <None Include="Areas\DynamicPage\Views\ExtensionProperty\_Properties.cshtml" />
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\Index.cshtml" />

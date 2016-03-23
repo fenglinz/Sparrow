@@ -1,212 +1,55 @@
 ﻿@{
     var roles = this.ViewBag.Roles as ResponseCollection<Role>;
-    var roleUsers = this.ViewBag.RoleUsers as ResponseCollection<UserRole>;
-    var staffOrganizes = this.ViewBag.StaffOrganizes as ResponseCollection<StaffOrganize>;
     var roleTree = roles.Datas.AsTree(r => r.ParentId == "0", (p, r) => r.ParentId == p.Id, r => new TreeNode { Id = r.Id, Text = r.Name });
 }
 
 @model Role
 
-@section Styles{
+@section Styles
+{
     @Styles.Render("~/Content/tree/css")
-    <style type="text/css">
-        .tab-pane {
-            height: 293px;
-        }
-
-        .col-sm-6 {
-            padding-right: 5px;
-        }
-
-            .col-sm-6 .panel {
-                margin-bottom: 0;
-            }
-    </style>
 }
 
 @section Scripts
 {
     @Scripts.Render("~/bundles/tree", "~/bundles/validate")
     <script type="text/javascript">
-        // 初始化
-        $(function () {
-            $('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
-                if (e.target.text == '角色成员') {
-                    $('#allUserInfo').treeview({
-                        persist: "location",
-                        collapsed: false,
-                        unique: false
-                    });
-
-                    //固定表头
-                    mercurius.FixedTableHeader("#table1", 125, { fixedWidth: 295 });
-                }
-            });
-        });
-
-        //双击添加员工
-        function addUserInfo(userName, userId, organizationName) {
-            var isExist = true;
-            $("#table1 tbody tr").each(function (i) {
-                if ($(this).find('td:eq(0)').html() == userName) {
-                    isExist = false;
-
-                    return false;
-                }
-
-                return true;
-            });
-
-            if (isExist == true) {
-                $("#table1 tbody").append("<tr ondblclick='$(this).remove()'><td>" + userName + "</td><td>" + organizationName + "</td><td  style='display:none'>" + userId + "</td></tr>");
-                mercurius.ApplyTableStyle();
-            } else {
-                mercurius.ShowWarningMessage("【" + userName + "】已经存在");
-            }
-        }
-
         // 获取表单值
         function OnSave() {
-            if (!JudgeValidate('#frmSave')) {
-                return false;
-            }
-
-            mercurius.ShowConfirmMessage('确认要保存此操作吗？', function () {
-                var userIds = '';
-
-                $('#table1 tbody tr').each(function (i) {
-                    userIds += $(this).find('td:eq(2)').html() + ',';
-                });
-
-                $('#userIds').val(userIds);
-
+            if (JudgeValidate('#frmSave')) {
                 $('#frmSave').submit();
-            });
-
-            return false;
+            }
         }
     </script>
 }
-<ul class="nav nav-tabs" role="tablist">
-    <li class="active"><a href="#basic" role="tab" data-toggle="tab">基本信息</a></li>
-    <li><a href="#members" role="tab" data-toggle="tab">角色成员</a></li>
-</ul>
-<div class="tab-content">
-    <div id="basic" class="tab-pane active">
-        @using (Ajax.BeginForm("CreateOrUpdate", "Role", null, new AjaxOptions {HttpMethod = "POST"}, new {@id = "frmSave", @class = "form-horizontal form", @role = "form"}))
-        {
-            @Html.HiddenFor(m => m.Id)
-            @Html.AntiForgeryToken()
-            <input type="hidden" id="userIds" name="userIds"/>
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="Name">角色名称 </label>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(m => m.Name, new {@class = "form-control", @validate_field = "角色名称", @validate_rule = "notNull"})
-                </div>
-            </div>
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="ParentId">所属角色</label>
-                <div class="col-sm-9">
-                    @TreeHelper.CreateComboTree(roleTree, "ParentId", this.ViewBag.ParentId, Model == null ? null : Model.Id)
-                </div>
-            </div>
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="Sort">显示顺序</label>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(m => m.Sort, new {@class = "form-control", @validate_field = "显示顺序", @validate_rule = "int"})
-                </div>
-            </div>
-            <div class="form-group form-group-sm">
-                <label class="col-sm-2 control-label" for="Remark">角色描述</label>
-                <div class="col-sm-9">
-                    @Html.TextAreaFor(m => m.Remark, new {@class = "form-control", @style = "height: 170px;"})
-                </div>
-            </div>
-        }
-    </div>
-    <div id="members" class="tab-pane form-horizontal form">
-        <div id="UserInfolistleft" class="col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    所有成员;<span style="color: Blue;">双击添加</span>
-                </div>
-                <div class="panel-body" style="height: 260px; overflow-y: auto;">
-                    <div id="allUserInfo" class="filetree">
-                        <ul>
-                            @{
-                                var soParents = staffOrganizes.Datas.Where(s => s.ParentId == "0");
 
-                                foreach (var item in soParents)
-                                {
-                                    <li>
-                                        <span class="folder"></span>
-                                        <label>@item.Name</label>
-                                        @CreateTreeNode(staffOrganizes.Datas, item.Id, item.Name, "1")
-                                    </li>
-                                }
-                            }
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div id="selectedUserInfo">
-                <table id="table1" class="grid">
-                    <thead>
-                    <tr>
-                        <td style="width: 160px;">已选成员;<span style="color: Red;">双击移除</span> </td>
-                        <td>所属部门 </td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var item in roleUsers.Datas)
-                    {
-                        <tr ondblclick="$(this).remove()">
-                            <td style="width: 160px;">@item.UserName</td>
-                            <td>@item.Departments.Contract("|")</td>
-                            <td style="display: none">@item.UserId</td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-@helper CreateTreeNode(IEnumerable<StaffOrganize> sos, string parentId, string parentName, string status, int treeNodeIndex = 0)
+@using (Ajax.BeginForm("CreateOrUpdate", "Role", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
 {
-    var children = sos.Where(s => s.ParentId == parentId);
-
-    if (children.Any())
-    {
-        <ul>
-            @foreach (var item in children)
-            {
-                if (item.IsUser)
-                {
-                    if (status != "1")
-                    {
-                        <li>
-                            <span class="glyphicon glyphicon-user"></span>
-                            <span style="cursor:pointer;" ondblclick="addUserInfo('@item.Name','@item.Id','@parentName')">
-                                @item.Name
-                            </span>
-                        </li>
-                    }
-                }
-                else
-                {
-                    <li>
-                        <span class="file"></span>
-                        <label>
-                            @item.Name
-                        </label>
-                        @CreateTreeNode(sos, item.Id, item.Name, "2", 1)
-                    </li>
-                }
-            }
-        </ul>
-    }
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="userIds" name="userIds" />
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Name">角色名称 </label>
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @validate_field = "角色名称", @validate_rule = "notNull" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="ParentId">所属角色</label>
+        <div class="col-sm-9">
+            @TreeHelper.CreateComboTree(roleTree, "ParentId", this.ViewBag.ParentId, Model == null ? null : Model.Id)
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Sort">显示顺序</label>
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @validate_field = "显示顺序", @validate_rule = "int" })
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" for="Remark">角色描述</label>
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @style = "height: 170px;" })
+        </div>
+    </div>
 }

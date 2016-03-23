@@ -25,13 +25,6 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         Response ChangePassword(string id, string oldPassword, string newPassword);
 
         /// <summary>
-        /// 添加或者修改用户组信息。
-        /// </summary>
-        /// <param name="userGroup">用户组信息</param>
-        /// <returns>执行结果</returns>
-        Response CreateOrUpdateUserGroup(UserGroup userGroup);
-
-        /// <summary>
         /// 添加或者修改用户信息。
         /// </summary>
         /// <param name="user">用户信息</param>
@@ -65,6 +58,41 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         Response<User> ValidateUser(string account, string password);
 
         /// <summary>
+        /// 查询用户信息。
+        /// </summary>
+        /// <param name="so">用户信息查询对象</param>
+        /// <returns>用户信息列表</returns>
+        ResponseCollection<User> GetUsers(UserSO so);
+
+        /// <summary>
+        /// 查询角色成员。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>角色成员信息</returns>
+        ResponseCollection<User> GetUsersByRole(string id);
+
+        /// <summary>
+        /// 获取未分配角色的用户。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>角色成员信息</returns>
+        ResponseCollection<User> GetUnAllotRoleUsers(string id);
+
+        /// <summary>
+        /// 获取用户组成员。
+        /// </summary>
+        /// <param name="id">用户组编号</param>
+        /// <returns>用户组成员信息</returns>
+        ResponseCollection<User> GetUsersByGroup(string id);
+
+        /// <summary>
+        /// 获取未分组的用户信息。
+        /// </summary>
+        /// <param name="userGroupId">用户组Id</param>
+        /// <returns>用户信息列表</returns>
+        ResponseCollection<User> GetUnAllotGroupUsers(string userGroupId);
+
+        /// <summary>
         /// 添加首页快捷方式信息。
         /// </summary>
         /// <param name="homeShortcut">首页快捷方式信息</param>
@@ -94,25 +122,11 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         ResponseCollection<HomeShortcut> GetHomeShortcuts(string userId);
 
         /// <summary>
-        /// 查询用户信息。
+        /// 添加或者修改用户组信息。
         /// </summary>
-        /// <param name="so">用户信息查询对象</param>
-        /// <returns>用户信息列表</returns>
-        ResponseCollection<User> GetUsers(UserSO so);
-
-        /// <summary>
-        /// 获取用户组成员。
-        /// </summary>
-        /// <param name="id">用户组编号</param>
-        /// <returns>用户组成员信息</returns>
-        ResponseCollection<User> GetUsersByGroup(string id);
-
-        /// <summary>
-        /// 获取未分组的用户信息。
-        /// </summary>
-        /// <param name="userGroupId">用户组Id</param>
-        /// <returns>用户信息列表</returns>
-        ResponseCollection<User> GetUnAllotGroupUsers(string userGroupId);
+        /// <param name="userGroup">用户组信息</param>
+        /// <returns>执行结果</returns>
+        Response CreateOrUpdateUserGroup(UserGroup userGroup);
 
         /// <summary>
         /// 获取用户组信息。

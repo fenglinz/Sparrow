@@ -108,7 +108,7 @@ namespace Mercurius.Sparrow.Services.WebApi
             return this.InvokeService(
                 nameof(GetApiById),
                 () => this.Persistence.QueryForObject<Api>(NS, "GetById", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Mercurius.Sparrow.Services.WebApi
             return this.InvokePagingService(
                 nameof(SearchApis),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<Api>(NS, "SearchApis", out totalRecords, so),
-                args: so);
+                so);
         }
 
         #endregion

@@ -15,75 +15,77 @@ namespace Mercurius.Sparrow.Services.Core
     /// </summary>
     [Module("日志管理")]
     public class LoggerService : ServiceSupport, ILoggerService
-	{
-		#region ILoggerService接口实现
+    {
+        #region ILoggerService接口实现
 
-		/// <summary>
-		/// 获取日志表信息的分区信息。
-		/// </summary>
-		/// <returns>分区信息列表</returns>
-		public ResponseCollection<Partition> GetPartitions()
-		{
-			return this.InvokeService(
+        /// <summary>
+        /// 获取日志表信息的分区信息。
+        /// </summary>
+        /// <returns>分区信息列表</returns>
+        public ResponseCollection<Partition> GetPartitions()
+        {
+            return this.InvokeService(
                 nameof(GetPartitions),
-				() =>
-				{
-					var partitions = this.Persistence.QueryForDataTable(RepositoryUtilsNamespace, "GetPartitions", "SystemLog").GetDatas<Partition>();
+                () =>
+                {
+                    var partitions = this.Persistence.QueryForDataTable(RepositoryUtilsNamespace, "GetPartitions", "SystemLog").GetDatas<Partition>();
 
-					partitions = (from p in partitions
-								  let d = p.HightValue.Length > 20 ? DateTime.Parse(p.HightValue.Substring(10, 10)).AddDays(-1) : DateTime.Now
-								  where
-									  p.HightValue.Length > 10
-								  orderby d ascending
-								  select new Partition { Name = p.Name, HightValue = d.ToString("yyyy-MM-dd") }).ToList();
+                    partitions = (from p in partitions
+                                  let d = p.HightValue.Length > 20 ? DateTime.Parse(p.HightValue.Substring(10, 10)).AddDays(-1) : DateTime.Now
+                                  where
+                                      p.HightValue.Length > 10
+                                  orderby d ascending
+                                  select new Partition { Name = p.Name, HightValue = d.ToString("yyyy-MM-dd") }).ToList();
 
-					return partitions;
-				},
-				false);
-		}
+                    return partitions;
+                },
+                false);
+        }
 
-		/// <summary>
-		/// 清空日志信息。
-		/// </summary>
-		/// <returns>操作结果</returns>
-		public Response ClearLogs()
-		{
-			return this.InvokeService(
+        /// <summary>
+        /// 清空日志信息。
+        /// </summary>
+        /// <returns>操作结果</returns>
+        public Response ClearLogs()
+        {
+            return this.InvokeService(
                 nameof(ClearLogs),
-				() =>
-				{
-					this.Persistence.Delete(LoggerNamespace, "ClearLogs");
+                () =>
+                {
+                    this.Persistence.Delete(LoggerNamespace, "ClearLogs");
 
-					this.ClearCache<Log>();
-				});
-		}
+                    this.ClearCache<Log>();
+                });
+        }
 
-		/// <summary>
-		/// 获取日志详细信息。
-		/// </summary>
-		/// <param name="partition">表分区名称</param>
-		/// <param name="id">日志编号</param>
-		/// <returns>日志信息</returns>
-		public Response<Log> GetLog(string partition, string id)
-		{
-			return this.InvokeService(nameof(GetLog), () => this.Persistence.QueryForObject<Log>(LoggerNamespace, "GetLog", new { Partition = partition, Id = id }), true, partition, id);
-		}
+        /// <summary>
+        /// 获取日志详细信息。
+        /// </summary>
+        /// <param name="partition">表分区名称</param>
+        /// <param name="id">日志编号</param>
+        /// <returns>日志信息</returns>
+        public Response<Log> GetLog(string partition, string id)
+        {
+            var args = new { Partition = partition, Id = id };
 
-		/// <summary>
-		/// 获取日志信息。
-		/// </summary>
-		/// <param name="so">日志查询条件</param>
-		/// <returns>日志信息列表</returns>
-		public ResponseCollection<Log> GetLogs(LogSO so)
-		{
-			var totalRecords = 0;
-			var result = this.InvokeService(nameof(GetLogs), () => this.Persistence.QueryForPaginatedList<Log>(LoggerNamespace, "GetLogs", out totalRecords, so), false, so);
+            return this.InvokeService(nameof(GetLog), () => this.Persistence.QueryForObject<Log>(LoggerNamespace, "GetLog", args), args);
+        }
 
-			result.TotalRecords = totalRecords;
+        /// <summary>
+        /// 获取日志信息。
+        /// </summary>
+        /// <param name="so">日志查询条件</param>
+        /// <returns>日志信息列表</returns>
+        public ResponseCollection<Log> GetLogs(LogSO so)
+        {
+            var totalRecords = 0;
+            var result = this.InvokeService(nameof(GetLogs), () => this.Persistence.QueryForPaginatedList<Log>(LoggerNamespace, "GetLogs", out totalRecords, so), so, false);
 
-			return result;
-		}
+            result.TotalRecords = totalRecords;
 
-		#endregion
-	}
+            return result;
+        }
+
+        #endregion
+    }
 }

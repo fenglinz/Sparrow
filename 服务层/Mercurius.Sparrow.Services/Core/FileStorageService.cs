@@ -85,7 +85,7 @@ namespace Mercurius.Sparrow.Services.Core
             return this.InvokeService(
                 nameof(GetFileStorageById),
                 () => this.Persistence.QueryForObject<FileStorage>(NS, "GetById", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// <returns>根据文件保存路径获取文件信息</returns>
         public Response<FileStorage> GetFileStorageByPath(string path)
         {
-            return this.InvokeService(nameof(GetFileStorageByPath), () => this.Persistence.QueryForObject<FileStorage>(NS, "GetFileStorageByPath", path), args: path);
+            return this.InvokeService(nameof(GetFileStorageByPath), () => this.Persistence.QueryForObject<FileStorage>(NS, "GetFileStorageByPath", path), path);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Mercurius.Sparrow.Services.Core
             return this.InvokePagingService(
                 nameof(SearchFileStorages),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<FileStorage>(NS, "SearchFileStorages", out totalRecords, so),
-                args: so);
+                so);
         }
 
         #endregion

@@ -71,7 +71,7 @@
             if (mercurius.HasSingleRowSelected(userGroupId)) {
                 var url = '@Url.Action("AllotMembers")/?id=' + userGroupId + '&name=' + escape(userGroupName);
 
-                mercurius.OpenDialog(url, 'UserGroupSet', '用户组成员信息-设置', 800, 450);
+                mercurius.OpenDialog(url, 'UserGroupSet', '用户组成员信息-设置', 800, 450, {statusbar:false});
             }
         }
         </text>)

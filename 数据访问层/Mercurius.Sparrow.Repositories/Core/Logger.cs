@@ -29,7 +29,6 @@ namespace Mercurius.Sparrow.Repositories.Core
         /// <param name="level">日志级别</param>
         /// <param name="logOnIp">登录者IP地址</param>
         /// <param name="logOnId">登录者Id</param>
-        /// <param name="logOnName">登录者名称</param>
         /// <param name="callback">回调处理函数</param>
         private delegate void WriteLogDelegate(Level level, string logOnIp, string logOnId, Func<Log> callback);
 
@@ -163,7 +162,7 @@ namespace Mercurius.Sparrow.Repositories.Core
         /// <param name="method">需要记录日志的方法</param>
         /// <param name="model">所属模块</param>
         /// <param name="args">方法参数列表</param>
-        public void BeforeExecution(string model, string type, string method, params object[] args)
+        public void BeforeExecution(string model, string type, string method, object args = null)
         {
             WriteLogDelegate action = this.WriteLog;
 
@@ -176,9 +175,9 @@ namespace Mercurius.Sparrow.Repositories.Core
                     var summary = Constants.ExecuteBefore;
                     var details = string.Format("当前方法详情{2}所在类：{0}{2}方法：{1}", type, method, Environment.NewLine);
 
-                    if (!args.IsEmpty())
+                    if (args != null)
                     {
-                        details += string.Format("{1}参数列表：{0}", args.Contract(), Environment.NewLine);
+                        details += string.Format("{1}参数列表：{0}", args.AsJson(), Environment.NewLine);
                     }
 
                     return Log.Create(model, summary, details, Level.Debug);
@@ -199,9 +198,9 @@ namespace Mercurius.Sparrow.Repositories.Core
         /// <param name="type">类型名称</param>
         /// <param name="method">需要记录日志的方法</param>
         /// <param name="elapsed">方法执行完运行的时间</param>
-        /// <param name="returnValue">返回值</param>
         /// <param name="args">方法参数列表</param>
-        public void AfterExecution(string model, string type, string method, TimeSpan elapsed, object returnValue = null, params object[] args)
+        /// <param name="returnValue">返回值</param>
+        public void AfterExecution(string model, string type, string method, TimeSpan elapsed, object args = null, object returnValue = null)
         {
             WriteLogDelegate action = this.WriteLog;
 
@@ -217,9 +216,9 @@ namespace Mercurius.Sparrow.Repositories.Core
                     details.AppendFormat("方法执行耗时：{0}毫秒！{1}{1}", elapsed.TotalMilliseconds, Environment.NewLine);
                     details.AppendFormat("当前方法详情{2}所在类：{0}{2}方法：{1}", type, method, Environment.NewLine);
 
-                    if (!args.IsEmpty())
+                    if (args != null)
                     {
-                        details.AppendFormat("{1}参数列表：{0}{1}", args.Contract(), Environment.NewLine);
+                        details.AppendFormat("{1}参数列表：{0}{1}", args.AsJson(), Environment.NewLine);
                     }
 
                     if (returnValue != null)
@@ -246,7 +245,7 @@ namespace Mercurius.Sparrow.Repositories.Core
         /// <param name="method">需要记录日志的方法</param>
         /// <param name="exception">异常</param>
         /// <param name="args">方法参数列表</param>
-        public void Abnormal(string model, string type, string method, Exception exception, params object[] args)
+        public void Abnormal(string model, string type, string method, Exception exception, object args = null)
         {
             WriteLogDelegate action = this.WriteLog;
 
@@ -261,9 +260,9 @@ namespace Mercurius.Sparrow.Repositories.Core
 
                     details.AppendFormat("当前方法详情：{2}所在类：{0}{2}方法：{1}", type, method, Environment.NewLine);
 
-                    if (!args.IsEmpty())
+                    if (args != null)
                     {
-                        details.AppendFormat("{1}参数列表：{0}{1}", args.Contract(), Environment.NewLine);
+                        details.AppendFormat("{1}参数列表：{0}{1}", args.AsJson(), Environment.NewLine);
                     }
 
                     details.AppendFormat("调用堆栈：{1}{0}", exception.StackTrace, Environment.NewLine);

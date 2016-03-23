@@ -31,7 +31,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetCategories),
                 () => this.Persistence.QueryForList<string>(RecyclebinNamespace, "GetCategories", userId),
-                args: userId);
+                userId);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetRecyclebinById),
                 () => this.Persistence.QueryForObject<Recyclebin>(RecyclebinNamespace, "GetRecyclebinById", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                 nameof(GetRecyclebins),
                 (out int totalRecords) =>
                 this.Persistence.QueryForPaginatedList<Recyclebin>(RecyclebinNamespace, "GetRecyclebins", out totalRecords, so),
-                args: so);
+                so);
         }
 
         /// <summary>
@@ -71,14 +71,9 @@ namespace Mercurius.Sparrow.Services.RBAC
         public Response<DataTable> GetRecyclebinDetails(string table, string column, string value)
         {
             var items = table.Split('.');
+            var args = new { Schema = items.FirstOrDefault(), Table = items.LastOrDefault(), Column = column, Value = value };
 
-            return this.InvokeService(
-                nameof(GetRecyclebinDetails),
-                () => this.Persistence.QueryForDataTable(RecyclebinNamespace, "GetRecyclebinDetails", new { Schema = items.FirstOrDefault(), Table = items.LastOrDefault(), Column = column, Value = value }),
-                true,
-                table,
-                column,
-                value);
+            return this.InvokeService(nameof(GetRecyclebinDetails), () => this.Persistence.QueryForDataTable(RecyclebinNamespace, "GetRecyclebinDetails", args), args);
         }
 
         /// <summary>
@@ -124,6 +119,8 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// <returns>服务执行响应信息</returns>
         public Response<bool> CanRemoveToRecyclebin(string table, string column, params object[] args)
         {
+            var param = new { table, column, args };
+
             return this.InvokeService(
                 nameof(CanRemoveToRecyclebin),
                 () =>
@@ -142,11 +139,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     }
 
                     throw new Exception("数据库中不存在给定的表或字段！");
-                },
-                false,
-                table,
-                column,
-                args);
+                }, param, false);
         }
 
         /// <summary>
@@ -183,11 +176,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.Persistence.Update(RecyclebinNamespace, "VirtualRemove", obj);
 
                     this.Cache.Clear();
-                },
-                name,
-                table,
-                column,
-                args);
+                }, new { name, table, column, args });
         }
 
         #endregion

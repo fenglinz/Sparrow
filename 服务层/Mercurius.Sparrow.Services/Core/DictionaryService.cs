@@ -26,7 +26,7 @@ namespace Mercurius.Sparrow.Services.Core
             return this.InvokeService(
                 nameof(GetDictionary),
                 () => this.Persistence.QueryForObject<Dictionary>(DictionaryNamespace, "GetDictionary", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Mercurius.Sparrow.Services.Core
             return this.InvokeService(
                 nameof(GetCategories),
                 () => this.Persistence.QueryForList<Dictionary>(DictionaryNamespace, "GetCategoriesByParentKey", parentKey)
-                , args: parentKey);
+                , parentKey);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Mercurius.Sparrow.Services.Core
             return this.InvokeService(
                 nameof(GetCategoryItems),
                 () => this.Persistence.QueryForList<Dictionary>(DictionaryNamespace, "GetCategoryItems", category),
-                args: category);
+                category);
         }
 
         /// <summary>

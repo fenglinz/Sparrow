@@ -21,7 +21,6 @@ namespace Mercurius.Sparrow.Services.WebApi
         #region 常量
 
         private static readonly StatementNamespace NS = "Mercurius.Sparrow.Repositories.WebApi.User";
-        private static readonly StatementNamespace ApiNS = "Mercurius.Sparrow.Repositories.WebApi.Api";
 
         #endregion
 
@@ -89,7 +88,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         {
             var args = new { Account = account, Password = password.MD5() };
 
-            return this.InvokeService(nameof(ValidateAccount), () => this.Persistence.QueryForObject<User>(NS, "ValidateAccount", args), false, args: args);
+            return this.InvokeService(nameof(ValidateAccount), () => this.Persistence.QueryForObject<User>(NS, "ValidateAccount", args), args, false);
         }
 
         /// <summary>
@@ -102,7 +101,7 @@ namespace Mercurius.Sparrow.Services.WebApi
             return this.InvokeService(
                 nameof(GetUserById),
                 () => this.Persistence.QueryForObject<User>(NS, "GetById", id),
-                args: id);
+                id);
         }
 
 
@@ -116,7 +115,7 @@ namespace Mercurius.Sparrow.Services.WebApi
             return this.InvokeService(
                 nameof(GetUserByAccount),
                 () => this.Persistence.QueryForObject<User>(NS, "GetUserByAccount", account),
-                args: account);
+                account);
         }
 
         /// <summary>
@@ -131,7 +130,7 @@ namespace Mercurius.Sparrow.Services.WebApi
             return this.InvokePagingService(
                 nameof(SearchUsers),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(NS, "SearchUsers", out totalRecords, so),
-                args: so);
+                so);
         }
 
         #endregion

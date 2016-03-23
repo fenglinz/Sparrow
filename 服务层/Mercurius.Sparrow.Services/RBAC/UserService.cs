@@ -27,16 +27,16 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// <returns>执行结果</returns>
         public Response UpdateUserStatus(string userId, int status)
         {
+            var args = new { UserId = userId, Status = status };
+
             return this.InvokeService(
                 nameof(UpdateUserStatus),
                 () =>
                 {
-                    this.Persistence.Update(UserNamespace, "UpdateUserStatus", new { UserId = userId, Status = status });
+                    this.Persistence.Update(UserNamespace, "UpdateUserStatus", args);
 
                     this.ClearCache<User>();
-                },
-                userId,
-                status);
+                }, args);
         }
 
         /// <summary>
@@ -84,10 +84,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                             ModifyUserName = WebHelper.GetLogOnAccount(),
                             ModifyDateTime = DateTime.Now
                         });
-                },
-                id,
-                oldPassword,
-                newPassword);
+                }, new { id, oldPassword, newPassword });
         }
 
         /// <summary>
@@ -169,12 +166,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                         this.ClearCache<Organization>();
                         this.ClearCache<StaffOrganize>();
                     }
-                },
-                user,
-                departments,
-                roles,
-                groups,
-                permissions);
+                }, new { user, departments, roles, groups, permissions });
 
             if (!result.IsSuccess)
             {
@@ -185,35 +177,13 @@ namespace Mercurius.Sparrow.Services.RBAC
         }
 
         /// <summary>
-        /// 添加或者修改用户组信息。
-        /// </summary>
-        /// <param name="userGroup">用户组信息</param>
-        /// <returns>执行结果</returns>
-        public Response CreateOrUpdateUserGroup(UserGroup userGroup)
-        {
-            return this.InvokeService(
-                nameof(CreateOrUpdateUserGroup),
-                () =>
-                {
-                    this.Persistence.Update(UserNamespace, "CreateOrUpdateUserGroup", userGroup);
-
-                    this.ClearCache<UserGroup>();
-                },
-                userGroup);
-        }
-
-        /// <summary>
         /// 获取用户信息。
         /// </summary>
         /// <param name="id">用户编号</param>
         /// <returns>用户信息</returns>
         public Response<User> GetUser(string id)
         {
-            return this.InvokeService(
-                nameof(GetUser),
-                () => this.Persistence.QueryForObject<User>(UserNamespace, "GetUser", id),
-                false,
-                id);
+            return this.InvokeService(nameof(GetUser), () => this.Persistence.QueryForObject<User>(UserNamespace, "GetUser", id), id, false);
         }
 
         /// <summary>
@@ -223,7 +193,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// <returns>用户信息</returns>
         public Response<User> GetUserByAccount(string account)
         {
-            return this.InvokeService(nameof(GetUserByAccount), () => this.Persistence.QueryForObject<User>(UserNamespace, "GetUserByAccount", account), false, account);
+            return this.InvokeService(nameof(GetUserByAccount), () => this.Persistence.QueryForObject<User>(UserNamespace, "GetUserByAccount", account), account, false);
         }
 
         /// <summary>
@@ -236,13 +206,61 @@ namespace Mercurius.Sparrow.Services.RBAC
         {
             password = password.Encrypt();
 
+            var args = new { Account = account, Password = password };
+
+            return this.InvokeService(nameof(ValidateUser),
+                () => this.Persistence.QueryForObject<User>(UserNamespace, "ValidateUser", args), args, false);
+        }
+
+        /// <summary>
+        /// 查询用户信息。
+        /// </summary>
+        /// <param name="so">用户信息查询对象</param>
+        /// <returns>用户信息列表</returns>
+        public ResponseCollection<User> GetUsers(UserSO so)
+        {
+            so = so ?? new UserSO();
+
+            return this.InvokePagingService(
+                nameof(GetUsers),
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(UserNamespace, "GetUsers", out totalRecords, so),
+                so);
+        }
+
+
+        /// <summary>
+        /// 查询角色成员。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>角色成员信息</returns>
+        public ResponseCollection<User> GetUsersByRole(string id)
+        {
+            return this.InvokeService(nameof(GetUsersByRole),
+                () => this.Persistence.QueryForList<User>(UserNamespace, "GetUsersByRole", id), id);
+        }
+
+        /// <summary>
+        /// 获取未分配角色的用户。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>角色成员信息</returns>
+        public ResponseCollection<User> GetUnAllotRoleUsers(string id)
+        {
+            return this.InvokeService(nameof(GetUnAllotRoleUsers),
+                () => this.Persistence.QueryForList<User>(UserNamespace, "GetUnAllotRoleUsers", id), id);
+        }
+
+        /// <summary>
+        /// 获取用户组成员。
+        /// </summary>
+        /// <param name="id">用户组编号</param>
+        /// <returns>用户组成员信息</returns>
+        public ResponseCollection<User> GetUsersByGroup(string id)
+        {
             return this.InvokeService(
-                nameof(ValidateUser),
-                () =>
-                this.Persistence.QueryForObject<User>(UserNamespace, "ValidateUser", new { Account = account, Password = password }),
-                false,
-                account,
-                password);
+                nameof(GetUsersByGroup),
+                () => this.Persistence.QueryForList<User>(UserNamespace, "GetUsersByGroup", id),
+                id);
         }
 
         /// <summary>
@@ -259,8 +277,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.Persistence.Create(HomeShortcutNamespace, "CreateOrUpdate", homeShortcut);
 
                     this.ClearCache<HomeShortcut>();
-                },
-                homeShortcut);
+                }, homeShortcut);
         }
 
         /// <summary>
@@ -281,9 +298,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     }
 
                     this.ClearCache<HomeShortcut>();
-                },
-                userId,
-                args);
+                }, new { userId, args });
         }
 
         /// <summary>
@@ -296,7 +311,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetHomeShortcut),
                 () => this.Persistence.QueryForObject<HomeShortcut>(HomeShortcutNamespace, "GetHomeShortcut", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -309,47 +324,24 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetHomeShortcuts),
                 () => this.Persistence.QueryForList<HomeShortcut>(HomeShortcutNamespace, "GetHomeShortcuts", userId),
-                args: userId);
+                userId);
         }
 
         /// <summary>
-        /// 查询用户信息。
+        /// 添加或者修改用户组信息。
         /// </summary>
-        /// <param name="so">用户信息查询对象</param>
-        /// <returns>用户信息列表</returns>
-        public ResponseCollection<User> GetUsers(UserSO so)
-        {
-            so = so ?? new UserSO();
-
-            return this.InvokePagingService(
-                nameof(GetUsers),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(UserNamespace, "GetUsers", out totalRecords, so),
-                args: so);
-        }
-
-        /// <summary>
-        /// 获取用户组成员。
-        /// </summary>
-        /// <param name="id">用户组编号</param>
-        /// <returns>用户组成员信息</returns>
-        public ResponseCollection<User> GetUsersByGroup(string id)
+        /// <param name="userGroup">用户组信息</param>
+        /// <returns>执行结果</returns>
+        public Response CreateOrUpdateUserGroup(UserGroup userGroup)
         {
             return this.InvokeService(
-                nameof(GetUsersByGroup),
-                () => this.Persistence.QueryForList<User>(UserNamespace, "GetUsersByGroup", id),
-                args: id);
-        }
+                nameof(CreateOrUpdateUserGroup),
+                () =>
+                {
+                    this.Persistence.Update(UserNamespace, "CreateOrUpdateUserGroup", userGroup);
 
-        /// <summary>
-        /// 获取未分组的用户信息。
-        /// </summary>
-        /// <param name="userGroupId">用户组id</param>
-        /// <returns>用户信息列表</returns>
-        public ResponseCollection<User> GetUnAllotGroupUsers(string userGroupId)
-        {
-            return this.InvokeService(
-                nameof(GetUnAllotGroupUsers),
-                () => this.Persistence.QueryForList<User>(UserNamespace, "GetUnAllotGroupUsers", userGroupId));
+                    this.ClearCache<UserGroup>();
+                }, userGroup);
         }
 
         /// <summary>
@@ -362,7 +354,7 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetUserGroup),
                 () => this.Persistence.QueryForObject<UserGroup>(UserNamespace, "GetUserGroup", id),
-                args: id);
+                id);
         }
 
         /// <summary>
@@ -374,6 +366,18 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetUserGroups),
                 () => this.Persistence.QueryForList<UserGroup>(UserNamespace, "GetUserGroups"));
+        }
+
+        /// <summary>
+        /// 获取未分组的用户信息。
+        /// </summary>
+        /// <param name="userGroupId">用户组id</param>
+        /// <returns>用户信息列表</returns>
+        public ResponseCollection<User> GetUnAllotGroupUsers(string userGroupId)
+        {
+            return this.InvokeService(
+                nameof(GetUnAllotGroupUsers),
+                () => this.Persistence.QueryForList<User>(UserNamespace, "GetUnAllotGroupUsers", userGroupId));
         }
 
         /// <summary>
@@ -408,9 +412,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.ClearCache<User>();
                     this.ClearCache<UserGroup>();
                     this.ClearCache<SystemMenu>();
-                },
-                id,
-                args);
+                }, new { id, args });
         }
 
         /// <summary>
@@ -429,9 +431,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.ClearCache<User>();
                     this.ClearCache<UserGroup>();
                     this.ClearCache<SystemMenu>();
-                },
-                id,
-                userId);
+                }, new { id, userId });
         }
 
         #endregion
