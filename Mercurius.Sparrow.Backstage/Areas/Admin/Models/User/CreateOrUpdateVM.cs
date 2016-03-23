@@ -22,12 +22,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Models.User
         #region 属性
 
         /// <summary>
-        /// 获取或者设置用户信息。
+        /// 用户信息。
         /// </summary>
         public UserInfo User { get; set; }
 
         /// <summary>
-        /// 获取或者设置选择项。
+        /// 选择项。
         /// </summary>
         public IList<string> CheckValues
         {
@@ -81,22 +81,22 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Models.User
         #region 业务属性
 
         /// <summary>
-        /// 获取或者设置所属部门。
+        /// 所属部门。
         /// </summary>
         public string[] Departments { get; private set; }
 
         /// <summary>
-        /// 获取或者设置所属角色。
+        /// 所属角色。
         /// </summary>
         public string[] Roles { get; private set; }
 
         /// <summary>
-        /// 获取或者设置所属工作组。
+        /// 所属工作组。
         /// </summary>
         public string[] UserGroups { get; private set; }
 
         /// <summary>
-        /// 获取或者设置拥有的用户权限。
+        /// 拥有的用户权限。
         /// </summary>
         public string[] Permissions { get; private set; }
 

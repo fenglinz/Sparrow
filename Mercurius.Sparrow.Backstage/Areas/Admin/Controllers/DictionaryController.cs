@@ -17,7 +17,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置字典服务对象。
+        /// 字典服务对象。
         /// </summary>
         public IDictionaryService DictionaryService { get; set; }
 

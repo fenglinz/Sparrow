@@ -10,7 +10,7 @@
 {
     @Scripts.Render("~/bundles/treetable")
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             mercurius.FixedTableHeader("#dnd-example", 110);
 
             $("#dnd-example").treetable({
@@ -60,13 +60,24 @@
         }
         </text>)
 
+        @Html.RenderButtonScript("分配成员", @<text>
+        function @(item.NavigateUrl)() {
+            var roleId = GetSelectedValue();
+            var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
+
+            if (mercurius.HasSingleRowSelected(roleId)) {
+                mercurius.OpenDialog('@Url.Action("AllotMembers")/'+roleId+'?name='+escape(roleName), 'UserGroupSet', '角色成员信息-设置', 800, 450, {statusbar:false});
+            }
+        }
+        </text>)
+
         @Html.RenderButtonScript("分配权限",@<text>
         function @(item.NavigateUrl)() {
             var roleId = GetSelectedValue();
             var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
 
             if (mercurius.HasSingleRowSelected(roleId)) {
-                var url = '@Url.Action("AllotPermissions", "Role", new {@Area= "Admin" })/?id=' + roleId + '&role=' + escape(roleName);
+                var url = '@Url.Action("AllotPermissions", "Role", new {@Area = "Admin"})/?id=' + roleId + '&role=' + escape(roleName);
 
                 mercurius.NavigateUrl(url);
             }

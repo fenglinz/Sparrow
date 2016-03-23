@@ -18,7 +18,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置视图资源服务对象。
+        /// 视图资源服务对象。
         /// </summary>
         public IGlobalizationService GlobalizationService { get; set; }
 

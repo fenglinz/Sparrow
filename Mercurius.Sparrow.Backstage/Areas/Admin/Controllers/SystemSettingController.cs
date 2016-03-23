@@ -19,7 +19,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置系统设置服务对象。
+        /// 系统设置服务对象。
         /// </summary>
         public ISystemSettingService SystemSettingService { get; set; }
 

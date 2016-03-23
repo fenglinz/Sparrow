@@ -506,6 +506,21 @@
       ]]>
     </select>
 
+    <!-- 获取未分配组的用户 -->
+    <select id="GetUnAllotGroupUsers" parameterClass="string" resultClass="User">
+      <![CDATA[
+        SELECT
+          u.Id
+          ,u.Code
+          ,u.Account
+          ,u.Name
+        FROM RBAC.[User] u
+        LEFT JOIN RBAC.UserGroupRelation u_r
+          ON u.Id=u_r.UserId AND u_r.UserGroupId=#value#
+        WHERE u.Status=1 AND u_r.Id IS NULL
+      ]]>
+    </select>
+
     <!-- 获取用户组信息 -->
     <select id="GetUserGroup" parameterClass="string" resultClass="UserGroup">
       <![CDATA[
@@ -579,21 +594,6 @@
           ON cte.ModifyUserId=u2.Id
         WHERE cte.Status=1
         ORDER BY LTRIM(orderId)
-      ]]>
-    </select>
-
-    <!-- 获取未分配组的用户 -->
-    <select id="GetUnAllotGroupUsers" parameterClass="string" resultClass="User">
-      <![CDATA[
-        SELECT
-          u.Id
-          ,u.Code
-          ,u.Account
-          ,u.Name
-        FROM RBAC.[User] u
-        LEFT JOIN RBAC.UserGroupRelation u_r
-          ON u.Id=u_r.UserId AND u_r.UserGroupId=#value#
-        WHERE u.Status=1 AND u_r.Id IS NULL
       ]]>
     </select>
   </statements>

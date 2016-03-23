@@ -19,7 +19,7 @@ namespace Mercurius.Sparrow.Backstage
         #region 属性
 
         /// <summary>
-        /// 获取或者设置动态查询对象。
+        /// 动态查询对象。
         /// </summary>
         public DynamicQuery DynamicQuery { get; set; }
 

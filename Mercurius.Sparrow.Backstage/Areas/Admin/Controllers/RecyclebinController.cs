@@ -32,7 +32,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置回收站服务对象。
+        /// 回收站服务对象。
         /// </summary>
         public IRecyclebinService RecyclebinService { get; set; }
 

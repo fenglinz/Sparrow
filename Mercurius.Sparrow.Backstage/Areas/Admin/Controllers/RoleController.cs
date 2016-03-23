@@ -19,17 +19,22 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置角色服务对象。
+        /// 角色服务对象。
         /// </summary>
         public IRoleService RoleService { get; set; }
 
         /// <summary>
-        /// 获取或者设置权限服务对象。
+        /// 用户服务对象。
+        /// </summary>
+        public IUserService UserService { get; set; }
+
+        /// <summary>
+        /// 权限服务对象。
         /// </summary>
         public IPermissionService PermissionService { get; set; }
 
         /// <summary>
-        /// 获取或者设置组织信息服务对象。
+        /// 组织信息服务对象。
         /// </summary>
         public IOrganizationService OrganizationService { get; set; }
 
@@ -59,8 +64,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         public ActionResult CreateOrUpdate(string id = null, string parentId = "0")
         {
             this.ViewBag.Roles = this.RoleService.GetRoles();
-            this.ViewBag.RoleUsers = this.RoleService.GetRoleUsers(id);
-            this.ViewBag.StaffOrganizes = this.OrganizationService.GetStaffOrganizes();
             this.ViewBag.ParentId = string.IsNullOrWhiteSpace(parentId) ? "0" : parentId;
 
             if (!string.IsNullOrWhiteSpace(id))
@@ -84,11 +87,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// 保存角色信息。
         /// </summary>
         /// <param name="role">角色信息</param>
-        /// <param name="userIds">拥有角色的用户编号</param>
         /// <returns>操作结果</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateOrUpdate(Role role, string userIds)
+        public ActionResult CreateOrUpdate(Role role)
         {
             if (string.IsNullOrWhiteSpace(role.Id))
             {
@@ -97,31 +99,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             role.Initialize();
 
-            if (role.IsValid())
-            {
-                if (!string.IsNullOrWhiteSpace(userIds))
-                {
-                    role.UserRoles = (from s in userIds.Split(',')
-                                      where
-                                          !string.IsNullOrWhiteSpace(s)
-                                      select
-                                          new UserRole { RoleId = role.Id, UserId = s, CreateUserId = WebHelper.GetLogOnUserId(), }
-                                      ).ToList();
-                }
+            var rsp = this.RoleService.CreateOrUpdate(role);
 
-                var rsp = this.RoleService.CreateOrUpdate(role);
-
-                if (!rsp.IsSuccess)
-                {
-                    return this.Alert("执行失败，失败原因：" + rsp.ErrorMessage);
-                }
-            }
-            else
-            {
-                return this.Alert(this.ConvertToHtml(role.GetErrorMessage()));
-            }
-
-            return this.CloseDialogWithAlert("执行成功！");
+            return rsp.IsSuccess ? this.CloseDialogWithAlert("执行成功！") : this.Alert("执行失败，失败原因：" + rsp.ErrorMessage);
         }
 
         #endregion
@@ -143,6 +123,18 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             return this.View();
         }
+
+        #region 分配成员
+
+        public ActionResult AllotMembers(string id)
+        {
+            this.ViewBag.RoleMembers = this.UserService.GetUsersByRole(id);
+            this.ViewBag.UnAllotRoleUsers = this.UserService.GetUnAllotRoleUsers(id);
+
+            return View();
+        }
+
+        #endregion
 
         #region 权限分配
 

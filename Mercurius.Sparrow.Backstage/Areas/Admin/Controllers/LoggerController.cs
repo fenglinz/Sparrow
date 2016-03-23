@@ -17,7 +17,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 		#region 属性
 
 		/// <summary>
-		/// 获取或者设置日志信息服务对象。
+		/// 日志信息服务对象。
 		/// </summary>
 		public ILoggerService LoggerService { get; set; }
 

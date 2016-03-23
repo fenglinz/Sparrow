@@ -26,22 +26,22 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置用户信息服务。
+        /// 用户信息服务。
         /// </summary>
         public IUserService UserService { get; set; }
 
         /// <summary>
-        /// 获取或者设置角色信息服务。
+        /// 角色信息服务。
         /// </summary>
         public IRoleService RoleService { get; set; }
 
         /// <summary>
-        /// 获取或者设置权限管理服务。
+        /// 权限管理服务。
         /// </summary>
         public IPermissionService PermissionService { get; set; }
 
         /// <summary>
-        /// 获取或者设置组织机构服务对象。
+        /// 组织机构服务对象。
         /// </summary>
         public IOrganizationService OrganizationService { get; set; }
 

@@ -17,7 +17,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置用户信息服务。
+        /// 用户信息服务。
         /// </summary>
         public IUserService UserService { get; set; }
 

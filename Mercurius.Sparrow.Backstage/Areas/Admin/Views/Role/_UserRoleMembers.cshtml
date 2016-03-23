@@ -1,10 +1,10 @@
 ﻿@{
-    var groupMembers = this.ViewBag.GroupMembers as ResponseCollection<User>;
+    var groupMembers = this.ViewBag.RoleMembers as ResponseCollection<User>;
 }
 <div>
     <ul id="treeContainer" class="filetree">
         <li id="@this.ViewBag.Id">
-            <span class="folder"></span> @this.ViewBag.Name
+            <span class="folder"></span> @this.Request.Params["name"]
             <ul>
                 @if (groupMembers.HasData())
                 {

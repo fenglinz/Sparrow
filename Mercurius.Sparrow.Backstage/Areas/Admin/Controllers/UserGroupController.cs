@@ -18,12 +18,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置用户信息。
+        /// 用户信息。
         /// </summary>
         public IUserService UserService { get; set; }
 
         /// <summary>
-        /// 获取或者设置权限管理服务。
+        /// 权限管理服务。
         /// </summary>
         public IPermissionService PermissionService { get; set; }
 

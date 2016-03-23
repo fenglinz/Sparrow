@@ -128,7 +128,7 @@
             </div>
         </div>
         <div id="allUserInfo" class="panel-body" style="padding: 0;margin:0;">
-            @Html.Partial("_UnAllotGroupUsers")
+            @Html.Partial("_UnAllotRoleUsers")
         </div>
     </div>
     <div class="col-sm-1">
@@ -139,9 +139,9 @@
     <div class="col-sm-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                用户组成员;<span style="color: Red;">双击移除成员</span>
+                角色成员;<span style="color: Red;">双击移除成员</span>
             </div><div class="panel-body" id="selectedUserInfo" style="padding:0;padding-bottom: 5px; height: 405px;">
-                @Html.Partial("_UserGroupMembers")
+                @Html.Partial("_UserRoleMembers")
             </div>
         </div>
     </div>

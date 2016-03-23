@@ -19,7 +19,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置Web API用户信息服务对象。
+        /// Web API用户信息服务对象。
         /// </summary>
         public IUserService UserService { get; set; }
 

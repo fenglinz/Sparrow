@@ -17,17 +17,17 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置用户服务对象。
+        /// 用户服务对象。
         /// </summary>
         public IUserService UserService { get; set; }
 
         /// <summary>
-        /// 获取或者设置按钮服务对象。
+        /// 按钮服务对象。
         /// </summary>
         public IButtonService ButtonService { get; set; }
 
         /// <summary>
-        /// 获取或者设置权限管理服务对象。
+        /// 权限管理服务对象。
         /// </summary>
         public IPermissionService PermissionService { get; set; }
 

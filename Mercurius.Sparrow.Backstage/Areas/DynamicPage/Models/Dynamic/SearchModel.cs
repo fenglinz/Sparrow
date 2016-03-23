@@ -18,32 +18,32 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
         #region 属性
 
         /// <summary>
-        /// 获取或者设置表信息。
+        /// 表信息。
         /// </summary>
         public Table Table { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询信息。
+        /// 查询信息。
         /// </summary>
         public SearchInfo Search { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询信息。
+        /// 查询信息。
         /// </summary>
         public IList<ConditionInfo> Conditions { get; set; }
 
         /// <summary>
-        /// 获取或者设置表的所有字段信息。
+        /// 表的所有字段信息。
         /// </summary>
         public IList<Column> Columns { get; set; }
 
         /// <summary>
-        /// 获取或者设置总记录数。
+        /// 总记录数。
         /// </summary>
         public int TotalRecords { get; set; }
 
         /// <summary>
-        /// 获取或者设置数据源。
+        /// 数据源。
         /// </summary>
         public DataTable DataSource { get; set; }
 

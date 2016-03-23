@@ -39,32 +39,32 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
         #region 属性
 
         /// <summary>
-        /// 获取或者设置表信息。
+        /// 表信息。
         /// </summary>
         public Table Table { get; set; }
 
         /// <summary>
-        /// 获取获取设置表查询信息。
+        /// 表查询信息。
         /// </summary>
         public SearchInfo Search { get; set; }
 
         /// <summary>
-        /// 获取或者设置表的字段信息。
+        /// 表的字段信息。
         /// </summary>
         public IList<Column> Columns { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询配置信息。
+        /// 查询配置信息。
         /// </summary>
         public IList<ConditionInfo> Conditions { get; set; }
 
         /// <summary>
-        /// 获取或者设置排序配置信息。
+        /// 排序配置信息。
         /// </summary>
         public IList<OrderInfo> Orders { get; set; }
 
         /// <summary>
-        /// 获取或者设置字典信息。
+        /// 字典信息。
         /// </summary>
         public IList<Dictionary> Dictionaries
         {

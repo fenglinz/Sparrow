@@ -24,17 +24,17 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
         #region 属性
 
         /// <summary>
-        /// 获取或者设置表信息。
+        /// 表信息。
         /// </summary>
         public Table Table { get; set; }
 
         /// <summary>
-        /// 获取或者设置表的所有列信息。
+        /// 表的所有列信息。
         /// </summary>
         public IEnumerable<CreateOrUpdateColumn> Columns { get; set; }
 
         /// <summary>
-        /// 获取或者设置字典信息。
+        /// 字典信息。
         /// </summary>
         public IList<Dictionary> Dictionaries
         {
