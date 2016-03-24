@@ -55,43 +55,54 @@
       ]]>
     </update>
 
-    <!-- 添加或者编辑用户角色关系信息 -->
-    <insert id="CreateOrUpdateRelation" parameterClass="Params">
+    <!-- 删除角色 -->
+    <delete id="Remove" parameterClass="string">
       <![CDATA[
-        BEGIN
-          DELETE FROM RBAC.UserRole WHERE UserId=#UserId#;
+        DELETE FROM RBAC.Role WHERE Id=#value#;
+        DELETE FROM RBAC.UserRole WHERE RoleId=#value#;
+        DELETE FROM RBAC.RolePermission WHERE RoleId=#value#;
       ]]>
-      <dynamic>
-        <isNotNull property="UserRoles">
+    </delete>
+    
+    <!-- 添加角色成员 -->
+    <insert id="AddMembers" parameterClass="Params">
+      <isNotNull property="UserIds">
+        <iterate property="UserIds" open="" close="" conjunction="">
           <![CDATA[
-            INSERT INTO RBAC.UserRole
-            (
-              Id,
-              UserId,
-              RoleId,
-              CreateUserId,
-              CreateDateTime
-            )
-            VALUES
-          ]]>
-          <iterate property="UserRoles" open="" close=";" conjunction=",">
-            <![CDATA[
+            IF NOT EXISTS(SELECT * FROM RBAC.[UserRole] WHERE RoleId=#Id# AND UserId=#UserIds[]#)
+              INSERT INTO RBAC.UserRole
+              (
+                Id,
+                UserId,
+                RoleId,
+                CreateUserId,
+                CreateDateTime
+              )
+              VALUES
               (
                 NEWID(),
-                #UserRoles[].UserId#,
-                #UserRoles[].RoleId#,
-                #UserRoles[].CreateUserId#,
+                #UserIds[]#,
+                #Id#,
+                #CreateUserId#,
                 GETDATE()
               )
-            ]]>
-          </iterate>
-        </isNotNull>
-      </dynamic>
-      <![CDATA[
-        END
-      ]]>
+          ]]>
+        </iterate>
+      </isNotNull>
     </insert>
 
+    <!-- 删除角色成员 -->
+    <delete id="RemoveMembers" parameterClass="Params">
+      <isNotNull property="UserIds">
+        <![CDATA[
+          DELETE FROM RBAC.UserRole WHERE RoleId=#Id# AND UserId IN
+        ]]>
+        <iterate property="UserIds" open="(" conjunction="," close=");">
+          <![CDATA[#UserIds[]#]]>
+        </iterate>
+      </isNotNull>
+    </delete>
+    
     <!-- 根据编号获取角色信息 -->
     <select id="GetRoleById" parameterClass="string" resultClass="Role">
       <![CDATA[
@@ -188,7 +199,7 @@
     </select>
 
     <!-- 获取角色用户 -->
-    <select id="GetRoleMembers" parameterClass="string" resultClass="User">
+    <select id="GetMembers" parameterClass="string" resultClass="User">
       <![CDATA[
         SELECT
           DISTINCT a.*
@@ -200,7 +211,7 @@
     </select>
 
     <!-- 获取未分配角色的用户 -->
-    <select id="GetUnAllotRoleUsers" parameterClass="string" resultClass="User">
+    <select id="GetUnAllotUsers" parameterClass="string" resultClass="User">
       <![CDATA[
         SELECT
           a.*

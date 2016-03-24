@@ -69,7 +69,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             if (!string.IsNullOrWhiteSpace(id))
             {
-                var rspRole = this.RoleService.GetRole(id);
+                var rspRole = this.RoleService.GetRoleById(id);
 
                 if (!rspRole.IsSuccess)
                 {
@@ -120,7 +120,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             this.ViewBag.RoleId = roleId;
             this.ViewBag.RoleName = roleName;
             this.ViewBag.SystemMenus = rspSystemMenus;
-            this.ViewBag.RoleUsers = this.RoleService.GetRoleMembers(roleId);
+            this.ViewBag.RoleUsers = this.RoleService.GetMembers(roleId);
 
             return this.View();
         }
@@ -130,16 +130,16 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         public ActionResult AllotMembers(string id)
         {
             this.ViewBag.Id = id;
-            this.ViewBag.RoleMembers = this.RoleService.GetRoleMembers(id);
-            this.ViewBag.UnAllotRoleUsers = this.RoleService.GetUnAllotRoleUsers(id);
+            this.ViewBag.RoleMembers = this.RoleService.GetMembers(id);
+            this.ViewBag.UnAllotRoleUsers = this.RoleService.GetUnAllotUsers(id);
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult _GetUnAllotRoleUsers(string id, string type, string query)
+        public ActionResult _GetUnAllotUsers(string id, string type, string query)
         {
-            var users = this.RoleService.GetUnAllotRoleUsers(id);
+            var users = this.RoleService.GetUnAllotUsers(id);
 
             if (!string.IsNullOrWhiteSpace(query) && users.HasData())
             {
@@ -164,25 +164,36 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             this.ViewBag.UnAllotRoleUsers = users;
 
-            return PartialView("_UnAllotRoleUsers");
+            return PartialView("_UnAllotUsers");
         }
 
         [HttpPost]
-        public ActionResult _GetRoleMembers(string id)
+        public ActionResult _GetMembers(string id)
         {
-            this.ViewBag.RoleMembers = this.RoleService.GetRoleMembers(id);
+            this.ViewBag.RoleMembers = this.RoleService.GetMembers(id);
 
-            return PartialView("_UserRoleMembers");
+            return PartialView("_Members");
         }
 
-        public ActionResult AddUserMembers(string id, string userIds)
+        [HttpPost]
+        public ActionResult AddMembers(string id, string userIds)
         {
             if (string.IsNullOrWhiteSpace(userIds))
             {
-                return Json(new Response {ErrorMessage = "请选中用户列表员工！" });
+                return Json(new Response { ErrorMessage = "请选中用户列表员工！" });
             }
 
-            return null;
+            var rsp = this.RoleService.AddMembers(id, userIds.Split(','));
+
+            return Json(rsp);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveMember(string id, string userId)
+        {
+            var rsp = this.RoleService.RemoveMembers(id, userId);
+
+            return Json(rsp);
         }
 
         #endregion

@@ -15,11 +15,34 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         Response CreateOrUpdate(Role role);
 
         /// <summary>
+        /// 删除用户角色。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>删除结果</returns>
+        Response Remove(string id);
+
+        /// <summary>
+        /// 添加角色成员。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <param name="users">用户编号列表</param>
+        /// <returns>添加结果</returns>
+        Response AddMembers(string id, params string[] users);
+
+        /// <summary>
+        /// 删除角色成员。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <param name="users">用户编号列表</param>
+        /// <returns>删除结果</returns>
+        Response RemoveMembers(string id, params string[] users);
+
+        /// <summary>
         /// 获取角色信息。
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>角色信息</returns>
-        Response<Role> GetRole(string id);
+        Response<Role> GetRoleById(string id);
 
         /// <summary>
         /// 获取角色信息。
@@ -46,13 +69,13 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>角色成员信息</returns>
-        ResponseCollection<User> GetRoleMembers(string id);
+        ResponseCollection<User> GetMembers(string id);
 
         /// <summary>
         /// 获取未分配角色的用户。
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>角色成员信息</returns>
-        ResponseCollection<User> GetUnAllotRoleUsers(string id);
+        ResponseCollection<User> GetUnAllotUsers(string id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Mercurius.Sparrow.Contracts;
+﻿using Mercurius.Infrastructure;
+using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Services.Support;
@@ -27,8 +28,63 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.Persistence.Update(RoleNamespace, "CreateOrUpdate", role);
 
                     this.ClearCache<Role>();
+                    this.ClearCache<UserRole>();
+                    this.ClearCache<RolePermission>();
                 },
                 role);
+        }
+
+        /// <summary>
+        /// 删除用户角色。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>删除结果</returns>
+        public Response Remove(string id)
+        {
+            return this.InvokeService(nameof(Remove), () =>
+            {
+                this.Persistence.Delete(RoleNamespace, "Remove", id);
+
+                this.ClearCache<Role>();
+                this.ClearCache<UserRole>();
+                this.ClearCache<RolePermission>();
+            }, id);
+        }
+
+        /// <summary>
+        /// 添加角色成员。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <param name="users">用户编号列表</param>
+        /// <returns>添加结果</returns>
+        public Response AddMembers(string id, params string[] users)
+        {
+            return this.InvokeService(nameof(AddMembers), () =>
+            {
+                var args = new { Id = id, UserIds = users, CreateUserId = WebHelper.GetLogOnUserId() };
+
+                this.Persistence.Create(RoleNamespace, "AddMembers", args);
+
+                this.ClearCache<User>();
+            }, new { id, users });
+        }
+
+        /// <summary>
+        /// 删除角色成员。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <param name="users">用户编号列表</param>
+        /// <returns>删除结果</returns>
+        public Response RemoveMembers(string id, params string[] users)
+        {
+            return this.InvokeService(nameof(RemoveMembers), () =>
+            {
+                var args = new { Id = id, UserIds = users };
+
+                this.Persistence.Delete(RoleNamespace, "RemoveMembers", args);
+
+                this.ClearCache<User>();
+            }, new { id, users });
         }
 
         /// <summary>
@@ -36,10 +92,10 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>角色信息</returns>
-        public Response<Role> GetRole(string id)
+        public Response<Role> GetRoleById(string id)
         {
             return this.InvokeService(
-                nameof(GetRole),
+                nameof(GetRoleById),
                 () => this.Persistence.QueryForObject<Role>(RoleNamespace, "GetRoleById", id),
                 id);
         }
@@ -50,7 +106,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// <returns>角色信息列表</returns>
         public ResponseCollection<Role> GetRoles()
         {
-            return this.InvokeService("GetRoles", () => this.Persistence.QueryForList<Role>(RoleNamespace, "GetRoles"));
+            return this.InvokeService(nameof(GetRoles), () => this.Persistence.QueryForList<Role>(RoleNamespace, "GetRoles"));
         }
 
         /// <summary>
@@ -84,10 +140,10 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>角色成员信息</returns>
-        public ResponseCollection<User> GetRoleMembers(string id)
+        public ResponseCollection<User> GetMembers(string id)
         {
-            return this.InvokeService(nameof(GetRoleMembers),
-                () => this.Persistence.QueryForList<User>(RoleNamespace, "GetRoleMembers", id), id);
+            return this.InvokeService(nameof(GetMembers),
+                () => this.Persistence.QueryForList<User>(RoleNamespace, "GetMembers", id), id);
         }
 
         /// <summary>
@@ -95,10 +151,10 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>角色成员信息</returns>
-        public ResponseCollection<User> GetUnAllotRoleUsers(string id)
+        public ResponseCollection<User> GetUnAllotUsers(string id)
         {
-            return this.InvokeService(nameof(GetUnAllotRoleUsers),
-                () => this.Persistence.QueryForList<User>(RoleNamespace, "GetUnAllotRoleUsers", id), id);
+            return this.InvokeService(nameof(GetUnAllotUsers),
+                () => this.Persistence.QueryForList<User>(RoleNamespace, "GetUnAllotUsers", id), id);
         }
 
         #endregion

@@ -446,8 +446,8 @@
     <Content Include="Areas\Admin\Views\UserGroup\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroup\Index.cshtml" />
     <Content Include="Areas\Admin\Views\UserGroup\ViewDetails.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\_UnAllotGroupUsers.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\_UserGroupMembers.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroup\_UnAllotUsers.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroup\_Members.cshtml" />
     <Content Include="Areas\Admin\Views\User\ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\User\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\User\CurrentUser.cshtml" />
@@ -486,8 +486,8 @@
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\CreateOrUpdate.cshtml" />
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\_RenderProperties.cshtml" />
     <Content Include="Areas\Admin\Views\Role\AllotMembers.cshtml" />
-    <Content Include="Areas\Admin\Views\Role\_UnAllotRoleUsers.cshtml" />
-    <Content Include="Areas\Admin\Views\Role\_UserRoleMembers.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\_UnAllotUsers.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\_Members.cshtml" />
     <None Include="Areas\Admin\Views\SystemSetting\ShowCaches.cshtml" />
     <None Include="Areas\DynamicPage\Views\ExtensionProperty\_Properties.cshtml" />
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\Index.cshtml" />
