@@ -78,7 +78,9 @@ namespace Mercurius.Infrastructure.Cache
         /// <returns>值</returns>
         public T Get<T>(string key)
         {
-            return (T)HttpRuntime.Cache.Get(key);
+            var obj = HttpRuntime.Cache.Get(key);
+
+            return obj == null ? default(T) : (T)obj;
         }
 
         /// <summary>

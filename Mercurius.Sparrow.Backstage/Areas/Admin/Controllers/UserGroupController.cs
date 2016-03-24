@@ -18,9 +18,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 用户信息。
+        /// 用户组信息服务。
         /// </summary>
-        public IUserService UserService { get; set; }
+        public IUserGroupService UserGroupService { get; set; }
 
         /// <summary>
         /// 权限管理服务。
@@ -35,11 +35,19 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <returns>执行结果</returns>
         public ActionResult Index()
         {
-            var rspGroups = this.UserService.GetUserGroups();
+            var rspGroups = this.UserGroupService.GetUserGroups();
 
             this.ViewBag.UserGroups = rspGroups;
 
             return this.View();
+        }
+
+        [HttpPost]
+        public ActionResult Remove(string id)
+        {
+            var rsp = this.UserGroupService.Remove(id);
+
+            return rsp.IsSuccess ? AlertWithRefresh("删除成功！") : Alert("出现错误，错误原因：" + rsp.ErrorMessage, AlertType.Error);
         }
 
         #region 添加或编辑用户组信息
@@ -52,14 +60,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <returns>执行结果</returns>
         public ActionResult CreateOrUpdate(string id, string parentId = "0")
         {
-            this.ViewBag.Id = id;
-            this.ViewBag.ParentId = parentId;
-            this.ViewBag.UserGroups = this.UserService.GetUserGroups();
+            this.ViewBag.UserGroups = this.UserGroupService.GetUserGroups();
             this.ViewBag.ParentId = string.IsNullOrWhiteSpace(parentId) ? "0" : parentId;
 
             if (!string.IsNullOrWhiteSpace(id))
             {
-                var rspUserGroup = this.UserService.GetUserGroup(id);
+                var rspUserGroup = this.UserGroupService.GetUserGroupById(id);
 
                 if (rspUserGroup.IsSuccess)
                 {
@@ -83,32 +89,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(UserGroup userGroup)
         {
-            if (string.IsNullOrWhiteSpace(userGroup.Id))
-            {
-                userGroup.Id = Guid.NewGuid().ToString();
-            }
-            
             userGroup.Initialize();
 
-            string errorMsg;
+            var rsp = this.UserGroupService.CreateOrUpdate(userGroup);
 
-            if (userGroup.IsValid())
-            {
-                var rsp = this.UserService.CreateOrUpdateUserGroup(userGroup);
-
-                if (rsp.IsSuccess)
-                {
-                    return this.CloseDialogWithAlert("保存成功！");
-                }
-
-                errorMsg = rsp.ErrorMessage;
-            }
-            else
-            {
-                errorMsg = this.ConvertToHtml(userGroup.GetErrorMessage());
-            }
-
-            return this.Alert(errorMsg);
+            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("出现错误，错误原因：" + rsp.ErrorMessage, AlertType.Waring);
         }
 
         #endregion
@@ -125,8 +110,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         {
             this.ViewBag.Id = id;
             this.ViewBag.Name = name;
-            this.ViewBag.GroupMembers = this.UserService.GetUsersByGroup(id);
-            this.ViewBag.UnAllotGroupUsers = this.UserService.GetUnAllotGroupUsers(id);
+            this.ViewBag.GroupMembers = this.UserGroupService.GetMembers(id);
+            this.ViewBag.UnAllotGroupUsers = this.UserGroupService.GetUnAllotUsers(id);
 
             return this.View();
         }
@@ -141,7 +126,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult _GetUnAllotGroupUsers(string type, string userGroupId, string query)
         {
-            var rsUnAllotUsers = this.UserService.GetUnAllotGroupUsers(userGroupId);
+            var rsUnAllotUsers = this.UserGroupService.GetUnAllotUsers(userGroupId);
 
             if (!string.IsNullOrWhiteSpace(query) && !rsUnAllotUsers.Datas.IsEmpty())
             {
@@ -149,20 +134,20 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
                 switch (type)
                 {
-                case "Code":
-                    rsUnAllotUsers.Datas = rsUnAllotUsers.Datas.Where(u => u.Code.ToUpper().Contains(query)).ToList();
+                    case "Code":
+                        rsUnAllotUsers.Datas = rsUnAllotUsers.Datas.Where(u => u.Code.ToUpper().Contains(query)).ToList();
 
-                    break;
+                        break;
 
-                case "Account":
-                    rsUnAllotUsers.Datas = rsUnAllotUsers.Datas.Where(u => u.Account.ToUpper().Contains(query)).ToList();
+                    case "Account":
+                        rsUnAllotUsers.Datas = rsUnAllotUsers.Datas.Where(u => u.Account.ToUpper().Contains(query)).ToList();
 
-                    break;
+                        break;
 
-                case "Name":
-                    rsUnAllotUsers.Datas = rsUnAllotUsers.Datas.Where(u => u.Name.ToUpper().Contains(query)).ToList();
+                    case "Name":
+                        rsUnAllotUsers.Datas = rsUnAllotUsers.Datas.Where(u => u.Name.ToUpper().Contains(query)).ToList();
 
-                    break;
+                        break;
                 }
             }
 
@@ -178,10 +163,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="name">用户组名称</param>
         /// <returns>执行结果</returns>
         [HttpPost]
-        public ActionResult _GetGroupMembers(string id, string name)
+        public ActionResult _GetMembers(string id, string name)
         {
             this.ViewBag.Name = name;
-            this.ViewBag.GroupMembers = this.UserService.GetUsersByGroup(id);
+            this.ViewBag.GroupMembers = this.UserGroupService.GetMembers(id);
 
             return this.PartialView("_UserGroupMembers");
         }
@@ -193,9 +178,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="userIds">用户编号</param>
         /// <returns>执行结果</returns>
         [HttpPost]
-        public ActionResult AddUserGroupMembers(string id, string userIds)
+        public ActionResult AddMembers(string id, string userIds)
         {
-            var rs = this.UserService.AddUserGroupMembers(id, userIds.Split(','));
+            var rs = this.UserGroupService.AddMembers(id, userIds.Split(','));
 
             return this.Json(new { IsSuccess = rs.IsSuccess, Message = rs.ErrorMessage });
         }
@@ -207,9 +192,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="userId">用户编号</param>
         /// <returns>执行结果</returns>
         [HttpPost]
-        public ActionResult RemoveUserGroupMember(string id, string userId)
+        public ActionResult RemoveMember(string id, string userId)
         {
-            var rs = this.UserService.RemoveUserGroupMember(id, userId);
+            var rs = this.UserGroupService.RemoveMembers(id, userId);
 
             return this.Json(new { IsSuccess = rs.IsSuccess, Message = rs.ErrorMessage });
         }
@@ -249,8 +234,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return this.Json(new { Data = rspAllot.IsSuccess ? "分配成功！" : rspAllot.ErrorMessage });
         }
 
-        #endregion
-
         /// <summary>
         /// 查看用户组权限。
         /// </summary>
@@ -265,5 +248,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             return this.View(model);
         }
+
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
 ﻿@{
-    var roleUsers = this.ViewBag.RoleUsers as ResponseCollection<UserRole>;
+    var members = this.ViewBag.RoleUsers as ResponseCollection<User>;
     var systemMenus = this.ViewBag.SystemMenus as ResponseCollection<SystemMenu>;
 }
 
@@ -141,18 +141,18 @@
                 </tr>
             </thead>
             <tbody>
-                @if (roleUsers.HasData())
+                @if (members.HasData())
                 {
-                    foreach (var item in roleUsers.Datas)
+                    foreach (var item in members.Datas)
                     {
                         <tr>
                             <td style="text-align: center;">@item.RowIndex</td>
-                            <td>@item.UserName</td>
+                            <td>@item.Name</td>
                             <td>@item.Departments.Contract("|")</td>
                         </tr>
                     }
                 }
-                else if (roleUsers.IsSuccess())
+                else if (members.IsSuccess())
                 {
                     <tr>
                         <td colspan="3" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
@@ -161,7 +161,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="3" class="text-danger">@roleUsers.GetErrorMessage()</td>
+                        <td colspan="3" class="text-danger">@members.GetErrorMessage()</td>
                     </tr>
                 }
             </tbody>

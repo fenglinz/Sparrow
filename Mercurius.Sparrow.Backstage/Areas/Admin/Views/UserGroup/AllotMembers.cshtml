@@ -52,7 +52,7 @@
             $.ajax({
                 type: 'POST',
                 cache: false,
-                url: '@Url.Action("_GetGroupMembers")',
+                url: '@Url.Action("_GetMembers")',
                 data: { id: '@this.ViewBag.Id', name: '@this.ViewBag.Name' },
                 dataType: 'html',
                 success: function (r) {
@@ -72,7 +72,7 @@
 
             if (mercurius.HasAnyRowSelected(key)) {
 
-                mercurius.AjaxHelper('@Url.Action("AddUserGroupMembers")', { id: '@this.ViewBag.Id', userIds: key }, function (rs) {
+                mercurius.AjaxHelper('@Url.Action("AddMembers")', { id: '@this.ViewBag.Id', userIds: key }, function (rs) {
                     if (rs.IsSuccess) {
                         mercurius.ShowTipsMessage("添加用户到组成功！", 2000, 4);
 
@@ -90,7 +90,7 @@
 
         //删除用户组里面成员
         function DeleteMember(id) {
-            mercurius.AjaxHelper('@Url.Action("RemoveUserGroupMember")', { id: '@this.ViewBag.Id', userId: id }, function (rs) {
+            mercurius.AjaxHelper('@Url.Action("RemoveMember")', { id: '@this.ViewBag.Id', userId: id }, function (rs) {
                 if (rs.IsSuccess) {
                     mercurius.ShowTipsMessage("移除用户成员成功！", 2000, 4);
 
@@ -140,7 +140,8 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 用户组成员;<span style="color: Red;">双击移除成员</span>
-            </div><div class="panel-body" id="selectedUserInfo" style="padding:0;padding-bottom: 5px; height: 405px;">
+            </div>
+            <div class="panel-body" id="selectedUserInfo" style="padding:0;padding-bottom: 5px; height: 405px;">
                 @Html.Partial("_UserGroupMembers")
             </div>
         </div>

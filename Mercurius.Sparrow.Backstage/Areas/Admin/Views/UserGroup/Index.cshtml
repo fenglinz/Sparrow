@@ -50,16 +50,15 @@
             var userGroupId = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(userGroupId)) {
-                OnRemoveToRecycbin({
-                    name: '用户组管理',
-                    relyColumn: 'ParentId',
-                    relyValue: userGroupId,
-                    column: 'Id',
-                    value: userGroupId
+                mercurius.ShowConfirmMessage('是否确定删除该用户组？', function() {
+                    $.ajax({
+                        type:'POST',
+                        cache:false,
+                        url:'@Url.Action("Remove")',
+                        data:{id:userGroupId}
+                    });
                 });
             }
-
-            return false;
         }
         </text>)
 

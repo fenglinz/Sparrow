@@ -13,7 +13,26 @@ namespace Mercurius.Sparrow.Services.RBAC
     [Module("基于角色的访问控制模块")]
     public class ButtonService : ServiceSupport, IButtonService
     {
-        #region 实现IButtonService接口
+        #region IButtonService接口实现
+
+        /// <summary>
+        /// 新增或更新按钮信息。
+        /// </summary>
+        /// <param name="button">按钮信息</param>
+        /// <returns>执行结果</returns>
+        public Response CreateOrUpdate(Button button)
+        {
+            return this.InvokeService(
+                nameof(CreateOrUpdate),
+                () =>
+                {
+                    this.Persistence.Update(ButtonNamespace, "CreateOrUpdate", button);
+
+                    this.ClearCache<Button>();
+                    this.ClearCache<SystemMenu>();
+                },
+                button);
+        }
 
         /// <summary>
         /// 获取指定按钮信息。
@@ -47,25 +66,6 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(nameof(GetUnUsedButtons),
                 () => this.Persistence.QueryForList<Button>(ButtonNamespace, "GetUnUsedButtons", systemMenuId),
                 systemMenuId);
-        }
-
-        /// <summary>
-        /// 新增或更新按钮信息。
-        /// </summary>
-        /// <param name="button">按钮信息</param>
-        /// <returns>执行结果</returns>
-        public Response CreateOrUpdate(Button button)
-        {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Update(ButtonNamespace, "CreateOrUpdate", button);
-
-                    this.ClearCache<Button>();
-                    this.ClearCache<SystemMenu>();
-                },
-                button);
         }
 
         #endregion

@@ -36,6 +36,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         public IRoleService RoleService { get; set; }
 
         /// <summary>
+        /// 用户组信息服务。
+        /// </summary>
+        public IUserGroupService UserGroupService { get; set; }
+
+        /// <summary>
         /// 权限管理服务。
         /// </summary>
         public IPermissionService PermissionService { get; set; }
@@ -155,7 +160,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             this.ViewBag.Departments = this.OrganizationService.GetOrganizations();
             this.ViewBag.SystemMenus = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
             this.ViewBag.Roles = this.RoleService.GetRoles();
-            this.ViewBag.UserGroups = this.UserService.GetUserGroups();
+            this.ViewBag.UserGroups = this.UserGroupService.GetUserGroups();
 
             return this.View(model);
         }
@@ -226,7 +231,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         {
             var model = this.UserService.GetUser(WebHelper.GetLogOnUserId());
 
-            this.ViewBag.Roles = this.RoleService.GetRolesByUser(WebHelper.GetLogOnUserId());
+            this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
             this.ViewBag.SystemMenus = this.PermissionService.GetSystemMenusWithAlloted(WebHelper.GetLogOnUserId());
 
             return this.View(model);

@@ -88,8 +88,7 @@ namespace Mercurius.Sparrow.Backstage
         /// <returns>JavaScript操作结果</returns>
         protected JavaScriptResult AlertWithRefresh(string message, AlertType type = AlertType.Info, int timeout = 2500)
         {
-            return this.JavaScript(
-                $"mercurius.ShowTipsMessage('{message}','{timeout}','{(int) type}');mercurius.Reloading()");
+            return this.JavaScript($"mercurius.ShowTipsMessage('{message}','{timeout}','{(int) type}');mercurius.Reloading()");
         }
 
         /// <summary>
@@ -102,8 +101,7 @@ namespace Mercurius.Sparrow.Backstage
         protected JavaScriptResult CloseDialogWithAlert(
             string message, int timeout = 2500, string callback = "mercurius.Reloading()")
         {
-            return this.JavaScript(
-                $"mercurius.ShowTipsMessage('{message}','{timeout}','4');top.main.{callback};mercurius.CloseDialog();");
+            return this.JavaScript($"mercurius.ShowTipsMessage('{message}','{timeout}','4');top.main.{callback};mercurius.CloseDialog();");
         }
 
         #endregion

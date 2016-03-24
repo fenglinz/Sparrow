@@ -19,24 +19,6 @@ namespace Mercurius.Sparrow.Services.RBAC
         #region IPermissionService接口实现
 
         /// <summary>
-        /// 删除菜单。
-        /// </summary>
-        /// <param name="id">菜单编号</param>
-        public Response Remove(string id)
-        {
-            return this.InvokeService(
-                nameof(Remove),
-                () =>
-                {
-                    this.Persistence.Delete(PermissionNamespace, "DeleteSystemMenu", id);
-
-                    this.ClearCache<Button>();
-                    this.ClearCache<SystemMenu>();
-                },
-                id);
-        }
-
-        /// <summary>
         /// 添加或者编辑系统菜单信息。
         /// </summary>
         /// <param name="systemMenu">系统菜单信息</param>
@@ -52,6 +34,24 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.ClearCache<SystemMenu>();
                 },
                 systemMenu);
+        }
+
+        /// <summary>
+        /// 删除菜单。
+        /// </summary>
+        /// <param name="id">菜单编号</param>
+        public Response Remove(string id)
+        {
+            return this.InvokeService(
+                nameof(Remove),
+                () =>
+                {
+                    this.Persistence.Delete(PermissionNamespace, "DeleteSystemMenu", id);
+
+                    this.ClearCache<Button>();
+                    this.ClearCache<SystemMenu>();
+                },
+                id);
         }
 
         /// <summary>
@@ -165,8 +165,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         {
             return this.InvokeService(
                 nameof(GetSystemMenu),
-                () => this.Persistence.QueryForObject<SystemMenu>(PermissionNamespace, "GetSystemMenu", id),
-                id);
+                () => this.Persistence.QueryForObject<SystemMenu>(PermissionNamespace, "GetSystemMenu", id), id);
         }
 
         /// <summary>
@@ -189,8 +188,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         {
             return this.InvokeService(
                 nameof(GetSystemMenuButtons),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenuButtons", id),
-                id);
+                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenuButtons", id), id);
         }
 
         /// <summary>

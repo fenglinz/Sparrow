@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
+using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.RBAC;
@@ -119,7 +120,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             this.ViewBag.RoleId = roleId;
             this.ViewBag.RoleName = roleName;
             this.ViewBag.SystemMenus = rspSystemMenus;
-            this.ViewBag.RoleUsers = this.RoleService.GetRoleUsers(roleId);
+            this.ViewBag.RoleUsers = this.RoleService.GetRoleMembers(roleId);
 
             return this.View();
         }
@@ -128,10 +129,60 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
         public ActionResult AllotMembers(string id)
         {
-            this.ViewBag.RoleMembers = this.UserService.GetUsersByRole(id);
-            this.ViewBag.UnAllotRoleUsers = this.UserService.GetUnAllotRoleUsers(id);
+            this.ViewBag.Id = id;
+            this.ViewBag.RoleMembers = this.RoleService.GetRoleMembers(id);
+            this.ViewBag.UnAllotRoleUsers = this.RoleService.GetUnAllotRoleUsers(id);
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult _GetUnAllotRoleUsers(string id, string type, string query)
+        {
+            var users = this.RoleService.GetUnAllotRoleUsers(id);
+
+            if (!string.IsNullOrWhiteSpace(query) && users.HasData())
+            {
+                switch (type)
+                {
+                    case "Code":
+                        users.Datas = users.Datas.Where(u => u.Code?.Contains(query) == true).ToList();
+
+                        break;
+
+                    case "Account":
+                        users.Datas = users.Datas.Where(u => u.Account?.Contains(query) == true).ToList();
+
+                        break;
+
+                    case "Name":
+                        users.Datas = users.Datas.Where(u => u.Name?.Contains(query) == true).ToList();
+
+                        break;
+                }
+            }
+
+            this.ViewBag.UnAllotRoleUsers = users;
+
+            return PartialView("_UnAllotRoleUsers");
+        }
+
+        [HttpPost]
+        public ActionResult _GetRoleMembers(string id)
+        {
+            this.ViewBag.RoleMembers = this.RoleService.GetRoleMembers(id);
+
+            return PartialView("_UserRoleMembers");
+        }
+
+        public ActionResult AddUserMembers(string id, string userIds)
+        {
+            if (string.IsNullOrWhiteSpace(userIds))
+            {
+                return Json(new Response {ErrorMessage = "请选中用户列表员工！" });
+            }
+
+            return null;
         }
 
         #endregion

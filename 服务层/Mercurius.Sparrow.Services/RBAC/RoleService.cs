@@ -58,10 +58,10 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="userId">用户编号</param>
         /// <returns>角色列表</returns>
-        public ResponseCollection<Role> GetRolesByUser(string userId)
+        public ResponseCollection<Role> GetRolesById(string userId)
         {
             return this.InvokeService(
-                nameof(GetRolesByUser),
+                nameof(GetRolesById),
                 () => this.Persistence.QueryForList<Role>(RoleNamespace, "GetRolesByUser", userId),
                 userId);
         }
@@ -77,6 +77,28 @@ namespace Mercurius.Sparrow.Services.RBAC
                 nameof(GetRoleUsers),
                 () => this.Persistence.QueryForList<UserRole>(RoleNamespace, "GetRoleUsers", roleId),
                 roleId);
+        }
+
+        /// <summary>
+        /// 查询角色成员。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>角色成员信息</returns>
+        public ResponseCollection<User> GetRoleMembers(string id)
+        {
+            return this.InvokeService(nameof(GetRoleMembers),
+                () => this.Persistence.QueryForList<User>(RoleNamespace, "GetRoleMembers", id), id);
+        }
+
+        /// <summary>
+        /// 获取未分配角色的用户。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>角色成员信息</returns>
+        public ResponseCollection<User> GetUnAllotRoleUsers(string id)
+        {
+            return this.InvokeService(nameof(GetUnAllotRoleUsers),
+                () => this.Persistence.QueryForList<User>(RoleNamespace, "GetUnAllotRoleUsers", id), id);
         }
 
         #endregion

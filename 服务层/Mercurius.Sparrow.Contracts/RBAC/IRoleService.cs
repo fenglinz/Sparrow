@@ -32,7 +32,7 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// </summary>
         /// <param name="userId">用户编号</param>
         /// <returns>角色列表</returns>
-        ResponseCollection<Role> GetRolesByUser(string userId);
+        ResponseCollection<Role> GetRolesById(string userId);
 
         /// <summary>
         /// 获取角色拥有的用户。
@@ -40,5 +40,19 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// <param name="roleId">角色信息</param>
         /// <returns>用户角色信息</returns>
         ResponseCollection<UserRole> GetRoleUsers(string roleId);
+
+        /// <summary>
+        /// 查询角色成员。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>角色成员信息</returns>
+        ResponseCollection<User> GetRoleMembers(string id);
+
+        /// <summary>
+        /// 获取未分配角色的用户。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>角色成员信息</returns>
+        ResponseCollection<User> GetUnAllotRoleUsers(string id);
     }
 }

@@ -87,7 +87,12 @@ namespace Mercurius.Sparrow.Repositories
 			/// 用户管理相关的Statement命名空间。
 			/// </summary>
 			public static readonly StatementNamespace UserNamespace = "Mercurius.Sparrow.Repositories.RBAC.User";
-		}
+
+            /// <summary>
+            /// 用户组管理相关的Statement命名空间。
+            /// </summary>
+            public static readonly StatementNamespace UserGroupNamespace = "Mercurius.Sparrow.Repositories.RBAC.UserGroup";
+        }
 
 		#endregion
 	}

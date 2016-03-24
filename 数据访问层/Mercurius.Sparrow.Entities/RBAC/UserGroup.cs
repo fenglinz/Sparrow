@@ -44,16 +44,6 @@ namespace Mercurius.Sparrow.Entities.RBAC
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 获取或者设置是否允许编辑。
-        /// </summary>
-        public virtual bool? AllowEdit { get; set; }
-
-        /// <summary>
-        /// 获取或者设置是否允许删除。
-        /// </summary>
-        public virtual bool? AllowDelete { get; set; }
-
-        /// <summary>
         /// 获取或者设置排序号。
         /// </summary>
         public virtual int? Sort { get; set; }
@@ -71,19 +61,5 @@ namespace Mercurius.Sparrow.Entities.RBAC
 		public virtual int? Status { get; set; }
 
 		#endregion
-
-		#region 导航属性
-
-		/// <summary>
-		/// 获取或者设置用户-用户组关系信息。
-		/// </summary>
-		public virtual IList<UserGroupRelation> UserGroupRelations { get; set; }
-
-        /// <summary>
-        /// 获取或者设置用户组权限信息。
-        /// </summary>
-        public virtual IList<UserGroupPermission> UserGroupPermissions { get; set; }
-
-        #endregion
     }
 }

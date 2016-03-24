@@ -3,8 +3,6 @@
   <alias>
     <typeAlias alias="User" type="Mercurius.Sparrow.Entities.RBAC.User, Mercurius.Sparrow.Entities" />
     <typeAlias alias="UserSO" type="Mercurius.Sparrow.Entities.RBAC.SO.UserSO, Mercurius.Sparrow.Entities" />
-    <typeAlias alias="UserGroup" type="Mercurius.Sparrow.Entities.RBAC.UserGroup, Mercurius.Sparrow.Entities" />
-    <typeAlias alias="UserGroupRelation" type="Mercurius.Sparrow.Entities.RBAC.UserGroupRelation, Mercurius.Sparrow.Entities" />
   </alias>
 
   <resultMaps>
@@ -112,118 +110,6 @@
       ]]>
     </update>
 
-    <!-- 添加或者修改用户组信息 -->
-    <update id="CreateOrUpdateUserGroup" parameterClass="UserGroup">
-      <![CDATA[
-        IF EXISTS(SELECT * FROM RBAC.UserGroup WHERE Id=#Id#)
-          UPDATE RBAC.UserGroup
-          SET
-            ParentId=#ParentId#,
-            Code=#Code#,
-            Name=#Name#,
-            Sort=#Sort#,
-            Remark=#Remark#,
-            ModifyUserId=#ModifyUserId#,
-            ModifyDateTime=#ModifyDateTime#
-          WHERE Id=#Id#
-        ELSE
-          INSERT INTO RBAC.UserGroup
-          ( 
-            Id,
-            ParentId,
-            Code,
-            Name,
-            Sort,
-            Remark,
-            Status,
-            CreateUserId,
-            CreateDateTime
-          )
-          VALUES
-          (
-            #Id#,
-            #ParentId#,
-            #Code#,
-            #Name#,
-            #Sort#,
-            #Remark#,
-            1,
-            #CreateUserId#,
-            #CreateDateTime#
-          )
-      ]]>
-    </update>
-
-    <!-- 添加或者编辑用户组关系 -->
-    <insert id="CreateOrUpdateRelation" parameterClass="Params">
-      <![CDATA[
-        BEGIN
-          DELETE FROM RBAC.USERGROUPRELATION WHERE UserId=#UserId#;
-      ]]>
-      <dynamic>
-        <isNotNull property="UserGroupRelations">
-          <iterate property="UserGroupRelations" open="" close=";" conjunction=";">
-            <![CDATA[
-              INSERT INTO RBAC.USERGROUPRELATION
-              (
-                Id,
-                UserId,
-                UserGroupId,
-                CreateUserId,
-                CreateDateTime
-              )
-              values
-              (
-                #UserGroupRelations[].Id#,
-                #UserGroupRelations[].UserId#,
-                #UserGroupRelations[].UserGroupId#,
-                #UserGroupRelations[].CreateUserId#,
-                #UserGroupRelations[].CreateDateTime#
-              )
-            ]]>
-          </iterate>
-        </isNotNull>
-      </dynamic>
-      <![CDATA[
-        END
-      ]]>
-    </insert>
-
-    <!-- 添加用户组成员 -->
-    <insert id="AddUserGroupMembers" parameterClass="Params">
-      <dynamic>
-        <isNotNull property="UserGroupRelations">
-          <iterate property="UserGroupRelations" open="BEGIN" close="; END;" conjunction=";">
-            <![CDATA[
-              INSERT INTO RBAC.UserGroupRelation
-              (
-                Id,
-                UserId,
-                UserGroupId,
-                CreateUserId,
-                CreateDateTime
-              )
-              values
-              (
-                #UserGroupRelations[].Id#,
-                #UserGroupRelations[].UserId#,
-                #UserGroupRelations[].UserGroupId#,
-                #UserGroupRelations[].CreateUserId#,
-                #UserGroupRelations[].CreateDateTime#
-              )
-            ]]>
-          </iterate>
-        </isNotNull>
-      </dynamic>
-    </insert>
-
-    <!-- 删除用户组成员 -->
-    <delete id="RemoveUserGroupMember" parameterClass="Params">
-      <![CDATA[
-        DELETE FROM RBAC.UserGroupRelation WHERE UserGroupId=#UserGroupId# AND UserId=#UserId#
-      ]]>
-    </delete>
-
     <!-- 验证用户登录信息 -->
     <select id="ValidateUser" parameterClass="Params" resultClass="User">
       <![CDATA[
@@ -310,15 +196,15 @@
     </select>
 
     <select id="GetDepartmentsByUser" parameterClass="string" resultClass="string">
-      SELECT organizationID FROM RBAC.STAFFORGANIZE WHERE USERID=#value#
+      SELECT organizationID FROM RBAC.StaffOrganize WHERE UserId=#value#
     </select>
 
     <select id="GetRolesByUser" parameterClass="string" resultClass="string">
-      SELECT RoleId FROM RBAC.USERROLE WHERE USERID=#value#
+      SELECT RoleId FROM RBAC.UserRole WHERE UserId=#value#
     </select>
 
     <select id="GetUserGroupsByUser" parameterClass="string" resultClass="string">
-      SELECT UserGroupId FROM RBAC.USERGROUPRELATION WHERE USERID=#value#
+      SELECT UserGroupId FROM RBAC.UserGroupRelation WHERE UserId=#value#
     </select>
 
     <!-- 查询用户信息 -->
@@ -465,136 +351,6 @@
           </isNotNull>
         </isNotNull>
       </dynamic>
-    </select>
-
-    <!-- 获取角色用户 -->
-    <select id="GetUsersByRole" parameterClass="string" resultClass="User">
-      <![CDATA[
-        SELECT
-          a.*
-        FROM RBAC.[User] a
-        INNER JOIN RBAC.UserRole b
-          ON a.Id=b.UserId
-        WHERE b.RoleId=#value#
-      ]]>
-    </select>
-
-    <!-- 获取未分配角色的用户 -->
-    <select id="GetUnAllotRoleUsers" parameterClass="string" resultClass="User">
-      <![CDATA[
-        SELECT
-          a.*
-        FROM RBAC.[User] a
-        INNER JOIN RBAC.UserRole b
-          ON a.Id=b.UserId
-        WHERE b.RoleId<>#value#
-      ]]>
-    </select>
-
-    <!-- 获取用户组成员 -->
-    <select id="GetUsersByGroup" parameterClass="string" resultClass="User">
-      <![CDATA[
-        SELECT
-          u.Id
-          ,u.Code
-          ,u.Account
-          ,u.Name
-        FROM RBAC.[User] u
-        INNER JOIN RBAC.UserGroupRelation u_r
-          ON u.Id=u_r.UserId
-        WHERE u_r.UserGroupId=#value#
-      ]]>
-    </select>
-
-    <!-- 获取未分配组的用户 -->
-    <select id="GetUnAllotGroupUsers" parameterClass="string" resultClass="User">
-      <![CDATA[
-        SELECT
-          u.Id
-          ,u.Code
-          ,u.Account
-          ,u.Name
-        FROM RBAC.[User] u
-        LEFT JOIN RBAC.UserGroupRelation u_r
-          ON u.Id=u_r.UserId AND u_r.UserGroupId=#value#
-        WHERE u.Status=1 AND u_r.Id IS NULL
-      ]]>
-    </select>
-
-    <!-- 获取用户组信息 -->
-    <select id="GetUserGroup" parameterClass="string" resultClass="UserGroup">
-      <![CDATA[
-        SELECT
-          a.Id
-          ,a.ParentId
-          ,a.Code
-          ,a.Name
-          ,a.Sort
-          ,a.Remark
-          ,a.CreateUserId
-          ,u1.Name AS CreateUserName
-          ,a.CreateDateTime
-          ,a.ModifyUserId
-          ,u2.Name AS ModifyUserName
-          ,a.ModifyDateTime
-        FROM RBAC.UserGroup a
-        LEFT JOIN RBAC.[User] u1
-          ON a.CreateUserId=u1.Id
-        LEFT JOIN RBAC.[User] u2
-          ON a.ModifyUserId=u2.Id
-        WHERE a.Id=#value#
-      ]]>
-    </select>
-
-    <!-- 获取用户组信息 -->
-    <select id="GetUserGroups" resultClass="UserGroup">
-      <![CDATA[
-        WITH CTE AS(
-	        SELECT
-            Id
-            ,Name
-            ,ParentId
-            ,Code
-            ,Sort
-            ,Remark
-            ,CreateUserId
-            ,CreateDateTime
-            ,ModifyUserId
-            ,ModifyDateTime
-            ,Status
-		        ,ROW_NUMBER() OVER(ORDER BY Sort ASC) AS orderId
-	        FROM RBAC.UserGroup
-	        WHERE ParentId='0'
-	        UNION ALL
-          SELECT
-            a.Id
-            ,a.Name
-            ,a.ParentId
-            ,a.Code
-            ,a.Sort
-            ,a.Remark
-            ,a.CreateUserId
-            ,a.CreateDateTime
-            ,a.ModifyUserId
-            ,a.ModifyDateTime
-            ,a.Status
-		        ,cte.orderId*100+(ROW_NUMBER() OVER(ORDER BY a.sort ASC)) as orderId
-	        FROM RBAC.UserGroup a
-	        INNER JOIN cte
-            on a.ParentId=cte.id
-        )
-        SELECT 
-          cte.*,
-          u1.Name AS CreateUserName,
-          u2.Name AS ModifyUserName
-        FROM cte
-        LEFT JOIN RBAC.[User] u1
-          ON cte.CreateUserId=u1.Id
-        LEFT JOIN RBAC.[User] u2
-          ON cte.ModifyUserId=u2.Id
-        WHERE cte.Status=1
-        ORDER BY LTRIM(orderId)
-      ]]>
     </select>
   </statements>
 </sqlMap>

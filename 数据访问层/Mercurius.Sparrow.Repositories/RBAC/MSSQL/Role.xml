@@ -59,7 +59,7 @@
     <insert id="CreateOrUpdateRelation" parameterClass="Params">
       <![CDATA[
         BEGIN
-          DELETE FROM RBAC.USERROLE WHERE UserId=#UserId#;
+          DELETE FROM RBAC.UserRole WHERE UserId=#UserId#;
       ]]>
       <dynamic>
         <isNotNull property="UserRoles">
@@ -164,20 +164,6 @@
       ]]>
     </select>
 
-    <!-- 获取拥有某角色的用户信息 -->
-    <select id="GetRoleUsers" parameterClass="string" resultMap="GetRoleUsersRM">
-      <![CDATA[
-        SELECT
-          ROW_NUMBER() OVER(ORDER BY r.CreateDateTime ASC) AS RowIndex
-          ,R.UserId
-          ,U.Code+'|'+U.Name AS UserName
-        FROM RBAC.UserRole R
-        LEFT JOIN RBAC.[User] U 
-          ON U.Id=R.UserId
-        WHERE RoleID=#value#
-      ]]>
-    </select>
-
     <!-- 获取用户所属部门 -->
     <select id="GetOwnedDepartments" parameterClass="string" resultClass="string">
       <![CDATA[
@@ -198,6 +184,30 @@
           ,Remark
         FROM RBAC.Role
         WHERE Id IN(SELECT RoleId FROM RBAC.UserRole WHERE UserId=#value#)
+      ]]>
+    </select>
+
+    <!-- 获取角色用户 -->
+    <select id="GetRoleMembers" parameterClass="string" resultClass="User">
+      <![CDATA[
+        SELECT
+          DISTINCT a.*
+        FROM RBAC.[User] a
+        INNER JOIN RBAC.UserRole b
+          ON a.Id=b.UserId
+        WHERE b.RoleId=#value# AND a.Status=1
+      ]]>
+    </select>
+
+    <!-- 获取未分配角色的用户 -->
+    <select id="GetUnAllotRoleUsers" parameterClass="string" resultClass="User">
+      <![CDATA[
+        SELECT
+          a.*
+        FROM RBAC.[User] a
+        LEFT JOIN RBAC.UserRole b
+          ON a.Id=b.UserId AND b.RoleId=#value#
+        WHERE b.Id IS NULL AND a.[Status]=1
       ]]>
     </select>
   </statements>

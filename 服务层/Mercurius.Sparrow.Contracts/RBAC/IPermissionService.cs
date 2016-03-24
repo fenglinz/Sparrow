@@ -8,17 +8,17 @@ namespace Mercurius.Sparrow.Contracts.RBAC
     public interface IPermissionService
     {
         /// <summary>
-        /// 删除菜单。
-        /// </summary>
-        /// <param name="id">菜单编号</param>
-        Response Remove(string id);
-
-        /// <summary>
         /// 添加或者编辑系统菜单信息。
         /// </summary>
         /// <param name="systemMenu">系统菜单信息</param>
         /// <returns>服务执行结果</returns>
         Response CreateOrUpdate(SystemMenu systemMenu);
+
+        /// <summary>
+        /// 删除菜单。
+        /// </summary>
+        /// <param name="id">菜单编号</param>
+        Response Remove(string id);
 
         /// <summary>
         /// 添加页面按钮资源。
