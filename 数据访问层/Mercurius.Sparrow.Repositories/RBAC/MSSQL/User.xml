@@ -27,37 +27,14 @@
       <result column="ModifyUserName" property="ModifyUserName" />
       <result column="ModifyDateTime" property="ModifyDateTime" />
       <result column="Id" property="Roles" lazyLoad="true" select="Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser" />
-      <result column="Id" property="UserGroups" lazyLoad="true" select="Mercurius.Sparrow.Repositories.RBAC.User.GetUserGroupsByUser" />
       <result column="Id" property="Departments" lazyLoad="true" select="Mercurius.Sparrow.Repositories.RBAC.User.GetDepartmentsByUser" />
     </resultMap>
   </resultMaps>
 
   <statements>
 
-    <!-- 更新用户状态 -->
-    <update id="UpdateUserStatus" parameterClass="Params">
-      <![CDATA[
-        UPDATE RBAC.[User]
-        SET
-          Status=#Status#
-        WHERE Id=#UserId#
-      ]]>
-    </update>
-
-    <!-- 修改用户密码 -->
-    <update id="ChangePassword" parameterClass="User">
-      <![CDATA[
-        UPDATE RBAC.[User]
-        SET
-          Password=#Password#,
-          ModifyUserId=#ModifyUserId#,
-          ModifyDateTime=#ModifyDateTime#
-        WHERE ID=#Id#
-      ]]>
-    </update>
-
     <!-- 添加或者编辑用户信息 -->
-    <update id="CreateOrUpdateUser" parameterClass="User">
+    <update id="CreateOrUpdate" parameterClass="User">
       <![CDATA[
         IF EXISTS(SELECT * FROM RBAC.[User] WHERE Id=#Id#)
           UPDATE RBAC.[User]
@@ -72,7 +49,7 @@
             Reporter=#Reporter#,
             Remark=#Remark#,
             ModifyUserId=#ModifyUserId#,
-            ModifyDateTime=#ModifyDateTime#
+            ModifyDateTime=GETDATE()
           WHERE Id=#Id#
         ELSE
           INSERT INTO RBAC.[User]
@@ -93,7 +70,7 @@
           )
           VALUES
           (
-            #Id#,
+            NEWID(),
             #Code#,
             #Account#,
             #Password#,
@@ -105,8 +82,30 @@
             #Remark#,
             1,
             #CreateUserId#,
-            #CreateDateTime#
+            GETDATE()
           )
+      ]]>
+    </update>
+
+    <!-- 更新用户状态 -->
+    <update id="ChangeStatus" parameterClass="Params">
+      <![CDATA[
+        UPDATE RBAC.[User]
+        SET
+          Status=#Status#
+        WHERE Id=#UserId#
+      ]]>
+    </update>
+
+    <!-- 修改用户密码 -->
+    <update id="ChangePassword" parameterClass="User">
+      <![CDATA[
+        UPDATE RBAC.[User]
+        SET
+          Password=#Password#,
+          ModifyUserId=#ModifyUserId#,
+          ModifyDateTime=#ModifyDateTime#
+        WHERE ID=#Id#
       ]]>
     </update>
 
@@ -128,7 +127,7 @@
     </select>
 
     <!-- 获取用户信息 -->
-    <select id="GetUser" parameterClass="string" resultMap="GetUserRM">
+    <select id="GetUserById" parameterClass="string" resultMap="GetUserRM">
       <![CDATA[
         SELECT
           a.Id,
@@ -203,12 +202,8 @@
       SELECT RoleId FROM RBAC.UserRole WHERE UserId=#value#
     </select>
 
-    <select id="GetUserGroupsByUser" parameterClass="string" resultClass="string">
-      SELECT UserGroupId FROM RBAC.UserGroupRelation WHERE UserId=#value#
-    </select>
-
     <!-- 查询用户信息 -->
-    <select id="GetUsers" parameterClass="UserSO" resultClass="User">
+    <select id="SearchUsers" parameterClass="UserSO" resultClass="User">
       <![CDATA[
         WITH CTE AS (
           SELECT
@@ -307,7 +302,7 @@
     </select>
 
     <!-- 获取查询用户信息的总记录数 -->
-    <select id="GetUsersCount" parameterClass="UserSO" resultClass="int">
+    <select id="SearchUsersCount" parameterClass="UserSO" resultClass="int">
       <![CDATA[
         SELECT
           COUNT(DISTINCT(U.ID))

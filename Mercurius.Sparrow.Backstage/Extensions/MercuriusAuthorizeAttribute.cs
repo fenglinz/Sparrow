@@ -66,7 +66,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
                     if (registerUserService != null)
                     {
-                        var current = registerUserService.GetUser(WebHelper.GetLogOnUserId());
+                        var current = registerUserService.GetUserById(WebHelper.GetLogOnUserId());
 
                         if (current.IsSuccess)
                         {

@@ -13,7 +13,7 @@ using System.Xml.XPath;
 using Mercurius.Infrastructure.Ado;
 using Microsoft.AspNet.SignalR;
 
-namespace Mercurius.Sparrow.Backstage.Areas.Admin.Hubs
+namespace Mercurius.Sparrow.Backstage.Areas.Admin.SignalRHubs
 {
     /// <summary>
     /// Microsoft SQL Server配置。

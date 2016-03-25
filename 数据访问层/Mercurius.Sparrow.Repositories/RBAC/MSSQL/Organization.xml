@@ -43,7 +43,7 @@
           WHERE a.Id=#value#
       ]]>
     </select>
-    
+
     <select id="GetOrganizations" resultClass="Organization">
       <![CDATA[
         WITH CTE AS(
@@ -113,7 +113,7 @@
         ORDER BY LTRIM(orderId)
       ]]>
     </select>
-    
+
     <!-- 获取人员组织机构信息 -->
     <select id="GetStaffOrganizes" resultClass="StaffOrganize">
       <![CDATA[
@@ -135,27 +135,26 @@
       ]]>
     </select>
 
-
     <!--新增或修改组织信息-->
     <update id="CreateOrUpdate" parameterClass="Organization">
       <![CDATA[
-        IF EXISTS(SELECT * FROM RBAC.ORGANIZATION WHERE Id=#Id#)
+        IF EXISTS(SELECT * FROM RBAC.Organization WHERE Id=#Id#)
           UPDATE RBAC.Organization
           SET 
-            ParentId = #ParentId#,
-            Code = #Code#,
-            Name = #Name#,
-            InnerPhone = #InnerPhone#,
-            OuterPhone = #OuterPhone#,
-            Manager = #Manager#,
-            AssistantManager = #AssistantManager#,
-            Fax = #Fax#,
-            ZipCode = #ZipCode#,
-            Address = #Address#,
-            Sort = #Sort#,
-            Remark = #Remark#,
-            ModifyUserId = #ModifyUserId#,
-            ModifyDateTime = #ModifyDateTime#
+            ParentId=#ParentId#,
+            Code=#Code#,
+            Name=#Name#,
+            InnerPhone=#InnerPhone#,
+            OuterPhone=#OuterPhone#,
+            Manager=#Manager#,
+            AssistantManager=#AssistantManager#,
+            Fax=#Fax#,
+            ZipCode=#ZipCode#,
+            Address=#Address#,
+            Sort=#Sort#,
+            Remark=#Remark#,
+            ModifyUserId=#ModifyUserId#,
+            ModifyDateTime=GETDATE()
           WHERE Id=#Id#
         ELSE
           INSERT INTO RBAC.Organization
@@ -179,7 +178,7 @@
           )
           VALUES
           (
-            #Id#,
+            NEWID(),
             #ParentId#,
             #Code#,
             #Name#,
@@ -194,44 +193,40 @@
             #Remark#,
             1,
             #CreateUserId#,
-            #CreateDateTime#
+            GETDATE()
           )
       ]]>
     </update>
 
-    <!-- 添加或者修改组织关系 -->
-    <insert id="CreateOrUpdateRelation" parameterClass="Params">
+    <!-- 添加用户所有的部门 -->
+    <insert id="AddRelations" parameterClass="Params">
       <![CDATA[
-        BEGIN
-          DELETE FROM RBAC.STAFFORGANIZE WHERE UserId=#UserId#;
+        DELETE FROM RBAC.StaffOrganize WHERE UserId=#UserId#;
       ]]>
-      <dynamic>
-        <isNotNull property="StaffOrganizes">
-          <iterate property="StaffOrganizes" open="" close=";" conjunction=";">
-            <![CDATA[
-              INSERT INTO RBAC.STAFFORGANIZE
-              (
-                Id,
-                UserId,
-                OrganizationId,
-                CreateUserId,
-                CreateDateTime
-              )
-              VALUES
-              (
-                #StaffOrganizes[].Id#,
-                #StaffOrganizes[].UserId#,
-                #StaffOrganizes[].OrganizationId#,
-                #StaffOrganizes[].CreateUserId#,
-                #StaffOrganizes[].CreateDateTime#
-              )
-            ]]>
-          </iterate>
-        </isNotNull>
-      </dynamic>
-      <![CDATA[
-        END;
-      ]]>
+      <isNotNull property="OrganizationIds">
+        <![CDATA[
+          INSERT INTO RBAC.StaffOrganize
+          (
+            Id,
+            UserId,
+            OrganizationId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="OrganizationIds" open="" close=";" conjunction=",">
+          <![CDATA[
+            (
+              NEWID(),
+              #UserId#,
+              #OrganizationIds[]#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
     </insert>
   </statements>
 </sqlMap>

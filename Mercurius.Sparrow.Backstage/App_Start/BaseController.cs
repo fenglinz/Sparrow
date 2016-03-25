@@ -99,9 +99,9 @@ namespace Mercurius.Sparrow.Backstage
         /// <param name="callback">调用主页面的方法</param>
         /// <returns>JavaScript操作结果</returns>
         protected JavaScriptResult CloseDialogWithAlert(
-            string message, int timeout = 2500, string callback = "mercurius.Reloading()")
+            string message, int timeout = 2500, string callback = "top.main.mercurius.Reloading()")
         {
-            return this.JavaScript($"mercurius.ShowTipsMessage('{message}','{timeout}','4');top.main.{callback};mercurius.CloseDialog();");
+            return this.JavaScript($"mercurius.ShowTipsMessage('{message}','{timeout}','4');{callback};mercurius.CloseDialog();");
         }
 
         #endregion

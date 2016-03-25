@@ -9,12 +9,21 @@ namespace Mercurius.Sparrow.Contracts.RBAC
     public interface IUserService
     {
         /// <summary>
+        /// 添加或者修改用户信息。
+        /// </summary>
+        /// <param name="user">用户信息</param>
+        /// <param name="departments">所属部门编号列表</param>
+        /// <param name="roles">所属角色编号列表</param>
+        /// <returns>执行结果</returns>
+        Response CreateOrUpdate(User user, string[] departments, string[] roles);
+
+        /// <summary>
         /// 更新用户状态。
         /// </summary>
         /// <param name="userId">用户编号</param>
         /// <param name="status">用户状态</param>
         /// <returns>执行结果</returns>
-        Response UpdateUserStatus(string userId, int status);
+        Response ChangeStatus(string userId, int status);
 
         /// <summary>
         /// 更新用户密码。
@@ -25,22 +34,11 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         Response ChangePassword(string id, string oldPassword, string newPassword);
 
         /// <summary>
-        /// 添加或者修改用户信息。
-        /// </summary>
-        /// <param name="user">用户信息</param>
-        /// <param name="departments">所属部门编号列表</param>
-        /// <param name="roles">所属角色编号列表</param>
-        /// <param name="groups">所属工作组编号列表</param>
-        /// <param name="permissions">所属用户权限列表</param>
-        /// <returns>执行结果</returns>
-        Response CreateOrUpdateUser(User user, string[] departments, string[] roles, string[] groups, string[] permissions);
-
-        /// <summary>
         /// 获取用户信息。
         /// </summary>
         /// <param name="id">用户编号</param>
         /// <returns>用户信息</returns>
-        Response<User> GetUser(string id);
+        Response<User> GetUserById(string id);
 
         /// <summary>
         /// 获取用户信息。
@@ -62,7 +60,7 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// </summary>
         /// <param name="so">用户信息查询对象</param>
         /// <returns>用户信息列表</returns>
-        ResponseCollection<User> GetUsers(UserSO so);
+        ResponseCollection<User> SearchUsers(UserSO so);
 
         /// <summary>
         /// 添加首页快捷方式信息。

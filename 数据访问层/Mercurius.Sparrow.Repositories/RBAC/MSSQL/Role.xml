@@ -63,7 +63,7 @@
         DELETE FROM RBAC.RolePermission WHERE RoleId=#value#;
       ]]>
     </delete>
-    
+
     <!-- 添加角色成员 -->
     <insert id="AddMembers" parameterClass="Params">
       <isNotNull property="UserIds">
@@ -91,6 +91,37 @@
       </isNotNull>
     </insert>
 
+    <!-- 添加用户拥有的角色 -->
+    <insert id="AddRelations" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM RBAC.UserRole WHERE UserId=#UserId#;
+      ]]>
+      <isNotNull property="RoleIds">
+        <![CDATA[
+          INSERT INTO RBAC.UserRole
+          (
+            Id,
+            UserId,
+            RoleId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="RoleIds" open="" conjunction="," close=";">
+          <![CDATA[
+            (
+              NEWID(),
+              #UserId#,
+              #RoleIds[]#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+    </insert>
+
     <!-- 删除角色成员 -->
     <delete id="RemoveMembers" parameterClass="Params">
       <isNotNull property="UserIds">
@@ -102,7 +133,7 @@
         </iterate>
       </isNotNull>
     </delete>
-    
+
     <!-- 根据编号获取角色信息 -->
     <select id="GetRoleById" parameterClass="string" resultClass="Role">
       <![CDATA[

@@ -121,7 +121,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <returns>执行结果</returns>
         public ActionResult Users(UserSO so = null)
         {
-            var rspUsers = this.UserService.GetUsers(so);
+            var rspUsers = this.UserService.SearchUsers(so);
 
             this.ViewBag.SO = so;
             this.ViewBag.ResponseUsers = rspUsers;
@@ -142,7 +142,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         {
             var model = new CreateOrUpdateVM
             {
-                User = this.UserService.GetUser(id).Data
+                User = this.UserService.GetUserById(id).Data
             };
 
             if (model.User != null)
@@ -152,9 +152,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
                 model.User.Password = PasswordReplaceString;
             }
 
-            this.ViewBag.Departments = this.OrganizationService.GetOrganizations();
-            this.ViewBag.SystemMenus = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
             this.ViewBag.Roles = this.RoleService.GetRoles();
+            this.ViewBag.Departments = this.OrganizationService.GetOrganizations();
 
             return this.View(model);
         }
@@ -168,25 +167,15 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(CreateOrUpdateVM vm)
         {
-            if (string.IsNullOrWhiteSpace(vm.User.Id))
-            {
-                vm.User.Id = Guid.NewGuid().ToString();
-            }
-
             vm.User.Initialize();
+            vm.User.Password = vm.User.Password == PasswordReplaceString ?
+                this.Request.Form["RealPassword"] : vm.User.Password.Encrypt();
 
-            try
-            {
-                vm.User.Password = vm.User.Password == PasswordReplaceString ?
-                    this.Request.Form["RealPassword"] : vm.User.Password.Encrypt();
-                this.UserService.CreateOrUpdateUser(vm.User, vm.Departments, vm.Roles, vm.UserGroups, vm.Permissions);
-            }
-            catch (Exception e)
-            {
-                return this.Alert($"发生错误，错误原因：{e.Message}");
-            }
+            var rsp = this.UserService.CreateOrUpdate(vm.User, vm.Departments, vm.Roles);
 
-            return this.CloseDialogWithAlert("成功！");
+            return rsp.IsSuccess ? 
+                this.CloseDialogWithAlert("保存成功！") :
+                this.Alert($"发生错误，错误原因：{rsp.ErrorMessage}", AlertType.Error);
         }
 
         #endregion
@@ -199,7 +188,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult AuthorizeUser(string id)
         {
-            var rsp = this.UserService.UpdateUserStatus(id, 1);
+            var rsp = this.UserService.ChangeStatus(id, 1);
 
             return this.Json(rsp.IsSuccess);
         }
@@ -212,7 +201,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult LockUser(string id)
         {
-            var rsp = this.UserService.UpdateUserStatus(id, 2);
+            var rsp = this.UserService.ChangeStatus(id, 2);
 
             return this.Json(rsp.IsSuccess);
         }
@@ -223,7 +212,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <returns>执行结果</returns>
         public ActionResult CurrentUser()
         {
-            var model = this.UserService.GetUser(WebHelper.GetLogOnUserId());
+            var model = this.UserService.GetUserById(WebHelper.GetLogOnUserId());
 
             this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
             this.ViewBag.SystemMenus = this.PermissionService.GetSystemMenusWithAlloted(WebHelper.GetLogOnUserId());
@@ -239,7 +228,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             this.ViewBag.SO = so;
             this.ViewBag.Type = this.Request.Params["type"];
             this.ViewBag.Organizations = this.OrganizationService.GetOrganizations();
-            this.ViewBag.Users = this.UserService.GetUsers(so);
+            this.ViewBag.Users = this.UserService.SearchUsers(so);
 
             return View();
         }
@@ -247,7 +236,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         public ActionResult GetUsers(UserSO so)
         {
             so.PageSize = 10;
-            var rspUsers = this.UserService.GetUsers(so);
+            var rspUsers = this.UserService.SearchUsers(so);
 
             this.ViewBag.SO = so;
             this.ViewBag.Type = this.Request.Params["type"];

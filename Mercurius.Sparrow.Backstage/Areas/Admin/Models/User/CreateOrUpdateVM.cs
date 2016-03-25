@@ -60,16 +60,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Models.User
                                 this.Roles = item.ToArray();
 
                                 break;
-
-                            case "所属工作组":
-                                this.UserGroups = item.ToArray();
-
-                                break;
-
-                            case "用户权限":
-                                this.Permissions = item.ToArray();
-
-                                break;
                         }
                     }
                 }
@@ -89,16 +79,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Models.User
         /// 所属角色。
         /// </summary>
         public string[] Roles { get; private set; }
-
-        /// <summary>
-        /// 所属工作组。
-        /// </summary>
-        public string[] UserGroups { get; private set; }
-
-        /// <summary>
-        /// 拥有的用户权限。
-        /// </summary>
-        public string[] Permissions { get; private set; }
 
         #endregion
     }

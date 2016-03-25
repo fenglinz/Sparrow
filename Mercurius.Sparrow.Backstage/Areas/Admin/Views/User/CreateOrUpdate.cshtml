@@ -3,14 +3,12 @@
 @model CreateOrUpdateVM
 
 @{
-    var departments = this.ViewBag.Departments as ResponseCollection<Organization>;
-    var systemMenus = this.ViewBag.SystemMenus as ResponseCollection<SystemMenu>;
     var roles = this.ViewBag.Roles as ResponseCollection<Role>;
-    var userGroups = this.ViewBag.UserGroups as ResponseCollection<UserGroup>;
+    var departments = this.ViewBag.Departments as ResponseCollection<Organization>;
 }
 
 @section Styles{
-    @Styles.Render("~/Content/tree/css", "~/Content/treetable/css")
+    @Styles.Render("~/Content/tree/css")
     <style type="text/css">
         .tab-pane {
             padding-top: 5px;
@@ -20,32 +18,13 @@
             cursor: pointer;
             font-weight: normal;
         }
-
-        .FixedTable {
-            overflow-x: hidden;
-        }
-
-            .FixedTable label:not(:empty) {
-                font-weight: normal;
-                margin-right: 15px;
-                vertical-align: middle;
-                margin-bottom: 1px;
-            }
-
-            .FixedTable label > input[type=checkbox] {
-                margin-top: -2px;
-                margin-right: 2px;
-                position: relative;
-                vertical-align: middle;
-            }
     </style>
 }
 
 @section Scripts
 {
-    @Scripts.Render("~/bundles/tree", "~/bundles/treetable", "~/bundles/validate")
+    @Scripts.Render("~/bundles/tree", "~/bundles/validate")
     <script type="text/javascript">
-        //初始化
         $(document).ready(function () {
             $('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
                 if (e.target.text == '所属部门') {
@@ -63,106 +42,22 @@
                         unique: true
                     });
                 }
-
-                if (e.target.text == '所属工作组') {
-                    $('#userGroupContainer').treeview({
-                        persist: "location",
-                        collapsed: false,
-                        unique: true
-                    });
-                }
-
-                if (e.target.text == '用户权限') {
-                    $("#dnd-example").treetable({
-                        initialState: "expanded" //collapsed 收缩 expanded展开的
-                    });
-
-                    mercurius.FixedTableHeader("#dnd-example", 100, { multiple:true ,triggerRowChecked: false });
-                }
             });
 
             $('#reporterName').click(function () {
                 mercurius.OpenDialog('@Url.Action("ChooseUser", "User",new { ExcludeReporter = (Model ==null || Model.User==null) ? "" : Model.User.Id })', 'ChooseUser', '选择用户', 720, 500, { statusbar: false, x: 'right', y: 'bottom' });
             });
-
-            $('#dnd-example > tbody > tr > td.text-center :checkbox').click(function () {
-                $(this).parent().next().find(':checkbox').prop('checked', $(this).prop('checked'));
-            });
-
-            $('#dnd-example > tbody > tr > td > label :checkbox').click(function () {
-                if ($(this).prop('checked')) {
-                    $(this).parent().parent().prev().find(':checkbox').prop('checked', true);
-                } else if ($(this).parent().parent().find(':checkbox:checked').length == 0) {
-                    $(this).parent().parent().prev().find(':checkbox').prop('checked', false);
-                }
-            });
         });
-
-        //附加信息表单赋值
-        function Setform() {
-            var pkId = GetQueryString('key');
-
-            if (mercurius.IsNullOrEmpty(pkId)) {
-                var strArray = new Array();
-                var strArray1 = new Array();
-                var itemValue = $("#AppendProperty_value").val(); //后台返回值
-                strArray = itemValue.split(';');
-                for (var i = 0; i < strArray.length; i++) {
-                    var itemValue1 = strArray[i];
-                    strArray1 = itemValue1.split('|');
-                    $("#" + strArray1[0]).val(strArray1[1]);
-                }
-            }
-        }
 
         //获取表单值
         function OnSave() {
-            if (!JudgeValidate('#frmSave')) {
-                return false;
-            }
+            var checkedOrgCount = $('#table2 label > :checkbox:checked').length;
 
-            if (mercurius.IsNullOrEmpty(ChekOrgVale)) {
+            if (checkedOrgCount == 0) {
                 mercurius.ShowWarningMessage("点击面板所属部门，选择部门！");
-                return false;
+            } else if (JudgeValidate('#frmSave')) {
+               $('#frmSave').submit();
             }
-
-            var itemValue = '';
-
-            $("#table2 tr").each(function (r) {
-                $(this).find('td').each(function (i) {
-                    var pkId = $(this).find('input, select').attr('id');
-                    if ($(this).find('input, select').val() != "" && $(this).find('input, select').val() != "==请选择==" && $(this).find('input, select').val() != undefined) {
-                        itemValue += pkId + "|" + $(this).find('input, select').val() + ";";
-                    }
-                });
-            });
-
-            mercurius.ShowConfirmMessage('您确认要保存此操作吗？', function (r) {
-                if (r) {
-                    $('#frmSave').submit();
-                }
-            });
-        }
-
-        //验证所属部门必填
-        var ChekOrgVale = '';
-
-        function ChekOrgClick() {
-            var pkId = '@((Model != null && Model.User != null && !Model.User.Departments.IsEmpty()) ? "1" : string.Empty)';
-
-            if (mercurius.IsNullOrEmpty(pkId)) {
-                ChekOrgVale = '1';
-            }
-
-            $("#table3 label").click(function () {
-                ChekOrgVale = '';
-
-                if ($(this).find(':checked').val() != '') {
-                    if ($(this).find(':checked').prop("checked")) {
-                        ChekOrgVale = '1';
-                    }
-                }
-            });
         }
 
         function SetUser(reporterId, reporterName) {
@@ -178,10 +73,8 @@
     @Html.Hidden("RealPassword", this.ViewData["RealPassword"])
     <ul class="nav nav-tabs" role="tablist">
         <li class="active"><a href="#table1" role="tab" data-toggle="tab">基本信息</a></li>
-        <li><a href="#table3" role="tab" data-toggle="tab">所属部门</a></li>
-        <li><a href="#table4" role="tab" data-toggle="tab">所属角色</a></li>
-        <li><a href="#table5" role="tab" data-toggle="tab">所属工作组</a></li>
-        <li><a href="#table6" role="tab" data-toggle="tab">用户权限</a></li>
+        <li><a href="#table2" role="tab" data-toggle="tab">所属部门</a></li>
+        <li><a href="#table3" role="tab" data-toggle="tab">所属角色</a></li>
     </ul>
     <div class="tab-content" style="height: 330px;">
         @*基本信息*@
@@ -263,11 +156,8 @@
                 </div>
             </div>
         </div>
-        @*附加信息
-            <table id="table2" border="0" cellpadding="0" cellspacing="0" class="form"></table>
-        *@
         @*所属部门*@
-        <div id="table3" class="tab-pane">
+        <div id="table2" class="tab-pane">
             <div class="header">组织机构</div>
             <div style="height: 300px; overflow-y: auto;">
                 <ul id="departmentContainer" class="filetree">
@@ -290,7 +180,7 @@
             </div>
         </div>
         @*所属角色*@
-        <div id="table4" class="tab-pane">
+        <div id="table3" class="tab-pane">
             <div class="header">所属角色</div>
             <div style="height: 300px; overflow-y: auto;">
                 <ul id="roleContainer" class="filetree">
@@ -312,90 +202,9 @@
                 </ul>
             </div>
         </div>
-        @*所属工作组*@
-        <div id="table5" class="tab-pane">
-            <div class="header">用户工作组</div>
-            <div style="height: 300px; overflow-y: auto;">
-                <ul id="userGroupContainer" class="filetree">
-                    @{
-                        var userGroupParents = userGroups.Datas.Where(u => u.ParentId == "0");
-
-                        foreach (var userGroupParent in userGroupParents)
-                        {
-                            <li>
-                                <span class="folder"></span>
-                                <label>
-                                    <input name="CheckValues" type="checkbox" @IsChecked((Model != null && Model.User != null) ? Model.User.UserGroups : null, userGroupParent.Id) value="@userGroupParent.Id|所属工作组" />
-                                    @userGroupParent.Name
-                                </label>
-                                @CreateUserGroupTreeNode(userGroups.Datas, userGroupParent.Id)
-                            </li>
-                        }
-                    }
-                </ul>
-            </div>
-        </div>
-        @*用户权限*@
-        <div id="table6" class="tab-pane">
-            <div style="height: 330px;">
-                <table class="treetable" id="dnd-example">
-                    <thead>
-                        <tr>
-                            <td style="width: 285px; padding-left:15px;">URL权限 </td>
-                            <td style="width: 40px;">图标 </td>
-                            <td style="width: 40px;">
-                                <label class="check-all" title="全选"></label>
-                            </td>
-                            <td>操作按钮权限 </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (systemMenus.HasData())
-                        {
-                            var menus = systemMenus.Datas.Where(s => s.Category != 3);
-                            var buttons = systemMenus.Datas.Where(s => s.Category == 3);
-
-                            foreach (var systemMenu in menus)
-                            {
-                                var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
-
-                                <tr data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
-                                    <td style="padding-left:12px;">
-                                        <span class="@(menus.IsParent(systemMenu.Id)?"folder":"file")"></span>@systemMenu.Name
-                                    </td>
-                                    <td style="text-align: center">
-                                        <i class="@systemMenu.Image"></i>
-                                    </td>
-                                    <td class="text-center">
-                                        <input @(systemMenu.CanAccess ? "checked" : string.Empty ) type="checkbox" value="@systemMenu.Id|用户权限" name="CheckValues" />
-                                    </td>
-                                    <td>
-                                        @{
-                                            var index = 1;
-
-                                            foreach (var btn in btns)
-                                            {
-                                                <label>
-                                                    <input @( btn.CanAccess ? "checked" : string.Empty ) type="checkbox" value="@btn.Id|用户权限" name="CheckValues" />
-                                                    @btn.Name
-                                                </label>
-                                                if (index++ > 3)
-                                                {
-                                                    <br />
-                                                }
-                                            }
-                                        }
-                                    </td>
-                                    <td style="display: none;">@systemMenu.Id</td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 }
+
 @helper CreateDepartmentTreeNode(IList<Organization> datas, string parentId)
 {
     var children = datas.Where(d => d.ParentId == parentId);
@@ -434,27 +243,6 @@
                         @child.Name
                     </label>
                     @CreateRoleTreeNode(roles, child.Id)
-                </li>
-            }
-        </ul>
-    }
-}
-@helper CreateUserGroupTreeNode(IList<UserGroup> userGroups, string parentId)
-{
-    var children = userGroups.Where(u => u.ParentId == parentId);
-
-    if (children.Any())
-    {
-        <ul>
-            @foreach (var child in children)
-            {
-                <li>
-                    <span class="file"></span>
-                    <label>
-                        <input name="CheckValues" type="checkbox" @IsChecked((Model != null && Model.User != null) ? Model.User.UserGroups : null, child.Id) value="@child.Id|所属工作组" />
-                        @child.Name
-                    </label>
-                    @CreateUserGroupTreeNode(userGroups, child.Id)
                 </li>
             }
         </ul>
