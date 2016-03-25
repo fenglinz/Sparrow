@@ -113,7 +113,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="roleId">角色编号</param>
         /// <param name="roleName">角色名称</param>
         /// <returns>操作结果</returns>
-        public ActionResult ViewRoleDetails(string roleId, string roleName)
+        public ActionResult ViewPermissions(string roleId, string roleName)
         {
             var rspSystemMenus = this.PermissionService.GetSystemMenusWithAllotedByRole(roleId);
 

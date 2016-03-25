@@ -206,6 +206,24 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return this.Json(rsp.IsSuccess);
         }
 
+        public ActionResult AllotPermissions(string id, string userName)
+        {
+            this.ViewBag.Id = id;
+            this.ViewBag.UserName = userName;
+
+            var rsp = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
+
+            return View(rsp);
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmAllotPermissions(string id, string selecteds)
+        {
+            var rsp = this.PermissionService.AllotPermissionByRole(id, selecteds.Split(','));
+
+            return Json(rsp);
+        }
+
         /// <summary>
         /// 显示当前用户信息。
         /// </summary>

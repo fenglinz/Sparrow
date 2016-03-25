@@ -90,7 +90,7 @@
             var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
 
             if (mercurius.HasSingleRowSelected(roleId)) {
-                var url = '@Url.Action("ViewRoleDetails")/?roleId=' + roleId + '&roleName=' + escape(roleName);
+                var url = '@Url.Action("ViewPermissions")/?roleId=' + roleId + '&roleName=' + escape(roleName);
 
                 mercurius.NavigateUrl(url);
             }

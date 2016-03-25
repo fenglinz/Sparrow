@@ -435,7 +435,7 @@
     <Content Include="Areas\Admin\Views\Role\AllotPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\Role\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Role\ViewRoleDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\ViewPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\AllotButton.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\Icons.cshtml" />
@@ -481,6 +481,8 @@
     <Content Include="Areas\Admin\Views\Role\_UnAllotUsers.cshtml" />
     <Content Include="Areas\Admin\Views\Role\_Members.cshtml" />
     <None Include="Areas\Admin\Views\SystemSetting\ShowCaches.cshtml" />
+    <Content Include="Areas\Admin\Views\User\AllotPermissions.cshtml" />
+    <Content Include="Areas\Admin\Views\User\ViewPermissions.cshtml" />
     <None Include="Areas\DynamicPage\Views\ExtensionProperty\_Properties.cshtml" />
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -1,0 +1,170 @@
+﻿@{
+    var members = this.ViewBag.RoleUsers as ResponseCollection<User>;
+    var systemMenus = this.ViewBag.SystemMenus as ResponseCollection<SystemMenu>;
+}
+
+@section Styles{
+    @Styles.Render("~/Content/treetable/css")
+    <style type="text/css">
+        .fa-2x {
+            font-size: 1.5em;
+        }
+
+        label:not(:empty) {
+            font-weight: normal;
+            margin-right: 15px;
+            vertical-align: middle;
+            margin-bottom: 1px;
+        }
+
+        label > input[type=checkbox] {
+            margin-top: -2px;
+            margin-right: 2px;
+            position: relative;
+            vertical-align: middle;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/treetable")
+    <script type="text/javascript">
+        $(function () {
+            mercurius.FixedTableHeader("#dnd-example", 158, { triggerRowChecked: false });
+
+            $("#dnd-example").treetable({
+                expandable: true,
+                initialState: "expanded" //collapsed 收缩 expanded展开的
+            });
+
+            $(':checkbox').attr('disabled', true);
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                if (e.target.text == '角色权限') {
+                    mercurius.FixedTableHeader("#dnd-example", 158, { triggerRowChecked: false });
+                }
+
+                if (e.target.text == '角色成员') {
+                    mercurius.FixedTableHeader("#table1", 158);
+                }
+            });
+        });
+
+        function OnShowRole() {
+        }
+    </script>
+}
+<div class="header">所属角色【@this.ViewBag.RoleName】</div>
+<div class="toolbar panel panel-default">
+    <div class="panel-heading">
+        <div class="right btn-group">
+            <a href="javascript:void(0)" onclick="mercurius.Back();" class="btn btn-default">
+                <i class="glyphicon glyphicon-chevron-left"></i> 返回
+            </a>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#div_RoleRight" role="tab" data-toggle="tab">角色权限</a></li>
+    <li><a href="#div_UserRole" role="tab" data-toggle="tab" onclick="OnShowRole()">角色成员</a></li>
+</ul>
+<div class="tab-content">
+    <div id="div_RoleRight" class="tab-pane active">
+        <table class="treetable" id="dnd-example">
+            <thead>
+                <tr>
+                    <td style="width: 300px; padding-left: 20px;">URL菜单权限 </td>
+                    <td style="width: 40px;">图标 </td>
+                    <td style="width: 30px;">
+                        <label class="check-all" title="全选"></label>
+                    </td>
+                    <td>操作按钮权限 </td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (systemMenus.HasData())
+                {
+                    var menus = systemMenus.Datas.Where(s => s.Category != 3);
+                    var buttons = systemMenus.Datas.Where(s => s.Category == 3);
+
+                    foreach (var systemMenu in menus)
+                    {
+                        var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
+
+                        <tr data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
+                            <td style="padding-left: 20px;">
+                                <span class="@(menus.IsParent(systemMenu.Id) ? "folder" : "file")"></span>@systemMenu.Name
+                            </td>
+                            <td style="text-align: center">
+                                <i class="@systemMenu.Image fa-2x"></i>
+                            </td>
+                            <td style="text-align: center">
+                                <input @(systemMenu.CanAccess ? "checked" : string.Empty) type="checkbox" value="@systemMenu.Id" name="checkBox" />
+                            </td>
+                            <td>
+                                @foreach (var btn in btns)
+                                {
+                                    <label>
+                                        <input @(btn.CanAccess ? "checked" : string.Empty) type="checkbox" value="@btn.Id" name="checkbox" />
+                                        @btn.Name
+                                    </label>
+                                }
+                            </td>
+                            <td style="display: none;">@systemMenu.Id</td>
+                        </tr>
+                    }
+                }
+                else if (systemMenus.IsSuccess())
+                {
+                    <tr>
+                        <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="empty-data">@systemMenus.GetErrorMessage()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="div_UserRole" class="tab-pane">
+        <table id="table1" class="grid">
+            <thead>
+                <tr>
+                    <td style="width: 50px;">序号 </td>
+                    <td style="width: 320px;">角色成员 </td>
+                    <td>所属部门 </td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (members.HasData())
+                {
+                    foreach (var item in members.Datas)
+                    {
+                        <tr>
+                            <td style="text-align: center;">@item.RowIndex</td>
+                            <td>@item.Name</td>
+                            <td>@item.Departments.Contract("|")</td>
+                        </tr>
+                    }
+                }
+                else if (members.IsSuccess())
+                {
+                    <tr>
+                        <td colspan="3" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-danger">@members.GetErrorMessage()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

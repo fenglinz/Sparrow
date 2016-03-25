@@ -29,7 +29,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                 nameof(CreateOrUpdate),
                 () =>
                 {
-                    this.Persistence.Create(PermissionNamespace, "CreateOrUpdateSystemMenu", systemMenu);
+                    this.Persistence.Create(PermissionNamespace, "CreateOrUpdate", systemMenu);
 
                     this.ClearCache<SystemMenu>();
                 },
@@ -46,7 +46,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                 nameof(Remove),
                 () =>
                 {
-                    this.Persistence.Delete(PermissionNamespace, "DeleteSystemMenu", id);
+                    this.Persistence.Delete(PermissionNamespace, "Remove", id);
 
                     this.ClearCache<Button>();
                     this.ClearCache<SystemMenu>();
@@ -80,10 +80,9 @@ namespace Mercurius.Sparrow.Services.RBAC
 
                         this.Persistence.Create(
                             PermissionNamespace,
-                            "CreateOrUpdateSystemMenu",
+                            "CreateOrUpdate",
                             new SystemMenu
                             {
-                                Id = Guid.NewGuid().ToString(),
                                 ParentId = systemMenuId,
                                 Name = button.Name,
                                 Title = button.Title,
@@ -92,8 +91,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                                 NavigateUrl = button.Code,
                                 Target = "OnClick",
                                 Sort = button.Sort,
-                                CreateUserId = WebHelper.GetLogOnUserId(),
-                                CreateDateTime = DateTime.Now
+                                CreateUserId = WebHelper.GetLogOnUserId()
                             });
 
                         this.ClearCache<Button>();
@@ -114,19 +112,38 @@ namespace Mercurius.Sparrow.Services.RBAC
                 nameof(AllotPermissionByRole),
                 () =>
                 {
-                    var permissions = args.IsEmpty() ? null : args.Select(arg => new RolePermission
+                    this.Persistence.Create(PermissionNamespace, "AllotPermissionByRole", new
                     {
-                        Id = Guid.NewGuid().ToString(),
                         RoleId = roleId,
-                        SystemMenuId = arg,
                         CreateUserId = WebHelper.GetLogOnUserId(),
-                        CreateDateTime = DateTime.Now
-                    }).ToList();
-
-                    this.Persistence.Create(PermissionNamespace, "AllotPermissionByRole", new { RoleId = roleId, RolePermissions = permissions });
+                        SystemMenuIds = args
+                    });
 
                     this.ClearCache<SystemMenu>();
                 }, new { roleId, args });
+        }
+
+        /// <summary>
+        /// 为用户分配权限。
+        /// </summary>
+        /// <param name="userId">用户编号</param>
+        /// <param name="args">菜单/按钮资源编号</param>
+        /// <returns>服务执行响应信息</returns>
+        public Response AllotPermissionByUser(string userId, params string[] args)
+        {
+            return this.InvokeService(
+                nameof(AllotPermissionByUser),
+                () =>
+                {
+                    this.Persistence.Create(PermissionNamespace, "AllotPermissionByUser", new
+                    {
+                        RoleId = userId,
+                        CreateUserId = WebHelper.GetLogOnUserId(),
+                        SystemMenuIds = args
+                    });
+
+                    this.ClearCache<SystemMenu>();
+                }, new { userId, args });
         }
 
         /// <summary>

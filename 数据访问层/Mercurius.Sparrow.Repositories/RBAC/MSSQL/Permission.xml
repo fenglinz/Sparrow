@@ -6,6 +6,134 @@
 
   <statements>
 
+    <!-- 添加或编辑系统菜单信息 -->
+    <insert id="CreateOrUpdate" parameterClass="SystemMenu">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.SystemMenu WHERE Id=#Id#)
+          UPDATE RBAC.SystemMenu
+          SET
+            ParentId=#ParentId#,
+            Name=#Name#,
+            Title=#Title#,
+            Image=#Image#,
+            Category=#Category#,
+            NavigateUrl=#NavigateUrl#,
+            Target=#Target#,
+            Sort=#Sort#,
+            ModifyUserId=#ModifyUserId#,
+            ModifyDateTime=GETDATE()
+          WHERE Id=#Id#
+        ELSE
+          INSERT INTO RBAC.SystemMenu
+          ( 
+            Id,
+            ParentId,
+            Name,
+            Title,
+            Image,
+            Category,
+            NavigateUrl,
+            Target,
+            Sort,
+            Status,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+          (
+            NEWID(),
+            #ParentId#,
+            #Name#,
+            #Title#,
+            #Image#,
+            #Category#,
+            #NavigateUrl#,
+            #Target#,
+            #Sort#,
+            1,
+            #CreateUserId#,
+            GETDATE()
+          )
+      ]]>
+    </insert>
+
+    <!-- 删除系统菜单信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        DELETE FROM RBAC.SystemMenu WHERE Id=#value#
+      ]]>
+    </delete>
+
+    <!-- 分配角色权限 -->
+    <insert id="AllotPermissionByRole" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+          DELETE FROM RBAC.RolePermission WHERE RoleId=#RoleId#;
+      ]]>
+      <isNotNull property="SystemMenuIds">
+        <![CDATA[
+          INSERT INTO RBAC.RolePermission
+          (
+            Id,
+            RoleId,
+            SystemMenuId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="SystemMenuIds" open="" close=";" conjunction=",">
+          <![CDATA[
+            (
+              NEWID(),
+              #RoleId#,
+              #SystemMenuIds[]#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+      <![CDATA[
+        END
+      ]]>
+    </insert>
+
+    <!-- 分配用户权限 -->
+    <insert id="AllotPermissionByUser" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+          DELETE FROM RBAC.UserPermission WHERE UserId=#UserId#;
+      ]]>
+      <isNotNull property="SystemMenuIds">
+        <![CDATA[
+          INSERT INTO RBAC.UserPermission
+          (
+            Id,
+            UserId,
+            SystemMenuId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="SystemMenuIds" open="" close=";" conjunction=",">
+          <![CDATA[
+            (
+              NEWID(),
+              #UserId#,
+              #SystemMenuIds[]#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+      <![CDATA[
+        END
+      ]]>
+    </insert>
+
     <!-- 获取系统菜单 -->
     <select id="GetSystemMenus" parameterClass="string" resultClass="SystemMenu">
       <![CDATA[
@@ -496,131 +624,5 @@
         WHERE a.Id=#value#
       ]]>
     </select>
-
-    <!-- 添加或编辑系统菜单信息 -->
-    <insert id="CreateOrUpdateSystemMenu" parameterClass="SystemMenu">
-      <![CDATA[
-        IF EXISTS(SELECT * FROM RBAC.SystemMenu WHERE Id=#Id#)
-          UPDATE RBAC.SystemMenu
-          SET
-            ParentId=#ParentId#,
-            Name=#Name#,
-            Title=#Title#,
-            Image=#Image#,
-            Category=#Category#,
-            NavigateUrl=#NavigateUrl#,
-            Target=#Target#,
-            Sort=#Sort#,
-            ModifyUserId=#ModifyUserId#,
-            ModifyDateTime=GETDATE()
-          WHERE Id=#Id#
-        ELSE
-          INSERT INTO RBAC.SystemMenu
-          ( 
-            Id,
-            ParentId,
-            Name,
-            Title,
-            Image,
-            Category,
-            NavigateUrl,
-            Target,
-            Sort,
-            Status,
-            CreateUserId,
-            CreateDateTime
-          )
-          VALUES
-          (
-            NEWID(),
-            #ParentId#,
-            #Name#,
-            #Title#,
-            #Image#,
-            #Category#,
-            #NavigateUrl#,
-            #Target#,
-            #Sort#,
-            1,
-            #CreateUserId#,
-            GETDATE()
-          )
-      ]]>
-    </insert>
-
-    <!-- 分配角色权限 -->
-    <insert id="AllotPermissionByRole" parameterClass="Params">
-      <![CDATA[
-        BEGIN
-          DELETE FROM RBAC.RolePermission WHERE RoleId=#RoleId#;
-      ]]>
-      <dynamic>
-        <iterate property="RolePermissions" open="" close=";" conjunction=";">
-          <![CDATA[
-            INSERT INTO RBAC.RolePermission
-            (
-              Id,
-              RoleId,
-              SystemMenuId,
-              CreateUserId,
-              CreateDateTime
-            )
-            VALUES
-            (
-              #RolePermissions[].Id#,
-              #RolePermissions[].RoleId#,
-              #RolePermissions[].SystemMenuId#,
-              #RolePermissions[].CreateUserId#,
-              #RolePermissions[].CreateDateTime#
-            )
-          ]]>
-        </iterate>
-      </dynamic>
-      <![CDATA[
-        END;
-      ]]>
-    </insert>
-
-    <!-- 分配用户权限 -->
-    <insert id="AllotPermissionByUser" parameterClass="Params">
-      <![CDATA[
-        BEGIN
-          DELETE FROM RBAC.USERPERMISSION WHERE UserId=#UserId#;
-      ]]>
-      <dynamic>
-        <isNotNull property="UserPermissions">
-          <iterate property="UserPermissions" open="" close=";" conjunction=";">
-            <![CDATA[
-              INSERT INTO RBAC.USERPERMISSION
-              (
-                Id,
-                UserId,
-                SystemMenuId,
-                CreateUserId,
-                CreateDateTime
-              )
-              VALUES
-              (
-                #UserPermissions[].Id#,
-                #UserPermissions[].UserId#,
-                #UserPermissions[].SystemMenuId#,
-                #UserPermissions[].CreateUserId#,
-                #UserPermissions[].CreateDateTime#
-              )
-            ]]>
-          </iterate>
-        </isNotNull>
-      </dynamic>
-      <![CDATA[
-        END;
-      ]]>
-    </insert>
-
-    <!-- 删除系统菜单信息 -->
-    <delete id="DeleteSystemMenu" parameterClass="string">
-      <![CDATA[
-        DELETE FROM RBAC.SystemMenu WHERE Id=#value#
-      ]]>
-    </delete>
   </statements>
 </sqlMap>

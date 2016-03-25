@@ -66,16 +66,14 @@
 
             if (mercurius.HasSingleRowSelected(key)) {
                 mercurius.ShowConfirmMessage('注：您确认要【授权】当前选中的用户吗？', function (r) {
-                    if (r) {
-                        mercurius.AjaxHelper('@Url.Action("AuthorizeUser")', { id: key }, function (rs) {
-                            if (rs) {
-                                mercurius.ShowTipsMessage("恭喜授权成功！", 2000, 4);
-                                mercurius.Reloading();
-                            } else {
-                                mercurius.ShowTipsMessage("<span style='color:red'>授权失败，请稍后重试！</span>", 4000, 5);
-                            }
-                        });
-                    }
+                    mercurius.AjaxHelper('@Url.Action("AuthorizeUser")', { id: key }, function (rs) {
+                        if (rs) {
+                            mercurius.ShowTipsMessage("恭喜授权成功！", 2000, 4);
+                            mercurius.Reloading();
+                        } else {
+                            mercurius.ShowTipsMessage("<span style='color:red'>授权失败，请稍后重试！</span>", 4000, 5);
+                        }
+                    });
                 });
             }
         }
@@ -87,17 +85,26 @@
 
             if (mercurius.HasSingleRowSelected(key)) {
                 mercurius.ShowConfirmMessage('注：您确认要【锁定】当前选中的用户吗？', function (r) {
-                    if (r) {
-                        mercurius.AjaxHelper('@Url.Action("LockUser")', { id: key }, function (rs) {
-                            if (rs) {
-                                mercurius.ShowTipsMessage("锁定成功！", 2000, 4);
-                                mercurius.Reloading();
-                            } else {
-                                mercurius.ShowTipsMessage("<span style='color:red'>锁定失败，请稍后重试！</span>", 4000, 5);
-                            }
-                        });
-                    }
+                    mercurius.AjaxHelper('@Url.Action("LockUser")', { id: key }, function (rs) {
+                        if (rs) {
+                            mercurius.ShowTipsMessage("锁定成功！", 2000, 4);
+                            mercurius.Reloading();
+                        } else {
+                            mercurius.ShowTipsMessage("<span style='color:red'>锁定失败，请稍后重试！</span>", 4000, 5);
+                        }
+                    });
                 });
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("分配权限",@<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+            var name = $('#table1 > tbody > tr.selected > td:eq(2)').text();
+
+            if (mercurius.HasSingleRowSelected(key)) {
+                top.main.location.href = '@Url.Action("AllotPermissions", "User")/'+key+"?userName="+name;
             }
         }
         </text>)
@@ -177,16 +184,16 @@
 @Html.Paging(rspUsers.TotalRecords)
 @helper UserStatus(int? flag)
 {
-    switch (flag)
-    {
-        case 1:
+switch (flag)
+{
+    case 1:
             <span style="color: blue;">启用</span>
 
         break;
 
-        case 2:
+    case 2:
             <span style="color: red;">停用</span>
 
         break;
-    }
+}
 }
