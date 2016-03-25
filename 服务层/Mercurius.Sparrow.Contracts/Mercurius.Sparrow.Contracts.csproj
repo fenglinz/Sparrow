@@ -62,7 +62,6 @@
     <Compile Include="RBAC\IPermissionService.cs" />
     <Compile Include="RBAC\IRecyclebinService.cs" />
     <Compile Include="RBAC\IRoleService.cs" />
-    <Compile Include="RBAC\IUserGroupService.cs" />
     <Compile Include="RBAC\IUserService.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

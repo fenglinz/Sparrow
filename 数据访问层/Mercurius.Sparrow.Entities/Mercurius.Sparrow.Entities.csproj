@@ -99,9 +99,6 @@
     <Compile Include="RBAC\StaffOrganize.cs" />
     <Compile Include="RBAC\SystemMenu.cs" />
     <Compile Include="RBAC\User.cs" />
-    <Compile Include="RBAC\UserGroup.cs" />
-    <Compile Include="RBAC\UserGroupPermission.cs" />
-    <Compile Include="RBAC\UserGroupRelation.cs" />
     <Compile Include="RBAC\UserPermission.cs" />
     <Compile Include="RBAC\UserRole.cs" />
     <Compile Include="CreationDomain.cs" />

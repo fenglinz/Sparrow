@@ -130,33 +130,6 @@ namespace Mercurius.Sparrow.Services.RBAC
         }
 
         /// <summary>
-        /// 为用户组分配权限。
-        /// </summary>
-        /// <param name="userGroupId">用户组编号</param>
-        /// <param name="args">菜单/按钮资源</param>
-        /// <returns>服务执行响应信息</returns>
-        public Response AllotPermissionByUserGroup(string userGroupId, params string[] args)
-        {
-            return this.InvokeService(
-                nameof(AllotPermissionByUserGroup),
-                () =>
-                {
-                    var permissions = args.IsEmpty() ? null : args.Select(arg => new UserGroupPermission
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UserGroupId = userGroupId,
-                        SystemMenuId = arg,
-                        CreateUserId = WebHelper.GetLogOnUserId(),
-                        CreateDateTime = DateTime.Now
-                    }).ToList();
-
-                    this.Persistence.Create(PermissionNamespace, "AllotPermissionByUserGroup", new { UserGroupId = userGroupId, UserGroupPermissions = permissions });
-
-                    this.ClearCache<SystemMenu>();
-                }, new { userGroupId, args });
-        }
-
-        /// <summary>
         /// 获取系统菜单项。
         /// </summary>
         /// <param name="id">菜单编号</param>
@@ -227,19 +200,6 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(
                 nameof(GetSystemMenusWithAllotedByRole),
                 () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByRole", id).AsSorted<SystemMenu, string>(),
-                id);
-        }
-
-        /// <summary>
-        /// 获取标有用户组拥有访问权限的菜单列表。
-        /// </summary>
-        /// <param name="id">用户组编号</param>
-        /// <returns>菜单列表</returns>
-        public ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByUserGroup(string id)
-        {
-            return this.InvokeService(
-                nameof(GetSystemMenusWithAllotedByUserGroup),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByUserGroup", id).AsSorted<SystemMenu, string>(),
                 id);
         }
 

@@ -189,15 +189,6 @@
             SELECT 
               M.Id
             FROM RBAC.SystemMenu M
-            LEFT JOIN RBAC.UserGroupPermission U_R
-              ON U_R.SystemMenuId = M.Id
-            LEFT JOIN RBAC.UserGroupRelation U_G 
-              ON U_G.UserGroupId = U_R.UserGroupId
-            WHERE U_G.UserId = #value#
-            UNION ALL
-            SELECT 
-              M.Id
-            FROM RBAC.SystemMenu M
             LEFT JOIN  RBAC.UserPermission U_R 
               ON U_R.SystemMenuId = M.Id
             WHERE U_R.UserId = #value#
@@ -351,72 +342,6 @@
       ]]>
     </select>
 
-    <!-- 获取标有用户组拥有访问权限的菜单列表 -->
-    <select id="GetSystemMenusWithAllotedByUserGroup" parameterClass="string" resultClass="SystemMenu">
-      <![CDATA[
-        WITH cte AS(
-          SELECT
-            Id
-            ,Name
-            ,Title
-            ,Image
-            ,Category
-            ,Target
-            ,ParentId
-            ,CAST(Sort AS VARCHAR) AS FullSort
-            ,NavigateUrl
-            ,CreateUserId
-            ,CreateDateTime
-            ,ModifyUserId
-            ,ModifyDateTime
-            ,Status
-            ,Sort
-          FROM RBAC.SystemMenu a
-          WHERE ParentId='0' AND Status=1 AND Category!=3
-          UNION ALL
-          SELECT 
-            a.Id
-            ,a.Name
-            ,a.Title
-            ,a.Image
-            ,a.Category
-            ,a.Target
-            ,a.ParentId
-            ,CAST(cte.FullSort + '-' + CAST(a.Sort AS VARCHAR) AS VARCHAR) AS FullSort
-            ,a.NavigateUrl
-            ,a.CreateUserId
-            ,a.CreateDateTime
-            ,a.ModifyUserId
-            ,a.ModifyDateTime
-            ,a.Status
-            ,a.Sort
-          FROM RBAC.SystemMenu a
-          INNER JOIN cte ON a.ParentId=cte.Id
-        ),
-        canAccess as(
-          SELECT
-            Distinct M.Id
-          FROM RBAC.SystemMenu M
-          LEFT JOIN RBAC.UserGroupPermission U_G
-            ON U_G.SystemMenuId = M.Id
-          WHERE U_G.UserGroupId=#value#
-        )
-        SELECT
-          cte.*,
-          u1.Name AS CreateUserName,
-          u2.Name AS ModifyUserName,
-          CASE WHEN canAccess.Id IS NULL THEN 0 ELSE 1 END AS CanAccess
-        FROM cte
-        LEFT JOIN canAccess
-          ON cte.Id=canAccess.Id
-        LEFT JOIN RBAC.[User] u1
-          ON cte.CreateUserId=u1.Id
-        LEFT JOIN RBAC.[User] u2
-          ON cte.ModifyUserId=u2.Id
-        WHERE cte.Status=1
-      ]]>
-    </select>
-
     <!-- 获取用户可访问的菜单 -->
     <select id="GetAccessibleMenusByUser" parameterClass="string" resultClass="SystemMenu">
       <![CDATA[
@@ -447,23 +372,6 @@
           LEFT JOIN RBAC.UserRole U_R 
             ON U_R.RoleId=R_R.RoleId
           WHERE M.Category=1 AND U_R.UserId=#value# AND M.Status=1
-          UNION ALL
-          SELECT
-            M.Name,
-            M.Title,
-            M.Image,
-            M.Target,
-            M.ParentId,
-            M.Id,
-            M.NavigateUrl,
-            M.Sort,
-            '用户组权限' AS TheirTYPE
-          FROM RBAC.SystemMenu M
-          LEFT JOIN RBAC.UserGroupPermission U_R 
-            ON U_R.SystemMenuId=M.Id
-          LEFT JOIN RBAC.UserGroupRelation U_G 
-            ON U_G.UserGroupId=U_R.UserGroupId
-          WHERE M.Category=1 AND U_G.UserId = #value# AND M.Status = 1
           UNION ALL
           SELECT
             M.Name,
@@ -524,27 +432,6 @@
 		        LEFT JOIN RBAC.Button B
               ON M.Name=B.Name
             WHERE U_R.UserId=#UserId# AND M.Status=1
-            UNION ALL
-            SELECT
-              M.Name,
-              B.Title,
-              B.Image,
-              M.Target,
-              M.ParentId,
-              M.Id,
-			        M.NavigateUrl AS Url,
-              B.Code AS NavigateUrl,
-              M.Sort,
-              M.Category,
-              '用户组权限' AS TheirTYPE
-            FROM RBAC.SystemMenu M
-            LEFT JOIN RBAC.UserGroupPermission U_R 
-              ON U_R.SystemMenuId=M.Id
-            LEFT JOIN RBAC.UserGroupRelation U_G 
-              ON U_G.UserGroupId=U_R.UserGroupId
-		        LEFT JOIN RBAC.Button B
-              ON M.Name=B.Name
-            WHERE U_G.UserId=#UserId# AND M.Status=1
             UNION ALL
             SELECT
               M.Name,
@@ -625,7 +512,7 @@
             Target=#Target#,
             Sort=#Sort#,
             ModifyUserId=#ModifyUserId#,
-            ModifyDateTime=#ModifyDateTime#
+            ModifyDateTime=GETDATE()
           WHERE Id=#Id#
         ELSE
           INSERT INTO RBAC.SystemMenu
@@ -645,7 +532,7 @@
           )
           VALUES
           (
-            #Id#,
+            NEWID(),
             #ParentId#,
             #Name#,
             #Title#,
@@ -656,7 +543,7 @@
             #Sort#,
             1,
             #CreateUserId#,
-            #CreateDateTime#
+            GETDATE()
           )
       ]]>
     </insert>
@@ -719,40 +606,6 @@
                 #UserPermissions[].SystemMenuId#,
                 #UserPermissions[].CreateUserId#,
                 #UserPermissions[].CreateDateTime#
-              )
-            ]]>
-          </iterate>
-        </isNotNull>
-      </dynamic>
-      <![CDATA[
-        END;
-      ]]>
-    </insert>
-
-    <insert id="AllotPermissionByUserGroup" parameterClass="Params">
-      <![CDATA[
-        BEGIN
-          DELETE FROM RBAC.UserGroupPermission WHERE UserGroupId=#UserGroupId#;
-      ]]>
-      <dynamic>
-        <isNotNull property="UserGroupPermissions">
-          <iterate property="UserGroupPermissions" open="" close=";" conjunction=";">
-            <![CDATA[
-              INSERT INTO RBAC.UserGroupPermission
-              (
-                Id,
-                UserGroupId,
-                SystemMenuId,
-                CreateUserId,
-                CreateDateTime
-              )
-              VALUES
-              (
-                #UserGroupPermissions[].Id#,
-                #UserGroupPermissions[].UserGroupId#,
-                #UserGroupPermissions[].SystemMenuId#,
-                #UserGroupPermissions[].CreateUserId#,
-                #UserGroupPermissions[].CreateDateTime#
               )
             ]]>
           </iterate>

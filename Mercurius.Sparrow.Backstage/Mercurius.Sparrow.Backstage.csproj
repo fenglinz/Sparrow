@@ -249,7 +249,6 @@
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemMenuController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UserGroupController.cs" />
     <Compile Include="Areas\Admin\Models\User\CreateOrUpdateVM.cs" />
     <Compile Include="Areas\DynamicPage\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\DynamicPage\Controllers\DynamicController.cs" />
@@ -441,13 +440,6 @@
     <Content Include="Areas\Admin\Views\SystemMenu\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\Icons.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\AllotMembers.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\AllotPermissions.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\CreateOrUpdate.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\ViewDetails.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\_UnAllotUsers.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroup\_Members.cshtml" />
     <Content Include="Areas\Admin\Views\User\ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\User\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\User\CurrentUser.cshtml" />

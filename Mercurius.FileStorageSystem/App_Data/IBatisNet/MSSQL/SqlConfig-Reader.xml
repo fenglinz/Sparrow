@@ -32,11 +32,11 @@
     <!-- 基于角色访问控制(RBAC)模块 -->
     <sqlMap embedded="RBAC.MSSQL.User.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.Role.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.MSSQL.Button.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.Permission.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.Recyclebin.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.Organization.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.HomeShortcut.xml, Mercurius.Sparrow.Repositories" />
-    <sqlMap embedded="RBAC.MSSQL.Button.xml, Mercurius.Sparrow.Repositories" />
 
     <!-- 动态属性模块 -->
     <sqlMap embedded="Dynamic.MSSQL.ExtensionProperty.xml, Mercurius.Sparrow.Repositories" />

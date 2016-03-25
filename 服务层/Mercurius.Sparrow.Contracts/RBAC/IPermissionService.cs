@@ -50,14 +50,6 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         Response AllotPermissionByRole(string roleId, params string[] args);
 
         /// <summary>
-        /// 为用户组分配权限。
-        /// </summary>
-        /// <param name="userGroupId">用户组编号</param>
-        /// <param name="args">菜单/按钮资源</param>
-        /// <returns>服务执行响应信息</returns>
-        Response AllotPermissionByUserGroup(string userGroupId, params string[] args);
-
-        /// <summary>
         /// 获取系统菜单项。
         /// </summary>
         /// <returns>菜单列表</returns>
@@ -83,13 +75,6 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// <param name="id">角色编号</param>
         /// <returns>菜单列表</returns>
         ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByRole(string id);
-
-        /// <summary>
-        /// 获取标有用户组拥有访问权限的菜单列表。
-        /// </summary>
-        /// <param name="id">用户组编号</param>
-        /// <returns>菜单列表</returns>
-        ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByUserGroup(string id);
 
         /// <summary>
         /// 获取用户用户可访问的菜单列表。

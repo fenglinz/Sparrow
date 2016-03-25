@@ -136,17 +136,7 @@ namespace Mercurius.Sparrow.Services.RBAC
 
                         this.Persistence.Create(RoleNamespace, "CreateOrUpdateRelation", new { UserId = user.Id, UserRoles = roleRelations });
 
-                        var userGroupPermissions = groups.IsEmpty() ? null : groups.Select(arg => new UserGroupRelation
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            UserId = user.Id,
-                            UserGroupId = arg,
-                            CreateUserId = WebHelper.GetLogOnUserId(),
-                            CreateUserName = WebHelper.GetLogOnAccount(),
-                            CreateDateTime = DateTime.Now
-                        }).ToList();
-
-                        this.Persistence.Create(UserNamespace, "CreateOrUpdateRelation", new { UserId = user.Id, UserGroupRelations = userGroupPermissions });
+                        this.Persistence.Create(UserNamespace, "CreateOrUpdateRelation", new { UserId = user.Id });
 
                         var userPermissions = permissions.IsEmpty() ? null : permissions.Select(arg => new UserPermission
                         {
