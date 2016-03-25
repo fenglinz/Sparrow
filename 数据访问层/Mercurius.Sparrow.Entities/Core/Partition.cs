@@ -10,12 +10,12 @@ namespace Mercurius.Sparrow.Entities.Core
         #region 属性
 
         /// <summary>
-        /// 获取或者设置表的分区名称。
+        /// 表的分区名称。
         /// </summary>
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 获取或者设置分区的最大值。
+        /// 分区的最大值。
         /// </summary>
         public virtual string HightValue { get; set; }
 

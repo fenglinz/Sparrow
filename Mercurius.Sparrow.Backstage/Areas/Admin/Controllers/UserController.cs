@@ -224,6 +224,15 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return Json(rsp);
         }
 
+        public ActionResult ViewPermissions(string id, string userName)
+        {
+            var rsp = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
+
+            this.ViewBag.UserName = userName;
+
+            return View(rsp);
+        }
+
         /// <summary>
         /// 显示当前用户信息。
         /// </summary>

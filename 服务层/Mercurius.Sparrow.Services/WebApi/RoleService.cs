@@ -6,11 +6,8 @@ using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.WebApi;
 using Mercurius.Sparrow.Entities.WebApi.SO;
 using Mercurius.Sparrow.Contracts.WebApi;
-using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Repositories;
 using Mercurius.Sparrow.Services.Support;
-using Role = Mercurius.Sparrow.Entities.WebApi.Role;
-using User = Mercurius.Sparrow.Entities.WebApi.User;
 
 namespace Mercurius.Sparrow.Services.WebApi
 {
@@ -23,7 +20,6 @@ namespace Mercurius.Sparrow.Services.WebApi
         #region 常量
 
         private static readonly StatementNamespace NS = "Mercurius.Sparrow.Repositories.WebApi.Role";
-        private static readonly StatementNamespace ApiNS = "Mercurius.Sparrow.Repositories.WebApi.Api";
 
         #endregion
 
@@ -100,7 +96,6 @@ namespace Mercurius.Sparrow.Services.WebApi
 
                 this.ClearCache<Role>();
                 this.ClearCache<User>();
-                this.ClearCache<UserRole>();
             }, id);
         }
 

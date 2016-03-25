@@ -16,22 +16,22 @@ namespace Mercurius.Sparrow.Entities.RBAC.SO
         #region 属性
 
         /// <summary>
-        /// 获取或者设置删除用户编号。
+        /// 删除用户编号。
         /// </summary>
         public string UserId { get; set; }
 
         /// <summary>
-        /// 获取或者设置回收站分类名称。
+        /// 回收站分类名称。
         /// </summary>
         public string Category { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询回收站信息的开始日期。
+        /// 查询回收站信息的开始日期。
         /// </summary>
         public DateTime? StartDate { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询回收站信息的结束日期。
+        /// 查询回收站信息的结束日期。
         /// </summary>
         public DateTime? EndDate
         {

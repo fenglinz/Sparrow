@@ -13,7 +13,7 @@ namespace Mercurius.Sparrow.Entities.Core
         #region 属性
 
         /// <summary>
-        /// 获取或者设置系统设置编号。
+        /// 系统设置编号。
         /// </summary>
         [StringLength(36, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
@@ -21,28 +21,28 @@ namespace Mercurius.Sparrow.Entities.Core
         public virtual string Id { get; set; }
 
         /// <summary>
-        /// 获取或者设置系统设置父编号。
+        /// 系统设置父编号。
         /// </summary>
         [StringLength(200, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
         public virtual string ParentId { get; set; }
 
         /// <summary>
-        /// 获取或者设置系统设置项的名称。
+        /// 系统设置项的名称。
         /// </summary>
         [StringLength(200, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 获取或者设置系统设置项的值。
+        /// 系统设置项的值。
         /// </summary>
         [StringLength(500, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Value { get; set; }
 
         /// <summary>
-        /// 获取或者设置备注信息。
+        /// 备注信息。
         /// </summary>
         [StringLength(500, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]

@@ -65,7 +65,7 @@
             var key = mercurius.GetCheckboxValue('#table1');
 
             if (mercurius.HasSingleRowSelected(key)) {
-                mercurius.ShowConfirmMessage('注：您确认要【授权】当前选中的用户吗？', function (r) {
+                mercurius.ShowConfirmMessage('注：您确认要【授权】当前选中的用户吗？', function () {
                     mercurius.AjaxHelper('@Url.Action("AuthorizeUser")', { id: key }, function (rs) {
                         if (rs) {
                             mercurius.ShowTipsMessage("恭喜授权成功！", 2000, 4);
@@ -84,7 +84,7 @@
             var key = mercurius.GetCheckboxValue('#table1');
 
             if (mercurius.HasSingleRowSelected(key)) {
-                mercurius.ShowConfirmMessage('注：您确认要【锁定】当前选中的用户吗？', function (r) {
+                mercurius.ShowConfirmMessage('注：您确认要【锁定】当前选中的用户吗？', function () {
                     mercurius.AjaxHelper('@Url.Action("LockUser")', { id: key }, function (rs) {
                         if (rs) {
                             mercurius.ShowTipsMessage("锁定成功！", 2000, 4);
@@ -105,6 +105,17 @@
 
             if (mercurius.HasSingleRowSelected(key)) {
                 top.main.location.href = '@Url.Action("AllotPermissions", "User")/'+key+"?userName="+name;
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("详细", @<text>
+        function @(item.NavigateUrl)() {
+            var key = mercurius.GetCheckboxValue('#table1');
+            var name = $('#table1 > tbody > tr.selected > td:eq(2)').text();
+
+            if (mercurius.HasSingleRowSelected(key)) {
+                top.main.location.href = '@Url.Action("ViewPermissions", "User")/'+key+"?userName="+name;
             }
         }
         </text>)
@@ -182,18 +193,19 @@
     </tbody>
 </table>
 @Html.Paging(rspUsers.TotalRecords)
+
 @helper UserStatus(int? flag)
 {
-switch (flag)
-{
-    case 1:
+    switch (flag)
+    {
+        case 1:
             <span style="color: blue;">启用</span>
 
-        break;
+            break;
 
-    case 2:
+        case 2:
             <span style="color: red;">停用</span>
 
-        break;
-}
+            break;
+    }
 }

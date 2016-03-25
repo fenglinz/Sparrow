@@ -50,22 +50,18 @@
                 }
             });
         });
-
-        function OnShowRole() {
-        }
     </script>
 }
 <div class="header">所属角色【@this.ViewBag.RoleName】</div>
 <div class="toolbar panel panel-default">
     <div class="panel-heading">
         <div class="right btn-group">
-            <a href="javascript:void(0)" onclick="mercurius.Back();" class="btn btn-default">
+            <a href="@Url.Action("Index")" class="btn btn-default">
                 <i class="glyphicon glyphicon-chevron-left"></i> 返回
             </a>
         </div>
     </div>
 </div>
-
 <ul class="nav nav-tabs" role="tablist">
     <li class="active"><a href="#div_RoleRight" role="tab" data-toggle="tab">角色权限</a></li>
     <li><a href="#div_UserRole" role="tab" data-toggle="tab" onclick="OnShowRole()">角色成员</a></li>
@@ -143,10 +139,11 @@
             <tbody>
                 @if (members.HasData())
                 {
+                    var index = 1;
                     foreach (var item in members.Datas)
                     {
                         <tr>
-                            <td style="text-align: center;">@item.RowIndex</td>
+                            <td style="text-align: center;">@(index++)</td>
                             <td>@item.Name</td>
                             <td>@item.Departments.Contract("|")</td>
                         </tr>

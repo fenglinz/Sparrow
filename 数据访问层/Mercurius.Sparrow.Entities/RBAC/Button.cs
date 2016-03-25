@@ -13,7 +13,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
 		#region 属性
 
 		/// <summary>
-		/// 获取或者设置按钮编号。
+		/// 按钮编号。
 		/// </summary>
 		[Required]
 		[StringLength(36, ErrorMessageResourceType = typeof(Constants),
@@ -21,28 +21,28 @@ namespace Mercurius.Sparrow.Entities.RBAC
 		public virtual string Id { get; set; }
 
 		/// <summary>
-		/// 获取或者设置按钮名称。
+		/// 按钮名称。
 		/// </summary>
 		[StringLength(50, ErrorMessageResourceType = typeof(Constants),
 			ErrorMessageResourceName = "MaxStringLength")]
 		public virtual string Name { get; set; }
 
 		/// <summary>
-		/// 获取或者设置按钮标记。
+		/// 按钮标记。
 		/// </summary>
 		[StringLength(50, ErrorMessageResourceType = typeof(Constants),
 			ErrorMessageResourceName = "MaxStringLength")]
 		public virtual string Title { get; set; }
 
 		/// <summary>
-		/// 获取或者设置按钮图标。
+		/// 按钮图标。
 		/// </summary>
 		[StringLength(50, ErrorMessageResourceType = typeof(Constants),
 			ErrorMessageResourceName = "MaxStringLength")]
 		public virtual string Image { get; set; }
 
 		/// <summary>
-		/// 获取或者设置按钮代号。
+		/// 按钮代号。
 		/// </summary>
 		[StringLength(200, ErrorMessageResourceType = typeof(Constants),
 			ErrorMessageResourceName = "MaxStringLength")]
@@ -56,19 +56,19 @@ namespace Mercurius.Sparrow.Entities.RBAC
 		public virtual string Category { get; set; }
 
 		/// <summary>
-		/// 获取或者设置排序号。
+		/// 排序号。
 		/// </summary>
 		public virtual int? Sort { get; set; }
 
 		/// <summary>
-		/// 获取或者设置备注信息。
+		/// 备注信息。
 		/// </summary>
 		[StringLength(500, ErrorMessageResourceType = typeof(Constants),
 			ErrorMessageResourceName = "MaxStringLength")]
 		public virtual string Remark { get; set; }
 
 		/// <summary>
-		/// 获取或者设置实体信息的状态。
+		/// 实体信息的状态。
 		/// </summary>
 		public virtual int? Status { get; set; }
 

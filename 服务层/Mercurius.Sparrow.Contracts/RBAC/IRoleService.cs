@@ -1,5 +1,4 @@
 ﻿using Mercurius.Sparrow.Entities.RBAC;
-using Mercurius.Sparrow.Entities.RBAC.SO;
 
 namespace Mercurius.Sparrow.Contracts.RBAC
 {
@@ -56,13 +55,6 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// <param name="userId">用户编号</param>
         /// <returns>角色列表</returns>
         ResponseCollection<Role> GetRolesById(string userId);
-
-        /// <summary>
-        /// 获取角色拥有的用户。
-        /// </summary>
-        /// <param name="roleId">角色信息</param>
-        /// <returns>用户角色信息</returns>
-        ResponseCollection<UserRole> GetRoleUsers(string roleId);
 
         /// <summary>
         /// 查询角色成员。

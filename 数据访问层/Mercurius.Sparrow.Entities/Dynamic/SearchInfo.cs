@@ -27,23 +27,23 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         #region 属性
 
         /// <summary>
-        /// 获取或者设置编号。
+        /// 编号。
         /// </summary>
         [Column(IsPrimaryKey = true, IsIdentity = true)]
         public int Id { get; set; }
 
         /// <summary>
-        /// 获取或者设置表名称。
+        /// 表名称。
         /// </summary>
         public string TableName { get; set; }
 
         /// <summary>
-        /// 获取或者设置标题。
+        /// 标题。
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// 获取或者设置排号。
+        /// 排号。
         /// </summary>
         public string SortColumns
         {
@@ -64,7 +64,7 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         }
 
         /// <summary>
-        /// 获取或者设置显示列列表。
+        /// 显示列列表。
         /// </summary>
         public string VisibleColumns
         {

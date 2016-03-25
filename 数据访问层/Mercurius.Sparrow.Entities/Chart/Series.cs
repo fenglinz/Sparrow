@@ -15,13 +15,13 @@ namespace Mercurius.Sparrow.Entities.Chart
         #region 属性
 
         /// <summary>
-        /// 获取或者设置图表标签。
+        /// 图表标签。
         /// </summary>
         [JsonProperty("name")]
         public virtual object Name { get; set; }
 
         /// <summary>
-        /// 获取或者设置图表值。
+        /// 图表值。
         /// </summary>
         [JsonProperty("data")]
         public virtual IList<object> Datas { get; set; }

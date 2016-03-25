@@ -14,12 +14,12 @@ namespace Mercurius.Sparrow.Entities.Chart
         #region 属性
 
         /// <summary>
-        /// 获取或者设置X轴值。
+        /// X轴值。
         /// </summary>
         public virtual string XValue { get; set; }
 
         /// <summary>
-        /// 获取或者设置Y轴值。
+        /// Y轴值。
         /// </summary>
         public virtual object YValue { get; set; }
 

@@ -17,33 +17,33 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         #region 属性
 
         /// <summary>
-        /// 获取或者设置编号。
+        /// 编号。
         /// </summary>
         [Column(IsPrimaryKey = true, IsIdentity = true)]
         public int Id { get; set; }
 
         /// <summary>
-        /// 获取或者设置表名称。
+        /// 表名称。
         /// </summary>
         public string TableName { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询列名称。
+        /// 查询列名称。
         /// </summary>
         public string Column { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询操作。
+        /// 查询操作。
         /// </summary>
         public int Op { get; set; }
 
         /// <summary>
-        /// 获取或者设置字典键。
+        /// 字典键。
         /// </summary>
         public string DictionaryKey { get; set; }
 
         /// <summary>
-        /// 获取或者设置验证规则。
+        /// 验证规则。
         /// </summary>
         public string ValidateRule { get; set; }
 
@@ -52,7 +52,7 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         #region 业务属性
 
         /// <summary>
-        /// 获取或者设置值。
+        /// 值。
         /// </summary>
         [Column(IsIgnore = true)]
         public string Value { get; set; }

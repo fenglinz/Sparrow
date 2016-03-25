@@ -13,7 +13,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
         #region 属性
 
         /// <summary>
-        /// 获取或者设置回收站编号。
+        /// 回收站编号。
         /// </summary>
         [Required]
         [StringLength(36, ErrorMessageResourceType = typeof(Constants),
@@ -21,14 +21,14 @@ namespace Mercurius.Sparrow.Entities.RBAC
         public virtual string Id { get; set; }
 
         /// <summary>
-        /// 获取或者设置回收站信息分类。
+        /// 回收站信息分类。
         /// </summary>
         [StringLength(50, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Category { get; set; }
 
         /// <summary>
-        /// 获取或者设置对应数据库。
+        /// 对应数据库。
         /// </summary>
         [StringLength(50, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
@@ -49,21 +49,21 @@ namespace Mercurius.Sparrow.Entities.RBAC
         public virtual string Table { get; set; }
 
         /// <summary>
-        /// 获取或者设置对应字段主键。
+        /// 对应字段主键。
         /// </summary>
         [StringLength(50, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Column { get; set; }
 
         /// <summary>
-        /// 获取或者设置对应字段值。
+        /// 对应字段值。
         /// </summary>
         [StringLength(50, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Value { get; set; }
 
         /// <summary>
-        /// 获取或者设置备注信息。
+        /// 备注信息。
         /// </summary>
         [StringLength(500, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]

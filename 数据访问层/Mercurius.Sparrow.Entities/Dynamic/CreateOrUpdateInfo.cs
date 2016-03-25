@@ -16,48 +16,48 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         #region 属性
 
         /// <summary>
-        /// 获取或者设置编号。
+        /// 编号。
         /// </summary>
         [Column(IsPrimaryKey = true, IsIdentity = true)]
         public int Id { get; set; }
 
         /// <summary>
-        /// 获取或者设置表名称。
+        /// 表名称。
         /// </summary>
         public string TableName { get; set; }
 
         /// <summary>
-        /// 获取或者设置显示列名。
+        /// 显示列名。
         /// </summary>
         public string Column { get; set; }
 
         /// <summary>
-        /// 获取或者设置列标签。
+        /// 列标签。
         /// </summary>
         public string ColumnLabel { get; set; }
 
         /// <summary>
-        /// 获取或者设置默认值。
+        /// 默认值。
         /// </summary>
         public string DefaultValue { get; set; }
 
         /// <summary>
-        /// 获取或者设置该列是否显示。
+        /// 该列是否显示。
         /// </summary>
         public bool? Visible { get; set; }
 
         /// <summary>
-        /// 获取或者设置字典Key。
+        /// 字典Key。
         /// </summary>
         public string DictionaryKey { get; set; }
 
         /// <summary>
-        /// 获取或者设置验证规则。
+        /// 验证规则。
         /// </summary>
         public string ValidateRule { get; set; }
 
         /// <summary>
-        /// 获取或者设置排序号。
+        /// 排序号。
         /// </summary>
         public int? Sort { get; set; }
 

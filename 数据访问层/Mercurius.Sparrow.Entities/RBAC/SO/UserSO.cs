@@ -10,22 +10,22 @@ namespace Mercurius.Sparrow.Entities.RBAC.SO
         #region 属性
 
         /// <summary>
-        /// 获取或者设置排除的报告人。
+        /// 排除的报告人。
         /// </summary>
         public virtual string ExcludeReporter { get; set; }
 
         /// <summary>
-        /// 获取或者设置用户所在部门编号。
+        /// 用户所在部门编号。
         /// </summary>
         public virtual string OrganizationId { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询分类。
+        /// 查询分类。
         /// </summary>
         public virtual string SearchCategory { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询值。
+        /// 查询值。
         /// </summary>
         public virtual string SearchValue { get; set; }
 

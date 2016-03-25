@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.Sparrow.Entities.WebApi
 {
     /// <summary>
     /// WebApi用户。
     /// </summary>
+    [Table("WebApi.User")]
     public class User : ModificationDomain
     {
         #region 属性

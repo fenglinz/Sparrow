@@ -16,33 +16,33 @@ namespace Mercurius.Sparrow.Entities.Core
         #region 属性
 
         /// <summary>
-        /// 获取或者设置操作记录编号。
+        /// 操作记录编号。
         /// </summary>
         [Column("Id", IsPrimaryKey = true, IsIdentity = true)]
         public int Id { get; set; }
 
         /// <summary>
-        /// 获取或者设置业务编号。
+        /// 业务编号。
         /// </summary>
         public string BusinessId { get; set; }
 
         /// <summary>
-        /// 获取或者设置业务类型。
+        /// 业务类型。
         /// </summary>
         public string BusinessType { get; set; }
 
         /// <summary>
-        /// 获取或者设置用户编号。
+        /// 用户编号。
         /// </summary>
         public string UserId { get; set; }
 
         /// <summary>
-        /// 获取或者设置记录时间。
+        /// 记录时间。
         /// </summary>
         public DateTime RecordDateTime { get; set; }
 
         /// <summary>
-        /// 获取或者设置记录内容。
+        /// 记录内容。
         /// </summary>
         public string RecordContent { get; set; }
 

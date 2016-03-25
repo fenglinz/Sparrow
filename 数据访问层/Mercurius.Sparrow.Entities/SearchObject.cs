@@ -13,12 +13,12 @@ namespace Mercurius.Sparrow.Entities
         #region 属性
 
         /// <summary>
-        /// 获取或者设置每页显示数据大小。
+        /// 每页显示数据大小。
         /// </summary>
         public int PageSize { get; set; }
 
         /// <summary>
-        /// 获取或者设置当前页的序号。
+        /// 当前页的序号。
         /// </summary>
         public int PageIndex { get; set; }
 

@@ -11,41 +11,41 @@ namespace Mercurius.Sparrow.Entities.Core.SO
 		#region 属性
 
 		/// <summary>
-		/// 获取或者设置表分空间。
+		/// 表分空间。
 		/// </summary>
 		public string Partition { get; set; }
 
 		/// <summary>
-		/// 获取或者设置日志级别。
+		/// 日志级别。
 		/// </summary>
 		public string Level { get; set; }
 
 		/// <summary>
-		/// 获取或者设置开始日期。
+		/// 开始日期。
 		/// </summary>
 		[DisplayFormat(ApplyFormatInEditMode = true,
 			DataFormatString = "{0:yyyy-MM-dd}")]
 		public DateTime? StartDate { get; set; }
 
 		/// <summary>
-		/// 获取或者设置结束日期。
+		/// 结束日期。
 		/// </summary>
 		[DisplayFormat(ApplyFormatInEditMode = true,
 		   DataFormatString = "{0:yyyy-MM-dd}")]
 		public DateTime? EndDate { get; set; }
 
 		/// <summary>
-		/// 获取或者设置登录用户名。
+		/// 登录用户名。
 		/// </summary>
 		public string LogOnName { get; set; }
 
 		/// <summary>
-		/// 获取或者设置登录IP地址。
+		/// 登录IP地址。
 		/// </summary>
 		public string LogOnIP { get; set; }
 
 		/// <summary>
-		/// 获取或者设置模块名。
+		/// 模块名。
 		/// </summary>
 		public string ModelName { get; set; }
 

@@ -8,22 +8,22 @@
         #region 属性
 
         /// <summary>
-        /// 获取或者设置区域。
+        /// 区域。
         /// </summary>
         public string AreaName { get; set; }
 
         /// <summary>
-        /// 获取或者设置控制器。
+        /// 控制器。
         /// </summary>
         public string ControllerName { get; set; }
 
         /// <summary>
-        /// 获取或者设置视图。
+        /// 视图。
         /// </summary>
         public string View { get; set; }
 
         /// <summary>
-        /// 获取或者设置键。
+        /// 键。
         /// </summary>
         public string Key { get; set; }
 

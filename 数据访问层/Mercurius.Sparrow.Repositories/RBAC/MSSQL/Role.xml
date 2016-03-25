@@ -2,17 +2,7 @@
 <sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Role" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="Role" type="Mercurius.Sparrow.Entities.RBAC.Role, Mercurius.Sparrow.Entities" />
-    <typeAlias alias="UserRole" type="Mercurius.Sparrow.Entities.RBAC.UserRole, Mercurius.Sparrow.Entities" />
   </alias>
-
-  <resultMaps>
-    <resultMap id="GetRoleUsersRM" class="UserRole">
-      <result property="RowIndex" column="RowIndex" />
-      <result property="UserId" column="UserId" />
-      <result property="UserName" column="UserName" />
-      <result property="Departments" column="UserId" select="Mercurius.Sparrow.Repositories.RBAC.Role.GetOwnedDepartments" lazyLoad="true" />
-    </resultMap>
-  </resultMaps>
 
   <statements>
 
@@ -206,18 +196,6 @@
       ]]>
     </select>
 
-    <!-- 获取用户所属部门 -->
-    <select id="GetOwnedDepartments" parameterClass="string" resultClass="string">
-      <![CDATA[
-        SELECT
-          a.Name
-        FROM RBAC.Organization a
-        INNER JOIN RBAC.StaffOrganize b
-          ON a.Id=b.OrganizationId
-        WHERE b.UserId=#value#
-      ]]>
-    </select>
-
     <!-- 获取用户拥有的角色 -->
     <select id="GetRolesByUser" parameterClass="string" resultClass="Role">
       <![CDATA[
@@ -233,10 +211,28 @@
     <select id="GetMembers" parameterClass="string" resultClass="User">
       <![CDATA[
         SELECT
-          DISTINCT a.*
+          DISTINCT a.*,
+          CASE 
+            WHEN p.Name IS NULL THEN NULL
+            ELSE STUFF(p.Name,LEN(p.Name),1,'')
+          END DepartmentNames
         FROM RBAC.[User] a
         INNER JOIN RBAC.UserRole b
           ON a.Id=b.UserId
+        LEFT JOIN RBAC.StaffOrganize c
+          ON a.Id = c.UserId
+        OUTER APPLY(
+         SELECT 
+          Name=REPLACE(
+            REPLACE(
+              (
+                SELECT Name FROM RBAC.Organization
+                WHERE Id IN (
+                  SELECT OrganizationId FROM RBAC.StaffOrganize
+                  WHERE UserId=a.Id) FOR XML PATH('')
+              ),'<Name>','')
+            ,'</Name>','，')
+        ) p
         WHERE b.RoleId=#value# AND a.Status=1
       ]]>
     </select>

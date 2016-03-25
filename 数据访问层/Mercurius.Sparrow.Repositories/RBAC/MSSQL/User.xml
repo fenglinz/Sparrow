@@ -195,7 +195,7 @@
     </select>
 
     <select id="GetDepartmentsByUser" parameterClass="string" resultClass="string">
-      SELECT organizationID FROM RBAC.StaffOrganize WHERE UserId=#value#
+      SELECT OrganizationId FROM RBAC.StaffOrganize WHERE UserId=#value#
     </select>
 
     <select id="GetRolesByUser" parameterClass="string" resultClass="string">
@@ -221,8 +221,7 @@
             CASE 
               WHEN p.Name IS NULL THEN NULL
               ELSE STUFF(p.Name,LEN(p.Name),1,'')
-            END DepartmentNames,
-            p.ParentIds
+            END DepartmentNames
           FROM RBAC.[User] U
           LEFT JOIN RBAC.[User] U1
             ON U.Reporter=U1.Id
@@ -238,18 +237,7 @@
                     SELECT OrganizationId FROM RBAC.StaffOrganize
                     WHERE UserId=U.Id) FOR XML PATH('')
                 ),'<Name>','')
-              ,'</Name>','，'),
-            ParentIds=REPLACE(
-			        REPLACE(
-				      (
-						    SELECT
-                  b.ParentId+','+a.OrganizationId+',' 
-                FROM RBAC.StaffOrganize a
-								left join RBAC.Organization b
-									on a.OrganizationId=b.Id
-						    WHERE UserId=U.Id FOR XML PATH('')
-				      ),'<ParentId>','')
-			      ,'</ParentId>',',')
+              ,'</Name>','，')
           ) p
           WHERE U.Status !=0
       ]]>

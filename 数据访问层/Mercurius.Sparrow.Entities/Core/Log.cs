@@ -15,52 +15,52 @@ namespace Mercurius.Sparrow.Entities.Core
         #region 属性
 
         /// <summary>
-        /// 获取或者设置日志编号。
+        /// 日志编号。
         /// </summary>
         [StringLength(36, ErrorMessageResourceType = typeof(Constants)
             , ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Id { get; set; }
 
         /// <summary>
-        /// 获取或者设置登录用户编号。
+        /// 登录用户编号。
         /// </summary>
         [StringLength(50, ErrorMessageResourceType = typeof(Constants)
             , ErrorMessageResourceName = "MaxStringLength")]
         public virtual string LogOnId { get; set; }
 
         /// <summary>
-        /// 获取或者设置用户登录IP地址。
+        /// 用户登录IP地址。
         /// </summary>
         [StringLength(50, ErrorMessageResourceType = typeof(Constants)
             , ErrorMessageResourceName = "MaxStringLength")]
         public virtual string LogOnIP { get; set; }
 
         /// <summary>
-        /// 获取或者设置模块名称。
+        /// 模块名称。
         /// </summary>
         [StringLength(100, ErrorMessageResourceType = typeof(Constants)
             , ErrorMessageResourceName = "MaxStringLength")]
         public virtual string ModelName { get; set; }
 
         /// <summary>
-        /// 获取或者设置日志概要信息。
+        /// 日志概要信息。
         /// </summary>
         [StringLength(500, ErrorMessageResourceType = typeof(Constants)
             , ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Summary { get; set; }
 
         /// <summary>
-        /// 获取或者设置日志详情。
+        /// 日志详情。
         /// </summary>
         public virtual string Details { get; set; }
 
         /// <summary>
-        /// 获取或者设置发生时间。
+        /// 发生时间。
         /// </summary>
         public virtual DateTime OccurrenceDateTime { get; set; }
 
         /// <summary>
-        /// 获取或者设置日志级别。
+        /// 日志级别。
         /// </summary>
         [StringLength(50, ErrorMessageResourceType = typeof(Constants)
             , ErrorMessageResourceName = "MaxStringLength")]
@@ -71,7 +71,7 @@ namespace Mercurius.Sparrow.Entities.Core
         #region 业务属性
 
         /// <summary>
-        /// 获取或者设置登录名。
+        /// 登录名。
         /// </summary>
         public string LogOnName { get; set; }
 

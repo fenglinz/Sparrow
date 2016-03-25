@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using Mercurius.Infrastructure;
+using Mercurius.Infrastructure.Ado;
 using Mercurius.Sparrow.Entities.Swagger;
 
 namespace Mercurius.Sparrow.Entities.WebApi
@@ -11,6 +12,7 @@ namespace Mercurius.Sparrow.Entities.WebApi
     /// <summary>
     /// Web API信息。
     /// </summary>
+    [Table("WebApi.Api")]
     public class Api : ModificationDomain
     {
         #region 属性

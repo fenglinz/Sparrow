@@ -17,23 +17,23 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         #region 属性
 
         /// <summary>
-        /// 获取或者设置排序编号。
+        /// 排序编号。
         /// </summary>
         [Column(IsPrimaryKey = true, IsIdentity = true)]
         public int Id { get; set; }
 
         /// <summary>
-        /// 获取或者设置表名称。
+        /// 表名称。
         /// </summary>
         public string TableName { get; set; }
 
         /// <summary>
-        /// 获取或者设置字段名。
+        /// 字段名。
         /// </summary>
         public string Column { get; set; }
 
         /// <summary>
-        /// 获取或者设置排序方式。
+        /// 排序方式。
         /// </summary>
         public int OrderBy { get; set; }
 

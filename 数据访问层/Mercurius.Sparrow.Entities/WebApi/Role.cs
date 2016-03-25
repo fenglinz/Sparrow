@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.Sparrow.Entities.WebApi
 {
     /// <summary>
     /// Web API角色。
     /// </summary>
+    [Table("WebApi.Role")]
     public class Role : ModificationDomain
     {
         #region 属性

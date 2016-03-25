@@ -13,7 +13,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
         #region 属性
 
         /// <summary>
-        /// 获取或者设置职员组织关系信息编号。
+        /// 职员组织关系信息编号。
         /// </summary>
         [Required]
         [StringLength(36, ErrorMessageResourceType = typeof(Constants),
@@ -21,14 +21,14 @@ namespace Mercurius.Sparrow.Entities.RBAC
         public virtual string Id { get; set; }
 
         /// <summary>
-        /// 获取或者设置用户编号。
+        /// 用户编号。
         /// </summary>
         [StringLength(36, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
         public virtual string UserId { get; set; }
 
         /// <summary>
-        /// 获取或者设置组织信息编号。
+        /// 组织信息编号。
         /// </summary>
         [StringLength(36, ErrorMessageResourceType = typeof(Constants),
             ErrorMessageResourceName = "MaxStringLength")]
@@ -39,17 +39,17 @@ namespace Mercurius.Sparrow.Entities.RBAC
         #region 导航属性
 
         /// <summary>
-        /// 获取或者设置名称。
+        /// 名称。
         /// </summary>
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 获取或者设置父编号。
+        /// 父编号。
         /// </summary>
         public virtual string ParentId { get; set; }
 
         /// <summary>
-        /// 获取或者设置是否为用户。
+        /// 是否为用户。
         /// </summary>
         public virtual bool IsUser { get; set; }
 

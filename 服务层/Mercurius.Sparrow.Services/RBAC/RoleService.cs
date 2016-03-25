@@ -28,8 +28,6 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.Persistence.Update(RoleNamespace, "CreateOrUpdate", role);
 
                     this.ClearCache<Role>();
-                    this.ClearCache<UserRole>();
-                    this.ClearCache<RolePermission>();
                 },
                 role);
         }
@@ -46,8 +44,6 @@ namespace Mercurius.Sparrow.Services.RBAC
                 this.Persistence.Delete(RoleNamespace, "Remove", id);
 
                 this.ClearCache<Role>();
-                this.ClearCache<UserRole>();
-                this.ClearCache<RolePermission>();
             }, id);
         }
 
@@ -66,6 +62,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                 this.Persistence.Create(RoleNamespace, "AddMembers", args);
 
                 this.ClearCache<User>();
+                this.ClearCache<Role>();
             }, new { id, users });
         }
 
@@ -84,6 +81,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                 this.Persistence.Delete(RoleNamespace, "RemoveMembers", args);
 
                 this.ClearCache<User>();
+                this.ClearCache<Role>();
             }, new { id, users });
         }
 
@@ -96,8 +94,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         {
             return this.InvokeService(
                 nameof(GetRoleById),
-                () => this.Persistence.QueryForObject<Role>(RoleNamespace, "GetRoleById", id),
-                id);
+                () => this.Persistence.QueryForObject<Role>(RoleNamespace, "GetRoleById", id), id);
         }
 
         /// <summary>
@@ -118,21 +115,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         {
             return this.InvokeService(
                 nameof(GetRolesById),
-                () => this.Persistence.QueryForList<Role>(RoleNamespace, "GetRolesByUser", userId),
-                userId);
-        }
-
-        /// <summary>
-        /// 获取角色拥有的用户。
-        /// </summary>
-        /// <param name="roleId">角色信息</param>
-        /// <returns>用户角色信息</returns>
-        public ResponseCollection<UserRole> GetRoleUsers(string roleId)
-        {
-            return this.InvokeService(
-                nameof(GetRoleUsers),
-                () => this.Persistence.QueryForList<UserRole>(RoleNamespace, "GetRoleUsers", roleId),
-                roleId);
+                () => this.Persistence.QueryForList<Role>(RoleNamespace, "GetRolesByUser", userId), userId);
         }
 
         /// <summary>

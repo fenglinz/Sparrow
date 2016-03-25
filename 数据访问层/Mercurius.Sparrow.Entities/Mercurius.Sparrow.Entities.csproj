@@ -93,14 +93,11 @@
     <Compile Include="RBAC\Organization.cs" />
     <Compile Include="RBAC\Recyclebin.cs" />
     <Compile Include="RBAC\Role.cs" />
-    <Compile Include="RBAC\RolePermission.cs" />
     <Compile Include="RBAC\SO\RecyclebinSO.cs" />
     <Compile Include="RBAC\SO\UserSO.cs" />
     <Compile Include="RBAC\StaffOrganize.cs" />
     <Compile Include="RBAC\SystemMenu.cs" />
     <Compile Include="RBAC\User.cs" />
-    <Compile Include="RBAC\UserPermission.cs" />
-    <Compile Include="RBAC\UserRole.cs" />
     <Compile Include="CreationDomain.cs" />
     <Compile Include="ModificationDomain.cs" />
     <Compile Include="SearchObject.cs" />
