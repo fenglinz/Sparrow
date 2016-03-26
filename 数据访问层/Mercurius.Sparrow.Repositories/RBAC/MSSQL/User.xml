@@ -26,8 +26,8 @@
       <result column="ModifyUserId" property="ModifyUserId" />
       <result column="ModifyUserName" property="ModifyUserName" />
       <result column="ModifyDateTime" property="ModifyDateTime" />
-      <result column="Id" property="Roles" lazyLoad="true" select="Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser" />
-      <result column="Id" property="Departments" lazyLoad="true" select="Mercurius.Sparrow.Repositories.RBAC.User.GetDepartmentsByUser" />
+      <result column="Id" property="Roles" lazyLoad="false" select="Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser" />
+      <result column="Id" property="Departments" lazyLoad="false" select="Mercurius.Sparrow.Repositories.RBAC.User.GetDepartmentsByUser" />
     </resultMap>
   </resultMaps>
 
@@ -207,7 +207,7 @@
       <![CDATA[
         WITH CTE AS (
           SELECT
-            DISTINCT(U.ID),
+            DISTINCT(U.Id),
             U.Code,
             U.Name,
             U.Account,
@@ -221,7 +221,9 @@
             CASE 
               WHEN p.Name IS NULL THEN NULL
               ELSE STUFF(p.Name,LEN(p.Name),1,'')
-            END DepartmentNames
+            END DepartmentNames,
+            p.ParentIds,
+            ROW_NUMBER() OVER(ORDER BY U.CreateDateTime ASC) AS RowIndex
           FROM RBAC.[User] U
           LEFT JOIN RBAC.[User] U1
             ON U.Reporter=U1.Id
@@ -237,7 +239,18 @@
                     SELECT OrganizationId FROM RBAC.StaffOrganize
                     WHERE UserId=U.Id) FOR XML PATH('')
                 ),'<Name>','')
-              ,'</Name>','，')
+              ,'</Name>','，'),
+              ParentIds=REPLACE(
+			        REPLACE(
+				        (
+						      SELECT
+                    b.ParentId+','+a.OrganizationId+',' 
+                  FROM RBAC.StaffOrganize a
+								  left join RBAC.Organization b
+									  on a.OrganizationId=b.Id
+						      WHERE UserId=U.Id FOR XML PATH('')
+				        ),'<ParentId>','')
+			        ,'</ParentId>',',')
           ) p
           WHERE U.Status !=0
       ]]>
@@ -263,29 +276,12 @@
         </isNotNull>
       </dynamic>
       <![CDATA[
-        ),
-        PAGING AS(
-          SELECT
-            ROW_NUMBER() OVER(ORDER BY cte.CreateDateTime ASC) AS RowIndex,
-            CTE.*
-          FROM CTE
         )
         SELECT
-          PAGING.RowIndex
-          ,PAGING.Id
-          ,PAGING.Code
-          ,PAGING.Name
-          ,PAGING.Account
-          ,PAGING.Sex
-          ,PAGING.Title
-          ,PAGING.Status
-          ,PAGING.Reporter
-          ,PAGING.ReporterName
-          ,PAGING.Remark
-          ,PAGING.CreateDateTime
-          ,PAGING.DepartmentNames
-        FROM PAGING
+          CTE.*
+        FROM CTE
         WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
       ]]>
     </select>
 

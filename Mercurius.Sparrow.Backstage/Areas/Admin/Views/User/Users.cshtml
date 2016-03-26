@@ -31,6 +31,10 @@
             mercurius.FixedTableHeader("#table1", 155);
         });
 
+        function GetSelectedValue() {
+            return $('#table1 > tbody > tr.selected > td:eq(0)').text().trim();
+        }
+
         @Html.RenderButtonScript("新增",@<text>
         function @(item.NavigateUrl)() {
             mercurius.OpenDialog('@Url.Action("CreateOrUpdate")', 'ChooseUserContainer', '用户信息-添加', 700, 410);
@@ -39,7 +43,7 @@
 
         @Html.RenderButtonScript("编辑",@<text>
         function @(item.NavigateUrl)() {
-            var key = mercurius.GetCheckboxValue('#table1');
+            var key = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(key)) {
                 mercurius.OpenDialog('@Url.Action("CreateOrUpdate")/?id=' + key, 'ChooseUserContainer', '用户信息-编辑', 700, 410);
@@ -49,7 +53,8 @@
 
         @Html.RenderButtonScript("删除",@<text>
         function @(item.NavigateUrl)() {
-            var key = mercurius.GetCheckboxValue('#table1');
+            var key = GetSelectedValue();
+
             if (mercurius.HasSingleRowSelected(key)) {
                 mercurius.OnRemoveToRecycbin({
                     name: '用户管理',
@@ -62,7 +67,7 @@
 
         @Html.RenderButtonScript("授权",@<text>
         function @(item.NavigateUrl)() {
-            var key = mercurius.GetCheckboxValue('#table1');
+            var key = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(key)) {
                 mercurius.ShowConfirmMessage('注：您确认要【授权】当前选中的用户吗？', function () {
@@ -81,7 +86,7 @@
 
         @Html.RenderButtonScript("锁定",@<text>
         function @(item.NavigateUrl)() {
-            var key = mercurius.GetCheckboxValue('#table1');
+            var key = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(key)) {
                 mercurius.ShowConfirmMessage('注：您确认要【锁定】当前选中的用户吗？', function () {
@@ -100,7 +105,7 @@
 
         @Html.RenderButtonScript("分配权限",@<text>
         function @(item.NavigateUrl)() {
-            var key = mercurius.GetCheckboxValue('#table1');
+            var key = GetSelectedValue();
             var name = $('#table1 > tbody > tr.selected > td:eq(2)').text();
 
             if (mercurius.HasSingleRowSelected(key)) {
@@ -111,7 +116,7 @@
 
         @Html.RenderButtonScript("详细", @<text>
         function @(item.NavigateUrl)() {
-            var key = mercurius.GetCheckboxValue('#table1');
+            var key = GetSelectedValue();
             var name = $('#table1 > tbody > tr.selected > td:eq(2)').text();
 
             if (mercurius.HasSingleRowSelected(key)) {
@@ -164,13 +169,14 @@
             foreach (var user in rspUsers.Datas)
             {
                 <tr>
+                    <td style="display: none;">@user.Id</td>
                     <td style="width: 40px; text-align: center;">
                         <input type="checkbox" value="@user.Id" id="@user.Id" name="checkbox" />
                     </td>
                     <td style="text-align: left;">@user.Code</td>
                     <td>@user.Name</td>
                     <td>@user.Account</td>
-                    <td style="text-align:center;">@(user.Sex == 1 ? "男" : "女")</td>
+                    <td style="text-align: center;">@(user.Sex == 1 ? "男" : "女")</td>
                     <td>@user.ReporterName</td>
                     <td>@user.Title</td>
                     <td>@UserStatus(user.Status)</td>
@@ -196,16 +202,16 @@
 
 @helper UserStatus(int? flag)
 {
-    switch (flag)
-    {
-        case 1:
+switch (flag)
+{
+    case 1:
             <span style="color: blue;">启用</span>
 
-            break;
+        break;
 
-        case 2:
+    case 2:
             <span style="color: red;">停用</span>
 
-            break;
-    }
+        break;
+}
 }
