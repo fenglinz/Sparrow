@@ -38,16 +38,6 @@ namespace Mercurius.Sparrow.Services.Support
         /// </summary>
         private static readonly Dictionary<Type, string> _dictModuleNames;
 
-        /// <summary>
-        /// 缓存键前缀。
-        /// </summary>
-        private static readonly Dictionary<Type, string> _dictCacheKeyPrefix;
-
-        /// <summary>
-        /// 缓存键格式化字符串。
-        /// </summary>
-        private string _cacheKeyFormat;
-
         private ILogger _logger;
         private string _className;
 
@@ -75,7 +65,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <summary>
         /// 获取或者设置缓存提供者。
         /// </summary>
-        public ICacheProvider Cache { get; set; }
+        public CacheProvider Cache { get; set; }
 
         /// <summary>
         /// 获取或者设置IBatis.Net持久化器。
@@ -92,7 +82,6 @@ namespace Mercurius.Sparrow.Services.Support
         static ServiceSupport()
         {
             _dictModuleNames = new Dictionary<Type, string>();
-            _dictCacheKeyPrefix = new Dictionary<Type, string>();
         }
 
         #endregion
@@ -162,10 +151,10 @@ namespace Mercurius.Sparrow.Services.Support
 
             try
             {
-                if (cacheable)
+                if (cacheable && this.Cache != null)
                 {
-                    var cacheKey = this.GetCacheKey<T>(method, args);
-                    var cacheValue = this.GetCache<T>(cacheKey);
+                    var cacheKey = this.Cache.GetCacheKey<T>(method, args);
+                    var cacheValue = this.Cache.Get<T>(cacheKey);
 
                     if (cacheValue == null)
                     {
@@ -225,10 +214,10 @@ namespace Mercurius.Sparrow.Services.Support
 
             try
             {
-                if (cacheable)
+                if (cacheable && this.Cache != null)
                 {
-                    var cacheKey = this.GetCacheKey<T>(method, args);
-                    var cacheValue = this.GetCache<IList<T>>(cacheKey);
+                    var cacheKey = this.Cache.GetCacheKey<T>(method, args);
+                    var cacheValue = this.Cache.Get<IList<T>>(cacheKey);
 
                     if (cacheValue.IsEmpty())
                     {
@@ -288,10 +277,10 @@ namespace Mercurius.Sparrow.Services.Support
 
             try
             {
-                if (cacheable)
+                if (cacheable && this.Cache != null)
                 {
-                    var cacheKey = this.GetCacheKey<T>(method, args);
-                    var cacheValue = this.GetCache<ResponseCollection<T>>(cacheKey);
+                    var cacheKey = this.Cache.GetCacheKey<T>(method, args);
+                    var cacheValue = this.Cache.Get<ResponseCollection<T>>(cacheKey);
 
                     if (cacheValue == null || cacheValue.Datas.IsEmpty())
                     {
@@ -336,36 +325,6 @@ namespace Mercurius.Sparrow.Services.Support
         #region 缓存处理
 
         /// <summary>
-        /// 获取缓存键。
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">查询参数</param>
-        /// <returns>缓存键</returns>
-        protected string GetCacheKey<T>(string key, object value = null)
-        {
-            if (string.IsNullOrWhiteSpace(this._cacheKeyFormat))
-            {
-                this._cacheKeyFormat = $"{GetCacheKeyPrefix<T>()}_{(value == null ? "{0}{1}" : "{0}_{1}")}";
-            }
-
-            return string.Format(
-                this._cacheKeyFormat,
-                key,
-                value == null ? string.Empty : JsonConvert.SerializeObject(value).Replace("{", string.Empty).Replace("}", string.Empty).Replace("[", string.Empty).Replace("]", string.Empty).Replace(@"\", string.Empty).Replace("\"", string.Empty));
-        }
-
-        /// <summary>
-        /// 获取缓存中数据。
-        /// </summary>
-        /// <typeparam name="T">数据类型</typeparam>
-        /// <param name="key">缓存主键</param>
-        /// <returns>缓存数据</returns>
-        protected T GetCache<T>(string key)
-        {
-            return this.Cache.Get<T>(key);
-        }
-
-        /// <summary>
         /// 添加缓存。
         /// </summary>
         /// <param name="key">缓存主键</param>
@@ -374,7 +333,7 @@ namespace Mercurius.Sparrow.Services.Support
         {
             if (value != null)
             {
-                this.Cache.Add(key, value);
+                this.Cache?.Add(key, value);
             }
         }
 
@@ -383,7 +342,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// </summary>
         protected void ClearCache<T>()
         {
-            this.Cache.RemoveStarts(GetCacheKeyPrefix<T>());
+            this.Cache?.RemoveStarts(this.Cache?.GetCacheKey<T>(string.Empty));
         }
 
         #endregion
@@ -410,29 +369,6 @@ namespace Mercurius.Sparrow.Services.Support
             }
 
             return _dictModuleNames[type];
-        }
-
-        /// <summary>
-        /// 获取缓存键前缀。
-        /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <returns>缓存键前缀</returns>
-        private static string GetCacheKeyPrefix<T>()
-        {
-            var typeInfo = typeof(T);
-
-            lock (_locker)
-            {
-                if (!_dictCacheKeyPrefix.ContainsKey(typeInfo))
-                {
-                    var tableAttribute = typeInfo.GetCustomAttribute<TableAttribute>();
-                    var tableName = tableAttribute == null ? typeInfo.Name : tableAttribute.Name;
-
-                    _dictCacheKeyPrefix.Add(typeInfo, tableName.Replace('.', '_').ToUpper());
-                }
-
-                return _dictCacheKeyPrefix[typeInfo];
-            }
         }
 
         #endregion

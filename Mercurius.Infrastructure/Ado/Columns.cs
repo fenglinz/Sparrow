@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Mercurius.Infrastructure.Ado
 {
     /// <summary>
-    /// 实体数据集合信息。
+    /// 字段元数据集合。
     /// </summary>
     [Serializable]
     public class Columns : IEnumerable<Column>

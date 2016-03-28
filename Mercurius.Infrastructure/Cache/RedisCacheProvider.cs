@@ -13,7 +13,7 @@ namespace Mercurius.Infrastructure.Cache
     /// <summary>
     /// 基于Redis的缓存提供者。
     /// </summary>
-    public class RedisCacheProvider : ICacheProvider
+    public class RedisCacheProvider : CacheProvider
     {
         #region 常量
 
@@ -89,7 +89,7 @@ namespace Mercurius.Infrastructure.Cache
 
         #endregion
 
-        #region ICacheProvider接口实现
+        #region CacheProvider抽象方法实现
 
         /// <summary>
         /// 将数据添加到缓存。
@@ -97,7 +97,7 @@ namespace Mercurius.Infrastructure.Cache
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="timeSpan">保存时间</param>
-        public void Add(string key, object value, TimeSpan? timeSpan = null)
+        public override void Add(string key, object value, TimeSpan? timeSpan = null)
         {
             lock (this._locker)
             {
@@ -119,7 +119,7 @@ namespace Mercurius.Infrastructure.Cache
         /// 移除缓存。
         /// </summary>
         /// <param name="key">键</param>
-        public void Remove(string key)
+        public override void Remove(string key)
         {
             lock (this._locker)
             {
@@ -131,7 +131,7 @@ namespace Mercurius.Infrastructure.Cache
         /// 移除以指定键开始的缓存。
         /// </summary>
         /// <param name="key">键</param>
-        public void RemoveStarts(string key)
+        public override void RemoveStarts(string key)
         {
             lock (this._locker)
             {
@@ -144,7 +144,7 @@ namespace Mercurius.Infrastructure.Cache
         /// <summary>
         /// 清空缓存。
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
             lock (this._locker)
             {
@@ -160,7 +160,7 @@ namespace Mercurius.Infrastructure.Cache
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="key">键</param>
         /// <returns>值</returns>
-        public T Get<T>(string key)
+        public override T Get<T>(string key)
         {
             lock (this._locker)
             {
@@ -172,7 +172,7 @@ namespace Mercurius.Infrastructure.Cache
         /// 获取所有缓存键。
         /// </summary>
         /// <returns>缓存键集合</returns>
-        public IList<string> GetAllKeys()
+        public override IList<string> GetAllKeys()
         {
             return this._redisClient.GetAllKeys();
         }

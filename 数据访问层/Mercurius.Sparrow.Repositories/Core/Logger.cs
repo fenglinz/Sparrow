@@ -39,7 +39,7 @@ namespace Mercurius.Sparrow.Repositories.Core
         /// <summary>
         /// 获取或者设置缓存器。
         /// </summary>
-        public ICacheProvider Cache { get; set; }
+        public CacheProvider Cache { get; set; }
 
         /// <summary>
         /// 获取或者设置SqlMap的命名空间。

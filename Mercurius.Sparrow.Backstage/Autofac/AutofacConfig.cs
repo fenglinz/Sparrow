@@ -53,11 +53,11 @@ namespace Mercurius.Sparrow.Autofac
                     //    .As<ICacheProvider>()
                     //    .InstancePerLifetimeScope();
                     _builder.Register(c => new RedisCacheProvider())
-                        .As<ICacheProvider>()
+                        .As<CacheProvider>()
                         .InstancePerLifetimeScope();
 
                     // 注册Logger。
-                    _builder.Register(c => new Logger { Cache = c.Resolve<ICacheProvider>(), SqlMapperManager = c.Resolve<SqlMapperManager>() })
+                    _builder.Register(c => new Logger { Cache = c.Resolve<CacheProvider>(), SqlMapperManager = c.Resolve<SqlMapperManager>() })
                         .As<ILogger>()
                         .InstancePerLifetimeScope();
 

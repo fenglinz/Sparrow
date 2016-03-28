@@ -131,7 +131,7 @@
     <Compile Include="Ado\NameValue.cs" />
     <Compile Include="Ado\TableAttribute.cs" />
     <Compile Include="Cache\DefaultCacheProvider.cs" />
-    <Compile Include="Cache\ICacheProvider.cs" />
+    <Compile Include="Cache\CacheProvider.cs" />
     <Compile Include="Data\ColumnMappingAttribute.cs" />
     <Compile Include="Data\DataType.cs" />
     <Compile Include="Data\Excel\Configuration.cs" />

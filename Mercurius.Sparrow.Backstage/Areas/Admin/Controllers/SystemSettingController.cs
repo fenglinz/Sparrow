@@ -98,7 +98,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
         public ActionResult ShowCaches()
         {
-            var cache = AutofacConfig.Container.Resolve<ICacheProvider>();
+            var cache = AutofacConfig.Container.Resolve<CacheProvider>();
             var keys = cache.GetAllKeys();
 
             return View(keys);
@@ -107,7 +107,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ShowCacheValue(string key)
         {
-            var cache = AutofacConfig.Container.Resolve<ICacheProvider>();
+            var cache = AutofacConfig.Container.Resolve<CacheProvider>();
 
             try
             {
@@ -122,7 +122,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult RemoveCacheValue(string key)
         {
-            var cache = AutofacConfig.Container.Resolve<ICacheProvider>();
+            var cache = AutofacConfig.Container.Resolve<CacheProvider>();
 
             cache.Remove(key);
 
@@ -133,7 +133,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ClearCache()
         {
-            var cache = AutofacConfig.Container.Resolve<ICacheProvider>();
+            var cache = AutofacConfig.Container.Resolve<CacheProvider>();
 
             cache.Clear();
 

@@ -112,7 +112,7 @@ namespace Mercurius.Infrastructure.Dynamic
         /// <summary>
         /// 获取或者设置缓存对象。
         /// </summary>
-        public ICacheProvider Cache { get; set; }
+        public CacheProvider Cache { get; set; }
 
         /// <summary>
         /// 获取数据库元数据信息对象。
@@ -1001,7 +1001,7 @@ namespace Mercurius.Infrastructure.Dynamic
                 return;
             }
 
-            var cacheKey = $"{tableName.Replace('.', '_').ToUpper()}_{criteria.AsJson()}";
+            var cacheKey = this.Cache.GetCacheKey(tableName, criteria.AsJson());
 
             this._parameterIndex = 0;
 
@@ -1020,7 +1020,7 @@ namespace Mercurius.Infrastructure.Dynamic
                 return default(R);
             }
 
-            var cacheKey = $"{tableName.Replace('.', '_').ToUpper()}_{typeof(R).FullName}_{criteria.AsJson()}";
+            var cacheKey = this.Cache.GetCacheKey(tableName, $"{typeof(R).FullName}_{criteria.AsJson()}");
 
             return this.Cache.Get<R>(cacheKey);
         }
@@ -1030,7 +1030,14 @@ namespace Mercurius.Infrastructure.Dynamic
         /// </summary>
         private void RemoveCache(string tableName)
         {
-            this.Cache?.RemoveStarts($"{tableName.Replace('.', '_').ToUpper()}_");
+            if (this.Cache == null)
+            {
+                return;
+            }
+
+            var cacheKey = this.Cache.GetCacheKey(tableName, "");
+
+            this.Cache?.RemoveStarts(cacheKey);
         }
 
         #endregion
