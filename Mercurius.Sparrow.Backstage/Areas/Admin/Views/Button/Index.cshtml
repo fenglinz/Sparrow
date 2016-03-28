@@ -1,5 +1,5 @@
 ﻿@{
-    var buttonInfos = ViewBag.ButtonInfos as ResponseCollection<Button>;
+    var buttons = ViewBag.Buttons as ResponseCollection<Button>;
 }
 
 @section Styles
@@ -81,29 +81,29 @@
         </tr>
     </thead>
     <tbody>
-        @if (buttonInfos.HasData())
+        @if (buttons.HasData())
         {
-            foreach (var buttonInfo in buttonInfos.Datas)
+            foreach (var item in buttons.Datas)
             {
                 <tr>
                     <td>
-                        <input type="checkbox" value="@buttonInfo.Id" id="@buttonInfo.Id" name="checkbox" />
+                        <input type="checkbox" value="@item.Id" id="@item.Id" name="checkbox" />
                     </td>
-                    <td><i class="@buttonInfo.Image fa-2x"></i></td>
-                    <td>@buttonInfo.Name</td>
-                    <td>@buttonInfo.Title</td>
-                    <td>@buttonInfo.Category</td>
-                    <td style="text-align:left;">@buttonInfo.Code</td>
-                    <td>@buttonInfo.Sort</td>
-                    <td>@buttonInfo.CreateUserName</td>
-                    <td>@buttonInfo.CreateDateTime</td>
-                    <td>@buttonInfo.ModifyUserName</td>
-                    <td>@buttonInfo.ModifyDateTime</td>
-                    <td>@buttonInfo.Remark</td>
+                    <td><i class="@item.Image fa-2x"></i></td>
+                    <td>@item.Name</td>
+                    <td>@item.Title</td>
+                    <td>@item.Category</td>
+                    <td style="text-align:left;">@item.Code</td>
+                    <td>@item.Sort</td>
+                    <td>@item.CreateUserName</td>
+                    <td>@item.CreateDateTime</td>
+                    <td>@item.ModifyUserName</td>
+                    <td>@item.ModifyDateTime</td>
+                    <td>@item.Remark</td>
                 </tr>
             }
         }
-        else if (buttonInfos.IsSuccess())
+        else if (buttons.IsSuccess())
         {
             <tr>
                 <td colspan="12" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
@@ -112,7 +112,7 @@
         else
         {
             <tr>
-                <td colspan="12" class="text-danger">@buttonInfos.GetErrorMessage()</td>
+                <td colspan="12" class="text-danger">@buttons.GetErrorMessage()</td>
             </tr>
         }
     </tbody>

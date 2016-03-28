@@ -81,37 +81,6 @@
       </isNotNull>
     </insert>
 
-    <!-- 添加用户拥有的角色 -->
-    <insert id="AddRelations" parameterClass="Params">
-      <![CDATA[
-        DELETE FROM RBAC.UserRole WHERE UserId=#UserId#;
-      ]]>
-      <isNotNull property="RoleIds">
-        <![CDATA[
-          INSERT INTO RBAC.UserRole
-          (
-            Id,
-            UserId,
-            RoleId,
-            CreateUserId,
-            CreateDateTime
-          )
-          VALUES
-        ]]>
-        <iterate property="RoleIds" open="" conjunction="," close=";">
-          <![CDATA[
-            (
-              NEWID(),
-              #UserId#,
-              #RoleIds[]#,
-              #CreateUserId#,
-              GETDATE()
-            )
-          ]]>
-        </iterate>
-      </isNotNull>
-    </insert>
-
     <!-- 删除角色成员 -->
     <delete id="RemoveMembers" parameterClass="Params">
       <isNotNull property="UserIds">

@@ -1,0 +1,33 @@
+﻿@{
+    var groupMembers = this.ViewBag.Members as ResponseCollection<User>;
+}
+<div>
+    <ul id="treeContainer" class="filetree">
+        <li id="@this.ViewBag.Id">
+            <span class="folder"></span> @this.Request.Params["name"]
+            <ul>
+                @if (groupMembers.HasData())
+                {
+                    foreach (var user in groupMembers.Datas)
+                    {
+                        <li>
+                            <span class="file"></span> <i ondblclick="DeleteMember('@user.Id')">@user.Name</i>
+                        </li>
+                    }
+                }
+                else if (groupMembers.IsSuccess())
+                {
+                    <li>
+                        <span class="file" style="color:red;"></span><i>暂无数据</i>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <span class="file"></span><i>@groupMembers.GetErrorMessage()</i>
+                    </li>
+                }
+            </ul>
+        </li>
+    </ul>
+</div>

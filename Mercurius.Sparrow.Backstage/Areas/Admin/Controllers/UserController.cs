@@ -73,9 +73,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             if (string.Compare(verifyCode, Convert.ToString(this.Session[SessionVerifyCode]), StringComparison.OrdinalIgnoreCase) == 0)
             {
-                oldPassword = oldPassword.Encrypt();
-                newPassword = newPassword.Encrypt();
-
                 var rsp = this.UserService.ChangePassword(WebHelper.GetLogOnUserId(), oldPassword, newPassword);
 
                 isSuccess = rsp.IsSuccess;
@@ -173,7 +170,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             var rsp = this.UserService.CreateOrUpdate(vm.User, vm.Departments, vm.Roles);
 
-            return rsp.IsSuccess ? 
+            return rsp.IsSuccess ?
                 this.CloseDialogWithAlert("保存成功！") :
                 this.Alert($"发生错误，错误原因：{rsp.ErrorMessage}", AlertType.Error);
         }

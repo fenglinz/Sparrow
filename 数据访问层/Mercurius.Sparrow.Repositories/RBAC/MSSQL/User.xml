@@ -104,7 +104,7 @@
         SET
           Password=#Password#,
           ModifyUserId=#ModifyUserId#,
-          ModifyDateTime=#ModifyDateTime#
+          ModifyDateTime=GETDATE()
         WHERE ID=#Id#
       ]]>
     </update>
@@ -222,8 +222,7 @@
               WHEN p.Name IS NULL THEN NULL
               ELSE STUFF(p.Name,LEN(p.Name),1,'')
             END DepartmentNames,
-            p.ParentIds,
-            ROW_NUMBER() OVER(ORDER BY U.CreateDateTime ASC) AS RowIndex
+            p.ParentIds
           FROM RBAC.[User] U
           LEFT JOIN RBAC.[User] U1
             ON U.Reporter=U1.Id
@@ -246,40 +245,24 @@
 						      SELECT
                     b.ParentId+','+a.OrganizationId+',' 
                   FROM RBAC.StaffOrganize a
-								  left join RBAC.Organization b
+								  LEFT JOIN RBAC.Organization b
 									  on a.OrganizationId=b.Id
 						      WHERE UserId=U.Id FOR XML PATH('')
 				        ),'<ParentId>','')
 			        ,'</ParentId>',',')
           ) p
-          WHERE U.Status !=0
+          WHERE U.Status!=0
       ]]>
-      <dynamic>
-        <isNotNull property=".">
-          <isNotEmpty property="OrganizationId" prepend="AND">
-            CHARINDEX(#OrganizationId#+',', p.ParentIds)>0
-          </isNotEmpty>
-          <isNotEmpty property="SearchValue">
-            <isEqual property="SearchCategory" compareValue="Code" prepend="AND">
-              U.Code LIKE '%'+#SearchValue#+'%'
-            </isEqual>
-            <isEqual property="SearchCategory" compareValue="Account" prepend="AND">
-              U.Account LIKE '%'+#SearchValue#+'%'
-            </isEqual>
-            <isEqual property="SearchCategory" compareValue="Name" prepend="AND">
-              U.Name LIKE '%'+#SearchValue#+'%'
-            </isEqual>
-          </isNotEmpty>
-          <isNotNull property="ExcludeReporter" prepend="AND">
-            <![CDATA[U.Id<>#ExcludeReporter#]]>
-          </isNotNull>
-        </isNotNull>
-      </dynamic>
+      <include refid="SearchUsersCondition" />
       <![CDATA[
+        ),
+        pg as(
+					SELECT
+						CTE.*,
+						ROW_NUMBER() OVER(ORDER BY cte.CreateDateTime ASC) AS RowIndex
+					FROM CTE
         )
-        SELECT
-          CTE.*
-        FROM CTE
+        SELECT * FROM pg
         WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
         ORDER BY RowIndex ASC
       ]]>
@@ -289,7 +272,7 @@
     <select id="SearchUsersCount" parameterClass="UserSO" resultClass="int">
       <![CDATA[
         SELECT
-          COUNT(DISTINCT(U.ID))
+          COUNT(DISTINCT(U.Id))
         FROM RBAC.[User] U 
         LEFT JOIN RBAC.StaffOrganize S
           ON U.Id = S.UserId
@@ -309,27 +292,92 @@
           ) p
         WHERE U.Status !=0
       ]]>
-      <dynamic>
-        <isNotNull property=".">
-          <isNotEmpty property="OrganizationId" prepend="AND">
-            CHARINDEX(#OrganizationId#+',', p.ParentIds)>0
-          </isNotEmpty>
-          <isNotEmpty property="SearchValue">
-            <isEqual property="SearchCategory" compareValue="Code" prepend="AND">
-              U.Code LIKE '%'+#SearchValue#+'%'
-            </isEqual>
-            <isEqual property="SearchCategory" compareValue="Account" prepend="AND">
-              U.Account LIKE '%'+#SearchValue#+'%'
-            </isEqual>
-            <isEqual property="SearchCategory" compareValue="Name" prepend="AND">
-              U.Name LIKE '%'+#SearchValue#+'%'
-            </isEqual>
-          </isNotEmpty>
-          <isNotNull property="ExcludeReporter" prepend="AND">
-            <![CDATA[U.Id<>#ExcludeReporter#]]>
-          </isNotNull>
-        </isNotNull>
-      </dynamic>
+      <include refid="SearchUsersCondition" />
     </select>
+
+    <!-- 添加用户所属的部门 -->
+    <insert id="AddToOrganizations" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM RBAC.StaffOrganize WHERE UserId=#UserId#;
+      ]]>
+      <isNotNull property="OrganizationIds">
+        <![CDATA[
+          INSERT INTO RBAC.StaffOrganize
+          (
+            Id,
+            UserId,
+            OrganizationId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="OrganizationIds" open="" close=";" conjunction=",">
+          <![CDATA[
+            (
+              NEWID(),
+              #UserId#,
+              #OrganizationIds[]#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+    </insert>
+
+    <!-- 添加用户拥有的角色 -->
+    <insert id="AddToRoles" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM RBAC.UserRole WHERE UserId=#UserId#;
+      ]]>
+      <isNotNull property="RoleIds">
+        <![CDATA[
+          INSERT INTO RBAC.UserRole
+          (
+            Id,
+            UserId,
+            RoleId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="RoleIds" open="" conjunction="," close=";">
+          <![CDATA[
+            (
+              NEWID(),
+              #UserId#,
+              #RoleIds[]#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+    </insert>
+
+    <!-- 查询用户信息查询条件 -->
+    <sql id="SearchUsersCondition">
+      <isNotNull property=".">
+        <isNotEmpty property="OrganizationId" prepend="AND">
+          CHARINDEX(#OrganizationId#+',', p.ParentIds)>0
+        </isNotEmpty>
+        <isNotEmpty property="SearchValue">
+          <isEqual property="SearchCategory" compareValue="Code" prepend="AND">
+            U.Code LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+          <isEqual property="SearchCategory" compareValue="Account" prepend="AND">
+            U.Account LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+          <isEqual property="SearchCategory" compareValue="Name" prepend="AND">
+            U.Name LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+        </isNotEmpty>
+        <isNotNull property="ExcludeReporter" prepend="AND">
+          <![CDATA[U.Id<>#ExcludeReporter#]]>
+        </isNotNull>
+      </isNotNull>
+    </sql>
   </statements>
 </sqlMap>

@@ -123,11 +123,6 @@ namespace Mercurius.Sparrow.Entities.RBAC
         /// </summary>
         public virtual string AssistantManagerName { get; set; }
 
-        /// <summary>
-        /// 关联的职员组织关系信息。
-        /// </summary>
-        public virtual IList<StaffOrganize> StaffOrganizes { get; set; }
-
         #endregion
     }
 }

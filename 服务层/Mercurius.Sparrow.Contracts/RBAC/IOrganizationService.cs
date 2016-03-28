@@ -1,4 +1,5 @@
 ﻿using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Entities.RBAC.SO;
 
 namespace Mercurius.Sparrow.Contracts.RBAC
 {
@@ -8,9 +9,39 @@ namespace Mercurius.Sparrow.Contracts.RBAC
     public interface IOrganizationService
     {
         /// <summary>
-        /// 获取组织机构信息
+        /// 添加或者更新组织机构信息。
         /// </summary>
-        /// <param name="id">组织ID</param>
+        /// <param name="org">组织机构信息</param>
+        /// <returns>添加或更新结果</returns>
+        Response CreateOrUpdate(Organization org);
+
+        /// <summary>
+        /// 删除组织机构信息。
+        /// </summary>
+        /// <param name="id">编号</param>
+        /// <returns>删除结果</returns>
+        Response Remove(string id);
+        
+        /// <summary>
+        /// 添加机构成员。
+        /// </summary>
+        /// <param name="id">机构编号</param>
+        /// <param name="users">成员编号集合</param>
+        /// <returns>添加结果</returns>
+        Response AddMembers(string id, params string[] users);
+
+        /// <summary>
+        /// 删除机构成员。
+        /// </summary>
+        /// <param name="id">机构编号</param>
+        /// <param name="users">成员编号集合</param>
+        /// <returns></returns>
+        Response RemoveMembers(string id, params string[] users);
+
+        /// <summary>
+        /// 获取组织机构信息。
+        /// </summary>
+        /// <param name="id">编号</param>
         /// <returns>组织机构信息</returns>
         Response<Organization> GetOrganizationById(string id);
 
@@ -21,16 +52,10 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         ResponseCollection<Organization> GetOrganizations();
 
         /// <summary>
-        /// 获取人员组织机构信息。
+        /// 获取未分配给该组织的用户。
         /// </summary>
-        /// <returns>人员组织机构信息</returns>
-        ResponseCollection<StaffOrganize> GetStaffOrganizes();
-
-       /// <summary>
-        /// 新增或修改数据
-        /// </summary>
-        /// <param name="org">Organization对象</param>
-        /// <returns></returns>
-        Response CreateOrUpdate(Organization org);
+        /// <param name="so">查询条件</param>
+        /// <returns>用户信息集合</returns>
+        ResponseCollection<User> GetUnAllotUsers(OrganizationSO so);
     }
 }

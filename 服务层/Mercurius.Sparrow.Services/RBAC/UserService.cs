@@ -35,13 +35,13 @@ namespace Mercurius.Sparrow.Services.RBAC
                     using (this.Persistence.BeginTransaction())
                     {
                         this.Persistence.Update(UserNamespace, "CreateOrUpdate", user);
-                        this.Persistence.Create(OrganizationNamespace, "AddRelations", new
+                        this.Persistence.Create(UserNamespace, "AddToOrganizations", new
                         {
                             UserId = user.Id,
                             CreateUserId = WebHelper.GetLogOnUserId(),
                             OrganizationIds = departments
                         });
-                        this.Persistence.Create(RoleNamespace, "AddRelations", new
+                        this.Persistence.Create(UserNamespace, "AddToRoles", new
                         {
                             UserId = user.Id,
                             CreateUserId = WebHelper.GetLogOnUserId(),
@@ -52,7 +52,6 @@ namespace Mercurius.Sparrow.Services.RBAC
                         this.ClearCache<Role>();
                         this.ClearCache<SystemMenu>();
                         this.ClearCache<Organization>();
-                        this.ClearCache<StaffOrganize>();
                     }
                 }, new { user, departments, roles });
         }
@@ -89,14 +88,14 @@ namespace Mercurius.Sparrow.Services.RBAC
                 nameof(ChangePassword),
                 () =>
                 {
-                    if (oldPassword == newPassword)
-                    {
-                        throw new Exception("新密码不能与旧密码相同!");
-                    }
-
                     if (string.IsNullOrWhiteSpace(newPassword))
                     {
                         throw new Exception("新密码不能为空！");
+                    }
+
+                    if (oldPassword == newPassword)
+                    {
+                        throw new Exception("新密码不能与旧密码相同!");
                     }
 
                     var user = this.Persistence.QueryForObject<User>(UserNamespace, "GetUser", id);
@@ -105,6 +104,8 @@ namespace Mercurius.Sparrow.Services.RBAC
                     {
                         throw new Exception("用户不存在！");
                     }
+
+                    oldPassword = oldPassword.Encrypt();
 
                     if (user.Password != oldPassword)
                     {
@@ -117,10 +118,8 @@ namespace Mercurius.Sparrow.Services.RBAC
                         new User
                         {
                             Id = id,
-                            Password = newPassword,
-                            ModifyUserId = WebHelper.GetLogOnUserId(),
-                            ModifyUserName = WebHelper.GetLogOnAccount(),
-                            ModifyDateTime = DateTime.Now
+                            Password = newPassword.Encrypt(),
+                            ModifyUserId = WebHelper.GetLogOnUserId()
                         });
                 }, new { id, oldPassword, newPassword });
         }
@@ -171,8 +170,7 @@ namespace Mercurius.Sparrow.Services.RBAC
 
             return this.InvokePagingService(
                 nameof(SearchUsers),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(UserNamespace, "SearchUsers", out totalRecords, so),
-                so);
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(UserNamespace, "SearchUsers", out totalRecords, so), so);
         }
 
         /// <summary>

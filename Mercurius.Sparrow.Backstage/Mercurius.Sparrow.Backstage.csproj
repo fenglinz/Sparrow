@@ -480,6 +480,9 @@
     <Content Include="Areas\Admin\Views\Role\AllotMembers.cshtml" />
     <Content Include="Areas\Admin\Views\Role\_UnAllotUsers.cshtml" />
     <Content Include="Areas\Admin\Views\Role\_Members.cshtml" />
+    <Content Include="Areas\Admin\Views\Organization\AllotMembers.cshtml" />
+    <Content Include="Areas\Admin\Views\Organization\_Members.cshtml" />
+    <Content Include="Areas\Admin\Views\Organization\_UnAllotUsers.cshtml" />
     <None Include="Areas\Admin\Views\SystemSetting\ShowCaches.cshtml" />
     <Content Include="Areas\Admin\Views\User\AllotPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\User\ViewPermissions.cshtml" />

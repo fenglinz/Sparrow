@@ -12,9 +12,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
     public class ButtonController : BaseController
     {
         #region 属性
-        
+
         /// <summary>
-        /// 获取或设置按钮信息。
+        /// 按钮信息服务对象。
         /// </summary>
         public IButtonService ButtonService { get; set; }
 
@@ -26,9 +26,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            var buttonInfos = this.ButtonService.GetButtons();
-
-            this.ViewBag.ButtonInfos = buttonInfos;
+            this.ViewBag.Buttons = this.ButtonService.GetButtons();
 
             return this.View();
         }
@@ -37,7 +35,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// 进入新增或修改按钮信息界面
         /// </summary>
         /// <returns></returns>
-        public ActionResult CreateOrUpdate(string id =null)
+        public ActionResult CreateOrUpdate(string id = null)
         {
             if (!string.IsNullOrWhiteSpace(id))
             {
@@ -64,27 +62,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(Button button)
         {
-            if (string.IsNullOrWhiteSpace(button.Id))
-            {
-                button.Id = Guid.NewGuid().ToString();
-            }
-
             button.Initialize();
 
-            if (button.IsValid())
-            {
-                var rsp = this.ButtonService.CreateOrUpdate(button);
-                if (!rsp.IsSuccess)
-                {
-                    return this.Alert("执行失败，失败原因：" + rsp.ErrorMessage);
-                }
-            }
-            else
-            {
-                return this.Alert(this.ConvertToHtml(button.GetErrorMessage()));
-            }
+            var rsp = this.ButtonService.CreateOrUpdate(button);
 
-            return this.CloseDialogWithAlert("执行成功!");
+            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功!") : this.Alert("执行失败，失败原因：" + rsp.ErrorMessage);
         }
     }
 }
