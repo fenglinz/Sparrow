@@ -79,17 +79,7 @@
             var id = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(id)) {
-                mercurius.ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function () {
-                    mercurius.AjaxHelper('@Url.Action("Remove", "Dictionary")', { id: id }, function (rs) {
-                        if (rs.IsSuccess) {
-                            mercurius.ShowTipsMessage("删除成功！", 2000, 4);
-
-                            window.location.reload();
-                        } else {
-                            mercurius.ShowTipsMessage("<span style='color:red'>删除失败，请稍后重试！  失败原因：" + rs.ErrorMessage + "</span>", 4000, 5);
-                        }
-                    });
-                });
+                mercurius.RemoveData('@Url.Action("Remove", "Dictionary")', { id: id });
             }
         }
         </text>)
@@ -99,7 +89,7 @@
             var status = statusVal == 1 ? 0 : 1;
 
             mercurius.ShowConfirmMessage(msg, function () {
-                mercurius.AjaxHelper('@Url.Action("ChangeStatus", "Dictionary")', { id: id, status: status }, function (rs) {
+                mercurius.Ajax('@Url.Action("ChangeStatus", "Dictionary")', { id: id, status: status }, function (rs) {
                     if (rs.IsSuccess) {
                         mercurius.ShowTipsMessage("操作成功！", 2000, 4);
 

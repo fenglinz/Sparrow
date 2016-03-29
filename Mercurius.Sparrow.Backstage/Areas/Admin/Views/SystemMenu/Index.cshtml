@@ -49,26 +49,20 @@
 
         @Html.RenderButtonScript("删除",@<text>
         function @(item.NavigateUrl)() {
-            var systemMenuId = GetSelectedValue();
+            var id = GetSelectedValue();
 
-            if (mercurius.HasSingleRowSelected(systemMenuId)) {
-                mercurius.OnRemoveToRecycbin({
-                    name: '导航菜单',
-                    relyColumn: 'ParentId',
-                    relyValue: systemMenuId,
-                    column: 'Id',
-                    value: systemMenuId
-                });
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.RemoveData('@Url.Action("Remove")', {id:id});
             }
         }
         </text>)
 
         @Html.RenderButtonScript("分配按钮",@<text>
         function @(item.NavigateUrl)() {
-            var systemMenuId = GetSelectedValue();
+            var id = GetSelectedValue();
 
-            if (mercurius.HasSingleRowSelected(systemMenuId)) {
-                var url = '@Url.Action("AllotButton")/' + systemMenuId;
+            if (mercurius.HasSingleRowSelected(id)) {
+                var url = '@Url.Action("AllotButton")/' + id;
 
                 mercurius.OpenDialog(url, 'AllotButton', '导航菜单信息 - 分配按钮', 600, 355, { statusbar: false });
             }

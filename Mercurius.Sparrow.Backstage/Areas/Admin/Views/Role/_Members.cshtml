@@ -1,33 +1,44 @@
 ﻿@{
     var groupMembers = this.ViewBag.RoleMembers as ResponseCollection<User>;
 }
-<div>
-    <ul id="treeContainer" class="filetree">
-        <li id="@this.ViewBag.Id">
-            <span class="folder"></span> @this.Request.Params["name"]
-            <ul>
-                @if (groupMembers.HasData())
+
+<table id="table2" class="grid">
+    <thead>
+        <tr>
+            <td style="width: 30px;">
+                <label class="check-all"></label>
+            </td>
+            <td style="width: 140px;">工号</td>
+            <td style="width: 100px;">姓名</td>
+            <td>账号</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (groupMembers.HasData())
+            {
+                foreach (var item in groupMembers.Datas)
                 {
-                    foreach (var user in groupMembers.Datas)
-                    {
-                        <li>
-                            <span class="file"></span> <i ondblclick="DeleteMember('@user.Id')">@user.Name</i>
-                        </li>
-                    }
-                }
-                else if (groupMembers.IsSuccess())
-                {
-                    <li>
-                        <span class="file" style="color:red;"></span><i>暂无数据</i>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <span class="file"></span><i>@groupMembers.GetErrorMessage()</i>
-                    </li>
-                }
-            </ul>
-        </li>
-    </ul>
-</div>
+                <tr>
+                    <td class="text-center">
+                        <input type="checkbox" value="@item.Id" />
+                    </td>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@item.Account</td>
+                </tr>
+            }
+        }
+        else if (groupMembers.IsSuccess())
+        {
+            <tr>
+                <td class="empty-data" colspan="3">暂无数据!</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td class="empty-data" colspan="3">@groupMembers.GetErrorMessage()</td>
+            </tr>
+        }
+    </tbody>
+</table>

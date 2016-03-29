@@ -1,9 +1,8 @@
 ﻿@section Styles
 {
-    @Styles.Render("~/Content/tree/css")
     <style type="text/css">
-        .col-sm-6,
         .col-sm-5 {
+            width: 45.835%;
             padding-left: 0;
             padding-right: 0;
         }
@@ -12,21 +11,19 @@
 
 @section Scripts
 {
-    @Scripts.Render("~/bundles/tree")
     <script type="text/javascript">
         //初始化
         $(function () {
-            $('#treeContainer').treeview({
-                persist: "location",
-                collapsed: false,
-                unique: false
-            });
-            mercurius.FixedTableHeader("#table1", 110, { fixedWidth: 400, multiple: true });
+            GetUnAllotUsers();
+            GetUserRoleMembers();
 
-            $('#txtSearch').on('input propertychange', function () {
-                GetUnAllotUsers();
-            });
+            FixedTableHeader("table1");
+            FixedTableHeader("table2");
         });
+
+        function FixedTableHeader(id) {
+            mercurius.FixedTableHeader("#" + id, 135, { multiple: true });
+        }
 
         //用户列表
         function GetUnAllotUsers() {
@@ -35,43 +32,41 @@
                 cache: false,
                 url: '@Url.Action("_GetUnAllotUsers")',
                 data: {
-                    id: '@this.ViewBag.Id',
-                    type: $('#searchwhere').val(),
-                    query: $('#txtSearch').val()
+                    RoleId: '@this.ViewBag.RoleId',
+                    SearchCategory: $('#searchwhere').val(),
+                    SearchValue: $('#txtSearch').val()
                 },
                 dataType: 'html',
                 success: function (r) {
                     $('#allUserInfo').html(r);
 
-                    mercurius.FixedTableHeader("#table1", 110, { fixedWidth: 400, multiple: true });
+                    FixedTableHeader("table1")
                 }
             });
         }
-        //用户组树
+
+        //用户组
         function GetUserRoleMembers() {
             $.ajax({
                 type: 'POST',
                 cache: false,
                 url: '@Url.Action("_GetMembers")',
-                data: { id: '@this.ViewBag.Id' },
+                data: { id: '@this.ViewBag.RoleId' },
                 dataType: 'html',
                 success: function (r) {
                     $('#selectedUserInfo').html(r);
 
-                    $('#treeContainer').treeview({
-                        persist: "location",
-                        collapsed: false,
-                        unique: false
-                    });
+                    FixedTableHeader("table2")
                 }
             });
         }
+
         //添加成员到用户组
         function addMember() {
-            var key = mercurius.GetCheckboxValue('.grid');
+            var key = mercurius.GetCheckboxValue('#table1');
 
-            if (mercurius.HasAnyRowSelected(key)) {
-                mercurius.AjaxHelper('@Url.Action("AddMembers")', { id: '@this.ViewBag.Id', userIds: key }, function (rs) {
+            if (mercurius.HasAnyRowSelected(key, '请选择需要添加的用户！')) {
+                mercurius.Ajax('@Url.Action("AddMembers")', { id: '@this.ViewBag.RoleId', userIds: key }, function (rs) {
                     if (rs.IsSuccess) {
                         mercurius.ShowTipsMessage("添加用户到组成功！", 2000, 4);
 
@@ -82,33 +77,35 @@
                         mercurius.ShowTipsMessage("操作失败，请稍后重试！" + rs.Message, 4000, 5);
                     }
                 });
-            } else {
-                mercurius.ShowTipsMessage("请选中用户列表员工");
             }
         }
 
         //删除用户组里面成员
-        function DeleteMember(id) {
-            mercurius.AjaxHelper('@Url.Action("RemoveMember")', { id: '@this.ViewBag.Id', userId: id }, function (rs) {
-                if (rs.IsSuccess) {
-                    mercurius.ShowTipsMessage("移除用户成员成功！", 2000, 4);
+        function removeMember() {
+            var key = mercurius.GetCheckboxValue('#table2');
 
-                    GetUnAllotUsers();
-                    GetUserRoleMembers();
-                }
-                else {
-                    mercurius.ShowTipsMessage("操作失败，请稍后重试！" + rs.Message, 4000, 5);
-                }
-            });
+            if (mercurius.HasAnyRowSelected(key, '请选择需要删除的用户！')) {
+                mercurius.Ajax('@Url.Action("RemoveMember")', { id: '@this.ViewBag.RoleId', userIds: key }, function (rs) {
+                    if (rs.IsSuccess) {
+                        mercurius.ShowTipsMessage("移除用户成员成功！", 2000, 4);
+
+                        GetUnAllotUsers();
+                        GetUserRoleMembers();
+                    }
+                    else {
+                        mercurius.ShowTipsMessage("操作失败，请稍后重试！" + rs.Message, 4000, 5);
+                    }
+                });
+            }
         }
     </script>
 }
-<div id="UserInfolist" style="height: 440px;">
-    <div id="UserInfolistleft" class="col-sm-6">
+<div id="UserInfolist" style="height: 445px;">
+    <div id="UserInfolistleft" class="col-sm-5">
         <div class="panel panel-default" style="margin-bottom: 5px;">
             <div class="panel-heading form-inline" style="padding: 5px;">
                 <div class="form-group form-group-sm">
-                    <select id="searchwhere" class="form-control" onchange="GetUnAllotUsers();">
+                    <select id="searchwhere" class="form-control">
                         <option value="Code">工号</option>
                         <option value="Account">账户</option>
                         <option value="Name">姓名</option>
@@ -116,7 +113,7 @@
                 </div>
                 <div class="form-group form-group-sm">
                     <div class="input-group">
-                        <input type="text" id="txtSearch" class="form-control" style="width: 230px;" />
+                        <input type="text" id="txtSearch" class="form-control" style="width: 210px;" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary" onclick="GetUnAllotUsers();">
                                 <i class="glyphicon glyphicon-search"></i> 查询
@@ -127,21 +124,24 @@
             </div>
         </div>
         <div id="allUserInfo" class="panel-body" style="padding: 0;margin:0;">
-            @Html.Partial("_UnAllotUsers")
+            
         </div>
     </div>
     <div class="col-sm-1">
-        <a onclick="addMember()" class="btn btn-primary" style="position: absolute; top: 210px;">
+        <a onclick="addMember()" class="btn btn-primary" style="position: absolute; top: 180px;">
             <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+        <a onclick="removeMember()" class="btn btn-danger" style="position: absolute; top: 220px;">
+            <i class="glyphicon glyphicon-chevron-left"></i>
         </a>
     </div>
     <div class="col-sm-5">
         <div class="panel panel-default">
             <div class="panel-heading">
-                角色成员;<span style="color: Red;">双击移除成员</span>
+                <b>【@this.ViewBag.RoleName】角色成员列表</b>
             </div>
-            <div class="panel-body" id="selectedUserInfo" style="padding:0;padding-bottom: 5px; height: 405px;">
-                @Html.Partial("_Members")
+            <div class="panel-body" id="selectedUserInfo" style="padding: 0; padding-bottom: 5px; height: 375px;">
+                
             </div>
         </div>
     </div>

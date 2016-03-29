@@ -21,11 +21,11 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         Response Remove(string id);
 
         /// <summary>
-        /// 添加页面按钮资源。
+        /// 分配页面按钮资源。
         /// </summary>
         /// <param name="systemMenuId">系统菜单编号</param>
         /// <param name="buttonId">按钮编号</param>
-        Response AddSystemMenuButton(string systemMenuId, string buttonId);
+        Response AllotButton(string systemMenuId, string buttonId);
 
         /// <summary>
         /// 为角色分配权限。

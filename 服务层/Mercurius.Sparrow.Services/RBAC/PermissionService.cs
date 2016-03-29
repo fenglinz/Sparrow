@@ -55,14 +55,14 @@ namespace Mercurius.Sparrow.Services.RBAC
         }
 
         /// <summary>
-        /// 添加页面按钮资源。
+        /// 分配页面按钮资源。
         /// </summary>
         /// <param name="systemMenuId">系统菜单编号</param>
         /// <param name="buttonId">按钮编号</param>
-        public Response AddSystemMenuButton(string systemMenuId, string buttonId)
+        public Response AllotButton(string systemMenuId, string buttonId)
         {
             return this.InvokeService(
-                nameof(AddSystemMenuButton),
+                nameof(AllotButton),
                 () =>
                 {
                     var button = this.Persistence.QueryForObject<Button>(ButtonNamespace, "GetButtons", buttonId);

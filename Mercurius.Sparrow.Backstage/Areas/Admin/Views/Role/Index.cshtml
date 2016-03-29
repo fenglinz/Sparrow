@@ -66,7 +66,7 @@
             var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
 
             if (mercurius.HasSingleRowSelected(roleId)) {
-                mercurius.OpenDialog('@Url.Action("AllotMembers")/'+roleId+'?name='+escape(roleName), 'UserGroupSet', '角色成员信息-设置', 800, 450, {statusbar:false});
+                mercurius.OpenDialog('@Url.Action("AllotMembers")/'+roleId+'?roleName='+escape(roleName), 'UserGroupSet', '角色成员信息-设置', 800, 450, {statusbar:false});
             }
         }
         </text>)

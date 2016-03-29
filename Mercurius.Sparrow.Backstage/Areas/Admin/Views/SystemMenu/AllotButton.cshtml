@@ -58,7 +58,7 @@
                 });
 
                 if (isExist === true) {
-                    mercurius.AjaxHelper('@Url.Action("AddSystemMenuButton")', { id: '@this.ViewBag.Id', name: $(this).attr('id') }, function (rs) {
+                    mercurius.Ajax('@Url.Action("AllotButton")', { systemMenuId: '@this.ViewBag.Id', buttonId: $(this).attr('id') }, function (rs) {
                         if (rs.IsSuccess) {
                             needRefresh = true;
                             mercurius.ShowTipsMessage("添加成功！", 2000, 4);
@@ -84,7 +84,7 @@
         function removeButton(id) {
             mercurius.ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function (r) {
                 if (r) {
-                    mercurius.AjaxHelper('@Url.Action("RemoveSystemMenuButton")', { id: id }, function (rs) {
+                    mercurius.Ajax('@Url.Action("Remove")', { id: id }, function (rs) {
                         if (rs.IsSuccess) {
                             mercurius.ShowTipsMessage("删除成功！", 2000, 4);
                             window.location.href = '@Url.Action("AllotButton", new { @id = this.ViewBag.Id, @refresh = "true" })';
@@ -98,7 +98,7 @@
         }
         function selectedButton(e) {
             $('.btn').removeClass("btn-primary");
-            $(e).addClass("btn-primary"); //添加选中样式
+            $(e).addClass("btn-primary");
         }
     </script>
 }

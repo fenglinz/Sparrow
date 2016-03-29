@@ -2,6 +2,7 @@
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Entities.RBAC.SO;
 using Mercurius.Sparrow.Services.Support;
 using static Mercurius.Sparrow.Repositories.StatementNamespaces.RBAC;
 
@@ -28,8 +29,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.Persistence.Update(RoleNamespace, "CreateOrUpdate", role);
 
                     this.ClearCache<Role>();
-                },
-                role);
+                }, role);
         }
 
         /// <summary>
@@ -121,23 +121,23 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// <summary>
         /// 查询角色成员。
         /// </summary>
-        /// <param name="id">角色编号</param>
+        /// <param name="so">查询条件</param>
         /// <returns>角色成员信息</returns>
-        public ResponseCollection<User> GetMembers(string id)
+        public ResponseCollection<User> GetMembers(UserSO so)
         {
-            return this.InvokeService(nameof(GetMembers),
-                () => this.Persistence.QueryForList<User>(RoleNamespace, "GetMembers", id), id);
+            return this.InvokePagingService(nameof(GetMembers),
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(RoleNamespace, "GetMembers", out totalRecords, so), so);
         }
 
         /// <summary>
         /// 获取未分配角色的用户。
         /// </summary>
-        /// <param name="id">角色编号</param>
+        /// <param name="so">查询信息</param>
         /// <returns>角色成员信息</returns>
-        public ResponseCollection<User> GetUnAllotUsers(string id)
+        public ResponseCollection<User> GetUnAllotUsers(UserSO so)
         {
-            return this.InvokeService(nameof(GetUnAllotUsers),
-                () => this.Persistence.QueryForList<User>(RoleNamespace, "GetUnAllotUsers", id), id);
+            return this.InvokePagingService(nameof(GetUnAllotUsers),
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(RoleNamespace, "GetUnAllotUsers", out totalRecords, so), so);
         }
 
         #endregion

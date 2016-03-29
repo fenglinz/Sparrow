@@ -60,7 +60,6 @@
     <Compile Include="RBAC\IButtonService.cs" />
     <Compile Include="RBAC\IOrganizationService.cs" />
     <Compile Include="RBAC\IPermissionService.cs" />
-    <Compile Include="RBAC\IRecyclebinService.cs" />
     <Compile Include="RBAC\IRoleService.cs" />
     <Compile Include="RBAC\IUserService.cs" />
     <Compile Include="Response.cs" />

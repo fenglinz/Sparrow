@@ -177,45 +177,152 @@
     </select>
 
     <!-- 获取角色用户 -->
-    <select id="GetMembers" parameterClass="string" resultClass="User">
+    <select id="GetMembers" parameterClass="UserSO" resultClass="User">
       <![CDATA[
-        SELECT
-          DISTINCT a.*,
-          CASE 
-            WHEN p.Name IS NULL THEN NULL
-            ELSE STUFF(p.Name,LEN(p.Name),1,'')
-          END DepartmentNames
-        FROM RBAC.[User] a
-        INNER JOIN RBAC.UserRole b
-          ON a.Id=b.UserId
-        LEFT JOIN RBAC.StaffOrganize c
-          ON a.Id = c.UserId
-        OUTER APPLY(
-         SELECT 
-          Name=REPLACE(
-            REPLACE(
-              (
-                SELECT Name FROM RBAC.Organization
-                WHERE Id IN (
-                  SELECT OrganizationId FROM RBAC.StaffOrganize
-                  WHERE UserId=a.Id) FOR XML PATH('')
-              ),'<Name>','')
-            ,'</Name>','，')
-        ) p
-        WHERE b.RoleId=#value# AND a.Status=1
+        WITH cte AS(
+          SELECT
+            DISTINCT a.*,
+            CASE 
+              WHEN p.Name IS NULL THEN NULL
+              ELSE STUFF(p.Name,LEN(p.Name),1,'')
+            END DepartmentNames
+          FROM RBAC.[User] a 
+          INNER JOIN RBAC.UserRole b ON a.Id=b.UserId
+          LEFT JOIN RBAC.StaffOrganize c ON a.Id=c.UserId
+          OUTER APPLY(
+           SELECT 
+            Name=REPLACE(
+              REPLACE(
+                (
+                  SELECT Name FROM RBAC.Organization
+                  WHERE Id IN (
+                    SELECT OrganizationId FROM RBAC.StaffOrganize
+                    WHERE UserId=a.Id) FOR XML PATH('')
+                ),'<Name>','')
+              ,'</Name>','，')
+          ) p
+          WHERE b.RoleId=#RoleId# AND a.Status=1
+        ),
+        pg AS(
+	        SELECT 
+		        *,
+		        ROW_NUMBER() OVER(ORDER BY CreateDateTime ASC) AS RowIndex
+	        FROM cte
+        )
+        SELECT * FROM pg
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize# AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
       ]]>
     </select>
 
-    <!-- 获取未分配角色的用户 -->
-    <select id="GetUnAllotUsers" parameterClass="string" resultClass="User">
+    <!-- 获取角色用户的记录数 -->
+    <select id="GetMembersCount" parameterClass="UserSO" resultClass="int">
       <![CDATA[
         SELECT
-          a.*
+          COUNT(*)
         FROM RBAC.[User] a
-        LEFT JOIN RBAC.UserRole b
-          ON a.Id=b.UserId AND b.RoleId=#value#
-        WHERE b.Id IS NULL AND a.[Status]=1
+        INNER JOIN RBAC.UserRole b ON a.Id=b.UserId
+        LEFT JOIN RBAC.StaffOrganize c ON a.Id=c.UserId
+        WHERE b.RoleId=#RoleId# AND a.Status=1
       ]]>
     </select>
+    
+    <!-- 获取未分配角色的用户 -->
+    <select id="GetUnAllotUsers" parameterClass="UserSO" resultClass="User">
+      <![CDATA[
+        WITH cte AS(
+          SELECT
+            a.*,
+            p.Name AS DepartmentNames,
+            p.ParentIds AS ParentIds
+          FROM RBAC.[User] a
+          LEFT JOIN RBAC.UserRole b
+            ON a.Id=b.UserId AND b.RoleId=#RoleId#
+          OUTER APPLY(
+           SELECT 
+            Name=REPLACE(
+              REPLACE(
+                (
+                  SELECT Name FROM RBAC.Organization
+                  WHERE Id IN (
+                    SELECT OrganizationId FROM RBAC.StaffOrganize
+                    WHERE UserId=a.Id) FOR XML PATH('')
+                ),'<Name>','')
+              ,'</Name>','，'),
+              ParentIds=REPLACE(
+			        REPLACE(
+				        (
+						      SELECT
+                    b1.ParentId+','+a1.OrganizationId+',' 
+                  FROM RBAC.StaffOrganize a1
+								  LEFT JOIN RBAC.Organization b1
+									  on a1.OrganizationId=b1.Id
+						      WHERE UserId=a.Id FOR XML PATH('')
+				        ),'<ParentId>','')
+			        ,'</ParentId>',',')
+          ) p
+          WHERE b.Id IS NULL AND a.[Status]=1
+      ]]>
+      <include refid="GetUnAllotUsersCondition" />
+      <![CDATA[
+        ),
+        pg AS(
+          SELECT
+            *,
+            ROW_NUMBER() OVER(ORDER BY CreateDateTime ASC) AS RowIndex
+          FROM cte
+        )
+        SELECT * FROM pg
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize# AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+  
+    <!-- 获取未分配角色的用户的数量 -->
+    <select id="GetUnAllotUsersCount" parameterClass="UserSO" resultClass="int">
+      <![CDATA[
+        SELECT
+          COUNT(*)
+        FROM RBAC.[User] a
+        LEFT JOIN RBAC.UserRole b
+          ON a.Id=b.UserId AND b.RoleId=#RoleId#
+        OUTER APPLY(
+         SELECT 
+            ParentIds=REPLACE(
+			      REPLACE(
+				      (
+					      SELECT
+                  b1.ParentId+','+a1.OrganizationId+',' 
+                FROM RBAC.StaffOrganize a1
+							  LEFT JOIN RBAC.Organization b1
+								  on a1.OrganizationId=b1.Id
+					      WHERE UserId=a.Id FOR XML PATH('')
+				      ),'<ParentId>','')
+			      ,'</ParentId>',',')
+        ) p
+        WHERE b.Id IS NULL AND a.[Status]=1
+      ]]>
+      <include refid="GetUnAllotUsersCondition" />
+    </select>
+  
+    <!-- 获取未分配角色的用户的查询条件 -->
+    <sql id="GetUnAllotUsersCondition">
+      <isNotNull property=".">
+        <isNotEmpty property="OrganizationId" prepend="AND">
+          CHARINDEX(#OrganizationId#+',', p.ParentIds)>0
+        </isNotEmpty>
+        <isNotEmpty property="SearchValue">
+          <isEqual property="SearchCategory" compareValue="Code" prepend="AND">
+            a.Code LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+          <isEqual property="SearchCategory" compareValue="Account" prepend="AND">
+            a.Account LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+          <isEqual property="SearchCategory" compareValue="Name" prepend="AND">
+            a.Name LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+        </isNotEmpty>
+      </isNotNull>
+    </sql>
   </statements>
 </sqlMap>

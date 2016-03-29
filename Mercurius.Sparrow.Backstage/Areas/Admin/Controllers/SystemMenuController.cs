@@ -17,11 +17,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 用户服务对象。
-        /// </summary>
-        public IUserService UserService { get; set; }
-
-        /// <summary>
         /// 按钮服务对象。
         /// </summary>
         public IButtonService ButtonService { get; set; }
@@ -44,8 +39,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return this.View(rspSystemMenu.Datas);
         }
 
+        #region 添加或保存菜单信息
+
         /// <summary>
-        /// 跳转到添加或编辑系统菜单信息页面。
+        /// 添加或编辑系统菜单信息页面。
         /// </summary>
         /// <param name="id">菜单编号</param>
         /// <param name="parentId">所属菜单</param>
@@ -83,51 +80,67 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult CreateOrUpdate(SystemMenu systemMenu)
         {
-            if (systemMenu.Id == null)
-            {
-                systemMenu.Id = Guid.NewGuid().ToString();
-            }
-
             systemMenu.Initialize();
-
-            if (!systemMenu.IsValid())
-            {
-                return this.Alert("数据验证失败，失败详情：" + this.ConvertToHtml(systemMenu.GetErrorMessage()));
-            }
 
             var rsp = this.PermissionService.CreateOrUpdate(systemMenu);
 
             return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("保存失败，失败详情：" + rsp.ErrorMessage);
         }
 
+        #endregion
+
+        /// <summary>
+        /// 显示图标选择界面。
+        /// </summary>
+        /// <returns>图标显示界面</returns>
         public ActionResult Icons()
         {
             return this.View();
         }
 
-        public ActionResult AllotButton(string id)
-        {
-            this.ViewBag.Id = id;
-            this.ViewBag.Buttons = this.ButtonService.GetUnUsedButtons(id);
-            this.ViewBag.SystemButtons = this.PermissionService.GetSystemMenuButtons(id);
-
-            return this.View();
-        }
-
+        /// <summary>
+        /// 删除菜单。
+        /// </summary>
+        /// <param name="id">菜单编号</param>
+        /// <returns>删除结果信息</returns>
         [HttpPost]
-        public ActionResult AddSystemMenuButton(string id, string name)
-        {
-            var rsp = this.PermissionService.AddSystemMenuButton(id, name);
-
-            return this.Json(new { rsp.IsSuccess, Message = rsp.ErrorMessage });
-        }
-
-        [HttpPost]
-        public ActionResult RemoveSystemMenuButton(string id)
+        public ActionResult Remove(string id)
         {
             var rsp = this.PermissionService.Remove(id);
 
             return this.Json(new { rsp.IsSuccess, Data = rsp.ErrorMessage });
         }
+
+        #region 分配菜单按钮
+
+        /// <summary>
+        /// 显示分配按钮界面。
+        /// </summary>
+        /// <param name="systemMenuId">菜单编号</param>
+        /// <returns>分配按钮界面</returns>
+        public ActionResult AllotButton(string systemMenuId)
+        {
+            this.ViewBag.Id = systemMenuId;
+            this.ViewBag.Buttons = this.ButtonService.GetUnUsedButtons(systemMenuId);
+            this.ViewBag.SystemButtons = this.PermissionService.GetSystemMenuButtons(systemMenuId);
+
+            return this.View();
+        }
+
+        /// <summary>
+        /// 保存按钮分配。
+        /// </summary>
+        /// <param name="systemMenuId">菜单编号</param>
+        /// <param name="buttonId">按钮编号</param>
+        /// <returns>保存结果信息</returns>
+        [HttpPost]
+        public ActionResult AllotButton(string systemMenuId, string buttonId)
+        {
+            var rsp = this.PermissionService.AllotButton(systemMenuId, buttonId);
+
+            return this.Json(new { rsp.IsSuccess, Message = rsp.ErrorMessage });
+        }
+
+        #endregion
     }
 }

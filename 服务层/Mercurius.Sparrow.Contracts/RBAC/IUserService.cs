@@ -14,8 +14,15 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// <param name="user">用户信息</param>
         /// <param name="departments">所属部门编号列表</param>
         /// <param name="roles">所属角色编号列表</param>
-        /// <returns>执行结果</returns>
+        /// <returns>保存结果</returns>
         Response CreateOrUpdate(User user, string[] departments, string[] roles);
+
+        /// <summary>
+        /// 删除用户信息。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <returns>删除结果</returns>
+        Response Remove(string id);
 
         /// <summary>
         /// 更新用户状态。

@@ -4,11 +4,13 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Entities.RBAC.SO;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -120,49 +122,26 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             this.ViewBag.RoleId = roleId;
             this.ViewBag.RoleName = roleName;
             this.ViewBag.SystemMenus = rspSystemMenus;
-            this.ViewBag.RoleUsers = this.RoleService.GetMembers(roleId);
+            this.ViewBag.RoleUsers = this.RoleService.GetMembers(new UserSO { RoleId = roleId });
 
             return this.View();
         }
 
         #region 分配成员
 
-        public ActionResult AllotMembers(string id)
+        public ActionResult AllotMembers(string id, string roleName)
         {
-            this.ViewBag.Id = id;
-            this.ViewBag.RoleMembers = this.RoleService.GetMembers(id);
-            this.ViewBag.UnAllotRoleUsers = this.RoleService.GetUnAllotUsers(id);
-
+            this.ViewBag.RoleId = id;
+            this.ViewBag.RoleName = roleName;
+            
             return View();
         }
 
         [HttpPost]
-        public ActionResult _GetUnAllotUsers(string id, string type, string query)
+        public ActionResult _GetUnAllotUsers(UserSO so)
         {
-            var users = this.RoleService.GetUnAllotUsers(id);
-
-            if (!string.IsNullOrWhiteSpace(query) && users.HasData())
-            {
-                switch (type)
-                {
-                    case "Code":
-                        users.Datas = users.Datas.Where(u => u.Code?.Contains(query) == true).ToList();
-
-                        break;
-
-                    case "Account":
-                        users.Datas = users.Datas.Where(u => u.Account?.Contains(query) == true).ToList();
-
-                        break;
-
-                    case "Name":
-                        users.Datas = users.Datas.Where(u => u.Name?.Contains(query) == true).ToList();
-
-                        break;
-                }
-            }
-
-            this.ViewBag.UnAllotRoleUsers = users;
+            this.ViewBag.SO = so;
+            this.ViewBag.UnAllotRoleUsers = this.RoleService.GetUnAllotUsers(so);
 
             return PartialView("_UnAllotUsers");
         }
@@ -170,7 +149,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult _GetMembers(string id)
         {
-            this.ViewBag.RoleMembers = this.RoleService.GetMembers(id);
+            this.ViewBag.RoleId = id;
+            this.ViewBag.RoleMembers = this.RoleService.GetMembers(new UserSO
+            {
+                RoleId = id,
+                PageIndex = this.Request.Params["PageIndex"].AsInt(1),
+                PageSize = this.Request.Params["PageSize"].AsInt(15)
+            });
 
             return PartialView("_Members");
         }
@@ -189,9 +174,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult RemoveMember(string id, string userId)
+        public ActionResult RemoveMember(string id, string userIds)
         {
-            var rsp = this.RoleService.RemoveMembers(id, userId);
+            var rsp = this.RoleService.RemoveMembers(id, userIds.Split(','));
 
             return Json(rsp);
         }

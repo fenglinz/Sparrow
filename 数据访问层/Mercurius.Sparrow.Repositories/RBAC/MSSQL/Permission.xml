@@ -60,7 +60,15 @@
     <!-- 删除系统菜单信息 -->
     <delete id="Remove" parameterClass="string">
       <![CDATA[
-        DELETE FROM RBAC.SystemMenu WHERE Id=#value#
+        IF EXISTS(SELECT * FROM RBAC.SystemMenu WHERE ParentId=#value# AND Category<>3)
+          RAISERROR('不能直接删除包含子菜单的菜单项！',16,1);
+        ELSE
+        BEGIN
+          DELETE FROM RBAC.SystemMenu WHERE Id=#value#;
+          DELETE FROM RBAC.SystemMenu WHERE ParentId=#value# AND Category=3;
+          DELETE FROM RBAC.UserPermission WHERE SystemMenuId=#value#;
+          DELETE FROM RBAC.RolePermission WHERE SystemMenuId=#value#;
+        END
       ]]>
     </delete>
 

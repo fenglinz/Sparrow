@@ -56,11 +56,7 @@
             var key = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(key)) {
-                mercurius.OnRemoveToRecycbin({
-                    name: '用户管理',
-                    column: 'Id',
-                    value: key
-                });
+                mercurius.RemoveData('@Url.Action("Remove")', { id: key });
             }
         }
         </text>)
@@ -71,7 +67,7 @@
 
             if (mercurius.HasSingleRowSelected(key)) {
                 mercurius.ShowConfirmMessage('注：您确认要【授权】当前选中的用户吗？', function () {
-                    mercurius.AjaxHelper('@Url.Action("AuthorizeUser")', { id: key }, function (rs) {
+                    mercurius.Ajax('@Url.Action("AuthorizeUser")', { id: key }, function (rs) {
                         if (rs) {
                             mercurius.ShowTipsMessage("恭喜授权成功！", 2000, 4);
                             mercurius.Reloading();
@@ -90,7 +86,7 @@
 
             if (mercurius.HasSingleRowSelected(key)) {
                 mercurius.ShowConfirmMessage('注：您确认要【锁定】当前选中的用户吗？', function () {
-                    mercurius.AjaxHelper('@Url.Action("LockUser")', { id: key }, function (rs) {
+                    mercurius.Ajax('@Url.Action("LockUser")', { id: key }, function (rs) {
                         if (rs) {
                             mercurius.ShowTipsMessage("锁定成功！", 2000, 4);
                             mercurius.Reloading();

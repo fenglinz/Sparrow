@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.RBAC.SO;
@@ -44,6 +43,141 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// 组织机构服务对象。
         /// </summary>
         public IOrganizationService OrganizationService { get; set; }
+
+        #endregion
+
+        #region 用户信息查询
+
+        /// <summary>
+        /// 显示用户信息主界面。
+        /// </summary>
+        /// <param name="so">搜索条件</param>
+        /// <returns>执行结果</returns>
+        public ActionResult Index(UserSO so = null)
+        {
+            return this.View();
+        }
+
+        /// <summary>
+        /// 获取部门信息。
+        /// </summary>
+        /// <returns>执行结果</returns>
+        public ActionResult Departments()
+        {
+            this.ViewBag.Organizations = this.OrganizationService.GetOrganizations();
+
+            return this.View();
+        }
+
+        /// <summary>
+        /// 获取用户信息。
+        /// </summary>
+        /// <param name="so">用户信息查询对象</param>
+        /// <returns>执行结果</returns>
+        public ActionResult Users(UserSO so = null)
+        {
+            var rspUsers = this.UserService.SearchUsers(so);
+
+            this.ViewBag.SO = so;
+            this.ViewBag.ResponseUsers = rspUsers;
+
+            return this.View();
+        }
+
+        #endregion
+
+        #region 单个用户信息处理
+
+        /// <summary>
+        /// 添加或编辑用户信息界面。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <returns>执行结果</returns>
+        public ActionResult CreateOrUpdate(string id)
+        {
+            var model = new CreateOrUpdateVM
+            {
+                User = this.UserService.GetUserById(id).Data
+            };
+
+            if (model.User != null)
+            {
+                this.ViewBag.RealPassword = model.User.Password;
+
+                model.User.Password = PasswordReplaceString;
+            }
+
+            this.ViewBag.Roles = this.RoleService.GetRoles();
+            this.ViewBag.Departments = this.OrganizationService.GetOrganizations();
+
+            return this.View(model);
+        }
+
+        /// <summary>
+        /// 提交用户信息。
+        /// </summary>
+        /// <param name="vm">添加或编辑用户信息视图模型</param>
+        /// <returns>执行结果</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateOrUpdate(CreateOrUpdateVM vm)
+        {
+            vm.User.Initialize();
+            vm.User.Password = vm.User.Password == PasswordReplaceString ?
+                this.Request.Form["RealPassword"] : vm.User.Password.Encrypt();
+
+            var rsp = this.UserService.CreateOrUpdate(vm.User, vm.Departments, vm.Roles);
+
+            return rsp.IsSuccess ?
+                this.CloseDialogWithAlert("保存成功！") :
+                this.Alert($"发生错误，错误原因：{rsp.ErrorMessage}", AlertType.Error);
+        }
+
+        [HttpPost]
+        public ActionResult Remove(string id)
+        {
+            var rsp = this.UserService;
+        }
+
+        /// <summary>
+        /// 授权用户。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <returns>执行结果</returns>
+        [HttpPost]
+        public ActionResult AuthorizeUser(string id)
+        {
+            var rsp = this.UserService.ChangeStatus(id, 1);
+
+            return this.Json(rsp.IsSuccess);
+        }
+
+        /// <summary>
+        /// 锁定用户。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <returns>执行结果</returns>
+        [HttpPost]
+        public ActionResult LockUser(string id)
+        {
+            var rsp = this.UserService.ChangeStatus(id, 2);
+
+            return this.Json(rsp.IsSuccess);
+        }
+
+        /// <summary>
+        /// 显示当前用户信息。
+        /// </summary>
+        /// <returns>执行结果</returns>
+        public ActionResult CurrentUser()
+        {
+            var model = this.UserService.GetUserById(WebHelper.GetLogOnUserId());
+
+            this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
+            this.ViewBag.SystemMenus = this.PermissionService.GetSystemMenusWithAlloted(WebHelper.GetLogOnUserId());
+
+            return this.View(model);
+        }
 
         #endregion
 
@@ -88,121 +222,14 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
         #endregion
 
-        #region 用户信息显示
+        #region 权限管理
 
         /// <summary>
-        /// 显示用户信息主界面。
-        /// </summary>
-        /// <param name="so">搜索条件</param>
-        /// <returns>执行结果</returns>
-        public ActionResult Index(UserSO so = null)
-        {
-            return this.View();
-        }
-
-        /// <summary>
-        /// 获取部门信息。
-        /// </summary>
-        /// <returns>执行结果</returns>
-        public ActionResult Departments()
-        {
-            this.ViewBag.Organizations = this.OrganizationService.GetOrganizations();
-
-            return this.View();
-        }
-
-        /// <summary>
-        /// 获取用户信息。
-        /// </summary>
-        /// <param name="so">用户信息查询对象</param>
-        /// <returns>执行结果</returns>
-        public ActionResult Users(UserSO so = null)
-        {
-            var rspUsers = this.UserService.SearchUsers(so);
-
-            this.ViewBag.SO = so;
-            this.ViewBag.ResponseUsers = rspUsers;
-
-            return this.View();
-        }
-
-        #endregion
-
-        #region 添加或编辑用户信息
-
-        /// <summary>
-        /// 转到添加或编辑用户信息界面。
+        /// 显示用户授权界面。
         /// </summary>
         /// <param name="id">用户编号</param>
-        /// <returns>执行结果</returns>
-        public ActionResult CreateOrUpdate(string id)
-        {
-            var model = new CreateOrUpdateVM
-            {
-                User = this.UserService.GetUserById(id).Data
-            };
-
-            if (model.User != null)
-            {
-                this.ViewBag.RealPassword = model.User.Password;
-
-                model.User.Password = PasswordReplaceString;
-            }
-
-            this.ViewBag.Roles = this.RoleService.GetRoles();
-            this.ViewBag.Departments = this.OrganizationService.GetOrganizations();
-
-            return this.View(model);
-        }
-
-        /// <summary>
-        /// 提交用户信息。
-        /// </summary>
-        /// <param name="vm">添加或编辑用户信息视图模型</param>
-        /// <returns>执行结果</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateOrUpdate(CreateOrUpdateVM vm)
-        {
-            vm.User.Initialize();
-            vm.User.Password = vm.User.Password == PasswordReplaceString ?
-                this.Request.Form["RealPassword"] : vm.User.Password.Encrypt();
-
-            var rsp = this.UserService.CreateOrUpdate(vm.User, vm.Departments, vm.Roles);
-
-            return rsp.IsSuccess ?
-                this.CloseDialogWithAlert("保存成功！") :
-                this.Alert($"发生错误，错误原因：{rsp.ErrorMessage}", AlertType.Error);
-        }
-
-        #endregion
-
-        /// <summary>
-        /// 授权用户。
-        /// </summary>
-        /// <param name="id">用户编号</param>
-        /// <returns>执行结果</returns>
-        [HttpPost]
-        public ActionResult AuthorizeUser(string id)
-        {
-            var rsp = this.UserService.ChangeStatus(id, 1);
-
-            return this.Json(rsp.IsSuccess);
-        }
-
-        /// <summary>
-        /// 锁定用户。
-        /// </summary>
-        /// <param name="id">用户编号</param>
-        /// <returns>执行结果</returns>
-        [HttpPost]
-        public ActionResult LockUser(string id)
-        {
-            var rsp = this.UserService.ChangeStatus(id, 2);
-
-            return this.Json(rsp.IsSuccess);
-        }
-
+        /// <param name="userName">用户名称</param>
+        /// <returns>显示用户授权界面</returns>
         public ActionResult AllotPermissions(string id, string userName)
         {
             this.ViewBag.Id = id;
@@ -213,6 +240,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return View(rsp);
         }
 
+        /// <summary>
+        /// 保存用户权限信息。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <param name="selecteds">选择的权限编号</param>
+        /// <returns>保存结果信息</returns>
         [HttpPost]
         public ActionResult ConfirmAllotPermissions(string id, string selecteds)
         {
@@ -221,6 +254,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return Json(rsp);
         }
 
+        /// <summary>
+        /// 查看权限详情。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <param name="userName">用户名</param>
+        /// <returns>权限详情界面</returns>
         public ActionResult ViewPermissions(string id, string userName)
         {
             var rsp = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
@@ -230,20 +269,15 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return View(rsp);
         }
 
+        #endregion
+
+        #region 用户选择
+
         /// <summary>
-        /// 显示当前用户信息。
+        /// 选择用户界面。
         /// </summary>
-        /// <returns>执行结果</returns>
-        public ActionResult CurrentUser()
-        {
-            var model = this.UserService.GetUserById(WebHelper.GetLogOnUserId());
-
-            this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
-            this.ViewBag.SystemMenus = this.PermissionService.GetSystemMenusWithAlloted(WebHelper.GetLogOnUserId());
-
-            return this.View(model);
-        }
-
+        /// <param name="so">用户查询</param>
+        /// <returns>显示界面</returns>
         public ActionResult ChooseUser(UserSO so)
         {
             so = so ?? new UserSO();
@@ -257,6 +291,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 获取用户信息。
+        /// </summary>
+        /// <param name="so">用户查询</param>
+        /// <returns>显示界面</returns>
         public ActionResult GetUsers(UserSO so)
         {
             so.PageSize = 10;
@@ -267,5 +306,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             return PartialView("_ChooseUsers", rspUsers);
         }
+
+        #endregion
     }
 }

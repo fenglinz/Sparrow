@@ -72,7 +72,7 @@
             var userId = mercurius.GetCheckboxValue('.grid');
 
             if (mercurius.HasAnyRowSelected(userId)) {
-                mercurius.AjaxHelper('@Url.Action("AddMember")', { roleId: '@this.ViewBag.RoleId', userId: userId }, function (rs) {
+                mercurius.Ajax('@Url.Action("AddMember")', { roleId: '@this.ViewBag.RoleId', userId: userId }, function (rs) {
                     if (rs.IsSuccess) {
                         mercurius.ShowTipsMessage("添加用户到组成功！", 2000, 4);
 
@@ -88,7 +88,7 @@
 
         //删除用户组里面成员
         function RemoveMember(userId) {
-            mercurius.AjaxHelper('@Url.Action("RemoveMember")', { roleId: '@this.ViewBag.RoleId', userId: userId }, function (rs) {
+            mercurius.Ajax('@Url.Action("RemoveMember")', { roleId: '@this.ViewBag.RoleId', userId: userId }, function (rs) {
                 if (rs.IsSuccess) {
                     mercurius.ShowTipsMessage("移除用户成员成功！", 2000, 4);
 

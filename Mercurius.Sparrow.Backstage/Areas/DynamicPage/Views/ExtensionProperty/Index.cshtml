@@ -69,7 +69,7 @@
             var id=$('#tbDefinition > tbody > tr.selected > td:eq(0)').text();
 
             if(mercurius.HasSingleRowSelected(id)) {
-                mercurius.OnRemoveData('@Url.Action("Remove")',{id:id});
+                mercurius.RemoveData('@Url.Action("Remove")',{id:id});
             }
         }
         </text>)

@@ -28,7 +28,7 @@
 
             if (mercurius.HasSingleRowSelected(id)) {
                 mercurius.ShowConfirmMessage('是否删除该角色？',function(){
-                    mercurius.AjaxHelper('@Url.Action("Remove", "Role")', {id:id}, function(rs){
+                    mercurius.Ajax('@Url.Action("Remove", "Role")', {id:id}, function(rs){
                         if (rs.IsSuccess) {
                             mercurius.ShowTipsMessage('删除成功',2500, 4);
                             mercurius.Reloading();

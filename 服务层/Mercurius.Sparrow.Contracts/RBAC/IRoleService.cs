@@ -1,4 +1,5 @@
 ﻿using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Entities.RBAC.SO;
 
 namespace Mercurius.Sparrow.Contracts.RBAC
 {
@@ -59,15 +60,15 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// <summary>
         /// 查询角色成员。
         /// </summary>
-        /// <param name="id">角色编号</param>
+        /// <param name="so">查询条件</param>
         /// <returns>角色成员信息</returns>
-        ResponseCollection<User> GetMembers(string id);
+        ResponseCollection<User> GetMembers(UserSO so);
 
         /// <summary>
         /// 获取未分配角色的用户。
         /// </summary>
-        /// <param name="id">角色编号</param>
+        /// <param name="so">查询条件</param>
         /// <returns>角色成员信息</returns>
-        ResponseCollection<User> GetUnAllotUsers(string id);
+        ResponseCollection<User> GetUnAllotUsers(UserSO so);
     }
 }

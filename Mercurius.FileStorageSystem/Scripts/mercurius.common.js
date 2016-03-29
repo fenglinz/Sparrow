@@ -609,7 +609,7 @@
                 });
             });
         },
-        OnRemoveData: function (url, parm) {
+        RemoveData: function (url, parm) {
             ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function (r) {
                 if (r) {
                     AjaxHelper(url, parm, function (rs) {
@@ -639,7 +639,7 @@
                 }
             });
         },
-        AjaxHelper: AjaxHelper,
+        Ajax: AjaxHelper,
         IsDataChanged: IsDataChanged,
         GetQueryString: GetQueryString,
         SetNumberInputOnly: SetNumberInputOnly,

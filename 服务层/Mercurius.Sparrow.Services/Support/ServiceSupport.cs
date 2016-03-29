@@ -153,7 +153,7 @@ namespace Mercurius.Sparrow.Services.Support
             {
                 if (cacheable && this.Cache != null)
                 {
-                    var cacheKey = this.Cache.GetCacheKey<T>(method, args);
+                    var cacheKey = this.Cache.GetCacheKey<T>($"{_className}_{method}", args);
                     var cacheValue = this.Cache.Get<T>(cacheKey);
 
                     if (cacheValue == null)
@@ -216,7 +216,7 @@ namespace Mercurius.Sparrow.Services.Support
             {
                 if (cacheable && this.Cache != null)
                 {
-                    var cacheKey = this.Cache.GetCacheKey<T>(method, args);
+                    var cacheKey = this.Cache.GetCacheKey<T>($"{_className}_{method}", args);
                     var cacheValue = this.Cache.Get<IList<T>>(cacheKey);
 
                     if (cacheValue.IsEmpty())
@@ -279,7 +279,7 @@ namespace Mercurius.Sparrow.Services.Support
             {
                 if (cacheable && this.Cache != null)
                 {
-                    var cacheKey = this.Cache.GetCacheKey<T>(method, args);
+                    var cacheKey = this.Cache.GetCacheKey<T>($"{_className}_{method}", args);
                     var cacheValue = this.Cache.Get<ResponseCollection<T>>(cacheKey);
 
                     if (cacheValue == null || cacheValue.Datas.IsEmpty())

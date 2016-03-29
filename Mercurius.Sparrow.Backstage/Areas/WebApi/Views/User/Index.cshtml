@@ -29,7 +29,7 @@
 
             if (mercurius.HasSingleRowSelected(id)) {
                 mercurius.ShowConfirmMessage('是否确定删除该用户？',function(){
-                    mercurius.AjaxHelper('@Url.Action("Remove", "User")', {id:id}, function(rs){
+                    mercurius.Ajax('@Url.Action("Remove", "User")', {id:id}, function(rs){
                         if (rs.IsSuccess) {
                             ShowTipsMessage("删除成功！", 2000, 4);
                             mercurius.Reloading();
@@ -48,7 +48,7 @@
 
             if (mercurius.HasSingleRowSelected(id)) {
                 mercurius.ShowConfirmMessage('注：您确定要【授权】当前选中的用户吗？',function(){
-                    mercurius.AjaxHelper('@Url.Action("AuthorizeUser", "User")', {id:id}, function(rs){
+                    mercurius.Ajax('@Url.Action("AuthorizeUser", "User")', {id:id}, function(rs){
                         if (rs.IsSuccess) {
                             mercurius.ShowTipsMessage("恭喜授权成功！", 2000, 4);
                             mercurius.Reloading();
@@ -67,7 +67,7 @@
 
             if (mercurius.HasSingleRowSelected(id)) {
                 mercurius.ShowConfirmMessage('注：您确定要【锁定】当前选中的用户吗？',function(){
-                    mercurius.AjaxHelper('@Url.Action("LockUser", "User")', {id:id}, function(rs){
+                    mercurius.Ajax('@Url.Action("LockUser", "User")', {id:id}, function(rs){
                         if (rs.IsSuccess) {
                             mercurius.ShowTipsMessage("锁定成功！", 2000, 4);
                             mercurius.Reloading();

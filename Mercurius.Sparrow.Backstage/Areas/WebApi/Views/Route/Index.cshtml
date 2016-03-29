@@ -81,7 +81,7 @@
             var systemMenuId = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(systemMenuId)) {
-                mercurius.OnRemoveData('@Url.Action("Delete","Route")/'+systemMenuId,systemMenuId);
+                mercurius.RemoveData('@Url.Action("Delete","Route")/'+systemMenuId,systemMenuId);
             }
         }
         </text>)

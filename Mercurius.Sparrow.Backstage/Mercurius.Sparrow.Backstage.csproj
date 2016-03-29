@@ -245,7 +245,6 @@
     <Compile Include="Areas\Admin\Controllers\HomeShortcutController.cs" />
     <Compile Include="Areas\Admin\Controllers\InstallController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrganizationController.cs" />
-    <Compile Include="Areas\Admin\Controllers\RecyclebinController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemMenuController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
@@ -428,10 +427,6 @@
     <Content Include="Areas\Admin\Views\HomeShortcut\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Organization\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Organization\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Recyclebin\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Recyclebin\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Recyclebin\Navigation.cshtml" />
-    <Content Include="Areas\Admin\Views\Recyclebin\ViewDetail.cshtml" />
     <Content Include="Areas\Admin\Views\Role\AllotPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\Role\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Index.cshtml" />

@@ -75,7 +75,6 @@
     <Compile Include="RBAC\ButtonService.cs" />
     <Compile Include="RBAC\OrganizationService.cs" />
     <Compile Include="RBAC\PermissionService.cs" />
-    <Compile Include="RBAC\RecyclebinService.cs" />
     <Compile Include="RBAC\RoleService.cs" />
     <Compile Include="RBAC\UserService.cs" />
     <Compile Include="Support\AbstractFileStorageClient.cs" />

@@ -4,12 +4,12 @@
 <table id="table1" class="grid">
     <thead>
         <tr>
-            <td style="width: 40px;">
-                <label class="check-all" title="全选"></label>
+            <td style="width: 30px;">
+                <label class="check-all"></label>
             </td>
-            <td style="width: 60px;">工号</td>
-            <td style="width: 150px;">用户姓名</td>
-            <td style="text-align: center;">登录账户</td>
+            <td style="width: 140px;">工号</td>
+            <td style="width: 100px;">姓名</td>
+            <td>账户</td>
         </tr>
     </thead>
     <tbody>
@@ -18,12 +18,12 @@
             foreach (var user in unAllotUsers.Datas)
             {
                 <tr>
-                    <td style="text-align:center;">
+                    <td class="text-center">
                         <input type="checkbox" value="@user.Id" />
                     </td>
-                    <td style="text-align: center;">@user.Code</td>
-                    <td style="text-align: center;">@user.Name</td>
-                    <td style="border-right: 0; text-align: center;">@user.Account</td>
+                    <td>@user.Code</td>
+                    <td>@user.Name</td>
+                    <td style="border-right: 0;">@user.Account</td>
                 </tr>
             }
         }
@@ -39,3 +39,4 @@
         }
     </tbody>
 </table>
+@Html.Paging(unAllotUsers.TotalRecords, routeValues: this.ViewBag.SO as UserSO, ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "allUserInfo", OnComplete = "FixedTableHeader('table1');" })
