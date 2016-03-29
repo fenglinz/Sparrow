@@ -84,21 +84,5 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("执行失败，失败原因：" + rsp.ErrorMessage);
         }
-
-        #region 成员管理
-
-        public ActionResult AllotMembers(string id, OrganizationSO so)
-        {
-            so.OrganizationId = id;
-
-            this.ViewBag.Id = id;
-            this.ViewBag.UnAllotUsers = this.OrganizationService.GetUnAllotUsers(so);
-            this.ViewBag.Members = this.UserService.SearchUsers(new UserSO { OrganizationId = id });
-
-            return View();
-        }
-
-
-        #endregion
     }
 }
