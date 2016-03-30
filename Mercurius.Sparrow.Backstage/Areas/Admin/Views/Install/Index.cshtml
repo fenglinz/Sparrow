@@ -21,7 +21,7 @@
     <script type="text/javascript" src="~/signalr/hubs"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var hub = $.connection.configurationSqlServer;
+            var hub = $.connection.configurationSQLServer;
 
             hub.client.Message = function (message) {
                 if (message == '--start--') {

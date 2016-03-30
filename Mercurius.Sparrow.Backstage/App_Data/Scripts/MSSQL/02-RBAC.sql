@@ -572,19 +572,13 @@ INSERT INTO [RBAC].[Organization] ( [Id], [ParentId], [Code], [Name], [InnerPhon
     VALUES ( N'50578619-6939-4F6D-B421-9176E76ADBC0', N'77B51251-0D00-45F9-A39F-8B853E8F812D', N'1002', N'财务部', NULL, NULL, N'75e1f7a2-74ab-4d21-af74-a601f30f02ee', NULL, NULL, NULL, NULL, N'2', NULL, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:53:43.513', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:53:51.693' );
 GO
 INSERT INTO [RBAC].[Organization] ( [Id], [ParentId], [Code], [Name], [InnerPhone], [OuterPhone], [Manager], [AssistantManager], [Fax], [ZipCode], [Address], [Sort], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
-    VALUES ( N'550b796b-a6ca-4b18-a0a0-d5812dbd32d8', N'05e85693-14b0-4582-8063-8fbde85371f0', N'1000002', N' 人力资源部', NULL, NULL, N'4baa8438-930f-4b02-8fc1-d67bd43d2fb0', N'74f86691-537a-4c5c-a7e8-6f68bbe95788', NULL, N'000000', NULL, N'1', NULL, N'1', NULL, N'2013-04-11 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:31:17.630' );
-GO
-INSERT INTO [RBAC].[Organization] ( [Id], [ParentId], [Code], [Name], [InnerPhone], [OuterPhone], [Manager], [AssistantManager], [Fax], [ZipCode], [Address], [Sort], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
     VALUES ( N'5CFFFF9B-1C31-4431-B762-51CC10B8D9A4', N'77B51251-0D00-45F9-A39F-8B853E8F812D', N'1003', N'互联网金融部', NULL, NULL, N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', NULL, NULL, NULL, NULL, N'3', NULL, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:55:41.870', NULL, NULL );
 GO
 INSERT INTO [RBAC].[Organization] ( [Id], [ParentId], [Code], [Name], [InnerPhone], [OuterPhone], [Manager], [AssistantManager], [Fax], [ZipCode], [Address], [Sort], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
     VALUES ( N'6636AC3D-DCF1-49C5-849E-35FE17D0FDAB', N'77B51251-0D00-45F9-A39F-8B853E8F812D', N'1001', N'人力资源部', NULL, NULL, N'4baa8438-930f-4b02-8fc1-d67bd43d2fb0', NULL, NULL, NULL, NULL, N'1', NULL, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:53:07.437', NULL, NULL );
 GO
 INSERT INTO [RBAC].[Organization] ( [Id], [ParentId], [Code], [Name], [InnerPhone], [OuterPhone], [Manager], [AssistantManager], [Fax], [ZipCode], [Address], [Sort], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
-    VALUES ( N'7fd46efd-5b1b-48da-95d1-1992e347f532', N'05e85693-14b0-4582-8063-8fbde85371f0', N'1000003', N'财务部', N'111', NULL, N'75e1f7a2-74ab-4d21-af74-a601f30f02ee', NULL, NULL, N'000000', NULL, N'2', NULL, N'1', NULL, N'2013-04-11 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2015-08-03 16:33:24.850' );
-GO
-INSERT INTO [RBAC].[Organization] ( [Id], [ParentId], [Code], [Name], [InnerPhone], [OuterPhone], [Manager], [AssistantManager], [Fax], [ZipCode], [Address], [Sort], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
-    VALUES ( N'8b6ab119-6bf9-408b-902f-4fad259127e3', N'05e85693-14b0-4582-8063-8fbde85371f0', N'1000006', N'互联网金融部', NULL, NULL, N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', NULL, NULL, N'000000', NULL, N'5', NULL, N'1', NULL, N'2013-04-11 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:31:28.147' );
+    VALUES ( N'77B51251-0D00-45F9-A39F-8B853E8F812D', N'0', N'1000', N'武汉星云资本管理有限公司', NULL, NULL, N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', NULL, NULL, N'000000', NULL, N'1', NULL, N'1', NULL, N'2013-04-11 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:31:28.147' );
 GO
 CREATE TABLE [RBAC].[Role]
 (

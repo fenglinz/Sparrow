@@ -10,7 +10,10 @@ using System.Web.Configuration;
 using System.Web.WebPages;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Autofac;
 using Mercurius.Infrastructure.Ado;
+using Mercurius.Infrastructure.Cache;
+using Mercurius.Sparrow.Autofac;
 using Microsoft.AspNet.SignalR;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.SignalRHubs
@@ -18,7 +21,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.SignalRHubs
     /// <summary>
     /// Microsoft SQL Server配置。
     /// </summary>
-    public class ConfigurationSqlServer : Hub
+    public class ConfigurationSQLServer : Hub
     {
         /// <summary>
         /// 初始化应用程序。
@@ -52,6 +55,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.SignalRHubs
                     foreach (var script in scriptFiles)
                     {
                         this.ExecuteScript(connection, script);
+                    }
+
+                    using (var context = AutofacConfig.Container.BeginLifetimeScope())
+                    {
+                        context.Resolve<CacheProvider>()?.Clear();
                     }
 
                     this.SendMessage("数据库配置完成！");

@@ -259,7 +259,7 @@
     <Compile Include="Areas\DynamicPage\Models\Configuration\SearchConfigModel.cs" />
     <Compile Include="Areas\DynamicPage\Models\Dynamic\CreateOrUpdateModel.cs" />
     <Compile Include="Areas\DynamicPage\Models\Dynamic\SearchModel.cs" />
-    <Compile Include="Areas\Admin\SignalRHubs\ConfigurationSqlServer.cs" />
+    <Compile Include="Areas\Admin\SignalRHubs\ConfigurationSQLServer.cs" />
     <Compile Include="Areas\Admin\Models\Install\Database.cs" />
     <Compile Include="Areas\WebApi\Controllers\RoleController.cs" />
     <Compile Include="Areas\WebApi\Controllers\RouteController.cs" />
