@@ -611,7 +611,7 @@
                         mercurius.Reloading();
                     }
                     else {
-                        ShowTipsMessage("<span style='color:red'>删除失败，请稍后重试！  失败原因：" + rs.Data + "</span>", 4000, 5);
+                        ShowTipsMessage("<span style='color:red'>删除失败，请稍后重试！  失败原因：" + rs.ErrorMessage + "</span>", 4000, 5);
                     }
                 });
             });

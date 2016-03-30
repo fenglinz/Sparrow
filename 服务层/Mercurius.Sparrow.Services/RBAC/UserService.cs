@@ -50,10 +50,31 @@ namespace Mercurius.Sparrow.Services.RBAC
 
                         this.ClearCache<User>();
                         this.ClearCache<Role>();
-                        this.ClearCache<SystemMenu>();
                         this.ClearCache<Organization>();
                     }
                 }, new { user, departments, roles });
+        }
+
+        /// <summary>
+        /// 删除用户信息。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <returns>删除结果</returns>
+        public Response Remove(string id)
+        {
+            return this.InvokeService(nameof(Remove), () =>
+            {
+                if (string.CompareOrdinal(id, WebHelper.GetLogOnUserId()) == 0)
+                {
+                    throw new ArgumentException("不能删除当前用户！");
+                }
+
+                this.Persistence.Delete(UserNamespace, "Remove", id);
+
+                this.ClearCache<User>();
+                this.ClearCache<Role>();
+                this.ClearCache<Organization>();
+            }, id);
         }
 
         /// <summary>

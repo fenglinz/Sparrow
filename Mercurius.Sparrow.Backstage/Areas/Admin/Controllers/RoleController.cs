@@ -110,6 +110,17 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #endregion
 
         /// <summary>
+        /// 删除角色信息。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>删除结果</returns>
+        [HttpPost]
+        public ActionResult Remove(string id)
+        {
+            return Json(this.RoleService.Remove(id));
+        }
+
+        /// <summary>
         /// 查看角色详细信息。
         /// </summary>
         /// <param name="roleId">角色编号</param>
@@ -127,8 +138,14 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return this.View();
         }
 
-        #region 分配成员
+        #region 成员管理
 
+        /// <summary>
+        /// 显示分配成员界面。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <param name="roleName">角色名称</param>
+        /// <returns>分配成员界面</returns>
         public ActionResult AllotMembers(string id, string roleName)
         {
             this.ViewBag.RoleId = id;
@@ -137,6 +154,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 获取未分配到角色的用户。
+        /// </summary>
+        /// <param name="so">查询条件</param>
+        /// <returns>未分配角色的用户</returns>
         [HttpPost]
         public ActionResult _GetUnAllotUsers(UserSO so)
         {
@@ -146,6 +168,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return PartialView("_UnAllotUsers");
         }
 
+        /// <summary>
+        /// 显示角色成员。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>角色成员信息</returns>
         [HttpPost]
         public ActionResult _GetMembers(string id)
         {
@@ -160,6 +187,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return PartialView("_Members");
         }
 
+        /// <summary>
+        /// 添加角色信息。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <param name="userIds">用户编号</param>
+        /// <returns>添加结果信息</returns>
         [HttpPost]
         public ActionResult AddMembers(string id, string userIds)
         {
@@ -173,6 +206,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return Json(rsp);
         }
 
+        /// <summary>
+        /// 删除角色成员信息。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <param name="userIds">用户编号</param>
+        /// <returns>删除结果信息</returns>
         [HttpPost]
         public ActionResult RemoveMember(string id, string userIds)
         {

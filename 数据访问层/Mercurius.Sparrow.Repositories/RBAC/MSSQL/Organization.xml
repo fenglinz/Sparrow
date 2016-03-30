@@ -73,8 +73,12 @@
     <!-- 删除组织机构信息 -->
     <delete id="Remove" parameterClass="string">
       <![CDATA[
-        DELETE FROM RBAC.StaffOrganize WHERE OrganizationId=#value#;
-        DELETE FROM RBAC.Organization WHERE Id=#value#;
+        IF EXISTS(SELECT * FROM RBAC.Organization WHERE ParentId=#value#)
+          RAISERROR('不能直接删除包含下级组织的机构！', 16, 1);
+        BEGIN
+          DELETE FROM RBAC.StaffOrganize WHERE OrganizationId=#value#;
+          DELETE FROM RBAC.Organization WHERE Id=#value#;
+        END
       ]]>
     </delete>
 

@@ -50,23 +50,7 @@
             var orgId = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(orgId)) {
-                mercurius.OnRemoveToRecycbin({
-                    name: '部门管理',
-                    relyColumn: 'ParentId',
-                    relyValue: orgId,
-                    column: 'Id',
-                    value: orgId
-                });
-            }
-        }
-        </text>)
-
-        @Html.RenderButtonScript("分配成员",@<text>
-        function @(item.NavigateUrl)() {
-            var orgId = GetSelectedValue();
-
-            if (mercurius.HasSingleRowSelected(orgId)) {
-                mercurius.OpenDialog('@Url.Action("AllotMembers")/' + orgId, 'AllotMembers', '分配组织机构成员', 800, 500, { statusbar: false });
+                mercurius.RemoveData('@Url.Action("Remove")',{id:orgId});
             }
         }
         </text>)

@@ -15,11 +15,18 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         Response CreateOrUpdate(Button button);
 
         /// <summary>
+        /// 删除按钮信息。
+        /// </summary>
+        /// <param name="id">按钮编号</param>
+        /// <returns>删除结果</returns>
+        Response Remove(string id);
+
+        /// <summary>
         /// 获取指定按钮信息。
         /// </summary>
         /// <param name="id">按钮编号</param>
         /// <returns>按钮信息</returns>
-        Response<Button> GetButton(string id);
+        Response<Button> GetButtonById(string id);
 
         /// <summary>
         /// 获取按钮信息。

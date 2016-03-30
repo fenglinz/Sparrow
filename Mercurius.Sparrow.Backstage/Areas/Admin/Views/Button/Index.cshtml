@@ -48,12 +48,10 @@
 
         @Html.RenderButtonScript("删除",@<text>
         function @(item.NavigateUrl)() {
-            if (mercurius.HasSingleRowSelected(GetSelectedButtonId())) {
-                mercurius.OnRemoveToRecycbin({
-                    name: '按钮管理',
-                    column: 'Id',
-                    value: GetSelectedButtonId()
-                });
+            var id = GetSelectedButtonId();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.RemoveData('@Url.Action("Remove")',{id:id});
             }
         }
         </text>)

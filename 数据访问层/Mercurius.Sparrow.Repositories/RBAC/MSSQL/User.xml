@@ -87,6 +87,17 @@
       ]]>
     </update>
 
+    <!-- 删除用户信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        DELETE FROM RBAC.[User] WHERE Id=#value#;
+        DELETE FROM RBAC.[UserRole] WHERE UserId=#value#;
+        DELETE FROM RBAC.[HomeShortcut] WHERE UserId=#value#;
+        DELETE FROM RBAC.[StaffOrganize] WHERE UserId=#value#;
+        DELETE FROM RBAC.[UserPermission] WHERE UserId=#value#;
+      ]]>
+    </delete>
+
     <!-- 更新用户状态 -->
     <update id="ChangeStatus" parameterClass="Params">
       <![CDATA[

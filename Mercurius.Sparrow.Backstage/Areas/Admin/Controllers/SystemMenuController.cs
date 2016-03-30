@@ -108,7 +108,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         {
             var rsp = this.PermissionService.Remove(id);
 
-            return this.Json(new { rsp.IsSuccess, Data = rsp.ErrorMessage });
+            return this.Json(rsp);
         }
 
         #region 分配菜单按钮

@@ -133,10 +133,17 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
                 this.Alert($"发生错误，错误原因：{rsp.ErrorMessage}", AlertType.Error);
         }
 
+        /// <summary>
+        /// 删除用户信息。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <returns>删除结果信息</returns>
         [HttpPost]
         public ActionResult Remove(string id)
         {
-            var rsp = this.UserService;
+            var rsp = this.UserService.Remove(id);
+
+            return Json(rsp);
         }
 
         /// <summary>

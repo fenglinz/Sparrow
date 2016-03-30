@@ -35,16 +35,30 @@ namespace Mercurius.Sparrow.Services.RBAC
         }
 
         /// <summary>
+        /// 删除按钮信息。
+        /// </summary>
+        /// <param name="id">按钮编号</param>
+        /// <returns>删除结果</returns>
+        public Response Remove(string id)
+        {
+            return this.InvokeService(nameof(Remove), () =>
+            {
+                this.Persistence.Delete(ButtonNamespace, "Remove", id);
+
+                this.ClearCache<Button>();
+            }, id);
+        }
+
+        /// <summary>
         /// 获取指定按钮信息。
         /// </summary>
         /// <param name="id">按钮编号</param>
         /// <returns>按钮信息</returns>
-        public Response<Button> GetButton(string id)
+        public Response<Button> GetButtonById(string id)
         {
             return this.InvokeService(
-                nameof(GetButton),
-                () => this.Persistence.QueryForObject<Button>(ButtonNamespace, "GetButtons", id),
-                id);
+                nameof(GetButtonById),
+                () => this.Persistence.QueryForObject<Button>(ButtonNamespace, "GetButtonById", id), id);
         }
 
         /// <summary>

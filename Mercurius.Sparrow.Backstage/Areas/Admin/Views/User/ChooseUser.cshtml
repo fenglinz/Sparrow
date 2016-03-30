@@ -91,7 +91,10 @@
 <div class="row">
     <div class="pull-left" style="width:30%;">
         <div class="header">组织机构</div>
-        @TreeHelper.CreateTree(organizations.Datas.AsTree(o => o.ParentId == "0", (p, c) => c.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name }), "treeContainer")
+        @if (organizations.HasData())
+        {
+            @TreeHelper.CreateTree(organizations.Datas.AsTree(o => o.ParentId == "0", (p, c) => c.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name }), "treeContainer")
+        }
     </div>
     <div id="users" class="pull-left" style="width:69%;margin-left:5px;">
         @{Html.RenderPartial("_ChooseUsers", this.ViewData["Users"]);}

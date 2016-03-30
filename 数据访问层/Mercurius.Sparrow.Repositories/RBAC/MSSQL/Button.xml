@@ -5,9 +5,94 @@
   </alias>
 
   <statements>
+    
+    <!-- 新增修改按钮信息 -->
+    <update id="CreateOrUpdate" parameterClass="Button">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.Button WHERE Id=#Id#)
+          UPDATE RBAC.Button
+          SET 
+            Name=#Name#,
+            Title=#Title#,
+            Image=#Image#,
+            Code=#Code#,
+            Sort=#Sort#,
+            Category=#Category#,
+            Remark=#Remark#,
+            ModifyUserId=#ModifyUserId#,
+            ModifyDateTime=GETDATE()
+          WHERE Id=#Id#
+        ELSE
+          INSERT INTO RBAC.Button
+          (
+            Id,
+            Name,
+            Title,
+            Image,
+            Code,
+            Sort,
+            Category,
+            Remark,
+            Status,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+          (
+            NEWID(),
+            #Name#,
+            #Title#,
+            #Image#,
+            #Code#,
+            #Sort#,
+            #Category#,
+            #Remark#,
+            1,
+            #CreateUserId#,
+            GETDATE()
+          )
+      ]]>
+    </update>
+
+    <!-- 删除按钮 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.SystemMenu WHERE Name IN (SELECT Name FROM RBAC.Button WHERE Id=#value#) AND Category=3)
+          RAISERROR('此按钮已经被使用，不能删除！', 16, 1);
+        ELSE
+	        DELETE FROM RBAC.Button WHERE Id=#value#;
+      ]]>
+    </delete>
 
     <!-- 获取按钮信息 -->
-    <select id="GetButtons" parameterClass="string" resultClass="Button">
+    <select id="GetButtonById" parameterClass="string" resultClass="Button">
+      <![CDATA[
+        SELECT
+          a.Id
+          ,a.Name
+          ,a.Title
+          ,a.Image
+          ,a.Code
+          ,a.Sort
+          ,a.Category
+          ,a.Remark
+          ,a.CreateUserId
+          ,u1.Name AS CreateUserName
+          ,a.CreateDateTime
+          ,a.ModifyUserId
+          ,u2.Name AS ModifyUserName
+          ,a.ModifyDateTime
+        FROM RBAC.Button a
+        LEFT JOIN RBAC.[User] u1
+          ON a.CreateUserId=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON a.ModifyUserId=u2.Id
+        WHERE a.Id=#value#
+      ]]>
+    </select>
+    
+    <!-- 获取所有按钮信息 -->
+    <select id="GetButtons" resultClass="Button">
       <![CDATA[ 
         SELECT
           a.Id
@@ -30,11 +115,6 @@
         LEFT JOIN RBAC.[User] u2
           ON a.ModifyUserId=u2.Id
         WHERE a.Status=1
-      ]]>
-      <isNotNull prepend="And">
-        a.Id=#Id#
-      </isNotNull>
-      <![CDATA[
         ORDER BY SORT ASC
       ]]>
     </select>
@@ -73,53 +153,5 @@
         ORDER BY SORT ASC
       ]]>
     </select>
-    
-    <!-- 新增修改RBAC.button -->
-    <update id="CreateOrUpdate" parameterClass="Button">
-      <![CDATA[
-        IF EXISTS(SELECT * FROM RBAC.Button WHERE Id=#Id#)
-          UPDATE RBAC.Button
-          SET 
-            Name           = #Name#,
-            Title          = #Title#,
-            Image          = #Image#,
-            Code           = #Code#,
-            Sort           = #Sort#,
-            Category       = #Category#,
-            Remark         = #Remark#,
-            ModifyUserId   = #ModifyUserId#,
-            ModifyDateTime = #ModifyDateTime#
-          WHERE Id=#Id#
-        ELSE
-          INSERT INTO RBAC.Button
-          (
-            Id,
-            Name,
-            Title,
-            Image,
-            Code,
-            Sort,
-            Category,
-            Remark,
-            Status,
-            CreateUserId,
-            CreateDateTime
-          )
-          VALUES
-          (
-            #Id#,
-            #Name#,
-            #Title#,
-            #Image#,
-            #Code#,
-            #Sort#,
-            #Category#,
-            #Remark#,
-            1,
-            #CreateUserId#,
-            #CreateDateTime#
-          )
-      ]]>
-    </update>
   </statements>
 </sqlMap>

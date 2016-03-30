@@ -59,14 +59,21 @@ namespace Mercurius.FileStorageSystem.Controllers
         #endregion
 
         /// <summary>
-        /// 登录。
+        /// 显示用户登录界面。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>用户登录界面</returns>
         public ActionResult LogOn()
         {
             return this.View();
         }
 
+        /// <summary>
+        /// 用户登录。
+        /// </summary>
+        /// <param name="name">用户名</param>
+        /// <param name="password">密码</param>
+        /// <param name="verifyCode">验证码</param>
+        /// <returns>登录结果信息</returns>
         [HttpPost]
         public ActionResult LogOn(string name, string password, string verifyCode)
         {
@@ -102,13 +109,22 @@ namespace Mercurius.FileStorageSystem.Controllers
             return this.Json(result);
         }
 
+        /// <summary>
+        /// 注销用户登录。
+        /// </summary>
+        /// <returns>跳转显示登录界面</returns>
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
 
             return this.RedirectToAction("LogOn", "Account");
         }
 
+        /// <summary>
+        /// 获取验证码。
+        /// </summary>
+        /// <returns>验证码图片</returns>
         public ActionResult GetVerifyCode()
         {
             var verifyCode = SecurityExtensions.CreateVerifyCode(4);

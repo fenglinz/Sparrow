@@ -9,6 +9,9 @@ using Mercurius.Sparrow.Entities.RBAC;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
+    /// <summary>
+    /// 按钮管理控制器。
+    /// </summary>
     public class ButtonController : BaseController
     {
         #region 属性
@@ -39,8 +42,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         {
             if (!string.IsNullOrWhiteSpace(id))
             {
-                //获取指定按钮信息
-                var resBtn = this.ButtonService.GetButton(id);
+                var resBtn = this.ButtonService.GetButtonById(id);
 
                 if (!resBtn.IsSuccess)
                 {
@@ -67,6 +69,19 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             var rsp = this.ButtonService.CreateOrUpdate(button);
 
             return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功!") : this.Alert("执行失败，失败原因：" + rsp.ErrorMessage);
+        }
+
+        /// <summary>
+        /// 删除按钮。
+        /// </summary>
+        /// <param name="id">按钮编号</param>
+        /// <returns>删除结果信息</returns>
+        [HttpPost]
+        public ActionResult Remove(string id)
+        {
+            var rsp = this.ButtonService.Remove(id);
+
+            return Json(rsp);
         }
     }
 }

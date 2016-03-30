@@ -49,13 +49,7 @@
             var roleId = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(roleId)) {
-                mercurius.OnRemoveToRecycbin({
-                    name: '角色管理',
-                    relyColumn: 'ParentId',
-                    relyValue: roleId,
-                    column: 'Id',
-                    value: roleId
-                });
+                mercurius.RemoveData('@Url.Action("Remove")', { id: roleId });
             }
         }
         </text>)

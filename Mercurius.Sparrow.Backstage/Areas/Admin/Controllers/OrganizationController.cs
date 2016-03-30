@@ -11,7 +11,7 @@ using Mercurius.Sparrow.Entities.RBAC.SO;
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
     /// <summary>
-    /// 部门管理控制器
+    /// 组织机构管理控制器
     /// </summary>
     public class OrganizationController : BaseController
     {
@@ -29,11 +29,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
         #endregion
 
+        /// <summary>
+        /// 显示组织机构信息。
+        /// </summary>
+        /// <returns>组织机构信息界面</returns>
         public ActionResult Index()
         {
-            var orgInfos = this.OrganizationService.GetOrganizations();
-
-            this.ViewBag.Organizations = orgInfos;
+            this.ViewBag.Organizations = this.OrganizationService.GetOrganizations();
 
             return this.View();
         }
@@ -41,9 +43,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <summary>
         /// 进入添加或修改组织信息界面
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="parentId"></param>
-        /// <returns></returns>
+        /// <param name="id">组织机构编号</param>
+        /// <param name="parentId">父级编号</param>
+        /// <returns>组织机构详情界面</returns>
         public ActionResult CreateOrUpdate(string id, string parentId = "0")
         {
             this.ViewBag.ParentId = string.IsNullOrWhiteSpace(parentId) ? "0" : parentId;
@@ -53,7 +55,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             if (!string.IsNullOrWhiteSpace(id))
             {
-                //获取指定ID组织信息
                 var rspOrg = this.OrganizationService.GetOrganizationById(id);
 
                 if (!rspOrg.IsSuccess)
@@ -83,6 +84,19 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             var rsp = this.OrganizationService.CreateOrUpdate(org);
 
             return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("执行失败，失败原因：" + rsp.ErrorMessage);
+        }
+
+        /// <summary>
+        /// 删除组织机构信息。
+        /// </summary>
+        /// <param name="id">组织机构编号</param>
+        /// <returns>删除结果信息</returns>
+        [HttpPost]
+        public ActionResult Remove(string id)
+        {
+            var rsp = this.OrganizationService.Remove(id);
+
+            return Json(rsp);
         }
     }
 }

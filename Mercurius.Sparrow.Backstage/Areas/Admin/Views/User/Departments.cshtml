@@ -33,5 +33,8 @@
 }
 <div class="header">组织机构</div>
 <div>
-    @TreeHelper.CreateTree(organizations.Datas.AsTree(o => o.ParentId == "0", (p, c) => c.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name }), "treeContainer")
+    @if (organizations.HasData())
+    {
+        @TreeHelper.CreateTree(organizations.Datas.AsTree(o => o.ParentId == "0", (p, c) => c.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name }), "treeContainer")
+    }
 </div>

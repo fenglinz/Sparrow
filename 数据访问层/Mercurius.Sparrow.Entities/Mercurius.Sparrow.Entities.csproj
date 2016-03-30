@@ -91,7 +91,6 @@
     <Compile Include="RBAC\Button.cs" />
     <Compile Include="RBAC\HomeShortcut.cs" />
     <Compile Include="RBAC\Organization.cs" />
-    <Compile Include="RBAC\Recyclebin.cs" />
     <Compile Include="RBAC\Role.cs" />
     <Compile Include="RBAC\SO\OrganizationSO.cs" />
     <Compile Include="RBAC\SO\RecyclebinSO.cs" />
