@@ -13,7 +13,7 @@
         .treeview ul {
             background-color: white;
             margin-top: 2px;
-            margin-left: 10px;
+            margin-left: 5px;
         }
 
         .treeview i {
@@ -21,6 +21,8 @@
             padding: 4px 10px 4px 10px;
             position: relative;
             top: -1px;
+            width: 85%;
+            display: inline-block;
             -moz-user-select: none;
             -ms-user-select: none;
             -webkit-user-select: none;
@@ -39,6 +41,9 @@
 
         .treeview ul li i {
             font-style: normal;
+            margin: 2px 0 2px 0;
+            position: relative;
+            top: -3px;
         }
 
         .treeview .hitarea {
@@ -49,20 +54,15 @@
             float: left;
             cursor: pointer;
         }
-/* fix for IE6 */
-html .hitarea {
-    display: inline;
-    float: none;
-}
 
-.treeview li {
-    margin: 0;
-    padding: 4px 0 4px 15px;
-}
+        .treeview li {
+            margin: 0;
+            padding: 0 0 0 10px;
+        }
 
-.treeview a.selected {
-    background-color: #eee;
-}
+        .treeview a.selected {
+            background-color: #eee;
+        }
 
 #treecontrol {
     margin: 1em 0;
@@ -162,19 +162,21 @@ html .hitarea {
     background: url('data:image/gif;base64,R0lGODlhEAAOAIIAAZdaH+C6eP/inq1zLf/////Sg59oJMOHNCwAAAAAEAAOAAIDN0i63P7vyAPXYBcewUsIk8RQFalsXKoCmDq8cEwMKa2mxWUUOe//GUDvB1wABsQiw8BsOitQQgIAOw==') 0 0 no-repeat;
     width: 16px;
     height: 14px;
-    margin-left: 4px;
+    margin-left: 0;
 }
 
 .filetree li.expandable span.folder {
     background: url('data:image/gif;base64,R0lGODdhEAAOAPIHAK1zLeC6eP/insOHNP/////Sg59oJJdaHywAAAAAEAAOAEADM0i63AoiygnYkCWEwXkzYCg6RDeQyzWtB3MUcCy3aL1Ud33qDLRSDINsWDC4AMQYzUZKAAA7') 0 0 no-repeat;
     width: 16px;
     height: 14px;
-    margin-left: 4px;
+    margin-left: 0;
 }
 
 .filetree span.file {
     background: url('data:image/gif;base64,R0lGODdhDwAOAPIHANS9fIy3oamMQX98XzmJdP////9tcGpsYiwAAAAADwAOAEADOlgl3KxQjWJMGefIKGi1UAdNUUQqYgQAKVoE8KQtZgHAAUFsYWm3rtKKxfH1jsbWybdclpqDqHSqSAAAOw==') 0 0 no-repeat;
-    width: 16px;
+    width: 15px;
     height: 14px;
     margin-left: 4px;
+    position: relative;
+    top: -3px;
 }
