@@ -83,8 +83,21 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                        {
                            if (!File.Exists(@"Projects\CSharp.zip"))
                            {
-                               MessageBox.Show("请在应用程序的Projects文件夹中存入CSharp.zip基础项目文件。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
-                              
+                               MessageBox.Show(Application.Current.MainWindow, "请在应用程序的Projects文件夹中存入CSharp.zip基础项目文件。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                               return;
+                           }
+                           if (string.IsNullOrWhiteSpace(this.Configuration.BaseNamespace))
+                           {
+                               MessageBox.Show("请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                               return;
+                           }
+
+                           if (string.IsNullOrWhiteSpace(this.Configuration.OutputFolder) || !Directory.Exists(this.Configuration.OutputFolder))
+                           {
+                               MessageBox.Show("请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+
                                return;
                            }
 
@@ -92,9 +105,16 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                            if (codeCreator != null)
                            {
-                               codeCreator.Initialize(this.Configuration);
+                               var task = new Task(() =>
+                               {
+                                   codeCreator.Initialize(this.Configuration);
+                               });
 
-                               MessageBox.Show("导入完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                               task.Start();
+                               task.ContinueWith(t =>
+                               {
+                                   MessageBox.Show("初始化完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                               });
                            }
                        }));
             }
@@ -138,11 +158,11 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                                    export.Export(tables, dialog.OpenFile());
 
-                                   MessageBox.Show("表定义文档生成成功！", "提示", MessageBoxButton.OK);
+                                   MessageBox.Show(Application.Current.MainWindow, "表定义文档生成成功！", "提示", MessageBoxButton.OK);
                                }
                                catch (Exception e)
                                {
-                                   MessageBox.Show("出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
+                                   MessageBox.Show(Application.Current.MainWindow, "出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
                                }
                            }
                        }));
@@ -158,8 +178,14 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             {
                 return this._buildingCommand ?? (this._buildingCommand = new DelegateCommand(() =>
                 {
-                    if (string.IsNullOrWhiteSpace(this.Configuration.OutputFolder) ||
-                        !Directory.Exists(this.Configuration.OutputFolder))
+                    if (string.IsNullOrWhiteSpace(this.Configuration.BaseNamespace))
+                    {
+                        MessageBox.Show("请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(this.Configuration.OutputFolder) || !Directory.Exists(this.Configuration.OutputFolder))
                     {
                         MessageBox.Show("请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
 
@@ -168,8 +194,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                     try
                     {
-                        var codeCreator =
-                            ServiceLocator.Current.GetInstance<AbstractCodeCreator>(this.Configuration.Language);
+                        var codeCreator = ServiceLocator.Current.GetInstance<AbstractCodeCreator>(this.Configuration.Language);
 
                         if (codeCreator != null)
                         {

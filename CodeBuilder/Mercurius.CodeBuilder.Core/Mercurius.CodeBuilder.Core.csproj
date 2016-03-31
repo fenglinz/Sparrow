@@ -94,6 +94,8 @@
     <Compile Include="Database\DatabaseType.cs" />
     <Compile Include="Database\DbColumn.cs" />
     <Compile Include="Database\DbTable.cs" />
+    <Compile Include="Events\BuildEvent.cs" />
+    <Compile Include="Events\BuildEventArg.cs" />
     <Compile Include="Events\LoadedTablesCompletedEvent.cs" />
     <Compile Include="Events\OpenCodeBuildViewEvent.cs" />
     <Compile Include="Events\RefreshConnectedDatabaseEvent.cs" />

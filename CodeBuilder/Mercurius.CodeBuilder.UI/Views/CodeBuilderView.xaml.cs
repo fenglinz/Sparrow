@@ -37,6 +37,12 @@ namespace Mercurius.CodeBuilder.UI.Views
         {
             InitializeComponent();
 
+            this.buildNotify.Visibility = Visibility.Collapsed;
+
+            ReMoveNotify();
+
+            this.SizeChanged += (s, e) => ReMoveNotify();
+
             this._eventAggregator = eventAggregator;
 
             var loadedEvent = this._eventAggregator.GetEvent<LoadedTablesCompletedEvent>();
@@ -45,6 +51,44 @@ namespace Mercurius.CodeBuilder.UI.Views
                 arg => Application.Current.Dispatcher.BeginInvoke(new Action(() => this.loadingAn.Visibility = Visibility.Collapsed)),
                 ThreadOption.BackgroundThread,
                 false);
+
+            var buildEvent = this._eventAggregator.GetEvent<BuildEvent>();
+
+            buildEvent.Subscribe(arg => Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                switch (arg.Status)
+                {
+                    case Status.Begin:
+                        this.buildNotify.Visibility = Visibility.Visible;
+
+                        break;
+
+                    case Status.Success:
+                    case Status.Failure:
+                        this.buildNotify.Visibility = Visibility.Collapsed;
+
+                        break;
+                }
+
+                if (!string.IsNullOrWhiteSpace(arg.Message))
+                {
+                    this.buildMessage.Text = arg.Message;
+                }
+            })), ThreadOption.BackgroundThread, false);
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        private void ReMoveNotify()
+        {
+            var left = this.busyPath.Margin.Left;
+            var top = (Application.Current.MainWindow.ActualHeight - 220) / 2;
+            var right = this.busyPath.Margin.Right;
+            var bottom = this.busyPath.Margin.Bottom;
+
+            this.busyPath.Margin = new Thickness(left, top, right, bottom);
         }
 
         #endregion

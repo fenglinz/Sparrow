@@ -8,6 +8,7 @@ using Ionic.Zip;
 using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Config;
 using Mercurius.CodeBuilder.Core.Database;
+using Mercurius.CodeBuilder.Core.Events;
 
 namespace Mercurius.CodeBuilder.CSharp
 {
@@ -36,19 +37,31 @@ namespace Mercurius.CodeBuilder.CSharp
         {
             if (File.Exists(@"Projects\CSharp.zip"))
             {
+                this._buildEvent.Publish(new BuildEventArg(Status.Begin, "开始导入架构..."));
+
                 var zipFile = ZipFile.Read(@"Projects\CSharp.zip", new ReadOptions
                 {
                     Encoding = Encoding.GetEncoding("GB2312")
                 });
 
+                zipFile.ReadProgress += (sender, e) =>
+                {
+                    this._buildEvent.Publish(new BuildEventArg(Status.Building, $"正在解压{e.ArchiveName}文件..."));
+                };
+
                 var entries = zipFile.Entries.ToList();
+
+                this._buildEvent.Publish(new BuildEventArg(Status.Building, "开始解压基础框架压缩包..."));
 
                 foreach (var t in entries)
                 {
+                    this._buildEvent.Publish(new BuildEventArg(Status.Building, $"解压{t.FileName}..."));
+
                     t.FileName = t.FileName.Replace("Mercurius.Sparrow", configuration.BaseNamespace);
+                    t.Extract(configuration.OutputFolder, ExtractExistingFileAction.OverwriteSilently);
                 }
 
-                zipFile.ExtractAll(configuration.OutputFolder, ExtractExistingFileAction.OverwriteSilently);
+                this._buildEvent.Publish(new BuildEventArg(Status.Building, "基础框架压缩包解压完成！"));
 
                 foreach (var item in entries)
                 {
@@ -62,8 +75,9 @@ namespace Mercurius.CodeBuilder.CSharp
                         continue;
                     }
 
-                    var fileName = $@"{configuration.OutputFolder}\{item.FileName}";
+                    this._buildEvent.Publish(new BuildEventArg(Status.Building, $"修改文件{item.FileName}中的命名空间..."));
 
+                    var fileName = $@"{configuration.OutputFolder}\{item.FileName}";
                     var reader = new StreamReader(fileName, Encoding.UTF8);
                     var texts = reader.ReadToEnd();
                     reader.Dispose();
@@ -77,7 +91,11 @@ namespace Mercurius.CodeBuilder.CSharp
                         writer.Write(texts);
                         writer.Dispose();
                     }
+
+                    this._buildEvent.Publish(new BuildEventArg(Status.Building, $"修改文件{item.FileName}中的命名空间完成！"));
                 }
+
+                this._buildEvent.Publish(new BuildEventArg(Status.Success, "架构导入完成！"));
             }
         }
 

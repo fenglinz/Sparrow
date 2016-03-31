@@ -6,6 +6,8 @@ using System.Text;
 using System.Xml.Linq;
 using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
+using Mercurius.CodeBuilder.Core.Events;
+using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Mercurius.CodeBuilder.Core
@@ -22,6 +24,26 @@ namespace Mercurius.CodeBuilder.Core
     /// </summary>
     public abstract class AbstractCodeCreator
     {
+        #region 字段
+
+        protected BuildEvent _buildEvent;
+        protected IEventAggregator _eventAggregator;
+
+        #endregion
+
+        #region 构造方法
+
+        /// <summary>
+        /// 默认构造方法。
+        /// </summary>
+        protected AbstractCodeCreator()
+        {
+            this._eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+            this._buildEvent = this._eventAggregator?.GetEvent<BuildEvent>();
+        }
+
+        #endregion
+
         #region 公开方法
 
         /// <summary>
@@ -30,10 +52,12 @@ namespace Mercurius.CodeBuilder.Core
         /// <param name="configuration">代码生成配置信息</param>
         public void Create(Configuration configuration)
         {
-            if (this.IsFirstCreate(configuration))
-            {
-                this.Initialize(configuration);
-            }
+            //if (this.IsFirstCreate(configuration))
+            //{
+            //    this.Initialize(configuration);
+            //}
+
+            this._buildEvent?.Publish(new BuildEventArg(Status.Begin));
 
             this.DbTypeMappingHandler(configuration);
 
@@ -41,6 +65,8 @@ namespace Mercurius.CodeBuilder.Core
 
             // 序列化配置。
             configuration.SerializeConfiguration();
+
+            this._buildEvent.Publish(new BuildEventArg(Status.Success));
         }
 
         #endregion
