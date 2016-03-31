@@ -89,14 +89,14 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                            }
                            if (string.IsNullOrWhiteSpace(this.Configuration.BaseNamespace))
                            {
-                               MessageBox.Show("请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                               MessageBox.Show(Application.Current.MainWindow, "请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                                return;
                            }
 
                            if (string.IsNullOrWhiteSpace(this.Configuration.OutputFolder) || !Directory.Exists(this.Configuration.OutputFolder))
                            {
-                               MessageBox.Show("请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                               MessageBox.Show(Application.Current.MainWindow, "请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                                return;
                            }
@@ -113,7 +113,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                                task.Start();
                                task.ContinueWith(t =>
                                {
-                                   MessageBox.Show("初始化完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                                   MessageBox.Show(Application.Current.MainWindow, "初始化完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
                                });
                            }
                        }));
@@ -180,14 +180,14 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 {
                     if (string.IsNullOrWhiteSpace(this.Configuration.BaseNamespace))
                     {
-                        MessageBox.Show("请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show(Application.Current.MainWindow, "请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                         return;
                     }
 
                     if (string.IsNullOrWhiteSpace(this.Configuration.OutputFolder) || !Directory.Exists(this.Configuration.OutputFolder))
                     {
-                        MessageBox.Show("请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show(Application.Current.MainWindow, "请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                         return;
                     }
@@ -200,13 +200,12 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         {
                             codeCreator.Create(this.Configuration);
 
-                            MessageBox.Show("生成完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show(Application.Current.MainWindow, "生成完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
                         }
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("生成不成功，请稍后重试！\n错误详情：" + e.Message, "错误", MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+                        MessageBox.Show(Application.Current.MainWindow, "生成不成功，请稍后重试！\n错误详情：" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }));
             }
@@ -299,7 +298,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("发生错误，请稍后再试！\n" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Application.Current.MainWindow, "发生错误，请稍后再试！\n" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 finally
                 {

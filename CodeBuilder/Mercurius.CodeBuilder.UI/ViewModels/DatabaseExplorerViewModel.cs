@@ -121,7 +121,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 {
                     if (arg != null)
                     {
-                        if (MessageBox.Show($"是否要确实删除数据库连接：“{arg.Name}”", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                        if (MessageBox.Show(Application.Current.MainWindow, $"是否要确实删除数据库连接：“{arg.Name}”", "提示", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                         {
                             ConnectedDatabaseManager.Remove(arg.Type, arg.Name);
 

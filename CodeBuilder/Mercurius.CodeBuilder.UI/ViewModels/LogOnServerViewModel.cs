@@ -146,7 +146,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         }
                         catch
                         {
-                            MessageBox.Show("数据库连接失败，请重试！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show(Application.Current.MainWindow, "数据库连接失败，请重试！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                 });
@@ -166,7 +166,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     {
                         if (string.IsNullOrWhiteSpace(this.SelectedDatabase))
                         {
-                            MessageBox.Show("请选择一个数据库！", "提醒", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show(Application.Current.MainWindow, "请选择一个数据库！", "提醒", MessageBoxButton.OK, MessageBoxImage.Information);
                         }
                         else
                         {
