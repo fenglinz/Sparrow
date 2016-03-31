@@ -136,8 +136,8 @@
             <tr>
                 <td style="width: 300px;">字典名称</td>
                 <td style="width: 200px;">字典值</td>
-                <td style="width: 70px;">排序号</td>
-                <td style="width: 50px;">状态</td>
+                <td class="hidden-xs hidden-sm" style="width: 70px;">排序号</td>
+                <td class="hidden-xs hidden-sm"  style="width: 50px;">状态</td>
                 <td>备注</td>
             </tr>
         </thead>
@@ -154,8 +154,8 @@
                     <tr id="@tdId" data-tt-id="@tdId" haschildren>
                         <td><span class="folder">@item.Key</span></td>
                         <td style="text-align: center;">@item.Value</td>
-                        <td>@item.Sort</td>
-                        <td></td>
+                        <td class="hidden-xs hidden-sm">@item.Sort</td>
+                        <td class="hidden-xs hidden-sm"></td>
                         <td>@item.Remark</td>
                         <td style="display: none">@item.Id</td>
                         <td style="display: none">@item.Id</td>
@@ -192,8 +192,8 @@
         <tr id="@tdId" data-tt-id="@tdId" data-tt-parent-id="@parentTdId" @(dictionaries.Any(i => i.ParentId == item.Id) ? "hasChildren" : string.Empty)>
             <td><span class="@GetClass(dictionaries, item)">@item.Key</span></td>
             <td style="text-align: center;">@item.Value</td>
-            <td>@(orderNum + " - " + item.Sort)</td>
-            <td style="text-align: center;">
+            <td class="hidden-xs hidden-sm">@(orderNum + " - " + item.Sort)</td>
+            <td class="hidden-xs hidden-sm"  style="text-align: center;">
                 <i onclick="ChangeStatus('@item.Id','@item.Status');" class="glyphicon @(item.Status == 0 ? "glyphicon-ban-circle" : "glyphicon-ok-sign")"></i>
             </td>
             <td>@item.Remark</td>
