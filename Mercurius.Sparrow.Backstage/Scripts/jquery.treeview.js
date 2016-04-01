@@ -78,9 +78,9 @@
 						.replaceClass(CLASSES.last, CLASSES.lastCollapsable);
 
 	            // create hitarea if not present
-				var hitarea = this.find("div." + CLASSES.hitarea);
+				var hitarea = this.find("span." + CLASSES.hitarea);
 				if (!hitarea.length)
-					hitarea = this.prepend("<div class=\"" + CLASSES.hitarea + "\"/>").find("div." + CLASSES.hitarea);
+					hitarea = this.prepend("<span class=\"" + CLASSES.hitarea + "\"/>").find("span." + CLASSES.hitarea);
 				hitarea.removeClass().addClass(CLASSES.hitarea).each(function() {
 					var classes = "";
 					$.each($(this).parent().attr("class").split(" "), function() {
@@ -91,7 +91,7 @@
 			}
 
 			// apply event to hitarea
-			this.find("div." + CLASSES.hitarea).click( toggler );
+			this.find("span." + CLASSES.hitarea).click( toggler );
 		},
 		treeview: function(settings) {
 
@@ -113,7 +113,7 @@
 					return function() {
 						// reuse toggle event handler, applying the elements to toggle
 						// start searching for all hitareas
-						toggler.apply( $("div." + CLASSES.hitarea, tree).filter(function() {
+						toggler.apply( $("span." + CLASSES.hitarea, tree).filter(function() {
 							// for plain toggle, no filter is provided, otherwise we need to check the parent element
 							return filter ? $(this).parent("." + filter).length : true;
 						}) );

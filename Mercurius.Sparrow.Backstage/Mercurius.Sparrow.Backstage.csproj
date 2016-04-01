@@ -417,7 +417,6 @@
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
-    <Content Include="Scripts\bootstrap-tree.js" />
     <Content Include="App_Code\TreeHelper.cshtml" />
     <Content Include="App_Data\IBatisNet\providers.config" />
     <Content Include="App_Data\properties.config" />
@@ -652,6 +651,17 @@
     <Content Include="Scripts\RichEditor\css\highlight.github.css" />
     <Content Include="Scripts\RichEditor\highlight.pack.js" />
     <Content Include="Scripts\TreeTable\jquery.treeTable.js" />
+    <Content Include="Scripts\Tree\jstree.js" />
+    <Content Include="Scripts\Tree\themes\default-dark\32px.png" />
+    <Content Include="Scripts\Tree\themes\default-dark\40px.png" />
+    <Content Include="Scripts\Tree\themes\default-dark\style.css" />
+    <Content Include="Scripts\Tree\themes\default-dark\style.min.css" />
+    <Content Include="Scripts\Tree\themes\default-dark\throbber.gif" />
+    <Content Include="Scripts\Tree\themes\default\32px.png" />
+    <Content Include="Scripts\Tree\themes\default\40px.png" />
+    <Content Include="Scripts\Tree\themes\default\style.css" />
+    <Content Include="Scripts\Tree\themes\default\style.min.css" />
+    <Content Include="Scripts\Tree\themes\default\throbber.gif" />
     <Content Include="Scripts\Validator\JValidator.js" />
     <Content Include="Scripts\RichEditor\css\fonts\icomoon.svg" />
     <Content Include="Scripts\RichEditor\css\wangEditor.css" />
