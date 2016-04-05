@@ -50,7 +50,7 @@
         function @(item.NavigateUrl)(){
             var category = $('#treeContainer i.selected').attr('data');
 
-            mercurius.OpenDialog('@Url.Action("CreateOrUpdate","ExtensionProperty")?category='+category, 'CreateOrUpdate', '添加动态属性', 600, 390);
+            mercurius.OpenDialog('@Url.Action("CreateOrUpdate","ExtensionProperty")?category='+category, 'CreateOrUpdate', '添加动态属性', 650, 430);
         }
         </text>)
 
@@ -59,7 +59,7 @@
             var id=$('#tbDefinition > tbody > tr.selected > td:eq(0)').text();
 
             if(mercurius.HasSingleRowSelected(id)){
-                mercurius.OpenDialog('@Url.Action("CreateOrUpdate","ExtensionProperty")/'+id, 'CreateOrUpdate', '修改动态属性', 600, 470);
+                mercurius.OpenDialog('@Url.Action("CreateOrUpdate","ExtensionProperty")/'+id, 'CreateOrUpdate', '修改动态属性', 650, 510);
             }
         }
         </text>)

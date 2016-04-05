@@ -1,0 +1,186 @@
+﻿@using Autofac
+@using Mercurius.Infrastructure
+@using Mercurius.Sparrow.Autofac
+@using Mercurius.Sparrow.Contracts.Dynamic
+@using Mercurius.Sparrow.Entities.Dynamic
+
+@helper RenderProperties(string entityId, string category)
+{
+    using (var context = AutofacConfig.Container.BeginLifetimeScope())
+    {
+        var extensionPropertyService = context.Resolve<IExtensionPropertyService>();
+        var properties = extensionPropertyService.GetExtensionProperties(category, entityId).Datas;
+
+        if (!properties.IsEmpty())
+        {
+            <style type="text/css">
+                .form-horizontal .form-group {
+                    margin-right: 0;
+                }
+            </style>
+            <form id="frmDynamic" action="~/DynamicPage/ExtensionProperty/SaveProperties" class="form-horizontal form" method="post" data-ajax="true" data-ajax-method="post">
+                <input type="hidden" name="id" value="@entityId"/>
+                @{
+                    var groupNames = (from p in properties
+                                      where
+                                      !string.IsNullOrWhiteSpace(p.GroupName)
+                                      select p.GroupName).Distinct().ToList();
+                }
+
+                @for (var i = 0; i < properties.Count; i++)
+                {
+                    var item = properties[i];
+
+                    if (!groupNames.IsEmpty() && groupNames.Contains(item.GroupName))
+                    {
+                        <div class="form-group">
+                            @while (i < properties.Count && properties[i].GroupName == item.GroupName)
+                            {
+                                @RenderItem(i, properties[i++])
+                            }
+                        </div>
+                        i--;
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            @RenderItem(i, item)
+                        </div>
+                    }
+                }
+                <div class="form-group">
+                    <label class="@properties.Last().ControlLabelCssClass">&nbsp;</label>
+                    <div class="col-sm-4">
+                        <button id="dynamicSave" type="button" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-floppy-saved"></i> 保存
+                        </button>
+                    </div>
+                </div>
+                <script type="text/javascript" src="~/Scripts/Validator/JValidator.js"></script>
+                <script type="text/javascript">
+                    $(function () {
+                        mercurius.DatePicker();
+                        $('#dynamicSave').click(function() {
+                            if (JudgeValidate('#frmDynamic')) {
+                                $('#frmDynamic').submit();
+                            }
+                        });
+                    });
+                </script>
+            </form>
+        }
+    }
+}
+
+@helper RenderItem(int index, ExtensionProperty item)
+{
+    var isGroupItem = !string.IsNullOrWhiteSpace(item.GroupName);
+
+    <label for="@item.ControlId" class="control-label @item.ControlLabelCssClass">@item.Name</label>
+    <input type="hidden" name="instances[@index].ExtensionPropertyId" value="@item.Id" />
+    switch (item.ControlType)
+    {
+        case 1:
+            <div class="@item.ControlContainerCssClass">
+                @if (string.IsNullOrWhiteSpace(item.Unit))
+                {
+                    <input type="text" class="form-control" @GetPropertyAttributes(index, item) value="@item.Value" placeholder="@item.Placeholder" maxlength="@item.ControlMaxLength" />
+                }
+                else
+                {
+                    <div class="input-group">
+                        <input type="text" class="form-control" @GetPropertyAttributes(index, item) value="@item.Value" placeholder="@item.Placeholder" maxlength="@item.ControlMaxLength" />
+                        <span class="input-group-addon">@item.Unit</span>
+                    </div>
+                }
+            </div>
+            break;
+
+        case 2:
+            <div class="@item.ControlContainerCssClass">
+                <select @GetPropertyAttributes(index, item) class="form-control" style="@item.ControlStyle">
+                @if (!string.IsNullOrWhiteSpace(item.ControlDataSource))
+                {
+                    var options = item.ControlDataSource.Split(';');
+
+                    foreach (var o in options)
+                    {
+                        if (o.Contains('|'))
+                        {
+                            var ops = o.Split('|');
+
+                            <option value="@ops.LastOrDefault()" @(item.Value == ops.LastOrDefault() ? "selected" : "")>@ops.FirstOrDefault()</option>
+                        }
+                        else
+                        {
+                            <option value="@o" @(item.Value == o ? "selected" : "")>@o</option>
+                        }
+                    }
+                }
+                </select>
+            </div>
+            break;
+
+        case 3:
+            if (!string.IsNullOrWhiteSpace(item.ControlDataSource))
+            {
+                var options = item.ControlDataSource.Split(';');
+                var index1 = 0;
+                <div class="@item.ControlContainerCssClass">
+                    @foreach (var o in options)
+                    {
+                        <label class="radio-inline">
+                            @if (o.Contains('|'))
+                            {
+                                var ops = o.Split('|');
+                                <input id="@item.ControlId@index1" name="instances[@index].Value" type="radio" value="@ops.LastOrDefault()" @((string.IsNullOrWhiteSpace(item.Value) && index1 == 0) || item.Value == ops.LastOrDefault() ? "checked" : "")> @ops.FirstOrDefault()
+                            }
+                            else
+                            {
+                                <input id="@item.ControlId@index1" name="instances[@index].Value" type="radio" value="@o" @((string.IsNullOrWhiteSpace(item.Value) && index1==0) || item.Value==o ? "checked" : "" ) /> @o
+                            }
+                        </label>
+                        index1++;
+                    }
+                </div>
+            }
+            break;
+
+        case 4:
+            if (!string.IsNullOrWhiteSpace(item.ControlDataSource))
+            {
+                var options = item.ControlDataSource.Split(';');
+                var selecteds = string.IsNullOrWhiteSpace(item.Value) ? null : item.Value.Split(',');
+
+                var index1 = 0;
+                <div class="@item.ControlContainerCssClass">
+                    @foreach (var o in options)
+                    {
+                        <label class="checkbox-inline">
+                            @if (o.Contains('|'))
+                            {
+                                var ops = o.Split('|');
+                                <input id="@item.ControlId@index1" name="instances[@index].Value" type="checkbox" value="@ops.LastOrDefault()" @(selecteds != null && selecteds.Contains(ops.LastOrDefault()) ? "checked" : "" )> @ops.FirstOrDefault()
+                            }
+                            else
+                            {
+                                <input id="@item.ControlId@index1" name="instances[@index].Value" type="checkbox" value="@o" @(selecteds != null && selecteds.Contains(o) ? "checked" : "" ) /> @o
+                            }
+                        </label>
+                        index1++;
+                    }
+                </div>
+            }
+            break;
+    }
+}
+
+@helper GetPropertyAttributes(int index, ExtensionProperty property)
+{
+    <text>id="@property.ControlId" name="instances[@index].Value" @(string.IsNullOrEmpty(property.ControlStyle) ? string.Empty : "style=" + property.ControlStyle) @GetValidateRuleAttribute(property)</text>
+}
+
+@helper GetValidateRuleAttribute(ExtensionProperty property)
+{
+    @(string.IsNullOrWhiteSpace(property.ControlValidateRule) ? string.Empty : "validate-rule=" + property.ControlValidateRule)
+}

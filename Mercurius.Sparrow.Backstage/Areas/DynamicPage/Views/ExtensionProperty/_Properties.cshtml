@@ -9,10 +9,9 @@
             <td style="width: 60px;">分组</td>
             <td style="width: 50px;">排序号</td>
             <td style="width: 80px;">类型</td>
-            <td>css类</td>
+            <td>标签css类</td>
+            <td>容器css类</td>
             <td>验证类型</td>
-            <td>添加者</td>
-            <td>修改者</td>
         </tr>
     </thead>
     <tbody>
@@ -28,10 +27,9 @@
                     <td>@item.GroupName</td>
                     <td class="text-center">@item.Sort</td>
                     <td class="text-center">@ShowControlType(item.ControlType)</td>
-                    <td>@item.ControlCssClass</td>
+                    <td>@item.ControlLabelCssClass</td>
+                    <td>@item.ControlContainerCssClass</td>
                     <td>@item.ControlValidateRule</td>
-                    <td>@item.CreateUserName</td>
-                    <td>@item.ModifyUserName</td>
                 </tr>
             }
         }

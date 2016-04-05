@@ -126,6 +126,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
                            Name = c.Name,
                            Column = c.Name,
                            Visible = true,
+                           DataType = c.DataType,
                            ColumnLabel = c.Description,
                            PropertyName = c.PropertyName,
                            IsPrimaryKey = c.IsPrimaryKey,

@@ -181,7 +181,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             var model = this.UserService.GetUserById(WebHelper.GetLogOnUserId());
 
             this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
-            this.ViewBag.SystemMenus = this.PermissionService.GetSystemMenusWithAlloted(WebHelper.GetLogOnUserId());
 
             return this.View(model);
         }

@@ -92,12 +92,20 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         public virtual int? ControlMaxLength { get; set; }
 
         /// <summary>
-        /// 控件css类名。
+        /// 标签css类名。
         /// </summary>
-        [Display(Name = "控件css类名")]
-        [Column("ControlCssClass")]
-        [StringLength(2000, ErrorMessage = "控件css类名不能超过{1}个字符。")]
-        public virtual string ControlCssClass { get; set; }
+        [Display(Name = "标签css类名")]
+        [Column("ControlLabelCssClass")]
+        [StringLength(50, ErrorMessage = "标签css类名不能超过{1}个字符。")]
+        public virtual string ControlLabelCssClass { get; set; }
+
+        /// <summary>
+        /// 控件容器css类名。
+        /// </summary>
+        [Display(Name = "容器css类名")]
+        [Column("ControlContainerCssClass")]
+        [StringLength(50, ErrorMessage = "容器css类名不能超过{1}个字符。")]
+        public virtual string ControlContainerCssClass { get; set; }
 
         /// <summary>
         /// 控件样式。

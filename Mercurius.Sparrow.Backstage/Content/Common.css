@@ -734,6 +734,11 @@ input.search-image {
         font-weight: bold;
     }
 
+[validate-rule*=date],
+[validate-rule=time] {
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 991px) {
     .navbar-toggle {
         display: inline;

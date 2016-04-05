@@ -37,7 +37,7 @@
 
         @Html.RenderButtonScript("新增",@<text>
         function @(item.NavigateUrl)() {
-            mercurius.OpenDialog('@Url.Action("CreateOrUpdate")', 'ChooseUserContainer', '用户信息-添加', 700, 410);
+            mercurius.OpenDialog('@Url.Action("CreateOrUpdate")', 'ChooseUserContainer', '用户信息-添加', 700, 360);
         }
         </text>)
 
@@ -46,7 +46,7 @@
             var key = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(key)) {
-                mercurius.OpenDialog('@Url.Action("CreateOrUpdate")/?id=' + key, 'ChooseUserContainer', '用户信息-编辑', 700, 410);
+                mercurius.OpenDialog('@Url.Action("CreateOrUpdate")/?id=' + key, 'ChooseUserContainer', '用户信息-编辑', 700, 360);
             }
         }
         </text>)

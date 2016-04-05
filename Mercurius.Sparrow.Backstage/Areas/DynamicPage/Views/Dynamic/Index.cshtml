@@ -36,25 +36,7 @@
         @Scripts.Render("~/bundles/validate")
         <script type="text/javascript">
             $(document).ready(function () {
-                $('[validate-rule=date],[validate-rule=dateOrNull]').datetimepicker({
-                    format: 'L',
-                    showClear: true,
-                    showTodayButton: true,
-                    locale: moment.locale('zh-cn')
-                });
-                $('[validate-rule=dateTime],[validate-rule=dateTimeOrNull]').datetimepicker({
-                    format: 'YYYY-MM-DD HH:mm',
-                    showClear: true,
-                    showTodayButton: true,
-                    locale: moment.locale('zh-cn')
-                });
-                $('[validate-rule=time],[validate-rule=timeOrNull]').datetimepicker({
-                    format: 'HH:mm',
-                    showClear: true,
-                    showTodayButton: true,
-                    locale: moment.locale('zh-cn')
-                });
-
+                mercurius.DatePicker();
                 mercurius.ApplyTableStyle("@string.Format("#dt{0}", searchModel.Table.Name)");
             });
 
@@ -182,13 +164,7 @@
                 <form id="frmEdit" action="@Url.Action("CreateOrUpdate")" method="post" class="btn-group" style="display:inline;">
                     <input name="id" type="hidden" value="@string.Format("{0}.{1}", searchModel.Table.Schema,searchModel.Table.Name)" />
                     <input id="conditions" name="conditions" type="hidden" />
-                    @if (searchModel.Table.IsView)
-                    {
-                        <button type="button" class="btn btn-default" style="display:inline;" onclick="detail();">
-                            <i class="glyphicon glyphicon-list-alt"></i> 详情
-                        </button>
-                    }
-                    else
+                    @if (!searchModel.Table.IsView)
                     {
                         <a href="@Url.Action("CreateOrUpdate", new { @id = string.Format("{0}.{1}", searchModel.Table.Schema,searchModel.Table.Name)})" class="btn btn-default">
                             <i class="glyphicon glyphicon-plus"></i> 添加
@@ -199,10 +175,13 @@
                         <a class="btn btn-default" onclick="Delete();">
                             <i class="glyphicon glyphicon-remove"></i> 删除
                         </a>
-                        <button type="button" class="btn btn-default" style="display:inline;" onclick="detail();">
-                            <i class="glyphicon glyphicon-list-alt"></i> 详情
-                        </button>
                     }
+                    <button type="button" class="btn btn-default" style="display: inline;" onclick="detail();">
+                        <i class="glyphicon glyphicon-list-alt"></i> 详情
+                    </button>
+                    <a class="btn btn-default" href="@Url.Action("Index", "Configuration")">
+                        <i class="glyphicon glyphicon-chevron-left"></i> 返回
+                    </a>
                 </form>
             </div>
         </div>
@@ -249,9 +228,9 @@
                             }
                         </td>
                     </tr>
-                }
-            }
+                                    }
+                                }
         </tbody>
     </table>
     @Html.Paging(searchModel.TotalRecords, routeValues: routeValues)
-}
+                                }

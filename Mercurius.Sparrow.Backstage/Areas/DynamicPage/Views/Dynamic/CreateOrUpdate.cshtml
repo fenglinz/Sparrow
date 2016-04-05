@@ -1,39 +1,11 @@
-﻿@using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
-
-@model CreateOrUpdateModel
-
-@section Styles{
-    <style type="text/css">
-        [validate-rule*=date],
-        [validate-rule=time] {
-            cursor: pointer;
-        }
-    </style>
-}
+﻿@model Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic.CreateOrUpdateModel
 
 @section Scripts{
     @Scripts.Render("~/bundles/validate")
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('[validate-rule=date],[validate-rule=dateOrNull]').datetimepicker({
-                format: 'L',
-                showClear: true,
-                showTodayButton: true,
-                locale: moment.locale('zh-cn')
-            });
-            $('[validate-rule=dateTime],[validate-rule=dateTimeOrNull]').datetimepicker({
-                format: 'YYYY-MM-DD HH:mm',
-                showClear: true,
-                showTodayButton: true,
-                locale: moment.locale('zh-cn')
-            });
-            $('[validate-rule=time],[validate-rule=timeOrNull]').datetimepicker({
-                format: 'HH:mm',
-                showClear: true,
-                showTodayButton: true,
-                locale: moment.locale('zh-cn')
-            });
+            mercurius.DatePicker();
         });
 
         function OnSave() {
@@ -78,6 +50,19 @@
                         @if (string.IsNullOrWhiteSpace(item.DictionaryKey))
                         {
                             var validateAttribute = string.Empty;
+
+                            if (string.IsNullOrWhiteSpace(item.ValidateRule))
+                            {
+                                if (string.CompareOrdinal(item.DataType, "date")  == 0)
+                                {
+                                    item.ValidateRule = item.IsNullable ? "dateOrNull" : "date";
+                                }
+
+                                if (string.CompareOrdinal(item.DataType, "datetime") == 0)
+                                {
+                                    item.ValidateRule = item.IsNullable ? "dateTimeOrNull" : "dateTime";
+                                }
+                            }
 
                             if (string.IsNullOrWhiteSpace(item.ValidateRule) && !item.IsNullable)
                             {

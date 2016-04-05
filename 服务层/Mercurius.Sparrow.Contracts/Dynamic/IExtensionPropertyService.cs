@@ -26,7 +26,7 @@ namespace Mercurius.Sparrow.Contracts.Dynamic
         /// <param name="entityId">业务实体编号</param>
         /// <param name="instances">扩展属性实例信息</param>
         /// <returns>返回添加结果</returns>
-        Response CreateInstances(Guid entityId, IEnumerable<ExtensionPropertyInstance> instances);
+        Response CreateInstances(string entityId, IEnumerable<ExtensionPropertyInstance> instances);
 
         /// <summary>
         /// 根据主键删除扩展属性信息。

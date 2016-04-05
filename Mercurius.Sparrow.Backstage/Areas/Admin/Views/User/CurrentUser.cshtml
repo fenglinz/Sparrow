@@ -2,50 +2,23 @@
 
 @{
     var roles = this.ViewBag.Roles as ResponseCollection<Role>;
-    var systemMenus = this.ViewBag.SystemMenus as ResponseCollection<SystemMenu>;
 }
 
 @section Styles{
-    @Styles.Render("~/Content/treetable/css")
     <style type="text/css">
         .fa-2x {
             font-size: 1.5em;
-        }
-
-        label:not(:empty) {
-            font-weight: normal;
-            margin-right: 15px;
-            vertical-align: middle;
-            margin-bottom: 1px;
-        }
-
-        label > input[type=checkbox] {
-            margin-top: -2px;
-            margin-right: 2px;
-            position: relative;
-            vertical-align: middle;
         }
     </style>
 }
 
 @section Scripts
 {
-    @Scripts.Render("~/bundles/treetable")
     <script type="text/javascript">
-        //初始化
         $(function () {
-            $("#table4").treetable({
-                columns: 6,
-                expandable: true,
-                //collapsed 收缩 expanded展开的
-                initialState: "expanded"
-            });
-
-            mercurius.FixedTableHeader('#table3', 122, { triggerRowChecked: false });
-            mercurius.FixedTableHeader('#table4', 122, { triggerRowChecked: false });
+            mercurius.FixedTableHeader('#table1', 122, { triggerRowChecked: false });
         });
 
-        /**修改密码**/
         function OnChangePassword() {
             var url = '@Url.Action("ChangePassword")';
 
@@ -56,12 +29,11 @@
 <div class="header">@WebHelper.GetLogOnAccount() - 相关信息</div>
 <ul class="nav nav-tabs" role="tablist">
     <li class="active"><a href="#basic" role="tab" data-toggle="tab">基本信息</a></li>
-    <li><a href="#usefullRole" role="tab" data-toggle="tab">角色</a></li>
-    <li><a href="#usefullPermission" role="tab" data-toggle="tab">权限</a></li>
+    <li><a href="#more" role="tab" data-toggle="tab">更多信息</a></li>
 </ul>
 <div class="tab-content">
     <div id="basic" class="tab-pane active">
-        <div id="table1" class="form-horizontal form">
+        <div class="form-horizontal form">
             <div class="form-group form-group-sm">
                 <label class="col-sm-1 control-label">工号</label>
                 <div class="col-sm-4">
@@ -135,100 +107,7 @@
             </div>
         </div>
     </div>
-    <div id="usefullRole" class="tab-pane">
-        <table id="table3" class="grid">
-            <thead>
-                <tr>
-                    <th style="width: 50px; text-align: center;">序号</th>
-                    <th style="width: 150px;">角色名称</th>
-                    <th>角色描述</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (roles.HasData())
-                {
-                    var rowIndex = 1;
-                    foreach (var role in roles.Datas)
-                    {
-                        <tr>
-                            <td style="width: 50px; text-align: center;">@(rowIndex++)</td>
-                            <td style="width: 150px;">@role.Name</td>
-                            <td>@role.Remark</td>
-                        </tr>
-                    }
-                }
-                else if (roles.IsSuccess())
-                {
-                    <tr>
-                        <td colspan="3" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="3" class="text-danger">@roles.GetErrorMessage()</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <div id="usefullPermission" class="tab-pane">
-        <table id="table4" class="treetable">
-            <thead>
-                <tr>
-                    <td style="width: 250px; padding-left:15px;">URL权限 </td>
-                    <td style="width: 40px; text-align: center;">图标 </td>
-                    <td style="width: 40px; text-align: center;">
-                        <label class="check-all" title="全选"></label>
-                    </td>
-                    <td>操作按钮权限 </td>
-                </tr>
-            </thead>
-            <tbody>
-                @if (systemMenus.HasData())
-                {
-                    var menus = systemMenus.Datas.Where(s => s.Category != 3);
-                    var buttons = systemMenus.Datas.Where(s => s.Category == 3);
-
-                    foreach (var systemMenu in menus)
-                    {
-                        var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
-
-                        <tr id="@systemMenu.Id" data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
-                            <td style="width: 250px; padding-left: 20px;">
-                                <span class="folder"></span>@systemMenu.Name
-                            </td>
-                            <td style="width: 40px; text-align: center">
-                                <i class="@systemMenu.Image fa-2x"></i>
-                            </td>
-                            <td style="width: 40px; text-align: center">
-                                <input @(systemMenu.CanAccess ? "checked" : string.Empty) disabled="disabled" type="checkbox" />
-                            </td>
-                            <td>
-                                @foreach (var btn in btns)
-                                {
-                                    <label style="padding-right: 15px; vertical-align: middle;">
-                                        <input @(btn.CanAccess ? "checked" : string.Empty) disabled="disabled" type="checkbox" />
-                                        @btn.Name
-                                    </label>
-                                }
-                            </td>
-                        </tr>
-                    }
-                }
-                else if (systemMenus.IsSuccess())
-                {
-                    <tr>
-                        <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="4" class="text-danger">@systemMenus.GetErrorMessage()</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div id="more" class="tab-pane">
+        @Dynamic.RenderProperties(WebHelper.GetLogOnUserId(), "个人信息")
     </div>
 </div>

@@ -76,7 +76,7 @@
         <li><a href="#table2" role="tab" data-toggle="tab">所属部门</a></li>
         <li><a href="#table3" role="tab" data-toggle="tab">所属角色</a></li>
     </ul>
-    <div class="tab-content" style="height: 330px;">
+    <div class="tab-content">
         @*基本信息*@
         <div id="table1" class="tab-pane active">
             <div class="form-group form-group-sm">
@@ -159,7 +159,7 @@
         @*所属部门*@
         <div id="table2" class="tab-pane">
             <div class="header">组织机构</div>
-            <div style="height: 300px; overflow-y: auto;">
+            <div style="height: 250px; overflow-y: auto;">
                 <ul id="departmentContainer" class="filetree">
                     @{
                         var departmentParents = departments.Datas.Where(o => o.ParentId == "0");
@@ -182,7 +182,7 @@
         @*所属角色*@
         <div id="table3" class="tab-pane">
             <div class="header">所属角色</div>
-            <div style="height: 300px; overflow-y: auto;">
+            <div style="height: 250px; overflow-y: auto;">
                 <ul id="roleContainer" class="filetree">
                     @{
                         var roleParents = roles.Datas.Where(r => r.ParentId == "0");

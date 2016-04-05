@@ -49,7 +49,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// <param name="entityId">业务实体编号</param>
         /// <param name="instances">扩展属性实例信息</param>
         /// <returns>返回添加结果</returns>
-        public Response CreateInstances(Guid entityId, IEnumerable<ExtensionPropertyInstance> instances)
+        public Response CreateInstances(string entityId, IEnumerable<ExtensionPropertyInstance> instances)
         {
             var args = new { EntityId = entityId, Instances = instances };
 

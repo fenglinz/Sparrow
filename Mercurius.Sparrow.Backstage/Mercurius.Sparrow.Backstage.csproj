@@ -470,10 +470,10 @@
     <Content Include="Areas\WebApi\Views\Route\CreateOrUpdate.cshtml" />
     <Content Include="Areas\WebApi\Views\Route\Index.cshtml" />
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\CreateOrUpdate.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\ExtensionProperty\_RenderProperties.cshtml" />
     <Content Include="Areas\Admin\Views\Role\AllotMembers.cshtml" />
     <Content Include="Areas\Admin\Views\Role\_UnAllotUsers.cshtml" />
     <Content Include="Areas\Admin\Views\Role\_Members.cshtml" />
+    <Content Include="App_Code\Dynamic.cshtml" />
     <None Include="Areas\Admin\Views\SystemSetting\ShowCaches.cshtml" />
     <Content Include="Areas\Admin\Views\User\AllotPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\User\ViewPermissions.cshtml" />
@@ -551,7 +551,6 @@
     <Content Include="Scripts\jquery.inputlimiter.1.3.1.min.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.md5.js" />
-    <Content Include="Scripts\jquery.pullbox.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\jquery.treeview.js" />

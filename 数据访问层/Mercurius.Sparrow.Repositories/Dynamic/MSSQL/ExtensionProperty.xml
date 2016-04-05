@@ -21,7 +21,8 @@
             [Placeholder]=#Placeholder#,
             [ControlDataSource]=#ControlDataSource#,
             [ControlMaxLength]=#ControlMaxLength#,
-            [ControlCssClass]=#ControlCssClass#,
+            [ControlLabelCssClass]=#ControlLabelCssClass#,
+            [ControlContainerCssClass]=#ControlContainerCssClass#,
             [ControlStyle]=#ControlStyle#,
             [ControlValidateRule]=#ControlValidateRule#,
             [Sort]=#Sort#,
@@ -41,7 +42,8 @@
             [Placeholder],
             [ControlDataSource],
             [ControlMaxLength],
-            [ControlCssClass],
+            [ControlLabelCssClass],
+            [ControlContainerCssClass],
             [ControlStyle],
             [ControlValidateRule],
             [Sort],
@@ -60,7 +62,8 @@
             #Placeholder#,
             #ControlDataSource#,
             #ControlMaxLength#,
-            #ControlCssClass#,
+            #ControlLabelCssClass#,
+            #ControlContainerCssClass#,
             #ControlStyle#,
             #ControlValidateRule#,
             #Sort#,
@@ -73,7 +76,8 @@
     <!-- 删除扩展属性信息。 -->
     <delete id="Remove" parameterClass="Guid">
       <![CDATA[
-        DELETE FROM [Dynamic].[ExtensionProperty] WHERE [Id]=#value#
+        DELETE FROM [Dynamic].[ExtensionProperty] WHERE [Id]=#value#;
+        DELETE FROM [Dynamic].[ExtensionPropertyInstance] WHERE [ExtensionPropertyId]=#value#;
       ]]>
     </delete>
 
@@ -108,7 +112,8 @@
           a.[Placeholder] AS Placeholder,
           a.[ControlDataSource] AS ControlDataSource,
           a.[ControlMaxLength] AS ControlMaxLength,
-          a.[ControlCssClass] AS ControlCssClass,
+          a.[ControlLabelCssClass] AS ControlLabelCssClass,
+          a.[ControlContainerCssClass] AS ControlContainerCssClass,
           a.[ControlStyle] AS ControlStyle,
           a.[ControlValidateRule] AS ControlValidateRule,
           a.[Sort] AS Sort,
@@ -140,7 +145,8 @@
           a.[Placeholder] AS Placeholder,
           a.[ControlDataSource] AS ControlDataSource,
           a.[ControlMaxLength] AS ControlMaxLength,
-          a.[ControlCssClass] AS ControlCssClass,
+          a.[ControlLabelCssClass] AS ControlLabelCssClass,
+          a.[ControlContainerCssClass] AS ControlContainerCssClass,
           a.[ControlStyle] AS ControlStyle,
           a.[ControlValidateRule] AS ControlValidateRule,
           a.[Sort] AS Sort,
@@ -168,7 +174,8 @@
             a.[Placeholder] AS Placeholder,
             a.[ControlDataSource] AS ControlDataSource,
             a.[ControlMaxLength] AS ControlMaxLength,
-            a.[ControlCssClass] AS ControlCssClass,
+            a.[ControlLabelCssClass] AS ControlLabelCssClass,
+            a.[ControlContainerCssClass] AS ControlContainerCssClass,
             a.[ControlStyle] AS ControlStyle,
             a.[ControlValidateRule] AS ControlValidateRule,
             a.[Sort] AS Sort,

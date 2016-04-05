@@ -40,11 +40,11 @@
                 $('#Category').val('@(this.ViewBag.Category)');
             }
 
-            $('#Category').blur(function() {
+            $('#Category').blur(function () {
                 InitGroupNames();
             });
 
-            $('#Name').on('input propertychange',function() {
+            $('#Name').on('input propertychange', function () {
                 $('#Placeholder').val($(this).val());
             });
 
@@ -175,8 +175,17 @@
                 <option value="4" @((Model != null && Model.ControlType == 4) ? "selected" : "")>4-复选框</option>
             </select>
         </div>
-        @Html.LabelFor(m => m.Placeholder, new { @class = "col-sm-2 control-label" })
+        @Html.LabelFor(m => m.ControlMaxLength, new { @class = "col-sm-2 control-label" })
         <div class="col-sm-3">
+            <div class="input-group">
+                @Html.TextBoxFor(m => m.ControlMaxLength, new { @class = "form-control", @validate_rule = "intOrNull" })
+                <span class="input-group-addon">字符</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Placeholder, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
             @Html.TextBoxFor(m => m.Placeholder, new { @class = "form-control" })
         </div>
     </div>
@@ -191,19 +200,29 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.ControlDataSource, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-9">
-            @Html.TextAreaFor(m => m.ControlDataSource, new { @class = "form-control", @rows = 3, @placeholder = "多个选项以;分隔(如果需要文本和值不一样，则用\"文本|值\"的形式)。" })
+        @Html.LabelFor(m => m.ControlLabelCssClass, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-4">
+            <select name="ControlLabelCssClass" class="form-control">
+                @for (var i = 1; i <= 6; i++)
+                {
+                    <option value="col-sm-@i" data-tag="@i" @((Model != null && Model.ControlLabelCssClass == "col-sm-" + i) ? "selected" : "")>col-sm-@i</option>
+                }
+            </select>
+        </div>
+        @Html.LabelFor(m => m.ControlContainerCssClass, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-3">
+            <select name="ControlContainerCssClass" class="form-control">
+                @for (var i = 2; i <= 11; i++)
+                {
+                    <option value="col-sm-@i" data-tag="@i" @((Model != null && Model.ControlContainerCssClass == "col-sm-" + i) ? "selected" : "")>col-sm-@i</option>
+                }
+            </select>
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.ControlMaxLength, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-3">
-            @Html.TextBoxFor(m => m.ControlMaxLength, new { @class = "form-control", @validate_rule = "intOrNull" })
-        </div>
-        @Html.LabelFor(m => m.ControlCssClass, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-4">
-            @Html.TextBoxFor(m => m.ControlCssClass, new { @class = "form-control" })
+        @Html.LabelFor(m => m.ControlDataSource, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.ControlDataSource, new { @class = "form-control", @rows = 3, @placeholder = "多个选项以;分隔(如果需要文本和值不一样，则用\"文本|值\"的形式)。" })
         </div>
     </div>
     <div class="form-group">
@@ -212,7 +231,6 @@
             @Html.TextAreaFor(m => m.ControlStyle, new { @class = "form-control", @rows = 3 })
         </div>
     </div>
-
     if (Model != null)
     {
         <div class="form-group">

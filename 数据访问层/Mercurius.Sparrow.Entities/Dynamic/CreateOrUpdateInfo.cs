@@ -32,6 +32,11 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         public string Column { get; set; }
 
         /// <summary>
+        /// 字段类型。
+        /// </summary>
+        public string DataType { get; set; }
+
+        /// <summary>
         /// 列标签。
         /// </summary>
         public string ColumnLabel { get; set; }

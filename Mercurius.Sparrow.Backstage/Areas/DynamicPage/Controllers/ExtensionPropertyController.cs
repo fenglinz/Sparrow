@@ -84,18 +84,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
             return Json(rsp);
         }
 
-        public ActionResult RenderProperties(string id)
-        {
-            var rsp = this.ExtensionPropertyService.GetExtensionProperties(id);
-
-            this.ViewBag.Category = id;
-            this.ViewBag.GroupNames = this.ExtensionPropertyService.GetGroupNames(id).Datas;
-
-            return PartialView("_RenderProperties", rsp);
-        }
-
         [HttpPost]
-        public ActionResult SaveProperties(Guid id, ExtensionPropertyInstance[] instances)
+        public ActionResult SaveProperties(string id, ExtensionPropertyInstance[] instances)
         {
             if (instances.IsEmpty())
             {
