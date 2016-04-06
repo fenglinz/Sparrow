@@ -2027,7 +2027,7 @@
         showCaption: true,
         showPreview: true,
         showRemove: true,
-        showUpload: true,
+        showUpload: false,
         showCancel: true,
         mainClass: '',
         previewClass: '',

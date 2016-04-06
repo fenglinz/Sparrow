@@ -1,4 +1,11 @@
 ﻿(function () {
+    function BeginLoading() {
+        top.$("#loading").show();
+    }
+
+    function EndLoading() {
+        top.$("#loading").hide();
+    }
 
     // 短暂提示
     // msg: 显示消息
@@ -40,18 +47,21 @@
 
     /* 请求Ajax 带返回值，并弹出提示框提醒
     --------------------------------------------------*/
-    function AjaxHelper(url, datas, callBack) {
+    function Ajax(url, datas, callBack) {
+        BeginLoading();
         $.ajax({
             type: 'POST',
-            dataType: "JSON",
             url: url,
             data: datas,
+            dataType: "JSON",
             cache: false,
-            async: false,
+            async: true,
             success: function (msg) {
+                EndLoading();
                 callBack(msg);
             },
             error: function (xhr, e) {
+                EndLoading();
                 ShowWarningMessage(xhr.responseText);
             }
         });
@@ -138,21 +148,22 @@
 
         if (id == undefined || id == "") {
             isOk = false;
-            ShowWarningMessage("未选中任何一行");
+            ShowWarningMessage("未选中任何一行！");
         } else if (id.split(",").length > 1) {
             isOk = false;
-            ShowWarningMessage("一次只能选择一条记录");
+            ShowWarningMessage("一次只能选择一条记录！");
         }
 
         return isOk;
     }
 
-    function HasAnyRowSelected(id) {
+    function HasAnyRowSelected(id, msg) {
         var isOk = true;
 
         if (id == undefined || id == "") {
             isOk = false;
-            ShowWarningMessage("未选中任何一行");
+            msg = msg || '未选中任何一行！';
+            ShowWarningMessage(msg);
         }
 
         return isOk;
@@ -541,12 +552,8 @@
                 locale: moment.locale('zh-cn')
             });
         },
-        BeginLoading: function () {
-            top.$("#loading").show();
-        },
-        EndLoading: function () {
-            top.$("#loading").hide();
-        },
+        BeginLoading: BeginLoading,
+        EndLoading: EndLoading,
         OnWaitProcess: function (callback) {
             mercurius.BeginLoading();
 
@@ -558,14 +565,6 @@
             return mercurius.OnWaitProcess(function () {
                 mercurius.BeginLoading();
                 window.location.reload();
-
-                return false;
-            });
-        },
-        GoHomePage: function () {
-            return mercurius.OnWaitProcess(function () {
-                $('#nav_1').addClass('selected');
-                mercurius.OnSidebarItemClick(mercurius.BaseUrl + '/Home/Index', '首页', 'Iframe');
 
                 return false;
             });
@@ -596,38 +595,23 @@
         HasSingleRowSelected: HasSingleRowSelected,
         HasAnyRowSelected: HasAnyRowSelected,
         IsNullOrEmpty: IsNullOrEmpty,
-        OnRemoveToRecycbin: function (param) {
-            ShowConfirmMessage('注：您确认要把此数据放入回收站吗？', function (r) {
-                AjaxHelper(mercurius.BaseUrl + '/Admin/Recyclebin/RemoveToRecyclebin', param, function (rs) {
+        RemoveData: function (url, parm) {
+            ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function (r) {
+                Ajax(url, parm, function (rs) {
                     if (rs.IsSuccess) {
                         ShowTipsMessage("删除成功！", 2000, 4);
                         mercurius.Reloading();
                     }
                     else {
-                        ShowTipsMessage("<span style='color:red'>删除失败！  失败原因：" + rs.Data + "</span>", 4000, 5);
+                        ShowTipsMessage("<span style='color:red'>删除失败，请稍后重试！  失败原因：" + rs.ErrorMessage + "</span>", 4000, 5);
                     }
                 });
-            });
-        },
-        RemoveData: function (url, parm) {
-            ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function (r) {
-                if (r) {
-                    AjaxHelper(url, parm, function (rs) {
-                        if (rs.IsSuccess) {
-                            ShowTipsMessage("删除成功！", 2000, 4);
-                            mercurius.Reloading();
-                        }
-                        else {
-                            ShowTipsMessage("<span style='color:red'>删除失败，请稍后重试！  失败原因：" + rs.Data + "</span>", 4000, 5);
-                        }
-                    });
-                }
             });
         },
         OnRefresh: function (url, parm) {
             ShowConfirmMessage("确定要刷新数据吗，此前的数据将被清空？", function (r) {
                 if (r) {
-                    AjaxHelper(url, parm, function (rs) {
+                    Ajax(url, parm, function (rs) {
                         if (rs.IsSuccess) {
                             ShowTipsMessage("刷新成功！", 2000, 4);
                             mercurius.Reloading();
@@ -639,7 +623,7 @@
                 }
             });
         },
-        Ajax: AjaxHelper,
+        Ajax: Ajax,
         IsDataChanged: IsDataChanged,
         GetQueryString: GetQueryString,
         SetNumberInputOnly: SetNumberInputOnly,
@@ -660,8 +644,33 @@
                 $(this).attr('data-placement', 'bottom');
                 $(this).text(text.length > maxLength ? text.substr(0, maxLength) + '...' : text);
             }).tooltip();
+        },
+        DatePicker: function () {
+            $('.date,[validate-rule=date],[validate-rule=dateOrNull]').datetimepicker({
+                format: 'L',
+                showClear: true,
+                showTodayButton: true,
+                locale: moment.locale('zh-cn')
+            });
+            $('.datetime,[validate-rule=dateTime],[validate-rule=dateTimeOrNull]').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+                showClear: true,
+                showTodayButton: true,
+                locale: moment.locale('zh-cn')
+            });
+            $('.time,[validate-rule=time],[validate-rule=timeOrNull]').datetimepicker({
+                format: 'HH:mm',
+                showClear: true,
+                showTodayButton: true,
+                locale: moment.locale('zh-cn')
+            });
         }
     };
+
+    layer.config({
+        skin: 'layer-ext-moon',
+        extend: mercurius.BaseUrl + 'skin/moon/style.css'
+    });
 
     window.mercurius = mercurius;
     window.alert = mercurius.ShowWarningMessage;

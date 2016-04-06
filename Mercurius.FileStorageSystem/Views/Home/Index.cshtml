@@ -2,7 +2,6 @@
 
 @section Styles
 {
-    @Styles.Render("~/DatetimePicker/css")
     <style type="text/css">
         .form-inline > .form-group:not(:first-child) {
             margin-left: 25px;
@@ -12,25 +11,12 @@
 
 @section Scripts
 {
-    @Scripts.Render("~/bundles/ajax", "~/bundles/layer", "~/bundles/datetimepicker")
-    <script type="text/javascript" src="~/Scripts/mercurius.common.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            layer.config({
-                skin:'layer-ext-moon',
-                extend: '@Url.Content("skin/moon/style.css")'
-            });
-
-            $('.date').datetimepicker({
-                useCurrent: false,
-                showClear: true,
-                format: 'L',
-                showTodayButton: true,
-                locale: moment.locale('zh-cn')
-            });
+            mercurius.DatePicker();
 
             $("[data-toggle='tooltip']").tooltip({
-                container: 'body'
+                container: 'html'
             });
 
             mercurius.FixedTableHeader('#uploadFiles', 275);

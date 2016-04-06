@@ -14,46 +14,55 @@ namespace Mercurius.FileStorageSystem
         /// <param name="bundles">压缩集合</param>
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/logon").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/respond.js",
+                "~/Scripts/Dialog/dialog.js",
+                "~/Scripts/layer.js",
+                "~/Scripts/mercurius.common.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
-
-            bundles.Add(new ScriptBundle("~/bundles/ajax").Include(
-                "~/Scripts/jquery.unobtrusive-ajax.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
-
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
+            bundles.Add(new ScriptBundle("~/bundles/main").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/respond.js",
+                "~/Scripts/jquery.validate*",
+                "~/Scripts/jquery.unobtrusive-ajax.js",
                 "~/Scripts/moment-with-locales.js",
                 "~/Scripts/bootstrap-datetimepicker.js",
-                "~/Scripts/locales/bootstrap-datepicker.zh-CN.js"));
+                "~/Scripts/locales/bootstrap-datepicker.zh-CN.js",
+                "~/Scripts/Dialog/dialog.js",
+                "~/Scripts/layer.js",
+                "~/Scripts/mercurius.common.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/layer").Include(
-                "~/Scripts/Layer/layer.js"));
+            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
+                "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileinput").Include(
-                "~/Scripts/fileinput.js",
-                "~/Scripts/fileinput_locale_zh.js"));
+                "~/Scripts/bootstrap-fileinput/fileinput.js",
+                "~/Scripts/bootstrap-fileinput/fileinput_locale_zh.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                "~/Content/bootstrap.css",
+                "~/Content/ui-dialog.css",
+                "~/Content/bootstrap-datetimepicker.css",
+                "~/Content/layer.css",
+                "~/Content/layer.moon.css",
+                "~/Content/Common.css"));
 
             // 登录页面的CSS
-            bundles.Add(new StyleBundle("~/Content/logon/css").Include("~/Content/LogOn/LogOn.css"));
-
-            bundles.Add(new StyleBundle("~/DatetimePicker/css").Include(
-                "~/Content/bootstrap-datetimepicker.css"));
+            bundles.Add(new StyleBundle("~/Content/logon/css").Include(
+                "~/Content/bootstrap.css",
+                "~/Content/ui-dialog.css",
+                "~/Content/layer.css",
+                "~/Content/layer.moon.css",
+                "~/Content/Common.css",
+                "~/Content/LogOn.css"));
 
             bundles.Add(new StyleBundle("~/fileinput/css").Include(
                 "~/Content/bootstrap-fileinput/css/fileinput.css"));
+
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

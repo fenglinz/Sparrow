@@ -34,6 +34,15 @@ body {
     padding: 10px 15px;
 }
 
+#loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #ccc;
+    -ms-opacity: 0.6;
+    opacity: 0.6;
+}
+
 label[for],
 label:not(:empty) {
     cursor: pointer;
@@ -676,6 +685,57 @@ input.search-image {
 
 /** TreeView样式 */
 .treeview li {
+    cursor: pointer;
+}
+
+.shortcuticons {
+    float: left;
+    border: solid 1px #ccc;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    width: 85px;
+    height: 68px;
+    margin: 0 3px 0 0;
+    padding: 10px 0;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    -ms-word-break: keep-all;
+    -moz-word-break: keep-all;
+    -o-word-break: keep-all;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -moz-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+    .shortcuticons > i {
+        display: block;
+    }
+
+    .shortcuticons:hover {
+        color: #FFF;
+        -ms-border-radius: 5px;
+        border-radius: 5px;
+        background-image: -webkit-linear-gradient(top, #428bca 0, #2d6ca2 100%);
+        background-image: -o-linear-gradient(top, #428bca 0, #2d6ca2 100%);
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#428bca), to(#2d6ca2));
+        background-image: linear-gradient(to bottom, #428bca 0, #2d6ca2 100%);
+        -webkit-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
+        -moz-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
+        -o-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+        background-repeat: repeat-x;
+        border-color: #2b669a;
+        font-weight: bold;
+    }
+
+[validate-rule*=date],
+[validate-rule=time] {
     cursor: pointer;
 }
 
