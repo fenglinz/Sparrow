@@ -3,6 +3,11 @@
 @section Styles
 {
     @Styles.Render("~/fileinput/css")
+    <style type="text/css">
+        .file-preview-frame {
+            min-width: 160px;
+        }
+    </style>
 }
 
 @section Scripts
@@ -10,7 +15,23 @@
     @Scripts.Render("~/bundles/fileinput")
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#file').fileinput();
+            @if (Model== null || string.IsNullOrWhiteSpace(Model.SaveAsPath))
+            {
+                <text>
+                $('#file').fileinput();
+                </text>
+           }
+           else
+           {
+            <text>
+            $('#file').fileinput({
+                initialCaption:'@Model.FileName',
+                initialPreview: [
+                    '@Html.Raw(Model.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase)? string.Format("<img src=\"{0}\" class=\"file-preview-image\" alt=\"{1}\" />", Url.Content(Model.SaveAsPath), Model.FileName) : "<div class=\"file-preview-other\"><span class=\"file-icon-4x\"><i class=\"glyphicon glyphicon-file\"></i></span></div>" + Model.FileName)'
+                ]
+            });
+            </text>
+           }
         });
     </script>
 }
@@ -26,15 +47,6 @@
             <input type="file" id="file" name="file" class="form-control" />
         </div>
     </div>
-    if (Model != null)
-    {
-        <div class="form-group">
-            <label class="col-sm-offset-1 col-sm-2">&nbsp;</label>
-            <div class="col-sm-6">
-                <a href="@Url.Content(Model.SaveAsPath)" target="_blank">@Model.FileName</a>
-            </div>
-        </div>
-    }
     <div class="form-group">
         <label class="col-sm-offset-1 col-sm-2 control-label" for="Description">描述</label>
         <div class="col-sm-6">

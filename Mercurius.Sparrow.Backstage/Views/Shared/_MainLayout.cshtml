@@ -118,10 +118,15 @@
     $(document).ready(function () {
         window.dialog = dialog;
 
-        $('#loading').css({
-            'padding-left': ($(window).width() - 280) / 2,
-            'padding-top': ($(window).height() - 135) / 2
-        });
+        var relocation = function () {
+            $('#loading').css({
+                'padding-left': ($(window).width() - 280) / 2,
+                'padding-top': ($(window).height() - 135) / 2
+            });
+        };
+
+        relocation();
+        $(window).resize(relocation);
 
         $('#menu-toggler').click(function () {
             if ($(this).hasClass('display')) {
