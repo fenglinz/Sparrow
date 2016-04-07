@@ -39,7 +39,6 @@
         IF EXISTS(SELECT * FROM RBAC.[User] WHERE Id=#Id#)
           UPDATE RBAC.[User]
           SET
-            Code=#Code#,
             Account=#Account#,
             Password=#Password#,
             Name=#Name#,
@@ -70,8 +69,8 @@
           )
           VALUES
           (
-            NEWID(),
-            #Code#,
+            #Id#,
+            RBAC.GetNewEmployeeCode(#DepartmentId#),
             #Account#,
             #Password#,
             #Name#,
@@ -270,7 +269,7 @@
         pg as(
 					SELECT
 						CTE.*,
-						ROW_NUMBER() OVER(ORDER BY cte.CreateDateTime ASC) AS RowIndex
+						ROW_NUMBER() OVER(ORDER BY cte.Code ASC) AS RowIndex
 					FROM CTE
         )
         SELECT * FROM pg

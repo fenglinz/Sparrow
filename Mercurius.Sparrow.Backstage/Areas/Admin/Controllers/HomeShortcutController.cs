@@ -54,7 +54,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             var rsp = this.UserService.CreateOrUpdateHomeShortcut(homeShortcut);
 
-            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("保存失败，失败原因：" + rsp.ErrorMessage);
+            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
         }
 
         [HttpPost]

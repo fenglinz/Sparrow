@@ -104,7 +104,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             var rsp = this.RoleService.CreateOrUpdate(role);
 
-            return rsp.IsSuccess ? this.CloseDialogWithAlert("执行成功！") : this.Alert("执行失败，失败原因：" + rsp.ErrorMessage);
+            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
         }
 
         #endregion

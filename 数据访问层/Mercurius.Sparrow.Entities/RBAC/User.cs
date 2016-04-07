@@ -114,7 +114,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
         #region 导航属性
 
         /// <summary>
-        /// 获取性别名称。
+        /// 性别名称。
         /// </summary>
         public virtual string SexName => this.Sex == 0 ? "女" : this.Sex == 1 ? "男" : "未知";
 
@@ -124,7 +124,12 @@ namespace Mercurius.Sparrow.Entities.RBAC
         public virtual string ReporterName { get; set; }
 
         /// <summary>
-        /// 
+        /// 所属部门编号。
+        /// </summary>
+        public virtual string DepartmentId { get; set; }
+
+        /// <summary>
+        /// 所属部门名称。
         /// </summary>
         public virtual string DepartmentNames { get; set; }
 
@@ -137,11 +142,6 @@ namespace Mercurius.Sparrow.Entities.RBAC
         /// 所属角色。
         /// </summary>
         public virtual IList<string> Roles { get; set; }
-
-        /// <summary>
-        /// 所属工作组。
-        /// </summary>
-        public virtual IList<string> UserGroups { get; set; }
 
         #endregion
     }

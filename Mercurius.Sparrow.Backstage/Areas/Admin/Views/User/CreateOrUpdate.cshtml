@@ -82,7 +82,7 @@
             <div class="form-group form-group-sm">
                 <label class="col-sm-2 control-label" for="User_Code">工号</label>
                 <div class="col-sm-3">
-                    @Html.TextBoxFor(m => m.User.Code, new { @class = "form-control", @validate_field = "工号", @validate_rule = "notNull" })
+                    @Html.TextBoxFor(m => m.User.Code, new { @class = "form-control", @readonly="readonly" })
                 </div>
                 <label class="col-sm-2 control-label" for="User_Name">姓名</label>
                 <div class="col-sm-4">
@@ -102,16 +102,12 @@
             <div class="form-group form-group-sm">
                 <label class="col-sm-2 control-label" for="User_Sex">性别</label>
                 <div class="col-sm-3">
-                    @Html.DropDownListFor(m => m.User.Sex,
-                    new SelectListItem[]
-                    {
-                        new SelectListItem { Text="1 - 男", Value="1", Selected= (Model!=null && Model.User!=null && Model.User.Sex == 1) },
-                        new SelectListItem { Text="0 - 女", Value="0", Selected=(Model!=null && Model.User!=null&& Model.User.Sex == 0) }
-                    },
-                    new
-                    {
-                        @class = "form-control"
-                    })
+                    <label class="radio-inline">
+                        <input name="User.Sex" type="radio" value="1" @(Model!=null && Model.User!=null&&Model.User.Sex==1?"checked":"")/> 男
+                    </label>
+                    <label class="radio-inline">
+                        <input name="User.Sex" type="radio" value="0" @(Model!=null && Model.User!=null&&Model.User.Sex==0?"checked":"")/> 女
+                    </label>
                 </div>
                 <label class="col-sm-2 control-label" for="User_Email">电子邮件</label>
                 <div class="col-sm-4">

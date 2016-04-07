@@ -34,6 +34,8 @@ namespace Mercurius.Sparrow.Services.RBAC
                 {
                     using (this.Persistence.BeginTransaction())
                     {
+                        user.DepartmentId = departments.FirstOrDefault();
+
                         this.Persistence.Update(UserNamespace, "CreateOrUpdate", user);
                         this.Persistence.Create(UserNamespace, "AddToOrganizations", new
                         {

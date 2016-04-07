@@ -123,14 +123,18 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         public ActionResult CreateOrUpdate(CreateOrUpdateVM vm)
         {
             vm.User.Initialize();
-            vm.User.Password = vm.User.Password == PasswordReplaceString ?
-                this.Request.Form["RealPassword"] : vm.User.Password.Encrypt();
+
+            if (string.IsNullOrWhiteSpace(vm.User.Id))
+            {
+                vm.User.Id = Guid.NewGuid().ToString();
+            }
+
+            vm.CheckValues = this.Request.Params["CheckValues"].Split(',').ToList();
+            vm.User.Password = vm.User.Password == PasswordReplaceString ? this.Request.Form["RealPassword"] : vm.User.Password.Encrypt();
 
             var rsp = this.UserService.CreateOrUpdate(vm.User, vm.Departments, vm.Roles);
 
-            return rsp.IsSuccess ?
-                this.CloseDialogWithAlert("保存成功！") :
-                this.Alert($"发生错误，错误原因：{rsp.ErrorMessage}", AlertType.Error);
+            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert($"发生错误，错误原因：{rsp.ErrorMessage}", AlertType.Error);
         }
 
         /// <summary>
