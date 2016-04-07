@@ -8,14 +8,14 @@
     @Scripts.Render("~/bundles/modernizr")
 }
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
+<div class="navbar navbar-default navbar-inverse navbar-fixed-top">
+    <div class="container-fluid" style="margin-left: 15px;">
         <div class="navbar-header">
             <a href="@Url.Action("Index", "Home")" class="navbar-brand"><i class="glyphicon glyphicon-home"></i> 文件管理系统</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="@Url.Action("Upload", "Home")"><i class="glyphicon glyphicon-cloud"></i> 上传文件</a></li>
+                <li><a href="@Url.Action("Upload", "Home")" style="padding-top: 17px;"><i class="glyphicon glyphicon-cloud" style="top: 2px;"></i> 上传文件</a></li>
             </ul>
             @Html.Partial("_LoginPartial")
         </div>
