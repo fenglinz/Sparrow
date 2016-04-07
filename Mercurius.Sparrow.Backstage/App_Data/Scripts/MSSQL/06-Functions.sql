@@ -1,4 +1,4 @@
-﻿IF EXISTS(SELECT * FROM sys.objects WHERE type='TF' and name='Split')
+﻿IF EXISTS(SELECT * FROM sys.objects WHERE type='TF' AND name='Split')
 BEGIN
 	DROP FUNCTION split;
 END
@@ -41,4 +41,48 @@ BEGIN
 	IF (LEN(RTRIM(LTRIM(@tempString)))>0)
 		INSERT INTO @array(Item) VALUES(@tagString);
 	RETURN
+END
+GO
+IF EXISTS(
+  SELECT * FROM sys.objects a
+  INNER JOIN sys.schemas b ON a.schema_id=b.schema_id
+  WHERE a.type='FN' AND b.name='RBAC' and a.name='GetNewEmployeeCode'
+)
+BEGIN
+	DROP FUNCTION RBAC.GetNewEmployeeCode;
+END
+GO
+-- =============================================
+-- Author:	    张枫林
+-- Create date: 2016-4-7
+-- Description:	获取新工号
+-- =============================================
+ALTER FUNCTION [RBAC].[GetNewEmployeeCode] 
+(
+	@organizationId NVARCHAR(36)
+)
+RETURNS NVARCHAR(20)
+AS
+BEGIN
+	DECLARE @returnValue NVARCHAR(20);
+
+	DECLARE @organizationCode NVARCHAR(10);
+	SELECT @organizationCode=Code FROM RBAC.Organization WHERE Id=@organizationId
+	
+	IF @organizationCode IS NOT NULL
+	BEGIN
+		DECLARE @maxCode INT;
+		SELECT
+		  @maxCode = MAX(CAST(b.Code AS INT)) 
+		FROM RBAC.StaffOrganize a 
+		INNER JOIN RBAC.[User] b ON a.UserId=b.Id
+		WHERE OrganizationId=@organizationId;
+		 
+		IF @maxCode IS NULL
+		  SET @returnValue = @organizationCode+'1';
+		ELSE 
+		  SET @returnValue = @maxCode+1;
+	END
+	
+	RETURN @returnValue;
 END
