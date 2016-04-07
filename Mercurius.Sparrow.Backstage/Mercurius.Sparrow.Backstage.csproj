@@ -337,7 +337,9 @@
     <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\loading1.gif" />
     <Content Include="Content\Images\validatebox_warning.png" />
-    <Content Include="Content\LogOn\LogOn.css" />
+    <Content Include="Content\layer.css" />
+    <Content Include="Content\layer.moon.css" />
+    <Content Include="Content\LogOn.css" />
     <Content Include="Content\MessageBox\gb_tip_layer.png" />
     <Content Include="Content\MessageBox\msgbox.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -578,6 +580,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\layer.js" />
     <Content Include="Scripts\Main.js" />
     <Content Include="Scripts\MessageBox\msgbox.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />

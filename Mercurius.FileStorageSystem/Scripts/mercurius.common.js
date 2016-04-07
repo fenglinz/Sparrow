@@ -667,11 +667,6 @@
         }
     };
 
-    layer.config({
-        skin: 'layer-ext-moon',
-        extend: mercurius.BaseUrl + 'skin/moon/style.css'
-    });
-
     window.mercurius = mercurius;
     window.alert = mercurius.ShowWarningMessage;
     window.confirm = mercurius.ShowConfirmMessage;

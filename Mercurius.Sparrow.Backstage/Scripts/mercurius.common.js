@@ -654,19 +654,19 @@
             }).tooltip();
         },
         DatePicker:function() {
-            $('[validate-rule=date],[validate-rule=dateOrNull]').datetimepicker({
+            $('.date,[validate-rule=date],[validate-rule=dateOrNull]').datetimepicker({
                 format: 'L',
                 showClear: true,
                 showTodayButton: true,
                 locale: moment.locale('zh-cn')
             });
-            $('[validate-rule=dateTime],[validate-rule=dateTimeOrNull]').datetimepicker({
+            $('.datetime,[validate-rule=dateTime],[validate-rule=dateTimeOrNull]').datetimepicker({
                 format: 'YYYY-MM-DD HH:mm',
                 showClear: true,
                 showTodayButton: true,
                 locale: moment.locale('zh-cn')
             });
-            $('[validate-rule=time],[validate-rule=timeOrNull]').datetimepicker({
+            $('.time,[validate-rule=time],[validate-rule=timeOrNull]').datetimepicker({
                 format: 'HH:mm',
                 showClear: true,
                 showTodayButton: true,

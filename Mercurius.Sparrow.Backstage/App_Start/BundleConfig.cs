@@ -22,9 +22,8 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/ace-elements.js",
                 "~/Scripts/ace.js",
                 "~/Scripts/MessageBox/msgbox.js",
-                "~/Scripts/jquery.pullbox.js",
                 "~/Scripts/Dialog/dialog-plus.js",
-                "~/Scripts/Layer/layer.js",
+                "~/Scripts/layer.js",
                 "~/Scripts/mercurius.common.js",
                 "~/Scripts/Main.js"));
 
@@ -38,12 +37,11 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/bootstrap-datetimepicker.js",
                 "~/Scripts/locales/bootstrap-datepicker.zh-CN.js",
                 "~/Scripts/Dialog/dialog.js",
-                "~/Scripts/Layer/layer.js",
+                "~/Scripts/layer.js",
                 "~/Scripts/mercurius.common.js"));
 
             // 验证JS
-            bundles.Add(new ScriptBundle("~/bundles/validate").Include(
-                        "~/Scripts/Validator/JValidator.js"));
+            bundles.Add(new ScriptBundle("~/bundles/validate").Include("~/Scripts/Validator/JValidator.js"));
 
             // 树形表格JS
             bundles.Add(new ScriptBundle("~/bundles/treetable").Include("~/Scripts/TreeTable/jquery.treeTable.js"));
@@ -76,19 +74,22 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Content/bootstrap-datetimepicker.css",
                 "~/Content/font-awesome.css",
                 "~/Content/ui-dialog.css",
+                "~/Content/layer.css",
+                "~/Content/layer.moon.css",
                 "~/Content/Common.css"));
 
-            // 树形表格CSS
-            bundles.Add(new StyleBundle("~/Content/treetable/css").Include(
-                "~/Content/TreeTable/jquery.treeTable.css",
-                "~/Content/TreeTable/jquery.treetable.theme.default.css",
-                "~/Content/TreeTable/custom.css"));
-
-            // 树形视图CSS
-            bundles.Add(new StyleBundle("~/Content/tree/css").Include("~/Content/Tree/jquery.treeview.css"));
 
             // 登录页面的CSS
-            bundles.Add(new StyleBundle("~/Content/logon/css").Include("~/Content/LogOn/LogOn.css"));
+            bundles.Add(new StyleBundle("~/Content/logon/css").Include(
+                "~/Content/bootstrap.css",
+                "~/Content/bootstrap-theme.css",
+                "~/Content/bootstrap-datetimepicker.css",
+                "~/Content/font-awesome.css",
+                "~/Content/ui-dialog.css",
+                "~/Content/layer.css",
+                "~/Content/layer.moon.css",
+                "~/Content/Common.css",
+                "~/Content/LogOn.css"));
 
             // 主页面CSS
             bundles.Add(new StyleBundle("~/Content/main/css").Include(
@@ -99,7 +100,18 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Content/ace-skins.css",
                 "~/Content/ui-dialog.css",
                 "~/Content/MessageBox/msgbox.css",
+                "~/Content/layer.css",
+                "~/Content/layer.moon.css",
                 "~/Content/Common.css"));
+
+            // 树形表格CSS
+            bundles.Add(new StyleBundle("~/Content/treetable/css").Include(
+                "~/Content/TreeTable/jquery.treeTable.css",
+                "~/Content/TreeTable/jquery.treetable.theme.default.css",
+                "~/Content/TreeTable/custom.css"));
+
+            // 树形视图CSS
+            bundles.Add(new StyleBundle("~/Content/tree/css").Include("~/Content/Tree/jquery.treeview.css"));
 
             // 文件上传css
             bundles.Add(new StyleBundle("~/Content/upload/css").Include(
