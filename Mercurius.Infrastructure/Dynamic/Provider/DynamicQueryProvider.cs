@@ -6,7 +6,6 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Mercurius.Infrastructure.Ado;
 using Mercurius.Infrastructure.Cache;
 using Mercurius.Infrastructure.Log;
@@ -874,6 +873,12 @@ namespace Mercurius.Infrastructure.Dynamic
                     }).AsColumns();
         }
 
+        /// <summary>
+        /// 获取数据库字段元数据。
+        /// </summary>
+        /// <param name="tableName">字段名</param>
+        /// <param name="columnValues">字段值</param>
+        /// <returns>字段元数据集合</returns>
         private Columns GetColumns(string tableName, NameValueCollection columnValues = null)
         {
             if (string.IsNullOrWhiteSpace(tableName))
@@ -908,6 +913,11 @@ namespace Mercurius.Infrastructure.Dynamic
             return this._dbHelper.CreateCommand();
         }
 
+        /// <summary>
+        /// 获取表的元数据信息。
+        /// </summary>
+        /// <param name="tableName">表名称</param>
+        /// <returns>表的元数据信息</returns>
         private Table GetTableInfo(string tableName)
         {
             if (string.IsNullOrWhiteSpace(tableName))
@@ -1020,7 +1030,7 @@ namespace Mercurius.Infrastructure.Dynamic
         /// <returns>缓存值</returns>
         private R GetCache<R>(string tableName, Criteria criteria = null)
         {
-            if (!this.Cacheable && this.Cache == null)
+            if (!this.Cacheable || this.Cache == null)
             {
                 return default(R);
             }
@@ -1035,7 +1045,7 @@ namespace Mercurius.Infrastructure.Dynamic
         /// </summary>
         private void RemoveCache(string tableName)
         {
-            if (!this.Cacheable && this.Cache == null)
+            if (!this.Cacheable || this.Cache == null)
             {
                 return;
             }
