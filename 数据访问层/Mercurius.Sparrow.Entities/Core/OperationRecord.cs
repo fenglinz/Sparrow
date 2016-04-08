@@ -11,7 +11,7 @@ namespace Mercurius.Sparrow.Entities.Core
     /// 操作记录实体信息。
     /// </summary>
     [Table("OperationRecord")]
-    public class OperationRecord
+    public class OperationRecord : Domain
     {
         #region 属性
 
@@ -22,29 +22,34 @@ namespace Mercurius.Sparrow.Entities.Core
         public int Id { get; set; }
 
         /// <summary>
-        /// 业务编号。
+        /// 业务分类。
         /// </summary>
-        public string BusinessId { get; set; }
+        public string BusinessCategory { get; set; }
 
         /// <summary>
-        /// 业务类型。
+        /// 业务流水号。
         /// </summary>
-        public string BusinessType { get; set; }
-
-        /// <summary>
-        /// 用户编号。
-        /// </summary>
-        public string UserId { get; set; }
-
-        /// <summary>
-        /// 记录时间。
-        /// </summary>
-        public DateTime RecordDateTime { get; set; }
+        public string BusinessSerialNumber { get; set; }
 
         /// <summary>
         /// 记录内容。
         /// </summary>
-        public string RecordContent { get; set; }
+        public string Content { get; set; }
+
+        /// <summary>
+        /// 登录IP地址。
+        /// </summary>
+        public string LogOnIPAddress { get; set; }
+
+        /// <summary>
+        /// 添加记录的用户编号。
+        /// </summary>
+        public string AddedUserId { get; set; }
+
+        /// <summary>
+        /// 添加记录的时间。
+        /// </summary>
+        public DateTime AddedDateTime { get; set; }
 
         #endregion
     }

@@ -58,20 +58,6 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             return this.Json(rspMenus.Datas);
         }
 
-        public ActionResult ShowLogs(int pageIndex = 1, int pageSize = 20)
-        {
-
-            var totalRecords = 0;
-            var model = this.DynamicQuery
-                .Where<OperationRecord>(m => m.BusinessId, WebHelper.GetLogOnUserId())
-                .OrderBy(m => m.RecordDateTime, OrderBy.Desc)
-                .PagedList(pageIndex, pageSize, out totalRecords);
-
-            this.ViewBag.TotalRecords = totalRecords;
-
-            return View(model);
-        }
-
         public ActionResult About()
         {
             return View();

@@ -76,10 +76,10 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="so">日志查询条件</param>
         /// <returns>日志信息列表</returns>
-        public ResponseCollection<Log> GetLogs(LogSO so)
+        public ResponseCollection<Log> SearchLogs(LogSO so)
         {
             var totalRecords = 0;
-            var result = this.InvokeService(nameof(GetLogs), () => this.Persistence.QueryForPaginatedList<Log>(LoggerNamespace, "GetLogs", out totalRecords, so), so, false);
+            var result = this.InvokeService(nameof(SearchLogs), () => this.Persistence.QueryForPaginatedList<Log>(LoggerNamespace, "SearchLogs", out totalRecords, so), so, false);
 
             result.TotalRecords = totalRecords;
 

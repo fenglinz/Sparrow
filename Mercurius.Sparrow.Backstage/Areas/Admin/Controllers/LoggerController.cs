@@ -37,7 +37,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 				so.EndDate = DateTime.Parse($"{so.EndDate.Value.ToString("yyyy-MM-dd")} 23:59:59");
 			}
 
-			this.ViewBag.Logs = this.LoggerService.GetLogs(so);
+			this.ViewBag.Logs = this.LoggerService.SearchLogs(so);
 			//this.ViewBag.Partitions = this.LoggerService.GetPartitions();
 
 			return this.View("Index", so);

@@ -23,6 +23,11 @@ namespace Mercurius.Sparrow.Repositories
 			/// </summary>
 			public static readonly StatementNamespace LoggerNamespace = "Mercurius.Sparrow.Repositories.Core.Logger";
 
+            /// <summary>
+            /// 操作记录相关的Statement命名空间。
+            /// </summary>
+		    public static readonly StatementNamespace OperationRecordNamespace = "Mercurius.Sparrow.Repositories.Core.OperationRecord";
+
 			/// <summary>
 			/// 字典管理相关的Satement命名空间。
 			/// </summary>

@@ -1,7 +1,6 @@
 ﻿@using Mercurius.Sparrow.Entities.RBAC
 
 @{
-    var logOnOffs = this.ViewBag.LogOnOffs as IList<OperationRecord>;
     var homeShortcuts = this.ViewBag.HomeShortcuts as ICollection<HomeShortcut>;
 }
 @section Styles{
@@ -37,9 +36,9 @@
 
         @*查看用户登录/登出日志*@
         function showlogs() {
-            var url = "@Url.Action("ShowLogs", "Home", new {@Area = ""})";
+            var url = "@Url.Action("Index", "OperationRecord", new {@Area = "", @BusinessCategory = "用户管理", @BusinessSerialNumber = WebHelper.GetLogOnUserId()})";
 
-            mercurius.OpenDialog(url, 'ShowLogs', '查看登录/登出日志', 720, 430, { statusbar: false });
+            mercurius.OpenDialog(url, 'ShowLogs', '查看日志', 720, 430, { statusbar: false });
         }
 
         @*修改密码*@

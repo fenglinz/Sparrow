@@ -11,6 +11,7 @@ using System.Web.WebPages;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Services.Support;
 
 namespace Mercurius.Sparrow.Backstage.Controllers
 {
@@ -62,9 +63,9 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         #endregion
 
         /// <summary>
-        /// 登录。
+        /// 显示登录界面。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>登录界面</returns>
         public ActionResult LogOn()
         {
             var installStatus = 1;
@@ -82,6 +83,13 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// 登录处理。
+        /// </summary>
+        /// <param name="name">账号</param>
+        /// <param name="password">密码</param>
+        /// <param name="verifyCode">验证码</param>
+        /// <returns>登录验证结果</returns>
         [HttpPost]
         public ActionResult LogOn(string name, string password, string verifyCode)
         {
@@ -111,14 +119,7 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             {
                 WebHelper.SetAuthCookie(rspUser.Data.Id, rspUser.Data.Account, rspUser.Data.Name);
 
-                this.DynamicQuery.Create(new OperationRecord
-                {
-                    BusinessId = rspUser.Data.Id,
-                    BusinessType = "用户登录/登出",
-                    UserId = WebHelper.GetLogOnUserId(),
-                    RecordDateTime = DateTime.Now,
-                    RecordContent = $"于({WebHelper.GetClientIPAddress()})登录"
-                });
+                (this.UserService as ServiceSupport)?.AddOperationRecord("用户管理", rspUser.Data.Id, "登录");
             }
 
             this.Session.Remove(SessionVerifyCode);
@@ -126,22 +127,23 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             return this.Json(result);
         }
 
+        /// <summary>
+        /// 退出。
+        /// </summary>
+        /// <returns>退出处理</returns>
         public ActionResult LogOff()
         {
-            this.DynamicQuery.Create(new OperationRecord
-            {
-                BusinessId = WebHelper.GetLogOnUserId(),
-                BusinessType = "用户登录/登出",
-                UserId = WebHelper.GetLogOnUserId(),
-                RecordDateTime = DateTime.Now,
-                RecordContent = $"于({WebHelper.GetClientIPAddress()})登出"
-            });
+            (this.UserService as ServiceSupport)?.AddOperationRecord("用户管理", WebHelper.GetLogOnUserId(), "退出");
 
             FormsAuthentication.SignOut();
 
             return this.RedirectToAction("LogOn", "Account");
         }
 
+        /// <summary>
+        /// 获取验证码。
+        /// </summary>
+        /// <returns>验证码图片</returns>
         public ActionResult GetVerifyCode()
         {
             var verifyCode = SecurityExtensions.CreateVerifyCode(4);

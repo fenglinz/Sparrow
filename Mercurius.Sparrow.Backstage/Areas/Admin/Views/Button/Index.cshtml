@@ -101,16 +101,16 @@
                 </tr>
             }
         }
-        else if (buttons.IsSuccess())
+        else if (buttons.HasError())
         {
             <tr>
-                <td colspan="12" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                <td colspan="12" class="text-danger">@buttons.GetErrorMessage()</td>
             </tr>
         }
         else
         {
             <tr>
-                <td colspan="12" class="text-danger">@buttons.GetErrorMessage()</td>
+                <td colspan="12" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
             </tr>
         }
     </tbody>

@@ -127,16 +127,16 @@
                 </tr>
             }
         }
-        else if (roles.IsSuccess())
+        else if (roles.HasError())
         {
             <tr>
-                <td colspan="8" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                <td colspan="8" class="text-danger">@roles.GetErrorMessage()</td>
             </tr>
         }
         else
         {
             <tr>
-                <td colspan="8" class="empty-data">@roles.GetErrorMessage()</td>
+                <td colspan="8" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
             </tr>
         }
     </tbody>

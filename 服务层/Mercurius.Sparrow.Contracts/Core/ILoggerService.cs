@@ -33,6 +33,6 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// </summary>
         /// <param name="so">日志查询条件</param>
         /// <returns>日志信息列表</returns>
-        ResponseCollection<Log> GetLogs(LogSO so);
+        ResponseCollection<Log> SearchLogs(LogSO so);
     }
 }

@@ -79,7 +79,7 @@
     </delete>
 
     <!-- 获取日志信息 -->
-    <select id="GetLogs" parameterClass="LogSO" resultClass="Log">
+    <select id="SearchLogs" parameterClass="LogSO" resultClass="Log">
       <![CDATA[
         WITH CTE AS(
           SELECT 
@@ -105,7 +105,7 @@
     </select>
 
     <!-- 获取日志信息查询记录数 -->
-    <select id="GetLogsCount" parameterClass="Params" resultClass="int">
+    <select id="SearchLogsCount" parameterClass="Params" resultClass="int">
       <![CDATA[
         SELECT 
           COUNT(*)

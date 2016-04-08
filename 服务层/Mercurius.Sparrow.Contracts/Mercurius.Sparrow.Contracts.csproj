@@ -56,6 +56,7 @@
     <Compile Include="Core\IDictionaryService.cs" />
     <Compile Include="Core\IGlobalizationService.cs" />
     <Compile Include="Core\ILoggerService.cs" />
+    <Compile Include="Core\IOperationRecordService.cs" />
     <Compile Include="Core\ISystemSettingService.cs" />
     <Compile Include="RBAC\IButtonService.cs" />
     <Compile Include="RBAC\IOrganizationService.cs" />

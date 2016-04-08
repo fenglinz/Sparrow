@@ -171,14 +171,14 @@ namespace Mercurius.Sparrow.Contracts
         }
 
         /// <summary>
-        /// 判断服务操作是否成功。
+        /// 判断服务操作是否有错误。
         /// </summary>
         /// <typeparam name="T">服务执行返回数据类型</typeparam>
         /// <param name="sources">服务执行响应信息</param>
-        /// <returns>操作是否成功</returns>
-        public static bool IsSuccess<T>(this ResponseCollection<T> sources)
+        /// <returns>是否有错误</returns>
+        public static bool HasError<T>(this ResponseCollection<T> sources)
         {
-            return sources != null && sources.IsSuccess;
+            return sources == null && !sources.IsSuccess;
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace Mercurius.Sparrow.Contracts
         /// <returns>错误信息</returns>
         public static string GetErrorMessage(this Response response)
         {
-            return response == null ? "服务执行响应对象为null！" : response.ErrorMessage;
+            return response == null ? string.Empty : response.ErrorMessage;
         }
 
         #endregion

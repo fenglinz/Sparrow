@@ -125,16 +125,16 @@
                     <td style="display: none;">@systemMenu.Id</td>
                 </tr>}
         }
-        else if (systemMenus.IsSuccess())
+        else if (systemMenus.HasError())
         {
             <tr>
-                <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                <td colspan="4" class="text-danger">@systemMenus.GetErrorMessage()</td>
             </tr>
         }
         else
         {
             <tr>
-                <td colspan="4" class="empty-data">@systemMenus.GetErrorMessage()</td>
+                <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
             </tr>
         }
     </tbody>

@@ -94,6 +94,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                 () =>
                 {
                     this.Persistence.Update(UserNamespace, "ChangeStatus", args);
+                    this.AddOperationRecord("用户管理", userId, "将状态修改为：" + status);
 
                     this.ClearCache<User>();
                 }, args);
@@ -135,15 +136,9 @@ namespace Mercurius.Sparrow.Services.RBAC
                         throw new Exception("旧密码不正确！");
                     }
 
-                    this.Persistence.Update(
-                        UserNamespace,
-                        "ChangePassword",
-                        new User
-                        {
-                            Id = id,
-                            Password = newPassword.Encrypt(),
-                            ModifyUserId = WebHelper.GetLogOnUserId()
-                        });
+                    this.Persistence.Update(UserNamespace, "ChangePassword",
+                        new User { Id = id, Password = newPassword.Encrypt(), ModifyUserId = WebHelper.GetLogOnUserId() });
+                    this.AddOperationRecord("用户管理", id, "修改了密码");
                 }, new { id, oldPassword, newPassword });
         }
 

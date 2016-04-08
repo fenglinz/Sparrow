@@ -23,15 +23,17 @@
                 </tr>
             }
         }
-        else if (unAllotUsers.IsSuccess())
+        else if (unAllotUsers.HasError())
         {
             <tr>
-                <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                <td colspan="4" class="text-danger">@unAllotUsers.GetErrorMessage()</td>
             </tr>
         }
         else
         {
-            <tr><td colspan="4" class="text-danger">@unAllotUsers.GetErrorMessage()</td></tr>
+            <tr>
+                <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
         }
     </tbody>
 </table>

@@ -33,28 +33,21 @@
                 </tr>
             }
         }
-        else if (Model.IsSuccess())
-        {
-            <tr>
-                <td colspan="7" class="empty-data">没有找到符合条件的数据！</td>
-            </tr>
-        }
-        else
+        else if (Model.HasError())
         {
             <tr>
                 <td colspan="7" class="text-danger">@Model.GetErrorMessage()</td>
             </tr>
         }
+        else
+        {
+            <tr>
+                <td colspan="7" class="empty-data">没有找到符合条件的数据！</td>
+            </tr>
+        }
     </tbody>
-
 </table>
-@Html.Paging(Model.TotalRecords, "_GetLocalResources", "Resource", new
-{
-    AreaName = so != null ? so.AreaName : null,
-    ControllerName = so != null ? so.ControllerName : null,
-    View = so != null ? so.View : null,
-    Key = so != null ? so.Key : null
-}, ajaxOptions: new AjaxOptions
+@Html.Paging(Model.TotalRecords, "_GetLocalResources", "Resource", so, ajaxOptions: new AjaxOptions
 {
     UpdateTargetId = "localResource",
     OnComplete = "OnGetLocalResoucesComplated"

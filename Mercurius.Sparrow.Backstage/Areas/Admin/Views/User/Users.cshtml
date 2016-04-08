@@ -180,16 +180,16 @@
                 </tr>
             }
         }
-        else if (rspUsers.IsSuccess())
+        else if (rspUsers.HasError())
         {
-            <tr class="empty-data">
-                <td colspan="9">@Html.GetGlobalValue("empty-data")</td>
+            <tr class="text-danger">
+                <td colspan="9">@rspUsers.GetErrorMessage()</td>
             </tr>
         }
         else
         {
-            <tr class="text-danger">
-                <td colspan="9">@rspUsers.GetErrorMessage()</td>
+            <tr class="empty-data">
+                <td colspan="9">@Html.GetGlobalValue("empty-data")</td>
             </tr>
         }
     </tbody>

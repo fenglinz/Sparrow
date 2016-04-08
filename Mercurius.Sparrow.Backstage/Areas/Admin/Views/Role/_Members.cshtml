@@ -28,16 +28,16 @@
                 </tr>
             }
         }
-        else if (groupMembers.IsSuccess())
+        else if (groupMembers.HasError())
         {
             <tr>
-                <td class="empty-data" colspan="3">暂无数据!</td>
+                <td class="text-danger" colspan="3">@groupMembers.GetErrorMessage()</td>
             </tr>
         }
         else
         {
             <tr>
-                <td class="empty-data" colspan="3">@groupMembers.GetErrorMessage()</td>
+                <td class="empty-data" colspan="3">暂无数据!</td>
             </tr>
         }
     </tbody>

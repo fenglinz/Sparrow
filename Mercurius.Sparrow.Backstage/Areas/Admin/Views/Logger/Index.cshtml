@@ -231,16 +231,16 @@
                         </tr>
                     }
                 }
-                else if (logs.IsSuccess())
+                else if (logs.HasError())
                 {
                     <tr>
-                        <td colspan="7" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                        <td colspan="7" class="text-danger">@logs.GetErrorMessage()</td>
                     </tr>
                 }
                 else
                 {
                     <tr>
-                        <td colspan="7" class="text-danger">@logs.GetErrorMessage()</td>
+                        <td colspan="7" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
                     </tr>
                 }
             }

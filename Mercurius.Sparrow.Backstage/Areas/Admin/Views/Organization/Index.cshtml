@@ -93,16 +93,16 @@
                 </tr>
             }
         }
-        else if (orgInfos.IsSuccess())
+        else if (orgInfos.HasError())
         {
             <tr>
-                <td colspan="9" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                <td colspan="9" class="text-danger">@orgInfos.GetErrorMessage()</td>
             </tr>
         }
         else
         {
             <tr>
-                <td colspan="9" class="text-danger">@orgInfos.GetErrorMessage()</td>
+                <td colspan="9" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
             </tr>
         }
     </tbody>

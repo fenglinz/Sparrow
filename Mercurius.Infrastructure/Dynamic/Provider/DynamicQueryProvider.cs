@@ -115,6 +115,11 @@ namespace Mercurius.Infrastructure.Dynamic
         public CacheProvider Cache { get; set; }
 
         /// <summary>
+        /// 是否启用缓存。
+        /// </summary>
+        internal bool Cacheable { get; set; } = true;
+
+        /// <summary>
         /// 获取数据库元数据信息对象。
         /// </summary>
         public DbMetadata DbMetadata
@@ -820,7 +825,7 @@ namespace Mercurius.Infrastructure.Dynamic
                                    (c == null || (c != null && !c.IsIgnore))
                                 select new Column
                                 {
-                                    Name = c == null ? p.Name : String.IsNullOrWhiteSpace(c.Name) ? p.Name : c.Name,
+                                    Name = c == null ? p.Name : string.IsNullOrWhiteSpace(c.Name) ? p.Name : c.Name,
                                     PropertyName = p.Name,
                                     Description = c?.Description,
                                     IsNullable = c?.IsNullable ?? true,
@@ -996,7 +1001,7 @@ namespace Mercurius.Infrastructure.Dynamic
         /// <param name="criteria">查询条件</param>
         private void AddCache(string tableName, object value, Criteria criteria = null)
         {
-            if (this.Cache == null || value == null)
+            if (!this.Cacheable || this.Cache == null || value == null)
             {
                 return;
             }
@@ -1015,7 +1020,7 @@ namespace Mercurius.Infrastructure.Dynamic
         /// <returns>缓存值</returns>
         private R GetCache<R>(string tableName, Criteria criteria = null)
         {
-            if (this.Cache == null)
+            if (!this.Cacheable && this.Cache == null)
             {
                 return default(R);
             }
@@ -1030,7 +1035,7 @@ namespace Mercurius.Infrastructure.Dynamic
         /// </summary>
         private void RemoveCache(string tableName)
         {
-            if (this.Cache == null)
+            if (!this.Cacheable && this.Cache == null)
             {
                 return;
             }

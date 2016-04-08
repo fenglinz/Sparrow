@@ -23,6 +23,7 @@
   <sqlMaps>
     <!-- 基础模块 -->
     <sqlMap embedded="Core.MSSQL.Logger.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.MSSQL.OperationRecord.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="Core.MSSQL.Dictionary.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="Core.MSSQL.SystemSetting.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="Core.MSSQL.Globalization.xml, Mercurius.Sparrow.Repositories" />

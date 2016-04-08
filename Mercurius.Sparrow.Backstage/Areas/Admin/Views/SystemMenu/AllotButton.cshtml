@@ -119,13 +119,13 @@
                         </div>
                     }
                 }
-                else if (buttons.IsSuccess())
+                else if (buttons.HasError())
                 {
-                    <div class="empty-data" style="padding:10px;">没有配置按钮！</div>
+                    <div class="text-danger">@buttons.GetErrorMessage()</div>
                 }
                 else
                 {
-                    <div class="text-danger">@buttons.GetErrorMessage()</div>
+                    <div class="empty-data" style="padding:10px;">没有配置按钮！</div>
                 }
             </div>
         </div>
@@ -146,13 +146,13 @@
                         </div>
                     }
                 }
-                else if (systemButtons.IsSuccess())
+                else if (systemButtons.HasError())
                 {
-                    <div class="empty-data" style="padding:10px;">没有配置按钮！</div>
+                    <div class="text-danger">@systemButtons.ErrorMessage</div>
                 }
                 else
                 {
-                    <div class="text-danger">@systemButtons.ErrorMessage</div>
+                    <div class="empty-data" style="padding:10px;">没有配置按钮！</div>
                 }
             </div>
         </div>

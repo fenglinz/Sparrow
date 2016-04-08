@@ -79,6 +79,7 @@
     <Compile Include="Core\Partition.cs" />
     <Compile Include="Core\SO\GlobalizationSO.cs" />
     <Compile Include="Core\SO\LogSO.cs" />
+    <Compile Include="Core\SO\OperationRecordSO.cs" />
     <Compile Include="Core\SystemSetting.cs" />
     <Compile Include="Core\UploadItem.cs" />
     <Compile Include="Dynamic\ConditionInfo.cs" />

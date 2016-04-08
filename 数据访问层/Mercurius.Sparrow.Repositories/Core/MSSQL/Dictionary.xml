@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<sqlMap xmlns="http://ibatis.apache.org/mapping" namespace="Mercurius.Sparrow.Repositories.Core.Dictionary">
+<sqlMap namespace="Mercurius.Sparrow.Repositories.Core.Dictionary" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="Dictionary" type="Mercurius.Sparrow.Entities.Core.Dictionary, Mercurius.Sparrow.Entities" />
   </alias>

@@ -14,27 +14,6 @@ namespace Mercurius.Infrastructure.Dynamic
     /// </summary>
     public class DynamicQuery : IDataAccess, IDisposable
     {
-        #region 字段
-
-        /// <summary>
-        /// 同步锁对象。
-        /// </summary>
-        private static object locker = new object();
-
-        /// <summary>
-        /// 表信息字典。
-        /// Key:实体类型、Value:表名称。
-        /// </summary>
-        private static readonly Dictionary<Type, string> TableDictionary;
-
-        /// <summary>
-        /// 实体信息集合字典。
-        /// Key:实体类型、Value:实体信息集合。
-        /// </summary>
-        private static readonly Dictionary<Type, Columns> ColumnsDictionary;
-
-        #endregion
-
         #region 属性
 
         /// <summary>
@@ -44,20 +23,16 @@ namespace Mercurius.Infrastructure.Dynamic
 
         #endregion
 
-        #region 构造方法
+        #region 公开方法
 
         /// <summary>
-        /// 默认构造方法。
+        /// 是否启用缓存。
         /// </summary>
-        static DynamicQuery()
+        /// <param name="cacheable">是否启用缓存</param>
+        internal void Cacheable(bool cacheable)
         {
-            TableDictionary = new Dictionary<Type, string>();
-            ColumnsDictionary = new Dictionary<Type, Columns>();
+            this.Provider.Cacheable = cacheable;
         }
-
-        #endregion
-
-        #region 公开方法
 
         /// <summary>
         /// 添加查询条件。
@@ -68,27 +43,30 @@ namespace Mercurius.Infrastructure.Dynamic
         {
             var criteria = new Criteria(this);
 
-            if (conditions is Condition)
+            if (conditions != null)
             {
-                criteria.Conditions.Add(conditions as Condition);
-            }
-            else if (conditions is IEnumerable<Condition>)
-            {
-                var items = conditions as IEnumerable<Condition>;
-
-                if (!items.IsEmpty())
+                if (conditions is Condition)
                 {
-                    criteria.Conditions.AddRange(items.Where(i => i.Value != null));
+                    criteria.Conditions.Add(conditions as Condition);
                 }
-            }
-            else
-            {
-                var items = from i in PropertyHelper.GetProperties(conditions)
-                            let v = i.GetValue(conditions)
-                            where v != null
-                            select Eq(i.Name, v);
+                else if (conditions is IEnumerable<Condition>)
+                {
+                    var items = conditions as IEnumerable<Condition>;
 
-                criteria.Conditions.AddRange(items);
+                    if (!items.IsEmpty())
+                    {
+                        criteria.Conditions.AddRange(items.Where(i => i.Value != null));
+                    }
+                }
+                else
+                {
+                    var items = from i in PropertyHelper.GetProperties(conditions)
+                                let v = i.GetValue(conditions)
+                                where v != null
+                                select Eq(i.Name, v);
+
+                    criteria.Conditions.AddRange(items);
+                }
             }
 
             return criteria;

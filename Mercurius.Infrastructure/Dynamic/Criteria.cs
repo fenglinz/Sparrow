@@ -125,6 +125,17 @@ namespace Mercurius.Infrastructure.Dynamic
 
         #endregion
 
+        /// <summary>
+        /// 是否启用缓存。
+        /// </summary>
+        /// <param name="cacheable">是否启用缓存</param>
+        public Criteria Cacheable(bool cacheable)
+        {
+            this._queryObject.Cacheable(cacheable);
+
+            return this;
+        }
+
         #region Create
 
         /// <summary>
@@ -384,6 +395,17 @@ namespace Mercurius.Infrastructure.Dynamic
         }
 
         #endregion
+
+        /// <summary>
+        /// 是否启用缓存。
+        /// </summary>
+        /// <param name="cacheable">是否启用缓存</param>
+        public new Criteria<T> Cacheable(bool cacheable)
+        {
+            this._queryObject.Cacheable(cacheable);
+
+            return this;
+        }
 
         /// <summary>
         /// 添加数据。

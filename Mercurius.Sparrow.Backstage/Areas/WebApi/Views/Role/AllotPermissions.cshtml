@@ -52,16 +52,16 @@
                     </tr>
                 }
             }
-            else if (Model.IsSuccess())
+            else if (Model.HasError())
             {
                 <tr>
-                    <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                    <td colspan="4" class="text-danger">@Model.GetErrorMessage()</td>
                 </tr>
             }
             else
             {
                 <tr>
-                    <td colspan="4" class="error">@Model.GetErrorMessage()</td>
+                    <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
                 </tr>
             }
         </tbody>

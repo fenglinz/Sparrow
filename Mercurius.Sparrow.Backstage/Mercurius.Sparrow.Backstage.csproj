@@ -273,6 +273,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoggerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemSettingController.cs" />
+    <Compile Include="Controllers\OperationRecordController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Extensions\MercuriusUrlHelper.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
@@ -704,8 +705,8 @@
     <Content Include="Scripts\RichEditor\css\fonts\icomoon.ttf" />
     <Content Include="Scripts\RichEditor\css\fonts\icomoon.woff" />
     <Content Include="Scripts\RichEditor\css\wangEditor.less" />
-    <None Include="Views\Home\ShowLogs.cshtml" />
     <Content Include="Views\Shared\_BaseLayout.cshtml" />
+    <Content Include="Views\OperationRecord\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Shared\" />

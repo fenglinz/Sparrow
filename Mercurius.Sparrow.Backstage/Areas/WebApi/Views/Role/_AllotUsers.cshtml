@@ -15,16 +15,16 @@
                         </li>
                     }
                 }
-                else if (allotMembers.IsSuccess())
+                else if (allotMembers.HasError())
                 {
                     <li>
-                        <span class="file" style="color:red;"></span><i>暂无数据</i>
+                        <span class="file"></span><i>@allotMembers.GetErrorMessage()</i>
                     </li>
                 }
                 else
                 {
                     <li>
-                        <span class="file"></span><i>@allotMembers.GetErrorMessage()</i>
+                        <span class="file" style="color:red;"></span><i>暂无数据</i>
                     </li>
                 }
             </ul>

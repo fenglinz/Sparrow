@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
 using Mercurius.Infrastructure.Cache;
 using Mercurius.Infrastructure.Log;
 using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Repositories;
-using Newtonsoft.Json;
+using static Mercurius.Sparrow.Repositories.StatementNamespaces.Core;
 
 namespace Mercurius.Sparrow.Services.Support
 {
@@ -322,6 +322,41 @@ namespace Mercurius.Sparrow.Services.Support
 
         #endregion
 
+        #region 操作记录
+
+        /// <summary>
+        /// 添加操作记录。
+        /// </summary>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
+        /// <param name="content">记录内容</param>
+        public void AddOperationRecord(string category, string serialNumber, string content)
+        {
+            var record = new OperationRecord
+            {
+                BusinessCategory = category,
+                BusinessSerialNumber = serialNumber,
+                Content = content,
+                AddedUserId = WebHelper.GetLogOnUserId(),
+                LogOnIPAddress = WebHelper.GetClientIPAddress()
+            };
+
+            var del = new Action<OperationRecord>(args =>
+            {
+                this.Persistence.Create(OperationRecordNamespace, "Create", args);
+            });
+
+            del.BeginInvoke(record, ar =>
+            {
+                var action = ar.AsyncState as Action<OperationRecord>;
+
+                action.EndInvoke(ar);
+                this.ClearCache<OperationRecord>();
+            }, del);
+        }
+
+        #endregion
+
         #region 缓存处理
 
         /// <summary>
@@ -362,7 +397,7 @@ namespace Mercurius.Sparrow.Services.Support
                 if (!_dictModuleNames.ContainsKey(type))
                 {
                     var attributre = type.GetCustomAttribute<ModuleAttribute>();
-                    var moduleName = attributre != null || !string.IsNullOrWhiteSpace(attributre.Name) ? attributre.Name : type.Namespace.Split('.').LastOrDefault();
+                    var moduleName = string.IsNullOrWhiteSpace(attributre?.Name) ? type.Namespace.Split('.').LastOrDefault() : attributre.Name;
 
                     _dictModuleNames.Add(type, moduleName);
                 }
