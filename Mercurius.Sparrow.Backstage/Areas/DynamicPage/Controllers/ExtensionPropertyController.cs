@@ -42,7 +42,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetGroupNames(string id)
+        public JsonResult GetGroupNames(string id)
         {
             var rsp = this.ExtensionPropertyService.GetGroupNames(id);
 
@@ -67,7 +67,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateOrUpdate(ExtensionProperty model)
+        public JavaScriptResult CreateOrUpdate(ExtensionProperty model)
         {
             model.Initialize();
 
@@ -77,7 +77,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         }
 
         [HttpPost]
-        public ActionResult Remove(Guid id)
+        public JsonResult Remove(Guid id)
         {
             var rsp = this.ExtensionPropertyService.Remove(id);
 
@@ -85,7 +85,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveProperties(string id, ExtensionPropertyInstance[] instances)
+        public JavaScriptResult SaveProperties(string id, ExtensionPropertyInstance[] instances)
         {
             if (instances.IsEmpty())
             {

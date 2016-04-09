@@ -38,7 +38,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="comments">注解信息</param>
         /// <returns>返回注解结果json</returns>
         [HttpPost]
-        public ActionResult CommentTable(string id, string comments)
+        public JsonResult CommentTable(string id, string comments)
         {
             this.DynamicQuery.Provider.DbMetadata.CommentTable(id, comments);
 
@@ -69,7 +69,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="columns">列信息集合</param>
         /// <returns>返回列注释成功的js提醒</returns>
         [HttpPost]
-        public ActionResult CommentColumns(string id, IList<Column> columns)
+        public JavaScriptResult CommentColumns(string id, IList<Column> columns)
         {
             if (!columns.IsEmpty())
             {
@@ -118,7 +118,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <returns>返回保存成功的js提醒</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveSearchConfig(string id, int searchId = 0)
+        public JavaScriptResult SaveSearchConfig(string id, int searchId = 0)
         {
             var search = new SearchInfo
             {
@@ -142,7 +142,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <returns>返回保存查询条件配置成功的js</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveConditionConfig(string id, IList<ConditionInfo> conditions)
+        public JavaScriptResult SaveConditionConfig(string id, IList<ConditionInfo> conditions)
         {
             this.DynamicQuery.Where<ConditionInfo>(m => m.TableName, id).Remove();
 
@@ -165,7 +165,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <returns>返回保存排序配置成功的js</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveOrderConfig(string id, IList<OrderInfo> orders)
+        public JavaScriptResult SaveOrderConfig(string id, IList<OrderInfo> orders)
         {
             this.DynamicQuery.Where<OrderInfo>(m => m.TableName, id).Remove();
 
@@ -232,7 +232,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <returns>返回配置信息保存成功的js</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveCreateOrUpdateConfig(string id, IList<CreateOrUpdateInfo> createOrUpdates)
+        public JavaScriptResult SaveCreateOrUpdateConfig(string id, IList<CreateOrUpdateInfo> createOrUpdates)
         {
             if (!createOrUpdates.IsEmpty())
             {

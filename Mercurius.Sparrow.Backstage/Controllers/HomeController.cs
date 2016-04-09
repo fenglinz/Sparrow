@@ -29,33 +29,20 @@ namespace Mercurius.Sparrow.Backstage.Controllers
 
         #endregion
 
-        public ActionResult MainSwitch()
-        {
-            return this.RedirectToAction("Main");
-        }
-
-        public ActionResult Main()
+        public ActionResult Index()
         {
             this.ViewBag.SystemMenus = this.PermissionService.GetAccessibleMenus(WebHelper.GetLogOnUserId());
 
-            return this.View("MainDefault");
+            return this.View();
         }
 
-        public ActionResult Index()
+        public ActionResult Workstation()
         {
             var rspHomeShortcuts = this.UserService.GetHomeShortcuts(WebHelper.GetLogOnUserId());
 
             this.ViewBag.HomeShortcuts = rspHomeShortcuts.Datas;
 
             return this.View();
-        }
-
-        [HttpPost]
-        public JsonResult GetSystemMenus()
-        {
-            var rspMenus = this.PermissionService.GetAccessibleMenus(WebHelper.GetLogOnUserId());
-
-            return this.Json(rspMenus.Datas);
         }
 
         public ActionResult About()

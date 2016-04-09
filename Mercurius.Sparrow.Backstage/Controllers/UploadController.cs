@@ -25,7 +25,7 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index()
+        public ContentResult Index()
         {
             if (this.Request.Files.Count == 0)
             {

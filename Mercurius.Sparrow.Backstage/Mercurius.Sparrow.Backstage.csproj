@@ -685,7 +685,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Workstation.cshtml" />
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.min.js.map" />
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Areas\Admin\Views\Dictionary\CreateOrUpdate.cshtml" />
@@ -696,7 +696,7 @@
     <Content Include="Areas\Admin\Views\Globalization\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Globalization\_GlobalResources.cshtml" />
     <Content Include="Areas\Admin\Views\Globalization\_LocalResources.cshtml" />
-    <Content Include="Views\Home\MainDefault.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Logger\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Logger\ViewDetails.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />

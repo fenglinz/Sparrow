@@ -119,7 +119,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="conditions">删除条件</param>
         /// <returns>返回删除成功的json</returns>
         [HttpPost]
-        public ActionResult Remove(string id, string conditions)
+        public JsonResult Remove(string id, string conditions)
         {
             this.DynamicQuery.Where(conditions.AsObject<IList<Condition>>()).Remove(id);
 

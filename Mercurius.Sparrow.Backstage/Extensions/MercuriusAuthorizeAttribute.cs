@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
@@ -49,7 +50,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             {
                 filterContext.HttpContext.Response.Redirect(loginUrl, true);
             }
-            else
+            else if(((ReflectedActionDescriptor)filterContext.ActionDescriptor).MethodInfo.ReturnType == typeof(ActionResult))
             {
                 using (var context = AutofacConfig.Container.BeginLifetimeScope())
                 {
@@ -59,7 +60,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
                     if (!systemMenus.HasData() || systemMenus.Datas.All(d => string.CompareOrdinal(d.NavigateUrl, currentUrl) != 0))
                     {
-                        filterContext.HttpContext.Response.Write("<h2>无权限访问该页面！</h2><script>top.$('#loading').hide()</script>");
+                        filterContext.HttpContext.Response.Write($"<b>无权限访问该页面({currentUrl})！</b>");
                         //filterContext.HttpContext.Response.End();
                     }
                 }

@@ -482,50 +482,38 @@
     <select id="GetAccessibleMenusByUser" parameterClass="string" resultClass="SystemMenu">
       <![CDATA[
         SELECT
-          M.Id
-          ,M.Name
-          ,M.Title
-          ,M.Image
-          ,M.Target
-          ,M.ParentId
-          ,M.NavigateUrl
-          ,M.Sort
-        FROM
-        (
-          SELECT
-            M.Name,
-            M.Title,
-            M.Image,
-            M.Target,
-            M.ParentId,
-            M.Id,
-            M.NavigateUrl,
-            M.Sort,
-            '角色权限' AS TheirTYPE
-          FROM RBAC.SystemMenu M
-          LEFT JOIN RBAC.RolePermission R_R 
-            ON R_R.SystemMenuId=M.Id
-          LEFT JOIN RBAC.UserRole U_R 
-            ON U_R.RoleId=R_R.RoleId
-          WHERE M.Category=1 AND U_R.UserId=#value# AND M.Status=1
-          UNION ALL
-          SELECT
-            M.Name,
-            M.Title,
-            M.Image,
-            M.Target,
-            M.ParentId,
-            M.Id,
-            M.NavigateUrl,
-            M.Sort,
-            '用户权限' AS TheirTYPE
-          FROM RBAC.SystemMenu M
-          LEFT JOIN RBAC.UserPermission U_R 
-            ON U_R.SystemMenuId=M.Id
-          WHERE M.Category=1 AND U_R.UserId = #value# AND M.Status=1
-         ) M
-        GROUP BY M.Id, M.Name, M.Title, M.Image,
-          M.Target, M.ParentId, M.NavigateUrl, M.Sort 
+          M.Id,
+          M.Name,
+          M.Category,
+          M.Title,
+          M.Image,
+          M.Target,
+          M.ParentId,
+          M.NavigateUrl,
+          M.Sort,
+          '角色权限' AS TheirTYPE
+        FROM RBAC.SystemMenu M
+        LEFT JOIN RBAC.RolePermission R_R 
+          ON R_R.SystemMenuId=M.Id
+        LEFT JOIN RBAC.UserRole U_R 
+          ON U_R.RoleId=R_R.RoleId
+        WHERE M.Category<>3 AND U_R.UserId=#value# AND M.Status=1
+        UNION ALL
+        SELECT
+          M.Id,
+          M.Name,
+          M.Category,
+          M.Title,
+          M.Image,
+          M.Target,
+          M.ParentId,
+          M.NavigateUrl,
+          M.Sort,
+          '用户权限' AS TheirTYPE
+        FROM RBAC.SystemMenu M
+        LEFT JOIN RBAC.UserPermission U_R 
+          ON U_R.SystemMenuId=M.Id
+        WHERE M.Category<>3 AND U_R.UserId=#value# AND M.Status=1
         ORDER BY M.Sort
       ]]>
     </select>

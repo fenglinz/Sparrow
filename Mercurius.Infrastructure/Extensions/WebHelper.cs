@@ -61,9 +61,7 @@ namespace Mercurius.Infrastructure
                 area = Convert.ToString(routeData.DataTokens["area"]);
             }
 
-            result = string.IsNullOrWhiteSpace(area) ?
-                $"/{result}{controllerName}/{actionName}"
-                : $"/{result}{area}/{controllerName}/{actionName}";
+            result = string.IsNullOrWhiteSpace(area) ? $"/{controllerName}/{actionName}" : $"/{area}/{controllerName}/{actionName}";
 
             return result;
         }
