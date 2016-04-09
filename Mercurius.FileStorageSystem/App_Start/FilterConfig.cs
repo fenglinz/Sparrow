@@ -15,8 +15,8 @@ namespace Mercurius.FileStorageSystem
         /// <param name="filters">过滤器集合</param>
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+            filters.Add(new AuthorizeAttribute());
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new MercuriusAuthorizeAttribute());
         }
     }
 }

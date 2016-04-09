@@ -39,16 +39,16 @@
                 </tr>
             }
         }
-        else if (Model.IsSuccess())
+        else if (Model.HasError())
         {
             <tr>
-                <td colspan="8" class="empty-data">无上传文件信息！</td>
+                <td colspan="8" class="text-danger">@Model.GetErrorMessage()</td>
             </tr>
         }
         else
         {
             <tr>
-                <td colspan="8" class="text-danger">@Model.GetErrorMessage()</td>
+                <td colspan="8" class="empty-data">无上传文件信息！</td>
             </tr>
         }
     </tbody>

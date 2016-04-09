@@ -85,7 +85,7 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByRole(string id);
 
         /// <summary>
-        /// 获取用户用户可访问的菜单列表。
+        /// 获取用户可访问的菜单列表。
         /// </summary>
         /// <param name="userId">用户编号</param>
         /// <returns>菜单列表</returns>

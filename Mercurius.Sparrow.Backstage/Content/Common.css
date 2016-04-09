@@ -738,6 +738,9 @@ input.search-image {
         font-weight: bold;
     }
 
+.date,
+.datetime,
+.time,
 [validate-rule*=date],
 [validate-rule=time] {
     cursor: pointer;

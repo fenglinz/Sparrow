@@ -8,6 +8,7 @@ using System.Web.Security;
 using Autofac;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Autofac;
+using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.RBAC;
 
@@ -47,6 +48,21 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 filterContext.HttpContext.Response.Redirect(loginUrl, true);
+            }
+            else
+            {
+                using (var context = AutofacConfig.Container.BeginLifetimeScope())
+                {
+                    var permissionService = context.Resolve<IPermissionService>();
+                    var currentUrl = filterContext.HttpContext.Request.GetCurrentNavigateUrl();
+                    var systemMenus = permissionService.GetAccessibleMenus(WebHelper.GetLogOnUserId());
+
+                    if (!systemMenus.HasData() || systemMenus.Datas.All(d => string.CompareOrdinal(d.NavigateUrl, currentUrl) != 0))
+                    {
+                        filterContext.HttpContext.Response.Write("<h2>无权限访问该页面！</h2><script>top.$('#loading').hide()</script>");
+                        //filterContext.HttpContext.Response.End();
+                    }
+                }
             }
         }
 
