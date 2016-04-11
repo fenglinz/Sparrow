@@ -94,14 +94,14 @@
 
 			switch (resourceType) {
 				case 'local':
-					height = 291;
+					height = 255;
 					title = '添加局部资源信息';
 					url = '@Url.Action("CreateOrUpdateLocalResource")';
 
 					break;
 
 				case 'global':
-					height = 190;
+					height = 150;
 					title = '添加全局资源信息';
 					url = '@Url.Action("CreateOrUpdateGlobalResource")';
 
@@ -114,21 +114,20 @@
 
 		@Html.RenderButtonScript("编辑",@<text>
 		function @(item.NavigateUrl)() {
-			switch (resourceType) {
+		    var url;
+		    switch (resourceType) {
 				case 'local':
 				    if (mercurius.HasSingleRowSelected(localResourceId)) {
-						var url = '@Url.Action("CreateOrUpdateLocalResource")/?id=' + localResourceId;
-
-				        mercurius.OpenDialog(url, 'CreateOrUpdateLocalResource', '编辑局部资源信息', 450, 291);
+				        url = '@Url.Action("CreateOrUpdateLocalResource")/' + localResourceId;
+				        mercurius.OpenDialog(url, 'CreateOrUpdateLocalResource', '编辑局部资源信息', 450, 255);
 					}
 
 					break;
 
 				case 'global':
 				    if (mercurius.HasSingleRowSelected(globalResourceId)) {
-						var url = '@Url.Action("CreateOrUpdateGlobalResource")/?id=' + globalResourceId;
-
-				        mercurius.OpenDialog(url, 'CreateOrUpdateLocalResource', '编辑全局资源信息', 450, 190);
+				        url = '@Url.Action("CreateOrUpdateGlobalResource")/' + globalResourceId;
+				        mercurius.OpenDialog(url, 'CreateOrUpdateLocalResource', '编辑全局资源信息', 450, 150);
 					}
 
 					break;
@@ -174,7 +173,7 @@
 							if (rs.IsSuccess) {
 								ReloadResource(rs.Type);
 							} else {
-							    mercurius.ShowTipsMessage('删除失败，失败原因：' + rs.Message, 4000, 5);
+							    mercurius.ShowTipsMessage('删除失败，失败原因：' + rs.ErrorMessage, 4000, 5);
 							}
 						}
 					});

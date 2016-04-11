@@ -15,11 +15,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#ManagerName').click(function () {
-                mercurius.OpenDialog('@Url.Action("ChooseUser", "User",new { @type="manager"})', 'ChooseUser', '选择部门负责人', 720, 500, { statusbar: false, x: 'right', y: 'bottom' });
+                mercurius.OpenDialog('@Url.Action("ChooseUser", "Helper",new { @Area="", @type="manager"})', 'ChooseUser', '选择部门负责人', 620, 500, { statusbar: false, x: 'right', y: 'bottom' });
             });
 
             $('#AssistantManagerName').click(function () {
-                mercurius.OpenDialog('@Url.Action("ChooseUser", "User", new { @type="assistant" })', 'ChooseUser', '选择部门助理', 720, 500, { statusbar: false, x: 'right', y: 'bottom' });
+                mercurius.OpenDialog('@Url.Action("ChooseUser", "Helper", new { @Area="", @type="assistant" })', 'ChooseUser', '选择部门助理', 620, 500, { statusbar: false, x: 'right', y: 'bottom' });
             });
         });
 

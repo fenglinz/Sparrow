@@ -41,9 +41,9 @@
 
         // 选取系统图标
         function ChooseImage() {
-            var url = '@Url.Action("Icons", "SystemMenu")';
+            var url = '@Url.Action("ChooseImage", "Helper", new { @Area = "" })';
 
-            mercurius.OpenDialog(url, 'Icons', '系统图标-选取', 575, 400, { x: 'right', y: 'bottom', statusbar: false });
+            mercurius.OpenDialog(url, 'ChooseImage', '系统图标', 575, 400, { x: 'right', y: 'bottom', statusbar: false });
         }
 
         // 设置图标

@@ -7,6 +7,7 @@ using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Entities.RBAC.SO;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -76,6 +77,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="org">组织机构信息</param>
         /// <returns>保存结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(Organization org)
         {
@@ -92,6 +94,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">组织机构编号</param>
         /// <returns>删除结果信息</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Remove(string id)
         {
             var rsp = this.OrganizationService.Remove(id);

@@ -8,6 +8,7 @@ using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.WebApi;
 using Mercurius.Sparrow.Entities.WebApi;
 using Mercurius.Sparrow.Entities.WebApi.SO;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
 {
@@ -45,6 +46,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(Role role)
         {
@@ -54,6 +56,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Remove(int id)
         {
             return Json(this.RoleService.Remove(id));
@@ -71,6 +74,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult _GetUnAllotUsers(int roleId, string account)
         {
             this.ViewBag.UnAllotUsers = this.RoleService.GetUnAllotUsers(roleId, account);
@@ -79,6 +83,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult _GetAllotUsers(int roleId)
         {
             this.ViewBag.AllotMembers = this.RoleService.GetAllotUsers(roleId);
@@ -87,12 +92,14 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult AddMember(int roleId, int userId)
         {
             return Json(this.RoleService.AddMember(roleId, userId));
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult RemoveMember(int roleId, int userId)
         {
             return Json(this.RoleService.RemoveMember(roleId, userId));
@@ -112,7 +119,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return View(rolePermissions);
         }
 
-        public ActionResult ViewDetails(int id)
+        public ActionResult ViewPermissions(int id)
         {
             var rolePermissions = this.RoleService.GetRolePermissions(id);
 
@@ -120,6 +127,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult ConfirmAllotPermissions(int roleId, int[] apiId)
         {
             var rsp = this.RoleService.AllotPermissions(roleId, apiId);

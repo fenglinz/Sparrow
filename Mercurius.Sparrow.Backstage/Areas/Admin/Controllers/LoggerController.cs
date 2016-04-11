@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Mercurius.Infrastructure.Ado;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core.SO;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -44,7 +45,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult ClearLogs()
+        [IgnorePermissionValid]
+        public ActionResult ClearLogs()
 		{
 			var rsp = this.LoggerService.ClearLogs();
 

@@ -9,6 +9,7 @@ using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.Dynamic;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 {
@@ -104,6 +105,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <returns>返回数据查询页面</returns>
         [HttpPost]
         [ValidateInput(false)]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
         public ActionResult Save(string table)
         {
@@ -119,7 +121,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="conditions">删除条件</param>
         /// <returns>返回删除成功的json</returns>
         [HttpPost]
-        public JsonResult Remove(string id, string conditions)
+        [IgnorePermissionValid]
+        public ActionResult Remove(string id, string conditions)
         {
             this.DynamicQuery.Where(conditions.AsObject<IList<Condition>>()).Remove(id);
 

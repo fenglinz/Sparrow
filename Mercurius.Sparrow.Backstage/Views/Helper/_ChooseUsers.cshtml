@@ -1,4 +1,7 @@
-﻿@model ResponseCollection<User>
+﻿@using Mercurius.Sparrow.Entities.RBAC
+@using Mercurius.Sparrow.Entities.RBAC.SO
+
+@model ResponseCollection<User>
 
 @{
     var so = this.ViewBag.SO as UserSO;
@@ -19,12 +22,11 @@
             {
                 foreach (var item in Model.Datas)
                 {
-                    <tr>
+                    <tr ondblclick="ChoosedUser('@item.Id', '@item.Name')">
                         <td class="text-center">@item.RowIndex</td>
                         <td>@item.Code</td>
                         <td>@item.Name</td>
                         <td>@item.Title</td>
-                        <td style="display:none;">@item.Id</td>
                     </tr>
                 }
             }

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -43,6 +44,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult CreateOrUpdate(HomeShortcut homeShortcut)
         {
             if (string.IsNullOrWhiteSpace(homeShortcut.Id))
@@ -58,12 +60,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Remove(string ids)
         {
             var args = ids.Split(',');
             var rsp = this.UserService.RemoveHomeShortcut(WebHelper.GetLogOnUserId(), args);
 
-            return this.Json(new { rsp.IsSuccess, Message = rsp.ErrorMessage });
+            return this.Json(rsp);
         }
     }
 }

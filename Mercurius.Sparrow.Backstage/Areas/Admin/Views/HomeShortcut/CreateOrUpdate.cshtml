@@ -29,9 +29,9 @@
     <script type="text/javascript">
         //全取系统图标
         function SelectOpenImg() {
-            var url = '@Url.Action("Icons", "SystemMenu")';
+            var url = '@Url.Action("ChooseImage", "Helper", new { @Area = "" })';
 
-            mercurius.OpenDialog(url, 'Icons_List', '系统图标-全取', 615, 400, { x: 'right', y: 'bottom', statusbar: false });
+            mercurius.OpenDialog(url, 'ChooseImage', '系统图标', 615, 400, { x: 'right', y: 'bottom', statusbar: false });
         }
 
         //全取图标回调赋值

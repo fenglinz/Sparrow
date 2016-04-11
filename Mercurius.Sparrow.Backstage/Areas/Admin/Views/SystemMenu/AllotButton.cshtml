@@ -44,12 +44,12 @@
     <script type="text/javascript">
         var needRefresh = '@this.Request.QueryString["refresh"]';
 
-        $(function () {
-            $("#allButton div").dblclick(function () {
+        $(function() {
+            $("#allButton div").dblclick(function() {
                 var isExist = true;
                 var all = $(this).attr('title');
 
-                $('#selectedButton div').each(function () {
+                $('#selectedButton div').each(function() {
                     if ($(this).attr('title') === all) {
                         isExist = false;
 
@@ -58,14 +58,13 @@
                 });
 
                 if (isExist === true) {
-                    mercurius.Ajax('@Url.Action("AllotButton")', { systemMenuId: '@this.ViewBag.Id', buttonId: $(this).attr('id') }, function (rs) {
+                    mercurius.Ajax('@Url.Action("AllotButton")', { systemMenuId: '@this.ViewBag.Id', buttonId: $(this).attr('id') }, function(rs) {
                         if (rs.IsSuccess) {
                             needRefresh = true;
                             mercurius.ShowTipsMessage("添加成功！", 2000, 4);
-                            window.location.href = '@Url.Action("AllotButton", new {@id=this.ViewBag.Id,@refresh="true"})';
-                        }
-                        else {
-                            mercurius.ShowTipsMessage("操作失败，请稍后重试！" + rs.Message, 4000, 5);
+                            window.location.href = '@Url.Action("AllotButton", new {@id = this.ViewBag.Id, @refresh = "true"})';
+                        } else {
+                            mercurius.ShowTipsMessage("操作失败，失败原因：" + rs.ErrorMessage, 4000, 5);
                         }
                     });
                 } else {
@@ -82,20 +81,18 @@
 
         // 移除按钮
         function removeButton(id) {
-            mercurius.ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function (r) {
-                if (r) {
-                    mercurius.Ajax('@Url.Action("Remove")', { id: id }, function (rs) {
-                        if (rs.IsSuccess) {
-                            mercurius.ShowTipsMessage("删除成功！", 2000, 4);
-                            window.location.href = '@Url.Action("AllotButton", new { @id = this.ViewBag.Id, @refresh = "true" })';
-                        }
-                        else {
-                            mercurius.ShowTipsMessage("<span style='color:red'>删除失败，请稍后重试！  失败原因：" + rs.Data + "</span>", 4000, 5);
-                        }
-                    });
-                }
+            mercurius.ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function () {
+                mercurius.Ajax('@Url.Action("Remove")', { id: id }, function(rs) {
+                    if (rs.IsSuccess) {
+                        mercurius.ShowTipsMessage("删除成功！", 2000, 4);
+                        window.location.href = '@Url.Action("AllotButton", new {@id = this.ViewBag.Id, @refresh = "true"})';
+                    } else {
+                        mercurius.ShowTipsMessage("<span style='color:red'>删除失败，请稍后重试！  失败原因：" + rs.Data + "</span>", 4000, 5);
+                    }
+                });
             });
         }
+
         function selectedButton(e) {
             $('.btn').removeClass("btn-primary");
             $(e).addClass("btn-primary");

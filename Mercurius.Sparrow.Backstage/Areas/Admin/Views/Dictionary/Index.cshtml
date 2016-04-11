@@ -41,7 +41,7 @@
             if (mercurius.HasSingleRowSelected(id)) {
                 var addUrl = '@Url.Action("CreateOrUpdate")/?parentId=' + GetParentId();
 
-                mercurius.OpenDialog(addUrl, "CreateOrUpdate", "字典管理-添加", 500, 278);
+                mercurius.OpenDialog(addUrl, "CreateOrUpdate", "字典管理-添加", 500, 250);
             }
         }
 
@@ -58,7 +58,7 @@
             var parentId = GetParentId();
 
             if (mercurius.HasSingleRowSelected(id)) {
-                var hasChildren = $('table tr.selected').attr('hasChildren') !=undefined;
+                var hasChildren = $('table tr.selected').attr('hasChildren')!=undefined;
 
                 if (hasChildren) {
                     var editCategoryUrl = '@Url.Action("CreateOrUpdateCategory")/?id=' + id;
@@ -67,7 +67,7 @@
                 } else {
                     var editUrl = '@Url.Action("CreateOrUpdate", "Dictionary")/?id=' + id+'&parentId='+parentId;
 
-                    mercurius.OpenDialog(editUrl, "CreateOrUpdate", "字典管理-编辑", 500, 278);
+                    mercurius.OpenDialog(editUrl, "CreateOrUpdate", "字典管理-编辑", 500, 250);
                 }
             }
         }

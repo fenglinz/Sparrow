@@ -19,7 +19,7 @@
         function @(item.NavigateUrl)() {
             var url = "@Url.Action("CreateOrUpdate", "HomeShortcut", new { @Area = "Admin" })";
 
-            mercurius.OpenDialog(url, 'ChooseImageContainer', '首页快捷功能信息 - 添加', 450, 300);
+            mercurius.OpenDialog(url, 'ChooseImageContainer', '首页快捷功能信息 - 添加', 450, 265);
         }
         </text>)
 
@@ -27,9 +27,9 @@
         function @(item.NavigateUrl)() {
             var key = mercurius.GetCheckboxValue('#table1');
             if (mercurius.HasSingleRowSelected(key)) {
-                var url = "@Url.Action("CreateOrUpdate", "HomeShortcut", new { @Area = "Admin" })/?id=" + key;
+                var url = "@Url.Action("CreateOrUpdate", "HomeShortcut", new { @Area = "Admin" })/" + key;
 
-                mercurius.OpenDialog(url, 'ChooseImageContainer', '首页快捷功能信息 - 添加', 450, 300);
+                mercurius.OpenDialog(url, 'ChooseImageContainer', '首页快捷功能信息 - 添加', 450, 265);
             }
         }
         </text>)
@@ -38,23 +38,7 @@
         function @(item.NavigateUrl)() {
             var key = mercurius.GetCheckboxValue('#table1');
             if (mercurius.HasSingleRowSelected(key)) {
-                mercurius.ShowConfirmMessage('是否确定删除？',function(){
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        url: '@Url.Action("Remove","HomeShortcut")',
-                        data: { ids: key },
-                        dataType: 'JSON',
-                        success: function (rs) {
-                            if (rs.IsSuccess) {
-                                mercurius.ShowTipsMessage('删除成功！', 4000, 4);
-                                mercurius.Reloading();
-                            } else {
-                                mercurius.ShowTipsMessage('删除失败，失败原因' + rs.Message, 4000, 5);
-                            }
-                        }
-                    });
-                });
+                mercurius.RemoveData('@Url.Action("Remove", "HomeShortcut")', { ids: key });
             }
         }
         </text>)

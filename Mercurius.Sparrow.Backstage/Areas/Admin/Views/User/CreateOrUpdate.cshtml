@@ -45,7 +45,7 @@
             });
 
             $('#reporterName').click(function () {
-                mercurius.OpenDialog('@Url.Action("ChooseUser", "User",new { ExcludeReporter = (Model ==null || Model.User==null) ? "" : Model.User.Id })', 'ChooseUser', '选择用户', 720, 500, { statusbar: false, x: 'right', y: 'bottom' });
+                mercurius.OpenDialog('@Url.Action("ChooseUser", "Helper",new { Area="" ,ExcludeReporter = (Model ==null || Model.User==null) ? "" : Model.User.Id })', 'ChooseUser', '选择用户', 720, 500, { statusbar: false, x: 'right', y: 'bottom' });
             });
         });
 

@@ -270,11 +270,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\DictionaryController.cs" />
     <Compile Include="Areas\Admin\Controllers\GlobalizationController.cs" />
+    <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoggerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemSettingController.cs" />
     <Compile Include="Controllers\OperationRecordController.cs" />
-    <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Extensions\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Extensions\MercuriusUrlHelper.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\MercuriusAuthorizeAttribute.cs" />
@@ -435,7 +436,7 @@
     <Content Include="Areas\Admin\Views\Role\ViewPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\AllotButton.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\CreateOrUpdate.cshtml" />
-    <Content Include="Areas\Admin\Views\SystemMenu\Icons.cshtml" />
+    <Content Include="Views\Helper\ChooseImage.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\User\CreateOrUpdate.cshtml" />
@@ -458,8 +459,8 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Areas\DynamicPage\Views\Dynamic\ViewDetail.cshtml" />
-    <Content Include="Areas\Admin\Views\User\ChooseUser.cshtml" />
-    <Content Include="Areas\Admin\Views\User\_ChooseUsers.cshtml" />
+    <Content Include="Views\Helper\ChooseUser.cshtml" />
+    <Content Include="Views\Helper\_ChooseUsers.cshtml" />
     <Content Include="Areas\WebApi\Views\Web.config" />
     <Content Include="Areas\WebApi\Views\_ViewStart.cshtml" />
     <Content Include="Areas\WebApi\Views\User\Index.cshtml" />
@@ -572,7 +573,7 @@
     <Content Include="Content\fonts\OpenSans-300.woff" />
     <Content Include="Content\fonts\OpenSans-400.woff" />
     <Content Include="Areas\Admin\Views\Install\Index.cshtml" />
-    <None Include="Areas\WebApi\Views\Role\ViewDetails.cshtml" />
+    <None Include="Areas\WebApi\Views\Role\ViewPermissions.cshtml" />
     <None Include="Properties\PublishProfiles\LocalFileSystem.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />

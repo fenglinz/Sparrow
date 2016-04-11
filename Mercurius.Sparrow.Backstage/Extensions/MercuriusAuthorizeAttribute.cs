@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Autofac;
+using Castle.Core.Internal;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts;
@@ -20,24 +21,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     /// </summary>
     public class MercuriusAuthorizeAttribute : AuthorizeAttribute
     {
-        #region 字段
-
-        /// <summary>
-        /// 用户信息。
-        /// </summary>
-        private User _user = null;
-
-        #endregion
-
         /// <summary>
         /// 重写用户认证。
         /// </summary>
         /// <param name="filterContext">过滤器上下文</param>
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
-            //this._user = WebHelper.GetFromSession<User>();
-            //RecoverySession(filterContext.HttpContext.User);
-
             if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true) ||
                 filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
             {
@@ -50,7 +39,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             {
                 filterContext.HttpContext.Response.Redirect(loginUrl, true);
             }
-            else if(((ReflectedActionDescriptor)filterContext.ActionDescriptor).MethodInfo.ReturnType == typeof(ActionResult))
+            else if (filterContext.ActionDescriptor.GetAttribute<IgnorePermissionValidAttribute>() == null)
             {
                 using (var context = AutofacConfig.Container.BeginLifetimeScope())
                 {
@@ -61,39 +50,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
                     if (!systemMenus.HasData() || systemMenus.Datas.All(d => string.CompareOrdinal(d.NavigateUrl, currentUrl) != 0))
                     {
                         filterContext.HttpContext.Response.Write($"<b>无权限访问该页面({currentUrl})！</b>");
-                        //filterContext.HttpContext.Response.End();
+                        filterContext.HttpContext.Response.End();
                     }
                 }
             }
         }
-
-        #region 私有方法
-
-        /// <summary>
-        /// 从Session中获取用户信息。
-        /// </summary>
-        /// <param name="user">用户对象</param>
-        private void RecoverySession(IPrincipal user)
-        {
-            if (user != null && user.Identity.IsAuthenticated)
-            {
-                if (this._user == null)
-                {
-                    var registerUserService = AutofacConfig.Container.Resolve<IUserService>();
-
-                    if (registerUserService != null)
-                    {
-                        var current = registerUserService.GetUserById(WebHelper.GetLogOnUserId());
-
-                        if (current.IsSuccess)
-                        {
-                            //WebHelper.AddToSession(current.Data);
-                        }
-                    }
-                }
-            }
-        }
-
-        #endregion
     }
 }

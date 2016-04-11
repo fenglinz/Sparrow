@@ -26,8 +26,6 @@
 @section Scripts{
     @Scripts.Render("~/bundles/validate", "~/bundles/tree")
     <script type="text/javascript">
-        var saveUrl = '@Url.Action("CreateOrUpdate", "Dictionary")';
-
         $(document).ready(function () {
             parentChange();
             $("#ParentId").bind("change", parentChange);

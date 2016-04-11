@@ -7,6 +7,77 @@
 
   <statements>
 
+    <!-- 添加或者编辑全局资源 -->
+    <insert id="CreateOrUpdateGlobalResource" parameterClass="Params">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM Globalization WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL AND [KEY]=#Key#)
+          UPDATE Globalization
+          SET
+            Value=#Value#,
+            Remark=#Remark#
+          WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL AND [KEY]=#Key#
+        ELSE
+          INSERT INTO Globalization
+          (
+            Id,
+            [Key],
+            Value,
+            Remark
+          ) 
+          VALUES 
+          (
+            NEWID(),
+            #Key#,
+            #Value#,
+            #Remark#
+          )
+      ]]>
+    </insert>
+
+    <!-- 添加或者编辑资源信息 -->
+    <update id="CreateOrUpdateResource" parameterClass="Globalization">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM Globalization WHERE Id=#Id#)
+          UPDATE Globalization
+          SET
+            Area=#Area#,
+            Controller=#Controller#,
+            ViewName=#View#,
+            [key]=#Key#,
+            Value=#Value#,
+            Remark=#Remark#
+          WHERE Id=#Id#
+        ELSE
+          INSERT INTO Globalization
+          (
+            ID,
+            area,
+            controller,
+            ViewName,
+            [Key],
+            Value,
+            Remark
+          ) 
+          VALUES 
+          (
+            NEWID(),
+            #Area#,
+            #Controller#,
+            #View#,
+            #Key#,
+            #Value#,
+            #Remark#
+          )
+      ]]>
+    </update>
+
+    <!-- 删除资源信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        DELETE FROM Globalization WHERE Id=#value#
+      ]]>
+    </delete>
+
     <!-- 获取全局视图资源 -->
     <select id="GetGlobalResource" parameterClass="string" resultClass="string">
       <![CDATA[
@@ -77,7 +148,7 @@
         WHERE Id=#value#
       ]]>
     </select>
-    
+
     <!-- 获取本地视图资源信息 -->
     <select id="GetLocalResources" parameterClass="GlobalizationSO" resultClass="Globalization">
       <![CDATA[
@@ -155,76 +226,5 @@
         </isNotNull>
       </dynamic>
     </select>
-
-    <!-- 添加或者编辑全局资源 -->
-    <insert id="CreateOrUpdateGlobalResource" parameterClass="Params">
-      <![CDATA[
-        IF EXISTS(SELECT * FROM Globalization WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL AND [KEY]=#Key#)
-          UPDATE Globalization
-          SET
-            Value=#Value#,
-            Remark=#Remark#
-          WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL AND [KEY]=#Key#
-        ELSE
-          INSERT INTO Globalization
-          (
-            ID,
-            [Key],
-            Value,
-            Remark
-          ) 
-          VALUES 
-          (
-            NEWID(),
-            #Key#,
-            #Value#,
-            #Remark#
-          )
-      ]]>
-    </insert>
-
-    <!-- 添加或者编辑资源信息 -->
-    <update id="CreateOrUpdateResource" parameterClass="Globalization">
-      <![CDATA[
-        IF EXISTS(SELECT * FROM Globalization WHERE Id=#Id#)
-          UPDATE Globalization
-          SET
-            Area=#Area#,
-            Controller=#Controller#,
-            ViewName=#View#,
-            [key]=#Key#,
-            Value=#Value#,
-            Remark=#Remark#
-          WHERE Id=#Id#
-        ELSE
-          INSERT INTO Globalization
-          (
-            ID,
-            area,
-            controller,
-            ViewName,
-            [Key],
-            Value,
-            Remark
-          ) 
-          VALUES 
-          (
-            NEWID(),
-            #Area#,
-            #Controller#,
-            #View#,
-            #Key#,
-            #Value#,
-            #Remark#
-          )
-      ]]>
-    </update>
-
-    <!-- 删除资源信息 -->
-    <delete id="Remove" parameterClass="string">
-      <![CDATA[
-        DELETE FROM Globalization WHERE Id=#value#
-      ]]>
-    </delete>
   </statements>
 </sqlMap>

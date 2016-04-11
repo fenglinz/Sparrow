@@ -51,9 +51,9 @@
                     }
                 }
             </ul>
-                    }
+        }
     </li>
-                    }
+}
 
 @helper ShowChildren(IEnumerable<SystemMenu> menus, string parentId)
 {
@@ -63,7 +63,7 @@
         <ul class="submenu">
         @foreach (var item in children)
         {
-            <li class="">
+            <li>
                 <a href="#" class="dropdown-toggle" onclick="OnSidebarItemClick(this,'@item.NavigateUrl', '@item.Target');">
                     <i class="menu-icon fa fa-caret-right"></i>
                     @item.Name

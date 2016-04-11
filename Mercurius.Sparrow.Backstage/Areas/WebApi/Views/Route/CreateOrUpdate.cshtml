@@ -1,9 +1,12 @@
 ﻿@model Api
 
 @section Scripts{
+    <script type="text/javascript" src="~/bundles/validate"></script>
     <script type="text/javascript">
         function OnSave() {
-            $('#ajaxForm').submit();
+            if (JudgeValidate('#ajaxForm')) {
+                $('#ajaxForm').submit();
+            }
         }
     </script>
 }
@@ -13,16 +16,18 @@
     <div class="form-group form-group-sm">
         <label class="col-sm-2 control-label" for="Route">路由地址</label>
         <div class="col-sm-10">
-            @Html.TextBoxFor(x => x.Route, new { @class = "form-control" })
+            @Html.TextBoxFor(x => x.Route, new { @class = "form-control", @validate_rule="notNull" })
         </div>
     </div>
     <div class="form-group form-group-sm">
         <label class="col-sm-2 control-label" for="HttpVerb">访问方式</label>
         <div class="col-sm-10">
-            <label class="control-label">@Html.RadioButtonFor(x => x.HttpVerb, "GET", new { @class = "radio-inline", @checked = "checked" }) GET</label>
-            <label class="control-label">@Html.RadioButtonFor(x => x.HttpVerb, "POST", new { @class = "radio-inline" }) POST</label>
-            <label class="control-label">@Html.RadioButtonFor(x => x.HttpVerb, "PUT", new { @class = "radio-inline" }) PUT</label>
-            <label class="control-label">@Html.RadioButtonFor(x => x.HttpVerb, "DELETE", new { @class = "radio-inline" }) DELETE</label>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default @((Model!=null&&Model.HttpVerb == "GET")||Model==null?"active":"")">@Html.RadioButtonFor(x => x.HttpVerb, "GET", new { @checked = "checked" }) GET</label>
+                <label class="btn btn-default @(Model!=null&&Model.HttpVerb =="POST"?"active":"")">@Html.RadioButtonFor(x => x.HttpVerb, "POST") POST</label>
+                <label class="btn btn-default @(Model!=null&&Model.HttpVerb == "PUT" ? "active":"")">@Html.RadioButtonFor(x => x.HttpVerb, "PUT") PUT</label>
+                <label class="btn btn-default @(Model!=null&&Model.HttpVerb == "DELETE" ? "active":"")">@Html.RadioButtonFor(x => x.HttpVerb, "DELETE") DELETE</label>
+            </div>
         </div>
     </div>
     <div class="form-group form-group-sm">

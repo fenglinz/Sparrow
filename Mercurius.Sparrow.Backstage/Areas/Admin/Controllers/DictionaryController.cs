@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -63,6 +64,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="model">字典模型</param>
         /// <returns>操作结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult CreateOrUpdate(Dictionary model)
         {
             if (string.IsNullOrWhiteSpace(model.Id))
@@ -80,6 +82,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
         }
 
+        /// <summary>
+        /// 显示创建字典分类页面。
+        /// </summary>
+        /// <param name="id">字典分类编号</param>
+        /// <param name="parentId">父级字典分类编号</param>
+        /// <returns>显示字典分类界面</returns>
         public ActionResult CreateOrUpdateCategory(string id, string parentId)
         {
             this.ViewBag.Id = id;
@@ -99,6 +107,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult CreateOrUpdateCategory(Dictionary model)
         {
             if (string.IsNullOrWhiteSpace(model.Id))
@@ -118,6 +127,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">字典Id</param>
         /// <returns>操作结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Remove(string id)
         {
             var result = this.DictionaryService.Remove(id);
@@ -131,6 +141,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">字典Id</param>
         /// <param name="status">状态</param>
         /// <returns>操作结果</returns>
+        [IgnorePermissionValid]
         public ActionResult ChangeStatus(string id, int status)
         {
             var result = this.DictionaryService.ChangeStatus(id, status);

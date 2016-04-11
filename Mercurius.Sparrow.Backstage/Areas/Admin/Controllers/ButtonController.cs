@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -61,6 +61,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="button"></param>
         /// <returns></returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(Button button)
         {
@@ -77,6 +78,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">按钮编号</param>
         /// <returns>删除结果信息</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Remove(string id)
         {
             var rsp = this.ButtonService.Remove(id);

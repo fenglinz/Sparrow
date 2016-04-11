@@ -123,12 +123,12 @@
     <select id="GetUnUsedButtons" parameterClass="string" resultClass="Button">
       <![CDATA[
         WITH CTE AS (
-	        SELECT Name from RBAC.Button
+	        SELECT Name FROM RBAC.Button
 	        EXCEPT
-	        SELECT NAME FROM RBAC.SystemMenu WHERE ParentId=(SELECT TOP 1 Id FROM RBAC.SystemMenu WHERE Id=#value#)
+	        SELECT Name FROM RBAC.SystemMenu WHERE ParentId=(SELECT TOP 1 Id FROM RBAC.SystemMenu WHERE Id=#value#)
         )
         SELECT
-        a.Id
+          a.Id
           ,a.Name
           ,a.Title
           ,a.Image

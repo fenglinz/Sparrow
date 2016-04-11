@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -78,6 +79,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="systemMenu">系统菜单信息</param>
         /// <returns>执行结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult CreateOrUpdate(SystemMenu systemMenu)
         {
             systemMenu.Initialize();
@@ -90,20 +92,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #endregion
 
         /// <summary>
-        /// 显示图标选择界面。
-        /// </summary>
-        /// <returns>图标显示界面</returns>
-        public ActionResult Icons()
-        {
-            return this.View();
-        }
-
-        /// <summary>
         /// 删除菜单。
         /// </summary>
         /// <param name="id">菜单编号</param>
         /// <returns>删除结果信息</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Remove(string id)
         {
             var rsp = this.PermissionService.Remove(id);
@@ -116,13 +110,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <summary>
         /// 显示分配按钮界面。
         /// </summary>
-        /// <param name="systemMenuId">菜单编号</param>
+        /// <param name="id">菜单编号</param>
         /// <returns>分配按钮界面</returns>
-        public ActionResult AllotButton(string systemMenuId)
+        public ActionResult AllotButton(string id)
         {
-            this.ViewBag.Id = systemMenuId;
-            this.ViewBag.Buttons = this.ButtonService.GetUnUsedButtons(systemMenuId);
-            this.ViewBag.SystemButtons = this.PermissionService.GetSystemMenuButtons(systemMenuId);
+            this.ViewBag.Id = id;
+            this.ViewBag.Buttons = this.ButtonService.GetUnUsedButtons(id);
+            this.ViewBag.SystemButtons = this.PermissionService.GetSystemMenuButtons(id);
 
             return this.View();
         }
@@ -130,15 +124,16 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <summary>
         /// 保存按钮分配。
         /// </summary>
-        /// <param name="systemMenuId">菜单编号</param>
+        /// <param name="id">菜单编号</param>
         /// <param name="buttonId">按钮编号</param>
         /// <returns>保存结果信息</returns>
         [HttpPost]
-        public ActionResult AllotButton(string systemMenuId, string buttonId)
+        [IgnorePermissionValid]
+        public ActionResult AllotButton(string id, string buttonId)
         {
-            var rsp = this.PermissionService.AllotButton(systemMenuId, buttonId);
+            var rsp = this.PermissionService.AllotButton(id, buttonId);
 
-            return this.Json(new { rsp.IsSuccess, Message = rsp.ErrorMessage });
+            return this.Json(rsp);
         }
 
         #endregion

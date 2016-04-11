@@ -236,7 +236,7 @@
           ON a.CreateUserId=u1.Id
         LEFT JOIN RBAC.[User] u2
           ON a.ModifyUserId=u2.Id
-        WHERE ParentId=#value# AND a.Category = 3 AND a.Status = 1
+        WHERE ParentId=#value# AND a.Category=3 AND a.Status=1
         ORDER BY a.Sort ASC
       ]]>
     </select>

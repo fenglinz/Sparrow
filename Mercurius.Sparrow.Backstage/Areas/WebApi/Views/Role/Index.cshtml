@@ -68,7 +68,7 @@
             var roleId = $('#tbRoles tr.selected').find('td:eq(3)').text().trim();
 
             if (mercurius.HasSingleRowSelected(roleId)) {
-                var url = '@Url.Action("ViewDetails", "Role")/' + roleId;
+                var url = '@Url.Action("ViewPermissions", "Role")/' + roleId;
 
                 mercurius.NavigateUrl(url);
             }

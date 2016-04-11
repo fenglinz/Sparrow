@@ -5,12 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Entities.RBAC.SO;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -92,6 +91,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="role">角色信息</param>
         /// <returns>操作结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(Role role)
         {
@@ -115,6 +115,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">角色编号</param>
         /// <returns>删除结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Remove(string id)
         {
             return Json(this.RoleService.Remove(id));
@@ -160,6 +161,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="so">查询条件</param>
         /// <returns>未分配角色的用户</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult _GetUnAllotUsers(UserSO so)
         {
             this.ViewBag.SO = so;
@@ -174,6 +176,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">角色编号</param>
         /// <returns>角色成员信息</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult _GetMembers(string id)
         {
             this.ViewBag.RoleId = id;
@@ -194,6 +197,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="userIds">用户编号</param>
         /// <returns>添加结果信息</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult AddMembers(string id, string userIds)
         {
             if (string.IsNullOrWhiteSpace(userIds))
@@ -213,6 +217,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="userIds">用户编号</param>
         /// <returns>删除结果信息</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult RemoveMember(string id, string userIds)
         {
             var rsp = this.RoleService.RemoveMembers(id, userIds.Split(','));
@@ -247,6 +252,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="selecteds">已选择的可访问的资源</param>
         /// <returns>操作结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult ConfirmAllotPermissions(string selecteds)
         {
             var result = "分配成功！";

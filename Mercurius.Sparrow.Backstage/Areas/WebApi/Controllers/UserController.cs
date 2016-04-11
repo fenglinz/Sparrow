@@ -8,6 +8,7 @@ using Mercurius.Sparrow.Contracts.WebApi;
 using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.WebApi;
 using Mercurius.Sparrow.Entities.WebApi.SO;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
 {
@@ -59,6 +60,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         /// <param name="user">用户信息</param>
         /// <returns>保存结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(User user)
         {
@@ -88,6 +90,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         /// <param name="id">用户编号</param>
         /// <returns>操作结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Remove(int id)
         {
             var rsp = this.UserService.Remove(id);
@@ -101,6 +104,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         /// <param name="id">用户编号</param>
         /// <returns>锁定结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult AuthorizeUser(int id)
         {
             return Json(this.UserService.ChangeStatus(id, 1));
@@ -112,6 +116,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         /// <param name="id">用户编号</param>
         /// <returns>锁定结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult LockUser(int id)
         {
             return Json(this.UserService.ChangeStatus(id, 2));

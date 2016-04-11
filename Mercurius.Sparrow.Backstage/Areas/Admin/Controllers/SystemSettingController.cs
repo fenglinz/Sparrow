@@ -8,6 +8,7 @@ using Mercurius.Infrastructure.Cache;
 using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -38,6 +39,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult SaveSetting(string name, string value)
         {
             var rsp = this.SystemSettingService.SaveSetting(new SystemSetting
@@ -58,6 +60,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="productVersion">显示版本</param>
         /// <returns>保存结果通知</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
         public ActionResult SaveProductInfo(string productName, string productVersion)
         {
@@ -105,6 +108,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult ShowCacheValue(string key)
         {
             var cache = AutofacConfig.Container.Resolve<CacheProvider>();
@@ -120,6 +124,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult RemoveCacheValue(string key)
         {
             var cache = AutofacConfig.Container.Resolve<CacheProvider>();
@@ -130,6 +135,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
         public ActionResult ClearCache()
         {

@@ -11,6 +11,26 @@ namespace Mercurius.Sparrow.Contracts.Core
     public interface IGlobalizationService
     {
         /// <summary>
+        /// 添加或者编辑全局资源。
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="remark">备注信息</param>
+        Response CreateOrUpdateGlobalResource(string key, string value, string remark);
+
+        /// <summary>
+        /// 添加或者编辑资源信息。
+        /// </summary>
+        /// <param name="resource">资源信息</param>
+        Response CreateOrUpdateResource(Globalization resource);
+
+        /// <summary>
+        /// 删除资源信息。
+        /// </summary>
+        /// <param name="id">资源编号</param>
+        Response Remove(string id);
+
+        /// <summary>
         /// 获取全局视图资源。
         /// </summary>
         /// <param name="key">键</param>
@@ -46,25 +66,5 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// <param name="so">查询对象</param>
         /// <returns>视图资源列表</returns>
         ResponseCollection<Globalization> GetLocalResources(GlobalizationSO so);
-
-        /// <summary>
-        /// 添加或者编辑全局资源。
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <param name="remark">备注信息</param>
-        Response CreateOrUpdateGlobalResource(string key, string value, string remark);
-
-        /// <summary>
-        /// 添加或者编辑资源信息。
-        /// </summary>
-        /// <param name="resource">资源信息</param>
-        Response CreateOrUpdateResource(Globalization resource);
-
-        /// <summary>
-        /// 删除资源信息。
-        /// </summary>
-        /// <param name="id">资源编号</param>
-        Response Remove(string id);
     }
 }

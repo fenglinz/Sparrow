@@ -10,6 +10,7 @@ using Mercurius.Infrastructure.Dynamic;
 using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Entities.Dynamic;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 {
@@ -38,7 +39,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="comments">注解信息</param>
         /// <returns>返回注解结果json</returns>
         [HttpPost]
-        public JsonResult CommentTable(string id, string comments)
+        [IgnorePermissionValid]
+        public ActionResult CommentTable(string id, string comments)
         {
             this.DynamicQuery.Provider.DbMetadata.CommentTable(id, comments);
 
@@ -69,7 +71,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="columns">列信息集合</param>
         /// <returns>返回列注释成功的js提醒</returns>
         [HttpPost]
-        public JavaScriptResult CommentColumns(string id, IList<Column> columns)
+        [IgnorePermissionValid]
+        public ActionResult CommentColumns(string id, IList<Column> columns)
         {
             if (!columns.IsEmpty())
             {
@@ -117,8 +120,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="searchId">查询编号</param>
         /// <returns>返回保存成功的js提醒</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
-        public JavaScriptResult SaveSearchConfig(string id, int searchId = 0)
+        public ActionResult SaveSearchConfig(string id, int searchId = 0)
         {
             var search = new SearchInfo
             {
@@ -141,8 +145,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="conditions">查询条件配置信息</param>
         /// <returns>返回保存查询条件配置成功的js</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
-        public JavaScriptResult SaveConditionConfig(string id, IList<ConditionInfo> conditions)
+        public ActionResult SaveConditionConfig(string id, IList<ConditionInfo> conditions)
         {
             this.DynamicQuery.Where<ConditionInfo>(m => m.TableName, id).Remove();
 
@@ -164,8 +169,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="orders">排序配置信息</param>
         /// <returns>返回保存排序配置成功的js</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
-        public JavaScriptResult SaveOrderConfig(string id, IList<OrderInfo> orders)
+        public ActionResult SaveOrderConfig(string id, IList<OrderInfo> orders)
         {
             this.DynamicQuery.Where<OrderInfo>(m => m.TableName, id).Remove();
 
@@ -231,8 +237,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="createOrUpdates">添加/编辑配置信息</param>
         /// <returns>返回配置信息保存成功的js</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
-        public JavaScriptResult SaveCreateOrUpdateConfig(string id, IList<CreateOrUpdateInfo> createOrUpdates)
+        public ActionResult SaveCreateOrUpdateConfig(string id, IList<CreateOrUpdateInfo> createOrUpdates)
         {
             if (!createOrUpdates.IsEmpty())
             {

@@ -10,6 +10,7 @@ using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Entities.Swagger;
 using Mercurius.Sparrow.Entities.WebApi;
 using Mercurius.Sparrow.Entities.WebApi.SO;
+using Mercurius.Sparrow.Mvc.Extensions;
 using Newtonsoft.Json;
 
 namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
@@ -77,6 +78,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult CreateOrUpdate(Api model)
         {
             if (model.Id > 0)
@@ -100,6 +102,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Delete(int id)
         {
             var result = ApiService.Remove(id);
@@ -112,6 +115,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult ReflushRoutes(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -144,6 +148,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult SaveWebApiDocumentUrl(string url)
         {
             var rsp = this.SystemSettingService.SaveSetting(new SystemSetting

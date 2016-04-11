@@ -20,6 +20,58 @@ namespace Mercurius.Sparrow.Services.Core
         #region IGlobalizationService接口实现
 
         /// <summary>
+        /// 添加或者编辑全局资源。
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="remark">备注信息</param>
+        public Response CreateOrUpdateGlobalResource(string key, string value, string remark)
+        {
+            var args = new { Key = key, Value = value, Remark = remark };
+
+            return this.InvokeService(
+                nameof(CreateOrUpdateGlobalResource),
+                () =>
+                {
+                    this.Persistence.Create(GlobalizationNamespace, "CreateOrUpdateGlobalResource", args);
+
+                    this.ClearCache<Globalization>();
+                }, new { key, value, remark });
+        }
+
+        /// <summary>
+        /// 添加或者编辑资源信息。
+        /// </summary>
+        /// <param name="globalization">资源信息</param>
+        public Response CreateOrUpdateResource(Globalization globalization)
+        {
+            return this.InvokeService(
+                nameof(CreateOrUpdateResource),
+                () =>
+                {
+                    this.Persistence.Update(GlobalizationNamespace, "CreateOrUpdateResource", globalization);
+
+                    this.ClearCache<Globalization>();
+                }, globalization);
+        }
+
+        /// <summary>
+        /// 删除资源信息。
+        /// </summary>
+        /// <param name="id">资源编号</param>
+        public Response Remove(string id)
+        {
+            return this.InvokeService(
+                nameof(Remove),
+                () =>
+                {
+                    this.Persistence.Delete(GlobalizationNamespace, "Remove", id);
+
+                    this.ClearCache<Globalization>();
+                }, id);
+        }
+
+        /// <summary>
         /// 获取全局视图资源。
         /// </summary>
         /// <param name="key">键</param>
@@ -67,7 +119,7 @@ namespace Mercurius.Sparrow.Services.Core
                     }
 
                     return dict;
-                }, args).Data;
+                }, new { controller, view, area }).Data;
         }
 
         /// <summary>
@@ -91,13 +143,7 @@ namespace Mercurius.Sparrow.Services.Core
         {
             return this.InvokePagingService(
                 nameof(GetGlobalResources),
-                (out int totalRecords) =>
-                this.Persistence.QueryForPaginatedList<Globalization>(
-                    GlobalizationNamespace,
-                    "GetGlobalResources",
-                    out totalRecords,
-                    so),
-                so);
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList<Globalization>(GlobalizationNamespace, "GetGlobalResources", out totalRecords, so), so);
         }
 
         /// <summary>
@@ -109,66 +155,7 @@ namespace Mercurius.Sparrow.Services.Core
         {
             return this.InvokePagingService(
                 nameof(GetLocalResources),
-                (out int records) =>
-                this.Persistence.QueryForPaginatedList<Globalization>(GlobalizationNamespace, "GetLocalResources", out records, so),
-                so);
-        }
-
-        /// <summary>
-        /// 添加或者编辑全局资源。
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <param name="remark">备注信息</param>
-        public Response CreateOrUpdateGlobalResource(string key, string value, string remark)
-        {
-            var args = new { Key = key, Value = value, Remark = remark };
-
-            return this.InvokeService(
-                nameof(CreateOrUpdateGlobalResource),
-                () =>
-                {
-                    this.Persistence.Create(
-                        GlobalizationNamespace,
-                        "CreateOrUpdateGlobalResource",
-                        args);
-
-                    this.ClearCache<Globalization>();
-                }, args);
-        }
-
-        /// <summary>
-        /// 添加或者编辑资源信息。
-        /// </summary>
-        /// <param name="globalization">资源信息</param>
-        public Response CreateOrUpdateResource(Globalization globalization)
-        {
-            return this.InvokeService(
-                nameof(CreateOrUpdateResource),
-                () =>
-                {
-                    this.Persistence.Update(GlobalizationNamespace, "CreateOrUpdateResource", globalization);
-
-                    this.ClearCache<Globalization>();
-                },
-                globalization);
-        }
-
-        /// <summary>
-        /// 删除资源信息。
-        /// </summary>
-        /// <param name="id">资源编号</param>
-        public Response Remove(string id)
-        {
-            return this.InvokeService(
-                nameof(Remove),
-                () =>
-                {
-                    this.Persistence.Delete(GlobalizationNamespace, "Remove", id);
-
-                    this.ClearCache<Globalization>();
-                },
-                id);
+                (out int records) => this.Persistence.QueryForPaginatedList<Globalization>(GlobalizationNamespace, "GetLocalResources", out records, so), so);
         }
 
         #endregion

@@ -7,6 +7,7 @@ using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Entities.RBAC.SO;
 using Mercurius.Sparrow.Backstage.Areas.Admin.Models.User;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -119,6 +120,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="vm">添加或编辑用户信息视图模型</param>
         /// <returns>执行结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(CreateOrUpdateVM vm)
         {
@@ -143,6 +145,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">用户编号</param>
         /// <returns>删除结果信息</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult Remove(string id)
         {
             var rsp = this.UserService.Remove(id);
@@ -156,6 +159,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">用户编号</param>
         /// <returns>执行结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult AuthorizeUser(string id)
         {
             var rsp = this.UserService.ChangeStatus(id, 1);
@@ -169,6 +173,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="id">用户编号</param>
         /// <returns>执行结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult LockUser(string id)
         {
             var rsp = this.UserService.ChangeStatus(id, 2);
@@ -210,6 +215,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="verifyCode">验证码</param>
         /// <returns>操作结果</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult ChangePassword(string oldPassword, string newPassword, string verifyCode)
         {
             string message;
@@ -257,6 +263,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <param name="selecteds">选择的权限编号</param>
         /// <returns>保存结果信息</returns>
         [HttpPost]
+        [IgnorePermissionValid]
         public ActionResult ConfirmAllotPermissions(string id, string selecteds)
         {
             var rsp = this.PermissionService.AllotPermissionByRole(id, selecteds.Split(','));
@@ -277,44 +284,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             this.ViewBag.UserName = userName;
 
             return View(rsp);
-        }
-
-        #endregion
-
-        #region 用户选择
-
-        /// <summary>
-        /// 选择用户界面。
-        /// </summary>
-        /// <param name="so">用户查询</param>
-        /// <returns>显示界面</returns>
-        public ActionResult ChooseUser(UserSO so)
-        {
-            so = so ?? new UserSO();
-            so.PageSize = 10;
-
-            this.ViewBag.SO = so;
-            this.ViewBag.Type = this.Request.Params["type"];
-            this.ViewBag.Organizations = this.OrganizationService.GetOrganizations();
-            this.ViewBag.Users = this.UserService.SearchUsers(so);
-
-            return View();
-        }
-
-        /// <summary>
-        /// 获取用户信息。
-        /// </summary>
-        /// <param name="so">用户查询</param>
-        /// <returns>显示界面</returns>
-        public ActionResult GetUsers(UserSO so)
-        {
-            so.PageSize = 10;
-            var rspUsers = this.UserService.SearchUsers(so);
-
-            this.ViewBag.SO = so;
-            this.ViewBag.Type = this.Request.Params["type"];
-
-            return PartialView("_ChooseUsers", rspUsers);
         }
 
         #endregion
