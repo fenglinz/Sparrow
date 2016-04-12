@@ -478,6 +478,7 @@
     <Content Include="Areas\Admin\Views\Role\_UnAllotUsers.cshtml" />
     <Content Include="Areas\Admin\Views\Role\_Members.cshtml" />
     <Content Include="App_Code\Dynamic.cshtml" />
+    <Content Include="Areas\Admin\Views\Logger\_Logs.cshtml" />
     <None Include="Areas\Admin\Views\SystemSetting\ShowCaches.cshtml" />
     <Content Include="Areas\Admin\Views\User\AllotPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\User\ViewPermissions.cshtml" />

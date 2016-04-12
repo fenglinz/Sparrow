@@ -36,51 +36,51 @@
               ModifyDateTime=GETDATE()
             WHERE Id=#Id#;
         ELSE
-            IF EXISTS(SELECT * FROM RBAC.Organization WHERE Code=#Code#)
-            BEGIN
-              RAISERROR('部门编号已经被使用，请更换新的部门编号！', 16, 1);
-              
-              RETURN;
-            END
-            ELSE
-              INSERT INTO RBAC.Organization
-              (
-                Id,
-                ParentId,
-                Code,
-                Name,
-                InnerPhone,
-                OuterPhone,
-                Manager,
-                AssistantManager,
-                Fax,
-                ZipCode,
-                Address,
-                Sort,
-                Remark,
-                Status,
-                CreateUserId,
-                CreateDateTime
-              )
-              VALUES
-              (
-                NEWID(),
-                #ParentId#,
-                #Code#,
-                #Name#,
-                #InnerPhone#,
-                #OuterPhone#,
-                #Manager#,
-                #AssistantManager#,
-                #Fax#,
-                #ZipCode#,
-                #Address#,
-                #Sort#,
-                #Remark#,
-                1,
-                #CreateUserId#,
-                GETDATE()
-              )
+          IF EXISTS(SELECT * FROM RBAC.Organization WHERE Code=#Code#)
+          BEGIN
+            RAISERROR('部门编号已经被使用，请更换新的部门编号！', 16, 1);
+            
+            RETURN;
+          END
+          ELSE
+            INSERT INTO RBAC.Organization
+            (
+              Id,
+              ParentId,
+              Code,
+              Name,
+              InnerPhone,
+              OuterPhone,
+              Manager,
+              AssistantManager,
+              Fax,
+              ZipCode,
+              Address,
+              Sort,
+              Remark,
+              Status,
+              CreateUserId,
+              CreateDateTime
+            )
+            VALUES
+            (
+              NEWID(),
+              #ParentId#,
+              #Code#,
+              #Name#,
+              #InnerPhone#,
+              #OuterPhone#,
+              #Manager#,
+              #AssistantManager#,
+              #Fax#,
+              #ZipCode#,
+              #Address#,
+              #Sort#,
+              #Remark#,
+              1,
+              #CreateUserId#,
+              GETDATE()
+            )
       ]]>
     </update>
 
@@ -122,16 +122,16 @@
           ,u4.Name AS ModifyUserName
 		      ,a.ModifyDateTime
 		      ,a.Status
-          FROM RBAC.Organization a
-          LEFT JOIN RBAC.[User] u1
-            ON a.Manager=u1.Id
-          LEFT JOIN RBAC.[User] u2
-            ON a.AssistantManager=u2.Id
-          LEFT JOIN RBAC.[User] u3
-            ON a.CreateUserId=u3.Id
-          LEFT JOIN RBAC.[User] u4
-            ON a.ModifyUserId=u4.Id
-          WHERE a.Id=#value#
+        FROM RBAC.Organization a
+        LEFT JOIN RBAC.[User] u1
+          ON a.Manager=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON a.AssistantManager=u2.Id
+        LEFT JOIN RBAC.[User] u3
+          ON a.CreateUserId=u3.Id
+        LEFT JOIN RBAC.[User] u4
+          ON a.ModifyUserId=u4.Id
+        WHERE a.Id=#value#
       ]]>
     </select>
 

@@ -249,8 +249,8 @@
             WHEN MAX(SORT) IS NULL THEN 1
             ELSE MAX(SORT)+1 
           END
-        FROM RBAC.systemmenu
-        WHERE ParentId=#value# AND CATEGORY=3 AND Status=1
+        FROM RBAC.SystemMenu
+        WHERE ParentId=#value# AND Category=3 AND Status=1
       ]]>
     </select>
 
@@ -261,7 +261,7 @@
           COUNT(1) AS COUNT
         WHERE EXISTS (
           SELECT * FROM RBAC.SystemMenu
-          WHERE ParentId=#ParentId# AND NAME=#ButtonName# AND CATEGORY=3 AND Status=1
+          WHERE ParentId=#ParentId# AND Name=#ButtonName# AND Category=3 AND Status=1
         )
       ]]>
     </select>
@@ -521,75 +521,48 @@
     <!-- 获取用户当前可以使用的按钮 -->
     <select id="GetAccessibleButtons" parameterClass="Params" resultClass="SystemMenu">
       <![CDATA[
-        WITH cte AS
-        (
-          SELECT  
-            M.Id,
+        WITH cte AS(
+          SELECT
             M.Name,
-            M.Title,
-            M.Image,
+            B.Title,
+            B.Image,
             M.Target,
             M.ParentId,
-		        M.Url,
-            M.NavigateUrl,
+            M.Id,
+            M.NavigateUrl AS Url,
+            B.Code AS NavigateUrl,
             M.Sort,
-            M.Category
-          FROM
-          (
-            SELECT
-              M.Name,
-              B.Title,
-              B.Image,
-              M.Target,
-              M.ParentId,
-              M.Id,
-			        M.NavigateUrl AS Url,
-              B.Code AS NavigateUrl,
-              M.Sort,
-              M.Category,
-              '角色权限' AS TheirTYPE
-            FROM RBAC.SystemMenu M
-            LEFT JOIN RBAC.RolePermission R_R 
-              ON R_R.SystemMenuId=M.Id
-            LEFT JOIN RBAC.UserRole U_R 
-              ON U_R.RoleId=R_R.RoleId
-		        LEFT JOIN RBAC.Button B
-              ON M.Name=B.Name
-            WHERE U_R.UserId=#UserId# AND M.Status=1
-            UNION ALL
-            SELECT
-              M.Name,
-              B.Title,
-              B.Image,
-              M.Target,
-              M.ParentId,
-              M.Id,
-			        M.NavigateUrl AS Url,
-              B.Code AS NavigateUrl,
-              M.Sort,
-              M.Category,
-              '用户权限' AS TheirTYPE
-            FROM RBAC.SystemMenu M
-            LEFT JOIN RBAC.UserPermission U_R 
-              ON U_R.SystemMenuId=M.Id
-		        LEFT JOIN RBAC.Button B
-              ON M.Name=B.Name
-            WHERE U_R.UserId=#UserId# AND M.Status=1
-          ) M
-          GROUP BY M.Id, M.Name, M.Title, M.Image,
-            M.Target, M.ParentId, M.Url, M.NavigateUrl, M.Sort,M.Category
+            M.Category,
+            '角色权限' AS TheirTYPE
+          FROM RBAC.SystemMenu M
+          LEFT JOIN RBAC.RolePermission R_R 
+            ON R_R.SystemMenuId=M.Id
+          LEFT JOIN RBAC.UserRole U_R 
+            ON U_R.RoleId=R_R.RoleId
+          LEFT JOIN RBAC.Button B
+            ON M.Name=B.Name
+          WHERE U_R.UserId=#UserId# AND M.Status=1
+          UNION ALL
+          SELECT
+            M.Name,
+            B.Title,
+            B.Image,
+            M.Target,
+            M.ParentId,
+            M.Id,
+            M.NavigateUrl AS Url,
+            B.Code AS NavigateUrl,
+            M.Sort,
+            M.Category,
+            '用户权限' AS TheirTYPE
+          FROM RBAC.SystemMenu M
+          LEFT JOIN RBAC.UserPermission U_R 
+            ON U_R.SystemMenuId=M.Id
+          LEFT JOIN RBAC.Button B
+            ON M.Name=B.Name
+          WHERE U_R.UserId=#UserId# AND M.Status=1
         )
-        SELECT
-          Id
-          ,Name
-          ,Title
-          ,Image
-          ,Target
-          ,ParentId
-          ,NavigateUrl
-          ,Category
-          ,Sort
-        FROM cte
+        SELECT * FROM cte
         WHERE ParentId IN (SELECT Id FROM cte WHERE Url=#NavigateUrl#) AND cte.Category=3
         ORDER BY Sort
       ]]>

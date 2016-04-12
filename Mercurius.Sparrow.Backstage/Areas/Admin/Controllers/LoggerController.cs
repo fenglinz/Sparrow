@@ -26,11 +26,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
 		public ActionResult Index()
 		{
-			//this.ViewBag.Partitions = this.LoggerService.GetPartitions();
+            this.ViewBag.Logs = this.LoggerService.SearchLogs(new LogSO());
 
-			return this.View();
+            return this.View();
 		}
 
+        [HttpPost]
+        [IgnorePermissionValid]
 		public ActionResult Search(LogSO so)
 		{
 			if (so.EndDate.HasValue)
@@ -38,10 +40,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 				so.EndDate = DateTime.Parse($"{so.EndDate.Value.ToString("yyyy-MM-dd")} 23:59:59");
 			}
 
-			this.ViewBag.Logs = this.LoggerService.SearchLogs(so);
-			//this.ViewBag.Partitions = this.LoggerService.GetPartitions();
+            this.ViewBag.SO = so;
+			var rsp = this.LoggerService.SearchLogs(so);
 
-			return this.View("Index", so);
+			return this.PartialView("_Logs", rsp);
 		}
 
 		[HttpPost]
@@ -50,7 +52,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 		{
 			var rsp = this.LoggerService.ClearLogs();
 
-			return this.Json(new { IsSuccess = rsp.IsSuccess, Message = rsp.ErrorMessage });
+			return this.Json(rsp);
 		}
 
 		public ActionResult ViewDetails(string partition, string id)

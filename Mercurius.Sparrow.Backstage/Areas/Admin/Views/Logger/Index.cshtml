@@ -50,37 +50,12 @@
         var maxDate = "2099-12-31";
 
         $(document).ready(function () {
-            mercurius.FixedTableHeader("#logsGrid", 235);
-
             mercurius.ShowDatePicker();
-
-            if ($('#ddlPartition').val() != '') {
-                var ym = $(this).find('option[value=@partition]');
-
-                minDate = ym.attr('minDate');
-                maxDate = ym.attr('maxDate');
-            }
-
-            $('#ddlPartition').change(function () {
-                var ym = $(this).find('option:selected');
-
-                minDate = ym.attr('minDate');
-                maxDate = ym.attr('maxDate');
-
-                $('#StartDate').val('');
-                $('#EndDate').val('');
-            });
+            mercurius.FixedTableHeader("#logsGrid", 200);
         });
 
-        function OnSearchByLevel(level) {
-            var url = '@Url.Action("Search")?';
-
-            url += 'partition=' + $('#ddlPartition').val() + '&Level=' + level;
-            url += '&StartDate=' + $('#StartDate').val() + '&EndDate=' + $('#EndDate').val();
-            url += '&LogOnName=' + escape($('#LogOnName').val()) + '&LogOnIP=' + escape($('#LogOnIP').val());
-            url += '&ModelName=' + escape($('#ModelName').val());
-
-            window.location.href = url;
+        function OnSearchSuccess() {
+            mercurius.FixedTableHeader("#logsGrid", 200);
         }
 
         function ClearLogs() {
@@ -94,7 +69,7 @@
                         if (rs.IsSuccess) {
                             window.location.href = '@Url.Action("Index")';
                         } else {
-                            mercurius.ShowWarningMessage('出现错误，错误详情：' + rs.Message);
+                            mercurius.ShowWarningMessage('出现错误，错误详情：' + rs.ErrorMessage);
                         }
                     }
                 });
@@ -105,7 +80,7 @@
             var logId = $('#logsGrid tr.selected').find('td:eq(7)').text().trim();
 
             if (mercurius.HasSingleRowSelected(logId)) {
-                var url = '@Url.Action("ViewDetails")/?partition=@partition&id=' + logId;
+                var url = '@Url.Action("ViewDetails")/' + logId;
 
                 mercurius.OpenDialog(url, 'ViewLogDetails', '查看日志详情', 600, 420, { statusbar: false });
             }
@@ -115,16 +90,6 @@
 <div class="header">日志管理</div>
 <div class="toolbar panel panel-default">
     <div class="panel-heading">
-        <div class="left ShortcutSearch" style="text-align: center; padding-top:0;">
-            <span class="brand">日志级别：</span>
-            <div class="btn-group">
-                <a href="#" onclick="OnSearchByLevel('')" @Html.Raw(string.IsNullOrWhiteSpace(level) ? "class=\"btn btn-danger\"" : "class=\"btn btn-default\"")>全部</a>
-                <a href="#" onclick="OnSearchByLevel('Debug')" @Html.Raw(level == "Debug" ? "class=\"btn btn-danger\"" : "class=\"btn btn-default\"")>调试</a>
-                <a href="#" onclick="OnSearchByLevel('Info')" @Html.Raw(level == "Info" ? "class=\"btn btn-danger\"" : "class=\"btn btn-default\"")>信息</a>
-                <a href="#" onclick="OnSearchByLevel('Warn')" @Html.Raw(level == "Warn" ? "class=\"btn btn-danger\"" : "class=\"btn btn-default\"")>警告</a>
-                <a href="#" onclick="OnSearchByLevel('Error')" @Html.Raw(level == "Error" ? "class=\"btn btn-danger\"" : "class=\"btn btn-default\"")>错误</a>
-            </div>
-        </div>
         <div class="right btn-group">
             <a class="btn btn-default" onclick="ClearLogs()">
                 <i class="glyphicon glyphicon-trash"></i> 清空日志
@@ -135,125 +100,37 @@
         </div>
     </div>
 </div>
-
-@using (Html.BeginForm("Search", "Logger", FormMethod.Post, new { @id = "frmSearch", @class = "form-horizontal form", autocomplete = "off" }))
+@using (Ajax.BeginForm("Search", "Logger", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "logsContainer", OnSuccess = "OnSearchSuccess" }, new { @id="frmSearch" ,@class = "form-horizontal form", autocomplete = "off" }))
 {
-    @Html.HiddenFor(m => m.Level)
-    <div style="margin-top:5px;">
-        <label class="control-label" for="ddlPartition">选择月</label>
-        <select id="ddlPartition" name="Partition" class="form-control" style="width:90px;">
-            <option value="">全部</option>
-            @if (partitions.HasData())
-            {
-                foreach (var item in partitions.Datas)
-                {
-                    var date = DateTime.Parse(item.HightValue);
-                    <option mindate="@string.Format("{0}-{1}-01", date.Year, date.Month)" maxdate="@item.HightValue" value="@item.Name" @(item.Name == partition ? "selected" : string.Empty)>
-                        @if (item.Name == "PER2014")
-                        {
-                            <text>2014年以前</text>
-                        }
-                        else
-                        {
-                            @DateTime.Parse(item.HightValue).ToString("yyyy年MM月")
-                        }
-                    </option>
-                }
-            }
-        </select>
+    <div style="margin-top: 8px;">
+        <label for="Level" class="control-label">日志级别：</label>
+        @Html.CreateDropdownListFor(m => m.Level, "日志级别", htmlAttributes: new { @style = "width:80px;" })
         @{
             var startDate = Model != null && Model.StartDate.HasValue ? Model.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty;
             var endDate = Model != null && Model.EndDate.HasValue ? Model.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty;
         }
         <label class="control-label" for="StartDate">时间范围</label>
         <div class="form-inline">
-            <div class="input-group">
-                <input id="StartDate" name="StartDate" type="text" value="@startDate" class="datepicker form-control" style="width:100px;" />
-                <span class="input-group-addon">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                </span>
-            </div>
+            <input id="StartDate" name="StartDate" type="text" value="@startDate" class="datepicker form-control" style="width: 100px;" />
             &nbsp;～&nbsp;
-            <div class="input-group">
-                <input id="EndDate" name="EndDate" type="text" value="@endDate" class="datepicker form-control" style="width:100px;" />
-                <span class="input-group-addon">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                </span>
-            </div>
-
+            <input id="EndDate" name="EndDate" type="text" value="@endDate" class="datepicker form-control" style="width: 100px;" />
         </div>
         <label class="control-label" for="LogOnName">用户</label>
         @Html.TextBoxFor(m => m.LogOnName, new { @class = "form-control" })
-        <label class="control-label" for="LogOnIP">用户IP地址</label>
+        <label class="control-label" for="LogOnIP">登录IP</label>
         @Html.TextBoxFor(m => m.LogOnIP, new { @class = "form-control" })
         <label class="control-label" for="ModelName">模块</label>
         @Html.TextBoxFor(m => m.ModelName, new { @class = "form-control" })
-    </div>
-    <div>
-        <label class="control-label" style="margin-right:40px;"></label>
-        <button type="submit" id="searchbtn" class="btn btn-sm btn-primary" style="margin:3px 0;">
-            <i class="glyphicon glyphicon-search"></i> @Html.GetGlobalValue("query")
+        <button type="submit" class="btn btn-primary" style="margin: -4px 0 0 0;">
+            <i class="glyphicon glyphicon-search"></i> 查询
         </button>
-        <button type="button" class="btn btn-sm btn-default" onclick="$('#frmSearch input[name]').val('');">
+        <button type="button" class="btn btn-default" style="margin: -4px 0 0 0;" onclick="$('#frmSearch input[name],#frmSearch select').val('');">
             <i class="glyphicon glyphicon-remove"></i> 重置
         </button>
     </div>
-            }
-<div style="margin-top: 2px;">
-    <table class="grid" id="logsGrid" style="table-layout:fixed;">
-        <thead>
-            <tr>
-                <td style="width: 60px;">行号</td>
-                <td style="width: 120px;">用户</td>
-                <td style="width: 140px;">用户IP地址</td>
-                <td style="width: 180px;">模块</td>
-                <td style="width: 60px;">级别</td>
-                <td style="width: 150px">记录时间</td>
-                <td>日志简介</td>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null)
-            {
-                if (logs.HasData())
-                {
-                    foreach (var item in logs.Datas)
-                    {
-                        <tr>
-                            <td style="text-align: center;">@item.RowIndex</td>
-                            <td style="text-align: left;">@item.LogOnName</td>
-                            <td style="text-align: left;">@item.LogOnIP</td>
-                            <td style="text-align: left;">@item.ModelName</td>
-                            <td style="text-align: center;">@item.Level</td>
-                            <td style="text-align: center;">@item.OccurrenceDateTime</td>
-                            <td style="text-align: left;">@item.Summary</td>
-                            <td style="display:none;">@item.Id</td>
-                        </tr>
-                    }
-                }
-                else if (logs.HasError())
-                {
-                    <tr>
-                        <td colspan="7" class="text-danger">@logs.GetErrorMessage()</td>
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="7" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="7" class="empty-data">请输入查询条件查询日志记录！</td>
-                </tr>
-            }
-        </tbody>
-  </table>
-</div>
-@if (logs != null)
-{
-    @Html.Paging(logs.TotalRecords, "Search", "Logger", Model)
 }
+<div id="logsContainer" style="margin-top: 4px;">
+    @{
+        Html.RenderPartial("_Logs", this.ViewBag.Logs as ResponseCollection<Log>);
+    }
+</div>

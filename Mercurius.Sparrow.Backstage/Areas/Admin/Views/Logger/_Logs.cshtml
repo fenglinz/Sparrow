@@ -1,0 +1,48 @@
+﻿@model ResponseCollection<Log>
+<table id="logsGrid" class="grid">
+    <thead>
+    <tr>
+        <td style="width: 60px;">行号</td>
+        <td style="width: 120px;">用户</td>
+        <td style="width: 140px;">用户IP地址</td>
+        <td style="width: 180px;">模块</td>
+        <td style="width: 60px;">级别</td>
+        <td style="width: 150px">记录时间</td>
+        <td>日志简介</td>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.HasData())
+    {
+        foreach (var item in Model.Datas)
+        {
+            <tr>
+                <td style="text-align: center;">@item.RowIndex</td>
+                <td style="text-align: left;">@item.LogOnName</td>
+                <td style="text-align: left;">@item.LogOnIP</td>
+                <td style="text-align: left;">@item.ModelName</td>
+                <td style="text-align: center;">@item.Level</td>
+                <td style="text-align: center;">@item.OccurrenceDateTime</td>
+                <td style="text-align: left;">@item.Summary</td>
+                <td style="display: none;">@item.Id</td>
+            </tr>
+        }
+    }
+    else if (Model.HasError())
+    {
+        <tr>
+            <td colspan="7" class="text-danger">@Model.GetErrorMessage()</td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td colspan="7" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+        </tr>
+    }
+    </tbody>
+</table>
+@if (Model != null)
+{
+   @Html.Paging(Model.TotalRecords, "Search", "Logger", this.ViewBag.SO as LogSO, ajaxOptions:new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "logsContainer", OnSuccess = "OnSearchSuccess" })
+}

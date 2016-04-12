@@ -198,24 +198,38 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #region 字典列表
 
+        public static IHtmlString CreateDropdownListFor<T, P>(
+            this HtmlHelper<T> html, Expression<Func<T, P>> expression,
+            string category, bool includeAll = true, dynamic htmlAttributes = null)
+        {
+            var name = ExpressionHelper.GetExpressionText(expression);
+            var value = html.ViewData.Model == null ? null : html.ViewData.ModelMetadata.ModelType.GetProperty(name).GetValue(html.ViewData.Model);
+
+            return CreateDropdownList(html, name, category, Convert.ToString(value), includeAll, htmlAttributes);
+        }
+
         /// <summary>
         /// 创建下拉框。
         /// </summary>
         /// <param name="html">HTML控件</param>
+        /// <param name="name">名称</param>
         /// <param name="category">下拉框数据分类</param>
-        /// <param name="htmlAttributes">HTML属性</param>
         /// <param name="defaultValue">默认值</param>
         /// <param name="includeAll">是否包含“全部”选项</param>
+        /// <param name="htmlAttributes">HTML属性</param>
         /// <returns>下拉框HTML编码字符串</returns>
         public static IHtmlString CreateDropdownList(
             this HtmlHelper html,
+            string name,
             string category,
-            dynamic htmlAttributes = null,
             string defaultValue = null,
-            bool includeAll = true)
+            bool includeAll = true,
+            dynamic htmlAttributes = null)
         {
             var tagBuilder = new TagBuilder("select");
 
+            tagBuilder.Attributes.Add("id", name);
+            tagBuilder.Attributes.Add("name", name);
             tagBuilder.AddCssClass("form-control");
             tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
 

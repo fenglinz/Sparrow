@@ -178,7 +178,7 @@ namespace Mercurius.Sparrow.Contracts
         /// <returns>是否有错误</returns>
         public static bool HasError<T>(this ResponseCollection<T> sources)
         {
-            return sources == null && !sources.IsSuccess;
+            return sources != null && !sources.IsSuccess;
         }
 
         /// <summary>

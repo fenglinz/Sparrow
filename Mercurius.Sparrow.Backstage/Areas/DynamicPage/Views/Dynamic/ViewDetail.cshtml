@@ -36,7 +36,7 @@
                         }
                         else
                         {
-                            @Html.CreateDropdownList(item.DictionaryKey, new { @id = item.Column, name = item.Column, @class = "form-control", @disabled = "disabled" }, Model.GetValue(item.Name))
+                            @Html.CreateDropdownList(item.Column, item.DictionaryKey, Model.GetValue(item.Name), htmlAttributes: new { @disabled = "disabled" })
                         }
                     </div>
                 </div>
