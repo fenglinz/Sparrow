@@ -27,6 +27,11 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         /// </summary>
         public IPermissionService PermissionService { get; set; }
 
+        /// <summary>
+        /// 首页快捷方式服务对象。
+        /// </summary>
+        public IHomeShortcutService HomeShortcutService { get; set; }
+
         #endregion
 
         public ActionResult Index()
@@ -38,7 +43,7 @@ namespace Mercurius.Sparrow.Backstage.Controllers
 
         public ActionResult Workstation()
         {
-            var rspHomeShortcuts = this.UserService.GetHomeShortcuts(WebHelper.GetLogOnUserId());
+            var rspHomeShortcuts = this.HomeShortcutService.GetHomeShortcuts(WebHelper.GetLogOnUserId());
 
             this.ViewBag.HomeShortcuts = rspHomeShortcuts.Datas;
 

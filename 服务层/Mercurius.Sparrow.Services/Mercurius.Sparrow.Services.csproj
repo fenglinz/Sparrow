@@ -74,6 +74,7 @@
     <Compile Include="Core\SystemSettingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RBAC\ButtonService.cs" />
+    <Compile Include="RBAC\HomeShortcutService.cs" />
     <Compile Include="RBAC\OrganizationService.cs" />
     <Compile Include="RBAC\PermissionService.cs" />
     <Compile Include="RBAC\RoleService.cs" />

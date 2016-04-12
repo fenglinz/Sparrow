@@ -59,6 +59,7 @@
     <Compile Include="Core\IOperationRecordService.cs" />
     <Compile Include="Core\ISystemSettingService.cs" />
     <Compile Include="RBAC\IButtonService.cs" />
+    <Compile Include="RBAC\IHomeShortcutService.cs" />
     <Compile Include="RBAC\IOrganizationService.cs" />
     <Compile Include="RBAC\IPermissionService.cs" />
     <Compile Include="RBAC\IRoleService.cs" />

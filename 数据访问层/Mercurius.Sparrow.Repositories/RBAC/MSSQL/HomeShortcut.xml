@@ -6,41 +6,6 @@
 
   <statements>
 
-    <!-- 获取首页快捷方式 -->
-    <select id="GetHomeShortcuts" parameterClass="string" resultClass="HomeShortcut">
-      <![CDATA[
-        SELECT
-          Id
-          ,UserId
-          ,Name
-          ,NavigateUrl
-          ,Target
-          ,Image
-          ,Sort
-          ,Remark
-        FROM RBAC.HomeShortcut
-        WHERE UserId=#value#
-        ORDER BY Sort ASC
-      ]]>
-    </select>
-
-    <!-- 获取首页快捷方式信息 -->
-    <select id="GetHomeShortcut" parameterClass="string" resultClass="HomeShortcut">
-      <![CDATA[
-        SELECT 
-          Id
-          ,UserId
-          ,Name
-          ,NavigateUrl
-          ,Target
-          ,Image
-          ,Sort
-          ,Remark
-        FROM RBAC.HomeShortcut
-        WHERE Id=#value#
-      ]]>
-    </select>
-
     <!-- 添加首页快捷方式 -->
     <insert id="CreateOrUpdate" parameterClass="HomeShortcut">
       <![CDATA[
@@ -68,7 +33,7 @@
           )
           VALUES
           (
-            #Id#,
+            NEWID(),
             #UserId#,
             #Name#,
             #NavigateUrl#,
@@ -89,5 +54,40 @@
         #HomeShortcutIds[]#
       </iterate>
     </delete>
+
+    <!-- 获取首页快捷方式信息 -->
+    <select id="GetHomeShortcutById" parameterClass="string" resultClass="HomeShortcut">
+      <![CDATA[
+        SELECT 
+          Id
+          ,UserId
+          ,Name
+          ,NavigateUrl
+          ,Target
+          ,Image
+          ,Sort
+          ,Remark
+        FROM RBAC.HomeShortcut
+        WHERE Id=#value#
+      ]]>
+    </select>
+
+    <!-- 获取首页快捷方式 -->
+    <select id="GetHomeShortcuts" parameterClass="string" resultClass="HomeShortcut">
+      <![CDATA[
+        SELECT
+          Id
+          ,UserId
+          ,Name
+          ,NavigateUrl
+          ,Target
+          ,Image
+          ,Sort
+          ,Remark
+        FROM RBAC.HomeShortcut
+        WHERE UserId=#value#
+        ORDER BY Sort ASC
+      ]]>
+    </select>
   </statements>
 </sqlMap>

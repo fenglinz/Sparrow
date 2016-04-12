@@ -18,15 +18,15 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
-        /// 用户信息服务。
+        /// 首页快捷方式服务对象。
         /// </summary>
-        public IUserService UserService { get; set; }
+        public IHomeShortcutService HomeShortcutService { get; set; }
 
         #endregion
 
         public ActionResult Index()
         {
-            var homeShortcuts = this.UserService.GetHomeShortcuts(WebHelper.GetLogOnUserId());
+            var homeShortcuts = this.HomeShortcutService.GetHomeShortcuts(WebHelper.GetLogOnUserId());
 
             return this.View(homeShortcuts);
         }
@@ -38,7 +38,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
                 return this.View();
             }
 
-            var rsp = this.UserService.GetHomeShortcut(id);
+            var rsp = this.HomeShortcutService.GetHomeShortcutById(id);
 
             return this.View(rsp.Data);
         }
@@ -47,14 +47,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [IgnorePermissionValid]
         public ActionResult CreateOrUpdate(HomeShortcut homeShortcut)
         {
-            if (string.IsNullOrWhiteSpace(homeShortcut.Id))
-            {
-                homeShortcut.Id = Guid.NewGuid().ToString();
-            }
-
             homeShortcut.UserId = WebHelper.GetLogOnUserId();
 
-            var rsp = this.UserService.CreateOrUpdateHomeShortcut(homeShortcut);
+            var rsp = this.HomeShortcutService.CreateOrUpdate(homeShortcut);
 
             return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！") : this.Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
         }
@@ -64,7 +59,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         public ActionResult Remove(string ids)
         {
             var args = ids.Split(',');
-            var rsp = this.UserService.RemoveHomeShortcut(WebHelper.GetLogOnUserId(), args);
+            var rsp = this.HomeShortcutService.Remove(WebHelper.GetLogOnUserId(), args);
 
             return this.Json(rsp);
         }

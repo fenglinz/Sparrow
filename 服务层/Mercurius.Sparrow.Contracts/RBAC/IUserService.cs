@@ -68,34 +68,5 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// <param name="so">用户信息查询对象</param>
         /// <returns>用户信息列表</returns>
         ResponseCollection<User> SearchUsers(UserSO so);
-
-        /// <summary>
-        /// 添加首页快捷方式信息。
-        /// </summary>
-        /// <param name="homeShortcut">首页快捷方式信息</param>
-        /// <returns>操作结果</returns>
-        Response CreateOrUpdateHomeShortcut(HomeShortcut homeShortcut);
-
-        /// <summary>
-        /// 删除用户首页快捷方式。
-        /// </summary>
-        /// <param name="userId">用户编号</param>
-        /// <param name="args">快捷方式编号</param>
-        /// <returns>操作结果</returns>
-        Response RemoveHomeShortcut(string userId, params string[] args);
-
-        /// <summary>
-        /// 获取首页快捷方式信息。
-        /// </summary>
-        /// <param name="id">快捷方式编号</param>
-        /// <returns>首页快捷方式信息</returns>
-        Response<HomeShortcut> GetHomeShortcut(string id);
-
-        /// <summary>
-        /// 获取用户定义的首页快捷方式。
-        /// </summary>
-        /// <param name="userId">用户编号</param>
-        /// <returns>首页快捷方式列表</returns>
-        ResponseCollection<HomeShortcut> GetHomeShortcuts(string userId);
     }
 }
