@@ -541,17 +541,6 @@
             window.open('', '_self');
             window.close();
         },
-        ShowDatePicker: function (selector) {
-            selector = selector || '.datepicker';
-
-            $(selector).datetimepicker({
-                useCurrent: false,
-                showClear: true,
-                format: 'L',
-                showTodayButton: true,
-                locale: moment.locale('zh-cn')
-            });
-        },
         BeginLoading: BeginLoading,
         EndLoading: EndLoading,
         OnWaitProcess: function (callback) {
@@ -645,22 +634,25 @@
                 $(this).text(text.length > maxLength ? text.substr(0, maxLength) + '...' : text);
             }).tooltip();
         },
-        DatePicker: function () {
+        ShowDatePicker: function () {
             $('.date,[validate-rule=date],[validate-rule=dateOrNull]').datetimepicker({
                 format: 'L',
                 showClear: true,
+                useCurrent: false,
                 showTodayButton: true,
                 locale: moment.locale('zh-cn')
             });
             $('.datetime,[validate-rule=dateTime],[validate-rule=dateTimeOrNull]').datetimepicker({
                 format: 'YYYY-MM-DD HH:mm',
                 showClear: true,
+                useCurrent: false,
                 showTodayButton: true,
                 locale: moment.locale('zh-cn')
             });
             $('.time,[validate-rule=time],[validate-rule=timeOrNull]').datetimepicker({
                 format: 'HH:mm',
                 showClear: true,
+                useCurrent: false,
                 showTodayButton: true,
                 locale: moment.locale('zh-cn')
             });

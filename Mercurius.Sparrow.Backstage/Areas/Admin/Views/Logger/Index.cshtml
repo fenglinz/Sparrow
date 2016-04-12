@@ -1,12 +1,5 @@
 ﻿@model LogSO
 
-@{
-    var level = Model != null ? Model.Level : string.Empty;
-    var partition = Model != null ? Model.Partition : string.Empty;
-    var logs = this.ViewBag.Logs as ResponseCollection<Log>;
-    var partitions = this.ViewBag.Partitions as ResponseCollection<Partition>;
-}
-
 @section Styles{
     <style type="text/css">
         .form-inline {
@@ -46,9 +39,6 @@
 
 @section Scripts{
     <script type="text/javascript">
-        var minDate = "2014-01-01";
-        var maxDate = "2099-12-31";
-
         $(document).ready(function () {
             mercurius.ShowDatePicker();
             mercurius.FixedTableHeader("#logsGrid", 200);
@@ -100,20 +90,16 @@
         </div>
     </div>
 </div>
-@using (Ajax.BeginForm("Search", "Logger", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "logsContainer", OnSuccess = "OnSearchSuccess" }, new { @id="frmSearch" ,@class = "form-horizontal form", autocomplete = "off" }))
+@using (Ajax.BeginForm("Search", "Logger", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "logsContainer", OnSuccess = "OnSearchSuccess" }, new { @id = "frmSearch", @class = "form-horizontal form", autocomplete = "off" }))
 {
     <div style="margin-top: 8px;">
         <label for="Level" class="control-label">日志级别：</label>
         @Html.CreateDropdownListFor(m => m.Level, "日志级别", htmlAttributes: new { @style = "width:80px;" })
-        @{
-            var startDate = Model != null && Model.StartDate.HasValue ? Model.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty;
-            var endDate = Model != null && Model.EndDate.HasValue ? Model.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty;
-        }
         <label class="control-label" for="StartDate">时间范围</label>
         <div class="form-inline">
-            <input id="StartDate" name="StartDate" type="text" value="@startDate" class="datepicker form-control" style="width: 100px;" />
+            @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control date", style = "width: 100px;" })
             &nbsp;～&nbsp;
-            <input id="EndDate" name="EndDate" type="text" value="@endDate" class="datepicker form-control" style="width: 100px;" />
+            @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control date", style = "width: 100px;" })
         </div>
         <label class="control-label" for="LogOnName">用户</label>
         @Html.TextBoxFor(m => m.LogOnName, new { @class = "form-control" })
