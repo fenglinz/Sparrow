@@ -75,11 +75,10 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="systemMenuId">链接编号</param>
         /// <returns>按钮信息列表</returns>
-        public ResponseCollection<Button> GetUnUsedButtons(string systemMenuId)
+        public ResponseCollection<Button> GetButtonsWithAllot(string systemMenuId)
         {
-            return this.InvokeService(nameof(GetUnUsedButtons),
-                () => this.Persistence.QueryForList<Button>(ButtonNamespace, "GetUnUsedButtons", systemMenuId),
-                systemMenuId);
+            return this.InvokeService(nameof(GetButtonsWithAllot),
+                () => this.Persistence.QueryForList<Button>(ButtonNamespace, "GetButtonsWithAllot", systemMenuId), systemMenuId);
         }
 
         #endregion

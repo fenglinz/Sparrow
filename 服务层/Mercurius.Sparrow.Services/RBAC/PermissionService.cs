@@ -72,6 +72,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                         OpUserId = WebHelper.GetLogOnUserId()
                     });
 
+                    this.ClearCache<Button>();
                     this.ClearCache<SystemMenu>();
                 }, new { systemMenuId, buttonIds });
         }

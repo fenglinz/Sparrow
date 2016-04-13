@@ -115,8 +115,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         public ActionResult AllotButtons(string id)
         {
             this.ViewBag.Id = id;
-            this.ViewBag.Buttons = this.ButtonService.GetButtons();
-            this.ViewBag.SystemButtons = this.PermissionService.GetSystemMenuButtons(id);
+            this.ViewBag.Buttons = this.ButtonService.GetButtonsWithAllot(id);
 
             return this.View();
         }

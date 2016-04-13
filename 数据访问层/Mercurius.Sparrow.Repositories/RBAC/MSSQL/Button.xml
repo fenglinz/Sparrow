@@ -119,38 +119,26 @@
       ]]>
     </select>
 
-    <!-- 获取链接未使用的按钮 -->
-    <select id="GetUnUsedButtons" parameterClass="string" resultClass="Button">
+    <!-- 获取标记为已分配的按钮信息 -->
+    <select id="GetButtonsWithAllot" parameterClass="string" resultClass="Button">
       <![CDATA[
-        WITH CTE AS (
-	        SELECT Name FROM RBAC.Button
-	        EXCEPT
-	        SELECT Name FROM RBAC.SystemMenu WHERE ParentId=(SELECT TOP 1 Id FROM RBAC.SystemMenu WHERE Id=#value#)
+        WITH cte AS(
+	        SELECT
+		        b.Id,
+		        a.Sort
+	        FROM rbac.SystemMenu a
+	        INNER JOIN RBAC.Button b ON a.Name=b.Name
+	        WHERE ParentId=#value# AND a.Category=3
         )
-        SELECT
-          a.Id
-          ,a.Name
-          ,a.Title
-          ,a.Image
-          ,a.Code
-          ,a.Sort
-          ,a.Category
-          ,a.Remark
-          ,a.CreateUserId
-          ,u1.Name AS CreateUserName
-          ,a.CreateDateTime
-          ,a.ModifyUserId
-          ,u2.Name AS ModifyUserName
-          ,a.ModifyDateTime
-        FROM CTE
-        INNER JOIN RBAC.Button a
-          ON a.Name=cte.Name
-        LEFT JOIN RBAC.[User] u1
-          ON a.CreateUserId=u1.Id
-        LEFT JOIN RBAC.[User] u2
-          ON a.ModifyUserId=u2.Id
-        WHERE a.Status=1
-        ORDER BY SORT ASC
+        SELECT 
+          a.*,
+          CASE WHEN p.Id IS NULL THEN 0 ELSE 1 END IsAllotToSystemMenu,
+          p.Sort
+        FROM RBAC.Button a
+        OUTER APPLY(
+	        SELECT * FROM cte WHERE a.Id=cte.Id
+        ) p
+        ORDER BY CASE WHEN p.Id IS NULL THEN 0 ELSE 1 END DESC, p.Sort ASC
       ]]>
     </select>
   </statements>

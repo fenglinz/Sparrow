@@ -4,74 +4,84 @@ using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.Sparrow.Entities.RBAC
 {
-	/// <summary>
-	/// 按钮信息。
-	/// </summary>
-	[Table("RBAC.Button")]
-	public class Button : ModificationDomain
-	{
-		#region 属性
+    /// <summary>
+    /// 按钮信息。
+    /// </summary>
+    [Table("RBAC.Button")]
+    public class Button : ModificationDomain
+    {
+        #region 属性
 
-		/// <summary>
-		/// 按钮编号。
-		/// </summary>
-		[Required]
-		[StringLength(36, ErrorMessageResourceType = typeof(Constants),
-			ErrorMessageResourceName = "MaxStringLength")]
-		public virtual string Id { get; set; }
+        /// <summary>
+        /// 按钮编号。
+        /// </summary>
+        [Required]
+        [StringLength(36, ErrorMessageResourceType = typeof(Constants),
+            ErrorMessageResourceName = "MaxStringLength")]
+        public virtual string Id { get; set; }
 
-		/// <summary>
-		/// 按钮名称。
-		/// </summary>
-		[StringLength(50, ErrorMessageResourceType = typeof(Constants),
-			ErrorMessageResourceName = "MaxStringLength")]
-		public virtual string Name { get; set; }
+        /// <summary>
+        /// 按钮名称。
+        /// </summary>
+        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
+            ErrorMessageResourceName = "MaxStringLength")]
+        public virtual string Name { get; set; }
 
-		/// <summary>
-		/// 按钮标记。
-		/// </summary>
-		[StringLength(50, ErrorMessageResourceType = typeof(Constants),
-			ErrorMessageResourceName = "MaxStringLength")]
-		public virtual string Title { get; set; }
+        /// <summary>
+        /// 按钮标记。
+        /// </summary>
+        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
+            ErrorMessageResourceName = "MaxStringLength")]
+        public virtual string Title { get; set; }
 
-		/// <summary>
-		/// 按钮图标。
-		/// </summary>
-		[StringLength(50, ErrorMessageResourceType = typeof(Constants),
-			ErrorMessageResourceName = "MaxStringLength")]
-		public virtual string Image { get; set; }
+        /// <summary>
+        /// 按钮图标。
+        /// </summary>
+        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
+            ErrorMessageResourceName = "MaxStringLength")]
+        public virtual string Image { get; set; }
 
-		/// <summary>
-		/// 按钮代号。
-		/// </summary>
-		[StringLength(200, ErrorMessageResourceType = typeof(Constants),
-			ErrorMessageResourceName = "MaxStringLength")]
-		public virtual string Code { get; set; }
+        /// <summary>
+        /// 按钮代号。
+        /// </summary>
+        [StringLength(200, ErrorMessageResourceType = typeof(Constants),
+            ErrorMessageResourceName = "MaxStringLength")]
+        public virtual string Code { get; set; }
 
-		/// <summary>
-		/// 获取和设置按钮类型。
-		/// </summary>
-		[StringLength(50, ErrorMessageResourceType = typeof(Constants),
-			ErrorMessageResourceName = "MaxStringLength")]
-		public virtual string Category { get; set; }
+        /// <summary>
+        /// 获取和设置按钮类型。
+        /// </summary>
+        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
+            ErrorMessageResourceName = "MaxStringLength")]
+        public virtual string Category { get; set; }
 
-		/// <summary>
-		/// 排序号。
-		/// </summary>
-		public virtual int? Sort { get; set; }
+        /// <summary>
+        /// 排序号。
+        /// </summary>
+        public virtual int? Sort { get; set; }
 
-		/// <summary>
-		/// 备注信息。
-		/// </summary>
-		[StringLength(500, ErrorMessageResourceType = typeof(Constants),
-			ErrorMessageResourceName = "MaxStringLength")]
-		public virtual string Remark { get; set; }
+        /// <summary>
+        /// 备注信息。
+        /// </summary>
+        [StringLength(500, ErrorMessageResourceType = typeof(Constants),
+            ErrorMessageResourceName = "MaxStringLength")]
+        public virtual string Remark { get; set; }
 
-		/// <summary>
-		/// 实体信息的状态。
-		/// </summary>
-		public virtual int? Status { get; set; }
+        /// <summary>
+        /// 实体信息的状态。
+        /// </summary>
+        public virtual int? Status { get; set; }
 
-		#endregion
-	}
+        #endregion
+
+        #region 业务属性
+
+        /// <summary>
+        /// 是否已经分配给菜单。
+        /// </summary>
+        [Column(IsIgnore = true)]
+        public bool IsAllotToSystemMenu { get; set; }
+
+        #endregion
+    }
 }

@@ -39,6 +39,6 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// </summary>
         /// <param name="systemMenuId">链接编号</param>
         /// <returns>按钮信息列表</returns>
-        ResponseCollection<Button> GetUnUsedButtons(string systemMenuId);
+        ResponseCollection<Button> GetButtonsWithAllot(string systemMenuId);
     }
 }

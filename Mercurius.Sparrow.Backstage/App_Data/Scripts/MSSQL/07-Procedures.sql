@@ -27,10 +27,10 @@ BEGIN
 
   INSERT INTO #buttonIds(item) SELECT Item FROM dbo.Split(@buttonIds,',');
   
-  DELETE FROM RBAC.SystemMenu WHERE ParentId=@systemMenuId AND Name NOT IN(SELECT b.Name FROM #buttonIds a INNER JOIN RBAC.Button b ON a.item=b.Id);
-  DELETE FROM RBAC.RolePermission WHERE SystemMenuId IN(SELECT Id FROM RBAC.SystemMenu WHERE ParentId=@systemMenuId AND Id NOT IN(SELECT b.Name FROM #buttonIds a INNER JOIN RBAC.Button b ON a.item=b.Id));
-  DELETE FROM RBAC.UserPermission WHERE SystemMenuId IN(SELECT Id FROM RBAC.SystemMenu WHERE ParentId=@systemMenuId AND Id NOT IN(SELECT b.Name FROM #buttonIds a INNER JOIN RBAC.Button b ON a.item=b.Id));
-  
+  DELETE FROM RBAC.SystemMenu WHERE ParentId=@systemMenuId AND Category=3 AND Name NOT IN(SELECT b.Name FROM #buttonIds a INNER JOIN RBAC.Button b ON a.item=b.Id);
+  DELETE FROM RBAC.RolePermission WHERE SystemMenuId IN(SELECT Id FROM RBAC.SystemMenu WHERE ParentId=@systemMenuId AND Category=3 AND Name NOT IN(SELECT b.Name FROM #buttonIds a INNER JOIN RBAC.Button b ON a.item=b.Id));
+  DELETE FROM RBAC.UserPermission WHERE SystemMenuId IN(SELECT Id FROM RBAC.SystemMenu WHERE ParentId=@systemMenuId AND Category=3 AND Name NOT IN(SELECT b.Name FROM #buttonIds a INNER JOIN RBAC.Button b ON a.item=b.Id));
+ 
   DECLARE @name NVARCHAR(100);
   DECLARE @title NVARCHAR(100);
   DECLARE @image NVARCHAR(100);
