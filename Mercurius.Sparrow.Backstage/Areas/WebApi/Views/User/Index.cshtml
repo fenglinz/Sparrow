@@ -28,16 +28,7 @@
             var id = $('#tbUsers > tbody > tr.selected > td:eq(4)').text();
 
             if (mercurius.HasSingleRowSelected(id)) {
-                mercurius.ShowConfirmMessage('是否确定删除该用户？',function(){
-                    mercurius.Ajax('@Url.Action("Remove", "User")', {id:id}, function(rs){
-                        if (rs.IsSuccess) {
-                            ShowTipsMessage("删除成功！", 2000, 4);
-                            mercurius.Reloading();
-                        }else {
-                            mercurius.ShowWarningMessage('删除失败，请稍后再试！');
-                        }
-                    });
-                });
+                mercurius.RemoveData('@Url.Action("Remove", "User")',{id:id});
             }
         }
         </text>)
@@ -124,12 +115,12 @@
 
 @helper DisplayStatus(int? status)
 {
-    if (status == 2)
-    {
+if (status == 2)
+{
         <span style="color: red;">禁用</span>
-    }
-    else
-    {
+}
+else
+{
         <span>启用</span>
-    }
+}
 }

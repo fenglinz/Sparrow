@@ -300,6 +300,7 @@
     <Content Include="App_Data\Scripts\MSSQL\02-RBAC.sql" />
     <Content Include="App_Data\Scripts\MSSQL\01-Schemas.sql" />
     <Content Include="App_Data\Scripts\MSSQL\04-WebApi.sql" />
+    <Content Include="App_Data\Scripts\MSSQL\07-Procedures.sql" />
     <Content Include="Content\ace-fonts.css" />
     <Content Include="Content\ace-ie.css" />
     <Content Include="Content\ace-part2.css" />
@@ -434,7 +435,7 @@
     <Content Include="Areas\Admin\Views\Role\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Role\ViewPermissions.cshtml" />
-    <Content Include="Areas\Admin\Views\SystemMenu\AllotButton.cshtml" />
+    <Content Include="Areas\Admin\Views\SystemMenu\AllotButtons.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\CreateOrUpdate.cshtml" />
     <Content Include="Views\Helper\ChooseImage.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\Index.cshtml" />

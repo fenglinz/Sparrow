@@ -57,7 +57,7 @@ GO
 -- Create date: 2016-4-7
 -- Description:	获取新工号
 -- =============================================
-ALTER FUNCTION [RBAC].[GetNewEmployeeCode] 
+CREATE FUNCTION [RBAC].[GetNewEmployeeCode] 
 (
 	@organizationId NVARCHAR(36)
 )
@@ -71,17 +71,18 @@ BEGIN
 	
 	IF @organizationCode IS NOT NULL
 	BEGIN
-		DECLARE @maxCode INT;
-		SELECT
-		  @maxCode = MAX(CAST(b.Code AS INT)) 
-		FROM RBAC.StaffOrganize a 
-		INNER JOIN RBAC.[User] b ON a.UserId=b.Id
-		WHERE OrganizationId=@organizationId;
+		 DECLARE @maxCode INT;
+		 SELECT
+		   @maxCode = MAX(CAST(b.Code AS INT)) 
+		 FROM RBAC.StaffOrganize a 
+		 INNER JOIN RBAC.[User] b
+			ON a.UserId=b.Id
+		 WHERE OrganizationId=@organizationId;
 		 
-		IF @maxCode IS NULL
-		  SET @returnValue = @organizationCode+'1';
-		ELSE 
-		  SET @returnValue = @maxCode+1;
+		 IF @maxCode IS NULL
+		   SET @returnValue = @organizationCode+'1';
+		 ELSE 
+			 SET @returnValue = @maxCode+1;
 	END
 	
 	RETURN @returnValue;

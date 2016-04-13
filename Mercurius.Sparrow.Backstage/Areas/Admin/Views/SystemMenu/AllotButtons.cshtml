@@ -1,0 +1,112 @@
+﻿@{
+    var buttons = this.ViewBag.Buttons as ResponseCollection<Button>;
+    var systemButtons = this.ViewBag.SystemButtons as ResponseCollection<SystemMenu>;
+}
+
+@section Styles{
+    <style type="text/css">
+        .fa-2x {
+            font-size: 2.45em;
+        }
+
+        .btn {
+            width: 75px;
+            height: 65px;
+            margin: 3px 0 0 2px;
+            -moz-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            -moz-word-break: break-all;
+            -o-word-break: break-all;
+            word-break: break-all;
+            overflow: hidden;
+            font-size: 12px;
+        }
+
+            .btn > i {
+                display: block;
+                margin-bottom: 5px;
+            }
+    </style>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        var needRefresh = false;
+
+        $(function () {
+            $("#allButton div").click(function () {
+                if ($(this).hasClass('btn-primary')) {
+                    $(this).removeClass('btn-primary').addClass('btn-default');
+                } else {
+                    $(this).removeClass('btn-default').addClass('btn-primary');
+                }
+
+                needRefresh = true;
+
+                return false;
+            });
+        });
+
+        function OnSave() {
+            var buttonIds = '';
+
+            $('#allButton > div.btn-primary').each(function () {
+                buttonIds += $(this).attr('id') + ',';
+            });
+
+            mercurius.Ajax('@Url.Action("AllotButtons")', { id: '@this.ViewBag.Id', buttonIds: buttonIds }, function(rs) {
+                if (rs.IsSuccess) {
+                    mercurius.ShowTipsMessage('保存成功！', 5000, 4);
+                    top.main.mercurius.Reloading();
+                } else {
+                    mercurius.ShowTipsMessage('保存失败，失败原因：'+rs.ErrorMessage, 5000, 5);
+                }
+            });
+        }
+
+        function OnClose() {
+            if (needRefresh === true) {
+                top.main.mercurius.Reloading();
+            }
+        }
+    </script>
+}
+<div id="allButton">
+    @if (buttons.HasData())
+    {
+        foreach (var item in buttons.Datas)
+        {
+            <div id="@item.Id" title="@item.Name" class="btn @IsSelected(systemButtons, item)">
+                <i class="@item.Image fa-2x"></i>
+                @item.Name
+            </div>
+        }
+    }
+    else if (buttons.HasError())
+    {
+        <div class="text-danger">@buttons.GetErrorMessage()</div>
+    }
+    else
+    {
+        <div class="empty-data" style="padding: 10px;">没有配置按钮！</div>
+    }
+</div>
+
+@helper IsSelected(ResponseCollection<SystemMenu> menuButtons, Button button)
+{
+    if (!menuButtons.HasData())
+    {
+        <text>btn-default</text>
+    }
+    else
+    {
+        if (menuButtons.Datas.Any(c => c.Title == button.Title))
+        {
+            <text>btn-primary</text>
+        }
+        else
+        {
+            <text>btn-default</text>
+        }
+    }
+}

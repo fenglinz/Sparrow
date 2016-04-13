@@ -112,10 +112,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// </summary>
         /// <param name="id">菜单编号</param>
         /// <returns>分配按钮界面</returns>
-        public ActionResult AllotButton(string id)
+        public ActionResult AllotButtons(string id)
         {
             this.ViewBag.Id = id;
-            this.ViewBag.Buttons = this.ButtonService.GetUnUsedButtons(id);
+            this.ViewBag.Buttons = this.ButtonService.GetButtons();
             this.ViewBag.SystemButtons = this.PermissionService.GetSystemMenuButtons(id);
 
             return this.View();
@@ -125,13 +125,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// 保存按钮分配。
         /// </summary>
         /// <param name="id">菜单编号</param>
-        /// <param name="buttonId">按钮编号</param>
+        /// <param name="buttonIds">按钮编号</param>
         /// <returns>保存结果信息</returns>
         [HttpPost]
         [IgnorePermissionValid]
-        public ActionResult AllotButton(string id, string buttonId)
+        public ActionResult AllotButtons(string id, string buttonIds)
         {
-            var rsp = this.PermissionService.AllotButton(id, buttonId);
+            var rsp = this.PermissionService.AllotButtons(id, buttonIds);
 
             return this.Json(rsp);
         }

@@ -24,8 +24,8 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// 分配页面按钮资源。
         /// </summary>
         /// <param name="systemMenuId">系统菜单编号</param>
-        /// <param name="buttonId">按钮编号</param>
-        Response AllotButton(string systemMenuId, string buttonId);
+        /// <param name="buttonIds">按钮编号集合(以','号分隔)</param>
+        Response AllotButtons(string systemMenuId, string buttonIds);
 
         /// <summary>
         /// 为角色分配权限。
@@ -51,17 +51,17 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         Response<SystemMenu> GetSystemMenu(string id);
 
         /// <summary>
+        /// 获取系统菜单项。
+        /// </summary>
+        /// <returns>菜单列表</returns>
+        ResponseCollection<SystemMenu> GetSystemMenus();
+
+        /// <summary>
         /// 获取菜单的按钮菜单列表。
         /// </summary>
         /// <param name="id">菜单编号</param>
         /// <returns>按钮菜单列表</returns>
         ResponseCollection<SystemMenu> GetSystemMenuButtons(string id);
-
-        /// <summary>
-        /// 获取系统菜单项。
-        /// </summary>
-        /// <returns>菜单列表</returns>
-        ResponseCollection<SystemMenu> GetSystemMenus();
 
         /// <summary>
         /// 根据用户编号获取标有访问权限的菜单列表。

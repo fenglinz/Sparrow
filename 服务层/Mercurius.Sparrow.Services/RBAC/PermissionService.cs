@@ -58,46 +58,22 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// 分配页面按钮资源。
         /// </summary>
         /// <param name="systemMenuId">系统菜单编号</param>
-        /// <param name="buttonId">按钮编号</param>
-        public Response AllotButton(string systemMenuId, string buttonId)
+        /// <param name="buttonIds">按钮编号集合(以','号分隔)</param>
+        public Response AllotButtons(string systemMenuId, string buttonIds)
         {
             return this.InvokeService(
-                nameof(AllotButton),
+                nameof(AllotButtons),
                 () =>
                 {
-                    var button = this.Persistence.QueryForObject<Button>(ButtonNamespace, "GetButtons", buttonId);
-
-                    if (button != null)
+                    this.Persistence.Create(PermissionNamespace, "AllotButtons", new
                     {
-                        var count = this.Persistence.QueryForObject<int>(PermissionNamespace, "CheckSystemButtonExists", new { ParentId = systemMenuId, ButtonName = buttonId });
+                        SystemMenuId = systemMenuId,
+                        ButtonIds = buttonIds,
+                        OpUserId = WebHelper.GetLogOnUserId()
+                    });
 
-                        if (count > 0)
-                        {
-                            throw new Exception("按钮已经添加！");
-                        }
-
-                        button.Sort = this.Persistence.QueryForObject<int>(PermissionNamespace, "NewSystemMenuButtonSort", systemMenuId);
-
-                        this.Persistence.Create(
-                            PermissionNamespace,
-                            "CreateOrUpdate",
-                            new SystemMenu
-                            {
-                                ParentId = systemMenuId,
-                                Name = button.Name,
-                                Title = button.Title,
-                                Image = button.Image,
-                                Category = 3,
-                                NavigateUrl = button.Code,
-                                Target = "OnClick",
-                                Sort = button.Sort,
-                                CreateUserId = WebHelper.GetLogOnUserId()
-                            });
-
-                        this.ClearCache<Button>();
-                        this.ClearCache<SystemMenu>();
-                    }
-                }, new { systemMenuId, buttonId });
+                    this.ClearCache<SystemMenu>();
+                }, new { systemMenuId, buttonIds });
         }
 
         /// <summary>

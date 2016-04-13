@@ -40,9 +40,9 @@
 
         //选择图标
         function SelectOpenImg() {
-            var url = '@Url.Action("Icons", "SystemMenu")';
+            var url = '@Url.Action("ChooseImage", "Helper", new {@Area=""})';
 
-            mercurius.OpenDialog(url, '', '菜单图标', 615, 400, { x: 'right', y: 'bottom', statusbar: false });
+            mercurius.OpenDialog(url, 'ChooseImage', '菜单图标', 615, 400, { x: 'right', y: 'bottom', statusbar: false });
         }
 
         //根据选择图标，修改当前页面显示，并赋值

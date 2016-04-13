@@ -57,6 +57,13 @@
       ]]>
     </insert>
 
+    <!-- 分配按钮 -->
+    <insert id="AllotButtons" parameterClass="Params">
+      <![CDATA[
+        EXEC RBAC.AllotButtons #SystemMenuId#, #ButtonIds#, #OpUserId#
+      ]]>
+    </insert>
+    
     <!-- 删除系统菜单信息 -->
     <delete id="Remove" parameterClass="string">
       <![CDATA[

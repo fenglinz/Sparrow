@@ -62,9 +62,9 @@
             var id = GetSelectedValue();
 
             if (mercurius.HasSingleRowSelected(id)) {
-                var url = '@Url.Action("AllotButton")/' + id;
+                var url = '@Url.Action("AllotButtons")/' + id;
 
-                mercurius.OpenDialog(url, 'AllotButton', '导航菜单信息 - 分配按钮', 600, 355, { statusbar: false });
+                mercurius.OpenDialog(url, 'AllotButton', '导航菜单信息 - 分配按钮', 600, 360);
             }
         }
         </text>)

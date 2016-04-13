@@ -78,18 +78,6 @@
     </script>
 }
 <div class="header">日志管理</div>
-<div class="toolbar panel panel-default">
-    <div class="panel-heading">
-        <div class="right btn-group">
-            <a class="btn btn-default" onclick="ClearLogs()">
-                <i class="glyphicon glyphicon-trash"></i> 清空日志
-            </a>
-            <a class="btn btn-default" onclick="ViewDetails()">
-                <i class="glyphicon glyphicon-list-alt"></i> 查看详情
-            </a>
-        </div>
-    </div>
-</div>
 @using (Ajax.BeginForm("Search", "Logger", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "logsContainer", OnSuccess = "OnSearchSuccess" }, new { @id = "frmSearch", @class = "form-horizontal form", autocomplete = "off" }))
 {
     <div style="margin-top: 8px;">
@@ -115,7 +103,19 @@
         </button>
     </div>
 }
-<div id="logsContainer" style="margin-top: 4px;">
+<div class="toolbar panel panel-default" style="margin-top: 6px;">
+    <div class="panel-heading">
+        <div class="right btn-group">
+            <a class="btn btn-default" onclick="ClearLogs()">
+                <i class="glyphicon glyphicon-trash"></i> 清空日志
+            </a>
+            <a class="btn btn-default" onclick="ViewDetails()">
+                <i class="glyphicon glyphicon-list-alt"></i> 查看详情
+            </a>
+        </div>
+    </div>
+</div>
+<div id="logsContainer">
     @{
         Html.RenderPartial("_Logs", this.ViewBag.Logs as ResponseCollection<Log>);
     }
