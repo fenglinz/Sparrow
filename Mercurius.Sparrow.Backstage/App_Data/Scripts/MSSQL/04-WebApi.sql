@@ -409,9 +409,6 @@ GO
 SET IDENTITY_INSERT [WebApi].[User] ON;
 GO
 INSERT INTO [WebApi].[User] ( [Id], [Account], [Password], [Description], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
-    VALUES ( N'1', N'dezo', N'0fd06b4bf05d5854778cf140e904ca0f', N'星云用户', NULL, NULL, NULL, NULL, N'2016-03-17 15:25:33.370' );
-GO
-INSERT INTO [WebApi].[User] ( [Id], [Account], [Password], [Description], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
     VALUES ( N'2', N'nebula', N'a67c7845f09f3e7df5f9ba1f7f09ce4e', N'星云用户', NULL, NULL, N'2016-03-10 15:12:53.730', NULL, N'2016-03-10 15:12:58.713' );
 GO
 SET IDENTITY_INSERT [WebApi].[User] OFF;
