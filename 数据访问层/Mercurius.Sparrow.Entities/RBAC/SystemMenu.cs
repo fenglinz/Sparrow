@@ -69,16 +69,6 @@ namespace Mercurius.Sparrow.Entities.RBAC
         public virtual string Target { get; set; }
 
         /// <summary>
-        /// 是否允许编辑。
-        /// </summary>
-        public virtual bool? AllowEdit { get; set; }
-
-        /// <summary>
-        /// 是否允许删除。
-        /// </summary>
-        public virtual bool? AllowDelete { get; set; }
-
-        /// <summary>
         /// 排序号。
         /// </summary>
         public virtual int? Sort { get; set; }
