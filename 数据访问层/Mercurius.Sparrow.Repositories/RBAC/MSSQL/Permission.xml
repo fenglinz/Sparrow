@@ -114,41 +114,6 @@
       ]]>
     </insert>
 
-    <!-- 分配用户权限 -->
-    <insert id="AllotPermissionByUser" parameterClass="Params">
-      <![CDATA[
-        BEGIN
-          DELETE FROM RBAC.UserPermission WHERE UserId=#UserId#;
-      ]]>
-      <isNotNull property="SystemMenuIds">
-        <![CDATA[
-          INSERT INTO RBAC.UserPermission
-          (
-            Id,
-            UserId,
-            SystemMenuId,
-            CreateUserId,
-            CreateDateTime
-          )
-          VALUES
-        ]]>
-        <iterate property="SystemMenuIds" open="" close=";" conjunction=",">
-          <![CDATA[
-            (
-              NEWID(),
-              #UserId#,
-              #SystemMenuIds[]#,
-              #CreateUserId#,
-              GETDATE()
-            )
-          ]]>
-        </iterate>
-      </isNotNull>
-      <![CDATA[
-        END
-      ]]>
-    </insert>
-
     <!-- 获取系统菜单 -->
     <select id="GetSystemMenus" parameterClass="string" resultClass="SystemMenu">
       <![CDATA[
@@ -219,35 +184,6 @@
       ]]>
     </select>
 
-    <!-- 获取菜单的按钮 -->
-    <select id="GetSystemMenuButtons" parameterClass="string" resultClass="SystemMenu">
-      <![CDATA[
-        SELECT
-	        a.Id,
-	        a.Name,
-	        b.Title,
-	        b.Image,
-	        a.Category,
-	        a.Target,
-	        a.ParentId,
-	        CAST (a.Category AS VARCHAR(10)) + '-' + CAST (a.Sort AS VARCHAR(10)) AS FullSort,
-	        b.Code as NavigateUrl,
-	        u1.Name AS CreateUserName,
-	        a.CreateDateTime,
-	        u2.Name AS ModifyUserName,
-	        a.ModifyDateTime
-        FROM RBAC.SystemMenu a
-        LEFT JOIN RBAC.Button b
-          ON a.Name=b.Name
-        LEFT JOIN RBAC.[User] u1
-          ON a.CreateUserId=u1.Id
-        LEFT JOIN RBAC.[User] u2
-          ON a.ModifyUserId=u2.Id
-        WHERE ParentId=#value# AND a.Category=3 AND a.Status=1
-        ORDER BY a.Sort ASC
-      ]]>
-    </select>
-
     <!-- 获取新增按钮菜单的排序号 -->
     <select id="NewSystemMenuButtonSort" parameterClass="string" resultClass="int">
       <![CDATA[
@@ -270,86 +206,6 @@
           SELECT * FROM RBAC.SystemMenu
           WHERE ParentId=#ParentId# AND Name=#ButtonName# AND Category=3 AND Status=1
         )
-      ]]>
-    </select>
-
-    <!-- 根据用户编号获取标有访问权限的菜单列表 -->
-    <select id="GetSystemMenusWithAlloted" parameterClass="string" resultClass="SystemMenu">
-      <![CDATA[
-        WITH cte AS(
-          SELECT
-            Id
-            ,Name
-            ,Title
-            ,Image
-            ,Category
-            ,Target
-            ,ParentId
-            ,CAST(Sort AS VARCHAR) AS FullSort
-            ,NavigateUrl
-            ,CreateUserId
-            ,CreateDateTime
-            ,ModifyUserId
-            ,ModifyDateTime
-            ,Status
-            ,Sort
-          FROM RBAC.SystemMenu a
-          WHERE ParentId='0' AND Status=1 AND Category!=3
-          UNION ALL
-          SELECT 
-            a.Id
-            ,a.Name
-            ,a.Title
-            ,a.Image
-            ,a.Category
-            ,a.Target
-            ,a.ParentId
-            ,CAST(cte.FullSort + '-' + CAST(a.Sort AS VARCHAR) AS VARCHAR) AS FullSort
-            ,a.NavigateUrl
-            ,a.CreateUserId
-            ,a.CreateDateTime
-            ,a.ModifyUserId
-            ,a.ModifyDateTime
-            ,a.Status
-            ,a.Sort
-          FROM RBAC.SystemMenu a
-          INNER JOIN cte ON a.ParentId=cte.Id
-        ),
-        canAccess as(
-          SELECT 
-            DISTINCT(M.Id)
-          FROM 
-          (
-            SELECT
-              M.Id
-            FROM RBAC.SystemMenu M
-            LEFT JOIN RBAC.RolePermission R_R
-              ON R_R.SystemMenuId = M.Id
-            LEFT JOIN RBAC.UserRole U_R
-              ON U_R.RoleId = R_R.RoleId
-            WHERE U_R.UserId=#value#
-            UNION ALL
-            SELECT 
-              M.Id
-            FROM RBAC.SystemMenu M
-            LEFT JOIN  RBAC.UserPermission U_R 
-              ON U_R.SystemMenuId = M.Id
-            WHERE U_R.UserId = #value#
-          ) M
-        )
-        SELECT
-          cte.*,
-          u1.Name AS CreateUserName,
-          u2.Name AS ModifyUserName,
-          CASE WHEN canAccess.Id IS NULL THEN 0 ELSE 1 END AS CanAccess
-        FROM cte
-        LEFT JOIN canAccess
-          ON cte.Id=canAccess.Id
-        LEFT JOIN RBAC.[User] u1
-          ON cte.CreateUserId=u1.Id
-        LEFT JOIN RBAC.[User] u2
-          ON cte.ModifyUserId=u2.Id
-        WHERE cte.Status=1
       ]]>
     </select>
 

@@ -100,19 +100,6 @@ EXEC sp_addextendedproperty
     @level2type='COLUMN',
     @level2name=N'ModifyDateTime';
 GO
-SET IDENTITY_INSERT [WebApi].[Api] ON;
-GO
-INSERT INTO [WebApi].[Api] ( [Id], [Route], [HttpVerb], [Description], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
-    VALUES ( N'1', N'/api/FileStorage/Upload/{account}', N'POST', N'上传文件。', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-08 17:05:09.887', NULL, NULL );
-GO
-INSERT INTO [WebApi].[Api] ( [Id], [Route], [HttpVerb], [Description], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
-    VALUES ( N'2', N'/api/FileStorage/Upload/Base64/{account}', N'POST', N'基于base64字符串上传文件。', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-08 17:05:09.890', NULL, NULL );
-GO
-INSERT INTO [WebApi].[Api] ( [Id], [Route], [HttpVerb], [Description], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
-    VALUES ( N'3', N'/api/FileStorage/Remove', N'POST', N'删除文件资源。', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-08 17:05:09.890', NULL, NULL );
-GO
-SET IDENTITY_INSERT [WebApi].[Api] OFF;
-GO
 CREATE TABLE [WebApi].[Role]
 (
   [Id] INT NOT NULL IDENTITY(1, 1),
@@ -123,8 +110,6 @@ CREATE TABLE [WebApi].[Role]
   [ModifyUserId] NVARCHAR(36) NULL,
   [ModifyDateTime] DATETIME NULL
 );
-GO
-DBCC CHECKIDENT(N'[WebApi].[Role]', RESEED, 1);
 GO
 EXEC sp_addextendedproperty
     @name=N'MS_Description',
@@ -206,8 +191,7 @@ EXEC sp_addextendedproperty
 GO
 SET IDENTITY_INSERT [WebApi].[Role] ON;
 GO
-INSERT INTO [WebApi].[Role] ( [Id], [Name], [Description], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
-    VALUES ( N'1', N'开发者', N'开发者账号', NULL, NULL, NULL, N'2016-03-10 15:13:15.157' );
+INSERT INTO [WebApi].[Role] ( [Id], [Name], [Description], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )VALUES ( N'1', N'开发者', N'开发者账号', NULL, NULL, NULL, N'2016-03-10 15:13:15.157' );
 GO
 SET IDENTITY_INSERT [WebApi].[Role] OFF;
 GO
@@ -219,8 +203,6 @@ CREATE TABLE [WebApi].[RolePermission]
   [CreateUserId] NVARCHAR(36) NULL,
   [CreateDateTime] DATETIME NULL
 );
-GO
-DBCC CHECKIDENT(N'[WebApi].[RolePermission]', RESEED, 3);
 GO
 EXEC sp_addextendedproperty
     @name=N'MS_Description',
@@ -280,19 +262,6 @@ EXEC sp_addextendedproperty
     @level2type='COLUMN',
     @level2name=N'CreateDateTime';
 GO
-SET IDENTITY_INSERT [WebApi].[RolePermission] ON;
-GO
-INSERT INTO [WebApi].[RolePermission] ( [Id], [RoleId], [ApiId], [CreateUserId], [CreateDateTime] )
-    VALUES ( N'1', N'1', N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-10 13:57:12.450' );
-GO
-INSERT INTO [WebApi].[RolePermission] ( [Id], [RoleId], [ApiId], [CreateUserId], [CreateDateTime] )
-    VALUES ( N'2', N'1', N'2', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-10 13:57:12.450' );
-GO
-INSERT INTO [WebApi].[RolePermission] ( [Id], [RoleId], [ApiId], [CreateUserId], [CreateDateTime] )
-    VALUES ( N'3', N'1', N'3', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-10 13:57:12.450' );
-GO
-SET IDENTITY_INSERT [WebApi].[RolePermission] OFF;
-GO
 CREATE TABLE [WebApi].[User]
 (
   [Id] INT NOT NULL IDENTITY(1, 1),
@@ -305,8 +274,6 @@ CREATE TABLE [WebApi].[User]
   [ModifyUserId] NVARCHAR(36) NULL,
   [ModifyDateTime] DATETIME NULL
 );
-GO
-DBCC CHECKIDENT(N'[WebApi].[User]', RESEED, 2);
 GO
 EXEC sp_addextendedproperty
     @name=N'MS_Description',
@@ -408,8 +375,7 @@ EXEC sp_addextendedproperty
 GO
 SET IDENTITY_INSERT [WebApi].[User] ON;
 GO
-INSERT INTO [WebApi].[User] ( [Id], [Account], [Password], [Description], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )
-    VALUES ( N'2', N'nebula', N'a67c7845f09f3e7df5f9ba1f7f09ce4e', N'星云用户', NULL, NULL, N'2016-03-10 15:12:53.730', NULL, N'2016-03-10 15:12:58.713' );
+INSERT INTO [WebApi].[User] ( [Id], [Account], [Password], [Description], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )VALUES ( N'1', N'nebula', N'a67c7845f09f3e7df5f9ba1f7f09ce4e', N'星云用户', NULL, NULL, N'2016-03-10 15:12:53.730', NULL, N'2016-03-10 15:12:58.713' );
 GO
 SET IDENTITY_INSERT [WebApi].[User] OFF;
 GO

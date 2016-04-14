@@ -1,9 +1,4 @@
-﻿IF EXISTS(SELECT * FROM sys.objects WHERE type='TF' AND name='Split')
-BEGIN
-	DROP FUNCTION split;
-END
-GO
--- =============================================
+﻿-- =============================================
 -- Author:			张枫林
 -- Create date: 2015-12-03
 -- Description:	字符串分隔函数。
@@ -20,8 +15,8 @@ RETURNS @array TABLE(Item nvarchar(500))
 AS
 BEGIN
 	DECLARE @separatorIndex int,
-					@tempString nvarchar(max),
-					@tagString nvarchar(max);
+			@tempString nvarchar(max),
+			@tagString nvarchar(max);
 
 	SET @tagString=@string;
 	SET @separatorIndex=CHARINDEX(@separator,@tagString)  
@@ -65,25 +60,25 @@ RETURNS NVARCHAR(20)
 AS
 BEGIN
 	DECLARE @returnValue NVARCHAR(20);
-
 	DECLARE @organizationCode NVARCHAR(10);
+
 	SELECT @organizationCode=Code FROM RBAC.Organization WHERE Id=@organizationId
 	
 	IF @organizationCode IS NOT NULL
 	BEGIN
-		 DECLARE @maxCode INT;
-		 SELECT
-		   @maxCode = MAX(CAST(b.Code AS INT)) 
-		 FROM RBAC.StaffOrganize a 
-		 INNER JOIN RBAC.[User] b
-			ON a.UserId=b.Id
-		 WHERE OrganizationId=@organizationId;
-		 
-		 IF @maxCode IS NULL
-		   SET @returnValue = @organizationCode+'1';
-		 ELSE 
-			 SET @returnValue = @maxCode+1;
+		DECLARE @maxCode INT;
+		SELECT
+		  @maxCode = MAX(CAST(b.Code AS INT)) 
+		FROM RBAC.StaffOrganize a
+		INNER JOIN RBAC.[User] b ON a.UserId=b.Id
+		WHERE OrganizationId=@organizationId;
+		
+		IF @maxCode IS NULL
+		  SET @returnValue = @organizationCode+'1';
+		ELSE 
+		 SET @returnValue = @maxCode+1;
 	END
 	
 	RETURN @returnValue;
 END
+GO

@@ -32,8 +32,7 @@ namespace Mercurius.Sparrow.Services.RBAC
                     this.Persistence.Create(PermissionNamespace, "CreateOrUpdate", systemMenu);
 
                     this.ClearCache<SystemMenu>();
-                },
-                systemMenu);
+                }, systemMenu);
         }
 
         /// <summary>
@@ -50,8 +49,7 @@ namespace Mercurius.Sparrow.Services.RBAC
 
                     this.ClearCache<Button>();
                     this.ClearCache<SystemMenu>();
-                },
-                id);
+                }, id);
         }
 
         /// <summary>
@@ -101,29 +99,6 @@ namespace Mercurius.Sparrow.Services.RBAC
         }
 
         /// <summary>
-        /// 为用户分配权限。
-        /// </summary>
-        /// <param name="userId">用户编号</param>
-        /// <param name="args">菜单/按钮资源编号</param>
-        /// <returns>服务执行响应信息</returns>
-        public Response AllotPermissionByUser(string userId, params string[] args)
-        {
-            return this.InvokeService(
-                nameof(AllotPermissionByUser),
-                () =>
-                {
-                    this.Persistence.Create(PermissionNamespace, "AllotPermissionByUser", new
-                    {
-                        RoleId = userId,
-                        CreateUserId = WebHelper.GetLogOnUserId(),
-                        SystemMenuIds = args
-                    });
-
-                    this.ClearCache<SystemMenu>();
-                }, new { userId, args });
-        }
-
-        /// <summary>
         /// 获取系统菜单项。
         /// </summary>
         /// <param name="id">菜单编号</param>
@@ -147,31 +122,6 @@ namespace Mercurius.Sparrow.Services.RBAC
         }
 
         /// <summary>
-        /// 获取菜单的按钮菜单列表。
-        /// </summary>
-        /// <param name="id">菜单编号</param>
-        /// <returns>按钮菜单列表</returns>
-        public ResponseCollection<SystemMenu> GetSystemMenuButtons(string id)
-        {
-            return this.InvokeService(
-                nameof(GetSystemMenuButtons),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenuButtons", id), id);
-        }
-
-        /// <summary>
-        /// 根据用户编号获取标有访问权限的菜单列表。
-        /// </summary>
-        /// <param name="userId">用户编号</param>
-        /// <returns>菜单列表</returns>
-        public ResponseCollection<SystemMenu> GetSystemMenusWithAlloted(string userId)
-        {
-            return this.InvokeService(
-                nameof(GetSystemMenusWithAlloted),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAlloted", userId).AsSorted<SystemMenu, string>(),
-                userId);
-        }
-
-        /// <summary>
         /// 获取标有用户拥有访问权限的菜单列表。
         /// </summary>
         /// <param name="id">用户编号</param>
@@ -180,8 +130,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         {
             return this.InvokeService(
                 nameof(GetSystemMenusWithAllotedByUser),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByUser", id).AsSorted<SystemMenu, string>(),
-                id);
+                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByUser", id).AsSorted<SystemMenu, string>(), id);
         }
 
         /// <summary>
@@ -193,8 +142,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         {
             return this.InvokeService(
                 nameof(GetSystemMenusWithAllotedByRole),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByRole", id).AsSorted<SystemMenu, string>(),
-                id);
+                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByRole", id).AsSorted<SystemMenu, string>(), id);
         }
 
         /// <summary>
@@ -206,8 +154,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         {
             return this.InvokeService(
                 nameof(GetAccessibleMenus),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetAccessibleMenusByUser", userId).AsSorted<SystemMenu, string>(),
-                userId);
+                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetAccessibleMenusByUser", userId).AsSorted<SystemMenu, string>(), userId);
         }
 
         /// <summary>

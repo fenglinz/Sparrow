@@ -98,35 +98,17 @@ EXEC sp_addextendedproperty
     @level2type = 'COLUMN' ,
     @level2name = N'Remark';
 GO
-INSERT  INTO [dbo].[Dictionary]
-        ( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )
-VALUES
-        ( N'2fbadbb1-dbb1-4534-af6f-b68983ee47aa', NULL, N'错误', N'Error', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'4', N'1', NULL );
+INSERT  INTO [dbo].[Dictionary]( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )VALUES( N'2fbadbb1-dbb1-4534-af6f-b68983ee47aa', NULL, N'错误', N'Error', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'4', N'1', NULL );
 GO
-INSERT  INTO [dbo].[Dictionary]
-        ( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )
-VALUES
-        ( N'3882599d-2d3d-45f0-af84-f911d390df9b', NULL, N'信息', N'Info', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'2', N'1', N'' );
+INSERT  INTO [dbo].[Dictionary]( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )VALUES( N'3882599d-2d3d-45f0-af84-f911d390df9b', NULL, N'信息', N'Info', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'2', N'1', N'' );
 GO
-INSERT  INTO [dbo].[Dictionary]
-        ( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )
-VALUES
-        ( N'540c76b1-d4b2-47d6-b8ef-1fff76d60067', NULL, N'调试', N'Debug', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'1', N'1', NULL );
+INSERT  INTO [dbo].[Dictionary]( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )VALUES( N'540c76b1-d4b2-47d6-b8ef-1fff76d60067', NULL, N'调试', N'Debug', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'1', N'1', NULL );
 GO
-INSERT  INTO [dbo].[Dictionary]
-        ( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )
-VALUES
-        ( N'63ed1ebc-f24d-460a-9d76-a73d4cf09330', NULL, N'记录', N'Record', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'5', N'1', NULL );
+INSERT  INTO [dbo].[Dictionary]( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )VALUES( N'63ed1ebc-f24d-460a-9d76-a73d4cf09330', NULL, N'记录', N'Record', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'5', N'1', NULL );
 GO
-INSERT  INTO [dbo].[Dictionary]
-        ( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )
-VALUES
-        ( N'd4dea6da-2c0f-4a7c-bbcc-cdccb85baaea', NULL, N'警告', N'Warn', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'3', N'1', NULL );
+INSERT  INTO [dbo].[Dictionary]( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )VALUES( N'd4dea6da-2c0f-4a7c-bbcc-cdccb85baaea', NULL, N'警告', N'Warn', N'f871b534-81ec-4f73-a2cc-e2dac035584c', N'3', N'1', NULL );
 GO
-INSERT  INTO [dbo].[Dictionary]
-        ( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )
-VALUES
-        ( N'f871b534-81ec-4f73-a2cc-e2dac035584c', NULL, N'日志级别', NULL, NULL, N'5', NULL, NULL );
+INSERT  INTO [dbo].[Dictionary]( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )VALUES( N'f871b534-81ec-4f73-a2cc-e2dac035584c', NULL, N'日志级别', NULL, NULL, N'5', NULL, NULL );
 GO
 CREATE TABLE [dbo].[FileStorage]
 (
@@ -339,45 +321,21 @@ EXEC sp_addextendedproperty
     @level2type = 'COLUMN' ,
     @level2name = N'Remark';
 GO
-INSERT  INTO [dbo].[Globalization]
-        ( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )
-VALUES
-        ( N'0a564fd0-80d4-49f0-b8c0-8ef958f50915', NULL, NULL, NULL, NULL, N'add', N'新增', NULL );
+INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )VALUES( N'0a564fd0-80d4-49f0-b8c0-8ef958f50915', NULL, NULL, NULL, NULL, N'add', N'新增', NULL );
 GO
-INSERT  INTO [dbo].[Globalization]
-        ( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )
-VALUES
-        ( N'1226AF72-F686-4A19-8A77-C08E6A6E0608', NULL, NULL, N'Resource', N'Index', N'area', N'区域', N'区域标签' );
+INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )VALUES( N'1226AF72-F686-4A19-8A77-C08E6A6E0608', NULL, NULL, N'Resource', N'Index', N'area', N'区域', N'区域标签' );
 GO
-INSERT  INTO [dbo].[Globalization]
-        ( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )
-VALUES
-        ( N'1D4C983E-A674-419B-812D-6BF4D76466C2', NULL, NULL, NULL, NULL, N'empty-data', N'没有找到符合查询条件的信息！', NULL );
+INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )VALUES( N'1D4C983E-A674-419B-812D-6BF4D76466C2', NULL, NULL, NULL, NULL, N'empty-data', N'没有找到符合查询条件的信息！', NULL );
 GO
-INSERT  INTO [dbo].[Globalization]
-        ( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )
-VALUES
-        ( N'2a075689-42d9-4fae-85e9-6485a1f95567', NULL, NULL, NULL, NULL, N'query', N'查询', N'查询' );
+INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )VALUES( N'2a075689-42d9-4fae-85e9-6485a1f95567', NULL, NULL, NULL, NULL, N'query', N'查询', N'查询' );
 GO
-INSERT  INTO [dbo].[Globalization]
-        ( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )
-VALUES
-        ( N'5cb0b7a6-02b5-464c-ba13-3539ff490e07', NULL, NULL, NULL, NULL, N'close', N'关闭', N'33' );
+INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )VALUES( N'5cb0b7a6-02b5-464c-ba13-3539ff490e07', NULL, NULL, NULL, NULL, N'close', N'关闭', N'33' );
 GO
-INSERT  INTO [dbo].[Globalization]
-        ( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )
-VALUES
-        ( N'663689c3-d9ad-4f30-9df1-985ba257161e', NULL, NULL, NULL, NULL, N'back', N'返回', N'返回' );
+INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )VALUES( N'663689c3-d9ad-4f30-9df1-985ba257161e', NULL, NULL, NULL, NULL, N'back', N'返回', N'返回' );
 GO
-INSERT  INTO [dbo].[Globalization]
-        ( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )
-VALUES
-        ( N'74e7f402-fdb1-4d5c-9f97-8cf93417a171', NULL, NULL, NULL, NULL, N'delete', N'删除', N'删除' );
+INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )VALUES( N'74e7f402-fdb1-4d5c-9f97-8cf93417a171', NULL, NULL, NULL, NULL, N'delete', N'删除', N'删除' );
 GO
-INSERT  INTO [dbo].[Globalization]
-        ( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )
-VALUES
-        ( N'a3a03e02-db48-4139-aeb1-fa2503278714', NULL, NULL, NULL, NULL, N'save', N'保存', N'保存' );
+INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )VALUES( N'a3a03e02-db48-4139-aeb1-fa2503278714', NULL, NULL, NULL, NULL, N'save', N'保存', N'保存' );
 GO
 CREATE TABLE [dbo].[OperationRecord]
 (
@@ -635,25 +593,13 @@ EXEC sp_addextendedproperty
     @level2type = 'COLUMN' ,
     @level2name = N'Remark';
 GO
-INSERT  INTO [dbo].[SystemSetting]
-        ( [Id], [ParentId], [Name], [Value], [Remark] )
-VALUES
-        ( N'015B6ED3-B4FF-4A61-B200-59203A7DBC77', NULL, N'LogLevel', N'2', N'' );
+INSERT  INTO [dbo].[SystemSetting]( [Id], [ParentId], [Name], [Value], [Remark] )VALUES( N'015B6ED3-B4FF-4A61-B200-59203A7DBC77', NULL, N'LogLevel', N'2', N'' );
 GO
-INSERT  INTO [dbo].[SystemSetting]
-        ( [Id], [ParentId], [Name], [Value], [Remark] )
-VALUES
-        ( N'03d5f601-e11e-4a44-982b-baed7eab37a3', N'6b9d4e26-8066-4fc2-bb45-fb02824be265', N'ProductVersion', N'Beta 0.7', NULL );
+INSERT  INTO [dbo].[SystemSetting]( [Id], [ParentId], [Name], [Value], [Remark] )VALUES( N'03d5f601-e11e-4a44-982b-baed7eab37a3', N'6b9d4e26-8066-4fc2-bb45-fb02824be265', N'ProductVersion', N'Beta 0.7', NULL );
 GO
-INSERT  INTO [dbo].[SystemSetting]
-        ( [Id], [ParentId], [Name], [Value], [Remark] )
-VALUES
-        ( N'6b9d4e26-8066-4fc2-bb45-fb02824be265', NULL, N'ProductName', N'后台管理系统', NULL );
+INSERT  INTO [dbo].[SystemSetting]( [Id], [ParentId], [Name], [Value], [Remark] )VALUES( N'6b9d4e26-8066-4fc2-bb45-fb02824be265', NULL, N'ProductName', N'后台管理系统', NULL );
 GO
-INSERT  INTO [dbo].[SystemSetting]
-        ( [Id], [ParentId], [Name], [Value], [Remark] )
-VALUES
-        ( N'E402EAAF-B0C6-4D38-8809-B7F6FACDB051', NULL, N'WebApiDocumentUrl', N'http://127.0.0.1:8000/FileStorage/Swagger/docs/v1', NULL );
+INSERT  INTO [dbo].[SystemSetting]( [Id], [ParentId], [Name], [Value], [Remark] )VALUES( N'E402EAAF-B0C6-4D38-8809-B7F6FACDB051', NULL, N'WebApiDocumentUrl', N'http://127.0.0.1:8000/FileStorage/Swagger/docs/v1', NULL );
 GO
 ALTER TABLE [dbo].[Dictionary] ADD PRIMARY KEY ([Id]);
 GO
