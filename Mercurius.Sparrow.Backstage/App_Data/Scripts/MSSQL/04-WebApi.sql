@@ -10,8 +10,6 @@ CREATE TABLE [WebApi].[Api]
   [ModifyDateTime] DATETIME NULL
 );
 GO
-DBCC CHECKIDENT(N'[WebApi].[Api]', RESEED, 3);
-GO
 EXEC sp_addextendedproperty
     @name=N'MS_Description',
     @value=N'Web API',
@@ -375,7 +373,7 @@ EXEC sp_addextendedproperty
 GO
 SET IDENTITY_INSERT [WebApi].[User] ON;
 GO
-INSERT INTO [WebApi].[User] ( [Id], [Account], [Password], [Description], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )VALUES ( N'1', N'nebula', N'a67c7845f09f3e7df5f9ba1f7f09ce4e', N'星云用户', NULL, NULL, N'2016-03-10 15:12:53.730', NULL, N'2016-03-10 15:12:58.713' );
+INSERT INTO [WebApi].[User] ( [Id], [Account], [Password], [Description], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime] )VALUES ( N'1', N'nebula', N'ef5caa746eb6e51eef59a31a96c3e99b', N'星云用户', NULL, NULL, N'2016-03-10 15:12:53.730', NULL, N'2016-03-10 15:12:58.713' );
 GO
 SET IDENTITY_INSERT [WebApi].[User] OFF;
 GO

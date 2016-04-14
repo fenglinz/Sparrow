@@ -3,7 +3,7 @@
 }
 
 @section Styles{
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/base/all.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/base/sortable.css" />
     <style type="text/css">
         .fa-2x {
             font-size: 2.45em;
@@ -37,7 +37,8 @@
         $(function () {
             $('#allButton').sortable({
                 scroll: true,
-                cursor: "move"
+                cursor: "move",
+                items: ' > div'
             });
 
             $("#allButton div").click(function () {
