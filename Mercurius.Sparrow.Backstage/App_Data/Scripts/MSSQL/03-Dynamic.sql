@@ -658,7 +658,7 @@ CREATE TABLE [Dynamic].[ExtensionPropertyInstance]
 (
   [Id] UNIQUEIDENTIFIER NOT NULL,
   [ExtensionPropertyId] UNIQUEIDENTIFIER NOT NULL,
-  [EntityId] NVARCHAR(36) NULL,
+  BusinessSerialNumber NVARCHAR(36) NULL,
   [Value] NVARCHAR(MAX) NULL
 );
 GO
@@ -692,13 +692,13 @@ EXEC sp_addextendedproperty
 GO
 EXEC sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'业务编号',
+    @value = N'业务流水编号',
     @level0type = 'SCHEMA',
     @level0name = N'Dynamic',
     @level1type = 'TABLE',
     @level1name = N'ExtensionPropertyInstance',
     @level2type = 'COLUMN',
-    @level2name = N'EntityId';
+    @level2name = N'BusinessSerialNumber';
 GO
 EXEC sp_addextendedproperty
     @name = N'MS_Description',

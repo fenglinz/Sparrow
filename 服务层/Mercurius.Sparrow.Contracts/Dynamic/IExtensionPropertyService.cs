@@ -23,10 +23,10 @@ namespace Mercurius.Sparrow.Contracts.Dynamic
         /// <summary>
         /// 添加扩展属性实例值。
         /// </summary>
-        /// <param name="entityId">业务实体编号</param>
+        /// <param name="businessSerialNumber">业务流水编号</param>
         /// <param name="instances">扩展属性实例信息</param>
         /// <returns>返回添加结果</returns>
-        Response CreateInstances(string entityId, IEnumerable<ExtensionPropertyInstance> instances);
+        Response CreateInstances(string businessSerialNumber, IEnumerable<ExtensionPropertyInstance> instances);
 
         /// <summary>
         /// 根据主键删除扩展属性信息。
@@ -36,11 +36,11 @@ namespace Mercurius.Sparrow.Contracts.Dynamic
         Response Remove(Guid id);
 
         /// <summary>
-        /// 根据业务实体编号删除扩展实例信息。
+        /// 根据业务流水编号删除扩展实例信息。
         /// </summary>
-        /// <param name="entityId">业务实体编号</param>
+        /// <param name="businessSerialNumber">业务流水编号</param>
         /// <returns>返回删除的结果</returns>
-        Response RemoveInstances(string entityId);
+        Response RemoveInstances(string businessSerialNumber);
 
         /// <summary>
         /// 获取扩展属性分类。
@@ -66,9 +66,9 @@ namespace Mercurius.Sparrow.Contracts.Dynamic
         /// 根据分类获取所有扩展属性信息。
         /// </summary>
         /// <param name="category">分类</param>
-        /// <param name="entityId">业务实体编号</param>
+        /// <param name="businessSerialNumber">业务流水编号</param>
         /// <returns>返回结果</returns>
-        ResponseCollection<ExtensionProperty> GetExtensionProperties(string category, string entityId = null);
+        ResponseCollection<ExtensionProperty> GetExtensionProperties(string category, string businessSerialNumber = null);
 
         /// <summary>
         /// 查询并分页获取扩展属性信息。

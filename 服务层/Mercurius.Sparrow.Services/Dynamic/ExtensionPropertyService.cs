@@ -46,12 +46,12 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// <summary>
         /// 添加扩展属性实例值。
         /// </summary>
-        /// <param name="entityId">业务实体编号</param>
+        /// <param name="businessSerialNumber">业务流水编号</param>
         /// <param name="instances">扩展属性实例信息</param>
         /// <returns>返回添加结果</returns>
-        public Response CreateInstances(string entityId, IEnumerable<ExtensionPropertyInstance> instances)
+        public Response CreateInstances(string businessSerialNumber, IEnumerable<ExtensionPropertyInstance> instances)
         {
-            var args = new { EntityId = entityId, Instances = instances };
+            var args = new { BusinessSerialNumber = businessSerialNumber, Instances = instances };
 
             return this.InvokeService(nameof(CreateInstances), () =>
             {
@@ -79,16 +79,16 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// <summary>
         /// 根据业务实体编号删除扩展实例信息。
         /// </summary>
-        /// <param name="entityId">业务实体编号</param>
+        /// <param name="businessSerialNumber">业务流水编号</param>
         /// <returns>返回删除的结果</returns>
-        public Response RemoveInstances(string entityId)
+        public Response RemoveInstances(string businessSerialNumber)
         {
             return this.InvokeService(nameof(RemoveInstances), () =>
             {
-                this.Persistence.Delete(NS, "RemoveInstances", entityId);
+                this.Persistence.Delete(NS, "RemoveInstances", businessSerialNumber);
 
                 this.ClearCache<ExtensionProperty>();
-            }, entityId);
+            }, businessSerialNumber);
         }
 
         /// <summary>
@@ -128,11 +128,11 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// 根据分类获取所有扩展属性信息。
         /// </summary>
         /// <param name="category">分类</param>
-        /// <param name="entityId">业务实体编号</param>
+        /// <param name="businessSerialNumber">业务流水编号</param>
         /// <returns>返回结果</returns>
-        public ResponseCollection<ExtensionProperty> GetExtensionProperties(string category, string entityId = null)
+        public ResponseCollection<ExtensionProperty> GetExtensionProperties(string category, string businessSerialNumber = null)
         {
-            var args = new { Category = category, EntityId = entityId };
+            var args = new { Category = category, BusinessSerialNumber = businessSerialNumber };
 
             return this.InvokeService(nameof(GetExtensionProperties),
                 () => this.Persistence.QueryForList<ExtensionProperty>(NS, "GetExtensionPropertiesByCategory", args),

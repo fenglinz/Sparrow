@@ -4,12 +4,12 @@
 @using Mercurius.Sparrow.Contracts.Dynamic
 @using Mercurius.Sparrow.Entities.Dynamic
 
-@helper RenderProperties(string entityId, string category)
+@helper RenderProperties(string businessSerialNumber, string category)
 {
     using (var context = AutofacConfig.Container.BeginLifetimeScope())
     {
         var extensionPropertyService = context.Resolve<IExtensionPropertyService>();
-        var properties = extensionPropertyService.GetExtensionProperties(category, entityId).Datas;
+        var properties = extensionPropertyService.GetExtensionProperties(category, businessSerialNumber).Datas;
 
         if (!properties.IsEmpty())
         {
@@ -19,7 +19,7 @@
                 }
             </style>
             <form id="frmDynamic" action="~/DynamicPage/ExtensionProperty/SaveProperties" class="form-horizontal form" method="post" data-ajax="true" data-ajax-method="post">
-                <input type="hidden" name="id" value="@entityId"/>
+                <input type="hidden" name="id" value="@businessSerialNumber"/>
                 @{
                     var groupNames = (from p in properties
                                       where

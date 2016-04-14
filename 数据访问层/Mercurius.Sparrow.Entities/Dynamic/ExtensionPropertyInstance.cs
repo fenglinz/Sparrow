@@ -30,12 +30,12 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         public virtual Guid ExtensionPropertyId { get; set; }
 
         /// <summary>
-        /// 实体编号。
+        /// 业务流水号。
         /// </summary>
-        [Display(Name = "实体编号")]
-        [Column("EntityId")]
-        [StringLength(36, ErrorMessage = "实体编号不能超过{1}个字符。")]
-        public virtual string EntityId { get; set; }
+        [Display(Name = "业务流水号")]
+        [Column("BusinessSerialNumber")]
+        [StringLength(36, ErrorMessage = "业务流水号不能超过{1}个字符。")]
+        public virtual string BusinessSerialNumber { get; set; }
 
         /// <summary>
         /// 扩展属性值。

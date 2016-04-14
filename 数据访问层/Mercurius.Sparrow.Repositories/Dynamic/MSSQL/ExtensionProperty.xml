@@ -153,7 +153,7 @@
           b.[Value] AS Value
         FROM [Dynamic].[ExtensionProperty] a
         LEFT JOIN [Dynamic].[ExtensionPropertyInstance] b
-          ON a.Id=b.ExtensionPropertyId AND b.EntityId=#EntityId#
+          ON a.Id=b.ExtensionPropertyId AND b.BusinessSerialNumber=#BusinessSerialNumber#
         WHERE [Category]=#Category#
         ORDER BY Sort ASC,GroupName DESC
       ]]>
@@ -216,7 +216,7 @@
           BEGIN TRAN;
 
           BEGIN TRY
-            DELETE FROM [Dynamic].[ExtensionPropertyInstance] WHERE [EntityId]=#EntityId#;
+            DELETE FROM [Dynamic].[ExtensionPropertyInstance] WHERE [BusinessSerialNumber]=#BusinessSerialNumber#;
       ]]>
       <iterate property="Instances" open="" conjunction=";" close=";">
         <![CDATA[
@@ -224,14 +224,14 @@
 		        (
 		          [Id],
 			        [ExtensionPropertyId],
-			        [EntityId],
+			        [BusinessSerialNumber],
 			        [Value]
 		        )
 		        VALUES
 		        (
 		          NEWID(),
 			        #Instances[].ExtensionPropertyId#,
-			        #EntityId#,
+			        #BusinessSerialNumber#,
 			        #Instances[].Value#
 		        )
         ]]>
@@ -249,7 +249,7 @@
     <!-- 删除扩展属性实例信息。 -->
     <delete id="RemoveInstances" parameterClass="string">
       <![CDATA[
-        DELETE FROM [Dynamic].[ExtensionPropertyInstance] WHERE [EntityId]=#value#
+        DELETE FROM [Dynamic].[ExtensionPropertyInstance] WHERE [BusinessSerialNumber]=#value#
       ]]>
     </delete>
 
