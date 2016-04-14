@@ -90,7 +90,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         {
             var rsp = this.GlobalizationService.CreateOrUpdateResource(resource);
 
-            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！", callback: "ReloadResource('local')") : this.Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
+            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！", callback: "top.main.ReloadResource('local')") : this.Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         {
             var rsp = this.GlobalizationService.CreateOrUpdateGlobalResource(resource.Key, resource.Value, resource.Remark);
 
-            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！", callback: "ReloadResource('global')") : this.Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
+            return rsp.IsSuccess ? this.CloseDialogWithAlert("保存成功！", callback: "top.main.ReloadResource('global')") : this.Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
         }
 
         /// <summary>
