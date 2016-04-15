@@ -87,8 +87,11 @@
     <!-- 删除组织机构信息 -->
     <delete id="Remove" parameterClass="string">
       <![CDATA[
-        IF EXISTS(SELECT * FROM RBAC.Organization WHERE ParentId=#value#)
+        IF EXISTS(SELECT * FROM RBAC.StaffOrganize WHERE OrganizationId=#value#)
+          RAISERROR('不能删除包含员工的组织机构！', 16, 1);
+        ELSE IF EXISTS(SELECT * FROM RBAC.Organization WHERE ParentId=#value#)
           RAISERROR('不能直接删除包含下级组织的机构！', 16, 1);
+        ELSE
         BEGIN
           DELETE FROM RBAC.StaffOrganize WHERE OrganizationId=#value#;
           DELETE FROM RBAC.Organization WHERE Id=#value#;

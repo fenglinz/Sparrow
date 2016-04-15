@@ -6,7 +6,7 @@
             mercurius.FixedTableHeader('#tbRoles', 155);
         });
 
-        @Html.RenderButtonScript("新增", @<text>
+        @Html.RenderButtonScript("添加", @<text>
         function @(item.NavigateUrl)(){
             mercurius.OpenDialog('@Url.Action("CreateOrUpdate", "Role")','CreateOrUpdate','添加角色',550, 180);
         }
@@ -41,7 +41,7 @@
         }
         </text>)
 
-        @Html.RenderButtonScript("分配成员", @<text>
+        @Html.RenderButtonScript("成员管理", @<text>
         function @(item.NavigateUrl)(){
             var id=$('#tbRoles > tbody > tr.selected > td:eq(3)').text();
 
@@ -51,7 +51,7 @@
         }
         </text>)
 
-        @Html.RenderButtonScript("分配权限", @<text>
+        @Html.RenderButtonScript("权限管理", @<text>
         function @(item.NavigateUrl)() {
             var roleId = $('#tbRoles tr.selected').find('td:eq(3)').text().trim();
 

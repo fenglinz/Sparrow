@@ -29,7 +29,7 @@
             return $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
         }
 
-        @Html.RenderButtonScript("新增",@<text>
+        @Html.RenderButtonScript("添加",@<text>
         function @(item.NavigateUrl)() {
             var url = '@Url.Action("CreateOrUpdate", "Route", new { area = "WebApi" })/?parentId=' + GetSelectedValue();
 

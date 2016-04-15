@@ -5,26 +5,22 @@
 @section Styles{
     <link rel="stylesheet" type="text/css" href="~/Content/themes/base/sortable.css" />
     <style type="text/css">
-        .fa-2x {
-            font-size: 2.45em;
-        }
-
         .btn {
             width: 75px;
-            height: 65px;
-            margin: 3px 0 0 3px;
-            -moz-text-overflow: ellipsis;
-            text-overflow: ellipsis;
-            -moz-word-break: break-all;
-            -o-word-break: break-all;
-            word-break: break-all;
-            overflow: hidden;
+            height: 56px;
+            margin: 0 3px 3px 0;
             font-size: 12px;
         }
 
             .btn > i {
                 display: block;
-                margin-bottom: 5px;
+                margin-bottom: 3px;
+            }
+
+            .btn.checked {
+                color: #fff;
+                background: #5cb85c;
+                border-color: #4cae4c;
             }
     </style>
 }
@@ -36,16 +32,41 @@
 
         $(function () {
             $('#allButton').sortable({
-                scroll: true,
+                scroll: false,
                 cursor: "move",
-                items: ' > div'
+                items: ' > div',
+                update: function (c, p) {
+                    if (p.item != $('#allButton > div:eq(0)')) {
+                        $(p.item).next().css('margin-left', '4px');
+                    }
+                }
             });
 
-            $("#allButton div").click(function () {
-                if ($(this).hasClass('btn-primary')) {
-                    $(this).removeClass('btn-primary').addClass('btn-default');
+            $("#allButton").on('click', '.btn', function () {
+                if ($(this).hasClass('checked')) {
+                    $(this).removeClass('checked');
+
+                    var t1 = $(this).clone();
+
+                    $(this).remove();
+
+                    if ($('#allButton div.checked').length > 0) {
+                        $('#allButton div.checked').last().after(t1);
+                    } else {
+                        $('#allButton div.btn-primary').first().before(t1);
+                    }
                 } else {
-                    $(this).removeClass('btn-default').addClass('btn-primary');
+                    $(this).addClass('checked');
+                    var t2 = $(this).clone();
+
+                    $(this).remove();
+                    $(t2).css('margin-left', '4px');
+
+                    if ($('#allButton div.checked').length > 0) {
+                        $('#allButton div.checked').last().after(t2);
+                    } else {
+                        $('#allButton div.btn-primary').first().before(t2);
+                    }
                 }
 
                 needRefresh = true;
@@ -57,7 +78,7 @@
         function OnSave() {
             var buttonIds = '';
 
-            $('#allButton > div.btn-primary').each(function () {
+            $('#allButton > div.active').each(function () {
                 buttonIds += $(this).attr('id') + ',';
             });
 
@@ -83,7 +104,7 @@
     {
         foreach (var item in buttons.Datas)
         {
-            <div id="@item.Id" title="@item.Name" class="btn @(item.IsAllotToSystemMenu?"btn-primary":"btn-default")">
+            <div id="@item.Id" title="@item.Name" class="btn btn-primary @(item.IsAllotToSystemMenu?"checked":"")">
                 <i class="@item.Image fa-2x"></i>
                 @item.Name
             </div>

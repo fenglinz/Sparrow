@@ -33,8 +33,7 @@
             return $('table tr.selected').find('td:eq(6)').text().trim();
         }
 
-        @Html.RenderButtonScript("新增",@<text>
-        // 添加字典值。
+        @Html.RenderButtonScript("添加", @<text>
         function @(item.NavigateUrl)() {
             var id = GetSelectedValue();
 
@@ -45,14 +44,12 @@
             }
         }
 
-        // 添加字典分类。
         function addCategory() {
             mercurius.OpenDialog('@Url.Action("CreateOrUpdateCategory", "Dictionary")/?ParentId='+GetParentId(), "CreateOrUpdateCategory", "字典管理-添加", 500, 215);
         }
         </text>)
 
-        @Html.RenderButtonScript("编辑",@<text>
-        // 编辑
+        @Html.RenderButtonScript("编辑", @<text>
         function @(item.NavigateUrl)() {
             var id = GetSelectedValue();
             var parentId = GetParentId();
@@ -74,7 +71,6 @@
         </text>)
 
         @Html.RenderButtonScript("删除",@<text>
-        // 删除
         function @(item.NavigateUrl)() {
             var id = GetSelectedValue();
 
@@ -104,9 +100,9 @@
 <div class="toolbar panel panel-default">
     <div class="panel-heading">
         <div class="right btn-group">
-            @Html.RenderButtonScript("新增",@<text>
+            @Html.RenderButtonScript("添加",@<text>
                 <div class="btn-group">
-                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="新增">
+                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="添加">
                         <i class="@item.Image"></i> @item.Name
                         <span class="caret" style="margin-left: 10px;"></span>
                     </a>

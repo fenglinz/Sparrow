@@ -24,7 +24,7 @@
             return $('#dnd-example tr.selected').find('td:eq(8)').text().trim();
         }
 
-        @Html.RenderButtonScript("新增", @<text>
+        @Html.RenderButtonScript("添加", @<text>
         function @(item.NavigateUrl)() {
             var url = '@Url.Action("CreateOrUpdate")/?parentId=' + GetSelectedValue();
 
@@ -54,7 +54,7 @@
         }
         </text>)
 
-        @Html.RenderButtonScript("分配成员", @<text>
+        @Html.RenderButtonScript("成员管理", @<text>
         function @(item.NavigateUrl)() {
             var roleId = GetSelectedValue();
             var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
@@ -65,7 +65,7 @@
         }
         </text>)
 
-        @Html.RenderButtonScript("分配权限",@<text>
+        @Html.RenderButtonScript("权限管理",@<text>
         function @(item.NavigateUrl)() {
             var roleId = GetSelectedValue();
             var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();

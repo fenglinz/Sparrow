@@ -26,7 +26,7 @@
             return $('#dnd-example tbody tr :checked').val();
         }
 
-        @Html.RenderButtonScript("新增",
+        @Html.RenderButtonScript("添加",
 		@<text>
         function @(item.NavigateUrl)() {
             var url = '@Url.Action("CreateOrUpdate")';

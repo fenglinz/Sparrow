@@ -27,7 +27,7 @@
             return $('#dnd-example tr.selected').find('td:eq(7)').text().trim();
         }
 
-        @Html.RenderButtonScript("新增",@<text>
+        @Html.RenderButtonScript("添加",@<text>
         function @(item.NavigateUrl)() {
             var url = '@Url.Action("CreateOrUpdate", "SystemMenu", new { area = "Admin" })/?parentId=' + GetSelectedValue();
 
@@ -57,7 +57,7 @@
         }
         </text>)
 
-        @Html.RenderButtonScript("分配按钮",@<text>
+        @Html.RenderButtonScript("按钮管理",@<text>
         function @(item.NavigateUrl)() {
             var id = GetSelectedValue();
 

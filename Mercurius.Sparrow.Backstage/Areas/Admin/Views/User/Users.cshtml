@@ -35,7 +35,7 @@
             return $('#table1 > tbody > tr.selected > td:eq(0)').text().trim();
         }
 
-        @Html.RenderButtonScript("新增",@<text>
+        @Html.RenderButtonScript("添加",@<text>
         function @(item.NavigateUrl)() {
             mercurius.OpenDialog('@Url.Action("CreateOrUpdate")', 'ChooseUserContainer', '用户信息-添加', 700, 360);
         }
@@ -99,7 +99,7 @@
         }
         </text>)
 
-        @Html.RenderButtonScript("分配权限",@<text>
+        @Html.RenderButtonScript("权限管理",@<text>
         function @(item.NavigateUrl)() {
             var key = GetSelectedValue();
             var name = $('#table1 > tbody > tr.selected > td:eq(2)').text();

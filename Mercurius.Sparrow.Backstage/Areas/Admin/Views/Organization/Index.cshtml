@@ -25,7 +25,7 @@
             return $('#dnd-example tr.selected').find('td:eq(9)').text().trim();
         }
 
-        @Html.RenderButtonScript("新增",@<text>
+        @Html.RenderButtonScript("添加",@<text>
         function @(item.NavigateUrl)() {
             var url = "@Url.Action("CreateOrUpdate")/?parentId=" + GetSelectedValue();
 
