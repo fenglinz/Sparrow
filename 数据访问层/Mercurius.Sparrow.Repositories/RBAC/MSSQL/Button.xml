@@ -138,7 +138,7 @@
         OUTER APPLY(
 	        SELECT * FROM cte WHERE a.Id=cte.Id
         ) p
-        ORDER BY CASE WHEN p.Id IS NULL THEN 0 ELSE 1 END DESC, p.Sort ASC
+        ORDER BY CASE WHEN p.Id IS NULL THEN 0 ELSE 1 END DESC, p.Sort ASC,a.Sort ASC
       ]]>
     </select>
   </statements>

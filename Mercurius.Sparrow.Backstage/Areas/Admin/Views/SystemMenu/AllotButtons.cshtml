@@ -49,11 +49,12 @@
                     var t1 = $(this).clone();
 
                     $(this).remove();
+                    $(t1).css('margin-left', '4px');
 
                     if ($('#allButton div.checked').length > 0) {
                         $('#allButton div.checked').last().after(t1);
                     } else {
-                        $('#allButton div.btn-primary').first().before(t1);
+                        $('#allButton div.btn-default').first().before(t1);
                     }
                 } else {
                     $(this).addClass('checked');
@@ -65,7 +66,7 @@
                     if ($('#allButton div.checked').length > 0) {
                         $('#allButton div.checked').last().after(t2);
                     } else {
-                        $('#allButton div.btn-primary').first().before(t2);
+                        $('#allButton div.btn-default').first().before(t2);
                     }
                 }
 
@@ -78,7 +79,7 @@
         function OnSave() {
             var buttonIds = '';
 
-            $('#allButton > div.active').each(function () {
+            $('#allButton > div.checked').each(function () {
                 buttonIds += $(this).attr('id') + ',';
             });
 
@@ -104,7 +105,7 @@
     {
         foreach (var item in buttons.Datas)
         {
-            <div id="@item.Id" title="@item.Name" class="btn btn-primary @(item.IsAllotToSystemMenu?"checked":"")">
+            <div id="@item.Id" title="@item.Name" class="btn btn-default @(item.IsAllotToSystemMenu?"checked":"")">
                 <i class="@item.Image fa-2x"></i>
                 @item.Name
             </div>

@@ -596,11 +596,11 @@
             ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function (r) {
                 Ajax(url, parm, function (rs) {
                     if (rs.IsSuccess) {
-                        ShowTipsMessage("删除成功！", 2000, 4);
+                        ShowTipsMessage("删除成功！", 6000, 4);
                         mercurius.Reloading();
                     }
                     else {
-                        ShowTipsMessage("<span style='color:red'>删除失败，请稍后重试！  失败原因：" + rs.ErrorMessage + "</span>", 4000, 5);
+                        ShowTipsMessage("<span style='color:red'>删除失败，失败原因：" + rs.ErrorMessage + "</span>", 6000, 5);
                     }
                 });
             });
