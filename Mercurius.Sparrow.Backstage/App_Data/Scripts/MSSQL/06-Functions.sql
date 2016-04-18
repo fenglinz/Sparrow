@@ -14,37 +14,23 @@ CREATE FUNCTION [Split]
 RETURNS @array TABLE(Item nvarchar(500)) 
 AS
 BEGIN
-	DECLARE @separatorIndex int,
-			@tempString nvarchar(max),
-			@tagString nvarchar(max);
+  DECLARE @index INT=0;
+  DECLARE @location INT;
+  DECLARE @table TABLE(item NVARCHAR(200));
 
-	SET @tagString=@string;
-	SET @separatorIndex=CHARINDEX(@separator,@tagString)  
+  SET @location = CHARINDEX(@separator, @string);
 
-	WHILE(@separatorIndex<>0)
-	BEGIN
-		SET @tempString = SUBSTRING(@tagString,1,@separatorIndex-1)  
+  WHILE @location<>0
+  BEGIN
+	INSERT INTO @array( Item )VALUES(LTRIM(RTRIM(SUBSTRING(@string, @index, @location-@index))));
 
-		INSERT INTO @array(Item) VALUES(RTRIM(LTRIM(@tempString)));
+	SET @index=@location+LEN(@separator);
+	SET @location=CHARINDEX(@separator, @string, @index);
+  END
 
-		SET @tagString = SUBSTRING(@tagString,@separatorIndex+1,LEN(@tagString)-@separatorIndex);
-		SET @separatorIndex=CHARINDEX(@separator,@tagString);
-	END
+  INSERT INTO @array( Item )VALUES(LTRIM(RTRIM(SUBSTRING(@string, @index, LEN(@string)+1))));
 
-	SET @tempString = @tagString;
-
-	IF (LEN(RTRIM(LTRIM(@tempString)))>0)
-		INSERT INTO @array(Item) VALUES(@tagString);
-	RETURN
-END
-GO
-IF EXISTS(
-  SELECT * FROM sys.objects a
-  INNER JOIN sys.schemas b ON a.schema_id=b.schema_id
-  WHERE a.type='FN' AND b.name='RBAC' and a.name='GetNewEmployeeCode'
-)
-BEGIN
-	DROP FUNCTION RBAC.GetNewEmployeeCode;
+  RETURN;
 END
 GO
 -- =============================================

@@ -14,7 +14,11 @@ BEGIN
 	DECLARE @sql NVARCHAR(200);
 	
 	DECLARE cur_tables CURSOR FOR 
-		SELECT s.name,t.name, t.type FROM sys.objects t INNER JOIN sys.schemas s ON t.schema_id=s.schema_id WHERE t.type IN('U','P','TF','FN');
+		SELECT
+			s.name,t.name, t.type 
+		FROM sys.objects t
+		INNER JOIN sys.schemas s ON t.schema_id=s.schema_id 
+		WHERE t.type IN('U','P','TF','FN');
 	
 	OPEN cur_tables
 
