@@ -28,7 +28,7 @@ namespace Mercurius.Sparrow.Repositories
         /// </summary>
         public Persistence BeginTransaction()
         {
-            var sqlMapper = this.SqlMapperManager[RWDecision.Write];
+            var sqlMapper = this.SqlMapperManager[RW.Write];
 
             if (sqlMapper.LocalSession?.IsTransactionStart != true)
             {
@@ -48,7 +48,7 @@ namespace Mercurius.Sparrow.Repositories
         {
             parameterObject = this.GetParameterObject(parameterObject);
 
-            this.SqlMapperManager[RWDecision.Write].Insert(ns.GetStatementId(innerId), parameterObject);
+            this.SqlMapperManager[RW.Write].Insert(ns.GetStatementId(innerId), parameterObject);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Mercurius.Sparrow.Repositories
         {
             parameterObject = this.GetParameterObject(parameterObject);
 
-            return this.SqlMapperManager[RWDecision.Write].Update(ns.GetStatementId(innerId), parameterObject);
+            return this.SqlMapperManager[RW.Write].Update(ns.GetStatementId(innerId), parameterObject);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Mercurius.Sparrow.Repositories
         {
             searchObject = this.GetParameterObject(searchObject);
 
-            return this.SqlMapperManager[RWDecision.Write].Delete(ns.GetStatementId(innerId), searchObject);
+            return this.SqlMapperManager[RW.Write].Delete(ns.GetStatementId(innerId), searchObject);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Mercurius.Sparrow.Repositories
         {
             searchObject = this.GetParameterObject(searchObject);
 
-            return this.SqlMapperManager[RWDecision.Read].QueryForObject<T>(ns.GetStatementId(innerId), searchObject);
+            return this.SqlMapperManager[RW.Read].QueryForObject<T>(ns.GetStatementId(innerId), searchObject);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Mercurius.Sparrow.Repositories
         {
             searchObject = this.GetParameterObject(searchObject);
 
-            return this.SqlMapperManager[RWDecision.Read].QueryForList<T>(ns.GetStatementId(innerId), searchObject);
+            return this.SqlMapperManager[RW.Read].QueryForList<T>(ns.GetStatementId(innerId), searchObject);
         }
 
         /// <summary>
@@ -118,14 +118,14 @@ namespace Mercurius.Sparrow.Repositories
         /// <param name="ns">Statement命名空间</param>
         /// <param name="innerId">SqlMap内部命令Id</param>
         /// <param name="totalRecords">总记录数</param>
-        /// <param name="searchObject">查询参数</param>
+        /// <param name="so">查询参数</param>
         /// <returns>实体信息集合</returns>
-        public IList<T> QueryForPaginatedList<T>(StatementNamespace ns, string innerId, out int totalRecords, object searchObject = null)
+        public IList<T> QueryForPaginatedList<T>(StatementNamespace ns, string innerId, out int totalRecords, object so = null)
         {
-            searchObject = this.GetParameterObject(searchObject);
-            totalRecords = this.QueryForObject<int>(ns, innerId + "Count", searchObject);
+            so = this.GetParameterObject(so);
+            totalRecords = this.QueryForObject<int>(ns, innerId + "Count", so);
 
-            return this.QueryForList<T>(ns, innerId, searchObject);
+            return this.QueryForList<T>(ns, innerId, so);
         }
 
         /// <summary>
@@ -139,12 +139,12 @@ namespace Mercurius.Sparrow.Repositories
         {
             var result = new DataSet();
             var isSessionLocal = false;
-            var session = this.SqlMapperManager[RWDecision.Read].LocalSession;
+            var session = this.SqlMapperManager[RW.Read].LocalSession;
             var statementName = ns.GetStatementId(innerId);
 
             if (session == null)
             {
-                session = new SqlMapSession(this.SqlMapperManager[RWDecision.Read]);
+                session = new SqlMapSession(this.SqlMapperManager[RW.Read]);
                 session.OpenConnection();
                 isSessionLocal = true;
             }
@@ -180,9 +180,9 @@ namespace Mercurius.Sparrow.Repositories
         /// <param name="rw">读-写库选择</param>
         /// <param name="produceName">存储过程名称</param>
         /// <param name="commandHandler">Command命令处理回调</param>
-        public void ExecuteStoredProcedure(RWDecision rw, string produceName, Action<IDbCommand> commandHandler = null)
+        public T ExecuteStoredProcedure<T>(RW rw, string produceName, Func<IDbCommand, T> commandHandler)
         {
-            this.SqlMapperManager[rw].ExecuteStoredProcedure(produceName, commandHandler);
+            return this.SqlMapperManager[rw].ExecuteStoredProcedure(produceName, commandHandler);
         }
 
         #endregion
@@ -194,7 +194,7 @@ namespace Mercurius.Sparrow.Repositories
         /// </summary>
         public void Dispose()
         {
-            var sqlMapper = this.SqlMapperManager[RWDecision.Write];
+            var sqlMapper = this.SqlMapperManager[RW.Write];
 
             if (sqlMapper.LocalSession?.IsTransactionStart == true)
             {
@@ -214,9 +214,9 @@ namespace Mercurius.Sparrow.Repositories
         /// <returns>数据库命令处理对象</returns>
         private IDbCommand GetDbCommand(string statementId, object parameterObject)
         {
-            var statement = this.SqlMapperManager[RWDecision.Read].GetMappedStatement(statementId).Statement;
-            var mappedStatement = this.SqlMapperManager[RWDecision.Read].GetMappedStatement(statementId);
-            var session = this.SqlMapperManager[RWDecision.Read].LocalSession ?? this.SqlMapperManager[RWDecision.Read].OpenConnection();
+            var statement = this.SqlMapperManager[RW.Read].GetMappedStatement(statementId).Statement;
+            var mappedStatement = this.SqlMapperManager[RW.Read].GetMappedStatement(statementId);
+            var session = this.SqlMapperManager[RW.Read].LocalSession ?? this.SqlMapperManager[RW.Read].OpenConnection();
             var request = statement.Sql.GetRequestScope(mappedStatement, parameterObject, session);
 
             mappedStatement.PreparedCommand.Create(request, session, statement, parameterObject);

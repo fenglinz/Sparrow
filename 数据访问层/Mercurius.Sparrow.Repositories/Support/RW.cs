@@ -3,7 +3,7 @@
     /// <summary>
     /// 读-写数据库决策。
     /// </summary>
-    public enum RWDecision
+    public enum RW
     {
         /// <summary>
         /// 读库。

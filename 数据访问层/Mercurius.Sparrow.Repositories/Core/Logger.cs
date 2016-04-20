@@ -83,7 +83,7 @@ namespace Mercurius.Sparrow.Repositories.Core
             {
                 try
                 {
-                    cacheValue = this.SqlMapperManager[RWDecision.Read].QueryForObject<string>(string.Format(StatementFormatter, this.SqlMapNamespace, "GetLoggerLevel"), null);
+                    cacheValue = this.SqlMapperManager[RW.Read].QueryForObject<string>(string.Format(StatementFormatter, this.SqlMapNamespace, "GetLoggerLevel"), null);
 
                     if (string.IsNullOrWhiteSpace(cacheValue))
                     {
@@ -310,7 +310,7 @@ namespace Mercurius.Sparrow.Repositories.Core
                     log.LogOnIP = logOnIp;
                     log.LogOnId = logOnId;
 
-                    this.SqlMapperManager[RWDecision.Write].Insert(this.GetFullStatementId("Write"), log);
+                    this.SqlMapperManager[RW.Write].Insert(this.GetFullStatementId("Write"), log);
                 }
             }
             catch

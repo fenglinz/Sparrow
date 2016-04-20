@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using IBatisNet.DataMapper;
 
@@ -47,7 +46,7 @@ namespace Mercurius.Sparrow.Repositories
         /// <param name="sqlMapper">ISqlMapper对象</param>
         /// <param name="produceName">存储过程名称</param>
         /// <param name="commandHandler">Command命令处理</param>
-        public static void ExecuteStoredProcedure(this ISqlMapper sqlMapper, string produceName, Action<IDbCommand> commandHandler = null)
+        public static T ExecuteStoredProcedure<T>(this ISqlMapper sqlMapper, string produceName, Func<IDbCommand, T> commandHandler)
         {
             using (var session = sqlMapper.OpenConnection())
             {
@@ -55,11 +54,13 @@ namespace Mercurius.Sparrow.Repositories
 
                 command.CommandText = produceName;
 
-                commandHandler?.Invoke(command);
-
                 session.Connection.Open();
-                command.ExecuteNonQuery();
+
+                var result = commandHandler.Invoke(command);
+
                 session.Connection.Close();
+
+                return result;
             }
         }
 

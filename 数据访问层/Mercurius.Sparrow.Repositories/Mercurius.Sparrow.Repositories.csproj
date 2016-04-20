@@ -79,7 +79,7 @@
     <Compile Include="Support\IBatisNetPostSQLDynamicQueryProvider.cs" />
     <Compile Include="Support\StatementNamespace.cs" />
     <Compile Include="Support\IBatisNetMSSQLDynamicQueryProvider.cs" />
-    <Compile Include="Support\RWDecision.cs" />
+    <Compile Include="Support\RW.cs" />
     <Compile Include="Support\SqlMapperExtensions.cs" />
     <Compile Include="Support\Persistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

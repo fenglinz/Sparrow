@@ -57,12 +57,12 @@ namespace Mercurius.Sparrow.Repositories
         /// </summary>
         /// <param name="rw">读-写库选择</param>
         /// <returns>SqlMapper对象</returns>
-        public ISqlMapper this[RWDecision rw]
+        public ISqlMapper this[RW rw]
         {
             get
             {
                 var result = this._isReadWriteSpliting ?
-                    (rw == RWDecision.Read ? this._reader : this._writer) : this._reader;
+                    (rw == RW.Read ? this._reader : this._writer) : this._reader;
 
                 var callContextSessionStore = new CallContextSessionStore(result.Id);
 
