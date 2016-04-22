@@ -18,34 +18,23 @@
   <CommandText name="GetTableByMSSQL" commandType="Text">
     <![CDATA[
       WITH cte AS(
-        SELECT
-          object_id,
+	      SELECT
+	        SCHEMA_NAME(schema_id) AS [Schema],
+          type,
           name,
-          schema_id,
-          0 AS IsView
-        FROM sys.tables
-        UNION ALL
-        SELECT
-          object_id,
-          name,
-          schema_id,
-          1 AS IsView
-        FROM sys.views
+          object_id
+	      FROM sys.objects
+	      WHERE type IN('U','V') AND Name<>'sysdiagrams'
       )
-      SELECT 
-        cte.name AS Name,
-        s.name AS [Schema],
-        cte.IsView,
-        CASE
-         WHEN e.value IS NULL THEN cte.name
-         ELSE e.value
-       END AS Comments
+      SELECT
+        cte.[Schema],
+        cte.Name,
+        CASE cte.type WHEN 'U' THEN 0 ELSE 1 END IsView,
+        CASE WHEN a.value IS NULL THEN cte.name ELSE a.value END Comments
       FROM cte
-      INNER JOIN sys.schemas s
-        ON cte.schema_id=s.schema_id
-      LEFT JOIN sys.extended_properties e
-        ON e.major_id=cte.object_id AND e.minor_id=0
-      WHERE s.name=@schema AND cte.name=@table
+      LEFT JOIN sys.extended_properties a
+        ON cte.object_id=a.major_id AND a.minor_id=0
+      WHERE cte.[Schema]=@schema AND cte.name=@table
     ]]>
   </CommandText>
 
@@ -99,36 +88,24 @@
   <!-- 获取所有表的信息 -->
   <CommandText name="GetTablesByMSSQL" commandType="Text">
     <![CDATA[
-      WITH CTE AS(
-        SELECT
-          t.object_id,
-          t.name,
-          0 as IsView,
-          t.schema_id
-        FROM sys.tables t WHERE t.type='U'
-        UNION ALL
-        SELECT
-          v.object_id,
-          v.name,
-          1 as IsView,
-          v.schema_id
-        FROM sys.views v
+      WITH cte AS(
+	      SELECT
+	        SCHEMA_NAME(schema_id) AS [Schema],
+          type,
+          name,
+          object_id
+	      FROM sys.objects
+	      WHERE type IN('U','V') AND Name<>'sysdiagrams'
       )
-      SELECT 
+      SELECT
+        cte.[Schema],
         cte.Name,
-        cte.IsView,
-        s.Name AS [Schema],
-        CASE
-          WHEN g.[value] IS NULL THEN cte.Name
-          ELSE g.[value]
-        END AS Comments
+        CASE cte.type WHEN 'U' THEN 0 ELSE 1 END IsView,
+        CASE WHEN a.value IS NULL THEN cte.name ELSE a.value END Comments
       FROM cte
-      INNER JOIN sys.schemas s
-        ON cte.schema_id=s.schema_id
-      LEFT JOIN sys.extended_properties g
-        ON cte.object_id=g.major_id AND g.minor_id=0
-      WHERE cte.Name<>'sysdiagrams'
-      ORDER BY s.schema_id,cte.Name
+      LEFT JOIN sys.extended_properties a
+        ON cte.object_id=a.major_id AND a.minor_id=0
+      ORDER BY cte.[schema],cte.Name
     ]]>
   </CommandText>
 
