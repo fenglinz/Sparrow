@@ -546,12 +546,8 @@ CREATE TABLE [RBAC].[Role]
   [Id] NVARCHAR(36) NOT NULL ,
   [ParentId] NVARCHAR(36) NULL ,
   [Name] NVARCHAR(100) NULL ,
-  [Restriction] NVARCHAR(400) NULL ,
-  [AllowEdit] INT NULL ,
-  [AllowDelete] INT NULL ,
   [Sort] INT NULL ,
   [Remark] NVARCHAR(500) NULL ,
-  [Status] INT NULL ,
   [CreateUserId] NVARCHAR(36) NULL ,
   [CreateDateTime] DATETIME NULL ,
   [ModifyUserId] NVARCHAR(36) NULL ,
@@ -598,36 +594,6 @@ EXEC sp_addextendedproperty
 GO
 EXEC sp_addextendedproperty
     @name = N'MS_Description' ,
-    @value = N'角色限制' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'RBAC' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'Role' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'Restriction'
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'允许编辑' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'RBAC' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'Role' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'AllowEdit'
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'允许删除' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'RBAC' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'Role' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'AllowDelete'
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
     @value = N'排序号' ,
     @level0type = 'SCHEMA' ,
     @level0name = N'RBAC' ,
@@ -645,16 +611,6 @@ EXEC sp_addextendedproperty
     @level1name = N'Role' ,
     @level2type = 'COLUMN' ,
     @level2name = N'Remark'
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'状态(0：删除、1：有效)' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'RBAC' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'Role' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'Status'
 GO
 EXEC sp_addextendedproperty
     @name = N'MS_Description' ,
@@ -696,7 +652,7 @@ EXEC sp_addextendedproperty
     @level2type = 'COLUMN' ,
     @level2name = N'ModifyDateTime'
 GO
-INSERT INTO [RBAC].[Role] ([Id], [ParentId], [Name], [Restriction], [AllowEdit], [AllowDelete], [Sort], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'd0533453-9cf8-459c-b28c-98cf397efaf1', N'0', N'管理员', null, null, null, N'1', N'管理员所在角色。', N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-10 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2014-08-22 15:52:13.677')
+INSERT INTO [RBAC].[Role] ([Id], [ParentId], [Name], [Sort], [Remark], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'd0533453-9cf8-459c-b28c-98cf397efaf1', N'0', N'管理员', N'1', N'管理员所在角色。', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-10 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2014-08-22 15:52:13.677')
 GO
 CREATE TABLE [RBAC].[RolePermission]
 (

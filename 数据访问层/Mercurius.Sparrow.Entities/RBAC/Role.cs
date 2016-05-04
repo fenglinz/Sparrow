@@ -35,24 +35,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
 		[StringLength(50, ErrorMessageResourceType = typeof(Constants),
 			ErrorMessageResourceName = "MaxStringLength")]
 		public virtual string Name { get; set; }
-
-		/// <summary>
-		/// 条件限制。
-		/// </summary>
-		[StringLength(200, ErrorMessageResourceType = typeof(Constants),
-			ErrorMessageResourceName = "MaxStringLength")]
-		public virtual string Restriction { get; set; }
-
-		/// <summary>
-		/// 是否允许编辑。
-		/// </summary>
-		public virtual bool? AllowEdit { get; set; }
-
-		/// <summary>
-		/// 是否允许删除。
-		/// </summary>
-		public virtual bool? AllowDelete { get; set; }
-
+        
 		/// <summary>
 		/// 排序号。
 		/// </summary>
@@ -64,11 +47,6 @@ namespace Mercurius.Sparrow.Entities.RBAC
 		[StringLength(500, ErrorMessageResourceType = typeof(Constants),
 			ErrorMessageResourceName = "MaxStringLength")]
 		public virtual string Remark { get; set; }
-
-		/// <summary>
-		/// 实体信息的状态。
-		/// </summary>
-		public virtual int? Status { get; set; }
 
 		#endregion
 	}

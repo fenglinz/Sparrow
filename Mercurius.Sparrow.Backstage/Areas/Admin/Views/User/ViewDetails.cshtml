@@ -1,0 +1,163 @@
+﻿@{
+    var roles = this.ViewBag.Roles as ResponseCollection<Role>;
+    var permissions = this.ViewBag.Permissions as ResponseCollection<SystemMenu>;
+}
+
+@section Styles{
+    @Styles.Render("~/Content/treetable/css")
+    <style type="text/css">
+        .fa-2x {
+            font-size: 1.5em;
+        }
+
+        label:not(:empty) {
+            font-weight: normal;
+            margin-right: 15px;
+            vertical-align: middle;
+            margin-bottom: 1px;
+        }
+
+        label > input[type=checkbox] {
+            margin-top: -2px;
+            margin-right: 2px;
+            position: relative;
+            vertical-align: middle;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/treetable")
+    <script type="text/javascript">
+        $(function () {
+            $('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
+                if (e.target.text.trim() == '拥有的权限') {
+                    mercurius.FixedTableHeader("#dnd-example", 160, { triggerRowChecked: false });
+
+                    $("#dnd-example").treetable({
+                        expandable: true,
+                        initialState: "expanded" //collapsed 收缩 expanded展开的
+                    });
+
+                    $(':checkbox').attr('disabled', true);
+                    console.log('加载');
+                }
+            })
+        });
+    </script>
+}
+<div class="header">用户【@this.ViewBag.UserName】</div>
+<div class="toolbar panel panel-default">
+    <div class="panel-heading">
+        <div class="right btn-group">
+            <a href="@Url.Action("Index")" class="btn btn-default">
+                <i class="glyphicon glyphicon-chevron-left"></i> 返回
+            </a>
+        </div>
+    </div>
+</div>
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+        <a href="#userDetail" role="tab" aria-controls="userDetail" data-toggle="tab">
+            <i class="glyphicon glyphicon-list-alt"></i> 用户详情
+        </a>
+    </li>
+    <li role="presentation">
+        <a href="#roles" role="tab" aria-controls="roles" data-toggle="tab">
+            <i class="fa fa-users"></i> 所属角色
+        </a>
+    </li>
+    <li role="presentation">
+        <a href="#permissions" role="tab" aria-controls="permissions" data-toggle="tab">
+            <i class="glyphicon glyphicon-tower"></i> 拥有的权限
+        </a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div id="userDetail" role="tabpanel" class="tab-pane active">
+
+    </div>
+    <div id="roles" role="tabpanel" class="tab-pane">
+        <table class="grid">
+            <thead>
+                <tr>
+                    <td style="width:60px;">编号</td>
+                    <td>角色名称</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (roles.HasData())
+                {
+                    foreach (var item in roles.Datas)
+                    {
+                        <tr>
+                            <td>@item.RowIndex</td>
+                            <td>@item.Name</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="permissions" role="tabpanel" class="tab-pane">
+        <table id="dnd-example" class="treetable">
+            <thead>
+                <tr>
+                    <td style="width: 300px; padding-left: 20px;">URL菜单权限 </td>
+                    <td style="width: 40px;">图标 </td>
+                    <td style="width: 30px;">
+                        <label class="check-all" title="全选"></label>
+                    </td>
+                    <td>操作按钮权限 </td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (permissions.HasData())
+                {
+                    var menus = permissions.Datas.Where(s => s.Category != 3);
+                    var buttons = permissions.Datas.Where(s => s.Category == 3);
+
+                    foreach (var systemMenu in menus)
+                    {
+                        var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
+
+                        <tr data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
+                            <td style="padding-left: 20px;">
+                                <span class="@(menus.IsParent(systemMenu.Id) ? "folder" : "file")"></span>@systemMenu.Name
+                            </td>
+                            <td style="text-align: center">
+                                <i class="@systemMenu.Image fa-2x"></i>
+                            </td>
+                            <td style="text-align: center">
+                                <input @(systemMenu.CanAccess ? "checked" : string.Empty) type="checkbox" value="@systemMenu.Id" name="checkBox" />
+                            </td>
+                            <td>
+                                @foreach (var btn in btns)
+                                {
+                                    <label>
+                                        <input @(btn.CanAccess ? "checked" : string.Empty) type="checkbox" value="@btn.Id" name="checkbox" />
+                                        @btn.Name
+                                    </label>
+                                }
+                            </td>
+                            <td style="display: none;">@systemMenu.Id</td>
+                        </tr>
+                    }
+                }
+                else if (permissions.HasError())
+                {
+                    <tr>
+                        <td colspan="4" class="text-danger">@permissions.GetErrorMessage()</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

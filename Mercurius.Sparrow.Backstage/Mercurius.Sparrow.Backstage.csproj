@@ -523,7 +523,7 @@
     <Content Include="Areas\Admin\Views\Logger\_Logs.cshtml" />
     <None Include="Areas\Admin\Views\SystemSetting\ShowCaches.cshtml" />
     <Content Include="Areas\Admin\Views\User\AllotPermissions.cshtml" />
-    <Content Include="Areas\Admin\Views\User\ViewPermissions.cshtml" />
+    <Content Include="Areas\Admin\Views\User\ViewDetails.cshtml" />
     <None Include="Areas\DynamicPage\Views\ExtensionProperty\_Properties.cshtml" />
     <Content Include="Areas\DynamicPage\Views\ExtensionProperty\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

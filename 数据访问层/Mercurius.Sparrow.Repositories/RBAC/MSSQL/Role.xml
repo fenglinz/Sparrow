@@ -25,9 +25,8 @@
             Id,
             ParentId,
             Name,
-            Remark,
             Sort,
-            Status,
+            Remark,
             CreateUserId,
             CreateDateTime
           )
@@ -36,9 +35,8 @@
             #Id#,
             #ParentId#,
             #Name#,
-            #Remark#,
             #Sort#,
-            1,
+            #Remark#,
             #CreateUserId#,
             GETDATE()
           )
@@ -102,7 +100,6 @@
           ,a.Name
           ,a.Sort
           ,a.Remark
-          ,a.Status
           ,u1.Name AS CreateUserName
           ,a.CreateDateTime
           ,u2.Name AS ModifyUserName
@@ -126,7 +123,6 @@
 		        ,Name
 		        ,Sort
 		        ,Remark
-		        ,Status
 		        ,CreateUserId
 		        ,CreateDateTime
 		        ,ModifyUserId
@@ -141,7 +137,6 @@
 		        ,a.Name
 		        ,a.Sort
 		        ,a.Remark
-		        ,a.Status
 		        ,a.CreateUserId
 		        ,a.CreateDateTime
 		        ,a.ModifyUserId
@@ -160,7 +155,6 @@
           ON cte.CreateUserId=u1.Id
         LEFT JOIN RBAC.[User] u2
           ON cte.ModifyUserId=u2.Id
-        WHERE cte.Status=1
         ORDER BY LTRIM(orderId)
       ]]>
     </select>
@@ -171,6 +165,7 @@
         SELECT
           Name
           ,Remark
+          ,ROW_NUMBER() OVER(ORDER BY a.Sort ASC) AS RowIndex
         FROM RBAC.Role
         WHERE Id IN(SELECT RoleId FROM RBAC.UserRole WHERE UserId=#value#)
       ]]>
@@ -201,7 +196,7 @@
                 ),'<Name>','')
               ,'</Name>','，')
           ) p
-          WHERE b.RoleId=#RoleId# AND a.Status=1
+          WHERE b.RoleId=#RoleId#
         ),
         pg AS(
 	        SELECT 
@@ -223,7 +218,7 @@
         FROM RBAC.[User] a
         INNER JOIN RBAC.UserRole b ON a.Id=b.UserId
         LEFT JOIN RBAC.StaffOrganize c ON a.Id=c.UserId
-        WHERE b.RoleId=#RoleId# AND a.Status=1
+        WHERE b.RoleId=#RoleId#
       ]]>
     </select>
     
@@ -261,7 +256,7 @@
 				        ),'<ParentId>','')
 			        ,'</ParentId>',',')
           ) p
-          WHERE b.Id IS NULL AND a.[Status]=1
+          WHERE b.Id IS NULL
       ]]>
       <include refid="GetUnAllotUsersCondition" />
       <![CDATA[
@@ -300,7 +295,7 @@
 				      ),'<ParentId>','')
 			      ,'</ParentId>',',')
         ) p
-        WHERE b.Id IS NULL AND a.[Status]=1
+        WHERE b.Id IS NULL
       ]]>
       <include refid="GetUnAllotUsersCondition" />
     </select>

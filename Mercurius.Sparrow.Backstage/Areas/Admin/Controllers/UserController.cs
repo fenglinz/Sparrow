@@ -181,6 +181,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return this.Json(rsp.IsSuccess);
         }
 
+        #endregion
+
         /// <summary>
         /// 显示当前用户信息。
         /// </summary>
@@ -188,13 +190,24 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         public ActionResult CurrentUser()
         {
             var model = this.UserService.GetUserById(WebHelper.GetLogOnUserId());
-
-            this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
-
+            
             return this.View(model);
         }
 
-        #endregion
+        /// <summary>
+        /// 查看用户详情。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <param name="userName">用户名</param>
+        /// <returns>用户详情界面</returns>
+        public ActionResult ViewDetails(string id, string userName)
+        {
+            this.ViewBag.UserName = userName;
+            this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
+            this.ViewBag.Permissions = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
+
+            return View();
+        }
 
         #region 修改密码
 
@@ -269,21 +282,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             var rsp = this.PermissionService.AllotPermissionByRole(id, selecteds.Split(','));
 
             return Json(rsp);
-        }
-
-        /// <summary>
-        /// 查看权限详情。
-        /// </summary>
-        /// <param name="id">用户编号</param>
-        /// <param name="userName">用户名</param>
-        /// <returns>权限详情界面</returns>
-        public ActionResult ViewPermissions(string id, string userName)
-        {
-            var rsp = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
-
-            this.ViewBag.UserName = userName;
-
-            return View(rsp);
         }
 
         #endregion
