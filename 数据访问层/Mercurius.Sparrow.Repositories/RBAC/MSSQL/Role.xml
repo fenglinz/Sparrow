@@ -165,7 +165,7 @@
         SELECT
           Name
           ,Remark
-          ,ROW_NUMBER() OVER(ORDER BY a.Sort ASC) AS RowIndex
+          ,ROW_NUMBER() OVER(ORDER BY Sort ASC) AS RowIndex
         FROM RBAC.Role
         WHERE Id IN(SELECT RoleId FROM RBAC.UserRole WHERE UserId=#value#)
       ]]>
