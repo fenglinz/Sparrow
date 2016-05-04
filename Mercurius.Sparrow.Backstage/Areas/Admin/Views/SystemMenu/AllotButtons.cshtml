@@ -3,18 +3,21 @@
 }
 
 @section Styles{
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/base/sortable.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/base/all.css" />
     <style type="text/css">
         .btn {
+            float: left;
             width: 75px;
-            height: 56px;
-            margin: 0 3px 3px 0;
+            height: 65px;
+            margin: 0 5px 5px 0;
             font-size: 12px;
+            position: relative;
         }
 
             .btn > i {
                 display: block;
-                margin-bottom: 3px;
+                margin-top: 3px;
+                margin-bottom: 5px;
             }
 
             .btn.checked {
@@ -34,12 +37,7 @@
             $('#allButton').sortable({
                 scroll: false,
                 cursor: "move",
-                items: ' > div',
-                update: function (c, p) {
-                    if (p.item != $('#allButton > div:eq(0)')) {
-                        $(p.item).next().css('margin-left', '4px');
-                    }
-                }
+                items: ' > div'
             });
 
             $("#allButton").on('click', '.btn', function () {
@@ -60,7 +58,6 @@
                     var t2 = $(this).clone();
 
                     $(this).remove();
-                    $(t2).css('margin-left', '4px');
 
                     if ($('#allButton div.checked').length > 0) {
                         $('#allButton div.checked').last().after(t2);
