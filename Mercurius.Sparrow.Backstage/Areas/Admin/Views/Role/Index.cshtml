@@ -21,7 +21,7 @@
         });
 
         function GetSelectedValue() {
-            return $('#dnd-example tr.selected').find('td:eq(8)').text().trim();
+            return $('#dnd-example tr.selected').prop('id');
         }
 
         @Html.RenderButtonScript("添加", @<text>
@@ -98,7 +98,6 @@
     <thead>
         <tr>
             <td style="width: 180px; padding-left: 20px;">角色名称 </td>
-            <td style="width: 80px;">角色状态 </td>
             <td style="width: 80px;">显示顺序 </td>
             <td style="width: 120px;">创建用户 </td>
             <td style="width: 150px;">创建时间 </td>
@@ -114,16 +113,14 @@
             {
                 <tr id="@role.Id" data-tt-id="@role.Id" data-tt-parent-id="@role.ParentId">
                     <td style="padding-left: 20px;">
-                        <span class="@(roles.Datas.IsParent(role.Id)?"folder":"file")"></span>@role.Name
+                        <span class="@(roles.Datas.IsParent(role.Id)?"folder":"file")"></span> @role.Name
                     </td>
-                    <td style="text-align: center;">@role.Status</td>
                     <td style="text-align: center;">@role.Sort</td>
                     <td style="text-align: center;">@role.CreateUserName </td>
                     <td style="text-align: center;">@role.CreateDateTime </td>
                     <td style="text-align: center;">@role.ModifyUserName</td>
                     <td style="text-align: center;">@role.ModifyDateTime</td>
                     <td>@role.Remark </td>
-                    <td style="display: none;">@role.Id</td>
                 </tr>
             }
         }
