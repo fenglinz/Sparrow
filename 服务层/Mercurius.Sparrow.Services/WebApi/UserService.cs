@@ -123,7 +123,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回WebApi用户的分页查询结果</returns>
-        public ResponseCollection<User> SearchUsers(UserSO so)
+        public ResponseSet<User> SearchUsers(UserSO so)
         {
             so = so ?? new UserSO();
 

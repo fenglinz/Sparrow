@@ -60,17 +60,17 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         /// <returns>上传结果</returns>
         [HttpPost]
         [Route("api/FileStorage/Upload/{account}")]
-        public async Task<ResponseCollection<string>> Upload(string account)
+        public async Task<ResponseSet<string>> Upload(string account)
         {
             var user = GetUser(account);
 
             if (user == null)
             {
-                return new ResponseCollection<string> { ErrorMessage = UserNotExists };
+                return new ResponseSet<string> { ErrorMessage = UserNotExists };
             }
 
             var files = new List<string>();
-            var result = new ResponseCollection<string> { Datas = files };
+            var result = new ResponseSet<string> { Datas = files };
             var provider = new CustomMultipartFormDataStreamProvider(GetSavedDirectory());
             var bodyParts = await this.Request.Content.ReadAsMultipartAsync(provider);
 
@@ -117,22 +117,22 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         /// <returns>文件上传后的访问路径</returns>
         [HttpPost]
         [Route("api/FileStorage/Upload/Base64/{account}")]
-        public async Task<ResponseCollection<string>> Upload(string account, IList<UploadItem> items)
+        public async Task<ResponseSet<string>> Upload(string account, IList<UploadItem> items)
         {
             var user = GetUser(account);
 
             if (user == null)
             {
-                return new ResponseCollection<string> { ErrorMessage = UserNotExists };
+                return new ResponseSet<string> { ErrorMessage = UserNotExists };
             }
 
             if (items.IsEmpty())
             {
-                return new ResponseCollection<string> { ErrorMessage = "无上传文件信息！" };
+                return new ResponseSet<string> { ErrorMessage = "无上传文件信息！" };
             }
 
             var files = new List<string>();
-            var result = new ResponseCollection<string> { Datas = files };
+            var result = new ResponseSet<string> { Datas = files };
             var removeFiles = from i in items where !string.IsNullOrWhiteSpace(i.ReplacedFile) select i.ReplacedFile;
 
             if (!removeFiles.IsEmpty())

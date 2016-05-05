@@ -3,7 +3,7 @@
 @{
     this.Layout = "~/Views/Shared/_MainLayout.cshtml";
 
-    var systemMenus = this.ViewBag.SystemMenus as ResponseCollection<SystemMenu>;
+    var systemMenus = this.ViewBag.SystemMenus as ResponseSet<SystemMenu>;
     var parents = systemMenus.Datas.Where(s => s.ParentId == "0" && s.Category == 1);
 }
 

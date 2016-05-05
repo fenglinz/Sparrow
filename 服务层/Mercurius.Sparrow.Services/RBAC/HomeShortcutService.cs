@@ -72,7 +72,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="userId">用户编号</param>
         /// <returns>首页快捷方式列表</returns>
-        public ResponseCollection<HomeShortcut> GetHomeShortcuts(string userId)
+        public ResponseSet<HomeShortcut> GetHomeShortcuts(string userId)
         {
             return this.InvokeService(
                 nameof(GetHomeShortcuts),

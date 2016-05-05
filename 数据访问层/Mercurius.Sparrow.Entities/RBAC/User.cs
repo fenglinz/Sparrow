@@ -77,27 +77,6 @@ namespace Mercurius.Sparrow.Entities.RBAC
         public virtual string Email { get; set; }
 
         /// <summary>
-        /// 用户选择的样式。
-        /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
-        public virtual string Theme { get; set; }
-
-        /// <summary>
-        /// 密码提示问题。
-        /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
-        public virtual string Question { get; set; }
-
-        /// <summary>
-        /// 密码提示答案。
-        /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
-        public virtual string Answer { get; set; }
-
-        /// <summary>
         /// 备注信息。
         /// </summary>
         [StringLength(500, ErrorMessageResourceType = typeof(Constants),
@@ -117,6 +96,11 @@ namespace Mercurius.Sparrow.Entities.RBAC
         /// 性别名称。
         /// </summary>
         public virtual string SexName => this.Sex == 0 ? "女" : this.Sex == 1 ? "男" : "未知";
+
+        /// <summary>
+        /// 是否为汇报者。
+        /// </summary>
+        public bool IsReporter { get; set; }
 
         /// <summary>
         /// 汇报者姓名。

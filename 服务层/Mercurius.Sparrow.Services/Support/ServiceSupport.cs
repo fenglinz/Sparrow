@@ -197,7 +197,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <param name="args">参数列表</param>
         /// <param name="cacheable">是否缓存数据</param>
         /// <returns>服务返回结果</returns>
-        protected ResponseCollection<T> InvokeService<T>(
+        protected ResponseSet<T> InvokeService<T>(
             string method,
             Func<IList<T>> handler,
             object args = null,
@@ -208,7 +208,7 @@ namespace Mercurius.Sparrow.Services.Support
             this.Logger.BeforeExecution(model, this._className, method, args);
 
             var stopwatch = new Stopwatch();
-            var result = new ResponseCollection<T>();
+            var result = new ResponseSet<T>();
 
             stopwatch.Start();
 
@@ -260,7 +260,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <param name="args">参数列表</param>
         /// <param name="cacheable">是否缓存数据</param>
         /// <returns>服务返回结果</returns>
-        protected ResponseCollection<T> InvokePagingService<T>(
+        protected ResponseSet<T> InvokePagingService<T>(
             string method,
             PagingServiceCallback<T> handler,
             object args = null,
@@ -271,7 +271,7 @@ namespace Mercurius.Sparrow.Services.Support
             this.Logger.BeforeExecution(model, this._className, method, args);
 
             var stopwatch = new Stopwatch();
-            var result = new ResponseCollection<T>();
+            var result = new ResponseSet<T>();
 
             stopwatch.Start();
 
@@ -280,7 +280,7 @@ namespace Mercurius.Sparrow.Services.Support
                 if (cacheable && this.Cache != null)
                 {
                     var cacheKey = this.Cache.GetCacheKey<T>($"{_className}_{method}", args);
-                    var cacheValue = this.Cache.Get<ResponseCollection<T>>(cacheKey);
+                    var cacheValue = this.Cache.Get<ResponseSet<T>>(cacheKey);
 
                     if (cacheValue == null || cacheValue.Datas.IsEmpty())
                     {

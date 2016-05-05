@@ -24,7 +24,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="so">查询对象</param>
         /// <returns>操作记录结果</returns>
-        public ResponseCollection<OperationRecord> SearchOperationRecords(OperationRecordSO so)
+        public ResponseSet<OperationRecord> SearchOperationRecords(OperationRecordSO so)
         {
             return this.InvokePagingService(nameof(SearchOperationRecords),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<OperationRecord>(OperationRecordNamespace, "SearchOperationRecords", out totalRecords, so), so);

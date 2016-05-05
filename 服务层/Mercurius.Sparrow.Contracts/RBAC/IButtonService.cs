@@ -32,13 +32,13 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// 获取按钮信息。
         /// </summary>
         /// <returns>按钮信息列表</returns>
-        ResponseCollection<Button> GetButtons();
+        ResponseSet<Button> GetButtons();
 
         /// <summary>
         /// 获取链接未使用的按钮信息。
         /// </summary>
         /// <param name="systemMenuId">链接编号</param>
         /// <returns>按钮信息列表</returns>
-        ResponseCollection<Button> GetButtonsWithAllot(string systemMenuId);
+        ResponseSet<Button> GetButtonsWithAllot(string systemMenuId);
     }
 }

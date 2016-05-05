@@ -31,6 +31,6 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// </summary>
         /// <param name="category">系统配置分类</param>
         /// <returns>系统配置信息集合</returns>
-        ResponseCollection<SystemSetting> GetSettings(string category);
+        ResponseSet<SystemSetting> GetSettings(string category);
     }
 }

@@ -1,6 +1,7 @@
 ﻿@{
-    var roles = this.ViewBag.Roles as ResponseCollection<Role>;
-    var permissions = this.ViewBag.Permissions as ResponseCollection<SystemMenu>;
+    var user = this.ViewBag.User as Response<User>;
+    var roles = this.ViewBag.Roles as ResponseSet<Role>;
+    var permissions = this.ViewBag.Permissions as ResponseSet<SystemMenu>;
 }
 
 @section Styles{
@@ -47,7 +48,7 @@
         });
     </script>
 }
-<div class="header">用户【@this.ViewBag.UserName】</div>
+<div class="header">用户【@user.Data.Name (@user.Data.Code)】</div>
 <div class="toolbar panel panel-default">
     <div class="panel-heading">
         <div class="right btn-group">
@@ -76,7 +77,68 @@
 </ul>
 <div class="tab-content">
     <div id="userDetail" role="tabpanel" class="tab-pane active">
-
+        <div class="form-horizontal form">
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">工号</label>
+                <div class="col-sm-4">
+                    <span class="form-control" disabled>@user.Data.Code</span>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">姓名</label>
+                <div class="col-sm-4">
+                    <span class="form-control" disabled>@user.Data.Name</span>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">登录账户</label>
+                <div class="col-sm-4">
+                    <span class="form-control" disabled>@user.Data.Account</span>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">登录密码</label>
+                <div class="col-sm-4">
+                    <div class="input-group input-group-sm">
+                        <span class="form-control" disabled>***********</span>
+                        <div class="input-group-btn">
+                            <span href="#" class="btn btn-sm btn-primary" onclick="OnChangePassword()"><i class="glyphicon glyphicon-edit"></i> 密码修改</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">性别</label>
+                <div class="col-sm-4">
+                    <span class="form-control" disabled>@user.Data.SexName</span>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">电子邮件</label>
+                <div class="col-sm-4">
+                    <span class="form-control" disabled>@user.Data.Email</span>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">创建时间</label>
+                <div class="col-sm-4">
+                    <span class="form-control" disabled>@user.Data.CreateDateTime
+                    </span>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">职称</label>
+                <div class="col-sm-4">
+                    <span class="form-control" disabled>@user.Data.Title</span>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-1 control-label">备注描述</label>
+                <div class="col-sm-4">
+                    <span class="form-control" disabled>@user.Data.Remark</span>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="roles" role="tabpanel" class="tab-pane">
         <table class="grid">

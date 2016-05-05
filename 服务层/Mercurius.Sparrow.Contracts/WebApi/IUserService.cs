@@ -62,6 +62,6 @@ namespace Mercurius.Sparrow.Contracts.WebApi
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回结果</returns>
-        ResponseCollection<User> SearchUsers(UserSO so);
+        ResponseSet<User> SearchUsers(UserSO so);
     }
 }

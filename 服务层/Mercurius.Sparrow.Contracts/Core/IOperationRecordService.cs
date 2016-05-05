@@ -18,6 +18,6 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// </summary>
         /// <param name="so">查询对象</param>
         /// <returns>操作记录结果</returns>
-        ResponseCollection<OperationRecord> SearchOperationRecords(OperationRecordSO so);
+        ResponseSet<OperationRecord> SearchOperationRecords(OperationRecordSO so);
     }
 }

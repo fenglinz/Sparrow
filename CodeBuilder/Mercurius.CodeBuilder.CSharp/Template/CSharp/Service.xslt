@@ -186,7 +186,7 @@ using <xsl:value-of select="./rootNamespace" />.Services.Support;
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>
-        public ResponseCollection&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
+        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
         {
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
 

@@ -46,28 +46,28 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// 获取系统菜单项。
         /// </summary>
         /// <returns>菜单列表</returns>
-        ResponseCollection<SystemMenu> GetSystemMenus();
+        ResponseSet<SystemMenu> GetSystemMenus();
 
         /// <summary>
         /// 获取标有用户拥有访问权限的菜单列表。
         /// </summary>
         /// <param name="id">用户编号</param>
         /// <returns>菜单列表</returns>
-        ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByUser(string id);
+        ResponseSet<SystemMenu> GetSystemMenusWithAllotedByUser(string id);
 
         /// <summary>
         /// 获取标有角色拥有访问权限的菜单列表。
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>菜单列表</returns>
-        ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByRole(string id);
+        ResponseSet<SystemMenu> GetSystemMenusWithAllotedByRole(string id);
 
         /// <summary>
         /// 获取用户可访问的菜单列表。
         /// </summary>
         /// <param name="userId">用户编号</param>
         /// <returns>菜单列表</returns>
-        ResponseCollection<SystemMenu> GetAccessibleMenus(string userId);
+        ResponseSet<SystemMenu> GetAccessibleMenus(string userId);
 
         /// <summary>
         /// 获取当前页可访问的按钮列表。
@@ -75,6 +75,6 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// <param name="userId">用户编号</param>
         /// <param name="navigateUrl">当前页URL</param>
         /// <returns>按钮列表</returns>
-        ResponseCollection<SystemMenu> GetAccessibleButtons(string userId, string navigateUrl);
+        ResponseSet<SystemMenu> GetAccessibleButtons(string userId, string navigateUrl);
     }
 }

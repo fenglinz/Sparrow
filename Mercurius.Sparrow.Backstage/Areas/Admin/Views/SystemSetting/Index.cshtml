@@ -1,6 +1,6 @@
 ﻿@{
     var rspLogLevel = this.ViewBag.LogLevel as Response<SystemSetting>;
-    var productInfos = this.ViewBag.ProductInfos as ResponseCollection<SystemSetting>;
+    var productInfos = this.ViewBag.ProductInfos as ResponseSet<SystemSetting>;
 
     var logLevel = (rspLogLevel != null && rspLogLevel.Data != null && rspLogLevel.IsSuccess) ? rspLogLevel.Data.Value : "1";
     var productName = productInfos.Datas.IsEmpty() ? null : productInfos.Datas.FirstOrDefault(p => p.Name == "ProductName");

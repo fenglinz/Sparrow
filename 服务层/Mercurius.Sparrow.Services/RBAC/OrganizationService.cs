@@ -108,7 +108,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// 获取组织机构信息。
         /// </summary>
         /// <returns>组织机构信息</returns>
-        public ResponseCollection<Organization> GetOrganizations()
+        public ResponseSet<Organization> GetOrganizations()
         {
             return this.InvokeService(
                 nameof(GetOrganizations),
@@ -120,7 +120,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>用户信息集合</returns>
-        public ResponseCollection<User> GetUnAllotUsers(OrganizationSO so)
+        public ResponseSet<User> GetUnAllotUsers(OrganizationSO so)
         {
             return this.InvokePagingService(nameof(GetUnAllotUsers),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(OrganizationNamespace, "GetUnAllotUsers", out totalRecords, so), so);

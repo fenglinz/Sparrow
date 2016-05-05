@@ -18,27 +18,27 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// 获取字典信息。
         /// </summary>
         /// <returns>字典信息集合</returns>
-        ResponseCollection<Dictionary> GetDictionaries();
+        ResponseSet<Dictionary> GetDictionaries();
 
         /// <summary>
         /// 获取所有字典的类别。
         /// </summary>
         /// <returns>字典类别</returns>
-        ResponseCollection<Dictionary> GetCategories();
+        ResponseSet<Dictionary> GetCategories();
 
         /// <summary>
         /// 获取字典类别。
         /// </summary>
         /// <param name="parentKey">父类别Key</param>
         /// <returns>字典分类信息</returns>
-        ResponseCollection<Dictionary> GetCategories(string parentKey);
+        ResponseSet<Dictionary> GetCategories(string parentKey);
 
         /// <summary>
         /// 获取字典信息。
         /// </summary>
         /// <param name="category">字典分类Key值</param>
         /// <returns>字典分类信息集合</returns>
-        ResponseCollection<Dictionary> GetCategoryItems(string category);
+        ResponseSet<Dictionary> GetCategoryItems(string category);
 
         /// <summary>
         /// 添加或者更新字典信息。

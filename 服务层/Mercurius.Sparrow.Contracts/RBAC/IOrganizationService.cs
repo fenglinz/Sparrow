@@ -49,13 +49,13 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// 获取组织机构信息。
         /// </summary>
         /// <returns>组织机构信息</returns>
-        ResponseCollection<Organization> GetOrganizations();
+        ResponseSet<Organization> GetOrganizations();
 
         /// <summary>
         /// 获取未分配给该组织的用户。
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>用户信息集合</returns>
-        ResponseCollection<User> GetUnAllotUsers(OrganizationSO so);
+        ResponseSet<User> GetUnAllotUsers(OrganizationSO so);
     }
 }

@@ -101,7 +101,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// 获取角色信息。
         /// </summary>
         /// <returns>角色信息列表</returns>
-        public ResponseCollection<Role> GetRoles()
+        public ResponseSet<Role> GetRoles()
         {
             return this.InvokeService(nameof(GetRoles), () => this.Persistence.QueryForList<Role>(RoleNamespace, "GetRoles"));
         }
@@ -111,7 +111,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="userId">用户编号</param>
         /// <returns>角色列表</returns>
-        public ResponseCollection<Role> GetRolesById(string userId)
+        public ResponseSet<Role> GetRolesById(string userId)
         {
             return this.InvokeService(
                 nameof(GetRolesById),
@@ -123,7 +123,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>角色成员信息</returns>
-        public ResponseCollection<User> GetMembers(UserSO so)
+        public ResponseSet<User> GetMembers(UserSO so)
         {
             return this.InvokePagingService(nameof(GetMembers),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(RoleNamespace, "GetMembers", out totalRecords, so), so);
@@ -134,7 +134,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="so">查询信息</param>
         /// <returns>角色成员信息</returns>
-        public ResponseCollection<User> GetUnAllotUsers(UserSO so)
+        public ResponseSet<User> GetUnAllotUsers(UserSO so)
         {
             return this.InvokePagingService(nameof(GetUnAllotUsers),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(RoleNamespace, "GetUnAllotUsers", out totalRecords, so), so);

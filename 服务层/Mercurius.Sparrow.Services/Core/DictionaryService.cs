@@ -33,7 +33,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// 获取字典信息。
         /// </summary>
         /// <returns>字典信息集合</returns>
-        public ResponseCollection<Dictionary> GetDictionaries()
+        public ResponseSet<Dictionary> GetDictionaries()
         {
             return this.InvokeService(
                 nameof(GetDictionaries),
@@ -44,7 +44,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// 获取所有字典的类别。
         /// </summary>
         /// <returns>字典类别</returns>
-        public ResponseCollection<Dictionary> GetCategories()
+        public ResponseSet<Dictionary> GetCategories()
         {
             return this.InvokeService(
                 nameof(GetCategories),
@@ -56,7 +56,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="parentKey">父类别Key</param>
         /// <returns>字典分类信息</returns>
-        public ResponseCollection<Dictionary> GetCategories(string parentKey)
+        public ResponseSet<Dictionary> GetCategories(string parentKey)
         {
             return this.InvokeService(
                 nameof(GetCategories),
@@ -69,7 +69,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="category">字典分类Key值</param>
         /// <returns>字典分类信息集合</returns>
-        public ResponseCollection<Dictionary> GetCategoryItems(string category)
+        public ResponseSet<Dictionary> GetCategoryItems(string category)
         {
             return this.InvokeService(
                 nameof(GetCategoryItems),

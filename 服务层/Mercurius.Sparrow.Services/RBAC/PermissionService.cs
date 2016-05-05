@@ -114,7 +114,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// 获取系统菜单项。
         /// </summary>
         /// <returns>服务执行结果</returns>
-        public ResponseCollection<SystemMenu> GetSystemMenus()
+        public ResponseSet<SystemMenu> GetSystemMenus()
         {
             return this.InvokeService(
                 nameof(GetSystemMenus),
@@ -126,7 +126,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="id">用户编号</param>
         /// <returns>菜单列表</returns>
-        public ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByUser(string id)
+        public ResponseSet<SystemMenu> GetSystemMenusWithAllotedByUser(string id)
         {
             return this.InvokeService(
                 nameof(GetSystemMenusWithAllotedByUser),
@@ -138,7 +138,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>菜单列表</returns>
-        public ResponseCollection<SystemMenu> GetSystemMenusWithAllotedByRole(string id)
+        public ResponseSet<SystemMenu> GetSystemMenusWithAllotedByRole(string id)
         {
             return this.InvokeService(
                 nameof(GetSystemMenusWithAllotedByRole),
@@ -150,7 +150,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// </summary>
         /// <param name="userId">用户编号</param>
         /// <returns>菜单列表</returns>
-        public ResponseCollection<SystemMenu> GetAccessibleMenus(string userId)
+        public ResponseSet<SystemMenu> GetAccessibleMenus(string userId)
         {
             return this.InvokeService(
                 nameof(GetAccessibleMenus),
@@ -163,7 +163,7 @@ namespace Mercurius.Sparrow.Services.RBAC
         /// <param name="userId">用户编号</param>
         /// <param name="navigateUrl">当前页URL</param>
         /// <returns>按钮列表</returns>
-        public ResponseCollection<SystemMenu> GetAccessibleButtons(string userId, string navigateUrl)
+        public ResponseSet<SystemMenu> GetAccessibleButtons(string userId, string navigateUrl)
         {
             return this.InvokeService(
                 nameof(GetAccessibleButtons),

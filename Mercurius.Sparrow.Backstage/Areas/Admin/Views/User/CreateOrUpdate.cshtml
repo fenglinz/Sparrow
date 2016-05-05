@@ -3,8 +3,8 @@
 @model CreateOrUpdateVM
 
 @{
-    var roles = this.ViewBag.Roles as ResponseCollection<Role>;
-    var departments = this.ViewBag.Departments as ResponseCollection<Organization>;
+    var roles = this.ViewBag.Roles as ResponseSet<Role>;
+    var departments = this.ViewBag.Departments as ResponseSet<Organization>;
 }
 
 @section Styles{

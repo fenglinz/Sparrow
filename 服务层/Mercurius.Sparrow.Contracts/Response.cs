@@ -114,7 +114,7 @@ namespace Mercurius.Sparrow.Contracts
     /// 带有返回值的服务执行响应信息。
     /// </summary>
     /// <typeparam name="T">集合类型</typeparam>
-    public class ResponseCollection<T> : Response
+    public class ResponseSet<T> : Response
     {
         #region 属性
 
@@ -165,7 +165,7 @@ namespace Mercurius.Sparrow.Contracts
         /// <typeparam name="T">服务执行返回数据类型</typeparam>
         /// <param name="sources">服务执行响应信息</param>
         /// <returns>是否有数据</returns>
-        public static bool HasData<T>(this ResponseCollection<T> sources)
+        public static bool HasData<T>(this ResponseSet<T> sources)
         {
             return sources != null && !sources.Datas.IsEmpty();
         }
@@ -176,7 +176,7 @@ namespace Mercurius.Sparrow.Contracts
         /// <typeparam name="T">服务执行返回数据类型</typeparam>
         /// <param name="sources">服务执行响应信息</param>
         /// <returns>是否有错误</returns>
-        public static bool HasError<T>(this ResponseCollection<T> sources)
+        public static bool HasError<T>(this ResponseSet<T> sources)
         {
             return sources != null && !sources.IsSuccess;
         }

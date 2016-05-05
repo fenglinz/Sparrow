@@ -1519,9 +1519,6 @@ CREATE TABLE [RBAC].[User]
   [Sex] INT NULL ,
   [Title] NVARCHAR(100) NULL ,
   [Email] NVARCHAR(400) NULL ,
-  [Theme] NVARCHAR(100) NULL ,
-  [Question] NVARCHAR(100) NULL ,
-  [Answer] NVARCHAR(100) NULL ,
   [Remark] NVARCHAR(500) NULL ,
   [Status] INT NULL ,
   [CreateUserId] NVARCHAR(36) NULL ,
@@ -1630,36 +1627,6 @@ EXEC sp_addextendedproperty
 GO
 EXEC sp_addextendedproperty
     @name = N'MS_Description' ,
-    @value = N'主题' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'RBAC' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'User' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'Theme'
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'找回密码的问题' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'RBAC' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'User' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'Question'
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'找回密码的答案' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'RBAC' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'User' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'Answer'
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
     @value = N'备注' ,
     @level0type = 'SCHEMA' ,
     @level0name = N'RBAC' ,
@@ -1718,21 +1685,21 @@ EXEC sp_addextendedproperty
     @level2type = 'COLUMN' ,
     @level2name = N'ModifyDateTime'
 GO
-INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Theme], [Question], [Answer], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'0775cb7b-e973-4070-9633-f909ada925f8', N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'10034', N'jiatingl', N'WQJmhpXELQNReG2YoX0Dqw==', N'雷佳婷', N'0', null, null, null, null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:45:58.900', null, null)
+INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'0775cb7b-e973-4070-9633-f909ada925f8', N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'10034', N'jiatingl', N'WQJmhpXELQNReG2YoX0Dqw==', N'雷佳婷', N'0', null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:45:58.900', null, null)
 GO
-INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Theme], [Question], [Answer], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'094f85f8-bc53-4247-979c-09da591d51b0', null, N'10001', N'xingm', N'0EAlVCBMJDOcVR3De5x49A==', N'明星', N'1', null, null, null, null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:44:58.627')
+INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'094f85f8-bc53-4247-979c-09da591d51b0', null, N'10001', N'xingm', N'0EAlVCBMJDOcVR3De5x49A==', N'明星', N'1', null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:44:58.627')
 GO
-INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Theme], [Question], [Answer], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'094f85f8-bc53-4247-979c-09da591d51b0', N'10031', N'bop', N'0EAlVCBMJDOcVR3De5x49A==', N'彭博', N'1', null, null, null, null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:56:33.120')
+INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'094f85f8-bc53-4247-979c-09da591d51b0', N'10031', N'bop', N'0EAlVCBMJDOcVR3De5x49A==', N'彭博', N'1', null, NULL, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:56:33.120')
 GO
-INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Theme], [Question], [Answer], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'452865b1d31c', N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'10033', N'xiaohu', N'0EAlVCBMJDOcVR3De5x49A==', N'汪小虎', N'1', null, N'xiaohuw@flyme.com', null, null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2000-01-04 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:55:59.620')
+INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'452865b1d31c', N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'10033', N'xiaohu', N'0EAlVCBMJDOcVR3De5x49A==', N'汪小虎', N'1', null, N'xiaohuw@flyme.com', null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2000-01-04 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:55:59.620')
 GO
-INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Theme], [Question], [Answer], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'48f3889c-af8d-401f-ada2-c383031af92d', N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'10032', N'system', N'0EAlVCBMJDOcVR3De5x49A==', N'张枫林', N'1', N'软件工程师', N'fenglinz@koteiinfo.com', null, null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:57:23.533')
+INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'48f3889c-af8d-401f-ada2-c383031af92d', N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'10032', N'system', N'0EAlVCBMJDOcVR3De5x49A==', N'张枫林', N'1', N'软件工程师', N'fenglinz@koteiinfo.com', null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:57:23.533')
 GO
-INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Theme], [Question], [Answer], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'4baa8438-930f-4b02-8fc1-d67bd43d2fb0', N'094f85f8-bc53-4247-979c-09da591d51b0', N'10011', N'sund', N'uenzh5eB73Y/SMSfk0PPvw==', N'杜顺', N'1', null, null, null, null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:57:44.950')
+INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'4baa8438-930f-4b02-8fc1-d67bd43d2fb0', N'094f85f8-bc53-4247-979c-09da591d51b0', N'10011', N'sund', N'uenzh5eB73Y/SMSfk0PPvw==', N'杜顺', N'1', null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:57:44.950')
 GO
-INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Theme], [Question], [Answer], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'568ffebf-a4ea-44c4-80e1-206d39564cd1', N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'10035', N'yanlingc', N'Qq79ohRP/2f3pbLk5PGE0A==', N'陈艳玲', N'0', null, null, null, null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:56:44.730', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:57:04.947')
+INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'568ffebf-a4ea-44c4-80e1-206d39564cd1', N'23e714a9-33c6-49bb-be10-0fd455b5f0ad', N'10035', N'yanlingc', N'Qq79ohRP/2f3pbLk5PGE0A==', N'陈艳玲', N'0', null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:56:44.730', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-04-14 10:57:04.947')
 GO
-INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Theme], [Question], [Answer], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'75e1f7a2-74ab-4d21-af74-a601f30f02ee', N'094f85f8-bc53-4247-979c-09da591d51b0', N'10021', N'zhileih', N'0EAlVCBMJDOcVR3De5x49A==', N'何志磊', N'1', null, null, null, null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:55:03.913')
+INSERT INTO [RBAC].[User] ([Id], [Reporter], [Code], [Account], [Password], [Name], [Sex], [Title], [Email], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime]) VALUES (N'75e1f7a2-74ab-4d21-af74-a601f30f02ee', N'094f85f8-bc53-4247-979c-09da591d51b0', N'10021', N'zhileih', N'0EAlVCBMJDOcVR3De5x49A==', N'何志磊', N'1', null, null, null, N'1', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2013-04-02 00:00:00.000', N'48f3889c-af8d-401f-ada2-c383031af92d', N'2016-03-30 11:55:03.913')
 GO
 CREATE TABLE [RBAC].[UserPermission]
 (

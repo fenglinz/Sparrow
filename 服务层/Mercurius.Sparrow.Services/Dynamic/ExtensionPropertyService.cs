@@ -95,7 +95,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// 获取扩展属性分类。
         /// </summary>
         /// <returns>扩展属性分类集合</returns>
-        public ResponseCollection<string> GetCategories()
+        public ResponseSet<string> GetCategories()
         {
             return this.InvokeService(nameof(GetCategories), () => this.Persistence.QueryForList<string>(NS, "GetCategories"), false);
         }
@@ -105,7 +105,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// </summary>
         /// <param name="category">分类名</param>
         /// <returns>分组集合</returns>
-        public ResponseCollection<string> GetGroupNames(string category)
+        public ResponseSet<string> GetGroupNames(string category)
         {
             return this.InvokeService(nameof(GetGroupNames),
                 () => this.Persistence.QueryForList<string>(NS, "GetGroupNames", category), category, false);
@@ -130,7 +130,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// <param name="category">分类</param>
         /// <param name="businessSerialNumber">业务流水编号</param>
         /// <returns>返回结果</returns>
-        public ResponseCollection<ExtensionProperty> GetExtensionProperties(string category, string businessSerialNumber = null)
+        public ResponseSet<ExtensionProperty> GetExtensionProperties(string category, string businessSerialNumber = null)
         {
             var args = new { Category = category, BusinessSerialNumber = businessSerialNumber };
 
@@ -144,7 +144,7 @@ namespace Mercurius.Sparrow.Services.Dynamic
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回扩展属性的分页查询结果</returns>
-        public ResponseCollection<ExtensionProperty> SearchExtensionProperties(ExtensionPropertySO so)
+        public ResponseSet<ExtensionProperty> SearchExtensionProperties(ExtensionPropertySO so)
         {
             so = so ?? new ExtensionPropertySO();
 

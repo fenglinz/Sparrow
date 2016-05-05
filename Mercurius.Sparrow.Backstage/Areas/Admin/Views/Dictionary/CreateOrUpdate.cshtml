@@ -1,7 +1,7 @@
 ﻿@model Dictionary
 
 @{
-    var categories = this.ViewBag.Categories as ResponseCollection<Dictionary>;
+    var categories = this.ViewBag.Categories as ResponseSet<Dictionary>;
     var trees = categories.Datas.AsTree(d => string.IsNullOrWhiteSpace(d.ParentId) || d.ParentId == "0", (p, c) => c.ParentId == p.Id, d => new TreeNode { Id = d.Id, Text = d.Key, Checked = d.Id == this.ViewBag.ParentId });
 }
 

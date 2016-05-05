@@ -139,7 +139,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="so">查询对象</param>
         /// <returns>视图资源列表</returns>
-        public ResponseCollection<Globalization> GetGlobalResources(SearchObject so)
+        public ResponseSet<Globalization> GetGlobalResources(SearchObject so)
         {
             return this.InvokePagingService(
                 nameof(GetGlobalResources),
@@ -151,7 +151,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="so">查询对象</param>
         /// <returns>视图资源列表</returns>
-        public ResponseCollection<Globalization> GetLocalResources(GlobalizationSO so)
+        public ResponseSet<Globalization> GetLocalResources(GlobalizationSO so)
         {
             return this.InvokePagingService(
                 nameof(GetLocalResources),

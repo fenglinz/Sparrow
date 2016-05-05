@@ -1,5 +1,5 @@
 ﻿@{
-    var roles = this.ViewBag.Roles as ResponseCollection<Role>;
+    var roles = this.ViewBag.Roles as ResponseSet<Role>;
     var roleTree = roles.Datas.AsTree(r => r.ParentId == "0", (p, r) => r.ParentId == p.Id, r => new TreeNode { Id = r.Id, Text = r.Name });
 }
 

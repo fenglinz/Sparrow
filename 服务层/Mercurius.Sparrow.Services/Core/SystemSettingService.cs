@@ -55,7 +55,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="category">系统配置分类</param>
         /// <returns>系统配置信息集合</returns>
-        public ResponseCollection<SystemSetting> GetSettings(string category)
+        public ResponseSet<SystemSetting> GetSettings(string category)
         {
             return this.InvokeService(
                 nameof(GetSettings),

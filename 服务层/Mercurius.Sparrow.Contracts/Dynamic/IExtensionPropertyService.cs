@@ -46,14 +46,14 @@ namespace Mercurius.Sparrow.Contracts.Dynamic
         /// 获取扩展属性分类。
         /// </summary>
         /// <returns>扩展属性分类集合</returns>
-        ResponseCollection<string> GetCategories();
+        ResponseSet<string> GetCategories();
 
         /// <summary>
         /// 获取分类下的分组。
         /// </summary>
         /// <param name="category">分类名</param>
         /// <returns>分组集合</returns>
-        ResponseCollection<string> GetGroupNames(string category);
+        ResponseSet<string> GetGroupNames(string category);
 
         /// <summary>
         /// 根据主键获取扩展属性信息。
@@ -68,13 +68,13 @@ namespace Mercurius.Sparrow.Contracts.Dynamic
         /// <param name="category">分类</param>
         /// <param name="businessSerialNumber">业务流水编号</param>
         /// <returns>返回结果</returns>
-        ResponseCollection<ExtensionProperty> GetExtensionProperties(string category, string businessSerialNumber = null);
+        ResponseSet<ExtensionProperty> GetExtensionProperties(string category, string businessSerialNumber = null);
 
         /// <summary>
         /// 查询并分页获取扩展属性信息。
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回结果</returns>
-        ResponseCollection<ExtensionProperty> SearchExtensionProperties(ExtensionPropertySO so);
+        ResponseSet<ExtensionProperty> SearchExtensionProperties(ExtensionPropertySO so);
     }
 }

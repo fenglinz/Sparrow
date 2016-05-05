@@ -16,7 +16,6 @@
       <result column="Sex" property="Sex" />
       <result column="Title" property="Title" />
       <result column="Email" property="Email" />
-      <result column="Theme" property="Theme"/>
       <result column="Reporter" property="Reporter" />
       <result column="ReporterName" property="ReporterName" />
       <result column="Remark" property="Remark" />
@@ -295,7 +294,6 @@
           a."Sex",
           a."Title",
           a."Email",
-          a."Theme",
           a."Reporter",
           b."Name" AS "ReporterName",
           a."Remark",
@@ -329,7 +327,6 @@
           a."Sex",
           a."Title",
           a."Email",
-          a."Theme",
           a."Reporter",
           b."Name" AS "ReporterName",
           a."Remark",
@@ -373,7 +370,6 @@
 		        U."Name",
 		        U."Account",
             U."Email",
-            U."Theme",
 		        U."Sex",
 		        U."Title",
 		        U."Status",
@@ -454,7 +450,6 @@
 		        U."Name",
 		        U."Account",
             U."Email",
-            U."Theme",
 		        U."Sex",
 		        U."Title",
 		        U."Status",

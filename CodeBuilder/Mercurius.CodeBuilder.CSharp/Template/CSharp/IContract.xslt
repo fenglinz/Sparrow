@@ -105,7 +105,7 @@ using System.Text;
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        ResponseCollection&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so);</xsl:if>
+        ResponseSet&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so);</xsl:if>
     }
 }
   </xsl:template>

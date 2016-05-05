@@ -198,11 +198,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// 查看用户详情。
         /// </summary>
         /// <param name="id">用户编号</param>
-        /// <param name="userName">用户名</param>
         /// <returns>用户详情界面</returns>
-        public ActionResult ViewDetails(string id, string userName)
+        public ActionResult ViewDetails(string id)
         {
-            this.ViewBag.UserName = userName;
+            this.ViewBag.User = this.UserService.GetUserById(id);
             this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
             this.ViewBag.Permissions = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
 

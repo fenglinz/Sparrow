@@ -22,7 +22,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// 获取日志表信息的分区信息。
         /// </summary>
         /// <returns>分区信息列表</returns>
-        public ResponseCollection<Partition> GetPartitions()
+        public ResponseSet<Partition> GetPartitions()
         {
             return this.InvokeService(
                 nameof(GetPartitions),
@@ -76,7 +76,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="so">日志查询条件</param>
         /// <returns>日志信息列表</returns>
-        public ResponseCollection<Log> SearchLogs(LogSO so)
+        public ResponseSet<Log> SearchLogs(LogSO so)
         {
             var totalRecords = 0;
             var result = this.InvokeService(nameof(SearchLogs), () => this.Persistence.QueryForPaginatedList<Log>(LoggerNamespace, "SearchLogs", out totalRecords, so), so, false);

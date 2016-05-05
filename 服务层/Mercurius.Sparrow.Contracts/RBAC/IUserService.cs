@@ -62,11 +62,13 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// <returns>用户信息</returns>
         Response<User> ValidateUser(string account, string password);
 
+        ResponseSet<User> GetRepoterAndSubordinates(string id);
+
         /// <summary>
         /// 查询用户信息。
         /// </summary>
         /// <param name="so">用户信息查询对象</param>
         /// <returns>用户信息列表</returns>
-        ResponseCollection<User> SearchUsers(UserSO so);
+        ResponseSet<User> SearchUsers(UserSO so);
     }
 }

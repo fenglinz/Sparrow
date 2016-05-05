@@ -1,5 +1,5 @@
 ﻿@{
-    var orgList = ViewBag.OrganizationList as ResponseCollection<Organization>;
+    var orgList = ViewBag.OrganizationList as ResponseSet<Organization>;
     var tree = orgList.Datas.AsTree(o => o.ParentId == "0", (p, i) => i.ParentId == p.Id, o => new TreeNode { Id = o.Id, Text = o.Name });
 }
 

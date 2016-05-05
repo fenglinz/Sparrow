@@ -58,13 +58,13 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// </summary>
         /// <param name="so">查询对象</param>
         /// <returns>视图资源列表</returns>
-        ResponseCollection<Globalization> GetGlobalResources(SearchObject so);
+        ResponseSet<Globalization> GetGlobalResources(SearchObject so);
 
         /// <summary>
         /// 获取本地视图资源信息。
         /// </summary>
         /// <param name="so">查询对象</param>
         /// <returns>视图资源列表</returns>
-        ResponseCollection<Globalization> GetLocalResources(GlobalizationSO so);
+        ResponseSet<Globalization> GetLocalResources(GlobalizationSO so);
     }
 }

@@ -103,7 +103,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回上传文件的分页查询结果</returns>
-        public ResponseCollection<FileStorage> SearchFileStorages(FileStorageSO so)
+        public ResponseSet<FileStorage> SearchFileStorages(FileStorageSO so)
         {
             so = so ?? new FileStorageSO();
 

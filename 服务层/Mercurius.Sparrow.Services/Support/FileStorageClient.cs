@@ -85,11 +85,11 @@ namespace Mercurius.Sparrow.Services.Support
         /// <param name="postedFiles">上传文件流集合</param>
         /// <param name="replacedFiles">替换的文件</param>
         /// <returns>上传后的文件地址集合</returns>
-        public override ResponseCollection<string> Upload(string account, HttpFileCollectionBase postedFiles, params string[] replacedFiles)
+        public override ResponseSet<string> Upload(string account, HttpFileCollectionBase postedFiles, params string[] replacedFiles)
         {
             if (postedFiles.IsEmpty())
             {
-                return new ResponseCollection<string> { ErrorMessage = FileNotExists };
+                return new ResponseSet<string> { ErrorMessage = FileNotExists };
             }
 
             var datas = new NameValueCollection();
@@ -108,7 +108,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <param name="account">上传账号</param>
         /// <param name="items">上传文件信息</param>
         /// <returns>上传后的文件地址</returns>
-        public override ResponseCollection<string> UploadWithBase64(string account, params UploadItem[] items)
+        public override ResponseSet<string> UploadWithBase64(string account, params UploadItem[] items)
         {
             var request = (HttpWebRequest)WebRequest.Create($"{FileStorageUploadWithBase64Url}/{account}");
 
@@ -136,7 +136,7 @@ namespace Mercurius.Sparrow.Services.Support
 
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
-                return JsonConvert.DeserializeObject<ResponseCollection<string>>(stream.ReadToEnd());
+                return JsonConvert.DeserializeObject<ResponseSet<string>>(stream.ReadToEnd());
             }
         }
 
@@ -255,7 +255,7 @@ namespace Mercurius.Sparrow.Services.Support
 
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
-                var rsp = JsonConvert.DeserializeObject<ResponseCollection<string>>(stream.ReadToEnd());
+                var rsp = JsonConvert.DeserializeObject<ResponseSet<string>>(stream.ReadToEnd());
 
                 return rsp.HasData() ? new Response<string> { Data = rsp.Datas.First() } : new Response<string> { ErrorMessage = rsp.ErrorMessage };
             }
@@ -268,7 +268,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <param name="postedFiles">上传文件集合</param>
         /// <param name="datas">form表单数据集合</param>
         /// <returns>上传的文件路径</returns>
-        private ResponseCollection<string> WriteUploadStream(string account, HttpFileCollectionBase postedFiles, NameValueCollection datas = null)
+        private ResponseSet<string> WriteUploadStream(string account, HttpFileCollectionBase postedFiles, NameValueCollection datas = null)
         {
             var boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             var boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
@@ -339,7 +339,7 @@ namespace Mercurius.Sparrow.Services.Support
             var response = (HttpWebResponse)request.GetResponse();
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
-                return JsonConvert.DeserializeObject<ResponseCollection<string>>(stream.ReadToEnd());
+                return JsonConvert.DeserializeObject<ResponseSet<string>>(stream.ReadToEnd());
             }
         }
 

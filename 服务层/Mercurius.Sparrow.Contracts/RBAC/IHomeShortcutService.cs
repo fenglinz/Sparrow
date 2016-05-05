@@ -34,6 +34,6 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// </summary>
         /// <param name="userId">用户编号</param>
         /// <returns>首页快捷方式列表</returns>
-        ResponseCollection<HomeShortcut> GetHomeShortcuts(string userId);
+        ResponseSet<HomeShortcut> GetHomeShortcuts(string userId);
     }
 }

@@ -50,7 +50,7 @@ namespace Mercurius.Sparrow.Autofac
 
                     // 注册缓存。
                     //_builder.RegisterType<DefaultCacheProvider>()
-                    //    .As<ICacheProvider>()
+                    //    .As<CacheProvider>()
                     //    .InstancePerLifetimeScope();
                     _builder.Register(c => new RedisCacheProvider())
                         .As<CacheProvider>()

@@ -55,14 +55,14 @@ namespace Mercurius.Sparrow.Contracts.WebApi
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回结果</returns>
-        ResponseCollection<Role> SearchRoles(RoleSO so);
+        ResponseSet<Role> SearchRoles(RoleSO so);
 
         /// <summary>
         /// 获取已分配的用户。
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>已分配的用户信息</returns>
-        ResponseCollection<User> GetAllotUsers(int id);
+        ResponseSet<User> GetAllotUsers(int id);
 
         /// <summary>
         /// 获取未分配的用户。
@@ -70,7 +70,7 @@ namespace Mercurius.Sparrow.Contracts.WebApi
         /// <param name="roleId">角色编号</param>
         /// <param name="account">账号</param>
         /// <returns>未分配的用户信息</returns>
-        ResponseCollection<User> GetUnAllotUsers(int roleId, string account = null);
+        ResponseSet<User> GetUnAllotUsers(int roleId, string account = null);
 
         /// <summary>
         /// 添加WebApi权限列表。
@@ -85,6 +85,6 @@ namespace Mercurius.Sparrow.Contracts.WebApi
         /// </summary>
         /// <param name="roleId">角色编号</param>
         /// <returns>返回结果</returns>
-        ResponseCollection<Api> GetRolePermissions(int roleId);
+        ResponseSet<Api> GetRolePermissions(int roleId);
     }
 }

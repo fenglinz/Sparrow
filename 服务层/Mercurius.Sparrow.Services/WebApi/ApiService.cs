@@ -116,7 +116,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回Web API信息的分页查询结果</returns>
-        public ResponseCollection<Api> SearchApis(ApiSO so)
+        public ResponseSet<Api> SearchApis(ApiSO so)
         {
             so = so ?? new ApiSO();
 

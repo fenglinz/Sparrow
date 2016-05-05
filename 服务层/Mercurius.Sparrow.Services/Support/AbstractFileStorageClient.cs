@@ -111,7 +111,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <param name="postedFiles">上传文件流集合</param>
         /// <param name="replacedFiles">替换的文件集合</param>
         /// <returns>上传后的文件地址集合</returns>
-        public abstract ResponseCollection<string> Upload(string account, HttpFileCollectionBase postedFiles, params string[] replacedFiles);
+        public abstract ResponseSet<string> Upload(string account, HttpFileCollectionBase postedFiles, params string[] replacedFiles);
 
         /// <summary>
         /// 上传文件(基于base64字符串)
@@ -119,7 +119,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <param name="account">上传账号</param>
         /// <param name="items">上传文件信息</param>
         /// <returns>上传后的文件地址</returns>
-        public abstract ResponseCollection<string> UploadWithBase64(string account, params UploadItem[] items);
+        public abstract ResponseSet<string> UploadWithBase64(string account, params UploadItem[] items);
 
         /// <summary>
         /// 删除上传文件。

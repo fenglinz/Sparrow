@@ -117,7 +117,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回Web API角色的分页查询结果</returns>
-        public ResponseCollection<Role> SearchRoles(RoleSO so)
+        public ResponseSet<Role> SearchRoles(RoleSO so)
         {
             so = so ?? new RoleSO();
 
@@ -132,7 +132,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// </summary>
         /// <param name="id">角色编号</param>
         /// <returns>已分配的用户信息</returns>
-        public ResponseCollection<User> GetAllotUsers(int id)
+        public ResponseSet<User> GetAllotUsers(int id)
         {
             return this.InvokeService(nameof(GetAllotUsers), () => this.Persistence.QueryForList<User>(NS, "GetAllotUsers", id), id);
         }
@@ -143,7 +143,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// <param name="roleId">角色编号</param>
         /// <param name="account">账号</param>
         /// <returns>未分配的用户信息</returns>
-        public ResponseCollection<User> GetUnAllotUsers(int roleId, string account = null)
+        public ResponseSet<User> GetUnAllotUsers(int roleId, string account = null)
         {
             var args = new { RoleId = roleId, Account = account };
 
@@ -182,7 +182,7 @@ namespace Mercurius.Sparrow.Services.WebApi
         /// </summary>
         /// <param name="roleId">角色编号</param>
         /// <returns>返回结果</returns>
-        public ResponseCollection<Api> GetRolePermissions(int roleId)
+        public ResponseSet<Api> GetRolePermissions(int roleId)
         {
             return this.InvokeService(nameof(GetRolePermissions),
                 () => this.Persistence.QueryForList<Api>(NS, "GetRolePermissions", roleId), roleId);
