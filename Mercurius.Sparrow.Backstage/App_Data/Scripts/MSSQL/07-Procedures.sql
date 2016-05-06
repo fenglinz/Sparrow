@@ -21,7 +21,7 @@ BEGIN
   END
 
   DECLARE @tb_button TABLE(
-    sort INT PRIMARY KEY,
+    sort INT PRIMARY KEY IDENTITY,
     item NVARCHAR(36)
   );
 
