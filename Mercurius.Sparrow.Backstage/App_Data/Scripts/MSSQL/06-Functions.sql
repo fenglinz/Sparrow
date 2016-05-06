@@ -8,8 +8,8 @@
 -- =============================================
 CREATE FUNCTION [Split] 
 (
-	 @string nvarchar(max),  
-	 @separator nvarchar(10) = ','
+	@string nvarchar(max),  
+	@separator nvarchar(10) = ','
 )
 RETURNS @array TABLE(Item nvarchar(500)) 
 AS
