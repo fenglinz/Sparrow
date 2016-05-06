@@ -20,12 +20,12 @@ BEGIN
     RETURN;
   END
 
-  IF EXISTS(SELECT * FROM tempdb.dbo.sysobjects WHERE Id=object_id('tempdb..#buttonIds') AND type='U')
-    DROP TABLE #buttonIds;
+  DECLARE @tb_button TABLE(
+    sort INT PRIMARY KEY,
+    item NVARCHAR(36)
+  );
 
-  CREATE TABLE #buttonIds(sort INT IDENTITY PRIMARY KEY,item NVARCHAR(36));
-
-  INSERT INTO #buttonIds(item) SELECT Item FROM dbo.Split(@buttonIds,',');
+  INSERT INTO @tb_button(item) SELECT Item FROM dbo.Split(@buttonIds,',');
   
   DELETE FROM RBAC.SystemMenu WHERE ParentId=@systemMenuId AND Category=3 AND Name NOT IN(SELECT b.Name FROM #buttonIds a INNER JOIN RBAC.Button b ON a.item=b.Id);
   DELETE FROM RBAC.RolePermission WHERE SystemMenuId IN(SELECT Id FROM RBAC.SystemMenu WHERE ParentId=@systemMenuId AND Category=3 AND Name NOT IN(SELECT b.Name FROM #buttonIds a INNER JOIN RBAC.Button b ON a.item=b.Id));
@@ -46,7 +46,7 @@ BEGIN
     b.Code,
     a.Sort,
     p.Id
-  FROM #buttonIds a
+  FROM @tb_button a
   INNER JOIN RBAC.Button b ON a.item=b.Id
   OUTER APPLY(
     SELECT TOP 1 Id FROM RBAC.SystemMenu c
