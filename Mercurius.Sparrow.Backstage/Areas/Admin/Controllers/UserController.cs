@@ -204,6 +204,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             this.ViewBag.User = this.UserService.GetUserById(id);
             this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
             this.ViewBag.Permissions = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
+            this.ViewBag.RepoterAndSubordinates = this.UserService.GetRepoterAndSubordinates(id);
 
             return View();
         }

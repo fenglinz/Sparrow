@@ -2,11 +2,24 @@
     var user = this.ViewBag.User as Response<User>;
     var roles = this.ViewBag.Roles as ResponseSet<Role>;
     var permissions = this.ViewBag.Permissions as ResponseSet<SystemMenu>;
+    var repoterAndSubordinates = this.ViewBag.RepoterAndSubordinates as ResponseSet<User>;
 }
 
 @section Styles{
     @Styles.Render("~/Content/treetable/css")
     <style type="text/css">
+        .tab-pane {
+            padding: 0 10px 0 10px;
+        }
+
+        #userDetail .panel {
+            margin: 5px;
+        }
+
+            #userDetail .panel > .panel-body {
+                padding: 8px;
+            }
+
         .fa-2x {
             font-size: 1.5em;
         }
@@ -23,6 +36,27 @@
             margin-right: 2px;
             position: relative;
             vertical-align: middle;
+        }
+
+        .hr {
+            display: block;
+            height: 0;
+            overflow: hidden;
+            font-size: 0;
+            border-width: 1px 0 0 0;
+            border-top: 1px solid #e3e3e3;
+            margin: 12px 0 8px 0;
+        }
+
+        .hr-double {
+            height: 3px;
+            border-top: 1px solid #e3e3e3;
+            border-bottom: 1px solid #e3e3e3;
+        }
+
+        .hr.dotted,
+        .hr-dotted {
+            border-style: dotted;
         }
     </style>
 }
@@ -77,68 +111,195 @@
 </ul>
 <div class="tab-content">
     <div id="userDetail" role="tabpanel" class="tab-pane active">
+        <h4>基本信息</h4>
+        <hr class="hr hr-double hr-dotted" />
         <div class="form-horizontal form">
             <div class="form-group form-group-sm">
                 <label class="col-sm-1 control-label">工号</label>
-                <div class="col-sm-4">
+                <div class="col-sm-1">
                     <span class="form-control" disabled>@user.Data.Code</span>
                 </div>
-            </div>
-            <div class="form-group form-group-sm">
                 <label class="col-sm-1 control-label">姓名</label>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <span class="form-control" disabled>@user.Data.Name</span>
                 </div>
-            </div>
-            <div class="form-group form-group-sm">
                 <label class="col-sm-1 control-label">登录账户</label>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <span class="form-control" disabled>@user.Data.Account</span>
                 </div>
-            </div>
-            <div class="form-group form-group-sm">
-                <label class="col-sm-1 control-label">登录密码</label>
-                <div class="col-sm-4">
-                    <div class="input-group input-group-sm">
-                        <span class="form-control" disabled>***********</span>
-                        <div class="input-group-btn">
-                            <span href="#" class="btn btn-sm btn-primary" onclick="OnChangePassword()"><i class="glyphicon glyphicon-edit"></i> 密码修改</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group form-group-sm">
-                <label class="col-sm-1 control-label">性别</label>
-                <div class="col-sm-4">
-                    <span class="form-control" disabled>@user.Data.SexName</span>
-                </div>
-            </div>
-            <div class="form-group form-group-sm">
                 <label class="col-sm-1 control-label">电子邮件</label>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <span class="form-control" disabled>@user.Data.Email</span>
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-sm-1 control-label">创建时间</label>
-                <div class="col-sm-4">
-                    <span class="form-control" disabled>@user.Data.CreateDateTime
-                    </span>
+                <label class="col-sm-1 control-label">性别</label>
+                <div class="col-sm-1">
+                    <span class="form-control" disabled>@user.Data.SexName</span>
+                </div>
+                <label class="col-sm-1 control-label">职称</label>
+                <div class="col-sm-2">
+                    <span class="form-control" disabled>@user.Data.Title</span>
+                </div>
+                <label class="col-sm-1 control-label">所属部门</label>
+                <div class="col-sm-2">
+                    <span class="form-control" disabled>@user.Data.DepartmentNames</span>
+                </div>
+                <label class="col-sm-1 control-label">汇报人</label>
+                <div class="col-sm-2">
+                    <span class="form-control" disabled>@user.Data.ReporterName</span>
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="col-sm-1 control-label">职称</label>
-                <div class="col-sm-4">
-                    <span class="form-control" disabled>@user.Data.Title</span>
+                <label class="col-sm-1 control-label">创建者</label>
+                <div class="col-sm-1">
+                    <span class="form-control" disabled>@user.Data.CreateUserName</span>
+                </div>
+                <label class="col-sm-1 control-label">创建时间</label>
+                <div class="col-sm-2">
+                    <span class="form-control" disabled>@user.Data.CreateDateTime</span>
+                </div>
+                <label class="col-sm-1 control-label">修改者</label>
+                <div class="col-sm-2">
+                    <span class="form-control" disabled>@user.Data.ModifyUserName</span>
+                </div>
+                <label class="col-sm-1 control-label">修改时间</label>
+                <div class="col-sm-2">
+                    <span class="form-control" disabled>@user.Data.ModifyDateTime</span>
                 </div>
             </div>
             <div class="form-group form-group-sm">
                 <label class="col-sm-1 control-label">备注描述</label>
-                <div class="col-sm-4">
-                    <span class="form-control" disabled>@user.Data.Remark</span>
+                <div class="col-sm-10" style="width:86.43333333%">
+                    <span class="form-control" style="height:80px;" disabled>@user.Data.Remark</span>
                 </div>
             </div>
         </div>
+        <hr class="hr hr-dotted" />
+        <h4>上级信息</h4>
+        <hr class="hr hr-double hr-dotted" />
+        @{
+            var reporter = repoterAndSubordinates.Datas.Where(s => s.IsReporter).FirstOrDefault();
+
+            if (reporter != null)
+            {
+                <div class="form-horizontal form">
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-1 control-label">工号</label>
+                        <div class="col-sm-1">
+                            <span class="form-control" disabled>@reporter.Code</span>
+                        </div>
+                        <label class="col-sm-1 control-label">姓名</label>
+                        <div class="col-sm-2">
+                            <span class="form-control" disabled>@reporter.Name</span>
+                        </div>
+                        <label class="col-sm-1 control-label">登录账户</label>
+                        <div class="col-sm-2">
+                            <span class="form-control" disabled>@reporter.Account</span>
+                        </div>
+                        <label class="col-sm-1 control-label">电子邮件</label>
+                        <div class="col-sm-2">
+                            <span class="form-control" disabled>@reporter.Email</span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-1 control-label">性别</label>
+                        <div class="col-sm-1">
+                            <span class="form-control" disabled>@reporter.SexName</span>
+                        </div>
+                        <label class="col-sm-1 control-label">职务</label>
+                        <div class="col-sm-2">
+                            <span class="form-control" disabled>@reporter.Title</span>
+                        </div>
+                        <label class="col-sm-1 control-label">所属部门</label>
+                        <div class="col-sm-2">
+                            <span class="form-control" disabled>@reporter.DepartmentNames</span>
+                        </div>
+                        <label class="col-sm-1 control-label">汇报人</label>
+                        <div class="col-sm-2">
+                            <span class="form-control" disabled>@reporter.ReporterName</span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-1 control-label">创建者</label>
+                        <div class="col-sm-1">
+                            <span class="form-control" disabled>@reporter.CreateUserName</span>
+                        </div>
+                        <label class="col-sm-1 control-label">创建时间</label>
+                        <div class="col-sm-2">
+                            <span class="form-control" disabled>@reporter.CreateDateTime</span>
+                        </div>
+                        <label class="col-sm-1 control-label">修改者</label>
+                        <div class="col-sm-2">
+                            <span class="form-control" disabled>@reporter.ModifyUserName</span>
+                        </div>
+                        <label class="col-sm-1 control-label">修改时间</label>
+                        <div class="col-sm-2">
+                            <span class="form-control" disabled>@reporter.ModifyDateTime</span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-1 control-label">备注描述</label>
+                        <div class="col-sm-10" style="width:86.43333333%">
+                            <span class="form-control" style="height:80px;" disabled>@reporter.Remark</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <hr class="hr hr-dotted" />
+        <h4>直接下属信息</h4>
+        <hr class="hr hr-double hr-dotted" />
+        <table class="grid">
+            <thead>
+                <tr>
+                    <td style="width:60px;">编号</td>
+                    <td style="width:120px;">工号</td>
+                    <td style="width:120px;">姓名</td>
+                    <td style="width:250px;">职务</td>
+                    <td>备注</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (repoterAndSubordinates.HasData())
+                {
+                    var rowIndex = 1;
+                    var subordinates = repoterAndSubordinates.Datas.Where(s => !s.IsReporter);
+
+                    if (subordinates.Count() > 0)
+                    {
+                        foreach (var item in subordinates)
+                        {
+                            <tr>
+                                <td class="text-center">@(rowIndex++)</td>
+                                <td><a href="@Url.Action("ViewDetails", new { @id = item.Id })">@item.Code</a></td>
+                                <td>@item.Name</td>
+                                <td>@item.Title</td>
+                                <td>@item.Remark</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="empty-data">无下属信息！</td>
+                        </tr>
+                    }
+                }
+                else if (repoterAndSubordinates.HasError())
+                {
+                    <tr>
+                        <td colspan="5" class="text-danger">@repoterAndSubordinates.GetErrorMessage()</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
     <div id="roles" role="tabpanel" class="tab-pane">
         <table class="grid">

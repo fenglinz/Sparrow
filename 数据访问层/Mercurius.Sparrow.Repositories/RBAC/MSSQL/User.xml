@@ -25,6 +25,7 @@
       <result column="ModifyUserId" property="ModifyUserId" />
       <result column="ModifyUserName" property="ModifyUserName" />
       <result column="ModifyDateTime" property="ModifyDateTime" />
+      <result column="DepartmentNames" property="DepartmentNames" />
       <result column="Id" property="Roles" lazyLoad="false" select="Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser" />
       <result column="Id" property="Departments" lazyLoad="false" select="Mercurius.Sparrow.Repositories.RBAC.User.GetDepartmentsByUser" />
     </resultMap>
@@ -156,7 +157,11 @@
           a.CreateDatetime,
           a.ModifyUserId,
           u2.Name AS ModifyUserName,
-          a.ModifyDateTime
+          a.ModifyDateTime,
+          CASE 
+            WHEN p.Name IS NULL THEN NULL
+            ELSE STUFF(p.Name,LEN(p.Name),1,'')
+          END DepartmentNames
         FROM RBAC.[User] a
         LEFT JOIN RBAC.[User] b
           ON a.Reporter=b.Id
@@ -164,6 +169,18 @@
           ON a.CreateUserId=u1.Id
         LEFT JOIN RBAC.[User] u2
           ON a.ModifyUserId=u2.Id
+        OUTER APPLY(
+         SELECT 
+          Name=REPLACE(
+            REPLACE(
+              (
+                SELECT Name FROM RBAC.Organization
+                WHERE Id IN (
+                  SELECT OrganizationId FROM RBAC.StaffOrganize
+                  WHERE UserId=a.Id) FOR XML PATH('')
+              ),'<Name>','')
+            ,'</Name>','，')
+        ) p
         WHERE a.Id=#value#
       ]]>
     </select>
@@ -207,6 +224,7 @@
         SELECT a1.*, 1 AS IsReporter FROM RBAC.[User] a1 WHERE Id=(SELECT Reporter FROM RBAC.[User] WHERE Id=#value#)
         UNION
         SELECT a2.*, 0 AS IsReporter FROM RBAC.[User] a2 WHERE Reporter=#value#
+        ORDER BY Code ASC
       ]]>
     </select>
     
