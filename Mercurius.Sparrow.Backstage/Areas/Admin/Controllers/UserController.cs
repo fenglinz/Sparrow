@@ -184,23 +184,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #endregion
 
         /// <summary>
-        /// 显示当前用户信息。
-        /// </summary>
-        /// <returns>执行结果</returns>
-        public ActionResult CurrentUser()
-        {
-            var model = this.UserService.GetUserById(WebHelper.GetLogOnUserId());
-            
-            return this.View(model);
-        }
-
-        /// <summary>
         /// 查看用户详情。
         /// </summary>
         /// <param name="id">用户编号</param>
         /// <returns>用户详情界面</returns>
         public ActionResult ViewDetails(string id)
         {
+            this.ViewBag.Source = this.Request.Params["Source"];
             this.ViewBag.User = this.UserService.GetUserById(id);
             this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
             this.ViewBag.Permissions = this.PermissionService.GetSystemMenusWithAllotedByUser(id);

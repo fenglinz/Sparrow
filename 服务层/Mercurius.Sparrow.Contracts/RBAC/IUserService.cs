@@ -62,6 +62,11 @@ namespace Mercurius.Sparrow.Contracts.RBAC
         /// <returns>用户信息</returns>
         Response<User> ValidateUser(string account, string password);
 
+        /// <summary>
+        /// 获取报告者和直接下属信息。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <returns>报告者和直接下属信息</returns>
         ResponseSet<User> GetRepoterAndSubordinates(string id);
 
         /// <summary>

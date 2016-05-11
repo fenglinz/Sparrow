@@ -51,7 +51,7 @@
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
-                            <a href="@Url.Action("CurrentUser", "User", new { @Area = "Admin" })" target="main">
+                            <a href="@Url.Action("ViewDetails", "User", new { @Area = "Admin", @id=WebHelper.GetLogOnUserId(), Source="ViewCurrent" })" target="main">
                                 <i class="ace-icon fa fa-user"></i>
                                 个人信息
                             </a>

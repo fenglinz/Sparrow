@@ -483,7 +483,6 @@
     <Content Include="Areas\Admin\Views\SystemMenu\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\ChangePassword.cshtml" />
     <Content Include="Areas\Admin\Views\User\CreateOrUpdate.cshtml" />
-    <Content Include="Areas\Admin\Views\User\CurrentUser.cshtml" />
     <Content Include="Areas\Admin\Views\User\Departments.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\Users.cshtml" />

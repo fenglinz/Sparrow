@@ -113,10 +113,9 @@
         @Html.RenderButtonScript("详细", @<text>
         function @(item.NavigateUrl)() {
             var key = GetSelectedValue();
-            var name = $('#table1 > tbody > tr.selected > td:eq(2)').text();
 
             if (mercurius.HasSingleRowSelected(key)) {
-                top.main.location.href = '@Url.Action("ViewDetails", "User")/'+key+"?userName="+name;
+                top.main.location.href = '@Url.Action("ViewDetails", "User")/'+key;
             }
         }
         </text>)

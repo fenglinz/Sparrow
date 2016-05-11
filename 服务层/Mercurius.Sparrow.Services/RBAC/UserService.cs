@@ -177,6 +177,11 @@ namespace Mercurius.Sparrow.Services.RBAC
             return this.InvokeService(nameof(ValidateUser), () => this.Persistence.QueryForObject<User>(UserNamespace, "ValidateUser", args), args, false);
         }
 
+        /// <summary>
+        /// 获取报告者和直接下属信息。
+        /// </summary>
+        /// <param name="id">用户编号</param>
+        /// <returns>报告者和直接下属信息</returns>
         public ResponseSet<User> GetRepoterAndSubordinates(string id)
         {
             return this.InvokeService(nameof(GetRepoterAndSubordinates),

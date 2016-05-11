@@ -1,4 +1,5 @@
 ﻿@{
+    var source = this.ViewBag.Source;
     var user = this.ViewBag.User as Response<User>;
     var roles = this.ViewBag.Roles as ResponseSet<Role>;
     var permissions = this.ViewBag.Permissions as ResponseSet<SystemMenu>;
@@ -82,16 +83,23 @@
         });
     </script>
 }
-<div class="header">用户【@user.Data.Name (@user.Data.Code)】</div>
-<div class="toolbar panel panel-default">
-    <div class="panel-heading">
-        <div class="right btn-group">
-            <a href="@Url.Action("Index")" class="btn btn-default">
-                <i class="glyphicon glyphicon-chevron-left"></i> 返回
-            </a>
+@if (source == "ViewCurrent")
+{
+    <div class="header">当前用户【@user.Data.Name (@user.Data.Code)】</div>
+}
+else
+{
+    <div class="header">用户【@user.Data.Name (@user.Data.Code)】</div>
+    <div class="toolbar panel panel-default">
+        <div class="panel-heading">
+            <div class="right btn-group">
+                <a href="@Url.Action("Index")" class="btn btn-default">
+                    <i class="glyphicon glyphicon-chevron-left"></i> 返回
+                </a>
+            </div>
         </div>
     </div>
-</div>
+}
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active">
         <a href="#userDetail" role="tab" aria-controls="userDetail" data-toggle="tab">
@@ -103,11 +111,14 @@
             <i class="fa fa-users"></i> 所属角色
         </a>
     </li>
-    <li role="presentation">
-        <a href="#permissions" role="tab" aria-controls="permissions" data-toggle="tab">
-            <i class="glyphicon glyphicon-tower"></i> 拥有的权限
-        </a>
-    </li>
+    @if (source != "ViewCurrent")
+    {
+        <li role="presentation">
+            <a href="#permissions" role="tab" aria-controls="permissions" data-toggle="tab">
+                <i class="glyphicon glyphicon-tower"></i> 拥有的权限
+            </a>
+        </li>
+    }
 </ul>
 <div class="tab-content">
     <div id="userDetail" role="tabpanel" class="tab-pane active">
@@ -171,12 +182,12 @@
             <div class="form-group form-group-sm">
                 <label class="col-sm-1 control-label">备注描述</label>
                 <div class="col-sm-10" style="width:86.43333333%">
-                    <span class="form-control" style="height:80px;" disabled>@user.Data.Remark</span>
+                    <span class="form-control" style="height:50px;" disabled>@user.Data.Remark</span>
                 </div>
             </div>
         </div>
         <hr class="hr hr-dotted" />
-        <h4>上级信息</h4>
+        <h4>直接上级信息</h4>
         <hr class="hr hr-double hr-dotted" />
         @{
             var reporter = repoterAndSubordinates.Datas.Where(s => s.IsReporter).FirstOrDefault();
@@ -187,7 +198,7 @@
                     <div class="form-group form-group-sm">
                         <label class="col-sm-1 control-label">工号</label>
                         <div class="col-sm-1">
-                            <span class="form-control" disabled>@reporter.Code</span>
+                            <a style="line-height:30px; height:30px;" href="@Url.Action("ViewDetails", new { @id=reporter.Id, Source=source })">@reporter.Code</a>
                         </div>
                         <label class="col-sm-1 control-label">姓名</label>
                         <div class="col-sm-2">
@@ -221,34 +232,22 @@
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
-                        <label class="col-sm-1 control-label">创建者</label>
-                        <div class="col-sm-1">
-                            <span class="form-control" disabled>@reporter.CreateUserName</span>
-                        </div>
-                        <label class="col-sm-1 control-label">创建时间</label>
-                        <div class="col-sm-2">
-                            <span class="form-control" disabled>@reporter.CreateDateTime</span>
-                        </div>
-                        <label class="col-sm-1 control-label">修改者</label>
-                        <div class="col-sm-2">
-                            <span class="form-control" disabled>@reporter.ModifyUserName</span>
-                        </div>
-                        <label class="col-sm-1 control-label">修改时间</label>
-                        <div class="col-sm-2">
-                            <span class="form-control" disabled>@reporter.ModifyDateTime</span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-sm">
                         <label class="col-sm-1 control-label">备注描述</label>
                         <div class="col-sm-10" style="width:86.43333333%">
-                            <span class="form-control" style="height:80px;" disabled>@reporter.Remark</span>
+                            <span class="form-control" style="height:50px;" disabled>@reporter.Remark</span>
                         </div>
                     </div>
                 </div>
             }
+            else
+            {
+                <div class="alert alert-warning">
+                    <h4>无直接上级信息</h4>
+                </div>
+            }
         }
         <hr class="hr hr-dotted" />
-        <h4>直接下属信息</h4>
+        <h4>直接下级信息</h4>
         <hr class="hr hr-double hr-dotted" />
         <table class="grid">
             <thead>
@@ -272,7 +271,7 @@
                         {
                             <tr>
                                 <td class="text-center">@(rowIndex++)</td>
-                                <td><a href="@Url.Action("ViewDetails", new { @id = item.Id })">@item.Code</a></td>
+                                <td><a href="@Url.Action("ViewDetails", new { @id = item.Id, Source=source })">@item.Code</a></td>
                                 <td>@item.Name</td>
                                 <td>@item.Title</td>
                                 <td>@item.Remark</td>
@@ -282,7 +281,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="5" class="empty-data">无下属信息！</td>
+                            <td colspan="5" class="empty-data">无直接下级信息！</td>
                         </tr>
                     }
                 }
@@ -323,64 +322,67 @@
             </tbody>
         </table>
     </div>
-    <div id="permissions" role="tabpanel" class="tab-pane">
-        <table id="dnd-example" class="treetable">
-            <thead>
-                <tr>
-                    <td style="width: 300px; padding-left: 20px;">URL菜单权限 </td>
-                    <td style="width: 40px;">图标 </td>
-                    <td style="width: 30px;">
-                        <label class="check-all" title="全选"></label>
-                    </td>
-                    <td>操作按钮权限 </td>
-                </tr>
-            </thead>
-            <tbody>
-                @if (permissions.HasData())
-                {
-                    var menus = permissions.Datas.Where(s => s.Category != 3);
-                    var buttons = permissions.Datas.Where(s => s.Category == 3);
-
-                    foreach (var systemMenu in menus)
+    @if (source != "ViewCurrent")
+    {
+        <div id="permissions" role="tabpanel" class="tab-pane">
+            <table id="dnd-example" class="treetable">
+                <thead>
+                    <tr>
+                        <td style="width: 300px; padding-left: 20px;">URL菜单权限 </td>
+                        <td style="width: 40px;">图标 </td>
+                        <td style="width: 30px;">
+                            <label class="check-all" title="全选"></label>
+                        </td>
+                        <td>操作按钮权限 </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (permissions.HasData())
                     {
-                        var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
+                        var menus = permissions.Datas.Where(s => s.Category != 3);
+                        var buttons = permissions.Datas.Where(s => s.Category == 3);
 
-                        <tr data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
-                            <td style="padding-left: 20px;">
-                                <span class="@(menus.IsParent(systemMenu.Id) ? "folder" : "file")"></span>@systemMenu.Name
-                            </td>
-                            <td style="text-align: center">
-                                <i class="@systemMenu.Image fa-2x"></i>
-                            </td>
-                            <td style="text-align: center">
-                                <input @(systemMenu.CanAccess ? "checked" : string.Empty) type="checkbox" value="@systemMenu.Id" name="checkBox" />
-                            </td>
-                            <td>
-                                @foreach (var btn in btns)
-                                {
-                                    <label>
-                                        <input @(btn.CanAccess ? "checked" : string.Empty) type="checkbox" value="@btn.Id" name="checkbox" />
-                                        @btn.Name
-                                    </label>
-                                }
-                            </td>
-                            <td style="display: none;">@systemMenu.Id</td>
+                        foreach (var systemMenu in menus)
+                        {
+                            var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
+
+                            <tr data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
+                                <td style="padding-left: 20px;">
+                                    <span class="@(menus.IsParent(systemMenu.Id) ? "folder" : "file")"></span>@systemMenu.Name
+                                </td>
+                                <td style="text-align: center">
+                                    <i class="@systemMenu.Image fa-2x"></i>
+                                </td>
+                                <td style="text-align: center">
+                                    <input @(systemMenu.CanAccess ? "checked" : string.Empty) type="checkbox" value="@systemMenu.Id" name="checkBox" />
+                                </td>
+                                <td>
+                                    @foreach (var btn in btns)
+                                    {
+                                        <label>
+                                            <input @(btn.CanAccess ? "checked" : string.Empty) type="checkbox" value="@btn.Id" name="checkbox" />
+                                            @btn.Name
+                                        </label>
+                                    }
+                                </td>
+                                <td style="display: none;">@systemMenu.Id</td>
+                            </tr>
+                        }
+                    }
+                    else if (permissions.HasError())
+                    {
+                        <tr>
+                            <td colspan="4" class="text-danger">@permissions.GetErrorMessage()</td>
                         </tr>
                     }
-                }
-                else if (permissions.HasError())
-                {
-                    <tr>
-                        <td colspan="4" class="text-danger">@permissions.GetErrorMessage()</td>
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
