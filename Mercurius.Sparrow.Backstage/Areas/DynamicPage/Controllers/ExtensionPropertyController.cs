@@ -25,6 +25,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 
         #endregion
 
+        /// <summary>
+        /// 扩展属性列表显示&amp;查找。
+        /// </summary>
+        /// <param name="so">查询条件</param>
+        /// <returns>查询结果视图</returns>
         public ActionResult Index(ExtensionPropertySO so)
         {
             var rsp = this.ExtensionPropertyService.SearchExtensionProperties(so);
@@ -34,6 +39,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
             return View(rsp);
         }
 
+        /// <summary>
+        /// 扩展属性查找。
+        /// </summary>
+        /// <param name="so">查询条件</param>
+        /// <returns>查找结果部分视图</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult Search(ExtensionPropertySO so)
@@ -43,6 +53,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
             return PartialView("_Properties", rsp);
         }
 
+        /// <summary>
+        /// 获取分组信息。
+        /// </summary>
+        /// <param name="id">扩展属性编号</param>
+        /// <returns>分组信息</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult GetGroupNames(string id)
@@ -52,6 +67,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
             return Json(rsp);
         }
 
+        /// <summary>
+        /// 添加或修改扩展属性信息。
+        /// </summary>
+        /// <param name="id">编号</param>
+        /// <param name="category">分类</param>
+        /// <returns>显示视图</returns>
         public ActionResult CreateOrUpdate(Guid? id = null, string category = null)
         {
             this.ViewBag.Categories = this.ExtensionPropertyService.GetCategories();
@@ -68,6 +89,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 保存扩展属性信息。
+        /// </summary>
+        /// <param name="model">扩展属性信息</param>
+        /// <returns>保存结果提示</returns>
         [HttpPost]
         [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
@@ -80,6 +106,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
             return rsp.IsSuccess ? CloseDialogWithAlert("添加成功！", callback: $"top.main.ReSearch('{model.Category}');") : Alert("添加失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
         }
 
+        /// <summary>
+        /// 删除扩展属性信息。
+        /// </summary>
+        /// <param name="id">编号</param>
+        /// <returns>删除结果信息</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult Remove(Guid id)
@@ -89,6 +120,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
             return Json(rsp);
         }
 
+        /// <summary>
+        /// 保存扩展属性信息。
+        /// </summary>
+        /// <param name="id">业务逻辑编号</param>
+        /// <param name="instances">扩展属性信息列表</param>
+        /// <returns>保存结果提示</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult SaveProperties(string id, ExtensionPropertyInstance[] instances)

@@ -172,13 +172,16 @@
                         <button type="button" class="btn btn-default" style="display:inline;" onclick="edit();">
                             <i class="glyphicon glyphicon-edit"></i> 编辑
                         </button>
-                        <a class="btn btn-default" onclick="Delete();">
-                            <i class="glyphicon glyphicon-remove"></i> 删除
-                        </a>
                     }
                     <button type="button" class="btn btn-default" style="display: inline;" onclick="detail();">
                         <i class="glyphicon glyphicon-list-alt"></i> 详情
                     </button>
+                    @if (!searchModel.Table.IsView)
+                    {
+                        <a class="btn btn-default" onclick="Delete();">
+                            <i class="glyphicon glyphicon-remove"></i> 删除
+                        </a>
+                    }
                     <a class="btn btn-default" href="@Url.Action("Index", "Configuration")">
                         <i class="glyphicon glyphicon-chevron-left"></i> 返回
                     </a>

@@ -38,6 +38,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// 保存系统设置。
+        /// </summary>
+        /// <param name="name">名称</param>
+        /// <param name="value">值</param>
+        /// <returns>保存结果信息</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult SaveSetting(string name, string value)
@@ -99,6 +105,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
         #region 缓存管理
 
+        /// <summary>
+        /// 显示缓存列表。
+        /// </summary>
+        /// <returns>显示视图</returns>
         public ActionResult ShowCaches()
         {
             var cache = AutofacConfig.Container.Resolve<CacheProvider>();
@@ -107,6 +117,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return View(keys);
         }
 
+        /// <summary>
+        /// 显示缓存信息。
+        /// </summary>
+        /// <param name="key">缓存键</param>
+        /// <returns>缓存值信息</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult ShowCacheValue(string key)
@@ -123,6 +138,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// 删除缓存。
+        /// </summary>
+        /// <param name="key">缓存键</param>
+        /// <returns>删除结果信息</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult RemoveCacheValue(string key)
@@ -134,6 +154,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return Json(new { IsSuccess = true });
         }
 
+        /// <summary>
+        /// 清空缓存。
+        /// </summary>
+        /// <returns>清空结果</returns>
         [HttpPost]
         [IgnorePermissionValid]
         [ValidateAntiForgeryToken]

@@ -190,9 +190,18 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <returns>用户详情界面</returns>
         public ActionResult ViewDetails(string id)
         {
-            this.ViewBag.Source = this.Request.Params["Source"];
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                id = WebHelper.GetLogOnUserId();
+                this.ViewBag.Source = "ViewCurrent";
+            }
+            else
+            {
+                this.ViewBag.Source = this.Request.Params["Source"];
+            }
+            
             this.ViewBag.User = this.UserService.GetUserById(id);
-            this.ViewBag.Roles = this.RoleService.GetRolesById(WebHelper.GetLogOnUserId());
+            this.ViewBag.Roles = this.RoleService.GetRolesById(id);
             this.ViewBag.Permissions = this.PermissionService.GetSystemMenusWithAllotedByUser(id);
             this.ViewBag.RepoterAndSubordinates = this.UserService.GetRepoterAndSubordinates(id);
 

@@ -63,7 +63,7 @@
                 $.ajax({
                     type: 'POST',
                     cache: false,
-                    url: '@Url.Action("ConfirmAllotPermissions")',
+                    url: '@Url.Action("SaveAllotPermissions")',
                     data: { roleId: $('#roleId').val(), selecteds: mercurius.GetCheckboxValue() },
                     dataType: 'JSON',
                     complete: function (xhr) {

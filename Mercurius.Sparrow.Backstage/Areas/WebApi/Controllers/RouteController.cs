@@ -41,10 +41,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         #endregion
 
         /// <summary>
-        /// 路由规则列表。
+        /// 显示路由规则列表界面。
         /// </summary>
-        /// <param name="so">WebApi查询对象</param>
-        /// <returns></returns>
+        /// <param name="so">查询条件</param>
+        /// <returns>显示视图</returns>
         [AllowAnonymous]
         public ActionResult Index(ApiSO so)
         {
@@ -56,11 +56,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         /// <summary>
-        /// 新增或修改路由规则
+        /// 显示添加或者修改路由规则界面。
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet]
+        /// <param name="id">编号</param>
+        /// <returns>显示界面</returns>
         public ActionResult CreateOrUpdate(int? id)
         {
             if (id.HasValue)
@@ -73,10 +72,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         /// <summary>
-        /// 新增或修改路由规则
+        /// 保存路由规则信息。
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">路由规则信息</param>
+        /// <returns>保存结果提示</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult CreateOrUpdate(Api model)

@@ -26,6 +26,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
 
         #endregion
 
+        /// <summary>
+        /// 显示角色列表。
+        /// </summary>
+        /// <param name="so">查询条件</param>
+        /// <returns>显示视图</returns>
         public ActionResult Index(RoleSO so)
         {
             var model = this.RoleService.SearchRoles(so);
@@ -33,6 +38,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// 显示添加或者修改角色信息视图。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>显示视图</returns>
         public ActionResult CreateOrUpdate(int? id = null)
         {
             if (id != null)
@@ -45,6 +55,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 保存角色信息。
+        /// </summary>
+        /// <param name="role">角色信息</param>
+        /// <returns>保存结果提示</returns>
         [HttpPost]
         [IgnorePermissionValid]
         [ValidateAntiForgeryToken]
@@ -55,6 +70,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return rsp.IsSuccess ? CloseDialogWithAlert("保存成功！") : Alert("保存失败，失败原因：" + rsp.GetErrorMessage());
         }
 
+        /// <summary>
+        /// 删除角色信息。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>删除结果信息</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult Remove(int id)
@@ -64,6 +84,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
 
         #region 角色成员管理
 
+        /// <summary>
+        /// 显示分配角色成员界面。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>显示视图</returns>
         public ActionResult AllotMembers(int id)
         {
             this.ViewBag.RoleId = id;
@@ -73,6 +98,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 获取未分配的用户列表。
+        /// </summary>
+        /// <param name="roleId">角色编号</param>
+        /// <param name="account">账号过滤</param>
+        /// <returns>显示部分视图</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult _GetUnAllotUsers(int roleId, string account)
@@ -82,6 +113,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return PartialView("_UnAllotUsers");
         }
 
+        /// <summary>
+        /// 获取已分配的用户列表。
+        /// </summary>
+        /// <param name="roleId">角色编号</param>
+        /// <returns>显示部分视图</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult _GetAllotUsers(int roleId)
@@ -91,6 +127,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return PartialView("_AllotUsers");
         }
 
+        /// <summary>
+        /// 为角色添加成员。
+        /// </summary>
+        /// <param name="roleId">角色编号</param>
+        /// <param name="userId">成员编号</param>
+        /// <returns>添加结果信息</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult AddMember(int roleId, int userId)
@@ -98,6 +140,12 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return Json(this.RoleService.AddMember(roleId, userId));
         }
 
+        /// <summary>
+        /// 删除角色成员。
+        /// </summary>
+        /// <param name="roleId">角色编号</param>
+        /// <param name="userId">用户编号</param>
+        /// <returns>删除结果信息</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult RemoveMember(int roleId, int userId)
@@ -109,6 +157,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
 
         #region 角色权限管理
 
+        /// <summary>
+        /// 显示分配角色权限界面。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>显示视图</returns>
         [HttpGet]
         public ActionResult AllotPermissions(int id)
         {
@@ -119,20 +172,31 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return View(rolePermissions);
         }
 
+        /// <summary>
+        /// 保存权限修改界面。
+        /// </summary>
+        /// <param name="roleId">角色编号</param>
+        /// <param name="apiIds">API编号</param>
+        /// <returns>保存结果提示</returns>
+        [HttpPost]
+        [IgnorePermissionValid]
+        public ActionResult SaveAllotPermissions(int roleId, int[] apiIds)
+        {
+            var rsp = this.RoleService.AllotPermissions(roleId, apiIds);
+
+            return rsp.IsSuccess ? AlertWithRefresh("保存成功！") : Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
+        }
+
+        /// <summary>
+        /// 显示查看角色权限信息界面。
+        /// </summary>
+        /// <param name="id">角色编号</param>
+        /// <returns>显示视图</returns>
         public ActionResult ViewPermissions(int id)
         {
             var rolePermissions = this.RoleService.GetRolePermissions(id);
 
             return View(rolePermissions);
-        }
-
-        [HttpPost]
-        [IgnorePermissionValid]
-        public ActionResult ConfirmAllotPermissions(int roleId, int[] apiId)
-        {
-            var rsp = this.RoleService.AllotPermissions(roleId, apiId);
-
-            return rsp.IsSuccess ? AlertWithRefresh("保存成功！") : Alert("保存失败，失败原因：" + rsp.ErrorMessage, AlertType.Error);
         }
 
         #endregion

@@ -241,8 +241,8 @@ else
             }
             else
             {
-                <div class="alert alert-warning">
-                    <h4>无直接上级信息</h4>
+                <div class="alert alert-warning" style="margin-bottom: 0;">
+                    <h4 style="margin-bottom: 0;">无直接上级信息</h4>
                 </div>
             }
         }
@@ -265,7 +265,7 @@ else
                     var rowIndex = 1;
                     var subordinates = repoterAndSubordinates.Datas.Where(s => !s.IsReporter);
 
-                    if (subordinates.Count() > 0)
+                    if (subordinates.Any())
                     {
                         foreach (var item in subordinates)
                         {
@@ -318,6 +318,18 @@ else
                             <td>@item.Name</td>
                         </tr>
                     }
+                }
+                else if (roles.HasError())
+                {
+                    <tr>
+                        <td colspan="2" class="text-danger">@roles.GetErrorMessage()</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                    </tr>
                 }
             </tbody>
         </table>

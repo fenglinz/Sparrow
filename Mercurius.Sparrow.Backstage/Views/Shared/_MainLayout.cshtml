@@ -14,7 +14,7 @@
     <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
     <!--[if lte IE 8]>
     <script src="@Url.Content("~/Scripts/html5shiv.min.js")"></script>
-        <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
     <![endif]-->
     @Scripts.Render("~/bundles/main")
 }
@@ -51,7 +51,7 @@
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
-                            <a href="@Url.Action("ViewDetails", "User", new { @Area = "Admin", @id=WebHelper.GetLogOnUserId(), Source="ViewCurrent" })" target="main">
+                            <a href="@Url.Action("ViewDetails", "User", new { @Area = "Admin" })" target="main">
                                 <i class="ace-icon fa fa-user"></i>
                                 个人信息
                             </a>

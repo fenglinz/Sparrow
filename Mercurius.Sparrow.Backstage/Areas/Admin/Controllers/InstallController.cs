@@ -12,6 +12,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
     [AllowAnonymous]
     public class InstallController : BaseController
     {
+        /// <summary>
+        /// 显示应用程序安装界面。
+        /// </summary>
+        /// <returns>显示视图</returns>
         public ActionResult Index()
         {
             return View();

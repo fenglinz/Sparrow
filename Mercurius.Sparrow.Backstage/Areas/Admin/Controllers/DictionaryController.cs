@@ -106,6 +106,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// 添加或者修改字典分类信息。
+        /// </summary>
+        /// <param name="model">字典分类信息</param>
+        /// <returns>保存结果通知</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult CreateOrUpdateCategory(Dictionary model)

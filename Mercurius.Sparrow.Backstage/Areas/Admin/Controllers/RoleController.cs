@@ -253,7 +253,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <returns>操作结果</returns>
         [HttpPost]
         [IgnorePermissionValid]
-        public ActionResult ConfirmAllotPermissions(string selecteds)
+        public ActionResult SaveAllotPermissions(string selecteds)
         {
             var result = "分配成功！";
 
