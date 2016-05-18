@@ -96,13 +96,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         /// <summary>
-        /// 删除一条路由规则
+        /// 删除路由规则。
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">编号</param>
+        /// <returns>删除结果</returns>
         [HttpPost]
         [IgnorePermissionValid]
-        public ActionResult Delete(int id)
+        public ActionResult Remove(int id)
         {
             var result = ApiService.Remove(id);
 
@@ -110,9 +110,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
         }
 
         /// <summary>
-        /// 刷新Web Api路由规则列表
+        /// 刷新Web Api路由规则列表。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>刷新结果</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult ReflushRoutes(string id)
@@ -146,6 +146,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
             return Json(new Response { ErrorMessage = rsp.ErrorMessage });
         }
 
+        /// <summary>
+        /// 保存Web API说明文档API地址。
+        /// </summary>
+        /// <param name="url">文档API地址</param>
+        /// <returns>保存结果</returns>
         [HttpPost]
         [IgnorePermissionValid]
         public ActionResult SaveWebApiDocumentUrl(string url)

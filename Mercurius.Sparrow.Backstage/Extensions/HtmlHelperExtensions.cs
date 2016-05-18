@@ -198,6 +198,17 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #region 字典列表
 
+        /// <summary>
+        /// 创建下拉框。
+        /// </summary>
+        /// <typeparam name="T">视图模型类型</typeparam>
+        /// <typeparam name="P">属性类型</typeparam>
+        /// <param name="html">HTML呈现器</param>
+        /// <param name="expression">属性获取Lambda表达式</param>
+        /// <param name="category">字典分类</param>
+        /// <param name="includeAll">是否包含所有选项</param>
+        /// <param name="htmlAttributes">下拉框HTML属性</param>
+        /// <returns>下拉框HTML片段</returns>
         public static IHtmlString CreateDropdownListFor<T, P>(
             this HtmlHelper<T> html, Expression<Func<T, P>> expression,
             string category, bool includeAll = true, dynamic htmlAttributes = null)
@@ -271,12 +282,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         #region 获取全球化资源
 
         /// <summary>
-        /// 获取界面资源值。 
+        /// 获取界面资源值。
         /// </summary>
-        /// <param name="html"></param>
-        /// <param name="key"></param>
-        /// <param name="viewName"></param>
-        /// <returns></returns>
+        /// <param name="html">HTML呈现器</param>
+        /// <param name="key">字典名</param>
+        /// <param name="viewName">视图名</param>
+        /// <returns>资源值</returns>
         public static string GetLocalValue(this HtmlHelper html, string key, string viewName = null)
         {
             var area = Convert.ToString(html.ViewContext.RequestContext.RouteData.DataTokens["area"]);
@@ -294,6 +305,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             return resources.ContainsKey(key) ? resources[key] : key;
         }
 
+        /// <summary>
+        /// 获取全局资源。
+        /// </summary>
+        /// <param name="html">HTML呈现器</param>
+        /// <param name="key">键</param>
+        /// <returns>全局资源值</returns>
         public static string GetGlobalValue(this HtmlHelper html, string key)
         {
             return _globalizationService.GetGlobalResource(key);
