@@ -23,9 +23,9 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         #endregion
 
         /// <summary>
-        /// 操作记录首页。
+        /// 显示操作记录页面。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>显示界面</returns>
         public ActionResult Index(OperationRecordSO so)
         {
             var rsp = this.OperationRecordService.SearchOperationRecords(so);

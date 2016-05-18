@@ -45,8 +45,6 @@
             $('#dnd-example > tbody > tr > td > label :checkbox').click(function () {
                 if ($(this).prop('checked')) {
                     $(this).parent().parent().prev().find(':checkbox').prop('checked', true);
-                } else if ($(this).parent().parent().find(':checkbox:checked').length == 0) {
-                    $(this).parent().parent().prev().find(':checkbox').prop('checked', false);
                 }
             });
         });
