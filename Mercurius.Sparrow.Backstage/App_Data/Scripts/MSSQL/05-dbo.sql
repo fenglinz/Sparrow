@@ -595,7 +595,7 @@ EXEC sp_addextendedproperty
 GO
 INSERT  INTO [dbo].[SystemSetting]( [Id], [ParentId], [Name], [Value], [Remark] )VALUES( N'015B6ED3-B4FF-4A61-B200-59203A7DBC77', NULL, N'LogLevel', N'2', N'' );
 GO
-INSERT  INTO [dbo].[SystemSetting]( [Id], [ParentId], [Name], [Value], [Remark] )VALUES( N'03d5f601-e11e-4a44-982b-baed7eab37a3', N'6b9d4e26-8066-4fc2-bb45-fb02824be265', N'ProductVersion', N'Beta 0.7', NULL );
+INSERT  INTO [dbo].[SystemSetting]( [Id], [ParentId], [Name], [Value], [Remark] )VALUES( N'03d5f601-e11e-4a44-982b-baed7eab37a3', N'6b9d4e26-8066-4fc2-bb45-fb02824be265', N'ProductVersion', N'1.0', NULL );
 GO
 INSERT  INTO [dbo].[SystemSetting]( [Id], [ParentId], [Name], [Value], [Remark] )VALUES( N'6b9d4e26-8066-4fc2-bb45-fb02824be265', NULL, N'ProductName', N'后台管理系统', NULL );
 GO
