@@ -99,7 +99,7 @@ namespace Mercurius.Sparrow.Services.Support
         {
             var model = this.GetModelName();
 
-            this.Logger.BeforeExecution(model, this._className, method, args);
+            this.Logger?.BeforeExecution(model, this._className, method, args);
 
             var result = new Response();
             var stopwatch = new Stopwatch();
@@ -115,12 +115,12 @@ namespace Mercurius.Sparrow.Services.Support
                 result.IsSuccess = false;
                 result.ErrorMessage = exception.Message;
 
-                this.Logger.Abnormal(model, this._className, method, exception, args);
+                this.Logger?.Abnormal(model, this._className, method, exception, args);
             }
 
             stopwatch.Stop();
 
-            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
+            this.Logger?.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
 
             return result;
         }
@@ -142,7 +142,7 @@ namespace Mercurius.Sparrow.Services.Support
         {
             var model = this.GetModelName();
 
-            this.Logger.BeforeExecution(model, this._className, method, args);
+            this.Logger?.BeforeExecution(model, this._className, method, args);
 
             var result = new Response<T>();
             var stopwatch = new Stopwatch();
@@ -178,12 +178,12 @@ namespace Mercurius.Sparrow.Services.Support
                 result.IsSuccess = false;
                 result.ErrorMessage = exception.Message;
 
-                this.Logger.Abnormal(model, this._className, method, exception, args);
+                this.Logger?.Abnormal(model, this._className, method, exception, args);
             }
 
             stopwatch.Stop();
 
-            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
+            this.Logger?.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
 
             return result;
         }
@@ -205,7 +205,7 @@ namespace Mercurius.Sparrow.Services.Support
         {
             var model = this.GetModelName();
 
-            this.Logger.BeforeExecution(model, this._className, method, args);
+            this.Logger?.BeforeExecution(model, this._className, method, args);
 
             var stopwatch = new Stopwatch();
             var result = new ResponseSet<T>();
@@ -241,12 +241,12 @@ namespace Mercurius.Sparrow.Services.Support
                 result.IsSuccess = false;
                 result.ErrorMessage = exception.Message;
 
-                this.Logger.Abnormal(model, this._className, method, exception, args);
+                this.Logger?.Abnormal(model, this._className, method, exception, args);
             }
 
             stopwatch.Stop();
 
-            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
+            this.Logger?.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
 
             return result;
         }
@@ -268,7 +268,7 @@ namespace Mercurius.Sparrow.Services.Support
         {
             var model = this.GetModelName();
 
-            this.Logger.BeforeExecution(model, this._className, method, args);
+            this.Logger?.BeforeExecution(model, this._className, method, args);
 
             var stopwatch = new Stopwatch();
             var result = new ResponseSet<T>();
@@ -310,12 +310,12 @@ namespace Mercurius.Sparrow.Services.Support
                 result.IsSuccess = false;
                 result.ErrorMessage = exception.Message;
 
-                this.Logger.Abnormal(model, this._className, method, exception, args);
+                this.Logger?.Abnormal(model, this._className, method, exception, args);
             }
 
             stopwatch.Stop();
 
-            this.Logger.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
+            this.Logger?.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
 
             return result;
         }

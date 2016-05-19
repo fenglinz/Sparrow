@@ -40,6 +40,12 @@
 
             $('#dnd-example > tbody > tr > td.text-center :checkbox').click(function () {
                 $(this).parent().next().find(':checkbox').prop('checked', $(this).prop('checked'));
+
+                if ($(this).prop('checked')) {
+                    CheckedParents($(this).parent().parent().attr('data-tt-parent-id'));
+                } else {
+                    UnCheckedChildren($(this).parent().parent().attr('data-tt-id'));
+                }
             });
 
             $('#dnd-example > tbody > tr > td > label :checkbox').click(function () {
@@ -47,6 +53,24 @@
                     $(this).parent().parent().prev().find(':checkbox').prop('checked', true);
                 }
             });
+
+            function CheckedParents(id) {
+                $('[id=' + id + '] td:eq(2) :checkbox').prop('checked', true);
+
+                if ($('[id=' + $('[id=' + id + ']').attr('data-tt-parent-id') + ']').length > 0) {
+                    CheckedParents($('[id=' + id + ']').attr('data-tt-parent-id'));
+                }
+            }
+
+            function UnCheckedChildren(parentId) {
+                $('[data-tt-parent-id=' + parentId + '] :checkbox').prop('checked', false);
+
+                if ($('[data-tt-parent-id=' + parentId + ']').length > 0) {
+                    $('[data-tt-parent-id=' + parentId + ']').each(function() {
+                        UnCheckedChildren($(this).attr('data-tt-id'));
+                    });
+                }
+            }
         });
 
         @Html.RenderButtonScript("返回",@<text>
