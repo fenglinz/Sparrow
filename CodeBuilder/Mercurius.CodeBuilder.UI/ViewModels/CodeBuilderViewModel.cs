@@ -79,44 +79,44 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             get
             {
                 return this._initializeProjectCommand ??
-                       (this._initializeProjectCommand = new DelegateCommand(() =>
-                       {
-                           if (!File.Exists(@"Projects\CSharp.zip"))
-                           {
-                               MessageBox.Show(Application.Current.MainWindow, "请在应用程序的Projects文件夹中存入CSharp.zip基础项目文件。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    (this._initializeProjectCommand = new DelegateCommand(() =>
+                    {
+                        if (!File.Exists(@"Projects\CSharp.zip"))
+                        {
+                            MessageBox.Show(Application.Current.MainWindow, "请在应用程序的Projects文件夹中存入CSharp.zip基础项目文件。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                               return;
-                           }
-                           if (string.IsNullOrWhiteSpace(this.Configuration.BaseNamespace))
-                           {
-                               MessageBox.Show(Application.Current.MainWindow, "请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                        if (string.IsNullOrWhiteSpace(this.Configuration.BaseNamespace))
+                        {
+                            MessageBox.Show(Application.Current.MainWindow, "请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                               return;
-                           }
+                            return;
+                        }
 
-                           if (string.IsNullOrWhiteSpace(this.Configuration.OutputFolder) || !Directory.Exists(this.Configuration.OutputFolder))
-                           {
-                               MessageBox.Show(Application.Current.MainWindow, "请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        if (string.IsNullOrWhiteSpace(this.Configuration.OutputFolder) || !Directory.Exists(this.Configuration.OutputFolder))
+                        {
+                            MessageBox.Show(Application.Current.MainWindow, "请选择代码输出目录！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                               return;
-                           }
+                            return;
+                        }
 
-                           var codeCreator = ServiceLocator.Current.GetInstance<AbstractCodeCreator>(this.Configuration.Language);
+                        var codeCreator = ServiceLocator.Current.GetInstance<AbstractCodeCreator>(this.Configuration.Language);
 
-                           if (codeCreator != null)
-                           {
-                               var task = new Task(() =>
-                               {
-                                   codeCreator.Initialize(this.Configuration);
-                               });
+                        if (codeCreator != null)
+                        {
+                            var task = new Task(() =>
+                            {
+                                codeCreator.Initialize(this.Configuration);
+                            });
 
-                               task.Start();
-                               task.ContinueWith(t =>
-                               {
-                                   MessageBox.Show(Application.Current.MainWindow, "初始化完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-                               });
-                           }
-                       }));
+                            task.Start();
+                            task.ContinueWith(t =>
+                            {
+                                MessageBox.Show(Application.Current.MainWindow, "初始化完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                            });
+                        }
+                    }));
             }
         }
 
@@ -138,21 +138,21 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                                try
                                {
                                    var tables = (from t in Configuration.Tables
-                                                 select new Table
-                                                 {
-                                                     Name = t.Name,
-                                                     Schema = t.Schema,
-                                                     Comments = t.Description,
-                                                     Columns = t.Columns.Select(c => new Column
-                                                     {
-                                                         Name = c.Name,
-                                                         DataType = c.SqlType,
-                                                         DataLength = c.Length,
-                                                         Description = c.Description,
-                                                         IsIdentity = c.IsIdentity,
-                                                         IsNullable = c.Nullable
-                                                     }).ToList()
-                                                 }).ToList();
+                                                select new Table
+                                                {
+                                                    Name = t.Name,
+                                                    Schema = t.Schema,
+                                                    Comments = t.Description,
+                                                    Columns = t.Columns.Select(c => new Column
+                                                    {
+                                                       Name = c.Name,
+                                                       DataType = c.SqlType,
+                                                       DataLength = c.Length,
+                                                       Description = c.Description,
+                                                       IsIdentity = c.IsIdentity,
+                                                       IsNullable = c.Nullable
+                                                    }).ToList()
+                                                }).ToList();
 
                                    var export = new ExportTablesDefinition();
 
@@ -284,7 +284,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         {
                             if (table.Type != CustomObjectType.Procedure)
                             {
-                                var detail = metadata.GetTableOrViewDetails(this.Configuration.CurrentDatabase.Name, $"{table.Schema}.{table.Name}", table.Type == CustomObjectType.View);
+                                var detail = metadata.GetTableOrViewDetails(this.Configuration.CurrentDatabase.Name, this.Configuration.CurrentDatabase.Type== DatabaseType.Oracle ? table.Name : $"{table.Schema}.{table.Name}", table.Type == CustomObjectType.View);
 
                                 detail.Description = table.Description;
 

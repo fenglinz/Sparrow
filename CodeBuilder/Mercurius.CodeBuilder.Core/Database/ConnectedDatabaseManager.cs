@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.CodeBuilder.Core.Database
 {

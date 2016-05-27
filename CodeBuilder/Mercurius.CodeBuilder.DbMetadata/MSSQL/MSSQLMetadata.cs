@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
@@ -23,12 +21,6 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
     /// </summary>
     public class MSSQLMetadata : Metadata
     {
-        #region 字段
-
-        private DbHelper _dbHelper = null;
-
-        #endregion
-
         #region 重写Metadata
 
         /// <summary>

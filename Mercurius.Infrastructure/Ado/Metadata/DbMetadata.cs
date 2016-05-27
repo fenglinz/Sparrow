@@ -66,55 +66,40 @@ namespace Mercurius.Infrastructure.Ado
 
         #endregion
 
-        #region 虚方法
+        #region 抽象方法
 
         /// <summary>
         /// 获取数据库名称列表。
         /// </summary>
         /// <returns>数据库名称列表</returns>
-        public virtual IList<string> GetDatabases()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract IList<string> GetDatabases();
+
+        /// <summary>
+        /// 获取所有表信息。
+        /// </summary>
+        /// <returns>表信息集合</returns>
+        public abstract IList<Table> GetTables();
 
         /// <summary>
         /// 获取表的信息。
         /// </summary>
         /// <param name="tableName">表名称</param>
         /// <returns>表信息</returns>
-        public virtual Table GetTable(string tableName)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 获取所有表信息。
-        /// </summary>
-        /// <returns>表信息集合</returns>
-        public virtual IList<Table> GetTables()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 修改表的注释信息。
-        /// </summary>
-        /// <param name="table">表名称</param>
-        /// <param name="comments">注释信息</param>
-        public virtual void CommentTable(string table, string comments)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract Table GetTable(string tableName);
 
         /// <summary>
         /// 获取表的所有字段详细信息。
         /// </summary>
         /// <param name="tableName">表名称</param>
         /// <returns>字段详细信息集合</returns>
-        public virtual IList<Column> GetColumns(string tableName)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract IList<Column> GetColumns(string tableName);
+
+        /// <summary>
+        /// 修改表的注释信息。
+        /// </summary>
+        /// <param name="table">表名称</param>
+        /// <param name="comments">注释信息</param>
+        public abstract void CommentTable(string table, string comments);
 
         /// <summary>
         /// 修改字段的注释。
@@ -122,10 +107,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <param name="table">表名称</param>
         /// <param name="column">字段名称</param>
         /// <param name="comments">注释信息</param>
-        public virtual void CommentColumn(string table, string column, string comments)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void CommentColumn(string table, string column, string comments);
 
         #endregion
 

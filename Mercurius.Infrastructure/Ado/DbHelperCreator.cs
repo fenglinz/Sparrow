@@ -1,4 +1,8 @@
-﻿namespace Mercurius.Infrastructure.Ado
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Mercurius.Infrastructure.Ado
 {
     /// <summary>
     /// DbHelper创建器。
@@ -18,11 +22,36 @@
         /// <summary>
         /// 数据库提供者集合。
         /// </summary>
-        private static readonly string[] Providers = { "System.Data.SqlClient", "Oracle.DataAccess.Client", "MySql.Data.MySqlClient"};
+        private static readonly string[] Providers = { "System.Data.SqlClient", "Oracle.ManagedDataAccess.Client", "MySql.Data.MySqlClient" };
 
         #endregion
 
         #region 公开方法
+
+        /// <summary>
+        /// 获取数据库类型。
+        /// </summary>
+        /// <param name="provider">数据库提供者</param>
+        /// <returns>数据库类型</returns>
+        public static DatabaseType GetDatabaseType(string provider)
+        {
+            var result = default(DatabaseType);
+
+            if (string.Compare(Providers[0], provider,true)==0)
+            {
+                result = DatabaseType.MSSQL;
+            }
+            else if (string.Compare(Providers[1], provider, true)==0)
+            {
+                result = DatabaseType.Oracle;
+            }
+            else
+            {
+                result = DatabaseType.MySQL;
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// 获取数据库帮助对象。
@@ -53,10 +82,6 @@
                     break;
                 case DatabaseType.Oracle:
                     dbHelper.DbMetadata = new OracleMetadata();
-
-                    break;
-                case DatabaseType.MySQL:
-                    dbHelper.DbMetadata = new MySQLMetadata();
 
                     break;
             }

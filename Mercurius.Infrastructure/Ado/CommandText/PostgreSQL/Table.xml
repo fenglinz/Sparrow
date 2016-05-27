@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CommandTexts xmlns="http://www.mercurius.com/CommandText.xsd">
+
+  <!-- 获取数据库信息 -->
+  <CommandText name="GetDatabases" commandType="Text">
+    <![CDATA[
+      select datname from pg_database where datistemplate=false
+    ]]>
+  </CommandText>
+  
+  <!-- 获取表的信息 -->
+  <CommandText name="GetTable" commandType="Text">
+    <![CDATA[
+      select
+        a.relname AS "Name",
+        0 as "IsView",
+        a.schemaname AS "Schema",
+        CASE
+          WHEN b.description is null then a.relname
+          else b.description
+        end AS "Comments"
+      from pg_stat_user_tables a
+      left JOIN pg_description b
+      ON a.relid=b.objoid and objsubid=0
+      WHERE a.schemaname=:schema and a.relname=:table
+    ]]>
+  </CommandText>
+
+  <!-- 修改表的注释信息 -->
+  <CommandText name="Comment" commandType="Text">
+    <![CDATA[
+      COMMENT ON TABLE "{0}"."{1}" IS '{2}';
+    ]]>
+  </CommandText>
+
+  <!-- 获取所有表的信息 -->
+  <CommandText name="GetTables" commandType="Text">
+    <![CDATA[
+      select
+        a.relname AS "Name",
+        0 as "IsView",
+        a.schemaname AS "Schema",
+        CASE
+          WHEN b.description is null then a.relname
+          else b.description
+        end AS "Comments"
+      from pg_stat_user_tables a
+      left JOIN pg_description b
+       on a.relid=b.objoid and objsubid=0
+      order by a.schemaname, a.relname
+    ]]>
+  </CommandText>
+
+</CommandTexts>

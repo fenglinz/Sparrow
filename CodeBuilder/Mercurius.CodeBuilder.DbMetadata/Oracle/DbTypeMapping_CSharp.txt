@@ -1,0 +1,15 @@
+﻿binary_double,byte[]
+binary_float,byte[]
+blob,byte[]
+clob,string
+char,string
+date,DateTime
+long,string
+long raw,string
+nclob,string
+number1,int
+number2,Decimal
+nvarchar2,string
+raw,string
+timestamp,DateTime
+varchar2,string

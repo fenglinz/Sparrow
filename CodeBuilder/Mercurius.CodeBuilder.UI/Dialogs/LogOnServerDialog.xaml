@@ -30,7 +30,7 @@
                                   HorizontalAlignment="Stretch"
                                   Text="{Binding Database}">
                             <ComboBoxItem Content="MSSQL" IsSelected="True" />
-                            <ComboBoxItem Content="MySQL" />
+                            <ComboBoxItem Content="Oracle" />
                         </ComboBox>
 
                         <Label Margin="6,48,0,0" Content="服务器地址：" />
@@ -61,8 +61,8 @@
                     <Label Margin="20,8,0,0"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           Content="数据库名：" />
-                    <ComboBox Margin="100,7,10,0"
+                           Content="数据库/服务：" />
+                    <ComboBox Margin="125,7,10,0"
                               HorizontalAlignment="Stretch"
                               ItemsSource="{Binding Databases}"
                               SelectedItem="{Binding SelectedDatabase}">
@@ -72,6 +72,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ComboBox>
+                    <TextBox Margin="125,7,10,0" Visibility="{Binding ShowInputSid}" HorizontalAlignment="Stretch" Text="{Binding SelectedDatabase, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </GroupBox>
         </Grid>

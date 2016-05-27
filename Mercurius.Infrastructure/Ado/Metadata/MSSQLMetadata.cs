@@ -18,8 +18,19 @@ namespace Mercurius.Infrastructure.Ado
         /// <returns>数据库列表</returns>
         public override IList<string> GetDatabases()
         {
-            return this.DbHelper.CreateCommand<Table>("GetDatabasesByMSSQL")
-                .ExecuteReader().GetDatas(dr => dr.GetString(0));
+            return this.DbHelper.CreateCommand<Table>("GetDatabases")
+                .ExecuteReader()
+                .GetDatas(dr => dr.GetString(0));
+        }
+
+        /// <summary>
+        /// 获取所有表信息。
+        /// </summary>
+        /// <returns>表信息集合</returns>
+        public override IList<Table> GetTables()
+        {
+            return this.DbHelper.CreateCommand<Table>("GetTables")
+                .GetDatas<Table>();
         }
 
         /// <summary>
@@ -31,19 +42,25 @@ namespace Mercurius.Infrastructure.Ado
         {
             var rs = this.ResolveTable(tableName);
 
-            return this.DbHelper.CreateCommand<Table>("GetTableByMSSQL")
+            return this.DbHelper.CreateCommand<Table>("GetTable")
                 .AddParameter("@schema", rs.Item1)
                 .AddParameter("@table", rs.Item2)
                 .GetData<Table>();
         }
 
         /// <summary>
-        /// 获取所有表信息。
+        /// 获取表的所有字段详细信息。
         /// </summary>
-        /// <returns>表信息集合</returns>
-        public override IList<Table> GetTables()
+        /// <param name="tableName">表名称</param>
+        /// <returns>字段详细信息集合</returns>
+        public override IList<Column> GetColumns(string tableName)
         {
-            return this.DbHelper.CreateCommand<Table>("GetTablesByMSSQL").GetDatas<Table>();
+            var rs = this.ResolveTable(tableName);
+
+            return this.DbHelper.CreateCommand<Column>("GetColumns")
+                .AddParameter("@schema", rs.Item1)
+                .AddParameter("@table", rs.Item2)
+                .GetDatas<Column>();
         }
 
         /// <summary>
@@ -57,27 +74,12 @@ namespace Mercurius.Infrastructure.Ado
 
             if (tableInfo != null)
             {
-                this.DbHelper.CreateCommand<Table>("CommentByMSSQL")
+                this.DbHelper.CreateCommand<Table>("Comment")
                 .AddParameter("@comments", comments)
                 .AddParameter("@type", tableInfo.IsView ? "VIEW" : "TABLE")
                 .AddParameter("@table", tableInfo.Name)
                 .AddParameter("@schema", tableInfo.Schema).Execute();
             }
-        }
-
-        /// <summary>
-        /// 获取表的所有字段详细信息。
-        /// </summary>
-        /// <param name="tableName">表名称</param>
-        /// <returns>字段详细信息集合</returns>
-        public override IList<Column> GetColumns(string tableName)
-        {
-            var rs = this.ResolveTable(tableName);
-
-            return this.DbHelper.CreateCommand<Column>("GetColumnsByMSSQL")
-                .AddParameter("@schema", rs.Item1)
-                .AddParameter("@table", rs.Item2)
-                .GetDatas<Column>();
         }
 
         /// <summary>
@@ -92,7 +94,7 @@ namespace Mercurius.Infrastructure.Ado
 
             if (tableInfo != null)
             {
-                this.DbHelper.CreateCommand<Column>("CommentColumnByMSSQL")
+                this.DbHelper.CreateCommand<Column>("Comment")
                 .AddParameter("@table", tableInfo.Name)
                 .AddParameter("@schema", tableInfo.Schema)
                 .AddParameter("@type", tableInfo.IsView ? "VIEW" : "TABLE")

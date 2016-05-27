@@ -12,6 +12,7 @@ using Mercurius.CodeBuilder.DbMetadata.MSSQL;
 using Mercurius.CodeBuilder.DbMetadata.MySQL;
 using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.CSharp;
+using Mercurius.CodeBuilder.DbMetadata.Oracle;
 
 namespace Mercurius.CodeBuilder.UI
 {
@@ -40,9 +41,9 @@ namespace Mercurius.CodeBuilder.UI
             base.ConfigureContainer();
 
             this.Container.RegisterType<Metadata, MSSQLMetadata>("MSSQL");
-            this.Container.RegisterType<Metadata, MySQLMetadata>("MySQL");
+            this.Container.RegisterType<Metadata, OracleMetadata>("Oracle");
             this.Container.RegisterType<DbTypeMapping, MSSQLDbTypeMapping>("MSSQL");
-            this.Container.RegisterType<DbTypeMapping, MySQLDbTypeMapping>("MySQL");
+            this.Container.RegisterType<DbTypeMapping, OracleDbTypeMapping>("Oracle");
             this.Container.RegisterType<AbstractCodeCreator, CSharpCodeCreator>("C#");
         }
 

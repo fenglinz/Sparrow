@@ -17,8 +17,17 @@ namespace Mercurius.Infrastructure.Ado
         /// <returns>数据库列表</returns>
         public override IList<string> GetDatabases()
         {
-            return this.DbHelper.CreateCommand<Table>("GetDatabasesByPostgreSQL")
+            return this.DbHelper.CreateCommand<Table>("GetDatabases")
                 .ExecuteReader().GetDatas(dr => dr.GetString(0));
+        }
+
+        /// <summary>
+        /// 获取所有表信息。
+        /// </summary>
+        /// <returns>表信息集合</returns>
+        public override IList<Table> GetTables()
+        {
+            return this.DbHelper.CreateCommand<Table>("GetTables").GetDatas<Table>();
         }
 
         /// <summary>
@@ -30,19 +39,25 @@ namespace Mercurius.Infrastructure.Ado
         {
             var rs = this.ResolveTable(tableName);
 
-            return this.DbHelper.CreateCommand<Table>("GetTableByPostgreSQL")
+            return this.DbHelper.CreateCommand<Table>("GetTable")
                 .AddParameter(":schema", rs.Item1)
                 .AddParameter(":table", rs.Item2)
                 .GetData<Table>();
         }
 
         /// <summary>
-        /// 获取所有表信息。
+        /// 获取表的所有字段详细信息。
         /// </summary>
-        /// <returns>表信息集合</returns>
-        public override IList<Table> GetTables()
+        /// <param name="tableName">表名称</param>
+        /// <returns>字段详细信息集合</returns>
+        public override IList<Column> GetColumns(string tableName)
         {
-            return this.DbHelper.CreateCommand<Table>("GetTablesByPostgreSQL").GetDatas<Table>();
+            var rs = this.ResolveTable(tableName);
+
+            return this.DbHelper.CreateCommand<Column>("GetColumns")
+                .AddParameter(":schema", rs.Item1)
+                .AddParameter(":table", rs.Item2)
+                .GetDatas<Column>();
         }
 
         /// <summary>
@@ -56,26 +71,11 @@ namespace Mercurius.Infrastructure.Ado
 
             if (tableInfo != null)
             {
-                var command = this.DbHelper.CreateCommand<Table>("CommentByPostgreSQL");
+                var command = this.DbHelper.CreateCommand<Table>("Comment");
 
                 command.CommandText = string.Format(command.CommandText, tableInfo.Schema, tableInfo.Name, comments);
                 command.Execute();
             }
-        }
-
-        /// <summary>
-        /// 获取表的所有字段详细信息。
-        /// </summary>
-        /// <param name="tableName">表名称</param>
-        /// <returns>字段详细信息集合</returns>
-        public override IList<Column> GetColumns(string tableName)
-        {
-            var rs = this.ResolveTable(tableName);
-
-            return this.DbHelper.CreateCommand<Column>("GetColumnsByPostgreSQL")
-                .AddParameter(":schema", rs.Item1)
-                .AddParameter(":table", rs.Item2)
-                .GetDatas<Column>();
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Mercurius.Infrastructure.Ado
 
             if (tableInfo != null)
             {
-                var command = this.DbHelper.CreateCommand<Column>("CommentColumnByPostgreSQL");
+                var command = this.DbHelper.CreateCommand<Column>("CommentColumn");
 
                 command.CommandText = string.Format(command.CommandText, tableInfo.Schema, tableInfo.Name, column, comments);
                 command.Execute();

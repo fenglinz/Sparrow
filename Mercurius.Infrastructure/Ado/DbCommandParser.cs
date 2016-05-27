@@ -99,10 +99,10 @@ namespace Mercurius.Infrastructure.Ado
         {
             if (dbHelper == null)
             {
-                throw new ArgumentNullException("dbHelper");
+                throw new ArgumentNullException(nameof(dbHelper));
             }
 
-            var xcommand = ParseCommandText(ns, file, name, embeddedAssembly);
+            var xcommand = ParseCommandText(dbHelper.Database, ns, file, name, embeddedAssembly);
 
             if (xcommand == null)
             {
@@ -117,28 +117,32 @@ namespace Mercurius.Infrastructure.Ado
             return command;
         }
 
+        #endregion
+
         /// <summary>
         /// 解析命令信息。
         /// </summary>
         /// <typeparam name="T">类型</typeparam>
+        /// <param name="database">数据库类型</param>
         /// <param name="name">命令名</param>
         /// <returns>命令信息</returns>
-        public static XCommand ParseCommandText<T>(string name)
+        private static XCommand ParseCommandText<T>(DatabaseType database, string name)
         {
             var typeInfo = typeof(T);
 
-            return ParseCommandText(typeInfo.Namespace, typeInfo.Name, name, typeInfo.Assembly);
+            return ParseCommandText(database, typeInfo.Namespace, typeInfo.Name, name, typeInfo.Assembly);
         }
 
         /// <summary>
         /// 解析命令信息。
         /// </summary>
+        /// <param name="database">数据库类型</param>
         /// <param name="ns">命名空间</param>
         /// <param name="file">命令文件名</param>
         /// <param name="name">命令名称</param>
         /// <param name="embeddedAssembly">配置文件嵌入的程序集</param>
         /// <returns>命令信息</returns>
-        public static XCommand ParseCommandText(string ns, string file, string name, Assembly embeddedAssembly = null)
+        private static XCommand ParseCommandText(DatabaseType database, string ns, string file, string name, Assembly embeddedAssembly = null)
         {
             XCommand xcommand;
 
@@ -157,7 +161,7 @@ namespace Mercurius.Infrastructure.Ado
                 {
                     if (!XDocumentDictionary.ContainsKey(documentKey))
                     {
-                        var stream = embeddedAssembly.GetManifestResourceStream($"{ns}.CommandText.{file}.xml");
+                        var stream = embeddedAssembly.GetManifestResourceStream($"{ns}.CommandText.{database}.{file}.xml");
 
                         XDocumentDictionary.Add(documentKey, XDocument.Load(stream));
                     }
@@ -182,6 +186,5 @@ namespace Mercurius.Infrastructure.Ado
             return xcommand;
         }
 
-        #endregion
     }
 }

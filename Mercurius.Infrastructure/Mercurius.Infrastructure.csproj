@@ -124,7 +124,6 @@
     <Compile Include="Ado\Metadata\Column.cs" />
     <Compile Include="Ado\Metadata\DbMetadata.cs" />
     <Compile Include="Ado\Metadata\MSSQLMetadata.cs" />
-    <Compile Include="Ado\Metadata\MySQLMetadata.cs" />
     <Compile Include="Ado\Metadata\OracleMetadata.cs" />
     <Compile Include="Ado\Metadata\Table.cs" />
     <Compile Include="Ado\DbCommandParser.cs" />
@@ -172,13 +171,29 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ado\CommandText\Table.xml" />
+    <EmbeddedResource Include="Ado\CommandText\MSSQL\Table.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ado\CommandText\Column.xml" />
+    <EmbeddedResource Include="Ado\CommandText\MSSQL\Column.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ado\DbTypeMapping\DbTypeMapping.PostgreSQL.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText\Oracle\Table.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText\Oracle\Column.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText\PostgreSQL\Column.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ado\CommandText\PostgreSQL\Table.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

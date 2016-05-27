@@ -9,6 +9,7 @@ using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Config;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.Core.Events;
+using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.CodeBuilder.CSharp
 {
@@ -107,11 +108,21 @@ namespace Mercurius.CodeBuilder.CSharp
 
                 foreach (var sectionItem in ConfigManager.Items)
                 {
+                    if (configuration.CurrentDatabase.Type != DatabaseType.MSSQL && sectionItem.Name == "SqlMap")
+                    {
+                        sectionItem.TemplateFile = sectionItem.TemplateFile.Replace("SqlMap.xslt", $"SqlMap_{configuration.CurrentDatabase.Type}.xslt");
+                    }
+
                     // 表的处理。
                     foreach (var table in tables)
                     {
                         if (sectionItem.TemplateFile.EndsWith("xslt", StringComparison.InvariantCultureIgnoreCase))
                         {
+                            if (configuration.CurrentDatabase.Type != DatabaseType.MSSQL)
+                            {
+                                table.Name = table.Name.Replace("[", "").Replace("]", "");
+                            }
+
                             if (table.IsView && sectionItem.IgnoreView)
                             {
                                 continue;

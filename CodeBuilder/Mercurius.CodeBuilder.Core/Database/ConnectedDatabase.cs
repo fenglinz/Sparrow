@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.CodeBuilder.Core.Database
 {
     public class ConnectedDatabase
     {
         #region 属性
-
-        /// <summary>
-        /// 获取或者设置数据库名称。
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// 获取或者设置数据库类型。
@@ -33,6 +29,11 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// 获取或者设置密码。
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// 获取或者设置数据库名称。
+        /// </summary>
+        public string Name { get; set; }
 
         #endregion
     }

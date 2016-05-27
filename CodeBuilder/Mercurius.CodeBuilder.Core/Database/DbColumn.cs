@@ -22,7 +22,6 @@ namespace Mercurius.CodeBuilder.Core.Database
         #region 字段
 
         private string _name;
-        private string _fieldName;
         private string _propertyName;
         private string _sqlType;
         private string _basicType;

@@ -94,7 +94,8 @@ namespace Mercurius.Infrastructure.Ado
             foreach (var schema in schemas)
             {
                 var rowIndex = 0;
-                var sheet = workbook.CreateSheet(schema.Key);
+                var sheetName = string.IsNullOrWhiteSpace(schema.Key) ? "公共" : schema.Key;
+                var sheet = workbook.CreateSheet(sheetName);
 
                 // 添加表格定义。
                 foreach (var table in schema)
@@ -110,7 +111,7 @@ namespace Mercurius.Infrastructure.Ado
 
                     bookmarkRow.Cells[1].Hyperlink = new HSSFHyperlink(HyperlinkType.Document)
                     {
-                        Address = $"#{schema.Key}!A{rowIndex + 1}"
+                        Address = $"#{sheetName}!A{(rowIndex > 20 ? (rowIndex + 15) : (rowIndex + 1))}"
                     };
                     bookmarkRow.Cells[1].CellStyle.FillForegroundColor = IndexedColors.Blue.Index;
 

@@ -257,7 +257,7 @@ namespace Mercurius.Infrastructure
 
             if (!string.IsNullOrWhiteSpace(tableName))
             {
-                result = tableName.Replace(" ", string.Empty);
+                result = tableName.ToLower().Replace(" ", string.Empty);
 
                 if (tableName.StartsWith("tb", true, CultureInfo.CurrentCulture))
                 {
@@ -318,7 +318,7 @@ namespace Mercurius.Infrastructure
 
             if (!string.IsNullOrWhiteSpace(str))
             {
-                var temps = str.Split('_');
+                var temps = str.ToLower().Split('_');
 
                 foreach (var temp in temps.Where(temp => !string.IsNullOrWhiteSpace(temp)))
                 {
@@ -328,8 +328,7 @@ namespace Mercurius.Infrastructure
                     }
                     else
                     {
-                        result += char.ToUpper(temp[0]) +
-                                  (temp.Length > 1 ? temp.Substring(1).AsNamingLower() : string.Empty);
+                        result += char.ToUpper(temp[0]) + (temp.Length > 1 ? temp.Substring(1).AsNamingLower() : string.Empty);
                     }
                 }
             }

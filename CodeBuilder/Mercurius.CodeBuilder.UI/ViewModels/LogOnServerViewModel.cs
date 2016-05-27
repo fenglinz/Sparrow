@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.Core.Events;
+using Mercurius.Infrastructure.Ado;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.PubSubEvents;
@@ -33,6 +34,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         private string _serverUri = string.Empty;
         private string _account = string.Empty;
         private string _password = string.Empty;
+        private Visibility _showInputSid = Visibility.Collapsed;
 
         private ICommand _confirmCommand = null;
         private ICommand _cancleCommand = null;
@@ -73,6 +75,11 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 {
                     this._database = value;
                     this.OnPropertyChanged(() => this.Database);
+
+                    if (value == DatabaseType.Oracle)
+                    {
+                        this.ShowInputSid = Visibility.Visible;
+                    }
                 }
             }
         }
@@ -116,6 +123,19 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             }
         }
 
+        public Visibility ShowInputSid
+        {
+            get { return this._showInputSid; }
+            set
+            {
+                if (this._showInputSid != value)
+                {
+                    this._showInputSid = value;
+                    this.OnPropertyChanged(() => this.ShowInputSid);
+                }
+            }
+        }
+
         public IList<string> Databases { get; set; }
 
         public string SelectedDatabase { get; set; }
@@ -144,9 +164,9 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                             this.OnPropertyChanged(() => this.Databases);
                         }
-                        catch
+                        catch (Exception e)
                         {
-                            MessageBox.Show(Application.Current.MainWindow, "数据库连接失败，请重试！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show(Application.Current.MainWindow, $"数据库连接失败，原因：{e.Message}！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                 });
