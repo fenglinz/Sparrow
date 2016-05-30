@@ -3,7 +3,7 @@
     xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
   <xsl:output method="xml" indent="yes" standalone="yes" encoding="utf-8" cdata-section-elements="insert select delete update sql" />
   <xsl:preserve-space elements="alias statements insert select delete update sql isNotNull"/>
-  <xsl:strip-space elements="alias statements insert select delete update sql isNotNull"/>
+  <xsl:strip-space elements="alias statements insert select delete update isNotNull"/>
 
   <xsl:template match="root">
     <sqlMap xmlns="http://ibatis.apache.org/mapping">
@@ -17,45 +17,49 @@
       </alias>
       <xsl:text>
       </xsl:text>
-      <statements>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasCreate='true'])=1">
-          <xsl:call-template name="create" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasUpdate='true'])=1">
-          <xsl:call-template name="update" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasCreateOrUpdate='true'])=1">
-          <xsl:call-template name="createOrUpdate" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasRemove='true'])=1">
-          <xsl:call-template name="delete" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasSingleData='true'])=1">
-          <xsl:call-template name="getByKey" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasSearchData='true'])=1">
-          <xsl:call-template name="search" />
-          <xsl:text>
-        </xsl:text>
-          <xsl:call-template name="searchCount" />
-          <xsl:text>
-        </xsl:text>
-          <xsl:call-template name="searchConditions" />
-        </xsl:if>
-      </statements>
-    </sqlMap>
+  <statements>
+      <xsl:if test="count(./table[@hasCreate='true'])=1">
+      <xsl:call-template name="create" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasUpdate='true'])=1">
+      <xsl:call-template name="update" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasCreateOrUpdate='true'])=1">
+      <xsl:call-template name="createOrUpdate" />
+      </xsl:if>
+      <xsl:text>
+
+      </xsl:text>
+      <xsl:if test="count(./table[@hasRemove='true'])=1">
+      <xsl:call-template name="delete" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasSingleData='true'])=1">
+      <xsl:call-template name="getByKey" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasSearchData='true'])=1">
+      <xsl:call-template name="search" />
+      <xsl:text>
+
+      </xsl:text>
+      <xsl:call-template name="searchCount" />
+      <xsl:text>
+      </xsl:text>
+      <xsl:call-template name="searchConditions" />
+      <xsl:text>
+      </xsl:text>
+      </xsl:if>
+  </statements>
+    <xsl:text>
+    </xsl:text>
+</sqlMap>
   </xsl:template>
 
   <xsl:template name="typeAlias">
@@ -76,11 +80,7 @@
   </xsl:template>
 
   <xsl:template name="create">
-    <xsl:comment>
-      <xsl:text> 添加</xsl:text>
-      <xsl:value-of select="./table/@description"/>
-      <xsl:text>信息。 </xsl:text>
-    </xsl:comment>
+    <xsl:comment><xsl:text> 添加</xsl:text><xsl:value-of select="./table/@description"/><xsl:text>信息。 </xsl:text></xsl:comment>
     <xsl:text>
     </xsl:text>
     <insert id="Create">
@@ -114,11 +114,7 @@
   </xsl:template>
 
   <xsl:template name="update">
-    <xsl:comment>
-      <xsl:text> 更新</xsl:text>
-      <xsl:value-of select="./table/@description"/>
-      <xsl:text>信息。 </xsl:text>
-    </xsl:comment>
+    <xsl:comment><xsl:text> 更新</xsl:text><xsl:value-of select="./table/@description"/><xsl:text>信息。 </xsl:text></xsl:comment>
     <xsl:text>
     </xsl:text>
     <update id="Update">
@@ -152,11 +148,9 @@
   </xsl:template>
 
   <xsl:template name="createOrUpdate">
-    <xsl:comment>
-      <xsl:text> 添加或者更新</xsl:text>
-      <xsl:value-of select="./table/@description"/>
-      <xsl:text>信息。 </xsl:text>
-    </xsl:comment>
+    <xsl:comment><xsl:text> 添加或者更新</xsl:text><xsl:value-of select="./table/@description"/><xsl:text>信息。 </xsl:text></xsl:comment>
+    <xsl:text>
+    </xsl:text>
     <update id="CreateOrUpdate">
       <xsl:attribute name="parameterClass">
         <xsl:value-of select="./table/@className"/>
@@ -235,11 +229,7 @@
   </xsl:template>
 
   <xsl:template name="delete">
-    <xsl:comment>
-      <xsl:text> 删除</xsl:text>
-      <xsl:value-of select="./table/@description"/>
-      <xsl:text>信息。 </xsl:text>
-    </xsl:comment>
+    <xsl:comment><xsl:text> 删除</xsl:text><xsl:value-of select="./table/@description"/><xsl:text>信息。 </xsl:text></xsl:comment>
     <xsl:text>
     </xsl:text>
     <delete id="Remove">
@@ -278,11 +268,7 @@
   </xsl:template>
 
   <xsl:template name="getByKey">
-    <xsl:comment>
-      <xsl:text> 根据主键获取</xsl:text>
-      <xsl:value-of select="./table/@description"/>
-      <xsl:text>信息。 </xsl:text>
-    </xsl:comment>
+    <xsl:comment><xsl:text> 根据主键获取</xsl:text><xsl:value-of select="./table/@description"/><xsl:text>信息。 </xsl:text></xsl:comment>
     <xsl:text>
     </xsl:text>
     <select id="GetById">
@@ -335,18 +321,12 @@
   </xsl:template>
 
   <xsl:template name="searchCount">
-    <xsl:comment>
-      <xsl:text> 返回满足查询条件的记录数。 </xsl:text>
-    </xsl:comment>
+    <xsl:comment><xsl:text>返回满足查询条件的记录数。 </xsl:text></xsl:comment>
     <xsl:text>
     </xsl:text>
     <select>
-      <xsl:attribute name="id">
-        Search<xsl:value-of select="./table/@pluralClassName" />Count
-      </xsl:attribute>
-      <xsl:attribute name="parameterClass">
-        <xsl:value-of select="./table/@className"/>SO
-      </xsl:attribute>
+      <xsl:attribute name="id">Search<xsl:value-of select="./table/@pluralClassName" />Count</xsl:attribute>
+      <xsl:attribute name="parameterClass"><xsl:value-of select="./table/@className"/>SO</xsl:attribute>
       <xsl:attribute name="resultClass">int</xsl:attribute>
       SELECT COUNT(*) FROM <xsl:value-of select="./table/@name" />
       <xsl:text>
@@ -358,11 +338,7 @@
   </xsl:template>
 
   <xsl:template name="search">
-    <xsl:comment>
-      <xsl:text> 分页返回满足查询条件的</xsl:text>
-      <xsl:value-of select="./table/@description"/>
-      <xsl:text>信息。 </xsl:text>
-    </xsl:comment>
+    <xsl:comment><xsl:text> 分页返回满足查询条件的</xsl:text><xsl:value-of select="./table/@description"/><xsl:text>信息。 </xsl:text></xsl:comment>
     <xsl:text>
     </xsl:text>
     <select>
@@ -398,29 +374,31 @@
   </xsl:template>
 
   <xsl:template name="searchConditions">
-    <xsl:comment>
-      <xsl:text> 查询条件。 </xsl:text>
-    </xsl:comment>
+    <xsl:comment><xsl:text> 查询条件。 </xsl:text></xsl:comment>
     <xsl:text>
     </xsl:text>
     <sql id="searchConditions">
+      <xsl:text>
+      </xsl:text>
       <dynamic prepend="WHERE">
-        <isNotNull property=".">
+        <xsl:text>
+        </xsl:text>
+        <xsl:text>   </xsl:text><isNotNull property=".">
+          <xsl:text>
+          </xsl:text>
           <xsl:for-each select="./table/column[@isSearchCriteria='true']">
-            <isNotNull>
-              <xsl:attribute name="property">
-                <xsl:value-of select="@propertyName"/>
-              </xsl:attribute>
-              <xsl:if test="position()!=1">
-                <xsl:attribute name="prepend">
-                  <xsl:text>AND</xsl:text>
-                </xsl:attribute>
-              </xsl:if>
-              <xsl:value-of select="@name"/>=#<xsl:value-of select="@propertyName"/>#
-            </isNotNull>
+            <xsl:text>  </xsl:text><isNotNull>
+              <xsl:attribute name="property"><xsl:value-of select="@propertyName"/></xsl:attribute>
+              <xsl:if test="position()!=1"><xsl:attribute name="prepend"><xsl:text>AND</xsl:text></xsl:attribute></xsl:if>
+              <xsl:value-of select="@name"/>=#<xsl:value-of select="@propertyName"/>#</isNotNull>
+          <xsl:text>
+          </xsl:text>
           </xsl:for-each>
         </isNotNull>
-      </dynamic>
+        <xsl:text>
+        </xsl:text>
+      </dynamic><xsl:text>
+</xsl:text>
     </sql>
   </xsl:template>
 </xsl:stylesheet>

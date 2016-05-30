@@ -118,11 +118,6 @@ namespace Mercurius.CodeBuilder.CSharp
                     {
                         if (sectionItem.TemplateFile.EndsWith("xslt", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            if (configuration.CurrentDatabase.Type != DatabaseType.MSSQL)
-                            {
-                                table.Name = table.Name.Replace("[", "").Replace("]", "");
-                            }
-
                             if (table.IsView && sectionItem.IgnoreView)
                             {
                                 continue;

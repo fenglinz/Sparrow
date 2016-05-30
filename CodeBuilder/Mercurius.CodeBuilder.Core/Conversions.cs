@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using Mercurius.Infrastructure;
 using Mercurius.CodeBuilder.Core.Database;
 using Microsoft.Practices.ServiceLocation;
+using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.CodeBuilder.Core
 {
@@ -31,7 +32,16 @@ namespace Mercurius.CodeBuilder.Core
                 var arrays = table.Name.Split('.');
 
                 tableElement.SetAttributeValue("table", table.Name.Contains(".") ? $"{arrays[0]}.{arrays[1]}" : $"{table.Name}");
-                tableElement.SetAttributeValue("name", table.Name.Contains(".") ? $"[{arrays[0]}].[{arrays[1]}]" : $"[{table.Name}]");
+
+                if (database.Type == DatabaseType.MSSQL)
+                {
+                    tableElement.SetAttributeValue("name", table.Name.Contains(".") ? $"[{arrays[0]}].[{arrays[1]}]" : $"[{table.Name}]");
+                }
+                else
+                {
+                    tableElement.SetAttributeValue("name", table.Name.Contains(".") ? $"{arrays[0]}.{arrays[1]}" : $"{table.Name}");
+                }
+
                 tableElement.SetAttributeValue("namespace", table.Namespace);
                 tableElement.SetAttributeValue("isView", table.IsView);
                 tableElement.SetAttributeValue("moduleName", table.ModuleName ?? string.Empty);
