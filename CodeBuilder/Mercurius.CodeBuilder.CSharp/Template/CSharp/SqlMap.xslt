@@ -17,45 +17,50 @@
       </alias>
       <xsl:text>
       </xsl:text>
-      <statements>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasCreate='true'])=1">
-        <xsl:call-template name="create" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasUpdate='true'])=1">
-        <xsl:call-template name="update" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasCreateOrUpdate='true'])=1">
-        <xsl:call-template name="createOrUpdate" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasRemove='true'])=1">
-        <xsl:call-template name="delete" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasSingleData='true'])=1">
-        <xsl:call-template name="getByKey" />
-        </xsl:if>
-        <xsl:text>
-        </xsl:text>
-        <xsl:if test="count(./table[@hasSearchData='true'])=1">
-        <xsl:call-template name="search" />
-        <xsl:text>
-        </xsl:text>
-        <xsl:call-template name="searchCount" />
-        <xsl:text>
-        </xsl:text>
-        <xsl:call-template name="searchConditions" />
-        </xsl:if>
-      </statements>
-    </sqlMap>
+    <statements>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasCreate='true'])=1">
+      <xsl:call-template name="create" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasUpdate='true'])=1">
+      <xsl:call-template name="update" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasCreateOrUpdate='true'])=1">
+      <xsl:call-template name="createOrUpdate" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasRemove='true'])=1">
+      <xsl:call-template name="delete" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasSingleData='true'])=1">
+      <xsl:call-template name="getByKey" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+      <xsl:if test="count(./table[@hasSearchData='true'])=1">
+      <xsl:call-template name="search" />
+      <xsl:text>
+
+      </xsl:text>
+      <xsl:call-template name="searchCount" />
+      <xsl:text>
+      </xsl:text>
+      <xsl:call-template name="searchConditions" />
+      </xsl:if>
+      <xsl:text>
+      </xsl:text>
+  </statements>
+    <xsl:text>
+    </xsl:text>
+</sqlMap>
   </xsl:template>
 
   <xsl:template name="typeAlias">
@@ -167,11 +172,9 @@
   </xsl:template>
 
   <xsl:template name="createOrUpdate">
-    <xsl:comment>
-      <xsl:text> 添加或者更新</xsl:text>
-      <xsl:value-of select="./table/@description"/>
-      <xsl:text>信息。 </xsl:text>
-    </xsl:comment>
+    <xsl:comment><xsl:text> 添加或者更新</xsl:text><xsl:value-of select="./table/@description"/><xsl:text>信息。 </xsl:text></xsl:comment>
+    <xsl:text>
+    </xsl:text>
     <update id="CreateOrUpdate">
       <xsl:attribute name="parameterClass">
         <xsl:value-of select="./table/@className"/>
