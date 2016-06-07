@@ -88,6 +88,10 @@
     <Compile Include="Dynamic\SearchInfo.cs" />
     <Compile Include="Domain.cs" />
     <Compile Include="DomainExtensions.cs" />
+    <Compile Include="NewsCenter\News.cs" />
+    <Compile Include="NewsCenter\NewsComment.cs" />
+    <Compile Include="NewsCenter\SO\NewsCommentSO.cs" />
+    <Compile Include="NewsCenter\SO\NewsSO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RBAC\Button.cs" />
     <Compile Include="RBAC\HomeShortcut.cs" />
@@ -142,7 +146,6 @@
     <Compile Include="Dynamic\ExtensionPropertyInstance.cs" />
     <Compile Include="Dynamic\SO\ExtensionPropertySO.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

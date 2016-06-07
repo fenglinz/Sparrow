@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Security.Principal;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -64,7 +59,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 {
                     var delAction = new Action(this.FillTableDetails);
 
-                    var asyncResul = delAction.BeginInvoke(ar =>
+                    delAction.BeginInvoke(ar =>
                     {
                         delAction.EndInvoke(ar);
 
@@ -138,21 +133,21 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                                try
                                {
                                    var tables = (from t in Configuration.Tables
-                                                select new Table
-                                                {
-                                                    Name = t.Name,
-                                                    Schema = t.Schema,
-                                                    Comments = t.Description,
-                                                    Columns = t.Columns.Select(c => new Column
-                                                    {
-                                                       Name = c.Name,
-                                                       DataType = c.SqlType,
-                                                       DataLength = c.Length,
-                                                       Description = c.Description,
-                                                       IsIdentity = c.IsIdentity,
-                                                       IsNullable = c.Nullable
-                                                    }).ToList()
-                                                }).ToList();
+                                                 select new Table
+                                                 {
+                                                     Name = t.Name,
+                                                     Schema = t.Schema,
+                                                     Comments = t.Description,
+                                                     Columns = t.Columns.Select(c => new Column
+                                                     {
+                                                         Name = c.Name,
+                                                         DataType = c.SqlType,
+                                                         DataLength = c.Length,
+                                                         Description = c.Description,
+                                                         IsIdentity = c.IsIdentity,
+                                                         IsNullable = c.Nullable
+                                                     }).ToList()
+                                                 }).ToList();
 
                                    var export = new ExportTablesDefinition();
 
@@ -284,7 +279,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         {
                             if (table.Type != CustomObjectType.Procedure)
                             {
-                                var detail = metadata.GetTableOrViewDetails(this.Configuration.CurrentDatabase.Name, this.Configuration.CurrentDatabase.Type== DatabaseType.Oracle ? table.Name : $"{table.Schema}.{table.Name}", table.Type == CustomObjectType.View);
+                                var detail = metadata.GetTableOrViewDetails(this.Configuration.CurrentDatabase.Name, this.Configuration.CurrentDatabase.Type == DatabaseType.Oracle ? table.Name : $"{table.Schema}.{table.Name}", table.Type == CustomObjectType.View);
 
                                 detail.Description = table.Description;
 
@@ -298,7 +293,10 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(Application.Current.MainWindow, "发生错误，请稍后再试！\n" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        MessageBox.Show(Application.Current.MainWindow, "发生错误，请稍后再试！\n" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    });
                 }
                 finally
                 {

@@ -72,6 +72,8 @@
     <Compile Include="Core\LoggerService.cs" />
     <Compile Include="Core\OperationRecordService.cs" />
     <Compile Include="Core\SystemSettingService.cs" />
+    <Compile Include="NewsCenter\NewsCommentService.cs" />
+    <Compile Include="NewsCenter\NewsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RBAC\ButtonService.cs" />
     <Compile Include="RBAC\HomeShortcutService.cs" />

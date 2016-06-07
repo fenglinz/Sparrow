@@ -111,7 +111,7 @@ namespace Mercurius.Infrastructure.Ado
 
                     bookmarkRow.Cells[1].Hyperlink = new HSSFHyperlink(HyperlinkType.Document)
                     {
-                        Address = $"#{sheetName}!A{(rowIndex > 20 ? (rowIndex + 15) : (rowIndex + 1))}"
+                        Address = $"#{sheetName}!A{rowIndex + 3}"
                     };
                     bookmarkRow.Cells[1].CellStyle.FillForegroundColor = IndexedColors.Blue.Index;
 

@@ -58,6 +58,8 @@
     <Compile Include="Core\ILoggerService.cs" />
     <Compile Include="Core\IOperationRecordService.cs" />
     <Compile Include="Core\ISystemSettingService.cs" />
+    <Compile Include="NewsCenter\INewsCommentService.cs" />
+    <Compile Include="NewsCenter\INewsService.cs" />
     <Compile Include="RBAC\IButtonService.cs" />
     <Compile Include="RBAC\IHomeShortcutService.cs" />
     <Compile Include="RBAC\IOrganizationService.cs" />

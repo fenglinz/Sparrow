@@ -67,19 +67,21 @@
     @Scripts.Render("~/bundles/treetable")
     <script type="text/javascript">
         $(function () {
-            $('a[data-toggle="tab"]').one('shown.bs.tab', function (e) {
-                if (e.target.text.trim() == '拥有的权限') {
-                    mercurius.FixedTableHeader("#dnd-example", 160, { triggerRowChecked: false });
+            $('a[data-toggle="tab"]').one('shown.bs.tab',
+                function (e) {
+                    if (e.target.text.trim() == '拥有的权限') {
+                        mercurius.FixedTableHeader("#dnd-example", 160, { triggerRowChecked: false });
 
-                    $("#dnd-example").treetable({
-                        expandable: true,
-                        initialState: "expanded" //collapsed 收缩 expanded展开的
-                    });
+                        $("#dnd-example")
+                            .treetable({
+                                expandable: true,
+                                initialState: "expanded" //collapsed 收缩 expanded展开的
+                            });
 
-                    $(':checkbox').attr('disabled', true);
-                    console.log('加载');
-                }
-            })
+                        $(':checkbox').attr('disabled', true);
+                        console.log('加载');
+                    }
+                });
         });
     </script>
 }

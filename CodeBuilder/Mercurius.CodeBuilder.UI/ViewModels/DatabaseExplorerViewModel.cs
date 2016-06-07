@@ -91,23 +91,33 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 {
                     if (arg != null)
                     {
-                        var viewModel = ServiceLocator.Current.GetInstance<CodeBuilderViewModel>();
-                        var view = ServiceLocator.Current.GetInstance<Views.CodeBuilderView>();
-
-                        viewModel.Configuration.CurrentDatabase = arg;
-                        view.DataContext = viewModel;
-
-                        if (this._regionManager.Regions["DisplayRegion"].Views != null)
+                        try
                         {
-                            var views = this._regionManager.Regions["DisplayRegion"].Views;
+                            var viewModel = ServiceLocator.Current.GetInstance<CodeBuilderViewModel>();
+                            var view = ServiceLocator.Current.GetInstance<Views.CodeBuilderView>();
 
-                            foreach (var item in views)
+                            viewModel.Configuration.CurrentDatabase = arg;
+                            view.DataContext = viewModel;
+
+                            if (this._regionManager.Regions["DisplayRegion"].Views != null)
                             {
-                                this._regionManager.Regions["DisplayRegion"].Remove(item);
-                            }
-                        }
+                                var views = this._regionManager.Regions["DisplayRegion"].Views;
 
-                        this._regionManager.AddToRegion("DisplayRegion", view);
+                                foreach (var item in views)
+                                {
+                                    this._regionManager.Regions["DisplayRegion"].Remove(item);
+                                }
+                            }
+
+                            this._regionManager.AddToRegion("DisplayRegion", view);
+                        }
+                        catch (Exception exp)
+                        {
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                MessageBox.Show(Application.Current.MainWindow, $"出现错误，错误详情：{exp.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                            });
+                        }
                     }
                 });
             }

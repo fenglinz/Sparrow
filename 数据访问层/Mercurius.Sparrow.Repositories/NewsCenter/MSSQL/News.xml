@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sqlMap namespace="Mercurius.Sparrow.Repositories.NewsCenter.News" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="News" type="Mercurius.Sparrow.Entities.NewsCenter.News,Mercurius.Sparrow.Entities" />
+    <typeAlias alias="NewsSO" type="Mercurius.Sparrow.Entities.NewsCenter.SO.NewsSO,Mercurius.Sparrow.Entities" />
+  </alias>
+  <statements>
+
+    <!-- 添加或者更新新闻信息。 -->
+    <update id="CreateOrUpdate" parameterClass="News">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [News] WHERE [Id]=#Id#)
+          UPDATE [News]
+          SET
+            [Category]=#Category#,
+            [Title]=#Title#,
+            [Content]=#Content#,
+            [Attachments]=#Attachments#,
+            [Status]=#Status#,
+            [BrowseTimes]=#BrowseTimes#
+          WHERE [Id]=#Id#
+        ELSE
+          INSERT INTO [News]
+          (
+            [Id],
+            [Category],
+            [Title],
+            [Content],
+            [Attachments],
+            [Status],
+            [BrowseTimes],
+            [PublisherId],
+            [PublishDateTime]
+          )
+          VALUES
+          (
+            NEWID(),
+            #Category#,
+            #Title#,
+            #Content#,
+            #Attachments#,
+            #Status#,
+            #BrowseTimes#,
+            #PublisherId#,
+            GETDATE()
+          )
+      ]]>
+    </update>
+
+    <!-- 删除新闻信息。 -->
+    <delete id="Remove" parameterClass="Guid">
+      <![CDATA[
+        DELETE FROM [News] WHERE [Id]=#value#
+      ]]>
+    </delete>
+
+    <!-- 根据主键获取新闻信息。 -->
+    <select id="GetById" parameterClass="Guid" resultClass="News">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [Category] AS Category,
+          [Title] AS Title,
+          [Content] AS Content,
+          [Attachments] AS Attachments,
+          [Status] AS Status,
+          [BrowseTimes] AS BrowseTimes,
+          [PublisherId] AS PublisherId,
+          [PublishDateTime] AS PublishDateTime
+        FROM [News]
+        WHERE [Id]=#value#
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的新闻信息。 -->
+    <select id="SearchNeies" parameterClass="NewsSO" resultClass="News">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+            [Id] AS Id,
+            [Category] AS Category,
+            [Title] AS Title,
+            [Content] AS Content,
+            [Attachments] AS Attachments,
+            [Status] AS Status,
+            [BrowseTimes] AS BrowseTimes,
+            [PublisherId] AS PublisherId,
+            [PublishDateTime] AS PublishDateTime,
+            ROW_NUMBER() OVER(ORDER BY [Id] DESC) AS RowIndex
+          FROM [News]
+      ]]>
+      <include refid="searchConditions" />
+      <![CDATA[
+        )
+        SELECT * FROM CTE
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select id="SearchNeiesCount" parameterClass="NewsSO" resultClass="int">
+      <![CDATA[
+        SELECT COUNT(*) FROM [News]
+      ]]>
+      <include refid="searchConditions" />
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotNull property="Category">
+            [Category]=#Category#
+          </isNotNull>
+          <isNotNull property="Status" prepend="AND">
+            [Status]=#Status#
+          </isNotNull>
+          <isNotNull property="PublisherId" prepend="AND">
+            [PublisherId]=#PublisherId#
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

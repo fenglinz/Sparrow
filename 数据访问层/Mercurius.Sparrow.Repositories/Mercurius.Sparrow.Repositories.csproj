@@ -216,6 +216,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Core\MSSQL\OperationRecord.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NewsCenter\MSSQL\News.xml" />
+    <EmbeddedResource Include="NewsCenter\MSSQL\NewsComment.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
