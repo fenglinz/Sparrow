@@ -1,0 +1,39 @@
+﻿@model ResponseSet<News>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            OnPagedComplete();
+        });
+
+        @Html.RenderButtonScript("发布",@<text>
+        function @(item.NavigateUrl)() {
+            window.location.href = '@Url.Action("CreateOrUpdate")';
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)() {
+            var id = $('#tbNews > tbody > tr.selected > td:eq(0)').attr('data-id');
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                window.location.href = '@Url.Action("CreateOrUpdate")/'+id;
+            }
+        }
+        </text>)
+
+        function OnPagedComplete() {
+            mercurius.FixedTableHeader('#tbNews', 150);
+        }
+    </script>
+}
+
+<div class="header">新闻管理</div>
+@Html.RenderAccessibleButtons()
+
+<div id="__news">
+    @{
+        Html.RenderPartial("_News");
+    }
+</div>

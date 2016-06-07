@@ -75,13 +75,13 @@ namespace Mercurius.Sparrow.Services.NewsCenter
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回新闻的分页查询结果</returns>
-        public ResponseSet<News> SearchNeies(NewsSO so)
+        public ResponseSet<News> SearchNews(NewsSO so)
         {
             so = so ?? new NewsSO();
 
             return this.InvokePagingService(
-                nameof(SearchNeies),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<News>(NS, "SearchNeies", out totalRecords, so),
+                nameof(SearchNews),
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList<News>(NS, "SearchNews", out totalRecords, so),
                 so);
         }
 

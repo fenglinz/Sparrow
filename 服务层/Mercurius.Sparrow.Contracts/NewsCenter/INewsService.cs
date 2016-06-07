@@ -39,6 +39,6 @@ namespace Mercurius.Sparrow.Contracts.NewsCenter
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回结果</returns>
-        ResponseSet<News> SearchNeies(NewsSO so);
+        ResponseSet<News> SearchNews(NewsSO so);
     }
 }

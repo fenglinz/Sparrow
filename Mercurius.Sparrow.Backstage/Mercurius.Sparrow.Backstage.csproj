@@ -258,6 +258,8 @@
     <Compile Include="Areas\DynamicPage\Models\Dynamic\SearchModel.cs" />
     <Compile Include="Areas\Admin\SignalRHubs\ConfigurationSQLServer.cs" />
     <Compile Include="Areas\Admin\Models\Install\Database.cs" />
+    <Compile Include="Areas\NewsCenter\Controllers\NewsController.cs" />
+    <Compile Include="Areas\NewsCenter\NewsCenterAreaRegistration.cs" />
     <Compile Include="Areas\WebApi\Controllers\RoleController.cs" />
     <Compile Include="Areas\WebApi\Controllers\RouteController.cs" />
     <Compile Include="Areas\WebApi\Controllers\UserController.cs" />
@@ -435,6 +437,11 @@
     <Content Include="Areas\Admin\Views\Role\ViewPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\AllotButtons.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\CreateOrUpdate.cshtml" />
+    <Content Include="Areas\NewsCenter\Views\web.config" />
+    <Content Include="Areas\NewsCenter\Views\_ViewStart.cshtml" />
+    <None Include="Areas\NewsCenter\Views\News\CreateOrUpdate.cshtml" />
+    <None Include="Areas\NewsCenter\Views\News\Index.cshtml" />
+    <Content Include="Areas\NewsCenter\Views\News\_News.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\Bootstrap-FileInput\fileinput.js" />
     <Content Include="Scripts\Bootstrap-FileInput\fileinput.min.js" />
@@ -730,6 +737,8 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\DynamicPage\Views\Shared\" />
+    <Folder Include="Areas\NewsCenter\Models\" />
+    <Folder Include="Areas\NewsCenter\Views\Shared\" />
     <Folder Include="Areas\WebApi\Models\" />
     <Folder Include="Areas\WebApi\Views\Shared\" />
     <Folder Include="Models\" />

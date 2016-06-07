@@ -73,7 +73,7 @@
     </select>
 
     <!-- 分页返回满足查询条件的新闻信息。 -->
-    <select id="SearchNeies" parameterClass="NewsSO" resultClass="News">
+    <select id="SearchNews" parameterClass="NewsSO" resultClass="News">
       <![CDATA[
         WITH CTE AS(
           SELECT
@@ -99,7 +99,7 @@
     </select>
 
     <!-- 返回满足查询条件的记录数。 -->
-    <select id="SearchNeiesCount" parameterClass="NewsSO" resultClass="int">
+    <select id="SearchNewsCount" parameterClass="NewsSO" resultClass="int">
       <![CDATA[
         SELECT COUNT(*) FROM [News]
       ]]>
