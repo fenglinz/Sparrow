@@ -1,0 +1,44 @@
+﻿@model Response<News>
+
+@section Styles
+{
+    <style type="text/css">
+        .news {
+            width: 75%;
+            margin: auto auto;
+            margin-top: 10px;
+        }
+
+            .news .footer {
+                border-top: 1px dotted #c0c0c0;
+                padding-top: 5px;
+                padding-bottom: 25px;
+            }
+    </style>
+}
+
+<div class="news">
+    @if (Model.Data != null)
+    {
+        <h2>@Model.Data.Title</h2>
+        <div>
+            @Html.Raw(Model.Data.Content)
+        </div>
+        <div class="footer">
+            <span class="pull-left"><b>发布者：</b>@Model.Data.PublisherId</span>
+            <span class="pull-right"><b>发布时间：</b>@Model.Data.PublishDateTime</span>
+        </div>
+    }
+    else if (Model.IsSuccess)
+    {
+        <div class="alert alert-warning">
+            <h3>新闻不存在！</h3>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <h3>@Model.ErrorMessage</h3>
+        </div>
+    }
+</div>

@@ -7,6 +7,7 @@ using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.NewsCenter;
 using Mercurius.Sparrow.Entities.NewsCenter;
 using Mercurius.Sparrow.Entities.NewsCenter.SO;
+using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
 {
@@ -24,6 +25,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
 
         #endregion
 
+        /// <summary>
+        /// 显示新闻列表。
+        /// </summary>
+        /// <param name="so">查询条件</param>
+        /// <returns>显示界面</returns>
         public ActionResult Index(NewsSO so)
         {
             this.ViewBag.SO = so;
@@ -32,6 +38,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// 显示添加或编辑新闻信息界面。
+        /// </summary>
+        /// <param name="id">新闻编号</param>
+        /// <returns>显示界面</returns>
         public ActionResult CreateOrUpdate(Guid? id = null)
         {
             if (id.HasValue)
@@ -44,6 +55,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 保存新闻信息。
+        /// </summary>
+        /// <param name="news">新闻信息</param>
+        /// <returns>跳转到首页</returns>
         [HttpPost]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
@@ -54,6 +70,19 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
             var rsp = this.NewsService.CreateOrUpdate(news);
 
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// 显示预览。
+        /// </summary>
+        /// <param name="id">新闻编号</param>
+        /// <returns>预览界面</returns>
+        [IgnorePermissionValid]
+        public ActionResult ShowPreview(Guid id)
+        {
+            var rsp = this.NewsService.GetNewsById(id);
+
+            return View(rsp);
         }
     }
 }

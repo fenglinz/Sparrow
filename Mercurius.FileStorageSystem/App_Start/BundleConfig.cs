@@ -59,7 +59,7 @@ namespace Mercurius.FileStorageSystem
                 "~/Content/Common.css",
                 "~/Content/LogOn.css"));
 
-            bundles.Add(new StyleBundle("~/fileinput/css").Include(
+            bundles.Add(new StyleBundle("~/Content/fileinput/css").Include(
                 "~/Content/bootstrap-fileinput/css/fileinput.css"));
 
             BundleTable.EnableOptimizations = false;

@@ -442,6 +442,7 @@
     <None Include="Areas\NewsCenter\Views\News\CreateOrUpdate.cshtml" />
     <None Include="Areas\NewsCenter\Views\News\Index.cshtml" />
     <Content Include="Areas\NewsCenter\Views\News\_News.cshtml" />
+    <None Include="Areas\NewsCenter\Views\News\ShowPreview.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\Bootstrap-FileInput\fileinput.js" />
     <Content Include="Scripts\Bootstrap-FileInput\fileinput.min.js" />

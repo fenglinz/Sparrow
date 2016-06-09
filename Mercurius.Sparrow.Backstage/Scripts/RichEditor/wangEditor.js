@@ -239,7 +239,6 @@ _e(function (E, $) {
             }
         });
     };
-
 });
 // selection range API
 _e(function (E, $) {

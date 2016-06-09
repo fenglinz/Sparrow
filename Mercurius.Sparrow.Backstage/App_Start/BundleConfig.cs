@@ -63,7 +63,7 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/RichEditor/highlight.pack.js"));
 
             // 文件上传
-            bundles.Add(new ScriptBundle("~/bundles/upload").Include(
+            bundles.Add(new ScriptBundle("~/bundles/fileinput").Include(
                 "~/Scripts/Bootstrap-FileInput/fileinput.js",
                 "~/Scripts/Bootstrap-FileInput/fileinput_locale_zh.js"));
 
@@ -77,7 +77,6 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Content/layer.css",
                 "~/Content/layer.moon.css",
                 "~/Content/Common.css"));
-
 
             // 登录页面的CSS
             bundles.Add(new StyleBundle("~/Content/logon/css").Include(
@@ -114,7 +113,7 @@ namespace Mercurius.Sparrow.Backstage
             bundles.Add(new StyleBundle("~/Content/tree/css").Include("~/Content/Tree/jquery.treeview.css"));
 
             // 文件上传css
-            bundles.Add(new StyleBundle("~/Content/upload/css").Include(
+            bundles.Add(new StyleBundle("~/Content/fileinput/css").Include(
                 "~/Content/bootstrap-fileinput/css/fileinput.css"));
 
             bundles.Add(new StyleBundle("~/Content/RichEditor/css").Include(
