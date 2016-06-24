@@ -17,7 +17,10 @@
 
             editor.create();
 
-            $('#file').fileinput();
+            $('#file').fileinput({
+                showPreview: false,
+                browseClass: 'btn btn-default'
+            });
 
             $('#frmNews').on('submit', function () {
                 $('#Content').val($('#richBox').html());
@@ -29,7 +32,7 @@
 }
 
 <div class="header">添加或编辑新闻</div>
-@using (Html.BeginForm("CreateOrUpdate", "News", FormMethod.Post, new { @id = "frmNews", @class = "form-horizontal", @autocomplete = "off", @style = "margin-top: 10px;" }))
+@using (Html.BeginForm("CreateOrUpdate", "News", FormMethod.Post, new { @id = "frmNews", @enctype = "multipart/form-data", @class = "form-horizontal", @autocomplete = "off", @style = "margin-top: 10px;" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
@@ -55,13 +58,18 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Attachments, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-8">
-            <input type="file" id="file" name="file" multiple class="form-control" />
+        <div class="col-sm-6">
+            <input id="file" name="file" type="file" class="form-control"/>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary">
+                <i class="glyphicon glyphicon-plus-sign"></i> 追加
+            </button>
         </div>
     </div>
     <div class="form-group">
         <span class="col-sm-2"></span>
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <button class="btn btn-primary">
                 <i class="glyphicon glyphicon-floppy-saved"></i> 保存
             </button>

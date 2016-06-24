@@ -84,5 +84,19 @@ namespace Mercurius.Sparrow.Entities.NewsCenter
         public virtual DateTime? PublishDateTime { get; set; }
 
         #endregion
+
+        #region 业务属性
+
+        /// <summary>
+        /// 附件名称。
+        /// </summary>
+        public string AttachmentNames { get; set; }
+
+        /// <summary>
+        /// 发布者名称。
+        /// </summary>
+        public string PublisherName { get; set; }
+
+        #endregion
     }
 }

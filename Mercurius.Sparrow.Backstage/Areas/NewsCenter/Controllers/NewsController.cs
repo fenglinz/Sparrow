@@ -8,6 +8,7 @@ using Mercurius.Sparrow.Contracts.NewsCenter;
 using Mercurius.Sparrow.Entities.NewsCenter;
 using Mercurius.Sparrow.Entities.NewsCenter.SO;
 using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Sparrow.Services.Support;
 
 namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
 {
@@ -67,6 +68,17 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         {
             news.PublisherId = WebHelper.GetLogOnUserId();
 
+            if (!this.Request.Files.IsEmpty())
+            {
+                var fileUpload = new FileStorageClient();
+                var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request.Files);
+
+                if (rspFile.IsSuccess)
+                {
+                    news.Attachments = rspFile.Datas.Contract();
+                }
+            }
+
             var rsp = this.NewsService.CreateOrUpdate(news);
 
             return RedirectToAction("Index");
@@ -77,7 +89,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         /// </summary>
         /// <param name="id">新闻编号</param>
         /// <returns>预览界面</returns>
-        [IgnorePermissionValid]
+        [AllowAnonymous]
         public ActionResult ShowPreview(Guid id)
         {
             var rsp = this.NewsService.GetNewsById(id);

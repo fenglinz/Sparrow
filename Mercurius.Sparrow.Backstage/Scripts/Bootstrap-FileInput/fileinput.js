@@ -2595,7 +2595,7 @@
         args.shift();
         this.each(function () {
             var self = $(this), data = self.data('fileinput'), options = typeof option === 'object' && option,
-                lang = options.language || self.data('language') || 'en', loc = {}, opts;
+                lang = options.language || self.data('language') || 'zh', loc = {}, opts;
 
             if (!data) {
                 if (lang !== 'en' && !isEmpty($.fn.fileinputLocales[lang])) {
@@ -2664,7 +2664,7 @@
         browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>&nbsp;',
         browseClass: 'btn btn-primary',
         removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
-        removeClass: 'btn btn-default',
+        removeClass: 'btn btn-danger',
         cancelIcon: '<i class="glyphicon glyphicon-ban-circle"></i>',
         cancelClass: 'btn btn-default',
         uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',

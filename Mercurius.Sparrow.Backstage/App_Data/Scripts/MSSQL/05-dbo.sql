@@ -337,6 +337,215 @@ INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [View
 GO
 INSERT  INTO [dbo].[Globalization]( [Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark] )VALUES( N'a3a03e02-db48-4139-aeb1-fa2503278714', NULL, NULL, NULL, NULL, N'save', N'保存', N'保存' );
 GO
+CREATE TABLE [dbo].[News] (
+  [Id] uniqueidentifier NOT NULL ,
+  [Category] nvarchar(250) NULL ,
+  [Title] nvarchar(500) NULL ,
+  [Content] nvarchar(MAX) NULL ,
+  [Attachments] nvarchar(4000) NULL ,
+  [Status] int NULL ,
+  [BrowseTimes] int NULL ,
+  [PublisherId] nvarchar(36) NULL ,
+  [PublishDateTime] datetime NULL 
+)
+GO
+EXEC sp_addextendedproperty
+    @name = N'MS_Description', 
+    @value = N'新闻', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'编号', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News', 
+    @level2type = 'COLUMN', 
+    @level2name = N'Id'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'分类', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News', 
+    @level2type = 'COLUMN', 
+    @level2name = N'Category'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'标题', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News', 
+    @level2type = 'COLUMN', 
+    @level2name = N'Title'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'内容', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News', 
+    @level2type = 'COLUMN', 
+    @level2name = N'Content'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'附件', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News', 
+    @level2type = 'COLUMN', 
+    @level2name = N'Attachments'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'状态(1：待审核，2：已发布，4：已删除)', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News', 
+    @level2type = 'COLUMN', 
+    @level2name = N'Status'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'浏览次数', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News', 
+    @level2type = 'COLUMN', 
+    @level2name = N'BrowseTimes'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'发布者编号', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News', 
+    @level2type = 'COLUMN', 
+    @level2name = N'PublisherId'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'发布时间', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'News', 
+    @level2type = 'COLUMN', 
+    @level2name = N'PublishDateTime'
+GO
+CREATE TABLE [dbo].[NewsComment] (
+  [Id] uniqueidentifier NOT NULL ,
+  [NewsId] uniqueidentifier NOT NULL ,
+  [ReplyCommentId] uniqueidentifier NULL ,
+  [Content] nvarchar(2000) NULL ,
+  [Status] int NULL ,
+  [LikePoints] int NULL ,
+  [CommentUserId] nvarchar(36) NULL ,
+  [CommentDateTime] datetime NULL 
+)
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'新闻评论', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'NewsComment'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'编号', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'NewsComment', 
+    @level2type = 'COLUMN', 
+    @level2name = N'Id'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description',
+    @value = N'新闻编号', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'NewsComment', 
+    @level2type = 'COLUMN', 
+    @level2name = N'NewsId'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'评论编号(回复评论)', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'NewsComment', 
+    @level2type = 'COLUMN', 
+    @level2name = N'ReplyCommentId'
+GO
+EXEC sp_addextendedproperty
+    @name = N'MS_Description', 
+    @value = N'内容', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'NewsComment', 
+    @level2type = 'COLUMN', 
+    @level2name = N'Content'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'状态(1：代审核，2：审核通过、4：审核失败)', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'NewsComment', 
+    @level2type = 'COLUMN', 
+    @level2name = N'Status'
+GO
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description', 
+    @value = N'点赞次数', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'NewsComment', 
+    @level2type = 'COLUMN', 
+    @level2name = N'LikePoints'
+GO
+EXEC sp_addextendedproperty
+    @name = N'MS_Description', 
+    @value = N'评论者编号', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'NewsComment', 
+    @level2type = 'COLUMN', 
+    @level2name = N'CommentUserId'
+GO
+EXEC sp_addextendedproperty
+    @name = N'MS_Description',
+    @value = N'评论时间', 
+    @level0type = 'SCHEMA', 
+    @level0name = N'dbo', 
+    @level1type = 'TABLE', 
+    @level1name = N'NewsComment', 
+    @level2type = 'COLUMN', 
+    @level2name = N'CommentDateTime'
+GO
 CREATE TABLE [dbo].[OperationRecord]
 (
   [Id] INT NOT NULL IDENTITY(1, 1) ,

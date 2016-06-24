@@ -2595,7 +2595,7 @@
         args.shift();
         this.each(function () {
             var self = $(this), data = self.data('fileinput'), options = typeof option === 'object' && option,
-                lang = options.language || self.data('language') || 'en', loc = {}, opts;
+                lang = options.language || self.data('language') || 'zh', loc = {}, opts;
 
             if (!data) {
                 if (lang !== 'en' && !isEmpty($.fn.fileinputLocales[lang])) {

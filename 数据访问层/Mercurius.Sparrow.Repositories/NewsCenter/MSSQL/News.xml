@@ -58,17 +58,30 @@
     <select id="GetById" parameterClass="Guid" resultClass="News">
       <![CDATA[
         SELECT TOP 1 
-          [Id] AS Id,
-          [Category] AS Category,
-          [Title] AS Title,
-          [Content] AS Content,
-          [Attachments] AS Attachments,
-          [Status] AS Status,
-          [BrowseTimes] AS BrowseTimes,
-          [PublisherId] AS PublisherId,
-          [PublishDateTime] AS PublishDateTime
-        FROM [News]
-        WHERE [Id]=#value#
+          n.[Id] AS Id,
+          n.[Category] AS Category,
+          n.[Title] AS Title,
+          n.[Content] AS Content,
+          n.[Attachments] AS Attachments,
+          p.AttachmentNames,
+          n.[Status] AS Status,
+          n.[BrowseTimes] AS BrowseTimes,
+          n.[PublisherId] AS PublisherId,
+          u.[Name] AS PublisherName,
+          n.[PublishDateTime] AS PublishDateTime
+        FROM [News] n
+        LEFT JOIN [RBAC].[User] u ON n.PublisherId=u.Id
+        OUTER APPLY(
+          SELECT AttachmentNames=Replace(
+            Replace(
+            (
+	            SELECT FileName FROM FileStorage 
+	            WHERE SaveAsPath IN(SELECT * FROM Split(n.Attachments,','))
+	            FOR XML PATH('')
+            ),'<FileName>','')
+          ,'</FileName>',',')
+        ) p
+        WHERE n.[Id]=#value#
       ]]>
     </select>
 
@@ -80,7 +93,7 @@
             [Id] AS Id,
             [Category] AS Category,
             [Title] AS Title,
-            [Content] AS Content,
+            SUBSTRING([Content],0,50) AS Content,
             [Attachments] AS Attachments,
             [Status] AS Status,
             [BrowseTimes] AS BrowseTimes,
@@ -92,7 +105,11 @@
       <include refid="searchConditions" />
       <![CDATA[
         )
-        SELECT * FROM CTE
+        SELECT 
+          cte.*,
+          u.Name AS PublisherName
+        FROM CTE
+        LEFT JOIN [RBAC].[User] u ON CTE.PublisherId=u.Id
         WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
         ORDER BY RowIndex ASC
       ]]>

@@ -6,7 +6,6 @@
             <td style="width: 60px;" class="text-center">编号</td>
             <td>分类</td>
             <td>标题</td>
-            <td>简介</td>
             <td>发布人</td>
             <td>发布时间</td>
         </tr>
@@ -20,8 +19,7 @@
                     <td data-id="@item.Id" class="text-center">@item.RowIndex</td>
                     <td>@item.Category</td>
                     <td>@item.Title</td>
-                    <td>@item.Content</td>
-                    <td>@item.PublisherId</td>
+                    <td>@item.PublisherName</td>
                     <td>@item.PublishDateTime</td>
                 </tr>
             }
@@ -29,13 +27,13 @@
         else if (Model.HasError())
         {
             <tr>
-                <td colspan="6" class="text-danger">@Model.ErrorMessage</td>
+                <td colspan="5" class="text-danger">@Model.ErrorMessage</td>
             </tr>
         }
         else
         {
             <tr>
-                <td colspan="6" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+                <td colspan="5" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
             </tr>
         }
     </tbody>
