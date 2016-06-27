@@ -40,7 +40,7 @@ namespace Mercurius.FileStorageSystem
 
             bundles.Add(new ScriptBundle("~/bundles/fileinput").Include(
                 "~/Scripts/bootstrap-fileinput/fileinput.js",
-                "~/Scripts/bootstrap-fileinput/fileinput_locale_zh.js"));
+                "~/Scripts/bootstrap-fileinput/locales/zh.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",

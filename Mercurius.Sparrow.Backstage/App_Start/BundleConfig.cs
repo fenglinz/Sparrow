@@ -65,7 +65,7 @@ namespace Mercurius.Sparrow.Backstage
             // 文件上传
             bundles.Add(new ScriptBundle("~/bundles/fileinput").Include(
                 "~/Scripts/Bootstrap-FileInput/fileinput.js",
-                "~/Scripts/Bootstrap-FileInput/fileinput_locale_zh.js"));
+                "~/Scripts/Bootstrap-FileInput/locales/zh.js"));
 
             // 公共CSS
             bundles.Add(new StyleBundle("~/Content/css").Include(
