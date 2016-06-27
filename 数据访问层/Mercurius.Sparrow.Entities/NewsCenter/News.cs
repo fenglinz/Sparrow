@@ -93,6 +93,11 @@ namespace Mercurius.Sparrow.Entities.NewsCenter
         public string AttachmentNames { get; set; }
 
         /// <summary>
+        /// 附件描述信息。
+        /// </summary>
+        public string AttachmentDescriptions { get; set; }
+
+        /// <summary>
         /// 发布者名称。
         /// </summary>
         public string PublisherName { get; set; }

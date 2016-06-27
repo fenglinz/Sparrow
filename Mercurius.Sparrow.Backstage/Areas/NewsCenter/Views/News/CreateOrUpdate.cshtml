@@ -3,13 +3,32 @@
 @section Styles
 {
     @Styles.Render("~/Content/RichEditor/css", "~/Content/fileinput/css")
+    <style type="text/css">
+        .form-group .row {
+            margin-left: -2px;
+        }
+
+        .description {
+            top: -4px;
+            position: relative;
+        }
+
+            .description .form-control {
+                padding-top: 10px;
+                border-top-left-radius: 0;
+                border-top-left-radius: 0;
+            }
+    </style>
 }
 
 @section Scripts
 {
     @Scripts.Render("~/bundles/validate", "~/bundles/RichEditor", "~/bundles/fileinput")
+    <script type="text/javascript" src="~/Scripts/handlebars.min.js"></script>
 
     <script type="text/javascript">
+        var index = 1;
+
         $(function () {
             var editor = new wangEditor('richBox');
 
@@ -17,17 +36,57 @@
 
             editor.create();
 
-            $('#file').fileinput({
-                showPreview: false,
-                browseClass: 'btn btn-default'
-            });
-
             $('#frmNews').on('submit', function () {
                 $('#Content').val($('#richBox').html());
 
                 return JudgeValidate('#frmNews');
             });
         });
+
+        function OnAppendAttachment(element) {
+            var source = $('#attachmentTemplate').html();
+            var template = Handlebars.compile(source);
+
+            $(element).parent().parent().parent().after(template({ index: index++ }));
+
+            OnResetAttachmentsIndex();
+        }
+
+        function OnRemoveAttachment(element) {
+            $(element).parent().parent().parent().remove();
+
+            OnResetAttachmentsIndex();
+        }
+
+        function OnResetAttachmentsIndex() {
+            $('label.attachment').each(function (index) {
+                $(this).text('附件' + (index + 1));
+            });
+        }
+    </script>
+    <script id="attachmentTemplate" type="text/x-handlebars-template">
+        <div class="form-group">
+            <div class="row">
+                <label class="col-sm-2 control-label attachment">附件{{index}}</label>
+                <div class="col-sm-8">
+                    <input id="file{{index}}" name="file" type="file" class="form-control attachment" />
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="OnRemoveAttachment(this)">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row description">
+                <label class="col-sm-2 control-label text-danger">描述</label>
+                <div class="col-sm-8">
+                    <textarea name="AttachmentDescriptions[{{index-1}}]" class="form-control" rows="2"></textarea>
+                </div>
+            </div>
+        </div>
     </script>
 }
 
@@ -37,6 +96,8 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.Content)
+
+    var attachments = Model.Attachments;
 
     <div class="form-group">
         @Html.LabelFor(m => m.Category, new { @class = "col-sm-2 control-label" })
@@ -56,17 +117,87 @@
             <div id="richBox" style="width: 100%; height: 340px;">@Html.Raw(Model != null ? Model.Content : "")</div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Attachments, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-6">
-            <input id="file" name="file" type="file" class="form-control"/>
+    if (string.IsNullOrWhiteSpace(attachments))
+    {
+        <div class="form-group">
+            <div class="row">
+                @Html.LabelFor(m => m.Attachments, "附件1", new { @class = "col-sm-2 control-label attachment" })
+                <div class="col-sm-8">
+                    <input id="file1" name="file" type="file" class="form-control attachment" />
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row description">
+                <label class="col-sm-2 control-label text-danger">描述</label>
+                <div class="col-sm-8">
+                    <textarea name="AttachmentDescriptions[0]" class="form-control" rows="2"></textarea>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('#file1').fileinput({
+                        showPreview: false,
+                        browseClass: 'btn btn-default'
+                    });
+                });
+            </script>
         </div>
-        <div class="col-sm-2">
-            <button type="button" class="btn btn-primary">
-                <i class="glyphicon glyphicon-plus-sign"></i> 追加
-            </button>
-        </div>
-    </div>
+    }
+    else
+    {
+        var index = 1;
+        var attachmentItems = attachments.Split(',');
+        var attachmentNames = Model.AttachmentNames.Split(',');
+
+        foreach (var item in attachmentItems)
+        {
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(m => m.Attachments, "附件" + index, new { @class = "col-sm-2 control-label attachment" })
+                    <div class="col-sm-8">
+                        <input id="file@(index)" name="file" type="file" data-caption="@item" class="form-control attachment" />
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </button>
+                        @if (index > 1)
+                        {
+                            <button type="button" class="btn btn-danger" onclick="OnAppendAttachment(this)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        }
+                    </div>
+                </div>
+                <div class="row description">
+                    <label class="col-sm-2 control-label text-danger">描述</label>
+                    <div class="col-sm-8">
+                        <textarea name="AttachmentDescriptions[@(index-1)]" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('#file@(index)').fileinput({
+                        showPreview: false,
+                        browseClass: 'btn btn-default',
+                        initialCaption: '@attachmentNames[index-1]',
+                        initialPreview: '@item'
+                    });
+                });
+            </script>
+
+            index++;
+        }
+
+        <script type="text/javascript">
+            index=@index;
+        </script>
+    }
     <div class="form-group">
         <span class="col-sm-2"></span>
         <div class="col-sm-8">
