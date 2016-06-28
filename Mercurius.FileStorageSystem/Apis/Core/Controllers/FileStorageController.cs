@@ -73,21 +73,26 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
             var result = new ResponseSet<string> { Datas = files };
             var provider = new CustomMultipartFormDataStreamProvider(GetSavedDirectory());
             var bodyParts = await this.Request.Content.ReadAsMultipartAsync(provider);
+            var filesDescription = bodyParts.FormData["UploadFilesDescription"];
 
             if (bodyParts.FormData.HasKeys() && string.IsNullOrWhiteSpace(bodyParts.FormData["ReplaceIfExistFiles"]))
             {
-                var removeFiles = bodyParts.FormData["ReplacedFile"].Split(',').ToList();
+                var removeFiles = bodyParts.FormData["ReplacedFiles"].Split(',').ToList();
 
                 this.Remove(removeFiles);
             }
 
+            var index = 0;
+            var desItems = filesDescription?.ToString()?.Split(',');
+
             foreach (var item in bodyParts.FileData)
             {
-                var fileStorage = new Sparrow.Entities.Core.FileStorage
+                var fileStorage = new FileStorage
                 {
                     FileName = item.Headers.ContentDisposition.FileName.Replace("\"", ""),
                     FileSize = item.Headers.ContentDisposition.Size,
                     ContentType = item.Headers.ContentType.MediaType,
+                    Description = desItems?[index++],
                     SaveAsPath = this.ConvertToWebSitePath(item.LocalFileName),
                     UploadUserId = Convert.ToString(user.Id)
                 };
@@ -150,7 +155,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                     await stream.WriteAsync(buffers, 0, buffers.Length);
                 }
 
-                var fileStorage = new Sparrow.Entities.Core.FileStorage
+                var fileStorage = new FileStorage
                 {
                     FileName = item.FileName,
                     FileSize = buffers.Length,
@@ -183,7 +188,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         /// <param name="filePaths">文件路径</param>
         [HttpPost]
         [Route("api/FileStorage/Remove")]
-        public Response Remove(IList<string> filePaths)
+        public Response Remove(IEnumerable<string> filePaths)
         {
             if (filePaths.IsEmpty())
             {

@@ -83,7 +83,7 @@
             <div class="row description">
                 <label class="col-sm-2 control-label text-danger">描述</label>
                 <div class="col-sm-8">
-                    <textarea name="AttachmentDescriptions[{{index-1}}]" class="form-control" rows="2"></textarea>
+                    <textarea name="UploadFilesDescription" class="form-control" rows="2"></textarea>
                 </div>
             </div>
         </div>
@@ -96,6 +96,8 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.Content)
+    @Html.Hidden("ReplacedIfExists", 1)
+    @Html.Hidden("ReplacedFiles", Model.Attachments)
 
     var attachments = Model.Attachments;
 
@@ -134,7 +136,7 @@
             <div class="row description">
                 <label class="col-sm-2 control-label text-danger">描述</label>
                 <div class="col-sm-8">
-                    <textarea name="AttachmentDescriptions[0]" class="form-control" rows="2"></textarea>
+                    <textarea name="UploadFilesDescription" class="form-control" rows="2"></textarea>
                 </div>
             </div>
             <script type="text/javascript">
@@ -152,6 +154,7 @@
         var index = 1;
         var attachmentItems = attachments.Split(',');
         var attachmentNames = Model.AttachmentNames.Split(',');
+        var attachmentDescriptions = Model.AttachmentDescriptions.Split(',');
 
         foreach (var item in attachmentItems)
         {
@@ -176,7 +179,7 @@
                 <div class="row description">
                     <label class="col-sm-2 control-label text-danger">描述</label>
                     <div class="col-sm-8">
-                        <textarea name="AttachmentDescriptions[@(index-1)]" class="form-control" rows="2"></textarea>
+                        <textarea name="UploadFilesDescription" class="form-control" rows="2">@attachmentDescriptions[index-1]</textarea>
                     </div>
                 </div>
             </div>

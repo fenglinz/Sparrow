@@ -71,7 +71,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
             if (!this.Request.Files.IsEmpty())
             {
                 var fileUpload = new FileStorageClient();
-                var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request.Files);
+                var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request);
 
                 if (rspFile.IsSuccess)
                 {

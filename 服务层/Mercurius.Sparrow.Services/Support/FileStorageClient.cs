@@ -58,35 +58,14 @@ namespace Mercurius.Sparrow.Services.Support
         /// 上传文件。
         /// </summary>
         /// <param name="account">上传账号</param>
-        /// <param name="postedFile">上传文件流</param>
-        /// <param name="replacedFile">替换的文件</param>
+        /// <param name="request">Http请求对象</param>
         /// <returns>上传后的文件地址</returns>
-        public override Response<string> Upload(string account, HttpPostedFileBase postedFile, string replacedFile = null)
+        public override ResponseSet<string> Upload(string account, HttpRequestBase request)
         {
-            if (postedFile == null)
-            {
-                return new Response<string> { ErrorMessage = FileNotExists };
-            }
+            var postedFiles = request.Files;
+            var replacedFiles = request.Params[ReplacedFilesHttpKey];
+            var uploadFilesDescription = request.Params[UploadFilesDescriptionHttpKey];
 
-            var datas = new NameValueCollection();
-
-            if (!string.IsNullOrWhiteSpace(replacedFile))
-            {
-                datas.Add("ReplacedFile", replacedFile);
-            }
-
-            return WriteUploadStream(account, postedFile.FileName, postedFile.ContentType, postedFile.InputStream, datas);
-        }
-
-        /// <summary>
-        /// 批量上传文件。
-        /// </summary>
-        /// <param name="account">上传账号</param>
-        /// <param name="postedFiles">上传文件流集合</param>
-        /// <param name="replacedFiles">替换的文件</param>
-        /// <returns>上传后的文件地址集合</returns>
-        public override ResponseSet<string> Upload(string account, HttpFileCollectionBase postedFiles, params string[] replacedFiles)
-        {
             if (postedFiles.IsEmpty())
             {
                 return new ResponseSet<string> { ErrorMessage = FileNotExists };
@@ -96,7 +75,12 @@ namespace Mercurius.Sparrow.Services.Support
 
             if (!replacedFiles.IsEmpty())
             {
-                datas.Add("ReplacedFile", replacedFiles.Contract());
+                datas.Add(ReplacedFilesHttpKey, replacedFiles);
+            }
+
+            if (!uploadFilesDescription.IsEmpty())
+            {
+                datas.Add(UploadFilesDescriptionHttpKey, uploadFilesDescription);
             }
 
             return WriteUploadStream(account, postedFiles, datas);

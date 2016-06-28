@@ -51,9 +51,9 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             }
 
             var client = new FileStorageClient();
-            var rsp = client.Upload(WebHelper.GetLogOnAccount(), this.Request.Files[0]);
+            var rsp = client.Upload(WebHelper.GetLogOnAccount(), this.Request);
 
-            return Content(string.IsNullOrWhiteSpace(rsp.Data) ? FileUploadError + rsp.ErrorMessage : Url.GetFileUrl(rsp.Data, CompressMode.Medium));
+            return Content(string.IsNullOrWhiteSpace(rsp.Datas.FirstOrDefault()) ? FileUploadError + rsp.ErrorMessage : Url.GetFileUrl(rsp.Datas.FirstOrDefault(), CompressMode.Medium));
         }
 
         /// <summary>

@@ -19,6 +19,20 @@ namespace Mercurius.Sparrow.Services.Support
     /// </summary>
     public abstract class AbstractFileStorageClient
     {
+        #region 常量
+
+        /// <summary>
+        /// 替换文件列表的Http键。
+        /// </summary>
+        public const string ReplacedFilesHttpKey = "ReplacedFiles";
+
+        /// <summary>
+        /// 文件描述的Http键。
+        /// </summary>
+        public const string UploadFilesDescriptionHttpKey = "UploadFilesDescription";
+
+        #endregion
+
         #region 静态变量
 
         /// <summary>
@@ -99,19 +113,9 @@ namespace Mercurius.Sparrow.Services.Support
         /// 上传文件。
         /// </summary>
         /// <param name="account">上传账号</param>
-        /// <param name="postedFile">上传文件流</param>
-        /// <param name="replacedFile">替换的文件</param>
+        /// <param name="request">Http请求对象</param>
         /// <returns>上传后的文件地址</returns>
-        public abstract Response<string> Upload(string account, HttpPostedFileBase postedFile, string replacedFile = null);
-
-        /// <summary>
-        /// 批量上传文件。
-        /// </summary>
-        /// <param name="account">上传账号</param>
-        /// <param name="postedFiles">上传文件流集合</param>
-        /// <param name="replacedFiles">替换的文件集合</param>
-        /// <returns>上传后的文件地址集合</returns>
-        public abstract ResponseSet<string> Upload(string account, HttpFileCollectionBase postedFiles, params string[] replacedFiles);
+        public abstract ResponseSet<string> Upload(string account, HttpRequestBase request);
 
         /// <summary>
         /// 上传文件(基于base64字符串)
