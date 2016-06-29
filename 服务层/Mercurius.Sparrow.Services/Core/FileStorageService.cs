@@ -36,18 +36,10 @@ namespace Mercurius.Sparrow.Services.Core
                 nameof(CreateOrUpdate),
                 () =>
                 {
-                    if (string.IsNullOrWhiteSpace(fileStorage.SaveAsPath))
-                    {
-                        this.Persistence.Update(NS, "UpdateDescription", fileStorage);
-                    }
-                    else
-                    {
-                       this.Persistence.Update(NS, "CreateOrUpdate", fileStorage); 
-                    }
+                    this.Persistence.Update(NS, string.IsNullOrWhiteSpace(fileStorage.FileName) ? "UpdateDescription" : "CreateOrUpdate", fileStorage);
 
                     this.ClearCache<FileStorage>();
-                },
-                fileStorage);
+                }, fileStorage);
         }
 
         /// <summary>

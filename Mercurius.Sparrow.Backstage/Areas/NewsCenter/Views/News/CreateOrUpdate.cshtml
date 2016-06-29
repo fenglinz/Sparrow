@@ -14,7 +14,7 @@
         }
 
             .description .form-control {
-                padding-top: 10px;
+                padding-top: 8px;
                 border-top-left-radius: 0;
                 border-top-left-radius: 0;
             }
@@ -47,7 +47,13 @@
             var source = $('#attachmentTemplate').html();
             var template = Handlebars.compile(source);
 
-            $(element).parent().parent().parent().after(template({ index: index++ }));
+            index++;
+            $(element).parent().parent().parent().after(template({ index: index }));
+
+            $('#file'+index).fileinput({
+                showPreview: false,
+                browseClass: 'btn btn-default'
+            });
 
             OnResetAttachmentsIndex();
         }
@@ -83,7 +89,7 @@
             <div class="row description">
                 <label class="col-sm-2 control-label text-danger">描述</label>
                 <div class="col-sm-8">
-                    <textarea name="UploadFilesDescription" class="form-control" rows="2"></textarea>
+                    <input type="text" name="UploadFilesDescription" class="form-control" />
                 </div>
             </div>
         </div>
@@ -96,7 +102,6 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.Content)
-    @Html.Hidden("ReplaceIfExistFiles", 1)
     @Html.Hidden("ReplacedFiles", Model.Attachments)
 
     var attachments = Model.Attachments;
@@ -136,7 +141,7 @@
             <div class="row description">
                 <label class="col-sm-2 control-label text-danger">描述</label>
                 <div class="col-sm-8">
-                    <textarea name="UploadFilesDescription" class="form-control" rows="2"></textarea>
+                    <input type="text" name="UploadFilesDescription" class="form-control" />
                 </div>
             </div>
             <script type="text/javascript">
@@ -153,8 +158,8 @@
     {
         var index = 1;
         var attachmentItems = attachments.Split(',');
-        var attachmentNames = Model.AttachmentNames.Split(',');
-        var attachmentDescriptions = Model.AttachmentDescriptions.Split(',');
+        var attachmentNames = string.IsNullOrWhiteSpace(Model.AttachmentNames) ? null : Model.AttachmentNames.Split(',');
+        var attachmentDescriptions = string.IsNullOrWhiteSpace(Model.AttachmentDescriptions) ? null : Model.AttachmentDescriptions.Split(',');
 
         foreach (var item in attachmentItems)
         {
@@ -179,7 +184,7 @@
                 <div class="row description">
                     <label class="col-sm-2 control-label text-danger">描述</label>
                     <div class="col-sm-8">
-                        <textarea name="UploadFilesDescription" class="form-control" rows="2">@attachmentDescriptions[index-1]</textarea>
+                        <input type="text" name="UploadFilesDescription" value="@(attachmentDescriptions == null ? "" : attachmentDescriptions[index - 1])" class="form-control" />
                     </div>
                 </div>
             </div>
@@ -188,7 +193,7 @@
                     $('#file@(index)').fileinput({
                         showPreview: false,
                         browseClass: 'btn btn-default',
-                        initialCaption: '@attachmentNames[index-1]',
+                        initialCaption: '@(attachmentNames == null ? "": attachmentNames[index-1])',
                         initialPreview: '@item'
                     });
                 });

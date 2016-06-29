@@ -73,30 +73,57 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
             var result = new ResponseSet<string> { Datas = files };
             var provider = new CustomMultipartFormDataStreamProvider(GetSavedDirectory());
             var bodyParts = await this.Request.Content.ReadAsMultipartAsync(provider);
+
+            var localNames = new List<string>();
+            var postedFiles = bodyParts.FileData;
+            var replacedFiles = bodyParts.FormData["ReplacedFiles"];
             var filesDescription = bodyParts.FormData["UploadFilesDescription"];
 
-            if (bodyParts.FormData.HasKeys() && !string.IsNullOrWhiteSpace(bodyParts.FormData["ReplaceIfExistFiles"])
-                && !string.IsNullOrWhiteSpace(bodyParts.FormData["ReplacedFiles"]))
+            if (!string.IsNullOrWhiteSpace(replacedFiles))
             {
-                var removeFiles = bodyParts.FormData["ReplacedFiles"].Split(',').ToList();
+                var removeFiles = replacedFiles.Split(',').ToList();
+
+                for (var i = 0; i < postedFiles.Count; i++)
+                {
+                    if (postedFiles[i].Headers.ContentDisposition.FileName == "\"\"")
+                    {
+                        localNames.Add(removeFiles[i]);
+                        removeFiles.RemoveAt(i);
+                        
+                        File.Delete(postedFiles[i].LocalFileName);
+                    }
+                    else
+                    {
+                        localNames.Add(this.ConvertToWebSitePath(postedFiles[i].LocalFileName));
+                    }
+                }
 
                 this.Remove(removeFiles);
             }
+            else
+            {
+                foreach (var item in postedFiles)
+                {
+                    localNames.Add(this.ConvertToWebSitePath(item.LocalFileName));
+                }
+            }
 
             var index = 0;
-            var desItems = filesDescription?.ToString()?.Split(',');
+            var desItems = filesDescription?.Split(',');
 
-            foreach (var item in bodyParts.FileData)
+            foreach (var item in postedFiles)
             {
                 var fileStorage = new FileStorage
                 {
                     FileName = item.Headers.ContentDisposition.FileName.Replace("\"", ""),
                     FileSize = item.Headers.ContentDisposition.Size,
                     ContentType = item.Headers.ContentType.MediaType,
-                    Description = desItems?[index++],
-                    SaveAsPath = string.IsNullOrWhiteSpace(item.Headers.ContentDisposition.FileName) ? null : this.ConvertToWebSitePath(item.LocalFileName),
+                    Description = desItems?[index],
+                    SaveAsPath = localNames[index],
                     UploadUserId = Convert.ToString(user.Id)
                 };
+
+                index++;
 
                 var rsp = this.FileStorageService.CreateOrUpdate(fileStorage);
 
