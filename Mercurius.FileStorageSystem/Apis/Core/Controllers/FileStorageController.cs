@@ -75,7 +75,8 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
             var bodyParts = await this.Request.Content.ReadAsMultipartAsync(provider);
             var filesDescription = bodyParts.FormData["UploadFilesDescription"];
 
-            if (bodyParts.FormData.HasKeys() && string.IsNullOrWhiteSpace(bodyParts.FormData["ReplaceIfExistFiles"]))
+            if (bodyParts.FormData.HasKeys() && !string.IsNullOrWhiteSpace(bodyParts.FormData["ReplaceIfExistFiles"])
+                && !string.IsNullOrWhiteSpace(bodyParts.FormData["ReplacedFiles"]))
             {
                 var removeFiles = bodyParts.FormData["ReplacedFiles"].Split(',').ToList();
 
@@ -93,7 +94,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                     FileSize = item.Headers.ContentDisposition.Size,
                     ContentType = item.Headers.ContentType.MediaType,
                     Description = desItems?[index++],
-                    SaveAsPath = this.ConvertToWebSitePath(item.LocalFileName),
+                    SaveAsPath = string.IsNullOrWhiteSpace(item.Headers.ContentDisposition.FileName) ? null : this.ConvertToWebSitePath(item.LocalFileName),
                     UploadUserId = Convert.ToString(user.Id)
                 };
 

@@ -96,7 +96,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.Content)
-    @Html.Hidden("ReplacedIfExists", 1)
+    @Html.Hidden("ReplaceIfExistFiles", 1)
     @Html.Hidden("ReplacedFiles", Model.Attachments)
 
     var attachments = Model.Attachments;

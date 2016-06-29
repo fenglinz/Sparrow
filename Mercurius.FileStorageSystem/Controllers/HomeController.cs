@@ -132,7 +132,7 @@ namespace Mercurius.FileStorageSystem.Controllers
 
                 file.SaveAs(this.Server.MapPath(saveAsPath));
 
-                this.FileStorageService.CreateOrUpdate(new Sparrow.Entities.Core.FileStorage
+                this.FileStorageService.CreateOrUpdate(new FileStorage
                 {
                     Id = id ?? -1,
                     FileName = file.FileName,

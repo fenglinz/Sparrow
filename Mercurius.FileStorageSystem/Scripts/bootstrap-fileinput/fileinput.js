@@ -3062,7 +3062,7 @@
         this.each(function () {
             var self = $(this), data = self.data('fileinput'), options = typeof option === 'object' && option,
                 theme = options.theme || self.data('theme'), l = {}, t = {},
-                lang = options.language || self.data('language') || 'en', opts;
+                lang = options.language || self.data('language') || 'zh', opts;
             if (!data) {
                 if (theme) {
                     t = $.fn.fileinputThemes[theme] || {};
@@ -3091,12 +3091,12 @@
     };
 
     $.fn.fileinput.defaults = {
-        language: 'en',
+        language: 'zh',
         showCaption: true,
         showBrowse: true,
         showPreview: true,
         showRemove: true,
-        showUpload: true,
+        showUpload: false,
         showCancel: true,
         showClose: true,
         showUploadedThumbs: true,

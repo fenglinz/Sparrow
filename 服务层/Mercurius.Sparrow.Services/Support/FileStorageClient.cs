@@ -297,6 +297,11 @@ namespace Mercurius.Sparrow.Services.Support
                 {
                     var postedFile = postedFiles[index];
 
+                    if (postedFile.ContentLength == 0)
+                    {
+                        continue;
+                    }
+
                     stream.Write(boundarybytes, 0, boundarybytes.Length);
 
                     var header = string.Format(headerTemplate, "file", Path.GetFileName(postedFile.FileName), postedFile.ContentType);

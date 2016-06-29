@@ -43,6 +43,18 @@
       ]]>
     </update>
 
+    <!-- 修改描述信息 -->
+    <update id="UpdateDescription" parameterClass="FileStorage">
+      <![CDATA[
+        UPDATE [FileStorage]
+        SET
+          [Description]=#Description#,
+          [UploadUserId]=#UploadUserId#,
+          [UploadDateTime]=GETDATE()
+        WHERE [Id]=#Id#
+      ]]>
+    </update>
+    
     <!-- 删除上传文件信息。 -->
     <delete id="Remove" parameterClass="int">
       <![CDATA[
