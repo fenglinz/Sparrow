@@ -45,13 +45,13 @@
         {
             var index = 0;
             var attachments = Model.Data.Attachments.Split(',');
-            var attachmentNames = Model.Data.AttachmentDescriptions.Split(',');
+            var attachmentNames = Model.Data.AttachmentDescriptions == null ? null : Model.Data.AttachmentDescriptions.Split(',');
 
             <h4>文件下载</h4>
             <ul>
                 @foreach (var item in attachments)
                 {
-                    <li><a href="@Url.GetFileUrl(item)">附件@(index + 1)：@(attachmentNames[index++])</a></li>
+                    <li><a href="@Url.GetFileUrl(item)">附件@(index + 1)：@(attachmentNames == null ? "" : attachmentNames[index++])</a></li>
                 }
             </ul>
         }

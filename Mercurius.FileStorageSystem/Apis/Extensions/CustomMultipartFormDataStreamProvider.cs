@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Mercurius.FileStorageSystem.Apis.Extensions
@@ -24,7 +26,7 @@ namespace Mercurius.FileStorageSystem.Apis.Extensions
         }
 
         #endregion
-
+        
         /// <summary>
         /// 获取保存到本地的文件名。
         /// </summary>

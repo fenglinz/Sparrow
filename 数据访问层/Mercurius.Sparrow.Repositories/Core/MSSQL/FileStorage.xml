@@ -51,7 +51,7 @@
           [Description]=#Description#,
           [UploadUserId]=#UploadUserId#,
           [UploadDateTime]=GETDATE()
-        WHERE [Id]=#Id#
+        WHERE [SaveAsPath]=#SaveAsPath#
       ]]>
     </update>
     
