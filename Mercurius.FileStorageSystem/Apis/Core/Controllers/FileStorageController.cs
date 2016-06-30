@@ -84,21 +84,32 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                 var removeFiles = new List<string>();
                 var replacedFileList = replacedFiles.Split(',').ToList();
 
-                for (var i = 0; i < postedFiles.Count; i++)
+                try
                 {
-                    if (postedFiles[i].Headers.ContentDisposition.FileName == "\"\"")
+                    for (var i = 0; i < postedFiles.Count; i++)
                     {
-                        localNames.Add(replacedFileList[i]);
-                        File.Delete(postedFiles[i].LocalFileName);
-                    }
-                    else
-                    {
-                        removeFiles.Add(replacedFileList[i]);
-                        localNames.Add(this.ConvertToWebSitePath(postedFiles[i].LocalFileName));
-                    }
-                }
+                        if (postedFiles[i].Headers.ContentDisposition.FileName == "\"\"")
+                        {
+                            localNames.Add(replacedFileList[i]);
+                            File.Delete(postedFiles[i].LocalFileName);
+                        }
+                        else
+                        {
+                            if (i < replacedFileList.Count)
+                            {
+                                removeFiles.Add(replacedFileList[i]);
+                            }
 
-                this.Remove(removeFiles);
+                            localNames.Add(this.ConvertToWebSitePath(postedFiles[i].LocalFileName));
+                        }
+                    }
+
+                    this.Remove(removeFiles);
+                }
+                catch (Exception e)
+                {
+
+                }
             }
             else
             {

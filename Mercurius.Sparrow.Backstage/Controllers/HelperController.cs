@@ -34,7 +34,7 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         /// 组织机构服务接口。
         /// </summary>
         public IOrganizationService OrganizationService { get; set; }
-        
+
 
         #endregion
 
@@ -54,6 +54,21 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             var rsp = client.Upload(WebHelper.GetLogOnAccount(), this.Request);
 
             return Content(string.IsNullOrWhiteSpace(rsp.Datas.FirstOrDefault()) ? FileUploadError + rsp.ErrorMessage : Url.GetFileUrl(rsp.Datas.FirstOrDefault(), CompressMode.Medium));
+        }
+
+        /// <summary>
+        /// 删除文件。
+        /// </summary>
+        /// <param name="id">文件路径</param>
+        /// <returns>删除结果</returns>
+        [HttpPost]
+        public ActionResult RemoveFile(string id)
+        {
+            var client = new FileStorageClient();
+
+            var rsp = client.Remove(id);
+
+            return Json(rsp);
         }
 
         /// <summary>

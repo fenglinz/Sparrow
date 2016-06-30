@@ -66,17 +66,22 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(News news)
         {
+            var fileUpload = new FileStorageClient();
+
             news.PublisherId = WebHelper.GetLogOnUserId();
 
             if (!this.Request.Files.IsEmpty())
             {
-                var fileUpload = new FileStorageClient();
                 var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request);
 
                 if (rspFile.IsSuccess)
                 {
                     news.Attachments = rspFile.Datas.Contract();
                 }
+            }
+            else if(!string.IsNullOrWhiteSpace(this.Request.Params["ReplacedFiles"]))
+            {
+                fileUpload.Remove(this.Request.Params["ReplacedFiles"].Split(','));
             }
 
             var rsp = this.NewsService.CreateOrUpdate(news);

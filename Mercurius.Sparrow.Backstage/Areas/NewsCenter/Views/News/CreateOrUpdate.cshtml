@@ -29,14 +29,14 @@
     <script type="text/javascript">
         var index = 1;
 
-        $(function () {
+        $(function() {
             var editor = new wangEditor('richBox');
 
-            wangEditor.plugin({ 'removeImage': function (img) { alert(img.attr('src')); } });
+            wangEditor.plugin({ 'removeImage': function(img) { alert(img.attr('src')); } });
 
             editor.create();
 
-            $('#frmNews').on('submit', function () {
+            $('#frmNews').on('submit', function() {
                 $('#Content').val($('#richBox').html());
 
                 return JudgeValidate('#frmNews');
@@ -63,7 +63,7 @@
             index++;
             $(element).parent().parent().parent().after(template({ index: index }));
 
-            $('#file'+index).fileinput({
+            $('#file' + index).fileinput({
                 showPreview: false,
                 browseClass: 'btn btn-default'
             });
@@ -72,15 +72,19 @@
         }
 
         function OnRemoveAttachment(element) {
-            $(element).parent().parent().parent().remove();
+            var removeFunc = function() {
+                $(element).parent().parent().parent().remove();
 
-            OnResetAttachmentsIndex();
+                OnResetAttachmentsIndex();
 
-            if ($('.form-group > .row').length == 0) {
-                $('#addAttachments').removeClass('sr-only');
-            } else {
-                $('#addAttachments').addClass('sr-only');
-            }
+                if ($('.form-group > .row').length === 0) {
+                    $('#addAttachments').removeClass('sr-only');
+                } else {
+                    $('#addAttachments').addClass('sr-only');
+                }
+            };
+
+            removeFunc();
         }
 
         function OnResetAttachmentsIndex() {
@@ -138,7 +142,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Content, new {@class = "col-sm-2 control-label"})
+        @Html.LabelFor(m => m.Content, new { @class = "col-sm-2 control-label" })
         <div class="col-sm-8">
             <div id="richBox" style="width: 100%; height: 340px;">@Html.Raw(Model != null ? Model.Content : "")</div>
         </div>
@@ -197,13 +201,13 @@
                 <div class="row">
                     @Html.LabelFor(m => m.Attachments, "附件" + index, new { @class = "col-sm-2 control-label attachment" })
                     <div class="col-sm-8">
-                        <input id="file@(index)" name="file" type="file" data-caption="@item" class="form-control attachment" />
+                        <input id="file@(index)" name="file" type="file" class="form-control attachment" />
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">
                             <i class="glyphicon glyphicon-plus-sign"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="OnRemoveAttachment(this)">
+                        <button type="button" class="btn btn-danger" data-item="@item" onclick="OnRemoveAttachment(this)">
                             <i class="glyphicon glyphicon-trash"></i>
                         </button>
                     </div>
