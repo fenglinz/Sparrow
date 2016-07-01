@@ -12,6 +12,7 @@ using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.FileStorageSystem.Apis.Extensions;
 using Mercurius.Sparrow.Entities.Core;
+using static Mercurius.Sparrow.Entities.Core.FileStorage;
 using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
 
 namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
@@ -76,39 +77,28 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             var localNames = new List<string>();
             var postedFiles = bodyParts.FileData;
-            var replacedFiles = bodyParts.FormData["ReplacedFiles"];
-            var filesDescription = bodyParts.FormData["UploadFilesDescription"];
+            var uploadedFiles = bodyParts.FormData[UploadedFilesFieldName];
+            var modifyUploadedFiles = bodyParts.FormData[ModifyUploadedFilesFieldName];
+            var filesDescription = bodyParts.FormData[UploadFilesDescriptionFieldName];
 
-            if (!string.IsNullOrWhiteSpace(replacedFiles))
+            if (!string.IsNullOrWhiteSpace(uploadedFiles))
             {
-                var removeFiles = new List<string>();
-                var replacedFileList = replacedFiles.Split(',').ToList();
+                var uploadedFileList = uploadedFiles.Split(',').ToList();
+                var modifyUploadedFileList = modifyUploadedFiles.Split(',').ToList();
+                var removeFiles = from u in uploadedFileList where !modifyUploadedFileList.Contains(u) select u;
 
-                try
+                if (!removeFiles.IsEmpty())
                 {
-                    for (var i = 0; i < postedFiles.Count; i++)
-                    {
-                        if (postedFiles[i].Headers.ContentDisposition.FileName == "\"\"")
-                        {
-                            localNames.Add(replacedFileList[i]);
-                            File.Delete(postedFiles[i].LocalFileName);
-                        }
-                        else
-                        {
-                            if (i < replacedFileList.Count)
-                            {
-                                removeFiles.Add(replacedFileList[i]);
-                            }
-
-                            localNames.Add(this.ConvertToWebSitePath(postedFiles[i].LocalFileName));
-                        }
-                    }
-
                     this.Remove(removeFiles);
                 }
-                catch (Exception e)
-                {
 
+                for (var i = 0; i < postedFiles.Count; i++)
+                {
+                    if (postedFiles[i].Headers.ContentDisposition.FileName == "\"\"")
+                    {
+                        localNames.Add(uploadedFileList[i]);
+                        File.Delete(postedFiles[i].LocalFileName);
+                    }
                 }
             }
             else
@@ -124,9 +114,12 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             foreach (var item in postedFiles)
             {
+                var name = item.Headers.ContentDisposition.Name;
+                var fileName = item.Headers.ContentDisposition.FileName.Replace("\"", "");
+
                 var fileStorage = new FileStorage
                 {
-                    FileName = item.Headers.ContentDisposition.FileName.Replace("\"", ""),
+                    FileName = fileName,
                     FileSize = item.Headers.ContentDisposition.Size,
                     ContentType = item.Headers.ContentType.MediaType,
                     Description = desItems?[index],

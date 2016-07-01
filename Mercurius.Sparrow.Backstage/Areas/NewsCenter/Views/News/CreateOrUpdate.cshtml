@@ -39,6 +39,14 @@
             $('#frmNews').on('submit', function() {
                 $('#Content').val($('#richBox').html());
 
+                var items = '';
+
+                $('button[data-item]').each(function() {
+                    items += $(this).attr('data-item');
+                });
+
+                $('#@FileStorage.ModifyUploadedFilesFieldName').val(items);
+
                 return JudgeValidate('#frmNews');
             });
 
@@ -98,7 +106,7 @@
             <div class="row">
                 <label class="col-sm-2 control-label attachment">附件{{index}}</label>
                 <div class="col-sm-8">
-                    <input id="file{{index}}" name="file" type="file" class="form-control attachment" />
+                    <input id="file{{index}}" name="@FileStorage.NewUploadFileFieldName" type="file" class="form-control attachment" />
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">
@@ -126,8 +134,9 @@
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
-    @Html.HiddenFor(m => m.Content)
-    @Html.Hidden("ReplacedFiles", attachments)
+    @Html.Hidden("Content", "")
+    @Html.Hidden(FileStorage.ModifyUploadedFilesFieldName)
+    @Html.Hidden(FileStorage.UploadedFilesFieldName, attachments)
 
     <div class="form-group">
         @Html.LabelFor(m => m.Category, new { @class = "col-sm-2 control-label" })
@@ -161,7 +170,7 @@
             <div class="row">
                 @Html.LabelFor(m => m.Attachments, "附件1", new { @class = "col-sm-2 control-label attachment" })
                 <div class="col-sm-8">
-                    <input id="file1" name="file" type="file" class="form-control attachment" />
+                    <input id="file1" name="@FileStorage.NewUploadFileFieldName" type="file" class="form-control attachment" />
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">
@@ -201,7 +210,7 @@
                 <div class="row">
                     @Html.LabelFor(m => m.Attachments, "附件" + index, new { @class = "col-sm-2 control-label attachment" })
                     <div class="col-sm-8">
-                        <input id="file@(index)" name="file" type="file" class="form-control attachment" />
+                        <input id="file@(index)" name="@FileStorage.UploadedFileFieldName" type="file" class="form-control attachment" />
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">

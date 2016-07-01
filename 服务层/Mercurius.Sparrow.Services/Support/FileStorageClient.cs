@@ -258,7 +258,7 @@ namespace Mercurius.Sparrow.Services.Support
             var boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
             var endbytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
 
-            //1.HttpWebRequest
+            // 1.HttpWebRequest
             var request = (HttpWebRequest)WebRequest.Create($"{FileStorageUploadUrl}/{account}");
             request.ContentType = "multipart/form-data; boundary=" + boundary;
             request.Method = "POST";
@@ -292,14 +292,14 @@ namespace Mercurius.Sparrow.Services.Support
                 // 1.2 file
                 var headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
                 var buffer = new byte[4096];
-
+                
                 for (var index = 0; index < postedFiles.Count; index++)
                 {
                     var postedFile = postedFiles[index];
 
                     stream.Write(boundarybytes, 0, boundarybytes.Length);
 
-                    var header = string.Format(headerTemplate, "file", Path.GetFileName(postedFile.FileName), postedFile.ContentType);
+                    var header = string.Format(headerTemplate, postedFiles.Keys[index], Path.GetFileName(postedFile.FileName), postedFile.ContentType);
                     var headerbytes = Encoding.UTF8.GetBytes(header);
 
                     stream.Write(headerbytes, 0, headerbytes.Length);

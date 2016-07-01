@@ -13,6 +13,35 @@ namespace Mercurius.Sparrow.Entities.Core
     [Table("FileStorage")]
     public class FileStorage : Domain
     {
+        #region 常量
+
+        /// <summary>
+        /// 保存已上传文件的元素名。
+        /// </summary>
+        public const string UploadedFilesFieldName = "UploadedFiles";
+
+        /// <summary>
+        /// 保存修改后的文件的元素名。
+        /// </summary>
+        public const string ModifyUploadedFilesFieldName = "ModifyUploadedFiles";
+
+        /// <summary>
+        /// 已经上传的文件的元素名。
+        /// </summary>
+        public const string UploadedFileFieldName = "UploadedFile";
+
+        /// <summary>
+        /// 新上传的文件的元素名。
+        /// </summary>
+        public const string NewUploadFileFieldName = "NewUploadFile";
+
+        /// <summary>
+        /// 上传文件描述信息。
+        /// </summary>
+        public const string UploadFilesDescriptionFieldName = "UploadFilesDescription";
+
+        #endregion
+
         #region 属性
 
         /// <summary>
