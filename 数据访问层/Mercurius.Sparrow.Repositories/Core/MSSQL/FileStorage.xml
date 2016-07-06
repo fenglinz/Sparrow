@@ -120,15 +120,15 @@
             [FileName] AS FileName,
             [ContentType] AS ContentType,
             [FileSize] AS FileSize,
-            [Description] AS Description,
+            a.[Description] AS Description,
             [SaveAsPath] AS SaveAsPath,
             [UploadUserId] AS UploadUserId,
-            b.[Name] AS UploadUserName,
+            CASE WHEN b.[Name] IS NULL THEN c.[Description] ELSE b.[Name] END AS UploadUserName,
             [UploadDateTime] AS UploadDateTime,
             ROW_NUMBER() OVER(ORDER BY a.[Id] DESC) AS RowIndex
           FROM [FileStorage] a
-          LEFT JOIN [RBAC].[User] b
-            ON a.UploadUserId=b.Id
+          LEFT JOIN [RBAC].[User] b ON a.UploadUserId=b.Id
+          LEFT JOIN [WebApi].[User] c ON a.UploadUserId=c.Id
       ]]>
       <include refid="searchConditions" />
       <![CDATA[
