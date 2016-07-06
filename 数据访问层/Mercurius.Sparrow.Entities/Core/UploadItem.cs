@@ -33,9 +33,14 @@ namespace Mercurius.Sparrow.Entities.Core
         public string Description { get; set; }
 
         /// <summary>
-        /// 替换已存在的文件。
+        /// 已保存的文件路径。
         /// </summary>
-        public string ReplacedFile { get; set; }
+        public string SavedAsFilePath { get; set; }
+
+        /// <summary>
+        /// 删除的文件路径。
+        /// </summary>
+        public string RemoveFilePath { get; set; }
 
         #endregion
     }

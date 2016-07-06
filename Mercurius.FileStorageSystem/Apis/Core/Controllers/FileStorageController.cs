@@ -55,106 +55,14 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         #region 文件上传
 
         /// <summary>
-        /// 上传文件。
-        /// </summary>
-        /// <param name="account">用户账号</param>
-        /// <returns>上传结果</returns>
-        [HttpPost]
-        [Route("api/FileStorage/Upload/{account}")]
-        public async Task<ResponseSet<string>> Upload(string account)
-        {
-            var user = GetUser(account);
-
-            if (user == null)
-            {
-                return new ResponseSet<string> { ErrorMessage = UserNotExists };
-            }
-
-            var files = new List<string>();
-            var result = new ResponseSet<string> { Datas = files };
-            var provider = new CustomMultipartFormDataStreamProvider(GetSavedDirectory());
-            var bodyParts = await this.Request.Content.ReadAsMultipartAsync(provider);
-
-            var localNames = new List<string>();
-            var postedFiles = bodyParts.FileData;
-            var uploadedFiles = bodyParts.FormData[UploadedFilesFieldName];
-            var modifyUploadedFiles = bodyParts.FormData[ModifyUploadedFilesFieldName];
-            var filesDescription = bodyParts.FormData[UploadFilesDescriptionFieldName];
-
-            if (!string.IsNullOrWhiteSpace(uploadedFiles))
-            {
-                var uploadedFileList = uploadedFiles.Split(',').ToList();
-                var modifyUploadedFileList = modifyUploadedFiles.Split(',').ToList();
-                var removeFiles = from u in uploadedFileList where !modifyUploadedFileList.Contains(u) select u;
-
-                if (!removeFiles.IsEmpty())
-                {
-                    this.Remove(removeFiles);
-                }
-
-                for (var i = 0; i < postedFiles.Count; i++)
-                {
-                    if (postedFiles[i].Headers.ContentDisposition.FileName == "\"\"")
-                    {
-                        localNames.Add(uploadedFileList[i]);
-                        File.Delete(postedFiles[i].LocalFileName);
-                    }
-                }
-            }
-            else
-            {
-                foreach (var item in postedFiles)
-                {
-                    localNames.Add(this.ConvertToWebSitePath(item.LocalFileName));
-                }
-            }
-
-            var index = 0;
-            var desItems = filesDescription?.Split(',');
-
-            foreach (var item in postedFiles)
-            {
-                var name = item.Headers.ContentDisposition.Name;
-                var fileName = item.Headers.ContentDisposition.FileName.Replace("\"", "");
-
-                var fileStorage = new FileStorage
-                {
-                    FileName = fileName,
-                    FileSize = item.Headers.ContentDisposition.Size,
-                    ContentType = item.Headers.ContentType.MediaType,
-                    Description = desItems?[index],
-                    SaveAsPath = localNames[index],
-                    UploadUserId = Convert.ToString(user.Id)
-                };
-
-                index++;
-
-                var rsp = this.FileStorageService.CreateOrUpdate(fileStorage);
-
-                if (rsp.IsSuccess)
-                {
-                    files.Add(fileStorage.SaveAsPath);
-                }
-                else
-                {
-                    result.ErrorMessage = rsp.ErrorMessage;
-
-                    File.Delete(item.LocalFileName);
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// 基于base64字符串上传文件。
         /// </summary>
         /// <param name="account">上传者</param>
-        /// <param name="items">上传文件信息</param>
+        /// <param name="items">上传文件列表信息</param>
         /// <returns>文件上传后的访问路径</returns>
         [HttpPost]
-        [Route("api/FileStorage/Upload/Base64/{account}")]
-        public async Task<ResponseSet<string>> Upload(string account, IList<UploadItem> items)
+        [Route("api/FileStorage/Upload/{account}")]
+        public async Task<ResponseSet<string>> Upload(string account, IEnumerable<UploadItem> items)
         {
             var user = GetUser(account);
 
@@ -170,45 +78,65 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             var files = new List<string>();
             var result = new ResponseSet<string> { Datas = files };
-            var removeFiles = from i in items where !string.IsNullOrWhiteSpace(i.ReplacedFile) select i.ReplacedFile;
+
+            var removeFiles = from f in items
+                              where
+                                !string.IsNullOrWhiteSpace(f.RemoveFilePath)
+                              select f.RemoveFilePath;
 
             if (!removeFiles.IsEmpty())
             {
-                this.Remove(removeFiles.ToList());
+                this.Remove(removeFiles);
             }
+
+            var fileStorages = new List<FileStorage>();
 
             foreach (var item in items)
             {
-                var buffers = Convert.FromBase64String(item.FileData);
-                var fileInfo = new FileInfo(this.GetSaveAsFileName(item.FileName));
-
-                using (var stream = fileInfo.OpenWrite())
+                if (!string.IsNullOrWhiteSpace(item.RemoveFilePath))
                 {
-                    await stream.WriteAsync(buffers, 0, buffers.Length);
+                    continue;
                 }
 
                 var fileStorage = new FileStorage
                 {
                     FileName = item.FileName,
-                    FileSize = buffers.Length,
                     ContentType = item.ContentType,
                     Description = item.Description,
-                    SaveAsPath = this.ConvertToWebSitePath(fileInfo.FullName),
+                    SaveAsPath = item.SavedAsFilePath,
                     UploadUserId = Convert.ToString(user.Id)
                 };
 
-                var rsp = this.FileStorageService.CreateOrUpdate(fileStorage);
-
-                if (rsp.IsSuccess)
+                if (!string.IsNullOrWhiteSpace(item.FileData))
                 {
-                    files.Add(fileStorage.SaveAsPath);
-                }
-                else
-                {
-                    rsp.ErrorMessage = rsp.ErrorMessage;
+                    var buffers = Convert.FromBase64String(item.FileData);
+                    var fileInfo = string.IsNullOrWhiteSpace(item.SavedAsFilePath) ?
+                        new FileInfo(this.GetSaveAsFileName(item.FileName)) :
+                        new FileInfo(UploadFileSavedDirectory + item.SavedAsFilePath.Substring(AppSettingPath.Length).Replace('/','\\'));
 
-                    fileInfo.Delete();
+                    using (var stream = fileInfo.OpenWrite())
+                    {
+                        await stream.WriteAsync(buffers, 0, buffers.Length);
+                    }
+
+                    fileStorage.FileSize = buffers.Length;
+                    fileStorage.SaveAsPath = this.ConvertToWebSitePath(fileInfo.FullName);
                 }
+
+                fileStorages.Add(fileStorage);
+            }
+
+            var rsp = this.FileStorageService.CreateOrUpdate(fileStorages.ToArray());
+
+            if (rsp.IsSuccess)
+            {
+                files.AddRange(fileStorages.Select(f => f.SaveAsPath));
+            }
+            else
+            {
+                rsp.ErrorMessage = rsp.ErrorMessage;
+
+                this.Remove(fileStorages.Select(f => f.SaveAsPath));
             }
 
             return result;

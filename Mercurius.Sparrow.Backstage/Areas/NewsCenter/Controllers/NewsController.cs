@@ -67,24 +67,15 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         public ActionResult CreateOrUpdate(News news)
         {
             var fileUpload = new FileStorageClient();
+            var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request);
 
-            news.PublisherId = WebHelper.GetLogOnUserId();
-
-            if (!this.Request.Files.IsEmpty())
+            if (rspFile.IsSuccess)
             {
-                var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request);
+                news.Attachments = rspFile.Datas.Contract();
+                news.PublisherId = WebHelper.GetLogOnUserId();
 
-                if (rspFile.IsSuccess)
-                {
-                    news.Attachments = rspFile.Datas.Contract();
-                }
+                var rsp = this.NewsService.CreateOrUpdate(news);
             }
-            else if(!string.IsNullOrWhiteSpace(this.Request.Params["ReplacedFiles"]))
-            {
-                fileUpload.Remove(this.Request.Params["ReplacedFiles"].Split(','));
-            }
-
-            var rsp = this.NewsService.CreateOrUpdate(news);
 
             return RedirectToAction("Index");
         }

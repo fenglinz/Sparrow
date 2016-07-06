@@ -19,20 +19,6 @@ namespace Mercurius.Sparrow.Services.Support
     /// </summary>
     public abstract class AbstractFileStorageClient
     {
-        #region 常量
-
-        /// <summary>
-        /// 替换文件列表的Http键。
-        /// </summary>
-        public const string ReplacedFilesHttpKey = "ReplacedFiles";
-
-        /// <summary>
-        /// 文件描述的Http键。
-        /// </summary>
-        public const string UploadFilesDescriptionHttpKey = "UploadFilesDescription";
-
-        #endregion
-
         #region 静态变量
 
         /// <summary>
@@ -64,11 +50,6 @@ namespace Mercurius.Sparrow.Services.Support
         /// 文件上传Web API地址。
         /// </summary>
         protected static readonly string FileStorageUploadUrl = $"{FileStorageRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.UploadUrl"]}";
-
-        /// <summary>
-        /// base64方式上传Web API地址。
-        /// </summary>
-        protected static readonly string FileStorageUploadWithBase64Url = $"{FileStorageRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.UploadWithBase64Url"]}";
 
         /// <summary>
         /// 删除上传文件的Web API地址。
@@ -118,12 +99,12 @@ namespace Mercurius.Sparrow.Services.Support
         public abstract ResponseSet<string> Upload(string account, HttpRequestBase request);
 
         /// <summary>
-        /// 上传文件(基于base64字符串)
+        /// 上传文件(基于base64字符串)。
         /// </summary>
         /// <param name="account">上传账号</param>
         /// <param name="items">上传文件信息</param>
         /// <returns>上传后的文件地址</returns>
-        public abstract ResponseSet<string> UploadWithBase64(string account, params UploadItem[] items);
+        public abstract ResponseSet<string> Upload(string account, params UploadItem[] items);
 
         /// <summary>
         /// 删除上传文件。

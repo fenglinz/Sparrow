@@ -1,5 +1,9 @@
 ﻿@model News
 
+@{ 
+    var attachments = Model == null ? "" : Model.Attachments;
+}
+
 @section Styles
 {
     @Styles.Render("~/Content/RichEditor/css", "~/Content/fileinput/css")
@@ -25,9 +29,8 @@
 {
     @Scripts.Render("~/bundles/validate", "~/bundles/RichEditor", "~/bundles/fileinput")
     <script type="text/javascript" src="~/Scripts/handlebars.min.js"></script>
-
     <script type="text/javascript">
-        var index = 1;
+        var index = '@attachments.Split(',').Length';
 
         $(function() {
             var editor = new wangEditor('richBox');
@@ -41,8 +44,8 @@
 
                 var items = '';
 
-                $('button[data-item]').each(function() {
-                    items += $(this).attr('data-item');
+                $('button[data-uploaded]').each(function() {
+                    items += $(this).attr('data-uploaded')+',';
                 });
 
                 $('#@FileStorage.ModifyUploadedFilesFieldName').val(items);
@@ -106,10 +109,10 @@
             <div class="row">
                 <label class="col-sm-2 control-label attachment">附件{{index}}</label>
                 <div class="col-sm-8">
-                    <input id="file{{index}}" name="@FileStorage.NewUploadFileFieldName" type="file" class="form-control attachment" />
+                    <input id="file{{index}}" name="file" type="file" class="form-control attachment" />
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">
+                    <button type="button" class="btn btn-primary" data-uploaded="" onclick="OnAppendAttachment(this)">
                         <i class="glyphicon glyphicon-plus-sign"></i>
                     </button>
                     <button type="button" class="btn btn-danger" onclick="OnRemoveAttachment(this)">
@@ -130,8 +133,6 @@
 <div class="header">添加或编辑新闻</div>
 @using (Html.BeginForm("CreateOrUpdate", "News", FormMethod.Post, new { @id = "frmNews", @enctype = "multipart/form-data", @class = "form-horizontal", @autocomplete = "off", @style = "margin-top: 10px;" }))
 {
-    var attachments = Model == null ? "" : Model.Attachments;
-
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
     @Html.Hidden("Content", "")
@@ -170,10 +171,10 @@
             <div class="row">
                 @Html.LabelFor(m => m.Attachments, "附件1", new { @class = "col-sm-2 control-label attachment" })
                 <div class="col-sm-8">
-                    <input id="file1" name="@FileStorage.NewUploadFileFieldName" type="file" class="form-control attachment" />
+                    <input id="file1" name="file" type="file" class="form-control attachment" />
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">
+                    <button type="button" class="btn btn-primary" data-uploaded="" onclick="OnAppendAttachment(this)">
                         <i class="glyphicon glyphicon-plus-sign"></i>
                     </button>
                     <button type="button" class="btn btn-danger" onclick="OnRemoveAttachment(this)">
@@ -210,13 +211,13 @@
                 <div class="row">
                     @Html.LabelFor(m => m.Attachments, "附件" + index, new { @class = "col-sm-2 control-label attachment" })
                     <div class="col-sm-8">
-                        <input id="file@(index)" name="@FileStorage.UploadedFileFieldName" type="file" class="form-control attachment" />
+                        <input id="file@(index)" name="file" type="file" class="form-control attachment" />
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" onclick="OnAppendAttachment(this)">
+                        <button type="button" class="btn btn-primary" data-uploaded="@item" onclick="OnAppendAttachment(this)">
                             <i class="glyphicon glyphicon-plus-sign"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" data-item="@item" onclick="OnRemoveAttachment(this)">
+                        <button type="button" class="btn btn-danger" onclick="OnRemoveAttachment(this)">
                             <i class="glyphicon glyphicon-trash"></i>
                         </button>
                     </div>
@@ -241,10 +242,6 @@
 
             index++;
         }
-
-        <script type="text/javascript">
-            index=@index;
-        </script>
     }
     <div class="form-group">
         <span class="col-sm-2"></span>

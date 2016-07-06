@@ -290,6 +290,11 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Common.css" />
+    <Content Include="Content\default\icon-ext.png" />
+    <Content Include="Content\default\icon.png" />
+    <Content Include="Content\default\loading-0.gif" />
+    <Content Include="Content\default\loading-1.gif" />
+    <Content Include="Content\default\loading-2.gif" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\ui-dialog.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

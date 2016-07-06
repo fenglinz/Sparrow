@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Entities.Core.SO;
@@ -28,18 +29,22 @@ namespace Mercurius.Sparrow.Services.Core
         /// <summary>
         /// 添加或者编辑上传文件
         /// </summary>
-        /// <param name="fileStorage">上传文件</param>
+        /// <param name="fileStorages"></param>
         /// <returns>返回添加或保存结果</returns>
-        public Response CreateOrUpdate(FileStorage fileStorage)
+        public Response CreateOrUpdate(params FileStorage[] fileStorages)
         {
             return this.InvokeService(
                 nameof(CreateOrUpdate),
                 () =>
                 {
-                    this.Persistence.Update(NS, string.IsNullOrWhiteSpace(fileStorage.FileName) ? "UpdateDescription" : "CreateOrUpdate", fileStorage);
+                    this.Persistence.Update(NS, "CreateOrUpdate", new
+                    {
+                        UploadItems = fileStorages.ToList(),
+                        UploadUserId = WebHelper.GetLogOnUserId()
+                    });
 
                     this.ClearCache<FileStorage>();
-                }, fileStorage);
+                }, fileStorages);
         }
 
         /// <summary>

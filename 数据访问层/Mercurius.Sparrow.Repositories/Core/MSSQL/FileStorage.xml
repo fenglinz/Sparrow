@@ -6,41 +6,44 @@
   </alias>
   <statements>
     <!-- 添加或者更新上传文件信息。 -->
-    <update id="CreateOrUpdate" parameterClass="FileStorage">
-      <![CDATA[
-        IF EXISTS(SELECT * FROM [FileStorage] WHERE [Id]=#Id#)
-          UPDATE [FileStorage]
-          SET
-            [FileName]=#FileName#,
-            [ContentType]=#ContentType#,
-            [FileSize]=#FileSize#,
-            [Description]=#Description#,
-            [SaveAsPath]=#SaveAsPath#,
-            [UploadUserId]=#UploadUserId#,
-            [UploadDateTime]=GETDATE()
-          WHERE [Id]=#Id#
-        ELSE
-          INSERT INTO [FileStorage]
-          (
-            [FileName],
-            [ContentType],
-            [FileSize],
-            [Description],
-            [SaveAsPath],
-            [UploadUserId],
-            [UploadDateTime]
-          )
-          VALUES
-          (
-            #FileName#,
-            #ContentType#,
-            #FileSize#,
-            #Description#,
-            #SaveAsPath#,
-            #UploadUserId#,
-            GETDATE()
-          )
-      ]]>
+    <update id="CreateOrUpdate" parameterClass="Params">
+      <isNotNull property="UploadItems">
+        <iterate property="UploadItems" open="BEGIN " conjunction="" close="END">
+          <![CDATA[
+            IF EXISTS(SELECT * FROM [FileStorage] WHERE [SaveAsPath]=#UploadItems[].SaveAsPath#)
+              UPDATE [FileStorage]
+              SET
+                [FileName]=ISNULL(CASE #UploadItems[].FileName# WHEN '' THEN NULL ELSE #UploadItems[].FileName# END, [FileName]),
+                [ContentType]=ISNULL(CASE #UploadItems[].ContentType# WHEN '' THEN NULL ELSE #UploadItems[].ContentType# END, [ContentType]),
+                [FileSize]=ISNULL(CASE #UploadItems[].FileSize# WHEN '' THEN NULL ELSE #UploadItems[].FileSize# END, [FileSize]),
+                [Description]=#UploadItems[].Description#,
+                [UploadUserId]=#UploadUserId#,
+                [UploadDateTime]=GETDATE()
+              WHERE [SaveAsPath]=#UploadItems[].SaveAsPath#
+            ELSE
+              INSERT INTO [FileStorage]
+              (
+                [FileName],
+                [ContentType],
+                [FileSize],
+                [Description],
+                [SaveAsPath],
+                [UploadUserId],
+                [UploadDateTime]
+              )
+              VALUES
+              (
+                #UploadItems[].FileName#,
+                #UploadItems[].ContentType#,
+                #UploadItems[].FileSize#,
+                #UploadItems[].Description#,
+                #UploadItems[].SaveAsPath#,
+                #UploadUserId#,
+                GETDATE()
+              )
+          ]]>
+        </iterate>
+      </isNotNull>
     </update>
 
     <!-- 修改描述信息 -->

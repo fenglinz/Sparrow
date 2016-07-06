@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,6 +12,7 @@ using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.Core;
 using Newtonsoft.Json;
+using static Mercurius.Sparrow.Entities.Core.FileStorage;
 
 namespace Mercurius.Sparrow.Services.Support
 {
@@ -62,39 +64,48 @@ namespace Mercurius.Sparrow.Services.Support
         /// <returns>上传后的文件地址</returns>
         public override ResponseSet<string> Upload(string account, HttpRequestBase request)
         {
-            var postedFiles = request.Files;
-            var replacedFiles = request.Params[ReplacedFilesHttpKey];
-            var uploadFilesDescription = request.Params[UploadFilesDescriptionHttpKey];
-
-            if (postedFiles.IsEmpty())
+            var uploadItems = new List<UploadItem>();
+            var modifyUploadedFiles = request.Params[ModifyUploadedFilesFieldName]?.Split(',').ToList();
+            var uploadedFilesDescription = request.Params[UploadFilesDescriptionFieldName]?.Split(',').ToList();
+            var uploadedFiles = request.Params[UploadedFilesFieldName]?.Split(',').Where(f => !string.IsNullOrWhiteSpace(f)).ToList();
+            
+            // 需要删除的文件。
+            if (!uploadedFiles.IsEmpty())
             {
-                return new ResponseSet<string> { ErrorMessage = FileNotExists };
+                var removeFiles = from f in uploadedFiles
+                                  where
+                                    modifyUploadedFiles.IsEmpty() || !modifyUploadedFiles.Contains(f)
+                                  select new UploadItem { RemoveFilePath = f };
+
+                uploadItems.AddRange(removeFiles);
             }
 
-            var datas = new NameValueCollection();
-
-            if (!replacedFiles.IsEmpty())
+            for (var index = 0; index < request.Files.Count; index++)
             {
-                datas.Add(ReplacedFilesHttpKey, replacedFiles);
+                var file = request.Files[index];
+
+                uploadItems.Add(new UploadItem
+                {
+                    FileName = file.FileName,
+                    ContentType = file.ContentType,
+                    Description = uploadedFilesDescription[index],
+                    FileData = this.GetBase64String(file.InputStream),
+                    SavedAsFilePath = modifyUploadedFiles[index]
+                });
             }
 
-            if (!uploadFilesDescription.IsEmpty())
-            {
-                datas.Add(UploadFilesDescriptionHttpKey, uploadFilesDescription);
-            }
-
-            return WriteUploadStream(account, postedFiles, datas);
+            return this.Upload(account, uploadItems.ToArray());
         }
 
         /// <summary>
-        /// 上传文件(基于base64字符串)
+        /// 上传文件(基于base64字符串)。
         /// </summary>
         /// <param name="account">上传账号</param>
         /// <param name="items">上传文件信息</param>
         /// <returns>上传后的文件地址</returns>
-        public override ResponseSet<string> UploadWithBase64(string account, params UploadItem[] items)
+        public override ResponseSet<string> Upload(string account, params UploadItem[] items)
         {
-            var request = (HttpWebRequest)WebRequest.Create($"{FileStorageUploadWithBase64Url}/{account}");
+            var request = (HttpWebRequest)WebRequest.Create($"{FileStorageUploadUrl}/{account}");
 
             request.ContentType = "application/json";
             request.Method = "POST";
@@ -245,85 +256,21 @@ namespace Mercurius.Sparrow.Services.Support
             }
         }
 
-        /// <summary>
-        /// HttpUploadFile
-        /// </summary>
-        /// <param name="account">上传者账号</param>
-        /// <param name="postedFiles">上传文件集合</param>
-        /// <param name="datas">form表单数据集合</param>
-        /// <returns>上传的文件路径</returns>
-        private ResponseSet<string> WriteUploadStream(string account, HttpFileCollectionBase postedFiles, NameValueCollection datas = null)
+        private string GetBase64String(Stream stream)
         {
-            var boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
-            var boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
-            var endbytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
-
-            // 1.HttpWebRequest
-            var request = (HttpWebRequest)WebRequest.Create($"{FileStorageUploadUrl}/{account}");
-            request.ContentType = "multipart/form-data; boundary=" + boundary;
-            request.Method = "POST";
-            request.KeepAlive = true;
-            request.Credentials = CredentialCache.DefaultCredentials;
-
-            var token = this.GetToken();
-
-            if (token != null)
+            if (stream == null || stream.Length == 0 || !stream.CanRead)
             {
-                request.Headers.Add(HttpRequestHeader.Authorization, $"{token.TokenType} {token.AccessToken}");
+                return null;
             }
 
-            using (var stream = request.GetRequestStream())
+            using (var stringReader = new BinaryReader(stream))
             {
-                // 1.1 key/value
-                if (datas != null)
+                using (stream)
                 {
-                    var formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
+                    var buffers = stringReader.ReadBytes((int)stream.Length);
 
-                    foreach (string key in datas.Keys)
-                    {
-                        stream.Write(boundarybytes, 0, boundarybytes.Length);
-                        var formitem = string.Format(formdataTemplate, key, datas[key]);
-                        var formitembytes = Encoding.UTF8.GetBytes(formitem);
-
-                        stream.Write(formitembytes, 0, formitembytes.Length);
-                    }
+                    return Convert.ToBase64String(buffers);
                 }
-
-                // 1.2 file
-                var headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
-                var buffer = new byte[4096];
-                
-                for (var index = 0; index < postedFiles.Count; index++)
-                {
-                    var postedFile = postedFiles[index];
-
-                    stream.Write(boundarybytes, 0, boundarybytes.Length);
-
-                    var header = string.Format(headerTemplate, postedFiles.Keys[index], Path.GetFileName(postedFile.FileName), postedFile.ContentType);
-                    var headerbytes = Encoding.UTF8.GetBytes(header);
-
-                    stream.Write(headerbytes, 0, headerbytes.Length);
-
-                    using (var fileStream = postedFile.InputStream)
-                    {
-                        int bytesRead;
-
-                        while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
-                        {
-                            stream.Write(buffer, 0, bytesRead);
-                        }
-                    }
-                }
-
-                // 1.3 form end
-                stream.Write(endbytes, 0, endbytes.Length);
-            }
-
-            // 2.WebResponse
-            var response = (HttpWebResponse)request.GetResponse();
-            using (var stream = new StreamReader(response.GetResponseStream()))
-            {
-                return JsonConvert.DeserializeObject<ResponseSet<string>>(stream.ReadToEnd());
             }
         }
 

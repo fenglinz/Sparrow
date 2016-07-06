@@ -15,9 +15,9 @@
     </thead>
     <tbody>
         @if (Model.HasData())
+        {
+            foreach (var item in Model.Datas)
             {
-                foreach (var item in Model.Datas)
-                {
                 <tr>
                     <td class="text-center">@item.RowIndex</td>
                     <td><a href="javascript:ShowFile('@Url.Content(item.SaveAsPath)')">@item.FileName</a></td>

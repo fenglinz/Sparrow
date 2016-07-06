@@ -3095,7 +3095,7 @@
         showCaption: true,
         showBrowse: true,
         showPreview: true,
-        showRemove: true,
+        showRemove: false,
         showUpload: false,
         showCancel: true,
         showClose: true,
