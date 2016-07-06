@@ -66,6 +66,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(News news)
         {
+            news.Id = news.Id == Guid.Empty ? Guid.NewGuid() : news.Id;
+            this.Request.Params.Add("BusinessSerialNumber", news.Id.ToString());
+
             var fileUpload = new FileStorageClient();
             var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request);
 

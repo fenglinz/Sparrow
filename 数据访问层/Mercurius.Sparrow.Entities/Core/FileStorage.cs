@@ -41,6 +41,20 @@ namespace Mercurius.Sparrow.Entities.Core
         public virtual int Id { get; set; }
 
         /// <summary>
+        /// 业务分类。
+        /// </summary>
+        [Display(Name = "业务分类")]
+        [StringLength(250, ErrorMessage = "业务分类不能超过{1}个字符。")]
+        public virtual string BusinessCategory { get; set; }
+
+        /// <summary>
+        /// 业务流水号。
+        /// </summary>
+        [Display(Name = "业务流水号")]
+        [StringLength(36, ErrorMessage = "业务流水号不能超过{1}个字符。")]
+        public virtual string BusinessSerialNumber { get; set; }
+
+        /// <summary>
         /// 文件名。
         /// </summary>
         [Display(Name = "文件名")]

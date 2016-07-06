@@ -3102,7 +3102,7 @@ _e(function (E, $) {
     // server地址
     E.config.uploadImgUrl = mercurius.BaseUrl+'/Helper/Upload';
     // 超时时间
-    E.config.uploadTimeout = 20 * 1000;
+    E.config.uploadTimeout = 30 * 1000;
     // 用于存储上传回调事件
     E.config.uploadImgFns = {};
 

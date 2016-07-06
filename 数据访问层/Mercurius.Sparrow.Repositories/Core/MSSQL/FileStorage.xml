@@ -13,6 +13,8 @@
             IF EXISTS(SELECT * FROM [FileStorage] WHERE [SaveAsPath]=#UploadItems[].SaveAsPath#)
               UPDATE [FileStorage]
               SET
+                [BusinessCategory]=#UploadItems[].BusinessCategory#,
+                [BusinessSerialNumber]=#UploadItems[].BusinessSerialNumber#,
                 [FileName]=ISNULL(CASE #UploadItems[].FileName# WHEN '' THEN NULL ELSE #UploadItems[].FileName# END, [FileName]),
                 [ContentType]=ISNULL(CASE #UploadItems[].ContentType# WHEN '' THEN NULL ELSE #UploadItems[].ContentType# END, [ContentType]),
                 [FileSize]=ISNULL(CASE #UploadItems[].FileSize# WHEN '' THEN NULL ELSE #UploadItems[].FileSize# END, [FileSize]),
@@ -23,6 +25,8 @@
             ELSE
               INSERT INTO [FileStorage]
               (
+                [BusinessCategory],
+                [BusinessSerialNumber],
                 [FileName],
                 [ContentType],
                 [FileSize],
@@ -33,6 +37,8 @@
               )
               VALUES
               (
+                #UploadItems[].BusinessCategory#,
+                #UploadItems[].BusinessSerialNumber#,
                 #UploadItems[].FileName#,
                 #UploadItems[].ContentType#,
                 #UploadItems[].FileSize#,

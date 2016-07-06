@@ -34,7 +34,7 @@
           )
           VALUES
           (
-            NEWID(),
+            #Id#,
             #Category#,
             #Title#,
             #Content#,

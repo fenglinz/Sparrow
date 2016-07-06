@@ -68,7 +68,7 @@ namespace Mercurius.Sparrow.Services.Support
             var modifyUploadedFiles = request.Params[ModifyUploadedFilesFieldName]?.Split(',').ToList();
             var uploadedFilesDescription = request.Params[UploadFilesDescriptionFieldName]?.Split(',').ToList();
             var uploadedFiles = request.Params[UploadedFilesFieldName]?.Split(',').Where(f => !string.IsNullOrWhiteSpace(f)).ToList();
-            
+
             // 需要删除的文件。
             if (!uploadedFiles.IsEmpty())
             {
@@ -86,11 +86,13 @@ namespace Mercurius.Sparrow.Services.Support
 
                 uploadItems.Add(new UploadItem
                 {
+                    BusinessCategory = request.Params["BusinessCategory"],
+                    BusinessSerialNumber = request.Params["BusinessSerialNumber"],
                     FileName = file.FileName,
                     ContentType = file.ContentType,
-                    Description = uploadedFilesDescription[index],
+                    Description = uploadedFilesDescription?[index],
                     FileData = this.GetBase64String(file.InputStream),
-                    SavedAsFilePath = modifyUploadedFiles[index]
+                    SavedAsFilePath = modifyUploadedFiles?[index]
                 });
             }
 

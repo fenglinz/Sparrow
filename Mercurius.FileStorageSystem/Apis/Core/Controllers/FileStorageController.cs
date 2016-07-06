@@ -98,21 +98,16 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                     continue;
                 }
 
-                var fileStorage = new FileStorage
-                {
-                    FileName = item.FileName,
-                    ContentType = item.ContentType,
-                    Description = item.Description,
-                    SaveAsPath = item.SavedAsFilePath,
-                    UploadUserId = Convert.ToString(user.Id)
-                };
+                var fileStorage = (FileStorage)item;
+
+                fileStorage.UploadUserId = Convert.ToString(user.Id);
 
                 if (!string.IsNullOrWhiteSpace(item.FileData))
                 {
                     var buffers = Convert.FromBase64String(item.FileData);
                     var fileInfo = string.IsNullOrWhiteSpace(item.SavedAsFilePath) ?
                         new FileInfo(this.GetSaveAsFileName(item.FileName)) :
-                        new FileInfo(UploadFileSavedDirectory + item.SavedAsFilePath.Substring(AppSettingPath.Length).Replace('/','\\'));
+                        new FileInfo(UploadFileSavedDirectory + item.SavedAsFilePath.Substring(AppSettingPath.Length).Replace('/', '\\'));
 
                     using (var stream = fileInfo.OpenWrite())
                     {

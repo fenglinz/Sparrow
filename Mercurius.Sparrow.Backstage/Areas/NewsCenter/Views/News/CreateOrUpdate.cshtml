@@ -1,6 +1,6 @@
 ﻿@model News
 
-@{ 
+@{
     var attachments = Model == null ? "" : Model.Attachments;
 }
 
@@ -32,20 +32,20 @@
     <script type="text/javascript">
         var index = '@attachments.Split(',').Length';
 
-        $(function() {
+        $(function () {
             var editor = new wangEditor('richBox');
 
-            wangEditor.plugin({ 'removeImage': function(img) { alert(img.attr('src')); } });
+            wangEditor.plugin({ 'removeImage': function (img) { alert(img.attr('src')); } });
 
             editor.create();
 
-            $('#frmNews').on('submit', function() {
+            $('#frmNews').on('submit', function () {
                 $('#Content').val($('#richBox').html());
 
                 var items = '';
 
-                $('button[data-uploaded]').each(function() {
-                    items += $(this).attr('data-uploaded')+',';
+                $('button[data-uploaded]').each(function () {
+                    items += $(this).attr('data-uploaded') + ',';
                 });
 
                 $('#@FileStorage.ModifyUploadedFilesFieldName').val(items);
@@ -53,7 +53,7 @@
                 return JudgeValidate('#frmNews');
             });
 
-            $('#addAttachments').click(function() {
+            $('#addAttachments').click(function () {
                 var source = $('#attachmentTemplate').html();
                 var template = Handlebars.compile(source);
 
@@ -83,7 +83,7 @@
         }
 
         function OnRemoveAttachment(element) {
-            var removeFunc = function() {
+            var removeFunc = function () {
                 $(element).parent().parent().parent().remove();
 
                 OnResetAttachmentsIndex();
@@ -136,6 +136,7 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
     @Html.Hidden("Content", "")
+    @Html.Hidden("BusinessCategory", "新闻管理")
     @Html.Hidden(FileStorage.ModifyUploadedFilesFieldName)
     @Html.Hidden(FileStorage.UploadedFilesFieldName, attachments)
 
