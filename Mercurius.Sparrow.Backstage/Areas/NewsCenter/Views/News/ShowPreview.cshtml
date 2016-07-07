@@ -2,6 +2,7 @@
 
 @section Styles
 {
+    <link rel="stylesheet" type="text/css" href="~/Scripts/RichEditor/css/highlight.github.css"/>
     <style type="text/css">
         .news {
             width: 75%;
@@ -37,21 +38,21 @@
 <div class="news">
     @if (Model.Data != null)
     {
+        var attachments = HtmlHelperExtensions.GetBusinessFiles("新闻管理", Model.Data.Id.ToString());
+
         <h2>@Model.Data.Title</h2>
         <div>
             @Html.Raw(Model.Data.Content)
         </div>
-        if (!string.IsNullOrWhiteSpace(Model.Data.Attachments))
+        if (!attachments.IsEmpty())
         {
             var index = 0;
-            var attachments = Model.Data.Attachments.Split(',');
-            var attachmentNames = Model.Data.AttachmentDescriptions == null ? null : Model.Data.AttachmentDescriptions.Split(',');
 
             <h4>文件下载</h4>
             <ul>
                 @foreach (var item in attachments)
                 {
-                    <li><a href="@Url.GetFileUrl(item)">附件@(index + 1)：@(attachmentNames == null ? "" : attachmentNames[index++])</a></li>
+                    <li><a href="@Url.GetFileUrl(item.SaveAsPath)">附件@(++index)：@(item.Description)</a></li>
                 }
             </ul>
         }

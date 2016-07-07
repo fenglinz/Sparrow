@@ -339,11 +339,15 @@
     <Content Include="Content\Images\checkAllOn.gif" />
     <Content Include="Content\Images\earth.jpg" />
     <Content Include="Content\Images\exclamation_octagon_fram.png" />
+    <Content Include="Content\Images\icon-ext.png" />
+    <Content Include="Content\Images\icon.png" />
+    <Content Include="Content\Images\loading-0.gif" />
+    <Content Include="Content\Images\loading-1.gif" />
+    <Content Include="Content\Images\loading-2.gif" />
     <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\loading1.gif" />
     <Content Include="Content\Images\validatebox_warning.png" />
     <Content Include="Content\layer.css" />
-    <Content Include="Content\layer.moon.css" />
     <Content Include="Content\LogOn.css" />
     <Content Include="Content\MessageBox\gb_tip_layer.png" />
     <Content Include="Content\MessageBox\msgbox.css" />
@@ -514,6 +518,9 @@
     <Content Include="Scripts\plugins\purify.min.js" />
     <Content Include="Scripts\plugins\sortable.js" />
     <Content Include="Scripts\plugins\sortable.min.js" />
+    <Content Include="Scripts\RichEditor\css\highlight.dark.css" />
+    <Content Include="Scripts\RichEditor\css\highlight.github.css" />
+    <Content Include="Scripts\RichEditor\highlight.pack.js" />
     <Content Include="Views\Helper\ChooseImage.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\ChangePassword.cshtml" />
@@ -690,15 +697,6 @@
     <Content Include="Scripts\RichEditor\emotions\default\7.gif" />
     <Content Include="Scripts\RichEditor\emotions\default\8.gif" />
     <Content Include="Scripts\RichEditor\emotions\default\9.gif" />
-    <Content Include="Scripts\RichEditor\emotions\jinxing\1.gif" />
-    <Content Include="Scripts\RichEditor\emotions\jinxing\2.gif" />
-    <Content Include="Scripts\RichEditor\emotions\jinxing\3.gif" />
-    <Content Include="Scripts\RichEditor\emotions\jinxing\4.gif" />
-    <Content Include="Scripts\RichEditor\emotions\jinxing\5.gif" />
-    <Content Include="Scripts\RichEditor\emotions\jinxing\6.gif" />
-    <Content Include="Scripts\RichEditor\css\highlight.dark.css" />
-    <Content Include="Scripts\RichEditor\css\highlight.github.css" />
-    <Content Include="Scripts\RichEditor\highlight.pack.js" />
     <Content Include="Scripts\TreeTable\jquery.treeTable.js" />
     <Content Include="Scripts\Tree\jstree.js" />
     <Content Include="Scripts\Tree\themes\default-dark\32px.png" />
@@ -750,7 +748,6 @@
     <Content Include="Scripts\RichEditor\css\fonts\icomoon.eot" />
     <Content Include="Scripts\RichEditor\css\fonts\icomoon.ttf" />
     <Content Include="Scripts\RichEditor\css\fonts\icomoon.woff" />
-    <Content Include="Scripts\RichEditor\css\wangEditor.less" />
     <Content Include="Views\Shared\_BaseLayout.cshtml" />
     <Content Include="Views\OperationRecord\Index.cshtml" />
   </ItemGroup>

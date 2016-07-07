@@ -15,7 +15,6 @@
             [Category]=#Category#,
             [Title]=#Title#,
             [Content]=#Content#,
-            [Attachments]=#Attachments#,
             [Status]=#Status#,
             [BrowseTimes]=#BrowseTimes#
           WHERE [Id]=#Id#
@@ -26,7 +25,6 @@
             [Category],
             [Title],
             [Content],
-            [Attachments],
             [Status],
             [BrowseTimes],
             [PublisherId],
@@ -38,7 +36,6 @@
             #Category#,
             #Title#,
             #Content#,
-            #Attachments#,
             #Status#,
             #BrowseTimes#,
             #PublisherId#,
@@ -62,9 +59,6 @@
           n.[Category] AS Category,
           n.[Title] AS Title,
           n.[Content] AS Content,
-          n.[Attachments] AS Attachments,
-          p1.AttachmentNames,
-		      p2.AttachmentDescriptions,
           n.[Status] AS Status,
           n.[BrowseTimes] AS BrowseTimes,
           n.[PublisherId] AS PublisherId,
@@ -72,26 +66,6 @@
           n.[PublishDateTime] AS PublishDateTime
         FROM [News] n
         LEFT JOIN [RBAC].[User] u ON n.PublisherId=u.Id
-        OUTER APPLY(
-          SELECT AttachmentNames=Replace(
-            Replace(
-            (
-	            SELECT FileName FROM FileStorage 
-	            WHERE SaveAsPath IN(SELECT * FROM Split(n.Attachments,','))
-	            FOR XML PATH('')
-            ),'<FileName>','')
-          ,'</FileName>',',')
-        ) p1
-		    OUTER APPLY(
-		      SELECT AttachmentDescriptions=Replace(
-                Replace(
-                (
-	                SELECT Description FROM FileStorage 
-	                WHERE SaveAsPath IN(SELECT * FROM Split(n.Attachments,','))
-	                FOR XML PATH('')
-                ),'<Description>','')
-              ,'</Description>',',')
-		    ) p2
         WHERE n.[Id]=#value#
       ]]>
     </select>
@@ -105,7 +79,6 @@
             [Category] AS Category,
             [Title] AS Title,
             SUBSTRING([Content],0,50) AS Content,
-            [Attachments] AS Attachments,
             [Status] AS Status,
             [BrowseTimes] AS BrowseTimes,
             [PublisherId] AS PublisherId,

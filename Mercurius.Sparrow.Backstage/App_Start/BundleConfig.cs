@@ -75,7 +75,6 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Content/font-awesome.css",
                 "~/Content/ui-dialog.css",
                 "~/Content/layer.css",
-                "~/Content/layer.moon.css",
                 "~/Content/Common.css"));
 
             // 登录页面的CSS

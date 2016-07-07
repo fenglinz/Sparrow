@@ -41,6 +41,12 @@ namespace Mercurius.Sparrow.Entities.Core
         public virtual int Id { get; set; }
 
         /// <summary>
+        /// 文档分类(1:附件;2:富文本图片)。
+        /// </summary>
+        [Display(Name = "文档分类")]
+        public virtual int Category { get; set; }
+
+        /// <summary>
         /// 业务分类。
         /// </summary>
         [Display(Name = "业务分类")]

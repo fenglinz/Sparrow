@@ -11,6 +11,7 @@ using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Entities.RBAC;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
@@ -22,10 +23,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     {
         #region 字段
 
-        private static IPermissionService _permissionService;
-        private static IDictionaryService _dictionaryService;
-        private static ISystemSettingService _systemSettingService;
-        private static IGlobalizationService _globalizationService;
+        private static readonly IPermissionService _permissionService;
+        private static readonly IDictionaryService _dictionaryService;
+        private static readonly IFileStorageService _fileStorageService;
+        private static readonly ISystemSettingService _systemSettingService;
+        private static readonly IGlobalizationService _globalizationService;
 
         #endregion
 
@@ -36,10 +38,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         static HtmlHelperExtensions()
         {
-            _permissionService = AutofacConfig.Container.Resolve<IPermissionService>();
-            _dictionaryService = AutofacConfig.Container.Resolve<IDictionaryService>();
-            _systemSettingService = AutofacConfig.Container.Resolve<ISystemSettingService>();
-            _globalizationService = AutofacConfig.Container.Resolve<IGlobalizationService>();
+            var container = AutofacConfig.Container;
+
+            _permissionService = container.Resolve<IPermissionService>();
+            _dictionaryService = container.Resolve<IDictionaryService>();
+            _fileStorageService = container.Resolve<IFileStorageService>();
+            _systemSettingService = container.Resolve<ISystemSettingService>();
+            _globalizationService = container.Resolve<IGlobalizationService>();
         }
 
         #endregion
@@ -110,6 +115,22 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             var setting = _systemSettingService.GetSetting("ProductVersion");
 
             return (setting == null || setting.Data == null) ? string.Empty : setting.Data.Value;
+        }
+
+        #endregion
+
+        #region 获取上传文件列表
+
+        /// <summary>
+        /// 获取业务流水下的文件信息。
+        /// </summary>
+        /// <param name="html">HTML呈现器</param>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
+        /// <returns>上传文件列表</returns>
+        public static IList<FileStorage> GetBusinessFiles(string category, string serialNumber)
+        {
+            return _fileStorageService.GetBusinessFiles(category, serialNumber).Datas;
         }
 
         #endregion

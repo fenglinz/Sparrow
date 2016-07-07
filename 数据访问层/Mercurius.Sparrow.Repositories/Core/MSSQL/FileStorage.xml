@@ -25,6 +25,7 @@
             ELSE
               INSERT INTO [FileStorage]
               (
+                [Category],
                 [BusinessCategory],
                 [BusinessSerialNumber],
                 [FileName],
@@ -37,6 +38,7 @@
               )
               VALUES
               (
+                #UploadItems[].Category#,
                 #UploadItems[].BusinessCategory#,
                 #UploadItems[].BusinessSerialNumber#,
                 #UploadItems[].FileName#,
@@ -51,18 +53,6 @@
         </iterate>
       </isNotNull>
     </update>
-
-    <!-- 修改描述信息 -->
-    <update id="UpdateDescription" parameterClass="FileStorage">
-      <![CDATA[
-        UPDATE [FileStorage]
-        SET
-          [Description]=#Description#,
-          [UploadUserId]=#UploadUserId#,
-          [UploadDateTime]=GETDATE()
-        WHERE [SaveAsPath]=#SaveAsPath#
-      ]]>
-    </update>
     
     <!-- 删除上传文件信息。 -->
     <delete id="Remove" parameterClass="int">
@@ -72,7 +62,7 @@
     </delete>
 
     <!-- 删除上传文件信息 -->
-    <delete id="RemovesByAccount" parameterClass="Params">
+    <delete id="RemovesByFilePaths" parameterClass="Params">
       <isNotNull property="FilePaths">
         <![CDATA[
           DELETE FROM [FileStorage] WHERE SaveAsPath IN
@@ -88,6 +78,9 @@
       <![CDATA[
         SELECT TOP 1 
           [Id] AS Id,
+          [Category] AS Category,
+          [BusinessCategory] AS BusinessCategory,
+          [BusinessSerialNumber] AS BusinessSerialNumber,
           [FileName] AS FileName,
           [ContentType] AS ContentType,
           [FileSize] AS FileSize,
@@ -105,6 +98,9 @@
       <![CDATA[
         SELECT TOP 1 
           [Id] AS Id,
+          [Category] AS Category,
+          [BusinessCategory] AS BusinessCategory,
+          [BusinessSerialNumber] AS BusinessSerialNumber,
           [FileName] AS FileName,
           [ContentType] AS ContentType,
           [FileSize] AS FileSize,
@@ -117,12 +113,35 @@
       ]]>
     </select>
 
+    <!-- 获取业务所用文件信息 -->
+    <select id="GetBusinessFiles" parameterClass="Params" resultClass="FileStorage">
+      <![CDATA[
+        SELECT
+          [Id] AS Id,
+          [Category] AS Category,
+          [BusinessCategory] AS BusinessCategory,
+          [BusinessSerialNumber] AS BusinessSerialNumber,
+          [FileName] AS FileName,
+          [ContentType] AS ContentType,
+          [FileSize] AS FileSize,
+          [Description] AS Description,
+          [SaveAsPath] AS SaveAsPath,
+          [UploadUserId] AS UploadUserId,
+          [UploadDateTime] AS UploadDateTime
+        FROM [FileStorage]
+        WHERE [Category]=1 AND BusinessCategory=#Category# AND BusinessSerialNumber=#SerialNumber#
+      ]]>
+    </select>
+    
     <!-- 分页返回满足查询条件的上传文件信息。 -->
     <select id="SearchFileStorages" parameterClass="FileStorageSO" resultClass="FileStorage">
       <![CDATA[
         WITH CTE AS(
           SELECT
             a.[Id] AS Id,
+            [Category] AS Category,
+            [BusinessCategory] AS BusinessCategory,
+            [BusinessSerialNumber] AS BusinessSerialNumber,
             [FileName] AS FileName,
             [ContentType] AS ContentType,
             [FileSize] AS FileSize,

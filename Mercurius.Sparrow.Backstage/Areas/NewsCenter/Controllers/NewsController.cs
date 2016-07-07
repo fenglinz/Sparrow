@@ -46,6 +46,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         /// <returns>显示界面</returns>
         public ActionResult CreateOrUpdate(Guid? id = null)
         {
+            this.ViewBag.BusinessSerialNumber = id.HasValue ? id : Guid.NewGuid();
+
             if (id.HasValue)
             {
                 var model = this.NewsService.GetNewsById(id.Value);
@@ -66,15 +68,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(News news)
         {
-            news.Id = news.Id == Guid.Empty ? Guid.NewGuid() : news.Id;
-            this.Request.Params.Add("BusinessSerialNumber", news.Id.ToString());
-
             var fileUpload = new FileStorageClient();
             var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request);
 
             if (rspFile.IsSuccess)
             {
-                news.Attachments = rspFile.Datas.Contract();
                 news.PublisherId = WebHelper.GetLogOnUserId();
 
                 var rsp = this.NewsService.CreateOrUpdate(news);

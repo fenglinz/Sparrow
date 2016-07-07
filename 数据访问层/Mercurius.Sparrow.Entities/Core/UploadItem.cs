@@ -13,6 +13,11 @@ namespace Mercurius.Sparrow.Entities.Core
         #region 属性
 
         /// <summary>
+        /// 分类(1:附件;2:富文本图片)。
+        /// </summary>
+        public int Category { get; set; } = 1;
+
+        /// <summary>
         /// 业务分类。
         /// </summary>
         public string BusinessCategory { get; set; }
@@ -69,10 +74,10 @@ namespace Mercurius.Sparrow.Entities.Core
 
             return new FileStorage
             {
+                Category = item.Category,
                 BusinessCategory = item.BusinessCategory,
                 BusinessSerialNumber = item.BusinessSerialNumber,
                 FileName = item.FileName,
-                ContentType = item.ContentType,
                 SaveAsPath = item.SavedAsFilePath,
                 Description = item.Description
             };

@@ -4,9 +4,11 @@
     <thead>
         <tr>
             <td style="width: 60px">序号</td>
-            <td style="width: 360px;">文件名</td>
-            <td style="width: 220px;">文件类型</td>
-            <td style="width: 400px">保存位置</td>
+            <td style="width: 80px;">分类</td>
+            <td style="width: 300px;">文件名</td>
+            <td style="width: 200px;">文件类型</td>
+            <td style="width: 100px">业务分类</td>
+            <td style="width: 300px">保存位置</td>
             <td style="width: 120px;">描述</td>
             <td style="width: 110px;">上传者</td>
             <td style="width: 130px;">上传时间</td>
@@ -20,8 +22,10 @@
             {
                 <tr>
                     <td class="text-center">@item.RowIndex</td>
+                    <td>@CategoryDisplay(item.Category)</td>
                     <td><a href="javascript:ShowFile('@Url.Content(item.SaveAsPath)')">@item.FileName</a></td>
                     <td data-toggle="tooltip" data-placement="bottom" title="@item.ContentType">@item.ContentType</td>
+                    <td>@item.BusinessCategory</td>
                     <td data-toggle="tooltip" data-placement="bottom" title="@item.SaveAsPath"><i class="glyphicon @(File.Exists(this.Server.MapPath(item.SaveAsPath)) ? "glyphicon-ok-circle" : "glyphicon-remove-circle")" style="margin-right: 5px;"></i>@item.SaveAsPath</td>
                     <td data-toggle="tooltip" data-placement="bottom" title="@item.Description">@item.Description</td>
                     <td>@item.UploadUserName</td>
@@ -53,5 +57,17 @@
         }
     </tbody>
 </table>
-
 @Html.Paging(Model.TotalRecords, "SearchFileStorages", "Home", (object)this.ViewBag.SO, ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "fileStorages" })
+
+@helper CategoryDisplay(int category)
+{
+    switch (category)
+    {
+        case 1:<text>上传文件</text>
+            break;
+        case 2:<text>富文本图片</text>
+            break;
+        default:<text>其他</text>
+            break;
+    }
+}

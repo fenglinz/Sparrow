@@ -73,7 +73,7 @@ namespace Mercurius.Sparrow.Services.Core
 
             return this.InvokeService(nameof(Remove), () =>
             {
-                this.Persistence.Delete(NS, "RemovesByAccount", args);
+                this.Persistence.Delete(NS, "RemovesByFilePaths", args);
 
                 this.ClearCache<FileStorage>();
             }, args);
@@ -100,6 +100,21 @@ namespace Mercurius.Sparrow.Services.Core
         public Response<FileStorage> GetFileStorageByPath(string path)
         {
             return this.InvokeService(nameof(GetFileStorageByPath), () => this.Persistence.QueryForObject<FileStorage>(NS, "GetFileStorageByPath", path), path);
+        }
+
+
+        /// <summary>
+        /// 获取业务流水下的文件信息。
+        /// </summary>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
+        /// <returns>上传文件信息</returns>
+        public ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber)
+        {
+            var args = new { Category = category, SerialNumber = serialNumber };
+
+            return this.InvokeService(nameof(GetBusinessFiles),
+                () => this.Persistence.QueryForList<FileStorage>(NS, "GetBusinessFiles", args), args);
         }
 
         /// <summary>

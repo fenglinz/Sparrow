@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -86,6 +85,7 @@ namespace Mercurius.Sparrow.Services.Support
 
                 uploadItems.Add(new UploadItem
                 {
+                    Category = request.Params["Category"].AsInt32(1),
                     BusinessCategory = request.Params["BusinessCategory"],
                     BusinessSerialNumber = request.Params["BusinessSerialNumber"],
                     FileName = file.FileName,

@@ -43,7 +43,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             int totalRecords,
             string actionName = null,
             string controllerName = null,
-            dynamic routeValues = null,
+            object routeValues = null,
             int? pageSize = null,
             int showNumbers = 5,
             AjaxOptions ajaxOptions = null)

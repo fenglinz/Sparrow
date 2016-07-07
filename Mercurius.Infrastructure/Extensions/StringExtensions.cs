@@ -61,6 +61,17 @@ namespace Mercurius.Infrastructure
         }
 
         /// <summary>
+        /// 将文本转换为整型。
+        /// </summary>
+        /// <param name="text">文本</param>
+        /// <param name="defaultValue">文本为空或转换不成功的默认值</param>
+        /// <returns>整型</returns>
+        public static int AsInt32(this string text, int defaultValue = 0)
+        {
+            return text.IsDigit() ? int.Parse(text) : defaultValue;
+        }
+
+        /// <summary>
         /// 判断字符串是否为数字。
         /// </summary>
         /// <param name="text">字符串</param>
@@ -94,7 +105,7 @@ namespace Mercurius.Infrastructure
             {
                 var count = sources.Count();
 
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     var item = sources.ElementAt(i);
 

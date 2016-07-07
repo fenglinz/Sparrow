@@ -115,6 +115,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                     }
 
                     fileStorage.FileSize = buffers.Length;
+                    fileStorage.ContentType = item.ContentType;
                     fileStorage.SaveAsPath = this.ConvertToWebSitePath(fileInfo.FullName);
                 }
 

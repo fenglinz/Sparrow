@@ -15,13 +15,6 @@ namespace Mercurius.FileStorageSystem.Apis.Extensions
     /// </summary>
     public class CustomMultipartFormDataStreamProvider : MultipartFormDataStreamProvider
     {
-        #region 字段
-
-        private Collection<bool> _isFormData = new Collection<bool>();
-        private NameValueCollection _formData = new NameValueCollection(StringComparer.OrdinalIgnoreCase);
-
-        #endregion
-
         #region 构造方法
 
         /// <summary>
@@ -33,36 +26,6 @@ namespace Mercurius.FileStorageSystem.Apis.Extensions
         }
 
         #endregion
-
-        public override Stream GetStream(HttpContent parent, HttpContentHeaders headers)
-        {
-            var contentDisposition = headers.ContentDisposition;
-
-            this._isFormData.Add(string.IsNullOrWhiteSpace(contentDisposition.FileName));
-
-            return new MemoryStream();
-        }
-
-        public override async Task ExecutePostProcessingAsync()
-        {
-            for (var i = 0; i < Contents.Count; i++)
-            {
-                var formCotent = Contents[i];
-
-                if (this._isFormData[i])
-                {
-                    var contentDisposition = formCotent.Headers.ContentDisposition;
-                    var formFieldName = this.ResolveFileName(contentDisposition.Name) ?? string.Empty;
-                    var formFieldValue = await formCotent.ReadAsStringAsync();
-
-                    FormData.Add(formFieldName, formFieldValue);
-                }
-                else
-                {
-                    this.FileData.Add(new MultipartFileData(formCotent.Headers, GetLocalFileName(formCotent.Headers)));
-                }
-            }
-        }
 
         /// <summary>
         /// 获取保存到本地的文件名。

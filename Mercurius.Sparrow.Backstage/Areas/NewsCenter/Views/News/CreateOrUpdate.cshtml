@@ -1,7 +1,7 @@
 ﻿@model News
 
 @{
-    var attachments = Model == null ? "" : Model.Attachments;
+    IList<FileStorage> attachments = HtmlHelperExtensions.GetBusinessFiles("新闻管理", Convert.ToString(this.ViewBag.BusinessSerialNumber));
 }
 
 @section Styles
@@ -30,18 +30,20 @@
     @Scripts.Render("~/bundles/validate", "~/bundles/RichEditor", "~/bundles/fileinput")
     <script type="text/javascript" src="~/Scripts/handlebars.min.js"></script>
     <script type="text/javascript">
-        var index = '@attachments.Split(',').Length';
+        var index = '@attachments.Count';
 
         $(function () {
             var editor = new wangEditor('richBox');
 
-            wangEditor.plugin({ 'removeImage': function (img) { alert(img.attr('src')); } });
+            editor.config.uploadParams = {
+                Category: 2,
+                BusinessCategory: '新闻管理',
+                BusinessSerialNumber: '@this.ViewBag.BusinessSerialNumber'
+            };
 
             editor.create();
 
             $('#frmNews').on('submit', function () {
-                $('#Content').val($('#richBox').html());
-
                 var items = '';
 
                 $('button[data-uploaded]').each(function () {
@@ -134,11 +136,10 @@
 @using (Html.BeginForm("CreateOrUpdate", "News", FormMethod.Post, new { @id = "frmNews", @enctype = "multipart/form-data", @class = "form-horizontal", @autocomplete = "off", @style = "margin-top: 10px;" }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.Id)
-    @Html.Hidden("Content", "")
     @Html.Hidden("BusinessCategory", "新闻管理")
+    <input type="hidden" id="Id" name="Id" value="@this.ViewBag.BusinessSerialNumber" />
+    <input type="hidden" id="BusinessSerialNumber" name="BusinessSerialNumber" value="@this.ViewBag.BusinessSerialNumber" />
     @Html.Hidden(FileStorage.ModifyUploadedFilesFieldName)
-    @Html.Hidden(FileStorage.UploadedFilesFieldName, attachments)
 
     <div class="form-group">
         @Html.LabelFor(m => m.Category, new { @class = "col-sm-2 control-label" })
@@ -155,7 +156,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Content, new { @class = "col-sm-2 control-label" })
         <div class="col-sm-8">
-            <div id="richBox" style="width: 100%; height: 340px;">@Html.Raw(Model != null ? Model.Content : "")</div>
+            <textarea id="richBox" name="Content" style="width: 100%; height: 340px;">@Html.Raw(Model != null ? Model.Content : "")</textarea>
         </div>
     </div>
     <div id="addAttachments" class="form-group sr-only">
@@ -166,11 +167,11 @@
             </button>
         </div>
     </div>
-    if (string.IsNullOrWhiteSpace(attachments))
+    if (attachments.IsEmpty())
     {
         <div class="form-group">
             <div class="row">
-                @Html.LabelFor(m => m.Attachments, "附件1", new { @class = "col-sm-2 control-label attachment" })
+                @Html.Label("附件1", new { @class = "col-sm-2 control-label attachment" })
                 <div class="col-sm-8">
                     <input id="file1" name="file" type="file" class="form-control attachment" />
                 </div>
@@ -202,15 +203,12 @@
     else
     {
         var index = 1;
-        var attachmentItems = attachments.Split(',');
-        var attachmentNames = string.IsNullOrWhiteSpace(Model.AttachmentNames) ? null : Model.AttachmentNames.Split(',');
-        var attachmentDescriptions = string.IsNullOrWhiteSpace(Model.AttachmentDescriptions) ? null : Model.AttachmentDescriptions.Split(',');
 
-        foreach (var item in attachmentItems)
+        foreach (var item in attachments)
         {
             <div class="form-group">
                 <div class="row">
-                    @Html.LabelFor(m => m.Attachments, "附件" + index, new { @class = "col-sm-2 control-label attachment" })
+                    @Html.Label("附件" + index, new { @class = "col-sm-2 control-label attachment" })
                     <div class="col-sm-8">
                         <input id="file@(index)" name="file" type="file" class="form-control attachment" />
                     </div>
@@ -226,18 +224,19 @@
                 <div class="row description">
                     <label class="col-sm-2 control-label text-danger">描述</label>
                     <div class="col-sm-8">
-                        <input type="text" name="UploadFilesDescription" value="@(attachmentDescriptions == null ? "" : attachmentDescriptions[index - 1])" class="form-control" />
+                        <input type="text" name="UploadFilesDescription" value="@item.Description" class="form-control" />
                     </div>
                 </div>
             </div>
             <script type="text/javascript">
                 $(function () {
-                    $('#file@(index)').fileinput({
-                        showPreview: false,
-                        browseClass: 'btn btn-default',
-                        initialCaption: '@(attachmentNames == null ? "": attachmentNames[index-1])',
-                        initialPreview: '@item'
-                    });
+                    $('#file@(index)')
+                        .fileinput({
+                            showPreview: false,
+                            browseClass: 'btn btn-default',
+                            initialCaption: '@item.FileName',
+                            initialPreview: '@item.SaveAsPath'
+                        });
                 });
             </script>
 

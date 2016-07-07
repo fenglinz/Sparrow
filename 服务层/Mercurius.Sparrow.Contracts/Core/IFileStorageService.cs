@@ -49,6 +49,14 @@ namespace Mercurius.Sparrow.Contracts.Core
         Response<FileStorage> GetFileStorageByPath(string path);
 
         /// <summary>
+        /// 获取业务流水下的文件信息。
+        /// </summary>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
+        /// <returns>上传文件信息</returns>
+        ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber);
+
+        /// <summary>
         /// 查询并分页获取上传文件信息。
         /// </summary>
         /// <param name="so">查询条件</param>
@@ -56,4 +64,3 @@ namespace Mercurius.Sparrow.Contracts.Core
         ResponseSet<FileStorage> SearchFileStorages(FileStorageSO so);
     }
 }
-  
