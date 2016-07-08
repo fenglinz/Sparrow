@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Core\CompressMode.cs" />
     <Compile Include="Core\Dictionary.cs" />
+    <Compile Include="Core\FileUpload.cs" />
     <Compile Include="Core\Globalization.cs" />
     <Compile Include="Core\Log.cs" />
     <Compile Include="Core\OperationRecord.cs" />
@@ -81,7 +82,7 @@
     <Compile Include="Core\SO\LogSO.cs" />
     <Compile Include="Core\SO\OperationRecordSO.cs" />
     <Compile Include="Core\SystemSetting.cs" />
-    <Compile Include="Core\UploadItem.cs" />
+    <Compile Include="Core\FileUploadItem.cs" />
     <Compile Include="Dynamic\ConditionInfo.cs" />
     <Compile Include="Dynamic\CreateOrUpdateInfo.cs" />
     <Compile Include="Dynamic\OrderInfo.cs" />

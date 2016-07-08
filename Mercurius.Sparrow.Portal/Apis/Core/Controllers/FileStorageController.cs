@@ -109,7 +109,7 @@ namespace Mercurius.Sparrow.Portal.Apis.Core.Controllers
         /// <returns>文件上传后的访问路径</returns>
         [HttpPost]
         [Route("api/FileStorage/Upload/Base64/{account}")]
-        public async Task<ResponseSet<string>> Upload(string account, IList<UploadItem> items)
+        public async Task<ResponseSet<string>> Upload(string account, IList<FileUploadItem> items)
         {
             var user = this.GetUser(account);
 

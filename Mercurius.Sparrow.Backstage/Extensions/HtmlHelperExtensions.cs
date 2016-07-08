@@ -124,7 +124,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 获取业务流水下的文件信息。
         /// </summary>
-        /// <param name="html">HTML呈现器</param>
         /// <param name="category">业务分类</param>
         /// <param name="serialNumber">业务流水号</param>
         /// <returns>上传文件列表</returns>

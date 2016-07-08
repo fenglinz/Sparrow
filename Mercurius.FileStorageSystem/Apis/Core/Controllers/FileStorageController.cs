@@ -58,11 +58,11 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         /// 基于base64字符串上传文件。
         /// </summary>
         /// <param name="account">上传者</param>
-        /// <param name="items">上传文件列表信息</param>
+        /// <param name="fileUpload">文件上传信息</param>
         /// <returns>文件上传后的访问路径</returns>
         [HttpPost]
         [Route("api/FileStorage/Upload/{account}")]
-        public async Task<ResponseSet<string>> Upload(string account, IEnumerable<UploadItem> items)
+        public async Task<ResponseSet<string>> Upload(string account, FileUpload fileUpload)
         {
             var user = GetUser(account);
 
@@ -71,18 +71,25 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                 return new ResponseSet<string> { ErrorMessage = UserNotExists };
             }
 
-            if (items.IsEmpty())
+            if (fileUpload == null || fileUpload.Items.IsEmpty())
             {
                 return new ResponseSet<string> { ErrorMessage = "无上传文件信息！" };
+            }
+
+            var savedFiles = this.FileStorageService.GetBusinessFiles(fileUpload.BusinessCategory, fileUpload.BusinessSerialNumber);
+
+            if (!savedFiles.IsSuccess)
+            {
+                return new ResponseSet<string> { ErrorMessage = savedFiles.ErrorMessage };
             }
 
             var files = new List<string>();
             var result = new ResponseSet<string> { Datas = files };
 
-            var removeFiles = from f in items
+            var removeFiles = from f in fileUpload.Items
                               where
-                                !string.IsNullOrWhiteSpace(f.RemoveFilePath)
-                              select f.RemoveFilePath;
+                                savedFiles.Datas.All(d => d.SaveAsPath != f.SavedAsFilePath)
+                              select f.SavedAsFilePath;
 
             if (!removeFiles.IsEmpty())
             {
@@ -91,13 +98,8 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             var fileStorages = new List<FileStorage>();
 
-            foreach (var item in items)
+            foreach (var item in fileUpload.Items)
             {
-                if (!string.IsNullOrWhiteSpace(item.RemoveFilePath))
-                {
-                    continue;
-                }
-
                 var fileStorage = (FileStorage)item;
 
                 fileStorage.UploadUserId = Convert.ToString(user.Id);

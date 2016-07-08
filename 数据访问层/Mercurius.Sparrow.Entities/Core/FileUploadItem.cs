@@ -8,7 +8,7 @@ namespace Mercurius.Sparrow.Entities.Core
     /// <summary>
     /// 上传文件项。
     /// </summary>
-    public class UploadItem
+    public class FileUploadItem
     {
         #region 属性
 
@@ -16,16 +16,6 @@ namespace Mercurius.Sparrow.Entities.Core
         /// 分类(1:附件;2:富文本图片)。
         /// </summary>
         public int Category { get; set; } = 1;
-
-        /// <summary>
-        /// 业务分类。
-        /// </summary>
-        public string BusinessCategory { get; set; }
-
-        /// <summary>
-        /// 业务流水号。
-        /// </summary>
-        public string BusinessSerialNumber { get; set; }
 
         /// <summary>
         /// 文件名(含扩展名)。
@@ -52,11 +42,6 @@ namespace Mercurius.Sparrow.Entities.Core
         /// </summary>
         public string SavedAsFilePath { get; set; }
 
-        /// <summary>
-        /// 删除的文件路径。
-        /// </summary>
-        public string RemoveFilePath { get; set; }
-
         #endregion
 
         #region 操作符重载
@@ -65,7 +50,7 @@ namespace Mercurius.Sparrow.Entities.Core
         /// 将上传文件项信息隐式转换为上传文件实体信息。
         /// </summary>
         /// <param name="item">上传文件项信息</param>
-        public static explicit operator FileStorage(UploadItem item)
+        public static explicit operator FileStorage(FileUploadItem item)
         {
             if (item == null)
             {
@@ -75,8 +60,6 @@ namespace Mercurius.Sparrow.Entities.Core
             return new FileStorage
             {
                 Category = item.Category,
-                BusinessCategory = item.BusinessCategory,
-                BusinessSerialNumber = item.BusinessSerialNumber,
                 FileName = item.FileName,
                 SaveAsPath = item.SavedAsFilePath,
                 Description = item.Description

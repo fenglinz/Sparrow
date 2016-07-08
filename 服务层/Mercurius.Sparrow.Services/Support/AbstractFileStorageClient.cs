@@ -81,14 +81,12 @@ namespace Mercurius.Sparrow.Services.Support
         #endregion
 
         /// <summary>
-        /// 上传文件。
+        /// 上传文件(基于base64字符串)。
         /// </summary>
         /// <param name="account">上传账号</param>
-        /// <param name="file">上传文件地址</param>
-        /// <param name="contentType">文档类型</param>
-        /// <param name="replacedFile">替换的文件</param>
+        /// <param name="fileUpload">文件上传信息</param>
         /// <returns>上传后的文件地址</returns>
-        public abstract Response<string> Upload(string account, string file, string contentType, string replacedFile = null);
+        public abstract ResponseSet<string> Upload(string account, FileUpload fileUpload);
 
         /// <summary>
         /// 上传文件。
@@ -97,14 +95,6 @@ namespace Mercurius.Sparrow.Services.Support
         /// <param name="request">Http请求对象</param>
         /// <returns>上传后的文件地址</returns>
         public abstract ResponseSet<string> Upload(string account, HttpRequestBase request);
-
-        /// <summary>
-        /// 上传文件(基于base64字符串)。
-        /// </summary>
-        /// <param name="account">上传账号</param>
-        /// <param name="items">上传文件信息</param>
-        /// <returns>上传后的文件地址</returns>
-        public abstract ResponseSet<string> Upload(string account, params UploadItem[] items);
 
         /// <summary>
         /// 删除上传文件。
