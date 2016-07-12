@@ -16,9 +16,16 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// <summary>
         /// 添加或者编辑上传文件
         /// </summary>
-        /// <param name="fileStorages">上传文件列表信息</param>
+        /// <param name="fileUpload">文件上传信息</param>
         /// <returns>返回添加或保存结果</returns>
-        Response CreateOrUpdate(params FileStorage[] fileStorages);
+        Response CreateOrUpdate(FileStorage fileStorage);
+
+        /// <summary>
+        /// 上传文件。
+        /// </summary>
+        /// <param name="fileUpload">文件上传信息</param>
+        /// <returns>上传结果</returns>
+        ResponseSet<string> UploadFiles(FileUpload fileUpload);
 
         /// <summary>
         /// 根据主键删除上传文件信息。

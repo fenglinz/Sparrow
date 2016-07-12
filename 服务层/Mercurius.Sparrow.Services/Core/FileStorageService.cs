@@ -29,22 +29,35 @@ namespace Mercurius.Sparrow.Services.Core
         /// <summary>
         /// 添加或者编辑上传文件
         /// </summary>
-        /// <param name="fileStorages"></param>
+        /// <param name="fileStorage">上传文件信息</param>
         /// <returns>返回添加或保存结果</returns>
-        public Response CreateOrUpdate(params FileStorage[] fileStorages)
+        public Response CreateOrUpdate(FileStorage fileStorage)
         {
             return this.InvokeService(
                 nameof(CreateOrUpdate),
                 () =>
                 {
-                    this.Persistence.Update(NS, "CreateOrUpdate", new
-                    {
-                        UploadItems = fileStorages.ToList(),
-                        UploadUserId = WebHelper.GetLogOnUserId()
-                    });
+                    this.Persistence.Update(NS, "CreateOrUpdate", fileStorage);
 
                     this.ClearCache<FileStorage>();
-                }, fileStorages);
+                }, fileStorage);
+        }
+
+        /// <summary>
+        /// 上传文件。
+        /// </summary>
+        /// <param name="fileUpload">文件上传信息</param>
+        /// <returns>上传结果</returns>
+        public ResponseSet<string> UploadFiles(FileUpload fileUpload)
+        {
+            return this.InvokeService(nameof(UploadFiles), () =>
+            {
+                var rs = this.Persistence.QueryForList<string>(NS, "UploadFiles", fileUpload);
+
+                this.ClearCache<FileStorage>();
+
+                return rs;
+            }, fileUpload, false);
         }
 
         /// <summary>

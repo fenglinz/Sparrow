@@ -24,6 +24,11 @@ namespace Mercurius.Sparrow.Entities.Core
         public string BusinessSerialNumber { get; set; }
 
         /// <summary>
+        /// 上传者编号。
+        /// </summary>
+        public string UploadUserId { get; set; }
+
+        /// <summary>
         /// 上传文件集合。
         /// </summary>
         public IList<FileUploadItem> Items { get; private set; }

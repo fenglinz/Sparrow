@@ -27,7 +27,7 @@
             $('#file').fileinput({
                 initialCaption:'@Model.FileName',
                 initialPreview: [
-                    '@Html.Raw(Model.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase)? string.Format("<img src=\"{0}\" class=\"file-preview-image\" alt=\"{1}\" />", Url.Content(Model.SaveAsPath), Model.FileName) : "<div class=\"file-preview-other\"><span class=\"file-icon-4x\"><i class=\"glyphicon glyphicon-file\"></i></span></div>" + Model.FileName)'
+                    '@Html.Raw(Model.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase)? string.Format("<img src=\"{0}\" class=\"file-preview-image\" alt=\"{1}\" style=\"width:120px;height:100%;\" />", Url.Content(Model.SaveAsPath), Model.FileName) : "<div class=\"file-preview-other\"><span class=\"file-icon-4x\"><i class=\"glyphicon glyphicon-file\"></i></span></div>" + Model.FileName)'
                 ]
             });
             </text>

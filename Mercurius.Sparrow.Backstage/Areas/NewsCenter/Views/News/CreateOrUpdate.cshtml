@@ -213,7 +213,7 @@
                         <input id="file@(index)" name="file" type="file" class="form-control attachment" />
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" data-uploaded="@item" onclick="OnAppendAttachment(this)">
+                        <button type="button" class="btn btn-primary" data-uploaded="@item.SaveAsPath" onclick="OnAppendAttachment(this)">
                             <i class="glyphicon glyphicon-plus-sign"></i>
                         </button>
                         <button type="button" class="btn btn-danger" onclick="OnRemoveAttachment(this)">

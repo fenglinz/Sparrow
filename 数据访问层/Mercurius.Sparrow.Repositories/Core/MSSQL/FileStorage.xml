@@ -1,27 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sqlMap namespace="Mercurius.Sparrow.Repositories.Core.FileStorage" xmlns="http://ibatis.apache.org/mapping">
   <alias>
+    <typeAlias alias="FileUpload" type="Mercurius.Sparrow.Entities.Core.FileUpload, Mercurius.Sparrow.Entities" />
     <typeAlias alias="FileStorage" type="Mercurius.Sparrow.Entities.Core.FileStorage,Mercurius.Sparrow.Entities" />
     <typeAlias alias="FileStorageSO" type="Mercurius.Sparrow.Entities.Core.SO.FileStorageSO,Mercurius.Sparrow.Entities" />
   </alias>
   <statements>
-    <!-- 添加或者更新上传文件信息。 -->
-    <update id="CreateOrUpdate" parameterClass="Params">
-      <isNotNull property="UploadItems">
-        <iterate property="UploadItems" open="BEGIN " conjunction="" close="END">
+
+    <!-- 添加或者修改上传文件信息 -->
+    <update id="CreateOrUpdate" parameterClass="FileStorage">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [FileStorage] WHERE [SaveAsPath]=#SaveAsPath#)
+          UPDATE [FileStorage]
+          SET
+            [BusinessCategory]=#BusinessCategory#,
+            [BusinessSerialNumber]=#BusinessSerialNumber#,
+            [FileName]=#FileName#,
+            [ContentType]=#ContentType#,
+            [FileSize]=#FileSize#,
+            [Description]=#Description#,
+            [UploadUserId]=#UploadUserId#,
+            [UploadDateTime]=GETDATE()
+          WHERE [SaveAsPath]=#SaveAsPath#
+        ELSE
+          INSERT INTO [FileStorage]
+          (
+            [Category],
+            [BusinessCategory],
+            [BusinessSerialNumber],
+            [FileName],
+            [ContentType],
+            [FileSize],
+            [Description],
+            [SaveAsPath],
+            [UploadUserId],
+            [UploadDateTime]
+          )
+          VALUES
+          (
+            #Category#,
+            #BusinessCategory#,
+            #BusinessSerialNumber#,
+            #FileName#,
+            #ContentType#,
+            #FileSize#,
+            #Description#,
+            #SaveAsPath#,
+            #UploadUserId#,
+            GETDATE()
+          )
+      ]]>
+    </update>
+    
+    <!-- 上传文件信息。 -->
+    <select id="UploadFiles" parameterClass="FileUpload" resultClass="string">
+      <![CDATA[
+        BEGIN
+      ]]>
+      <isNotNull property="Items">
+        <iterate property="Items" open="" conjunction="" close="">
           <![CDATA[
-            IF EXISTS(SELECT * FROM [FileStorage] WHERE [SaveAsPath]=#UploadItems[].SaveAsPath#)
+            IF EXISTS(SELECT * FROM [FileStorage] WHERE [SaveAsPath]=#Items[].SavedAsFilePath#)
               UPDATE [FileStorage]
               SET
-                [BusinessCategory]=#UploadItems[].BusinessCategory#,
-                [BusinessSerialNumber]=#UploadItems[].BusinessSerialNumber#,
-                [FileName]=ISNULL(CASE #UploadItems[].FileName# WHEN '' THEN NULL ELSE #UploadItems[].FileName# END, [FileName]),
-                [ContentType]=ISNULL(CASE #UploadItems[].ContentType# WHEN '' THEN NULL ELSE #UploadItems[].ContentType# END, [ContentType]),
-                [FileSize]=ISNULL(CASE #UploadItems[].FileSize# WHEN '' THEN NULL ELSE #UploadItems[].FileSize# END, [FileSize]),
-                [Description]=#UploadItems[].Description#,
+                [BusinessCategory]=#BusinessCategory#,
+                [BusinessSerialNumber]=#BusinessSerialNumber#,
+                [FileName]=ISNULL(CASE #Items[].FileName# WHEN '' THEN NULL ELSE #Items[].FileName# END, [FileName]),
+                [ContentType]=ISNULL(CASE #Items[].ContentType# WHEN '' THEN NULL ELSE #Items[].ContentType# END, [ContentType]),
+                [FileSize]=ISNULL(CASE #Items[].FileSize# WHEN '' THEN NULL ELSE #Items[].FileSize# END, [FileSize]),
+                [Description]=#Items[].Description#,
                 [UploadUserId]=#UploadUserId#,
                 [UploadDateTime]=GETDATE()
-              WHERE [SaveAsPath]=#UploadItems[].SaveAsPath#
+              WHERE [SaveAsPath]=#Items[].SavedAsFilePath#
             ELSE
               INSERT INTO [FileStorage]
               (
@@ -38,21 +88,28 @@
               )
               VALUES
               (
-                #UploadItems[].Category#,
-                #UploadItems[].BusinessCategory#,
-                #UploadItems[].BusinessSerialNumber#,
-                #UploadItems[].FileName#,
-                #UploadItems[].ContentType#,
-                #UploadItems[].FileSize#,
-                #UploadItems[].Description#,
-                #UploadItems[].SaveAsPath#,
+                #Items[].Category#,
+                #BusinessCategory#,
+                #BusinessSerialNumber#,
+                #Items[].FileName#,
+                #Items[].ContentType#,
+                #Items[].FileSize#,
+                #Items[].Description#,
+                #Items[].SavedAsFilePath#,
                 #UploadUserId#,
                 GETDATE()
               )
           ]]>
         </iterate>
       </isNotNull>
-    </update>
+      <![CDATA[
+          SELECT
+            SaveAsPath
+          FROM [FileStorage]
+          WHERE BusinessCategory=#BusinessCategory# AND [BusinessSerialNumber]=#BusinessSerialNumber#;
+        END
+      ]]>
+    </select>
     
     <!-- 删除上传文件信息。 -->
     <delete id="Remove" parameterClass="int">
@@ -153,7 +210,7 @@
             ROW_NUMBER() OVER(ORDER BY a.[Id] DESC) AS RowIndex
           FROM [FileStorage] a
           LEFT JOIN [RBAC].[User] b ON a.UploadUserId=b.Id
-          LEFT JOIN [WebApi].[User] c ON a.UploadUserId=c.Id
+          LEFT JOIN [WebApi].[User] c ON a.UploadUserId=Cast(c.Id AS NVARCHAR(36))
       ]]>
       <include refid="searchConditions" />
       <![CDATA[

@@ -33,6 +33,11 @@ namespace Mercurius.Sparrow.Entities.Core
         public string FileData { get; set; }
 
         /// <summary>
+        /// 上传文件大小。
+        /// </summary>
+        public int? FileSize { get; set; }
+
+        /// <summary>
         /// 文件描述。
         /// </summary>
         public string Description { get; set; }
@@ -41,30 +46,6 @@ namespace Mercurius.Sparrow.Entities.Core
         /// 已保存的文件路径。
         /// </summary>
         public string SavedAsFilePath { get; set; }
-
-        #endregion
-
-        #region 操作符重载
-
-        /// <summary>
-        /// 将上传文件项信息隐式转换为上传文件实体信息。
-        /// </summary>
-        /// <param name="item">上传文件项信息</param>
-        public static explicit operator FileStorage(FileUploadItem item)
-        {
-            if (item == null)
-            {
-                return null;
-            }
-
-            return new FileStorage
-            {
-                Category = item.Category,
-                FileName = item.FileName,
-                SaveAsPath = item.SavedAsFilePath,
-                Description = item.Description
-            };
-        }
 
         #endregion
     }

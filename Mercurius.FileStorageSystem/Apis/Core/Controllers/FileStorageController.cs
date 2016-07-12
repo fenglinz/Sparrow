@@ -10,9 +10,7 @@ using System.Web.Http;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.Core;
-using Mercurius.FileStorageSystem.Apis.Extensions;
 using Mercurius.Sparrow.Entities.Core;
-using static Mercurius.Sparrow.Entities.Core.FileStorage;
 using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
 
 namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
@@ -64,16 +62,16 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         [Route("api/FileStorage/Upload/{account}")]
         public async Task<ResponseSet<string>> Upload(string account, FileUpload fileUpload)
         {
+            if (fileUpload == null || fileUpload.Items == null)
+            {
+                return new ResponseSet<string> { ErrorMessage = "无上传文件信息！" };
+            }
+
             var user = GetUser(account);
 
             if (user == null)
             {
                 return new ResponseSet<string> { ErrorMessage = UserNotExists };
-            }
-
-            if (fileUpload == null || fileUpload.Items.IsEmpty())
-            {
-                return new ResponseSet<string> { ErrorMessage = "无上传文件信息！" };
             }
 
             var savedFiles = this.FileStorageService.GetBusinessFiles(fileUpload.BusinessCategory, fileUpload.BusinessSerialNumber);
@@ -83,27 +81,20 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                 return new ResponseSet<string> { ErrorMessage = savedFiles.ErrorMessage };
             }
 
-            var files = new List<string>();
-            var result = new ResponseSet<string> { Datas = files };
-
-            var removeFiles = from f in fileUpload.Items
+            var removeFiles = from f in savedFiles.Datas
                               where
-                                savedFiles.Datas.All(d => d.SaveAsPath != f.SavedAsFilePath)
-                              select f.SavedAsFilePath;
+                                fileUpload.Items.IsEmpty() || fileUpload.Items.All(i => i.SavedAsFilePath != f.SaveAsPath)
+                              select f.SaveAsPath;
 
             if (!removeFiles.IsEmpty())
             {
                 this.Remove(removeFiles);
             }
 
-            var fileStorages = new List<FileStorage>();
+            fileUpload.UploadUserId = user.Id;
 
             foreach (var item in fileUpload.Items)
             {
-                var fileStorage = (FileStorage)item;
-
-                fileStorage.UploadUserId = Convert.ToString(user.Id);
-
                 if (!string.IsNullOrWhiteSpace(item.FileData))
                 {
                     var buffers = Convert.FromBase64String(item.FileData);
@@ -116,28 +107,23 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                         await stream.WriteAsync(buffers, 0, buffers.Length);
                     }
 
-                    fileStorage.FileSize = buffers.Length;
-                    fileStorage.ContentType = item.ContentType;
-                    fileStorage.SaveAsPath = this.ConvertToWebSitePath(fileInfo.FullName);
+                    item.FileSize = buffers.Length;
+                    item.SavedAsFilePath = this.ConvertToWebSitePath(fileInfo.FullName);
                 }
-
-                fileStorages.Add(fileStorage);
+                else
+                {
+                    item.ContentType = null;
+                }
             }
 
-            var rsp = this.FileStorageService.CreateOrUpdate(fileStorages.ToArray());
+            var rsp = this.FileStorageService.UploadFiles(fileUpload);
 
-            if (rsp.IsSuccess)
+            if (!rsp.IsSuccess)
             {
-                files.AddRange(fileStorages.Select(f => f.SaveAsPath));
-            }
-            else
-            {
-                rsp.ErrorMessage = rsp.ErrorMessage;
-
-                this.Remove(fileStorages.Select(f => f.SaveAsPath));
+                this.Remove(fileUpload.Items.Select(f => f.SavedAsFilePath));
             }
 
-            return result;
+            return rsp;
         }
 
         /// <summary>
@@ -215,7 +201,6 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         private void RemoveCompressionImage(string file)
         {
             var directory = $@"{Path.GetDirectoryName(file)}\Compression";
-
             var format = $@"{directory}\{"{0}"}_{Path.GetFileName(file)}";
 
             if (File.Exists(string.Format(format, CompressMode.Small)))
