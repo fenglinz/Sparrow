@@ -1,5 +1,5 @@
 ﻿/// <autosync enabled="true" />
-/// <reference path="../content/bootstrap-fileinput/themes/fa/fa.js" />
+/// <reference path="../content/bootstrap-fileinput/themes/fa/theme.js" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="bootstrap-datetimepicker.min.js" />
 /// <reference path="bootstrap-fileinput/fileinput.min.js" />

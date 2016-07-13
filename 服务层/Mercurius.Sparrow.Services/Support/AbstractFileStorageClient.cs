@@ -54,7 +54,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <summary>
         /// 删除上传文件的Web API地址。
         /// </summary>
-        protected static readonly string FileStorageRemoveUrl = $"{FileStorageRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.Remove"]}";
+        protected static readonly string FileStorageRemoveUrl = $"{FileStorageRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.Remove"]}/{"{0}"}/{"{1}"}/{"{2}"}";
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace Mercurius.Sparrow.Services.Support
         #endregion
 
         /// <summary>
-        /// 上传文件(基于base64字符串)。
+        /// 上传文件。
         /// </summary>
         /// <param name="account">上传账号</param>
         /// <param name="fileUpload">文件上传信息</param>
@@ -99,9 +99,11 @@ namespace Mercurius.Sparrow.Services.Support
         /// <summary>
         /// 删除上传文件。
         /// </summary>
-        /// <param name="filePaths">删除上传文件</param>
+        /// <param name="account">删除者账号</param>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
         /// <returns>删除结果</returns>
-        public abstract Response Remove(params string[] filePaths);
+        public abstract Response Remove(string account, string category, string serialNumber);
 
         #region 受保护方法
 

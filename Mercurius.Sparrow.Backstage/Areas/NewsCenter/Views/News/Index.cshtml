@@ -33,6 +33,16 @@
         }
         </text>)
 
+        @Html.RenderButtonScript("删除", @<text>
+        function @(item.NavigateUrl)(){
+            var id=$('#tbNews > tbody > tr.selected > td:eq(0)').attr('data-id');
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.RemoveData('@Url.Action("Remove")',{id:id});
+            }
+        }
+        </text>)
+
         function OnPagedComplete() {
             mercurius.FixedTableHeader('#tbNews', 150);
         }

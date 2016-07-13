@@ -82,6 +82,25 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         }
 
         /// <summary>
+        /// 删除新闻信息。
+        /// </summary>
+        /// <param name="id">新闻编号</param>
+        /// <returns>删除结果</returns>
+        [HttpPost]
+        public ActionResult Remove(Guid id)
+        {
+            var client = new FileStorageClient();
+            var rsp = client.Remove(WebHelper.GetLogOnAccount(), "新闻管理", id.ToString());
+
+            if (rsp.IsSuccess)
+            {
+                rsp = this.NewsService.Remove(id);
+            }
+
+            return Json(rsp);
+        }
+
+        /// <summary>
         /// 显示预览。
         /// </summary>
         /// <param name="id">新闻编号</param>

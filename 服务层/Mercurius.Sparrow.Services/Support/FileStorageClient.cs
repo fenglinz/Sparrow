@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
@@ -96,15 +93,19 @@ namespace Mercurius.Sparrow.Services.Support
         /// <summary>
         /// 删除上传文件。
         /// </summary>
-        /// <param name="filePaths">删除上传文件</param>
+        /// <param name="account">删除者账号</param>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
         /// <returns>删除结果</returns>
-        public override Response Remove(params string[] filePaths)
+        public override Response Remove(string account, string category, string serialNumber)
         {
-            var request = (HttpWebRequest)WebRequest.Create($"{FileStorageRemoveUrl}");
+            var url = string.Format(FileStorageRemoveUrl, account, category, serialNumber);
+            var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = "application/json";
             request.Method = "POST";
             request.KeepAlive = true;
+            request.ContentLength = 0; // 无请求内容时，必须设置为0.
             request.Credentials = CredentialCache.DefaultCredentials;
 
             var token = this.GetToken();
@@ -112,14 +113,6 @@ namespace Mercurius.Sparrow.Services.Support
             if (token != null)
             {
                 request.Headers.Add(HttpRequestHeader.Authorization, $"{token.TokenType} {token.AccessToken}");
-            }
-
-            using (var stream = request.GetRequestStream())
-            {
-
-                var buffers = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(filePaths));
-
-                stream.Write(buffers, 0, buffers.Length);
             }
 
             var response = (HttpWebResponse)request.GetResponse();

@@ -126,40 +126,38 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
             return rsp;
         }
 
+        #endregion
+
+        #region 文件删除
+
         /// <summary>
-        /// 删除文件资源。
+        /// 删除文件。
         /// </summary>
-        /// <param name="filePaths">文件路径</param>
+        /// <param name="account">账号</param>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("api/FileStorage/Remove")]
-        public Response Remove(IEnumerable<string> filePaths)
+        [Route("api/FileStorage/Remove/{account}/{category}/{serialNumber}")]
+        public Response Remove(string account, string category, string serialNumber)
         {
-            if (filePaths.IsEmpty())
+            var user = GetUser(account);
+
+            if (user == null)
             {
-                return new Response { ErrorMessage = "无删除文件！" };
+                return new Response { ErrorMessage = UserNotExists };
             }
 
-            var rsp = this.FileStorageService.Remove(filePaths.ToArray());
+            var savedFiles = this.FileStorageService.GetBusinessFiles(category, serialNumber);
 
-            if (rsp.IsSuccess)
+            if (savedFiles.IsSuccess)
             {
-                foreach (var file in filePaths)
-                {
-                    var fileInfo = new FileInfo(HttpContext.Current.Server.MapPath(file));
+                this.Remove(savedFiles.Datas.Select(f => f.SaveAsPath));
 
-                    if (fileInfo.Exists)
-                    {
-                        fileInfo.Delete();
-                        this.RemoveCompressionImage(fileInfo.FullName);
-                    }
-                }
-            }
-            else
-            {
-                return rsp;
+                return new Response();
             }
 
-            return new Response();
+            return new Response { ErrorMessage = savedFiles.ErrorMessage }; ;
         }
 
         #endregion
@@ -196,6 +194,34 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         private string ConvertToWebSitePath(string localFileName)
         {
             return AppSettingPath + localFileName.Replace(UploadFileSavedDirectory, "").Replace("\\", "/");
+        }
+
+        /// <summary>
+        /// 删除文件资源。
+        /// </summary>
+        /// <param name="filePaths">文件路径</param>
+        private void Remove(IEnumerable<string> filePaths)
+        {
+            if (filePaths.IsEmpty())
+            {
+                return;
+            }
+
+            var rsp = this.FileStorageService.Remove(filePaths.ToArray());
+
+            if (rsp.IsSuccess)
+            {
+                foreach (var file in filePaths)
+                {
+                    var fileInfo = new FileInfo(HttpContext.Current.Server.MapPath(file));
+
+                    if (fileInfo.Exists)
+                    {
+                        fileInfo.Delete();
+                        this.RemoveCompressionImage(fileInfo.FullName);
+                    }
+                }
+            }
         }
 
         private void RemoveCompressionImage(string file)

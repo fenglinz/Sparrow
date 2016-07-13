@@ -57,21 +57,6 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         }
 
         /// <summary>
-        /// 删除文件。
-        /// </summary>
-        /// <param name="id">文件路径</param>
-        /// <returns>删除结果</returns>
-        [HttpPost]
-        public ActionResult RemoveFile(string id)
-        {
-            var client = new FileStorageClient();
-
-            var rsp = client.Remove(id);
-
-            return Json(rsp);
-        }
-
-        /// <summary>
         /// 显示图标选择界面。
         /// </summary>
         /// <returns>图标显示界面</returns>
