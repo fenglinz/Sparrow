@@ -1,0 +1,40 @@
+﻿@section Scripts{
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var hub = $.connection.clearRubbishFiles;
+
+            hub.client.Message = function (message) {
+                if (message == '--start--') {
+                    $('#messages').show();
+                    $('#messages').html('');
+                } else {
+                    $('#messages').append('<p>' + message + '</p>');
+                }
+            };
+
+            $.connection.hub.start().done(function () {
+                $('#btnClear').click(function () {
+                    alert('开始');
+
+                    hub.server.clear();
+                });
+            });
+        });
+    </script>
+}
+
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="display:inline-block;width:100%;">
+            <h4 class="pull-left">清理垃圾文件</h4>
+            <button id="btnClear" class="btn btn-danger pull-right" style="margin-top:3px;">
+                <i class="glyphicon glyphicon-remove-circle"></i> 清理
+            </button>
+        </div>
+        <div id="messages" class="panel-body">
+
+        </div>
+    </div>
+</div>

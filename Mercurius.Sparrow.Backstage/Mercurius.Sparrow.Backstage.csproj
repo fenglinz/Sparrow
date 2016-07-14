@@ -416,7 +416,6 @@
     <Content Include="Content\Tree\jquery.treeview.css" />
     <Content Include="Content\ui-dialog.css" />
     <Content Include="Content\Images\uploadify-cancel.png" />
-    <Content Include="Content\uploadify.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

@@ -3,10 +3,10 @@
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
-        <ul class="nav navbar-nav navbar-right" style="margin-right: 25px;">
-            <li>
-                <span style="color: #fff;position: relative;top: 15px;right: 20px;">
-                    你好， <i class="glyphicon glyphicon-user"></i> @WebHelper.GetLogOnName() (@WebHelper.GetLogOnAccount())
+        <ul class="nav navbar-nav navbar-right" style="margin-left:0;margin-right:30px;">
+            <li style="margin-top:16px; margin-right:10px;">
+                <span style="color: #fff;">
+                    <i class="glyphicon glyphicon-user"></i> 欢迎， @WebHelper.GetLogOnName() (@WebHelper.GetLogOnAccount())
                 </span>
             </li>
             <li>

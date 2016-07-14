@@ -7,11 +7,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using Mercurius.FileStorageSystem.Extensions;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core;
 using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
+using static Mercurius.FileStorageSystem.Extensions.FileManager;
 
 namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 {
@@ -21,32 +23,12 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
     [Authorize]
     public class FileStorageController : ApiController
     {
-        #region 字段
-
-        private static readonly string AppSettingPath;
-        private static readonly string UploadFileSavedDirectory;
-
-        #endregion
-
         #region 属性
 
         /// <summary>
         /// 获取或者设置文件管理服务。
         /// </summary>
         public IFileStorageService FileStorageService { get; set; }
-
-        #endregion
-
-        #region 构造方法
-
-        /// <summary>
-        /// 静态构造方法。
-        /// </summary>
-        static FileStorageController()
-        {
-            AppSettingPath = ConfigurationManager.AppSettings["UploadFileSavedDirectory"];
-            UploadFileSavedDirectory = HttpContext.Current.Server.MapPath(AppSettingPath);
-        }
 
         #endregion
 
@@ -88,7 +70,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             if (!removeFiles.IsEmpty())
             {
-                this.Remove(removeFiles);
+                FileManager.Remove(removeFiles);
             }
 
             fileUpload.UploadUserId = user.Id;
@@ -100,7 +82,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                     var buffers = Convert.FromBase64String(item.FileData);
                     var fileInfo = string.IsNullOrWhiteSpace(item.SavedAsFilePath) ?
                         new FileInfo(this.GetSaveAsFileName(item.FileName)) :
-                        new FileInfo(UploadFileSavedDirectory + item.SavedAsFilePath.Substring(AppSettingPath.Length).Replace('/', '\\'));
+                        new FileInfo(UploadFileSavedDirectory + item.SavedAsFilePath.Substring(UploadFileSavedPath.Length).Replace('/', '\\'));
 
                     using (var stream = fileInfo.OpenWrite())
                     {
@@ -120,7 +102,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             if (!rsp.IsSuccess)
             {
-                this.Remove(fileUpload.Items.Select(f => f.SavedAsFilePath));
+                FileManager.Remove(fileUpload.Items.Select(f => f.SavedAsFilePath));
             }
 
             return rsp;
@@ -152,7 +134,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             if (savedFiles.IsSuccess)
             {
-                this.Remove(savedFiles.Datas.Select(f => f.SaveAsPath));
+                FileManager.Remove(savedFiles.Datas.Select(f => f.SaveAsPath));
 
                 return new Response();
             }
@@ -193,56 +175,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         /// <returns>相对路径</returns>
         private string ConvertToWebSitePath(string localFileName)
         {
-            return AppSettingPath + localFileName.Replace(UploadFileSavedDirectory, "").Replace("\\", "/");
-        }
-
-        /// <summary>
-        /// 删除文件资源。
-        /// </summary>
-        /// <param name="filePaths">文件路径</param>
-        private void Remove(IEnumerable<string> filePaths)
-        {
-            if (filePaths.IsEmpty())
-            {
-                return;
-            }
-
-            var rsp = this.FileStorageService.Remove(filePaths.ToArray());
-
-            if (rsp.IsSuccess)
-            {
-                foreach (var file in filePaths)
-                {
-                    var fileInfo = new FileInfo(HttpContext.Current.Server.MapPath(file));
-
-                    if (fileInfo.Exists)
-                    {
-                        fileInfo.Delete();
-                        this.RemoveCompressionImage(fileInfo.FullName);
-                    }
-                }
-            }
-        }
-
-        private void RemoveCompressionImage(string file)
-        {
-            var directory = $@"{Path.GetDirectoryName(file)}\Compression";
-            var format = $@"{directory}\{"{0}"}_{Path.GetFileName(file)}";
-
-            if (File.Exists(string.Format(format, CompressMode.Small)))
-            {
-                File.Delete(string.Format(format, CompressMode.Small));
-            }
-
-            if (File.Exists(string.Format(format, CompressMode.Medium)))
-            {
-                File.Delete(string.Format(format, CompressMode.Medium));
-            }
-
-            if (File.Exists(string.Format(format, CompressMode.Large)))
-            {
-                File.Delete(string.Format(format, CompressMode.Large));
-            }
+            return UploadFileSavedPath + localFileName.Replace(UploadFileSavedDirectory, "").Replace("\\", "/");
         }
 
         #endregion

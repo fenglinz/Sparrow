@@ -149,6 +149,19 @@ namespace Mercurius.FileStorageSystem.Controllers
 
         #endregion
 
+        #region 垃圾文件清理
+
+        /// <summary>
+        /// 清理文件垃圾。
+        /// </summary>
+        /// <returns>显示文件垃圾界面</returns>
+        public ActionResult ClearRubbish()
+        {
+            return View();
+        }
+
+        #endregion
+
         #region 删除文件
 
         /// <summary>

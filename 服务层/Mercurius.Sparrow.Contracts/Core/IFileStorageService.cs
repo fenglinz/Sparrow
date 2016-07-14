@@ -56,12 +56,17 @@ namespace Mercurius.Sparrow.Contracts.Core
         Response<FileStorage> GetFileStorageByPath(string path);
 
         /// <summary>
-        /// 获取业务流水下的文件信息。
+        /// 获取无效的文件列表。
         /// </summary>
-        /// <param name="category">业务分类</param>
-        /// <param name="serialNumber">业务流水号</param>
-        /// <returns>上传文件信息</returns>
-        ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber);
+        /// <returns>文件列表</returns>
+        ResponseSet<string> GetInvalidFiles();
+
+        /// <summary>
+        /// 获取未管理的文件列表。
+        /// </summary>
+        /// <param name="files">本地文集列表(',以逗号分隔')</param>
+        /// <returns>文件列表</returns>
+        ResponseSet<string> GetUnmanagedFiles(string files);
 
         /// <summary>
         /// 查询并分页获取上传文件信息。
@@ -69,5 +74,13 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// <param name="so">查询条件</param>
         /// <returns>返回结果</returns>
         ResponseSet<FileStorage> SearchFileStorages(FileStorageSO so);
+
+        /// <summary>
+        /// 获取业务流水下的文件信息。
+        /// </summary>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
+        /// <returns>上传文件信息</returns>
+        ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber);
     }
 }

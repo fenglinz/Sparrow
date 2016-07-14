@@ -30,6 +30,16 @@ body {
     padding-right: 0;
 }
 
+    ul.nav > li {
+        padding-top: 2px;
+    }
+
+        ul.nav > li i {
+            top: 2px;
+            font-size: 1.15em;
+        }
+
+
 .bg-primary {
     padding: 10px 15px;
 }
@@ -740,10 +750,4 @@ input.search-image {
 [validate-rule*=date],
 [validate-rule=time] {
     cursor: pointer;
-}
-
-@media only screen and (max-width: 991px) {
-    .navbar-toggle {
-        display: inline;
-    }
 }

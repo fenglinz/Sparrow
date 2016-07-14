@@ -51,7 +51,7 @@
           )
       ]]>
     </update>
-    
+
     <!-- 上传文件信息。 -->
     <select id="UploadFiles" parameterClass="FileUpload" resultClass="string">
       <![CDATA[
@@ -110,7 +110,7 @@
         END
       ]]>
     </select>
-    
+
     <!-- 删除上传文件信息。 -->
     <delete id="Remove" parameterClass="int">
       <![CDATA[
@@ -129,7 +129,7 @@
         </iterate>
       </isNotNull>
     </delete>
-    
+
     <!-- 根据主键获取上传文件信息。 -->
     <select id="GetById" parameterClass="int" resultClass="FileStorage">
       <![CDATA[
@@ -189,7 +189,7 @@
         WHERE [Category]=1 AND BusinessCategory=#Category# AND BusinessSerialNumber=#SerialNumber#
       ]]>
     </select>
-    
+
     <!-- 分页返回满足查询条件的上传文件信息。 -->
     <select id="SearchFileStorages" parameterClass="FileStorageSO" resultClass="FileStorage">
       <![CDATA[
@@ -257,5 +257,31 @@
         </isNotNull>
       </dynamic>
     </sql>
+
+    <!-- 获取无效的文件列表 -->
+    <select id="GetInvalidFiles" resultClass="string">
+      <![CDATA[
+        WITH cte AS(
+          SELECT 
+            a.SaveAsPath
+          FROM dbo.FileStorage a
+          LEFT JOIN dbo.News b
+          ON a.BusinessCategory='新闻管理' AND a.BusinessSerialNumber=b.Id
+          WHERE b.Id IS NULL
+        )
+        SELECT TOP 100 * FROM cte
+      ]]>
+    </select>
+
+    <!-- 获取未管理的文件列表 -->
+    <select id="GetUnmanagedFiles" parameterClass="string" resultClass="string">
+      <![CDATA[
+        SELECT
+          b.Item
+        FROM FileStorage a
+        RIGHT JOIN Split(#value#, ',') b ON a.SaveAsPath=b.Item
+        WHERE a.Id IS NULL AND b.Item<>'';
+      ]]>
+    </select>
   </statements>
 </sqlMap>

@@ -115,19 +115,25 @@ namespace Mercurius.Sparrow.Services.Core
             return this.InvokeService(nameof(GetFileStorageByPath), () => this.Persistence.QueryForObject<FileStorage>(NS, "GetFileStorageByPath", path), path);
         }
 
+        /// <summary>
+        /// 获取无效的文件列表。
+        /// </summary>
+        /// <returns>文件列表</returns>
+        public ResponseSet<string> GetInvalidFiles()
+        {
+            return this.InvokeService(nameof(GetInvalidFiles),
+                () => this.Persistence.QueryForList<string>(NS, "GetInvalidFiles"), cacheable: false);
+        }
 
         /// <summary>
-        /// 获取业务流水下的文件信息。
+        /// 获取未管理的文件列表。
         /// </summary>
-        /// <param name="category">业务分类</param>
-        /// <param name="serialNumber">业务流水号</param>
-        /// <returns>上传文件信息</returns>
-        public ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber)
+        /// <param name="files">本地文集列表(',以逗号分隔')</param>
+        /// <returns>文件列表</returns>
+        public ResponseSet<string> GetUnmanagedFiles(string files)
         {
-            var args = new { Category = category, SerialNumber = serialNumber };
-
-            return this.InvokeService(nameof(GetBusinessFiles),
-                () => this.Persistence.QueryForList<FileStorage>(NS, "GetBusinessFiles", args), args);
+            return this.InvokeService(nameof(GetUnmanagedFiles),
+                () => this.Persistence.QueryForList<string>(NS, "GetUnmanagedFiles", files), files, false);
         }
 
         /// <summary>
@@ -143,6 +149,20 @@ namespace Mercurius.Sparrow.Services.Core
                 nameof(SearchFileStorages),
                 (out int totalRecords) => this.Persistence.QueryForPaginatedList<FileStorage>(NS, "SearchFileStorages", out totalRecords, so),
                 so);
+        }
+
+        /// <summary>
+        /// 获取业务流水下的文件信息。
+        /// </summary>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
+        /// <returns>上传文件信息</returns>
+        public ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber)
+        {
+            var args = new { Category = category, SerialNumber = serialNumber };
+
+            return this.InvokeService(nameof(GetBusinessFiles),
+                () => this.Persistence.QueryForList<FileStorage>(NS, "GetBusinessFiles", args), args);
         }
 
         #endregion
