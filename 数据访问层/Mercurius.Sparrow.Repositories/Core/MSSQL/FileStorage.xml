@@ -186,8 +186,15 @@
           [UploadUserId] AS UploadUserId,
           [UploadDateTime] AS UploadDateTime
         FROM [FileStorage]
-        WHERE [Category]=1 AND BusinessCategory=#Category# AND BusinessSerialNumber=#SerialNumber#
+        WHERE BusinessCategory=#Category# AND BusinessSerialNumber=#SerialNumber#
       ]]>
+      <dynamic>
+        <isEqual property="IncludeFromRichEditor" compareValue="false" prepend="AND">
+          <![CDATA[
+            [Category]=1
+          ]]>
+        </isEqual>
+      </dynamic>
     </select>
 
     <!-- 分页返回满足查询条件的上传文件信息。 -->

@@ -156,10 +156,11 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="category">业务分类</param>
         /// <param name="serialNumber">业务流水号</param>
+        /// <param name="includeFromRichEditor">包含富文本编辑器上传文件</param>
         /// <returns>上传文件信息</returns>
-        public ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber)
+        public ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber, bool includeFromRichEditor = false)
         {
-            var args = new { Category = category, SerialNumber = serialNumber };
+            var args = new { Category = category, SerialNumber = serialNumber, IncludeFromRichEditor = includeFromRichEditor };
 
             return this.InvokeService(nameof(GetBusinessFiles),
                 () => this.Persistence.QueryForList<FileStorage>(NS, "GetBusinessFiles", args), args);

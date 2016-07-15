@@ -16,8 +16,6 @@
 
             $.connection.hub.start().done(function () {
                 $('#btnClear').click(function () {
-                    alert('开始');
-
                     hub.server.clear();
                 });
             });

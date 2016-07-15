@@ -90,7 +90,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                     }
 
                     item.FileSize = buffers.Length;
-                    item.SavedAsFilePath = this.ConvertToWebSitePath(fileInfo.FullName);
+                    item.SavedAsFilePath = fileInfo.FullName.ConvertToWebSitePath();
                 }
                 else
                 {
@@ -130,7 +130,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                 return new Response { ErrorMessage = UserNotExists };
             }
 
-            var savedFiles = this.FileStorageService.GetBusinessFiles(category, serialNumber);
+            var savedFiles = this.FileStorageService.GetBusinessFiles(category, serialNumber, true);
 
             if (savedFiles.IsSuccess)
             {
@@ -166,16 +166,6 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         private string GetSaveAsFileName(string uploadFileName)
         {
             return $@"{this.GetSavedDirectory()}\{Guid.NewGuid()}{Path.GetExtension(uploadFileName)}";
-        }
-
-        /// <summary>
-        /// 获取文件本地路径转换为基于站点的路径。
-        /// </summary>
-        /// <param name="localFileName">本地文件名</param>
-        /// <returns>相对路径</returns>
-        private string ConvertToWebSitePath(string localFileName)
-        {
-            return UploadFileSavedPath + localFileName.Replace(UploadFileSavedDirectory, "").Replace("\\", "/");
         }
 
         #endregion

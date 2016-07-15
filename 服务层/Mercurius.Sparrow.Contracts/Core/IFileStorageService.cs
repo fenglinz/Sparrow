@@ -80,7 +80,8 @@ namespace Mercurius.Sparrow.Contracts.Core
         /// </summary>
         /// <param name="category">业务分类</param>
         /// <param name="serialNumber">业务流水号</param>
+        /// <param name="includeFromRichEditor">包含富文本编辑器上传文件</param>
         /// <returns>上传文件信息</returns>
-        ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber);
+        ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber, bool includeFromRichEditor = false);
     }
 }

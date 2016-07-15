@@ -84,6 +84,16 @@ namespace Mercurius.FileStorageSystem.Extensions
             }
         }
 
+        /// <summary>
+        /// 获取文件本地路径转换为基于站点的路径。
+        /// </summary>
+        /// <param name="localFileName">本地文件名</param>
+        /// <returns>相对路径</returns>
+        public static string ConvertToWebSitePath(this string localFileName)
+        {
+            return UploadFileSavedPath + localFileName.Replace(UploadFileSavedDirectory, "").Replace("\\", "/");
+        }
+
         #endregion
 
         #region 私有方法

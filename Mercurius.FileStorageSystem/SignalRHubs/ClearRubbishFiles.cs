@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
 using Autofac;
-using Mercurius.FileStorageSystem.Apis.Core.Controllers;
 using Mercurius.FileStorageSystem.Extensions;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Autofac;
@@ -26,7 +26,6 @@ namespace Mercurius.FileStorageSystem.SignalRHubs
 
             using (var context = AutofacConfig.Container.BeginLifetimeScope())
             {
-                var client = context.Resolve<FileStorageController>();
                 var fileStorageService = context.Resolve<IFileStorageService>();
 
                 this.SendMessage("开始扫描已删除的残余文件...");
@@ -43,11 +42,35 @@ namespace Mercurius.FileStorageSystem.SignalRHubs
                     }
 
                     FileManager.Remove(rsp.Datas);
-                    this.SendMessage($"已经清理{rsp.Datas}个垃圾文件！");
+                    this.SendMessage($"<span style=\"margin-left:25px;\">已经清理{rsp.Datas}个垃圾文件！</span>");
                 }
-            }
 
-            this.SendMessage("--end--");
+                // 删除未管理的文件
+                this.SendMessage("扫描未管理的文件。");
+
+                var fileSavedDirectory = FileManager.UploadFileSavedDirectory;
+
+                if (Directory.Exists(fileSavedDirectory))
+                {
+                    var directories = Directory.GetDirectories(fileSavedDirectory);
+
+                    foreach (var item in directories)
+                    {
+                        this.SendMessage($"<span style=\"margin-left:25px;\">扫描{item.ConvertToWebSitePath()}目录...</span>");
+
+                        var files = from f in Directory.GetFiles(item) select f.ConvertToWebSitePath();
+                        var unmanagedFiles = fileStorageService.GetUnmanagedFiles(files.Contract());
+
+                        if (unmanagedFiles.IsSuccess && !unmanagedFiles.Datas.IsEmpty())
+                        {
+                            FileManager.Remove(unmanagedFiles.Datas);
+                            this.SendMessage($"<span style=\"margin-left:25px;\">已成功清理{unmanagedFiles.Datas.Count}条未管理的文件！</span>");
+                        }
+                    }
+                }
+
+                this.SendMessage("清理完成！");
+            }
         }
 
         /// <summary>
