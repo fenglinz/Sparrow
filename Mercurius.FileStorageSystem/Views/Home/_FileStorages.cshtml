@@ -57,7 +57,8 @@
         }
     </tbody>
 </table>
-@Html.Paging(Model.TotalRecords, "SearchFileStorages", "Home", (object)this.ViewBag.SO, ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "fileStorages" })
+
+@Html.Paging(Model.TotalRecords, "SearchFileStorages", "Home", (object)this.ViewBag.SO, ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "fileStorages", OnSuccess= "OnPagedSuccess" })
 
 @helper CategoryDisplay(int category)
 {
