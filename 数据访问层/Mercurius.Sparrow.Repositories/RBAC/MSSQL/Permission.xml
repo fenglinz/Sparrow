@@ -353,8 +353,7 @@
           M.Target,
           M.ParentId,
           M.NavigateUrl,
-          M.Sort,
-          '角色权限' AS TheirTYPE
+          M.Sort
         FROM RBAC.SystemMenu M
         LEFT JOIN RBAC.RolePermission R_R 
           ON R_R.SystemMenuId=M.Id
@@ -371,8 +370,7 @@
           M.Target,
           M.ParentId,
           M.NavigateUrl,
-          M.Sort,
-          '用户权限' AS TheirTYPE
+          M.Sort
         FROM RBAC.SystemMenu M
         LEFT JOIN RBAC.UserPermission U_R 
           ON U_R.SystemMenuId=M.Id
@@ -395,8 +393,7 @@
             M.NavigateUrl AS Url,
             B.Code AS NavigateUrl,
             M.Sort,
-            M.Category,
-            '角色权限' AS TheirTYPE
+            M.Category
           FROM RBAC.SystemMenu M
           LEFT JOIN RBAC.RolePermission R_R 
             ON R_R.SystemMenuId=M.Id
@@ -405,7 +402,7 @@
           LEFT JOIN RBAC.Button B
             ON M.Name=B.Name
           WHERE U_R.UserId=#UserId# AND M.Status=1
-          UNION ALL
+          UNION
           SELECT
             M.Name,
             B.Title,
@@ -416,8 +413,7 @@
             M.NavigateUrl AS Url,
             B.Code AS NavigateUrl,
             M.Sort,
-            M.Category,
-            '用户权限' AS TheirTYPE
+            M.Category
           FROM RBAC.SystemMenu M
           LEFT JOIN RBAC.UserPermission U_R 
             ON U_R.SystemMenuId=M.Id
