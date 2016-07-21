@@ -6,11 +6,11 @@ using System.Text;
 using System.Web;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Storage;
 using Newtonsoft.Json;
-using static Mercurius.Sparrow.Entities.Core.FileStorage;
+using static Mercurius.Sparrow.Entities.Storage.File;
 
-namespace Mercurius.Sparrow.Services.Support
+namespace Mercurius.Sparrow.Services.Storage
 {
     /// <summary>
     /// 文件上传客户端。
@@ -45,7 +45,7 @@ namespace Mercurius.Sparrow.Services.Support
                     ContentType = file.ContentType,
                     Description = uploadedFilesDescription?[index],
                     FileData = GetBase64String(file.InputStream),
-                    SavedAsFilePath = modifyUploadedFiles?[index]
+                    FileSavedPath = modifyUploadedFiles?[index]
                 });
             }
 
@@ -60,7 +60,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <returns>上传后的文件地址</returns>
         public override ResponseSet<string> Upload(string account, FileUpload fileUpload)
         {
-            var request = (HttpWebRequest)WebRequest.Create($"{FileStorageUploadUrl}/{account}");
+            var request = (HttpWebRequest)WebRequest.Create($"{FileUploadUrl}/{account}");
 
             request.ContentType = "application/json";
             request.Method = "POST";
@@ -99,7 +99,7 @@ namespace Mercurius.Sparrow.Services.Support
         /// <returns>删除结果</returns>
         public override Response Remove(string account, string category, string serialNumber)
         {
-            var url = string.Format(FileStorageRemoveUrl, account, category, serialNumber);
+            var url = string.Format(FileRemoveUrl, account, category, serialNumber);
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = "application/json";

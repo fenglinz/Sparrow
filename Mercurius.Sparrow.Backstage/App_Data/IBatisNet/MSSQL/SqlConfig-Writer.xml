@@ -28,7 +28,10 @@
     <sqlMap embedded="Core.MSSQL.SystemSetting.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="Core.MSSQL.Globalization.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="Core.MSSQL.RepositoryUtils.xml, Mercurius.Sparrow.Repositories" />
-    <sqlMap embedded="Core.MSSQL.FileStorage.xml, Mercurius.Sparrow.Repositories" />
+
+    <!-- 文件存储模块 -->
+    <sqlMap embedded="Storage.MSSQL.File.xml, Mercurius.Sparrow.Repositories" />
+
     <!-- 基于角色访问控制(RBAC)模块 -->
     <sqlMap embedded="RBAC.MSSQL.User.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.Role.xml, Mercurius.Sparrow.Repositories" />
@@ -36,12 +39,15 @@
     <sqlMap embedded="RBAC.MSSQL.Permission.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.Organization.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="RBAC.MSSQL.HomeShortcut.xml, Mercurius.Sparrow.Repositories" />
+    
     <!-- 动态属性模块 -->
     <sqlMap embedded="Dynamic.MSSQL.ExtensionProperty.xml, Mercurius.Sparrow.Repositories" />
+    
     <!-- Web API管理模块 -->
     <sqlMap embedded="WebApi.MSSQL.Api.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="WebApi.MSSQL.User.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="WebApi.MSSQL.Role.xml, Mercurius.Sparrow.Repositories" />
+    
     <!-- 新闻中心模块 -->
     <sqlMap embedded="NewsCenter.MSSQL.News.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="NewsCenter.MSSQL.NewsComment.xml, Mercurius.Sparrow.Repositories" />

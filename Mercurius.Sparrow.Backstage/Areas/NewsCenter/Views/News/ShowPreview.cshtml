@@ -52,7 +52,7 @@
             <ul>
                 @foreach (var item in attachments)
                 {
-                    <li><a href="@Url.GetFileUrl(item.SaveAsPath)">附件@(++index)：@(item.Description)</a></li>
+                    <li><a href="@Url.GetFileUrl(item.SavedPath)">附件@(++index)：@(item.Description)</a></li>
                 }
             </ul>
         }

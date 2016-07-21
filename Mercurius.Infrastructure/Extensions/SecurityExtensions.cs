@@ -157,6 +157,11 @@ namespace Mercurius.Infrastructure
         /// <returns>密文</returns>
         public static string MD5(this string source)
         {
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                return null;
+            }
+
             using (var md5 = new MD5CryptoServiceProvider())
             {
                 return BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(source))).Replace("-", "").ToLower();

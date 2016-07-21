@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sqlMap namespace="Mercurius.Sparrow.Repositories.Storage.File" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="File" type="Mercurius.Sparrow.Entities.Storage.File,Mercurius.Sparrow.Entities" />
+    <typeAlias alias="FileSO" type="Mercurius.Sparrow.Entities.Storage.SO.FileSO,Mercurius.Sparrow.Entities" />
+    <typeAlias alias="BusinessFile" type="Mercurius.Sparrow.Entities.Storage.BusinessFile, Mercurius.Sparrow.Entities" />
+  </alias>
+  <statements>
+
+    <!-- 获取已存在的文件保存路径 -->
+    <select id="CheckFileExists" parameterClass="string" resultClass="string">
+      <![CDATA[
+        SELECT TOP 1 SavedPath FROM [Storage].[File] WHERE MD5=#value#
+      ]]>
+    </select>
+
+    <!-- 添加或者修改上传文件信息 -->
+    <update id="CreateOrUpdate" parameterClass="File">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [Storage].[File] WHERE [SavedPath]=#SavedPath#)
+          UPDATE [Storage].[File]
+          SET
+            [Name]=#Name#,
+            [Size]=#Size#,
+            [ContentType]=#ContentType#,
+            [Description]=#Description#,
+            [SavedPath]=#SavedPath#,
+            [SavedDateTime]=GETDATE()
+          WHERE [SavedFilePath]=#SavedPath#;
+        ELSE
+          INSERT INTO [Storage].[File]
+          (
+            [Id],
+            [Name],
+            [Size],
+            [MD5],
+            [ContentType],
+            [Description],
+            [SavedPath],
+            [SavedDateTime]
+          )
+          VALUES
+          (
+            NEWID(),
+            #Name#,
+            #Size#,
+            #MD5#,
+            #ContentType#,
+            #Description#,
+            #SavedPath#,
+            GETDATE()
+          )
+      ]]>
+    </update>
+
+    <!-- 上传文件信息。 -->
+    <select id="UploadFiles" parameterClass="BusinessFile" resultClass="string">
+      <![CDATA[
+        BEGIN
+          DECLARE @sort INT=1;
+          DECLARE @addBusinessFile INT=0;
+          DECLARE @fileId UNIQUEIDENTIFIER;
+      ]]>
+      <isNotNull property="Files">
+        <iterate property="Files" open="" conjunction="" close="">
+          <![CDATA[
+            SELECT @fileId=Id FROM Storage.[File] WHERE SavedPath=#Files[].SavedPath#;
+          
+            IF @fileId IS NULL
+              BEGIN
+                SET @fileId=NEWID();
+                SET @addBusinessFile=1;
+
+                INSERT INTO [Storage].[File]
+                (
+                  [Id],
+                  [Name],
+                  [Size],
+                  [MD5],
+                  [ContentType],
+                  [Description],
+                  [SavedPath],
+                  [SavedDateTime]
+                )
+                VALUES
+                (
+                  @fileId,
+                  #Files[].Name#,
+                  #Files[].Size#,
+                  #Files[].MD5#,
+                  #Files[].ContentType#,
+                  #Files[].Description#,
+                  #Files[].SavedPath#,
+                  GETDATE()
+                );
+              END
+            ELSE
+              BEGIN
+                UPDATE [Storage].[File]
+                SET
+                  [Name]=ISNULL(CASE #Files[].Name# WHEN '' THEN NULL ELSE #Files[].Name# END, [Name]),
+                  [Size]=ISNULL(CASE #Files[].Size# WHEN '' THEN NULL ELSE #Files[].Size# END, [Size]),
+                  [MD5]=ISNULL(CASE #Files[].MD5# WHEN '' THEN NULL ELSE #Files[].MD5# END, [MD5]),
+                  [ContentType]=ISNULL(CASE #Files[].ContentType# WHEN '' THEN NULL ELSE #Files[].ContentType# END, [ContentType]),
+                  [Description]=#Files[].Description#,
+                  [SavedDateTime]=GETDATE()
+                WHERE [SavedPath]=#Files[].SavedPath#;
+                
+                IF NOT EXISTS(SELECT * FROM Storage.BusinessFile WHERE Category=#Category# AND SerialNumber=#SerialNumber# AND FileId=@fileId AND SourceCategory<>#Files[].SourceCategory#)
+                  SET @addBusinessFile=1;
+              END
+            
+            IF @addBusinessFile=1
+              INSERT INTO [Storage].[BusinessFile]
+                ( 
+                  Id,
+                  FileId,
+                  Category,
+                  SerialNumber,
+                  SourceCategory,
+                  Sort,
+                  UploadUserId,
+                  UploadDateTime
+                )
+                VALUES
+                ( 
+                  NEWID(),
+                  @fileId,
+                  #Category#,
+                  #SerialNumber#,
+                  #Files[].SourceCategory#,
+                  @sort,
+                  #UploadUserId#,
+                  GETDATE()
+                );
+            
+            SET @sort=@sort+1;
+            SET @addBusinessFile=0;
+          ]]>
+        </iterate>
+      </isNotNull>
+      <![CDATA[
+          SELECT
+            a.SavedPath
+          FROM [Storage].[File] a
+          INNER JOIN [Storage].[BusinessFile] b ON a.[Id]=b.[FileId]
+          WHERE b.[Category]=#Category# AND b.[SerialNumber]=#SerialNumber#;
+        END
+      ]]>
+    </select>
+
+    <!-- 删除上传文件信息。 -->
+    <delete id="Remove" parameterClass="guid">
+      <![CDATA[
+        BEGIN
+          DELETE FROM [Storage].[File] WHERE [Id]=#value#;
+          DELETE FROM [Storage].[BusinessFile] WHERE [FileId]=#value#;
+        END
+      ]]>
+    </delete>
+
+    <!-- 删除上传文件信息 -->
+    <delete id="RemovesByFilePaths" parameterClass="Params">
+      <isNotNull property="FilePaths">
+        <![CDATA[
+          DELETE FROM [Storage].[File] WHERE SavedPath IN
+        ]]>
+        <iterate property="FilePaths" open="(" conjunction="," close=")">
+          #FilePaths[]#
+        </iterate>
+      </isNotNull>
+    </delete>
+
+    <!-- 根据主键获取上传文件信息。 -->
+    <select id="GetById" parameterClass="guid" resultClass="File">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [Name] AS Name,
+          [Size] AS Size,
+          [MD5] AS MD5,
+          [ContentType] AS ContentType,
+          [Description] AS Description,
+          [SavedPath] AS SavedPath,
+          [SavedDateTime] AS SavedDateTime
+        FROM [Storage].[File]
+        WHERE [Id]=#value#
+      ]]>
+    </select>
+
+    <!-- 根据文件保存路径获取文件信息 -->
+    <select id="GetFileByPath" parameterClass="string" resultClass="File">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [Name] AS Name,
+          [Size] AS Size,
+          [MD5] AS MD5,
+          [ContentType] AS ContentType,
+          [Description] AS Description,
+          [SavedPath] AS SavedPath,
+          [SavedDateTime] AS SavedDateTime
+        FROM [Storage].[File]
+        WHERE [SavedPath]=#value#
+      ]]>
+    </select>
+
+    <!-- 获取业务所用文件信息 -->
+    <select id="GetBusinessFiles" parameterClass="Params" resultClass="File">
+      <![CDATA[
+        SELECT
+          a.[Id] AS Id,
+          a.[Name] AS Name,
+          a.[Size] AS Size,
+          a.[MD5] AS MD5,
+          a.[ContentType] AS ContentType,
+          a.[Description] AS Description,
+          a.[SavedPath] AS SavedPath,
+          a.[SavedDateTime] AS SavedDateTime
+        FROM [Storage].[File] a
+        INNER JOIN Storage.BusinessFile b
+          ON a.Id=b.FileId
+        WHERE b.Category=#Category# AND b.SerialNumber=#SerialNumber#
+      ]]>
+      <dynamic>
+        <isEqual property="IncludeFromRichEditor" compareValue="false" prepend="AND">
+          <![CDATA[
+            b.[SourceCategory]=1
+          ]]>
+        </isEqual>
+      </dynamic>
+      <![CDATA[
+        ORDER BY b.Sort ASC
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的上传文件信息。 -->
+    <select id="SearchFiles" parameterClass="FileSO" resultClass="File">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+            [Id] AS Id,
+            [Name] AS Name,
+            [Size] AS Size,
+            [MD5] AS MD5,
+            [ContentType] AS ContentType,
+            [Description] AS Description,
+            [SavedPath] AS SavedPath,
+            [SavedDateTime] AS SavedDateTime,
+            ROW_NUMBER() OVER(ORDER BY a.[Id] DESC) AS RowIndex
+          FROM [Storage].[File] a
+      ]]>
+      <include refid="searchConditions" />
+      <![CDATA[
+        )
+        SELECT * FROM CTE
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select id="SearchFilesCount" parameterClass="FileSO" resultClass="int">
+      <![CDATA[
+        SELECT
+          COUNT(*) 
+        FROM [Storage].[File] a
+      ]]>
+      <include refid="searchConditions" />
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotEmpty property="FileName" prepend="AND">
+            Name LIKE '%'+#FileName#+'%'
+          </isNotEmpty>
+          <isNotEmpty property="ContentType" prepend="AND">
+            ContentType LIKE '%'+#ContentType#+'%'
+          </isNotEmpty>
+          <isNotNull property="StartUploadDate" prepend="AND">
+            SavedDateTime>=#StartUploadDate#
+          </isNotNull>
+          <isNotNull property="EndUploadDate" prepend="AND">
+            <![CDATA[
+              CONVERT(NVARCHAR(10), SavedDateTime, 120)<=#EndUploadDate#
+            ]]>
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+
+    <!-- 获取无效的文件列表 -->
+    <procedure id="GetInvalidFiles" resultClass="string">
+      <![CDATA[
+        Storage.GetInvalidFiles
+      ]]>
+    </procedure>
+
+    <!-- 获取未管理的文件列表 -->
+    <select id="GetUnmanagedFiles" parameterClass="string" resultClass="string">
+      <![CDATA[
+        SELECT
+          b.Item
+        FROM [Storage].[File] a
+        RIGHT JOIN Split(#value#, ',') b ON a.SavedPath=b.Item
+        WHERE a.Id IS NULL AND b.Item<>'';
+      ]]>
+    </select>
+  </statements>
+</sqlMap>

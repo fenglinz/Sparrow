@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Mercurius.Sparrow.Entities.Core.SO
+namespace Mercurius.Sparrow.Entities.Storage.SO
 {
     /// <summary>
     /// 上传文件查询条件。
     /// </summary>
-    public class FileStorageSO : SearchObject
+    public class FileSO : SearchObject
     {
         #region 属性
 

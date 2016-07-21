@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Storage;
 using Mercurius.Sparrow.Entities.WebApi;
 using Newtonsoft.Json;
 
-namespace Mercurius.Sparrow.Services.Support
+namespace Mercurius.Sparrow.Services.Storage
 {
     /// <summary>
     /// 文件上传客户端。
@@ -27,34 +27,34 @@ namespace Mercurius.Sparrow.Services.Support
         private static Token _token;
 
         /// <summary>
+        /// 文件上传远程地址。
+        /// </summary>
+        private static readonly string FileRemoteUrl = ConfigurationManager.AppSettings["FileStorage.RomoteUrl"];
+
+        /// <summary>
         /// 文件上传token账号。
         /// </summary>
-        private static readonly string Account = ConfigurationManager.AppSettings["FileStorage.Token.Account"];
+        private static readonly string TokenAccount = ConfigurationManager.AppSettings["FileStorage.Token.Account"];
 
         /// <summary>
         /// 文件上传token密码
         /// </summary>
-        private static readonly string Password = ConfigurationManager.AppSettings["FileStorage.Token.Password"];
-
-        /// <summary>
-        /// 文件上传远程地址。
-        /// </summary>
-        private static readonly string FileStorageRemoteUrl = ConfigurationManager.AppSettings["FileStorage.RomoteUrl"];
+        private static readonly string TokenPassword = ConfigurationManager.AppSettings["FileStorage.Token.Password"];
 
         /// <summary>
         /// 文件上传token认证地址。
         /// </summary>
-        private static readonly string TokenEndpointPath = $"{FileStorageRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.Token.TokenEndpointPath"]}";
+        private static readonly string TokenEndpointPath = $"{FileRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.Token.TokenEndpointPath"]}";
 
         /// <summary>
         /// 文件上传Web API地址。
         /// </summary>
-        protected static readonly string FileStorageUploadUrl = $"{FileStorageRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.UploadUrl"]}";
+        protected static readonly string FileUploadUrl = $"{FileRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.UploadUrl"]}";
 
         /// <summary>
         /// 删除上传文件的Web API地址。
         /// </summary>
-        protected static readonly string FileStorageRemoveUrl = $"{FileStorageRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.Remove"]}/{"{0}"}/{"{1}"}/{"{2}"}";
+        protected static readonly string FileRemoveUrl = $"{FileRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.RemoveUrl"]}/{"{0}"}/{"{1}"}/{"{2}"}";
 
         #endregion
 
@@ -75,7 +75,7 @@ namespace Mercurius.Sparrow.Services.Support
 
             var id = Convert.ToBase64String(Encoding.UTF8.GetBytes(path));
 
-            return $"{FileStorageRemoteUrl}File/Index/{id}?mode={mode}";
+            return $"{FileRemoteUrl}File/Index/{id}?mode={mode}";
         }
 
         #endregion
@@ -121,7 +121,7 @@ namespace Mercurius.Sparrow.Services.Support
                 httpRequest.Accept = "application/json";
                 httpRequest.ContentType = "application/x-www-form-urlencoded";
 
-                var tokenRequest = $"grant_type=password&username={Account}&password={Password}";
+                var tokenRequest = $"grant_type=password&username={TokenAccount}&password={TokenPassword}";
                 var buffers = Encoding.UTF8.GetBytes(tokenRequest);
 
                 httpRequest.ContentLength = buffers.Length;

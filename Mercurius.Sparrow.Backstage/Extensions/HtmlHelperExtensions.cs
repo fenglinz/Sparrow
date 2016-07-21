@@ -11,8 +11,9 @@ using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Contracts.Storage;
 using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Entities.Storage;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {
@@ -25,7 +26,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         private static readonly IPermissionService _permissionService;
         private static readonly IDictionaryService _dictionaryService;
-        private static readonly IFileStorageService _fileStorageService;
+        private static readonly IFileService _fileStorageService;
         private static readonly ISystemSettingService _systemSettingService;
         private static readonly IGlobalizationService _globalizationService;
 
@@ -42,7 +43,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
             _permissionService = container.Resolve<IPermissionService>();
             _dictionaryService = container.Resolve<IDictionaryService>();
-            _fileStorageService = container.Resolve<IFileStorageService>();
+            _fileStorageService = container.Resolve<IFileService>();
             _systemSettingService = container.Resolve<ISystemSettingService>();
             _globalizationService = container.Resolve<IGlobalizationService>();
         }
@@ -127,7 +128,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="category">业务分类</param>
         /// <param name="serialNumber">业务流水号</param>
         /// <returns>上传文件列表</returns>
-        public static IList<FileStorage> GetBusinessFiles(string category, string serialNumber)
+        public static IList<File> GetBusinessFiles(string category, string serialNumber)
         {
             return _fileStorageService.GetBusinessFiles(category, serialNumber).Datas;
         }

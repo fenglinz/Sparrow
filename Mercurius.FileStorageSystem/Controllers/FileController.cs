@@ -9,8 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Sparrow.Contracts.Core;
-using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Contracts.Storage;
+using Mercurius.Sparrow.Entities.Storage;
 using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace Mercurius.FileStorageSystem.Controllers
@@ -35,7 +35,7 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// <summary>
         /// 文件管理服务对象。
         /// </summary>
-        public IFileStorageService FileStorageService { get; set; }
+        public IFileService FileService { get; set; }
 
         #endregion
 
@@ -50,11 +50,11 @@ namespace Mercurius.FileStorageSystem.Controllers
         {
             var bytes = id.ToCharArray();
             var base64Bytes = Convert.FromBase64CharArray(bytes, 0, bytes.Length);
-            var rsp = this.FileStorageService.GetFileStorageByPath(Encoding.UTF8.GetString(base64Bytes));
+            var rsp = this.FileService.GetFileByPath(Encoding.UTF8.GetString(base64Bytes));
 
             if (rsp.Data != null)
             {
-                var filePath = Server.MapPath(rsp.Data.SaveAsPath);
+                var filePath = Server.MapPath(rsp.Data.SavedPath);
 
                 if (!System.IO.File.Exists(filePath))
                 {
@@ -67,7 +67,7 @@ namespace Mercurius.FileStorageSystem.Controllers
 
                     if (System.IO.File.Exists(compressionPath))
                     {
-                        return File(compressionPath, rsp.Data.ContentType, rsp.Data.FileName);
+                        return File(compressionPath, rsp.Data.ContentType, rsp.Data.Name);
                     }
 
                     // 源图像的信息
@@ -125,10 +125,10 @@ namespace Mercurius.FileStorageSystem.Controllers
                     outBmp.Dispose();
                     img.Dispose();
 
-                    return File(compressionPath, rsp.Data.ContentType, rsp.Data.FileName);
+                    return File(compressionPath, rsp.Data.ContentType, rsp.Data.Name);
                 }
 
-                return File(filePath, rsp.Data.ContentType, rsp.Data.FileName);
+                return File(filePath, rsp.Data.ContentType, rsp.Data.Name);
             }
 
             return Content(rsp.ErrorMessage);

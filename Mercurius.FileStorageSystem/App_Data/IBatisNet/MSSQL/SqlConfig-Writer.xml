@@ -27,7 +27,9 @@
     <sqlMap embedded="Core.MSSQL.SystemSetting.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="Core.MSSQL.Globalization.xml, Mercurius.Sparrow.Repositories" />
     <sqlMap embedded="Core.MSSQL.RepositoryUtils.xml, Mercurius.Sparrow.Repositories" />
-    <sqlMap embedded="Core.MSSQL.FileStorage.xml, Mercurius.Sparrow.Repositories" />
+
+    <!-- 文件存储模块 -->
+    <sqlMap embedded="Storage.MSSQL.File.xml, Mercurius.Sparrow.Repositories" />
 
     <!-- 基于角色访问控制(RBAC)模块 -->
     <sqlMap embedded="RBAC.MSSQL.User.xml, Mercurius.Sparrow.Repositories" />

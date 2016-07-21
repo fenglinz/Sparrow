@@ -2,25 +2,24 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Entities.Core;
-using Mercurius.Sparrow.Entities.Core.SO;
-using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Entities.Storage;
+using Mercurius.Sparrow.Entities.Storage.SO;
+using Mercurius.Sparrow.Contracts.Storage;
 using Mercurius.Sparrow.Repositories;
 using Mercurius.Sparrow.Services.Support;
 
-namespace Mercurius.Sparrow.Services.Core
+namespace Mercurius.Sparrow.Services.Storage
 {
     /// <summary>
     /// 上传文件业务逻辑接口实现。 
     /// </summary>
-    [Module("基础模块")]
-    public class FileStorageService : ServiceSupport, IFileStorageService
+    [Module("文件存储")]
+    public class FileService : ServiceSupport, IFileService
     {
         #region 常量
 
-        private static readonly StatementNamespace NS = "Mercurius.Sparrow.Repositories.Core.FileStorage";
+        private static readonly StatementNamespace NS = "Mercurius.Sparrow.Repositories.Storage.File";
 
         #endregion
 
@@ -31,7 +30,7 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="fileStorage">上传文件信息</param>
         /// <returns>返回添加或保存结果</returns>
-        public Response CreateOrUpdate(FileStorage fileStorage)
+        public Response CreateOrUpdate(File fileStorage)
         {
             return this.InvokeService(
                 nameof(CreateOrUpdate),
@@ -39,25 +38,36 @@ namespace Mercurius.Sparrow.Services.Core
                 {
                     this.Persistence.Update(NS, "CreateOrUpdate", fileStorage);
 
-                    this.ClearCache<FileStorage>();
+                    this.ClearCache<File>();
                 }, fileStorage);
+        }
+
+        /// <summary>
+        /// 检查文件是否已经存在。
+        /// </summary>
+        /// <param name="md5">文件md5值</param>
+        /// <returns>文件保存路径</returns>
+        public Response<string> CheckFileExists(string md5)
+        {
+            return this.InvokeService(nameof(CheckFileExists),
+                () => this.Persistence.QueryForObject<string>(NS, "CheckFileExists", md5), md5, false);
         }
 
         /// <summary>
         /// 上传文件。
         /// </summary>
-        /// <param name="fileUpload">文件上传信息</param>
+        /// <param name="businessFile">业务文件存储对象</param>
         /// <returns>上传结果</returns>
-        public ResponseSet<string> UploadFiles(FileUpload fileUpload)
+        public ResponseSet<string> UploadFiles(BusinessFile businessFile)
         {
             return this.InvokeService(nameof(UploadFiles), () =>
             {
-                var rs = this.Persistence.QueryForList<string>(NS, "UploadFiles", fileUpload);
+                var rs = this.Persistence.QueryForList<string>(NS, "UploadFiles", businessFile);
 
-                this.ClearCache<FileStorage>();
+                this.ClearCache<File>();
 
                 return rs;
-            }, fileUpload, false);
+            }, businessFile, false);
         }
 
         /// <summary>
@@ -65,13 +75,13 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="id">编号</param>
         /// <returns>返回删除结果</returns>
-        public Response Remove(int id)
+        public Response Remove(Guid id)
         {
             return this.InvokeService(nameof(Remove), () =>
             {
                 this.Persistence.Delete(NS, "Remove", id);
 
-                this.ClearCache<FileStorage>();
+                this.ClearCache<File>();
             }, id);
         }
 
@@ -88,7 +98,7 @@ namespace Mercurius.Sparrow.Services.Core
             {
                 this.Persistence.Delete(NS, "RemovesByFilePaths", args);
 
-                this.ClearCache<FileStorage>();
+                this.ClearCache<File>();
             }, args);
         }
 
@@ -97,11 +107,11 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="id">编号</param>
         /// <returns>返回上传文件查询结果</returns>
-        public Response<FileStorage> GetFileStorageById(int id)
+        public Response<File> GetFileById(Guid id)
         {
             return this.InvokeService(
-                nameof(GetFileStorageById),
-                () => this.Persistence.QueryForObject<FileStorage>(NS, "GetById", id),
+                nameof(GetFileById),
+                () => this.Persistence.QueryForObject<File>(NS, "GetById", id),
                 id);
         }
 
@@ -110,9 +120,9 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="path">文件路径</param>
         /// <returns>根据文件保存路径获取文件信息</returns>
-        public Response<FileStorage> GetFileStorageByPath(string path)
+        public Response<File> GetFileByPath(string path)
         {
-            return this.InvokeService(nameof(GetFileStorageByPath), () => this.Persistence.QueryForObject<FileStorage>(NS, "GetFileStorageByPath", path), path);
+            return this.InvokeService(nameof(GetFileByPath), () => this.Persistence.QueryForObject<File>(NS, "GetFileByPath", path), path);
         }
 
         /// <summary>
@@ -122,7 +132,14 @@ namespace Mercurius.Sparrow.Services.Core
         public ResponseSet<string> GetInvalidFiles()
         {
             return this.InvokeService(nameof(GetInvalidFiles),
-                () => this.Persistence.QueryForList<string>(NS, "GetInvalidFiles"), cacheable: false);
+                () =>
+                {
+                    var datas = this.Persistence.QueryForList<string>(NS, "GetInvalidFiles");
+
+                    this.ClearCache<File>();
+
+                    return datas;
+                }, cacheable: false);
         }
 
         /// <summary>
@@ -141,13 +158,13 @@ namespace Mercurius.Sparrow.Services.Core
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回上传文件的分页查询结果</returns>
-        public ResponseSet<FileStorage> SearchFileStorages(FileStorageSO so)
+        public ResponseSet<File> SearchFiles(FileSO so)
         {
-            so = so ?? new FileStorageSO();
+            so = so ?? new FileSO();
 
             return this.InvokePagingService(
-                nameof(SearchFileStorages),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<FileStorage>(NS, "SearchFileStorages", out totalRecords, so),
+                nameof(SearchFiles),
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList<File>(NS, "SearchFiles", out totalRecords, so),
                 so);
         }
 
@@ -158,12 +175,12 @@ namespace Mercurius.Sparrow.Services.Core
         /// <param name="serialNumber">业务流水号</param>
         /// <param name="includeFromRichEditor">包含富文本编辑器上传文件</param>
         /// <returns>上传文件信息</returns>
-        public ResponseSet<FileStorage> GetBusinessFiles(string category, string serialNumber, bool includeFromRichEditor = false)
+        public ResponseSet<File> GetBusinessFiles(string category, string serialNumber, bool includeFromRichEditor = false)
         {
             var args = new { Category = category, SerialNumber = serialNumber, IncludeFromRichEditor = includeFromRichEditor };
 
             return this.InvokeService(nameof(GetBusinessFiles),
-                () => this.Persistence.QueryForList<FileStorage>(NS, "GetBusinessFiles", args), args);
+                () => this.Persistence.QueryForList<File>(NS, "GetBusinessFiles", args), args);
         }
 
         #endregion

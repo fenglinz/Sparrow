@@ -9,13 +9,18 @@
                 if (message == '--start--') {
                     $('#messages').show();
                     $('#messages').html('');
-                } else {
+                } else if (message == '--end--') {
+                    $('#btnClear').prop('disabled', false);
+                }
+                else {
                     $('#messages').append('<p>' + message + '</p>');
                 }
             };
 
-            $.connection.hub.start().done(function () {
-                $('#btnClear').click(function () {
+            $('#btnClear').click(function () {
+                $('#btnClear').prop('disabled', true);
+
+                $.connection.hub.start().done(function () {
                     hub.server.clear();
                 });
             });

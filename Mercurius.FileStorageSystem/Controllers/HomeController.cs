@@ -7,9 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Contracts.Core;
-using Mercurius.Sparrow.Entities.Core;
-using Mercurius.Sparrow.Entities.Core.SO;
+using Mercurius.Sparrow.Contracts.Storage;
+using Mercurius.Sparrow.Entities.Storage;
+using Mercurius.Sparrow.Entities.Storage.SO;
 
 namespace Mercurius.FileStorageSystem.Controllers
 {
@@ -32,7 +32,7 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// <summary>
         /// 文件管理服务对象。
         /// </summary>
-        public IFileStorageService FileStorageService { get; set; }
+        public IFileService FileService { get; set; }
 
         #endregion
 
@@ -43,11 +43,11 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// </summary>
         /// <param name="so">搜索条件</param>
         /// <returns>显示结果</returns>
-        public ActionResult Index(FileStorageSO so)
+        public ActionResult Index(FileSO so)
         {
             this.ViewBag.SO = so;
 
-            var model = this.FileStorageService.SearchFileStorages(so);
+            var model = this.FileService.SearchFiles(so);
 
             return View(model);
         }
@@ -58,11 +58,11 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// <param name="so">搜索条件</param>
         /// <returns>显示搜索结果</returns>
         [HttpPost]
-        public ActionResult SearchFileStorages(FileStorageSO so)
+        public ActionResult SearchFileStorages(FileSO so)
         {
             this.ViewBag.SO = so;
 
-            var model = this.FileStorageService.SearchFileStorages(so);
+            var model = this.FileService.SearchFiles(so);
 
             return PartialView("_FileStorages", model);
         }
@@ -76,11 +76,11 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// </summary>
         /// <param name="id">文件编号</param>
         /// <returns>显示文件上传界面</returns>
-        public ActionResult Upload(int? id = null)
+        public ActionResult Upload(Guid? id = null)
         {
             if (id.HasValue)
             {
-                var rsp = this.FileStorageService.GetFileStorageById(id.Value);
+                var rsp = this.FileService.GetFileById(id.Value);
 
                 return View(rsp.Data);
             }
@@ -97,7 +97,7 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// <returns>上传结果</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(int? id, string saveAsPath, string description)
+        public ActionResult Upload(Guid? id, string saveAsPath, string description)
         {
             var file = this.Request.Files["file"];
 
@@ -105,14 +105,14 @@ namespace Mercurius.FileStorageSystem.Controllers
             {
                 if (id.HasValue)
                 {
-                    var rsp = this.FileStorageService.GetFileStorageById(id.Value);
+                    var rsp = this.FileService.GetFileById(id.Value);
 
                     if (rsp.Data != null)
                     {
                         rsp.Data.Description = description;
 
-                        this.FileStorageService.CreateOrUpdate(rsp.Data);
-                        this.RemoveCompressionImage(this.Server.MapPath(rsp.Data.SaveAsPath));
+                        this.FileService.CreateOrUpdate(rsp.Data);
+                        this.RemoveCompressionImage(this.Server.MapPath(rsp.Data.SavedPath));
                     }
                 }
             }
@@ -132,15 +132,14 @@ namespace Mercurius.FileStorageSystem.Controllers
 
                 file.SaveAs(this.Server.MapPath(saveAsPath));
 
-                this.FileStorageService.CreateOrUpdate(new FileStorage
+                this.FileService.CreateOrUpdate(new Sparrow.Entities.Storage.File
                 {
-                    Id = id ?? -1,
-                    FileName = file.FileName,
-                    FileSize = file.ContentLength,
+                    Id = id ?? Guid.NewGuid(),
+                    Name = file.FileName,
+                    Size = file.ContentLength,
                     ContentType = file.ContentType,
-                    SaveAsPath = saveAsPath,
-                    Description = description,
-                    UploadUserId = WebHelper.GetLogOnUserId()
+                    SavedPath = saveAsPath,
+                    Description = description
                 });
             }
 
@@ -170,13 +169,13 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// <param name="id">文件编号</param>
         /// <returns>删除结果</returns>
         [HttpPost]
-        public ActionResult Remove(int id)
+        public ActionResult Remove(Guid id)
         {
-            var rsp = this.FileStorageService.GetFileStorageById(id);
+            var rsp = this.FileService.GetFileById(id);
 
             if (rsp.Data != null)
             {
-                var filePath = this.Server.MapPath(rsp.Data.SaveAsPath);
+                var filePath = this.Server.MapPath(rsp.Data.SavedPath);
 
                 if (System.IO.File.Exists(filePath))
                 {
@@ -184,7 +183,7 @@ namespace Mercurius.FileStorageSystem.Controllers
                     this.RemoveCompressionImage(filePath);
                 }
 
-                var temp = this.FileStorageService.Remove(id);
+                var temp = this.FileService.Remove(id);
 
                 return Json(temp);
             }

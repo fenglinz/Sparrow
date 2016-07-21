@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Configuration;
 using System.IO;
+using System.Linq;
+using System.Web;
 using Autofac;
-using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Infrastructure;
-using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Autofac;
+using Mercurius.Sparrow.Contracts.Storage;
+using Mercurius.Sparrow.Entities.Storage;
+using IOFile = System.IO.File;
 
 namespace Mercurius.FileStorageSystem.Extensions
 {
@@ -22,7 +23,7 @@ namespace Mercurius.FileStorageSystem.Extensions
         /// <summary>
         /// 上传文件业务对象。
         /// </summary>
-        private static readonly IFileStorageService _fileStorageService;
+        private static readonly IFileService _fileStorageService;
 
         /// <summary>
         /// 上传文件的保存路径。
@@ -48,7 +49,7 @@ namespace Mercurius.FileStorageSystem.Extensions
 
             using (var context = AutofacConfig.Container.BeginLifetimeScope())
             {
-                _fileStorageService = context.Resolve<IFileStorageService>();
+                _fileStorageService = context.Resolve<IFileService>();
             }
         }
 
@@ -103,19 +104,19 @@ namespace Mercurius.FileStorageSystem.Extensions
             var directory = $@"{Path.GetDirectoryName(file)}\Compression";
             var format = $@"{directory}\{"{0}"}_{Path.GetFileName(file)}";
 
-            if (File.Exists(string.Format(format, CompressMode.Small)))
+            if (IOFile.Exists(string.Format(format, CompressMode.Small)))
             {
-                File.Delete(string.Format(format, CompressMode.Small));
+                IOFile.Delete(string.Format(format, CompressMode.Small));
             }
 
-            if (File.Exists(string.Format(format, CompressMode.Medium)))
+            if (IOFile.Exists(string.Format(format, CompressMode.Medium)))
             {
-                File.Delete(string.Format(format, CompressMode.Medium));
+                IOFile.Delete(string.Format(format, CompressMode.Medium));
             }
 
-            if (File.Exists(string.Format(format, CompressMode.Large)))
+            if (IOFile.Exists(string.Format(format, CompressMode.Large)))
             {
-                File.Delete(string.Format(format, CompressMode.Large));
+                IOFile.Delete(string.Format(format, CompressMode.Large));
             }
         }
 

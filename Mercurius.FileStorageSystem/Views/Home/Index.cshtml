@@ -1,4 +1,6 @@
-﻿@model ResponseSet<FileStorage>
+﻿@using SFile = Mercurius.Sparrow.Entities.Storage.File
+
+@model ResponseSet<SFile>
 
 @section Styles
 {
@@ -98,6 +100,6 @@
 
 <div id="fileStorages">
     @{
-        Html.RenderPartial("_FileStorages");
+        Html.RenderPartial("_Files");
     }
 </div>

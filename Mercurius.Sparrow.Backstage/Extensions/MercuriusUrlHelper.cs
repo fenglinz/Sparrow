@@ -1,10 +1,10 @@
-﻿using Mercurius.Sparrow.Services.Support;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.Storage;
+using Mercurius.Sparrow.Services.Storage;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {

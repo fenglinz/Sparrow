@@ -218,7 +218,6 @@
     </Compile>
     <Compile Include="Apis\BaseController.cs" />
     <Compile Include="Apis\Core\Controllers\AccountController.cs" />
-    <Compile Include="Apis\Core\Controllers\FileStorageController.cs" />
     <Compile Include="Apis\Extensions\CustomMultipartFormDataStreamProvider.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

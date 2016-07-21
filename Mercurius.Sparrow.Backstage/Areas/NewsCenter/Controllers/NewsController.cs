@@ -7,8 +7,7 @@ using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.NewsCenter;
 using Mercurius.Sparrow.Entities.NewsCenter;
 using Mercurius.Sparrow.Entities.NewsCenter.SO;
-using Mercurius.Sparrow.Mvc.Extensions;
-using Mercurius.Sparrow.Services.Support;
+using Mercurius.Sparrow.Services.Storage;
 
 namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercurius.Sparrow.Entities.Core
+namespace Mercurius.Sparrow.Entities.Storage
 {
     /// <summary>
     /// 压缩模式枚举。

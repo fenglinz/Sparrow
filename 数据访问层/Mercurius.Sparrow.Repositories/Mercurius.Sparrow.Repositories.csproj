@@ -140,7 +140,9 @@
     <EmbeddedResource Include="Core\MSSQL\Logger.xml" />
     <EmbeddedResource Include="Core\MSSQL\RepositoryUtils.xml" />
     <EmbeddedResource Include="Core\MSSQL\SystemSetting.xml" />
-    <EmbeddedResource Include="Core\MSSQL\FileStorage.xml" />
+    <EmbeddedResource Include="Storage\MSSQL\File.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="WebApi\MSSQL\Api.xml" />
     <EmbeddedResource Include="WebApi\MSSQL\Role.xml" />
     <EmbeddedResource Include="WebApi\MSSQL\User.xml" />

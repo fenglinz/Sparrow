@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
-using System.IO;
 using Autofac;
 using Mercurius.FileStorageSystem.Extensions;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Contracts.Core;
+using Mercurius.Sparrow.Contracts.Storage;
 using Microsoft.AspNet.SignalR;
 
 namespace Mercurius.FileStorageSystem.SignalRHubs
@@ -26,7 +26,7 @@ namespace Mercurius.FileStorageSystem.SignalRHubs
 
             using (var context = AutofacConfig.Container.BeginLifetimeScope())
             {
-                var fileStorageService = context.Resolve<IFileStorageService>();
+                var fileStorageService = context.Resolve<IFileService>();
 
                 this.SendMessage("开始扫描已删除的残余文件...");
 
@@ -70,6 +70,7 @@ namespace Mercurius.FileStorageSystem.SignalRHubs
                 }
 
                 this.SendMessage("清理完成！");
+                this.SendMessage("--end--");
             }
         }
 

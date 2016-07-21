@@ -79,7 +79,7 @@
       <Project>{B0732AD6-AC7A-4980-817E-432631963939}</Project>
       <Name>Mercurius.Infrastructure</Name>
     </ProjectReference>
-    <Compile Include="Core\IFileStorageService.cs" />
+    <Compile Include="Storage\IFileService.cs" />
     <Compile Include="WebApi\IApiService.cs" />
     <Compile Include="WebApi\IRoleService.cs" />
     <Compile Include="WebApi\IUserService.cs" />

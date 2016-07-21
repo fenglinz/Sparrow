@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Entities.RBAC.SO;
+using Mercurius.Sparrow.Entities.Storage;
 using Mercurius.Sparrow.Mvc.Extensions;
-using Mercurius.Sparrow.Services.Support;
+using Mercurius.Sparrow.Services.Storage;
 
 namespace Mercurius.Sparrow.Backstage.Controllers
 {
@@ -53,7 +53,7 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             var client = new FileStorageClient();
             var rsp = client.Upload(WebHelper.GetLogOnAccount(), this.Request);
 
-            return Content(string.IsNullOrWhiteSpace(rsp.Datas.FirstOrDefault()) ? FileUploadError + rsp.ErrorMessage : Url.GetFileUrl(rsp.Datas.FirstOrDefault(), CompressMode.Medium));
+            return Content(string.IsNullOrWhiteSpace(rsp.Datas?.FirstOrDefault()) ? FileUploadError + rsp.ErrorMessage : Url.GetFileUrl(rsp.Datas.FirstOrDefault(), CompressMode.Medium));
         }
 
         /// <summary>

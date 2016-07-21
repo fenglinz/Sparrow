@@ -254,7 +254,7 @@
       <Link>Extensions\PagingExtensions.cs</Link>
     </Compile>
     <Compile Include="Apis\WebApiUtil.cs" />
-    <Compile Include="Apis\Core\Controllers\FileStorageController.cs" />
+    <Compile Include="Apis\Core\Controllers\FileController.cs" />
     <Compile Include="Apis\Extensions\CustomMultipartFormDataStreamProvider.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -406,7 +406,7 @@
     <Content Include="Scripts\Web.config" />
     <Content Include="Views\Home\ClearRubbish.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\_FileStorages.cshtml" />
+    <Content Include="Views\Home\_Files.cshtml" />
     <Content Include="Views\Home\Upload.cshtml" />
     <Content Include="Views\Shared\_BaseLayout.cshtml" />
   </ItemGroup>

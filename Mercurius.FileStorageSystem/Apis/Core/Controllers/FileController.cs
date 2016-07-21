@@ -10,8 +10,8 @@ using System.Web.Http;
 using Mercurius.FileStorageSystem.Extensions;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Contracts.Core;
-using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Contracts.Storage;
+using Mercurius.Sparrow.Entities.Storage;
 using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
 using static Mercurius.FileStorageSystem.Extensions.FileManager;
 
@@ -21,14 +21,14 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
     /// 文件管理控制器。
     /// </summary>
     [Authorize]
-    public class FileStorageController : ApiController
+    public class FileController : ApiController
     {
         #region 属性
 
         /// <summary>
         /// 获取或者设置文件管理服务。
         /// </summary>
-        public IFileStorageService FileStorageService { get; set; }
+        public IFileService FileService { get; set; }
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         /// <param name="fileUpload">文件上传信息</param>
         /// <returns>文件上传后的访问路径</returns>
         [HttpPost]
-        [Route("api/FileStorage/Upload/{account}")]
+        [Route("api/File/Upload/{account}")]
         public async Task<ResponseSet<string>> Upload(string account, FileUpload fileUpload)
         {
             if (fileUpload == null || fileUpload.Items == null)
@@ -56,7 +56,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                 return new ResponseSet<string> { ErrorMessage = UserNotExists };
             }
 
-            var savedFiles = this.FileStorageService.GetBusinessFiles(fileUpload.BusinessCategory, fileUpload.BusinessSerialNumber);
+            var savedFiles = this.FileService.GetBusinessFiles(fileUpload.BusinessCategory, fileUpload.BusinessSerialNumber);
 
             if (!savedFiles.IsSuccess)
             {
@@ -65,44 +65,58 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             var removeFiles = from f in savedFiles.Datas
                               where
-                                fileUpload.Items.IsEmpty() || fileUpload.Items.All(i => i.SavedAsFilePath != f.SaveAsPath)
-                              select f.SaveAsPath;
+                                fileUpload.Items.IsEmpty() || fileUpload.Items.All(i => i.FileSavedPath != f.SavedPath)
+                              select f.SavedPath;
 
             if (!removeFiles.IsEmpty())
             {
                 FileManager.Remove(removeFiles);
             }
 
-            fileUpload.UploadUserId = user.Id;
+            var businessFile = (BusinessFile)fileUpload;
 
-            foreach (var item in fileUpload.Items)
+            businessFile.UploadUserId = user.Id;
+
+            for (var i = 0; i < fileUpload.Items.Count; i++)
             {
+                var item = fileUpload.Items[i];
+                var file = businessFile.Files[i];
+
                 if (!string.IsNullOrWhiteSpace(item.FileData))
                 {
+                    var existsFilePath = this.FileService.CheckFileExists(file.MD5).Data;
+
+                    if (!string.IsNullOrWhiteSpace(existsFilePath))
+                    {
+                        file.SavedPath = existsFilePath;
+
+                        continue;
+                    }
+
                     var buffers = Convert.FromBase64String(item.FileData);
-                    var fileInfo = string.IsNullOrWhiteSpace(item.SavedAsFilePath) ?
+                    var fileInfo = string.IsNullOrWhiteSpace(item.FileSavedPath) ?
                         new FileInfo(this.GetSaveAsFileName(item.FileName)) :
-                        new FileInfo(UploadFileSavedDirectory + item.SavedAsFilePath.Substring(UploadFileSavedPath.Length).Replace('/', '\\'));
+                        new FileInfo(UploadFileSavedDirectory + item.FileSavedPath.Substring(UploadFileSavedPath.Length).Replace('/', '\\'));
 
                     using (var stream = fileInfo.OpenWrite())
                     {
                         await stream.WriteAsync(buffers, 0, buffers.Length);
                     }
 
-                    item.FileSize = buffers.Length;
-                    item.SavedAsFilePath = fileInfo.FullName.ConvertToWebSitePath();
+                    file.Size = buffers.Length;
+                    file.SavedPath = fileInfo.FullName.ConvertToWebSitePath();
                 }
                 else
                 {
-                    item.ContentType = null;
+                    file.ContentType = null;
                 }
             }
 
-            var rsp = this.FileStorageService.UploadFiles(fileUpload);
+            var rsp = this.FileService.UploadFiles(businessFile);
 
             if (!rsp.IsSuccess)
             {
-                FileManager.Remove(fileUpload.Items.Select(f => f.SavedAsFilePath));
+                FileManager.Remove(businessFile.Files.Select(f => f.SavedPath));
             }
 
             return rsp;
@@ -120,7 +134,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         /// <param name="serialNumber">业务流水号</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/FileStorage/Remove/{account}/{category}/{serialNumber}")]
+        [Route("api/File/Remove/{account}/{category}/{serialNumber}")]
         public Response Remove(string account, string category, string serialNumber)
         {
             var user = GetUser(account);
@@ -130,11 +144,11 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                 return new Response { ErrorMessage = UserNotExists };
             }
 
-            var savedFiles = this.FileStorageService.GetBusinessFiles(category, serialNumber, true);
+            var savedFiles = this.FileService.GetBusinessFiles(category, serialNumber, true);
 
             if (savedFiles.IsSuccess)
             {
-                FileManager.Remove(savedFiles.Datas.Select(f => f.SaveAsPath));
+                FileManager.Remove(savedFiles.Datas.Select(f => f.SavedPath));
 
                 return new Response();
             }
