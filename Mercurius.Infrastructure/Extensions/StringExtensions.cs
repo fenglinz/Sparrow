@@ -72,6 +72,20 @@ namespace Mercurius.Infrastructure
         }
 
         /// <summary>
+        /// 将文本转换为Guid类型数据。
+        /// </summary>
+        /// <param name="text">文本</param>
+        /// <returns>Guid数据</returns>
+        public static Guid? AsGuid(this string text)
+        {
+            Guid result;
+
+            var isSuccess = Guid.TryParse(text, out result);
+
+            return isSuccess ? result : (Guid?)null;
+        }
+
+        /// <summary>
         /// 判断字符串是否为数字。
         /// </summary>
         /// <param name="text">字符串</param>

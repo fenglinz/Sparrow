@@ -56,18 +56,27 @@ namespace Mercurius.Sparrow.Services.Storage
         /// <summary>
         /// 上传文件。
         /// </summary>
-        /// <param name="businessFile">业务文件存储对象</param>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
+        /// <param name="businessFiles">业务文件存储对象</param>
         /// <returns>上传结果</returns>
-        public ResponseSet<string> UploadFiles(BusinessFile businessFile)
+        public ResponseSet<string> UploadFiles(string category, string serialNumber, IList<BusinessFile> businessFiles)
         {
+            var args = new
+            {
+                Category = category,
+                SerialNumber = serialNumber,
+                Files = businessFiles
+            };
+
             return this.InvokeService(nameof(UploadFiles), () =>
             {
-                var rs = this.Persistence.QueryForList<string>(NS, "UploadFiles", businessFile);
+                var rs = this.Persistence.QueryForList<string>(NS, "UploadFiles", args);
 
                 this.ClearCache<File>();
 
                 return rs;
-            }, businessFile, false);
+            }, args, false);
         }
 
         /// <summary>
@@ -175,12 +184,12 @@ namespace Mercurius.Sparrow.Services.Storage
         /// <param name="serialNumber">业务流水号</param>
         /// <param name="includeFromRichEditor">包含富文本编辑器上传文件</param>
         /// <returns>上传文件信息</returns>
-        public ResponseSet<File> GetBusinessFiles(string category, string serialNumber, bool includeFromRichEditor = false)
+        public ResponseSet<BusinessFile> GetBusinessFiles(string category, string serialNumber, bool includeFromRichEditor = false)
         {
             var args = new { Category = category, SerialNumber = serialNumber, IncludeFromRichEditor = includeFromRichEditor };
 
             return this.InvokeService(nameof(GetBusinessFiles),
-                () => this.Persistence.QueryForList<File>(NS, "GetBusinessFiles", args), args);
+                () => this.Persistence.QueryForList<BusinessFile>(NS, "GetBusinessFiles", args), args);
         }
 
         #endregion

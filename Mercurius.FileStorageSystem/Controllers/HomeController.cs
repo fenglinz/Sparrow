@@ -109,8 +109,6 @@ namespace Mercurius.FileStorageSystem.Controllers
 
                     if (rsp.Data != null)
                     {
-                        rsp.Data.Description = description;
-
                         this.FileService.CreateOrUpdate(rsp.Data);
                         this.RemoveCompressionImage(this.Server.MapPath(rsp.Data.SavedPath));
                     }
@@ -138,8 +136,7 @@ namespace Mercurius.FileStorageSystem.Controllers
                     Name = file.FileName,
                     Size = file.ContentLength,
                     ContentType = file.ContentType,
-                    SavedPath = saveAsPath,
-                    Description = description
+                    SavedPath = saveAsPath
                 });
             }
 

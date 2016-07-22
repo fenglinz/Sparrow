@@ -68,13 +68,6 @@ namespace Mercurius.Sparrow.Entities.Storage
         public virtual string ContentType { get; set; }
 
         /// <summary>
-        /// 文件描述。
-        /// </summary>
-        [Display(Name = "文件描述")]
-        [StringLength(250, ErrorMessage = "文件描述不能超过{1}个字符。")]
-        public virtual string Description { get; set; }
-
-        /// <summary>
         /// 文件保存路径。
         /// </summary>
         [Display(Name = "文件保存路径")]
@@ -86,15 +79,6 @@ namespace Mercurius.Sparrow.Entities.Storage
         /// </summary>
         [Display(Name = "文件保存时间")]
         public virtual DateTime SavedDateTime { get; set; }
-
-        #endregion
-
-        #region 业务属性
-
-        /// <summary>
-        /// 来源分类(1:附件;2:富文本图片)。
-        /// </summary>
-        public virtual int SourceCategory { get; set; } = 1;
 
         #endregion
     }

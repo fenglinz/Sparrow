@@ -56,7 +56,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                 return new ResponseSet<string> { ErrorMessage = UserNotExists };
             }
 
-            var savedFiles = this.FileService.GetBusinessFiles(fileUpload.BusinessCategory, fileUpload.BusinessSerialNumber);
+            var savedFiles = this.FileService.GetBusinessFiles(fileUpload.Category, fileUpload.SerialNumber);
 
             if (!savedFiles.IsSuccess)
             {
@@ -65,58 +65,54 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             var removeFiles = from f in savedFiles.Datas
                               where
-                                fileUpload.Items.IsEmpty() || fileUpload.Items.All(i => i.FileSavedPath != f.SavedPath)
-                              select f.SavedPath;
+                                fileUpload.Items.IsEmpty() || fileUpload.Items.All(i => i.FileId != f.Id)
+                              select f.File.SavedPath;
 
             if (!removeFiles.IsEmpty())
             {
                 FileManager.Remove(removeFiles);
             }
 
-            var businessFile = (BusinessFile)fileUpload;
-
-            businessFile.UploadUserId = user.Id;
+            var businessFiles = fileUpload.AsBusinessFiles(user.Id);
 
             for (var i = 0; i < fileUpload.Items.Count; i++)
             {
+                var file = businessFiles[i];
                 var item = fileUpload.Items[i];
-                var file = businessFile.Files[i];
 
                 if (!string.IsNullOrWhiteSpace(item.FileData))
                 {
-                    var existsFilePath = this.FileService.CheckFileExists(file.MD5).Data;
+                    var existsFilePath = this.FileService.CheckFileExists(file.File.MD5).Data;
 
                     if (!string.IsNullOrWhiteSpace(existsFilePath))
                     {
-                        file.SavedPath = existsFilePath;
+                        file.File.SavedPath = existsFilePath;
 
                         continue;
                     }
 
                     var buffers = Convert.FromBase64String(item.FileData);
-                    var fileInfo = string.IsNullOrWhiteSpace(item.FileSavedPath) ?
-                        new FileInfo(this.GetSaveAsFileName(item.FileName)) :
-                        new FileInfo(UploadFileSavedDirectory + item.FileSavedPath.Substring(UploadFileSavedPath.Length).Replace('/', '\\'));
+                    var fileInfo = new FileInfo(this.GetSaveAsFileName(item.FileName));
 
                     using (var stream = fileInfo.OpenWrite())
                     {
                         await stream.WriteAsync(buffers, 0, buffers.Length);
                     }
 
-                    file.Size = buffers.Length;
-                    file.SavedPath = fileInfo.FullName.ConvertToWebSitePath();
+                    file.File.Size = buffers.Length;
+                    file.File.SavedPath = fileInfo.FullName.ConvertToWebSitePath();
                 }
                 else
                 {
-                    file.ContentType = null;
+                    file.File.ContentType = null;
                 }
             }
 
-            var rsp = this.FileService.UploadFiles(businessFile);
+            var rsp = this.FileService.UploadFiles(fileUpload.Category, fileUpload.SerialNumber, businessFiles);
 
             if (!rsp.IsSuccess)
             {
-                FileManager.Remove(businessFile.Files.Select(f => f.SavedPath));
+                FileManager.Remove(businessFiles.Select(f => f.File.SavedPath));
             }
 
             return rsp;
@@ -148,7 +144,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             if (savedFiles.IsSuccess)
             {
-                FileManager.Remove(savedFiles.Datas.Select(f => f.SavedPath));
+                FileManager.Remove(savedFiles.Datas.Select(f => f.File.SavedPath));
 
                 return new Response();
             }

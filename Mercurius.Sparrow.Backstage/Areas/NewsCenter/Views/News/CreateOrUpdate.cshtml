@@ -1,9 +1,10 @@
-﻿@using SFile = Mercurius.Sparrow.Entities.Storage.File
+﻿@using Mercurius.Sparrow.Entities.Storage
+@using SFile = Mercurius.Sparrow.Entities.Storage.File
 
 @model News
 
 @{
-    IList<SFile> attachments = HtmlHelperExtensions.GetBusinessFiles("新闻管理", Convert.ToString(this.ViewBag.BusinessSerialNumber));
+    IList<BusinessFile> attachments = HtmlHelperExtensions.GetBusinessFiles("新闻管理", Convert.ToString(this.ViewBag.BusinessSerialNumber));
 }
 
 @section Styles
@@ -32,7 +33,7 @@
     @Scripts.Render("~/bundles/validate", "~/bundles/RichEditor", "~/bundles/fileinput")
     <script type="text/javascript" src="~/Scripts/handlebars.min.js"></script>
     <script type="text/javascript">
-        var index = '@attachments.Count';
+        var index = '@(attachments==null ? 1: attachments.Count)';
 
         $(function () {
             var editor = new wangEditor('richBox');
@@ -182,7 +183,7 @@
                         <input id="file@(index)" name="file" type="file" class="form-control attachment" />
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" data-uploaded="@item.SavedPath" onclick="OnAppendAttachment(this)">
+                        <button type="button" class="btn btn-primary" data-uploaded="@item.Id" onclick="OnAppendAttachment(this)">
                             <i class="glyphicon glyphicon-plus-sign"></i>
                         </button>
                         <button type="button" class="btn btn-danger" onclick="OnRemoveAttachment(this)">
@@ -203,8 +204,8 @@
                         .fileinput({
                             showPreview: false,
                             browseClass: 'btn btn-default',
-                            initialCaption: '@item.Name',
-                            initialPreview: '@item.SavedPath'
+                            initialCaption: '@item.File.Name',
+                            initialPreview: '@item.File.SavedPath'
                         });
                 });
             </script>

@@ -17,12 +17,12 @@ namespace Mercurius.Sparrow.Entities.Storage
         /// <summary>
         /// 业务分类。
         /// </summary>
-        public string BusinessCategory { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// 业务流水号。
         /// </summary>
-        public string BusinessSerialNumber { get; set; }
+        public string SerialNumber { get; set; }
 
         /// <summary>
         /// 上传文件集合。
@@ -43,34 +43,31 @@ namespace Mercurius.Sparrow.Entities.Storage
 
         #endregion
 
-        #region 操作符重载
+        #region 公开方法
 
         /// <summary>
-        /// 将上传文件信息对象隐式转换为业务文件对象。
+        /// 将文件上传信息转换为业务文件列表。
         /// </summary>
-        /// <param name="fileUpload">上传文件信息</param>
-        public static explicit operator BusinessFile(FileUpload fileUpload)
+        /// <returns>业务文件列表</returns>
+        public IList<BusinessFile> AsBusinessFiles(string uploadUserId)
         {
-            if (fileUpload == null)
-            {
-                return null;
-            }
+            var index = 1;
 
-            return new BusinessFile
-            {
-                Category = fileUpload.BusinessCategory,
-                SerialNumber = fileUpload.BusinessSerialNumber,
-                Files = (from i in fileUpload.Items
-                         select new File
-                         {
-                             Name = i.FileName,
-                             MD5 = i.FileData.MD5(),
-                             SourceCategory = i.Category,
-                             ContentType = i.ContentType,
-                             Description = i.Description,
-                             SavedPath = i.FileSavedPath
-                         }).ToList()
-            };
+            return (from f in this.Items
+                    select new BusinessFile
+                    {
+                        Source = f.Source,
+                        Description = f.Description,
+                        FileId = f.FileId,
+                        Sort = index++,
+                        UploadUserId = uploadUserId,
+                        File = new File
+                        {
+                            Name = f.FileName,
+                            ContentType = f.ContentType,
+                            MD5 = f.FileData.MD5()
+                        }
+                    }).ToList();
         }
 
         #endregion

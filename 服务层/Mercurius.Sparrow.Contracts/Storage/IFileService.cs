@@ -30,9 +30,11 @@ namespace Mercurius.Sparrow.Contracts.Storage
         /// <summary>
         /// 上传文件。
         /// </summary>
-        /// <param name="businessFile">业务文件存储对象</param>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
+        /// <param name="businessFiles">业务文件存储对象</param>
         /// <returns>上传结果</returns>
-        ResponseSet<string> UploadFiles(BusinessFile businessFile);
+        ResponseSet<string> UploadFiles(string category, string serialNumber, IList<BusinessFile> businessFiles);
 
         /// <summary>
         /// 根据主键删除上传文件信息。
@@ -89,6 +91,6 @@ namespace Mercurius.Sparrow.Contracts.Storage
         /// <param name="serialNumber">业务流水号</param>
         /// <param name="includeFromRichEditor">包含富文本编辑器上传文件</param>
         /// <returns>上传文件信息</returns>
-        ResponseSet<File> GetBusinessFiles(string category, string serialNumber, bool includeFromRichEditor = false);
+        ResponseSet<BusinessFile> GetBusinessFiles(string category, string serialNumber, bool includeFromRichEditor = false);
     }
 }

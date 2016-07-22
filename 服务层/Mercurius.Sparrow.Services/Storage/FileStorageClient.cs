@@ -27,8 +27,8 @@ namespace Mercurius.Sparrow.Services.Storage
         {
             var fileUpload = new FileUpload
             {
-                BusinessCategory = request.Params["BusinessCategory"],
-                BusinessSerialNumber = request.Params["BusinessSerialNumber"]
+                Category = request.Params["BusinessCategory"],
+                SerialNumber = request.Params["BusinessSerialNumber"]
             };
 
             var modifyUploadedFiles = request.Params[ModifyUploadedFilesFieldName]?.Split(',').ToList();
@@ -40,12 +40,12 @@ namespace Mercurius.Sparrow.Services.Storage
 
                 fileUpload.Items.Add(new FileUploadItem
                 {
-                    Category = request.Params["Category"].AsInt32(1),
+                    Source = request.Params["Category"].AsInt32(1),
                     FileName = file.FileName,
                     ContentType = file.ContentType,
                     Description = uploadedFilesDescription?[index],
                     FileData = GetBase64String(file.InputStream),
-                    FileSavedPath = modifyUploadedFiles?[index]
+                    FileId = modifyUploadedFiles?[index].AsGuid()
                 });
             }
 

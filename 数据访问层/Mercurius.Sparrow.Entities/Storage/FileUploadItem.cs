@@ -14,9 +14,14 @@ namespace Mercurius.Sparrow.Entities.Storage
         #region 属性
 
         /// <summary>
-        /// 来源分类(1:附件;2:富文本图片)。
+        /// 来源(1:附件;2:富文本图片)。
         /// </summary>
-        public int Category { get; set; } = 1;
+        public int Source { get; set; } = 1;
+
+        /// <summary>
+        /// 文件编号。
+        /// </summary>
+        public Guid? FileId { get; set; }
 
         /// <summary>
         /// 文件名(含扩展名)。
@@ -37,11 +42,6 @@ namespace Mercurius.Sparrow.Entities.Storage
         /// 文件描述。
         /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        /// 已保存的文件路径。
-        /// </summary>
-        public string FileSavedPath { get; set; }
 
         #endregion
     }

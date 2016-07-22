@@ -5,6 +5,22 @@
     <typeAlias alias="FileSO" type="Mercurius.Sparrow.Entities.Storage.SO.FileSO,Mercurius.Sparrow.Entities" />
     <typeAlias alias="BusinessFile" type="Mercurius.Sparrow.Entities.Storage.BusinessFile, Mercurius.Sparrow.Entities" />
   </alias>
+
+  <resultMaps>
+    <resultMap id="GetBusinessFiles" class="BusinessFile">
+      <result property="Id" column="Id" />
+      <result property="Category" column="Category" />
+      <result property="SerialNumber" column="SerialNumber" />
+      <result property="Source" column="Source" />
+      <result property="FileId" column="FileId" />
+      <result property="Description" column="Description" />
+      <result property="Sort" column="Sort" />
+      <result property="UploadUserId" column="UploadUserId" />
+      <result property="UploadDateTime" column="UploadDateTime" />
+      <result property="File" column="FileId" select="Mercurius.Sparrow.Repositories.Storage.File.GetById" />
+    </resultMap>
+  </resultMaps>
+
   <statements>
 
     <!-- 获取已存在的文件保存路径 -->
@@ -23,7 +39,6 @@
             [Name]=#Name#,
             [Size]=#Size#,
             [ContentType]=#ContentType#,
-            [Description]=#Description#,
             [SavedPath]=#SavedPath#,
             [SavedDateTime]=GETDATE()
           WHERE [SavedFilePath]=#SavedPath#;
@@ -35,7 +50,6 @@
             [Size],
             [MD5],
             [ContentType],
-            [Description],
             [SavedPath],
             [SavedDateTime]
           )
@@ -46,7 +60,6 @@
             #Size#,
             #MD5#,
             #ContentType#,
-            #Description#,
             #SavedPath#,
             GETDATE()
           )
@@ -54,88 +67,91 @@
     </update>
 
     <!-- 上传文件信息。 -->
-    <select id="UploadFiles" parameterClass="BusinessFile" resultClass="string">
+    <select id="UploadFiles" parameterClass="Params" resultClass="string">
       <![CDATA[
         BEGIN
           DECLARE @sort INT=1;
-          DECLARE @addBusinessFile INT=0;
           DECLARE @fileId UNIQUEIDENTIFIER;
+          DECLARE @businessFileId UNIQUEIDENTIFIER;
       ]]>
       <isNotNull property="Files">
         <iterate property="Files" open="" conjunction="" close="">
           <![CDATA[
-            SELECT @fileId=Id FROM Storage.[File] WHERE SavedPath=#Files[].SavedPath#;
-          
-            IF @fileId IS NULL
-              BEGIN
-                SET @fileId=NEWID();
-                SET @addBusinessFile=1;
+            SELECT @businessFileId=Id FROM Storage.BusinessFile WHERE Id=#Files[].Id#;
 
-                INSERT INTO [Storage].[File]
-                (
-                  [Id],
-                  [Name],
-                  [Size],
-                  [MD5],
-                  [ContentType],
-                  [Description],
-                  [SavedPath],
-                  [SavedDateTime]
-                )
-                VALUES
-                (
-                  @fileId,
-                  #Files[].Name#,
-                  #Files[].Size#,
-                  #Files[].MD5#,
-                  #Files[].ContentType#,
-                  #Files[].Description#,
-                  #Files[].SavedPath#,
-                  GETDATE()
-                );
-              END
-            ELSE
+            IF @businessFileId IS NULL
+            BEGIN
+              SELECT @fileId=Id FROM Storage.[File] WHERE MD5=#Files[].File.MD5#;
+
+              IF @fileId IS NULL
               BEGIN
-                UPDATE [Storage].[File]
-                SET
-                  [Name]=ISNULL(CASE #Files[].Name# WHEN '' THEN NULL ELSE #Files[].Name# END, [Name]),
-                  [Size]=ISNULL(CASE #Files[].Size# WHEN '' THEN NULL ELSE #Files[].Size# END, [Size]),
-                  [MD5]=ISNULL(CASE #Files[].MD5# WHEN '' THEN NULL ELSE #Files[].MD5# END, [MD5]),
-                  [ContentType]=ISNULL(CASE #Files[].ContentType# WHEN '' THEN NULL ELSE #Files[].ContentType# END, [ContentType]),
-                  [Description]=#Files[].Description#,
-                  [SavedDateTime]=GETDATE()
-                WHERE [SavedPath]=#Files[].SavedPath#;
-                
-                IF NOT EXISTS(SELECT * FROM Storage.BusinessFile WHERE Category=#Category# AND SerialNumber=#SerialNumber# AND FileId=@fileId AND SourceCategory<>#Files[].SourceCategory#)
-                  SET @addBusinessFile=1;
-              END
-            
-            IF @addBusinessFile=1
-              INSERT INTO [Storage].[BusinessFile]
-                ( 
-                  Id,
-                  FileId,
-                  Category,
-                  SerialNumber,
-                  SourceCategory,
-                  Sort,
-                  UploadUserId,
-                  UploadDateTime
+                SET @fileId = NEWID();
+
+                INSERT INTO Storage.[File]
+                (
+                  Id,Name,Size,MD5,ContentType,SavedPath,SavedDateTime
                 )
-                VALUES
+                VALUES  
                 ( 
-                  NEWID(),
-                  @fileId,
-                  #Category#,
-                  #SerialNumber#,
-                  #Files[].SourceCategory#,
-                  @sort,
-                  #UploadUserId#,
-                  GETDATE()
+                  @fileId,#Files[].File.Name#,#Files[].File.Size#,
+                  #Files[].File.MD5#,#Files[].File.ContentType#,
+                  #Files[].File.SavedPath#,GETDATE()
                 );
-            
+              END
+
+              INSERT INTO Storage.BusinessFile
+              ( 
+                Id,FileId,Category,SerialNumber,Description,
+                Source,Sort,UploadUserId,UploadDateTime
+              )
+              VALUES
+              ( 
+                NEWID(),@fileId,#Category#,#SerialNumber#,
+                #Files[].Description#,#Files[].Source#,
+                @sort, #Files[].UploadUserId#,GETDATE()
+              );
+            END
+            ELSE
+            BEGIN
+              IF #Files[].File.SavedPath# IS NULL
+                UPDATE Storage.BusinessFile
+                SET 
+                  Description=#Files[].Description#,
+                  Sort=@sort
+                WHERE Id=@businessFileId;
+              ELSE
+              BEGIN
+                SELECT @fileId=Id FROM Storage.[File] WHERE MD5=#Files[].File.MD5#;
+      
+                IF @fileId IS NULL
+                BEGIN
+                  SET @fileId = NEWID();
+
+                  INSERT INTO Storage.[File]
+                  (
+                    Id,Name,Size,MD5,ContentType,SavedPath,SavedDateTime
+                  )
+                  VALUES  
+                  ( 
+                    @fileId,#Files[].File.Name#,#Files[].File.Size#,
+                    #Files[].File.MD5#,#Files[].File.ContentType#,
+                    #Files[].File.SavedPath#,GETDATE()
+                  );
+                END
+
+                UPDATE Storage.BusinessFile
+                  SET 
+                    FileId=@fileId,
+                    Description=#Files[].Description#,
+                    Sort=@sort
+                  WHERE Id=@businessFileId;
+              END
+            END
+
             SET @sort=@sort+1;
-            SET @addBusinessFile=0;
+
+            SET @fileId=NULL;
+            SET @businessFileId=NULL;
           ]]>
         </iterate>
       </isNotNull>
@@ -180,7 +196,6 @@
           [Size] AS Size,
           [MD5] AS MD5,
           [ContentType] AS ContentType,
-          [Description] AS Description,
           [SavedPath] AS SavedPath,
           [SavedDateTime] AS SavedDateTime
         FROM [Storage].[File]
@@ -197,7 +212,6 @@
           [Size] AS Size,
           [MD5] AS MD5,
           [ContentType] AS ContentType,
-          [Description] AS Description,
           [SavedPath] AS SavedPath,
           [SavedDateTime] AS SavedDateTime
         FROM [Storage].[File]
@@ -206,31 +220,30 @@
     </select>
 
     <!-- 获取业务所用文件信息 -->
-    <select id="GetBusinessFiles" parameterClass="Params" resultClass="File">
+    <select id="GetBusinessFiles" parameterClass="Params" resultMap="GetBusinessFiles">
       <![CDATA[
         SELECT
-          a.[Id] AS Id,
-          a.[Name] AS Name,
-          a.[Size] AS Size,
-          a.[MD5] AS MD5,
-          a.[ContentType] AS ContentType,
-          a.[Description] AS Description,
-          a.[SavedPath] AS SavedPath,
-          a.[SavedDateTime] AS SavedDateTime
-        FROM [Storage].[File] a
-        INNER JOIN Storage.BusinessFile b
-          ON a.Id=b.FileId
-        WHERE b.Category=#Category# AND b.SerialNumber=#SerialNumber#
+          [Id] AS Id
+          ,[Category] AS Category
+          ,[SerialNumber] AS SerialNumber
+          ,[Source] AS Source
+          ,[FileId] AS FileId
+          ,[Description] AS Description
+          ,[Sort] AS Sort
+          ,[UploadUserId] AS UploadUserId
+          ,[UploadDateTime] AS UploadDateTime
+        FROM [Storage].[BusinessFile]
+        WHERE Category=#Category# AND SerialNumber=#SerialNumber#
       ]]>
       <dynamic>
         <isEqual property="IncludeFromRichEditor" compareValue="false" prepend="AND">
           <![CDATA[
-            b.[SourceCategory]=1
+            [Source]=1
           ]]>
         </isEqual>
       </dynamic>
       <![CDATA[
-        ORDER BY b.Sort ASC
+        ORDER BY Sort ASC
       ]]>
     </select>
 
@@ -244,7 +257,6 @@
             [Size] AS Size,
             [MD5] AS MD5,
             [ContentType] AS ContentType,
-            [Description] AS Description,
             [SavedPath] AS SavedPath,
             [SavedDateTime] AS SavedDateTime,
             ROW_NUMBER() OVER(ORDER BY a.[Id] DESC) AS RowIndex

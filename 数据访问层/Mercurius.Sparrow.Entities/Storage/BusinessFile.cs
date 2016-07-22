@@ -37,16 +37,23 @@ namespace Mercurius.Sparrow.Entities.Storage
         public virtual string SerialNumber { get; set; }
 
         /// <summary>
+        /// 来源(1：附件、2：富文本编辑器)。
+        /// </summary>
+        [Display(Name = "来源")]
+        public virtual int Source { get; set; } = 1;
+
+        /// <summary>
         /// 文件存储编号。
         /// </summary>
         [Display(Name = "文件存储编号")]
-        public virtual int FileId { get; set; }
+        public virtual Guid? FileId { get; set; }
 
         /// <summary>
-        /// 来源分类(1：附件、2：富文本编辑器)。
+        /// 文件描述。
         /// </summary>
-        [Display(Name = "文档分类")]
-        public virtual int SourceCategory { get; set; } = 1;
+        [Display(Name = "文件描述")]
+        [StringLength(250, ErrorMessage = "文件描述不能超过{1}个字符。")]
+        public virtual string Description { get; set; }
 
         /// <summary>
         /// 排序号。
@@ -72,9 +79,9 @@ namespace Mercurius.Sparrow.Entities.Storage
         #region 业务属性
 
         /// <summary>
-        /// 业务所属文件列表。
+        /// 业务文件关联的文件信息。
         /// </summary>
-        public virtual IList<File> Files { get; set; }
+        public virtual File File { get; set; }
 
         #endregion
     }

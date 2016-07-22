@@ -128,7 +128,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="category">业务分类</param>
         /// <param name="serialNumber">业务流水号</param>
         /// <returns>上传文件列表</returns>
-        public static IList<File> GetBusinessFiles(string category, string serialNumber)
+        public static IList<BusinessFile> GetBusinessFiles(string category, string serialNumber)
         {
             return _fileStorageService.GetBusinessFiles(category, serialNumber).Datas;
         }
