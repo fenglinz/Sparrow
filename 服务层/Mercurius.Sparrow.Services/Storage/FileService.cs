@@ -39,6 +39,7 @@ namespace Mercurius.Sparrow.Services.Storage
                     this.Persistence.Update(NS, "CreateOrUpdate", fileStorage);
 
                     this.ClearCache<File>();
+                    this.ClearCache<BusinessFile>();
                 }, fileStorage);
         }
 
@@ -74,6 +75,7 @@ namespace Mercurius.Sparrow.Services.Storage
                 var rs = this.Persistence.QueryForList<string>(NS, "UploadFiles", args);
 
                 this.ClearCache<File>();
+                this.ClearCache<BusinessFile>();
 
                 return rs;
             }, args, false);
@@ -91,6 +93,7 @@ namespace Mercurius.Sparrow.Services.Storage
                 this.Persistence.Delete(NS, "Remove", id);
 
                 this.ClearCache<File>();
+                this.ClearCache<BusinessFile>();
             }, id);
         }
 
@@ -108,6 +111,7 @@ namespace Mercurius.Sparrow.Services.Storage
                 this.Persistence.Delete(NS, "RemovesByFilePaths", args);
 
                 this.ClearCache<File>();
+                this.ClearCache<BusinessFile>();
             }, args);
         }
 
@@ -146,6 +150,7 @@ namespace Mercurius.Sparrow.Services.Storage
                     var datas = this.Persistence.QueryForList<string>(NS, "GetInvalidFiles");
 
                     this.ClearCache<File>();
+                    this.ClearCache<BusinessFile>();
 
                     return datas;
                 }, cacheable: false);

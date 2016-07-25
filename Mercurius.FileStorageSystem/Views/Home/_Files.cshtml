@@ -9,10 +9,9 @@
             <td style="width: 60px">序号</td>
             <td style="width: 300px;">文件名</td>
             <td style="width: 200px;">文件类型</td>
-            <td style="width: 300px">保存位置</td>
-            <td style="width: 120px;">描述</td>
+            <td>保存位置</td>
             <td style="width: 130px;">保存时间</td>
-            <td></td>
+            <td style="width: 182px;"></td>
         </tr>
     </thead>
     <tbody>
@@ -25,16 +24,15 @@
                     <td><a href="javascript:ShowFile('@Url.Content(item.SavedPath)')">@item.Name</a></td>
                     <td data-toggle="tooltip" data-placement="bottom" title="@item.ContentType">@item.ContentType</td>
                     <td data-toggle="tooltip" data-placement="bottom" title="@item.SavedPath"><i class="glyphicon @(IOFile.Exists(this.Server.MapPath(item.SavedPath)) ? "glyphicon-ok-circle" : "glyphicon-remove-circle")" style="margin-right: 5px;"></i>@item.SavedPath</td>
-                    <td data-toggle="tooltip" data-placement="bottom" title="@item.Description">@item.Description</td>
                     <td>@item.SavedDateTime.ToString("yyy-MM-dd HH:mm:ss")</td>
                     <td>
                         <div class="btn-group">
                             <a href="@Url.Action("Upload", "Home", new {@id=item.Id})" class="btn btn-primary">
                                 <i class="glyphicon glyphicon-upload"></i> 重新上传
                             </a>
-                            <button type="button" class="btn btn-danger" onclick="OnRemove('@item.Id')">
+                            @*<button type="button" class="btn btn-danger" onclick="OnRemove('@item.Id')">
                                 <i class="glyphicon glyphicon-remove"></i> 删除
-                            </button>
+                            </button>*@
                         </div>
                     </td>
                 </tr>
@@ -55,4 +53,4 @@
     </tbody>
 </table>
 
-@Html.Paging(Model.TotalRecords, "SearchFileStorages", "Home", (object)this.ViewBag.SO, ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "fileStorages", OnSuccess= "OnPagedSuccess" })
+@Html.Paging(Model.TotalRecords, "SearchFileStorages", "Home", (object)this.ViewBag.SO, ajaxOptions: new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "fileStorages", OnSuccess = "OnPagedSuccess" })

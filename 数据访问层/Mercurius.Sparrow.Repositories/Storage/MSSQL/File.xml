@@ -179,7 +179,9 @@
     <delete id="RemovesByFilePaths" parameterClass="Params">
       <isNotNull property="FilePaths">
         <![CDATA[
-          DELETE FROM [Storage].[File] WHERE SavedPath IN
+          DELETE FROM [Storage].[File] WHEREWHERE Id NOT IN(
+            SELECT FileId FROM Storage.BusinessFile
+          ) SavedPath IN
         ]]>
         <iterate property="FilePaths" open="(" conjunction="," close=")">
           #FilePaths[]#

@@ -19,15 +19,10 @@ namespace Mercurius.Sparrow.Entities.Storage
         public int Source { get; set; } = 1;
 
         /// <summary>
-        /// 文件编号。
-        /// </summary>
-        public Guid? FileId { get; set; }
-
-        /// <summary>
         /// 文件名(含扩展名)。
         /// </summary>
         public string FileName { get; set; }
-        
+
         /// <summary>
         /// 文件类型。
         /// </summary>
@@ -42,6 +37,11 @@ namespace Mercurius.Sparrow.Entities.Storage
         /// 文件描述。
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// 业务文件编号。
+        /// </summary>
+        public Guid? BusinessFileId { get; set; }
 
         #endregion
     }

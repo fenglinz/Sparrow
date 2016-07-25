@@ -45,7 +45,7 @@ namespace Mercurius.Sparrow.Services.Storage
                     ContentType = file.ContentType,
                     Description = uploadedFilesDescription?[index],
                     FileData = GetBase64String(file.InputStream),
-                    FileId = modifyUploadedFiles?[index].AsGuid()
+                    BusinessFileId = modifyUploadedFiles?[index].AsGuid()
                 });
             }
 

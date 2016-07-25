@@ -65,7 +65,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             var removeFiles = from f in savedFiles.Datas
                               where
-                                fileUpload.Items.IsEmpty() || fileUpload.Items.All(i => i.FileId != f.Id)
+                                fileUpload.Items.IsEmpty() || fileUpload.Items.All(i => i.BusinessFileId != f.Id)
                               select f.File.SavedPath;
 
             if (!removeFiles.IsEmpty())
@@ -86,7 +86,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
                     if (!string.IsNullOrWhiteSpace(existsFilePath))
                     {
-                        file.File.SavedPath = existsFilePath;
+                        file.File.SavedPath = null;
 
                         continue;
                     }
