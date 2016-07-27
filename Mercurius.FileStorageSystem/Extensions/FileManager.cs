@@ -68,19 +68,14 @@ namespace Mercurius.FileStorageSystem.Extensions
                 return;
             }
 
-            var rsp = _fileStorageService.Remove(filePaths.ToArray());
-
-            if (rsp.IsSuccess)
+            foreach (var file in filePaths)
             {
-                foreach (var file in filePaths)
-                {
-                    var fileInfo = new FileInfo(HttpContext.Current.Server.MapPath(file));
+                var fileInfo = new FileInfo(HttpContext.Current.Server.MapPath(file));
 
-                    if (fileInfo.Exists)
-                    {
-                        fileInfo.Delete();
-                        RemoveCompressionImage(fileInfo.FullName);
-                    }
+                if (fileInfo.Exists)
+                {
+                    fileInfo.Delete();
+                    RemoveCompressionImage(fileInfo.FullName);
                 }
             }
         }

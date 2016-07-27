@@ -69,82 +69,6 @@ namespace Mercurius.FileStorageSystem.Controllers
 
         #endregion
 
-        #region 文件上传
-
-        /// <summary>
-        /// 显示文件上传界面。
-        /// </summary>
-        /// <param name="id">文件编号</param>
-        /// <returns>显示文件上传界面</returns>
-        public ActionResult Upload(Guid? id = null)
-        {
-            if (id.HasValue)
-            {
-                var rsp = this.FileService.GetFileById(id.Value);
-
-                return View(rsp.Data);
-            }
-
-            return View();
-        }
-
-        /// <summary>
-        /// 上传文件。
-        /// </summary>
-        /// <param name="id">文件编号</param>
-        /// <param name="saveAsPath">保存路径</param>
-        /// <param name="description">文件描述</param>
-        /// <returns>上传结果</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Upload(Guid? id, string saveAsPath, string description)
-        {
-            var file = this.Request.Files["file"];
-
-            if (string.IsNullOrWhiteSpace(file?.FileName))
-            {
-                if (id.HasValue)
-                {
-                    var rsp = this.FileService.GetFileById(id.Value);
-
-                    if (rsp.Data != null)
-                    {
-                        this.FileService.CreateOrUpdate(rsp.Data);
-                        this.RemoveCompressionImage(this.Server.MapPath(rsp.Data.SavedPath));
-                    }
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(saveAsPath))
-                {
-                    var dir = Path.GetDirectoryName(this.Server.MapPath(saveAsPath));
-
-                    if (!Directory.Exists(dir))
-                    {
-                        Directory.CreateDirectory(dir);
-                    }
-                }
-
-                saveAsPath = string.IsNullOrWhiteSpace(saveAsPath) ? $"{this.GetSavedDirectory()}/{Guid.NewGuid()}{Path.GetExtension(file.FileName)}" : saveAsPath;
-
-                file.SaveAs(this.Server.MapPath(saveAsPath));
-
-                this.FileService.CreateOrUpdate(new Sparrow.Entities.Storage.File
-                {
-                    Id = id ?? Guid.NewGuid(),
-                    Name = file.FileName,
-                    Size = file.ContentLength,
-                    ContentType = file.ContentType,
-                    SavedPath = saveAsPath
-                });
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        #endregion
-
         #region 垃圾文件清理
 
         /// <summary>
@@ -154,42 +78,6 @@ namespace Mercurius.FileStorageSystem.Controllers
         public ActionResult ClearRubbish()
         {
             return View();
-        }
-
-        #endregion
-
-        #region 删除文件
-
-        /// <summary>
-        /// 删除文件。
-        /// </summary>
-        /// <param name="id">文件编号</param>
-        /// <returns>删除结果</returns>
-        [HttpPost]
-        public ActionResult Remove(Guid id)
-        {
-            var rsp = this.FileService.GetFileById(id);
-
-            if (rsp.Data != null)
-            {
-                var filePath = this.Server.MapPath(rsp.Data.SavedPath);
-
-                if (System.IO.File.Exists(filePath))
-                {
-                    System.IO.File.Delete(filePath);
-                    this.RemoveCompressionImage(filePath);
-                }
-
-                var temp = this.FileService.Remove(id);
-
-                return Json(temp);
-            }
-            else if (!rsp.IsSuccess)
-            {
-                return Json(rsp);
-            }
-
-            return Json(new Response { ErrorMessage = "文件不存在！" });
         }
 
         #endregion

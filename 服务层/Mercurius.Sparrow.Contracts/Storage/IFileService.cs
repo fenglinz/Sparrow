@@ -37,25 +37,12 @@ namespace Mercurius.Sparrow.Contracts.Storage
         ResponseSet<string> UploadFiles(string category, string serialNumber, IList<BusinessFile> businessFiles);
 
         /// <summary>
-        /// 根据主键删除上传文件信息。
+        /// 删除上传文件信息。
         /// </summary>
-        /// <param name="id">编号</param>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
         /// <returns>返回删除结果</returns>
-        Response Remove(Guid id);
-
-        /// <summary>
-        /// 批量删除上传文件信息。
-        /// </summary>
-        /// <param name="filePaths">文件列表</param>
-        /// <returns>返回删除结果</returns>
-        Response Remove(params string[] filePaths);
-
-        /// <summary>
-        /// 根据主键获取上传文件信息。
-        /// </summary>
-        /// <param name="id">编号</param>
-        /// <returns>返回上传文件查询结果</returns>
-        Response<File> GetFileById(Guid id);
+        Response Remove(string category, string serialNumber);
 
         /// <summary>
         /// 根据文件保存路径获取文件信息。

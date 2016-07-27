@@ -82,50 +82,22 @@ namespace Mercurius.Sparrow.Services.Storage
         }
 
         /// <summary>
-        /// 根据主键删除上传文件信息。
+        /// 删除上传文件信息。
         /// </summary>
-        /// <param name="id">编号</param>
+        /// <param name="category">业务分类</param>
+        /// <param name="serialNumber">业务流水号</param>
         /// <returns>返回删除结果</returns>
-        public Response Remove(Guid id)
+        public Response Remove(string category, string serialNumber)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<File>();
-                this.ClearCache<BusinessFile>();
-            }, id);
-        }
-
-        /// <summary>
-        /// 批量删除上传文件信息。
-        /// </summary>
-        /// <param name="filePaths">文件列表</param>
-        /// <returns>返回删除结果</returns>
-        public Response Remove(params string[] filePaths)
-        {
-            var args = new { FilePaths = filePaths.ToList() };
+            var args = new { Category = category, SerialNumber = serialNumber };
 
             return this.InvokeService(nameof(Remove), () =>
             {
-                this.Persistence.Delete(NS, "RemovesByFilePaths", args);
+                this.Persistence.Delete(NS, "Remove", args);
 
                 this.ClearCache<File>();
                 this.ClearCache<BusinessFile>();
             }, args);
-        }
-
-        /// <summary>
-        /// 根据主键获取上传文件信息。
-        /// </summary>
-        /// <param name="id">编号</param>
-        /// <returns>返回上传文件查询结果</returns>
-        public Response<File> GetFileById(Guid id)
-        {
-            return this.InvokeService(
-                nameof(GetFileById),
-                () => this.Persistence.QueryForObject<File>(NS, "GetById", id),
-                id);
         }
 
         /// <summary>

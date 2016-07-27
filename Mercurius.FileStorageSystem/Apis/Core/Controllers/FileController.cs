@@ -140,16 +140,9 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                 return new Response { ErrorMessage = UserNotExists };
             }
 
-            var savedFiles = this.FileService.GetBusinessFiles(category, serialNumber, true);
+            var rsp = this.FileService.Remove(category, serialNumber);
 
-            if (savedFiles.IsSuccess)
-            {
-                FileManager.Remove(savedFiles.Datas.Select(f => f.File.SavedPath));
-
-                return new Response();
-            }
-
-            return new Response { ErrorMessage = savedFiles.ErrorMessage }; ;
+            return rsp;
         }
 
         #endregion

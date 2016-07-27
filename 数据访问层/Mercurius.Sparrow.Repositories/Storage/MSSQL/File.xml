@@ -166,44 +166,12 @@
     </select>
 
     <!-- 删除上传文件信息。 -->
-    <delete id="Remove" parameterClass="guid">
+    <delete id="Remove" parameterClass="Params">
       <![CDATA[
-        BEGIN
-          DELETE FROM [Storage].[File] WHERE [Id]=#value#;
-          DELETE FROM [Storage].[BusinessFile] WHERE [FileId]=#value#;
-        END
+        DELETE FROM Storage.BusinessFile 
+        WHERE Category=#Category# AND SerialNumber=#SerialNumber#
       ]]>
     </delete>
-
-    <!-- 删除上传文件信息 -->
-    <delete id="RemovesByFilePaths" parameterClass="Params">
-      <isNotNull property="FilePaths">
-        <![CDATA[
-          DELETE FROM [Storage].[File] WHEREWHERE Id NOT IN(
-            SELECT FileId FROM Storage.BusinessFile
-          ) SavedPath IN
-        ]]>
-        <iterate property="FilePaths" open="(" conjunction="," close=")">
-          #FilePaths[]#
-        </iterate>
-      </isNotNull>
-    </delete>
-
-    <!-- 根据主键获取上传文件信息。 -->
-    <select id="GetById" parameterClass="guid" resultClass="File">
-      <![CDATA[
-        SELECT TOP 1 
-          [Id] AS Id,
-          [Name] AS Name,
-          [Size] AS Size,
-          [MD5] AS MD5,
-          [ContentType] AS ContentType,
-          [SavedPath] AS SavedPath,
-          [SavedDateTime] AS SavedDateTime
-        FROM [Storage].[File]
-        WHERE [Id]=#value#
-      ]]>
-    </select>
 
     <!-- 根据文件保存路径获取文件信息 -->
     <select id="GetFileByPath" parameterClass="string" resultClass="File">
