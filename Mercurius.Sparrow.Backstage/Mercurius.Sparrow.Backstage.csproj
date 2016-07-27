@@ -523,13 +523,10 @@
     <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\Bootstrap-FileInput\locales\ar.js" />
     <Content Include="Scripts\Bootstrap-FileInput\locales\bg.js" />
     <Content Include="Scripts\Bootstrap-FileInput\locales\ca.js" />
@@ -559,6 +556,9 @@
     <Content Include="Scripts\Bootstrap-FileInput\locales\uk.js" />
     <Content Include="Scripts\Bootstrap-FileInput\locales\zh-TW.js" />
     <Content Include="Scripts\Bootstrap-FileInput\locales\zh.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
