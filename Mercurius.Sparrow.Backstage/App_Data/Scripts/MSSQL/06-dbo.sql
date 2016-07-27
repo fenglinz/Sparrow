@@ -110,117 +110,6 @@ INSERT  INTO [dbo].[Dictionary]( [Id], [Type], [Key], [Value], [ParentId], [Sort
 GO
 INSERT  INTO [dbo].[Dictionary]( [Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark] )VALUES( N'f871b534-81ec-4f73-a2cc-e2dac035584c', NULL, N'日志级别', NULL, NULL, N'5', NULL, NULL );
 GO
-CREATE TABLE [dbo].[FileStorage]
-(
-  [Id] INT NOT NULL IDENTITY(1, 1) ,
-  [FileName] NVARCHAR(1000) NOT NULL ,
-  [ContentType] NVARCHAR(250) NOT NULL ,
-  [FileSize] INT NULL ,
-  [Description] NVARCHAR(250) NULL ,
-  [SaveAsPath] NVARCHAR(1000) NULL ,
-  [ScanStatus] INT NULL ,
-  [UploadUserId] NVARCHAR(36) NULL ,
-  [UploadDateTime] DATETIME NOT NULL
-);
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'上传文件' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage';
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'编号' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'Id';
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'文件名' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'FileName';
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'文件MIME类型' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'ContentType';
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'文件大小' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'FileSize';
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'文件标题' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'Description';
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'文件保存路径' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'SaveAsPath';
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'扫描标记' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'ScanStatus';
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'上传者编号' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'UploadUserId';
-GO
-EXEC sp_addextendedproperty
-    @name = N'MS_Description' ,
-    @value = N'上传时间' ,
-    @level0type = 'SCHEMA' ,
-    @level0name = N'dbo' ,
-    @level1type = 'TABLE' ,
-    @level1name = N'FileStorage' ,
-    @level2type = 'COLUMN' ,
-    @level2name = N'UploadDateTime';
-GO
 CREATE TABLE [dbo].[Globalization]
 (
   [Id] NVARCHAR(36) NOT NULL ,
@@ -342,7 +231,6 @@ CREATE TABLE [dbo].[News] (
   [Category] nvarchar(250) NULL ,
   [Title] nvarchar(500) NULL ,
   [Content] nvarchar(MAX) NULL ,
-  [Attachments] nvarchar(4000) NULL ,
   [Status] int NULL ,
   [BrowseTimes] int NULL ,
   [PublisherId] nvarchar(36) NULL ,
@@ -396,16 +284,6 @@ EXEC sp_addextendedproperty
     @level1name = N'News', 
     @level2type = 'COLUMN', 
     @level2name = N'Content'
-GO
-EXEC sp_addextendedproperty 
-    @name = N'MS_Description', 
-    @value = N'附件', 
-    @level0type = 'SCHEMA', 
-    @level0name = N'dbo', 
-    @level1type = 'TABLE', 
-    @level1name = N'News', 
-    @level2type = 'COLUMN', 
-    @level2name = N'Attachments'
 GO
 EXEC sp_addextendedproperty 
     @name = N'MS_Description', 
