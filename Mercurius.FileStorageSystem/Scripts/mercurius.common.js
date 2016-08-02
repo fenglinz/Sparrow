@@ -431,7 +431,7 @@
             $(fixedTableId).find('table').css('width', width);
 
             $(fixedTableId).prev().find('thead > tr > td:visible').each(function (index, item) {
-                if ($(item).context.style.width != "") {
+                if ($(item).width() != "") {
                     $(fixedTableId + ' table > tbody > tr > td:visible:eq(' + index + ')').css('width', $(item).css('width'));
                 }
             });
