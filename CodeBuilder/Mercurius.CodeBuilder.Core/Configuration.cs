@@ -7,7 +7,7 @@ using System.Text;
 using Mercurius.CodeBuilder.Core.Database;
 using System.IO;
 using System.Xml.Linq;
-using Microsoft.Practices.Prism.Mvvm;
+using Prism.Mvvm;
 using Newtonsoft.Json;
 
 namespace Mercurius.CodeBuilder.Core

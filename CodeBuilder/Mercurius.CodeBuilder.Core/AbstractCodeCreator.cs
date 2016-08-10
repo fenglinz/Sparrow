@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.Core.Events;
-using Microsoft.Practices.Prism.PubSubEvents;
+using Prism.Events;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Mercurius.CodeBuilder.Core

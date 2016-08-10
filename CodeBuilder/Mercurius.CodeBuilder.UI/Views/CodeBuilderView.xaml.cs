@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Mercurius.CodeBuilder.Core.Events;
-using Microsoft.Practices.Prism.PubSubEvents;
+using Prism.Events;
 
 namespace Mercurius.CodeBuilder.UI.Views
 {

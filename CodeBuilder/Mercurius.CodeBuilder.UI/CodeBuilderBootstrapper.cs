@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Prism.UnityExtensions;
-using Microsoft.Practices.Prism.Modularity;
-using Mercurius.CodeBuilder.Core.Database;
-using Mercurius.CodeBuilder.DbMetadata.MSSQL;
-using Mercurius.CodeBuilder.DbMetadata.MySQL;
 using Mercurius.CodeBuilder.Core;
+using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.CSharp;
+using Mercurius.CodeBuilder.DbMetadata.MSSQL;
 using Mercurius.CodeBuilder.DbMetadata.Oracle;
+using Microsoft.Practices.Unity;
+using Prism.Modularity;
+using Prism.Unity;
 
 namespace Mercurius.CodeBuilder.UI
 {

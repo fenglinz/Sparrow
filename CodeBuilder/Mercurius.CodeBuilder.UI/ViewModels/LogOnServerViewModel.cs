@@ -8,11 +8,11 @@ using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.Core.Events;
 using Mercurius.Infrastructure.Ado;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Mvvm;
-using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Commands;
+using Prism.Events;
+using Prism.Mvvm;
+using Prism.Regions;
 
 namespace Mercurius.CodeBuilder.UI.ViewModels
 {
