@@ -16,6 +16,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
+using static System.Configuration.ConfigurationManager;
 
 namespace Mercurius.CodeBuilder.UI.ViewModels
 {
@@ -239,7 +240,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
             this.Configuration = new Configuration
             {
-                Language = "C#"
+                Language = "C#",
+                CopyrightOwner = AppSettings["copyright"]
             };
 
             var currentUserName = WindowsIdentity.GetCurrent().Name;
