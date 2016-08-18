@@ -690,8 +690,6 @@ INSERT  INTO [dbo].[SystemSetting]( [Id], [ParentId], [Name], [Value], [Remark] 
 GO
 ALTER TABLE [dbo].[Dictionary] ADD PRIMARY KEY ([Id]);
 GO
-ALTER TABLE [dbo].[FileStorage] ADD PRIMARY KEY ([Id]);
-GO
 ALTER TABLE [dbo].[Globalization] ADD PRIMARY KEY ([Id]);
 GO
 ALTER TABLE [dbo].[OperationRecord] ADD PRIMARY KEY ([Id]);
