@@ -282,7 +282,7 @@ namespace Mercurius.Infrastructure
 
             if (!string.IsNullOrWhiteSpace(tableName))
             {
-                result = tableName.ToLower().Replace(" ", string.Empty);
+                result = tableName.Replace(" ", string.Empty);
 
                 if (tableName.StartsWith("tb", true, CultureInfo.CurrentCulture))
                 {
@@ -343,18 +343,11 @@ namespace Mercurius.Infrastructure
 
             if (!string.IsNullOrWhiteSpace(str))
             {
-                var temps = str.ToLower().Split('_');
+                var temps = str.Split('_', ' ');
 
                 foreach (var temp in temps.Where(temp => !string.IsNullOrWhiteSpace(temp)))
                 {
-                    if (temp == temp.ToUpper())
-                    {
-                        result += temp;
-                    }
-                    else
-                    {
-                        result += char.ToUpper(temp[0]) + (temp.Length > 1 ? temp.Substring(1).AsNamingLower() : string.Empty);
-                    }
+                    result += char.ToUpper(temp[0]) + (temp.Length > 1 ? temp.Substring(1).AsNamingLower() : string.Empty);
                 }
             }
 
@@ -376,14 +369,7 @@ namespace Mercurius.Infrastructure
 
                 if (temps[0].Length > 0)
                 {
-                    if (temps[0].ToUpper() == temps[0])
-                    {
-                        result = temps[0].AsNamingLower();
-                    }
-                    else
-                    {
-                        result = char.ToLower(temps[0][0]) + temps[0].Substring(1).AsNamingLower();
-                    }
+                    result = char.ToLower(temps[0][0]) + temps[0].Substring(1).AsNamingLower();
                 }
 
                 if (temps.Length > 1)
@@ -394,8 +380,7 @@ namespace Mercurius.Infrastructure
 
                         if (!string.IsNullOrWhiteSpace(temp))
                         {
-                            result += char.ToUpper(temp[0]) +
-                                (temp.Length > 1 ? temp.Substring(1).AsNamingLower() : string.Empty);
+                            result += char.ToUpper(temp[0]) + (temp.Length > 1 ? temp.Substring(1).AsNamingLower() : string.Empty);
                         }
                     }
                 }
@@ -415,12 +400,7 @@ namespace Mercurius.Infrastructure
 
             if (!string.IsNullOrWhiteSpace(str))
             {
-                var isAllUpperChars = (from s in str
-                                       where
-                                           char.IsUpper(s)
-                                       select s).Count() == str.Length;
-
-                result = isAllUpperChars ? str.ToLower() : str;
+                result = str.IsAllUpperChars() ? str.ToLower() : str;
             }
 
             return result;
@@ -431,6 +411,11 @@ namespace Mercurius.Infrastructure
         #endregion
 
         #region 私有方法
+
+        private static bool IsAllUpperChars(this string chars)
+        {
+            return !chars.Any(char.IsLower);
+        }
 
         private static string TrimHtmlWhiteSpace(this string html)
         {
