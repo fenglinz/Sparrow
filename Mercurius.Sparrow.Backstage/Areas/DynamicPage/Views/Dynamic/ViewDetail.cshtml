@@ -14,7 +14,7 @@
 }
 @if (Model.Table != null)
 {
-    var columns = Model.GetColumns();
+    var columns = Model.CreateOrUpdates;
     var showColumns = columns.Where(s => !s.IsPrimaryKey);
 
     <div class="header">

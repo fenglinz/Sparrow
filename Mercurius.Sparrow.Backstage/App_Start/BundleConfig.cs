@@ -33,9 +33,9 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/sea.js",
                 "~/Scripts/jquery.unobtrusive-ajax.js",
                 "~/Scripts/bootstrap.js",
-                "~/Scripts/moment-with-locales.js",
+                "~/Scripts/moment.js",
                 "~/Scripts/bootstrap-datetimepicker.js",
-                "~/Scripts/locales/bootstrap-datepicker.zh-CN.js",
+                "~/Scripts/DateTimePicker/zh-cn.js",
                 "~/Scripts/Dialog/dialog.js",
                 "~/Scripts/layer.js",
                 "~/Scripts/mercurius.common.js"));

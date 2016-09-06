@@ -116,39 +116,43 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
         /// 获取添加/编辑列配置信息。
         /// </summary>
         /// <returns>添加/编辑列配置信息集合</returns>
-        public IEnumerable<CreateOrUpdateColumn> GetColumns()
+        public void MergeCreateOrUpdateItems()
         {
             if (this.CreateOrUpdates.IsEmpty())
             {
-                return from c in this.Columns
-                       select new CreateOrUpdateColumn
-                       {
-                           Name = c.Name,
-                           Column = c.Name,
-                           Visible = true,
-                           DataType = c.DataType,
-                           ColumnLabel = c.Description,
-                           PropertyName = c.PropertyName,
-                           IsPrimaryKey = c.IsPrimaryKey,
-                           IsIdentity = c.IsIdentity,
-                           IsNullable = c.IsNullable,
-                           ValidateRule = c.IsNullable ? null : "notNull",
-                           DataLength = c.DataLength,
-                           Description = c.Description,
-                           Sort = c.Sort
-                       };
+                this.CreateOrUpdates = (from c in this.Columns
+                    select new CreateOrUpdateColumn
+                    {
+                        Name = c.Name,
+                        Column = c.Name,
+                        Visible = true,
+                        DataType = c.DataType,
+                        ColumnLabel = c.Description,
+                        PropertyName = c.PropertyName,
+                        IsPrimaryKey = c.IsPrimaryKey,
+                        IsIdentity = c.IsIdentity,
+                        IsNullable = c.IsNullable,
+                        ValidateRule = c.IsNullable ? null : "notNull",
+                        DataLength = c.DataLength,
+                        Description = c.Description,
+                        Sort = c.Sort
+                    }).ToList();
             }
-
-            return this.CreateOrUpdates.MergeDatas(this.Columns, (c1, c2) => c1.Column == c2.Name,
+            else
+            {
+                this.CreateOrUpdates.MergeDatas(this.Columns, (c1, c2) => c1.Column == c2.Name,
                 (c1, c2) =>
                 {
                     c1.Name = c2.Name;
+                    c1.DataType = c2.DataType;
+                    c1.DataLength = c2.DataLength;
                     c1.ColumnLabel = string.IsNullOrWhiteSpace(c1.ColumnLabel) ? c2.Description : c1.ColumnLabel;
                     c1.PropertyName = c2.PropertyName;
                     c1.IsPrimaryKey = c2.IsPrimaryKey;
                     c1.IsIdentity = c2.IsIdentity;
                     c1.DataLength = c2.DataLength;
-                });
+                }).ToList();
+            } 
         }
 
         #endregion

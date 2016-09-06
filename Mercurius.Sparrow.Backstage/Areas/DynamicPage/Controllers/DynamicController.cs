@@ -88,6 +88,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
                 model.Columns = this.DynamicQuery.Provider.DbMetadata.GetColumns(id);
                 model.CreateOrUpdates = this.DynamicQuery.Where<CreateOrUpdateColumn>(m => m.TableName, id).List();
 
+                model.MergeCreateOrUpdateItems();
+
                 if (!string.IsNullOrWhiteSpace(conditions))
                 {
                     model.Conditions = conditions.AsObject<IList<Condition>>();
@@ -146,6 +148,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
             {
                 model.Columns = this.DynamicQuery.Provider.DbMetadata.GetColumns(id);
                 model.CreateOrUpdates = this.DynamicQuery.Where<CreateOrUpdateColumn>(m => m.TableName, id).List();
+
+                model.MergeCreateOrUpdateItems();
 
                 if (!string.IsNullOrWhiteSpace(conditions))
                 {

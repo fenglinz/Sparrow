@@ -17,7 +17,7 @@
 }
 @if (Model.Table != null)
 {
-    var columns = Model.GetColumns();
+    var columns = Model.CreateOrUpdates;
 
     var primaryKeys = columns.Where(s => s.IsPrimaryKey);
     var showColumns = columns.Where(s => !s.IsPrimaryKey);
