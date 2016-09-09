@@ -24,21 +24,21 @@
             ace.settings.check('navbar', 'fixed');
         } catch (e) { }
     </script>
-    <div class="navbar-container" id="navbar-container">
-        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
-            <span class="sr-only">Toggle sidebar</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
+    <div id="navbar-container" class="navbar-container" style="padding-left: 0;">
         <div class="navbar-header pull-left">
-            <a href="@Url.Action("About","Home")" target="main" class="navbar-brand">
+            <a href="@Url.Action("About","Home")" target="main" class="navbar-brand" style="padding-top: 12px;">
                 <small>
                     <i class="fa fa-leaf"></i>
                     @Html.GetProductName() @Html.GetProductVersion()
                 </small>
             </a>
         </div>
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
+            <span class="sr-only">切换导航菜单</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
         <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
                 <li class="light-blue">
