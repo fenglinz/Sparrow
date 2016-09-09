@@ -16,7 +16,8 @@ function iframeresize() {
     resizeU();
     $(window).resize(resizeU);
 }
-//链接内框架frames
+
+// 链接内框架frames
 function Navigator(url, target) {
     if (url != "" && url != "#") {
         NavMenuUrl(url, target);

@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using Autofac;
+using IBatisNet.Common.Transaction;
+using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Cache;
+using Mercurius.Infrastructure.Dynamic;
 using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core;
+using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
@@ -35,6 +43,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             this.ViewBag.LogLevel = this.SystemSettingService.GetSetting("LogLevel");
             this.ViewBag.ProductInfos = this.SystemSettingService.GetSettings("ProductName");
 
+            var machineKey = this.GetMachineKey();
+
+            this.ViewBag.ValidationKey = machineKey.Item1;
+            this.ViewBag.DecryptionKey = machineKey.Item2;
+
             return this.View();
         }
 
@@ -56,7 +69,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 
             return Json(rsp);
         }
-        
+
         #region 保存产品信息
 
         /// <summary>
@@ -168,6 +181,125 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             cache.Clear();
 
             return this.AlertWithRefresh("清除成功！");
+        }
+
+        #endregion
+
+        #region 加密/解密
+
+        /// <summary>
+        /// 加密、解密处理。
+        /// </summary>
+        /// <param name="type">类型(encrypt：加密、其他：解密)</param>
+        /// <param name="source">需要处理的字符串</param>
+        /// <returns>处理后的结果</returns>
+        [HttpPost]
+        [IgnorePermissionValid]
+        public ActionResult EncryptOrDecrypt(string type, string source)
+        {
+            var result = string.Empty;
+
+            try
+            {
+                result = type == "encrypt" ? source.Encrypt() : source.Decrypt();
+            }
+            catch (Exception e)
+            {
+                result = e.Message;
+            }
+
+            return Json(result);
+        }
+
+        #endregion
+
+        #region 计算机密钥
+
+        /// <summary>
+        /// 刷新计算机密钥。
+        /// </summary>
+        /// <returns>刷新后的密钥</returns>
+        [HttpPost]
+        [IgnorePermissionValid]
+        public ActionResult RefreshMachineKey()
+        {
+            return Json(new
+            {
+                ValidationKey = KeyCreator.CreateKey(64),
+                DecryptionKey = KeyCreator.CreateKey(24)
+            });
+        }
+
+        /// <summary>
+        /// 修改计算机密钥。
+        /// </summary>
+        /// <param name="validationKey">验证密钥</param>
+        /// <param name="decryptionKey">解密密钥</param>
+        /// <returns>修改后结果提示</returns>
+        [HttpPost]
+        [IgnorePermissionValid]
+        public ActionResult ChangeMachineKey(string validationKey, string decryptionKey)
+        {
+            try
+            {
+                using (var tran = new TransactionScope())
+                {
+                    var pageIndex = 1;
+                    var totalRecords = 0;
+
+                    do
+                    {
+                        var users = this.DynamicQuery.PagedList<User>(pageIndex++, 20, out totalRecords, columns: new[] { "Id", "Password" });
+
+                        foreach (var user in users)
+                        {
+                            user.Password = user.Password.Decrypt().SymmetricEncryption(validationKey, decryptionKey);
+
+                            this.DynamicQuery.Where<User>(u => u.Id, user.Id).Update(new { user.Password });
+                        }
+                    } while (pageIndex * 20 <= totalRecords);
+
+                    tran.Complete();
+                }
+
+                this.SaveChangedMachineKey(validationKey, decryptionKey);
+            }
+            catch (Exception e)
+            {
+                return Alert($"错误：{e.Message}", AlertType.Error);
+            }
+
+            return AlertWithRefresh("计算机密钥修改成功！");
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        /// <summary>
+        /// 获取计算机密钥(值1：验证密钥、值2：解密密钥)。
+        /// </summary>
+        /// <returns>
+        /// 值1：验证密钥
+        /// 值2：解密密钥
+        /// </returns>
+        private Tuple<string, string> GetMachineKey()
+        {
+            var xdoc = XDocument.Load(Server.MapPath("~/web.config"));
+            var machineKey = xdoc.XPathSelectElement("//system.web/machineKey");
+
+            return new Tuple<string, string>(machineKey?.Attribute("validationKey").Value, machineKey?.Attribute("decryptionKey").Value);
+        }
+
+        private void SaveChangedMachineKey(string validationKey, string decryptionKey)
+        {
+            var xdoc = XDocument.Load(Server.MapPath("~/web.config"));
+            var machineKey = xdoc.XPathSelectElement("//system.web/machineKey");
+
+            machineKey.Attribute("validationKey").SetValue(validationKey);
+            machineKey.Attribute("decryptionKey").SetValue(decryptionKey);
+
+            xdoc.Save(Server.MapPath("~/web.config"), SaveOptions.None);
         }
 
         #endregion

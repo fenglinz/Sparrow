@@ -172,80 +172,74 @@ namespace Mercurius.Infrastructure
         /// 加密字符串。
         /// </summary>
         /// <param name="source">原文</param>
-        /// <param name="encryptSalt">加密偏移量</param>
         /// <param name="passwordFormat">加密格式</param>
         /// <returns>加密结果</returns>
-        public static string Encrypt(
-            this string source,
-            string encryptSalt = null,
-            MembershipPasswordFormat passwordFormat = MembershipPasswordFormat.Encrypted)
+        public static string Encrypt(this string source, MembershipPasswordFormat passwordFormat = MembershipPasswordFormat.Encrypted)
         {
-            string result = null;
-
-            if (string.IsNullOrWhiteSpace(encryptSalt))
+            if (string.IsNullOrWhiteSpace(source))
             {
-                encryptSalt = MachineKey.ValidationKey;
+                return null;
             }
 
-            if (!string.IsNullOrWhiteSpace(source))
+            string result = null;
+
+            switch (passwordFormat)
             {
-                switch (passwordFormat)
-                {
-                    // 不加密。
-                    case MembershipPasswordFormat.Clear:
-                        result = source;
+                // 不加密。
+                case MembershipPasswordFormat.Clear:
+                    result = source;
 
-                        break;
+                    break;
 
-                    // 采用哈希加密算法。
-                    case MembershipPasswordFormat.Hashed:
-                        using (var hashEncryptor = new HMACSHA1(KeyCreator.HexToByte(encryptSalt)))
-                        {
-                            result = Convert.ToBase64String(hashEncryptor.ComputeHash(Encoding.Unicode.GetBytes(source)));
-                        }
+                // 采用哈希加密算法。
+                case MembershipPasswordFormat.Hashed:
+                    using (var hashEncryptor = new HMACSHA1(KeyCreator.HexToByte(MachineKey.ValidationKey)))
+                    {
+                        result = Convert.ToBase64String(hashEncryptor.ComputeHash(Encoding.Unicode.GetBytes(source)));
+                    }
 
-                        break;
+                    break;
 
-                    // 采用对称加密。
-                    case MembershipPasswordFormat.Encrypted:
+                // 采用对称加密。
+                case MembershipPasswordFormat.Encrypted:
+                    result = source.SymmetricEncryption(MachineKey.ValidationKey, MachineKey.DecryptionKey);
 
-                        using (var rijn = new RijndaelManaged())
-                        {
-                            var memoryStream = new MemoryStream();
-
-                            rijn.Key = Encoding.UTF8.GetBytes(MachineKey.ValidationKey.Substring(0, 32));
-                            rijn.IV = Encoding.UTF8.GetBytes(MachineKey.DecryptionKey.Substring(0, 16));
-
-                            var encryptor = rijn.CreateEncryptor(rijn.Key, rijn.IV);
-                            var cs = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
-
-                            var inBytes = Encoding.UTF8.GetBytes(source);
-
-                            cs.Write(inBytes, 0, inBytes.Length);
-                            cs.FlushFinalBlock();
-
-                            var outBytes = memoryStream.GetBuffer();
-
-                            int index;
-                            for (index = 0; index < outBytes.Length; index++)
-                            {
-                                if (outBytes[index] == 0)
-                                {
-                                    break;
-                                }
-                            }
-
-                            cs.Dispose();
-                            memoryStream.Dispose();
-
-                            result = Convert.ToBase64String(outBytes, 0, index);
-                        }
-
-                        break;
-                }
+                    break;
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 对称加密。
+        /// </summary>
+        /// <param name="source">原文</param>
+        /// <param name="validationKey">验证密钥</param>
+        /// <param name="decryptionKey">解密密钥</param>
+        /// <returns>密文</returns>
+        public static string SymmetricEncryption(this string source, string validationKey, string decryptionKey)
+        {
+            using (var rijn = new RijndaelManaged())
+            {
+                var memoryStream = new MemoryStream();
+
+                rijn.Key = Encoding.UTF8.GetBytes(validationKey.Substring(0, 32));
+                rijn.IV = Encoding.UTF8.GetBytes(decryptionKey.Substring(0, 16));
+
+                var encryptor = rijn.CreateEncryptor(rijn.Key, rijn.IV);
+
+                using (var cs = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                {
+                    using (var sw = new StreamWriter(cs))
+                    {
+                        sw.Write(source);
+                    }
+
+                    var contents = memoryStream.ToArray();
+
+                    return Convert.ToBase64String(contents);
+                }
+            }
         }
 
         #endregion
@@ -278,24 +272,43 @@ namespace Mercurius.Infrastructure
 
                     // 解密采用对称加密算法的密文。
                     case MembershipPasswordFormat.Encrypted:
-                        using (var rijn = new RijndaelManaged())
-                        {
-                            var inBytes = Convert.FromBase64String(source);
-                            rijn.Key = Encoding.UTF8.GetBytes(MachineKey.ValidationKey.Substring(0, 32));
-                            rijn.IV = Encoding.UTF8.GetBytes(MachineKey.DecryptionKey.Substring(0, 16));
-
-                            var decryptor = rijn.CreateDecryptor(rijn.Key, rijn.IV);
-                            var ms = new MemoryStream(inBytes, 0, inBytes.Length);
-                            var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read);
-
-                            var sr = new StreamReader(cs);
-
-                            result = sr.ReadToEnd();
-
-                            ms.Dispose();
-                        }
+                        result = source.SymmetricDecryption(MachineKey.ValidationKey, MachineKey.DecryptionKey);
 
                         break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 对称解密。
+        /// </summary>
+        /// <param name="source">密文</param>
+        /// <param name="validationKey">验证密钥</param>
+        /// <param name="decryptionKey">解密密钥</param>
+        /// <returns>原文</returns>
+        public static string SymmetricDecryption(this string source, string validationKey, string decryptionKey)
+        {
+            var result = string.Empty;
+
+            using (var rijn = new RijndaelManaged())
+            {
+                rijn.Key = Encoding.UTF8.GetBytes(validationKey.Substring(0, 32));
+                rijn.IV = Encoding.UTF8.GetBytes(decryptionKey.Substring(0, 16));
+
+                var inBytes = Convert.FromBase64String(source);
+                var decryptor = rijn.CreateDecryptor(rijn.Key, rijn.IV);
+
+                using (var ms = new MemoryStream(inBytes))
+                {
+                    using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (var sr = new StreamReader(cs))
+                        {
+                            result = sr.ReadToEnd();
+                        }
+                    }
                 }
             }
 

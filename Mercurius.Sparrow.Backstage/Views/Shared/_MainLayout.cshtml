@@ -106,8 +106,8 @@
             <div id="loading">
                 <i class="fa fa-5x fa-spinner fa-pulse"></i>
             </div>
-            <div id="MainContent">
-                <iframe frameborder="0" height="100%" id="main" name="main" scrolling="auto" src="@Url.Action("Workstation", "Home")" width="100%" style="padding: 0"></iframe>
+            <div id="MainContent" style="padding: 0 2px;">
+                <iframe frameborder="0" height="100%" id="main" name="main" scrolling="auto" src="@Url.Action("Workstation", "Home")" width="100%"></iframe>
             </div>
         </div>
     </div>
@@ -136,7 +136,7 @@
                 $(this).addClass('display');
                 $('#sidebar').addClass('display');
             }
-        })
+        });
     });
 </script>
 @RenderSection("Scripts", false)

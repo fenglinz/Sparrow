@@ -7,14 +7,6 @@
     var productVersion = productInfos.Datas.IsEmpty() ? null : productInfos.Datas.FirstOrDefault(p => p.Name == "ProductVersion");
 }
 
-@section Styles{
-    <style type="text/css">
-        .form-group {
-            margin-bottom: 0;
-        }
-    </style>
-}
-
 @section Scripts
 {
     <script type="text/javascript">
@@ -45,10 +37,35 @@
             });
         }
 
-        function resetIIS() {
-            confirm('是否重启Web服务器(IIS)？', function () {
-                mercurius.BeginLoading();
-                $('#frmResetWebServer').submit();
+        function EncryptOrDecrypt(type) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("EncryptOrDecrypt","SystemSetting")',
+                data: { type: type, source: $('#__source').val() },
+                dataType: 'json',
+                success: function (rs) {
+                    $('#__target').html(rs);
+                }
+            });
+        }
+
+        function RefreshMachineKey() {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("RefreshMachineKey", "SystemSetting", new {@Area="Admin"})',
+                dataType: 'json',
+                success: function (rs) {
+                    $('#ValidationKey').val(rs.ValidationKey);
+                    $('#DecryptionKey').val(rs.DecryptionKey);
+                }
+            });
+        }
+
+        function ChangeMachineKey() {
+            mercurius.ShowConfirmMessage('是否确定更换计算机密钥？', function () {
+                $('#frmChangeMachineKey').submit();
             });
         }
     </script>
@@ -109,10 +126,10 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <b>服务器管理</b>
+        <b>缓存管理</b>
     </div>
     <div class="panel-body">
-        @using (Ajax.BeginForm("ClearCache", "SystemSetting", null, new AjaxOptions {HttpMethod = "POST"}, new {@id = "frmClearCache", @class = "form-inline"}))
+        @using (Ajax.BeginForm("ClearCache", "SystemSetting", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmClearCache", @class = "form-inline" }))
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
@@ -122,6 +139,75 @@
                 <button type="button" class="btn btn-danger" onclick="clearCache()">
                     <i class="glyphicon glyphicon-trash"></i> 清空缓存
                 </button>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>加密/解密</b>
+    </div>
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label for="__source" class="control-label col-sm-1">字符串</label>
+                <div class="col-sm-8">
+                    <textarea id="__source" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="__target" class="control-label col-sm-1">结果</label>
+                <div class="col-sm-8">
+                    <div id="__target" class="form-control" readonly style="height: 75px; overflow-x: auto; word-break: break-all;"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-1"></label>
+                <div class="col-sm-8">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" onclick="EncryptOrDecrypt('encrypt')">
+                            <i class="glyphicon glyphicon-lock"></i> 加密
+                        </button>
+                        <button type="button" class="btn btn-success" onclick="EncryptOrDecrypt('decrypt')">
+                            <i class="fa fa-key"></i> 解密
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>计算机密钥</b>
+    </div>
+    <div class="panel-body">
+        @using (Ajax.BeginForm("ChangeMachineKey", "SystemSetting", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmChangeMachineKey", @class = "form-horizontal" }))
+        {
+            <div class="form-group">
+                <label for="ValidationKey" class="control-label col-sm-1">验证密钥</label>
+                <div class="col-sm-8">
+                    <input type="text" id="ValidationKey" name="ValidationKey" class="form-control" value="@this.ViewBag.ValidationKey" readonly="readonly" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="DecryptionKey" class="control-label col-sm-1">解密密钥</label>
+                <div class="col-sm-4">
+                    <input type="text" id="DecryptionKey" name="DecryptionKey" class="form-control" readonly="readonly" value="@this.ViewBag.DecryptionKey" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1"></label>
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-primary" onclick="RefreshMachineKey();">
+                        <i class="glyphicon glyphicon-refresh"></i> 刷新密钥
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="ChangeMachineKey();">
+                        <i class="glyphicon glyphicon-floppy-saved"></i> 保存
+                    </button>
+                </div>
             </div>
         }
     </div>
