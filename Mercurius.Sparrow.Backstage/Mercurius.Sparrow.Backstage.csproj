@@ -451,6 +451,8 @@
     <Content Include="Areas\NewsCenter\Views\_ViewStart.cshtml" />
     <Content Include="App_Readme\Handlebarsjs_README.md" />
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
+    <Content Include="App_Data\Documents\系统架构设计说明文档.pdf" />
+    <Content Include="App_Data\Documents\pdf.js-1.5.188.zip" />
     <None Include="Areas\NewsCenter\Views\News\CreateOrUpdate.cshtml" />
     <None Include="Areas\NewsCenter\Views\News\Index.cshtml" />
     <Content Include="Areas\NewsCenter\Views\News\_News.cshtml" />
