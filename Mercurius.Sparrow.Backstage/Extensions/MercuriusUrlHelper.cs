@@ -15,7 +15,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     {
         #region 静态变量
 
-        private static readonly AbstractFileStorageClient _FileStorageClient;
+        private static readonly FileStorageClient _FileStorageClient;
 
         #endregion
 

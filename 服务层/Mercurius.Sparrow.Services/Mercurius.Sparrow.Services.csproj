@@ -81,8 +81,8 @@
     <Compile Include="RBAC\PermissionService.cs" />
     <Compile Include="RBAC\RoleService.cs" />
     <Compile Include="RBAC\UserService.cs" />
-    <Compile Include="Storage\AbstractFileStorageClient.cs" />
     <Compile Include="Storage\FileStorageClient.cs" />
+    <Compile Include="Support\WebApiClientSupport.cs" />
     <Compile Include="Support\ModuleAttribute.cs" />
     <Compile Include="Support\ServiceSupport.cs" />
   </ItemGroup>

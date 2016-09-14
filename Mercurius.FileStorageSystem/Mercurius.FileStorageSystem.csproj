@@ -253,6 +253,7 @@
     <Compile Include="..\Mercurius.Sparrow.Backstage\Extensions\PagingExtensions.cs">
       <Link>Extensions\PagingExtensions.cs</Link>
     </Compile>
+    <Compile Include="Apis\Core\Controllers\ConfigController.cs" />
     <Compile Include="Apis\WebApiUtil.cs" />
     <Compile Include="Apis\Core\Controllers\FileController.cs" />
     <Compile Include="Apis\Extensions\CustomMultipartFormDataStreamProvider.cs" />

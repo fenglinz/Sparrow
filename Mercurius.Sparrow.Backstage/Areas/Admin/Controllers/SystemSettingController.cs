@@ -11,7 +11,6 @@ using Autofac;
 using IBatisNet.Common.Transaction;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Dynamic;
 using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core;

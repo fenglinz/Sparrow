@@ -43,6 +43,11 @@ body {
     opacity: 0.6;
 }
 
+button > .glyphicon,
+.btn > .glyphicon {
+    top: 3px;
+}
+
 label[for],
 label:not(:empty) {
     cursor: pointer;

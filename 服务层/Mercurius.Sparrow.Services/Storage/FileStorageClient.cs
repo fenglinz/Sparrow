@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -7,7 +8,6 @@ using System.Web;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.Storage;
-using Newtonsoft.Json;
 using static Mercurius.Sparrow.Entities.Storage.File;
 
 namespace Mercurius.Sparrow.Services.Storage
@@ -15,15 +15,47 @@ namespace Mercurius.Sparrow.Services.Storage
     /// <summary>
     /// 文件上传客户端。
     /// </summary>
-    public class FileStorageClient : AbstractFileStorageClient
+    public class FileStorageClient : WebApiClientSupport
     {
+        #region 静态变量
+
+        /// <summary>
+        /// 文件上传Web API地址。
+        /// </summary>
+        protected static readonly string FileUploadUrl = $"{FileRemoteUrl}api/File/Upload";
+
+        /// <summary>
+        /// 删除上传文件的Web API地址。
+        /// </summary>
+        protected static readonly string FileRemoveUrl = $"{FileRemoteUrl}api/File/Remove/{"{0}"}/{"{1}"}/{"{2}"}";
+
+        #endregion
+
+        /// <summary>
+        /// 获取文件实际地址。
+        /// </summary>
+        /// <param name="path">文件地址</param>
+        /// <param name="mode">图片压缩模式</param>
+        /// <returns>图像地址</returns>
+        public string GetFile(string path, CompressMode mode = CompressMode.Small)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return null;
+            }
+
+            var id = Convert.ToBase64String(Encoding.UTF8.GetBytes(path));
+
+            return $"{FileRemoteUrl}File/Index/{id}?mode={mode}";
+        }
+
         /// <summary>
         /// 上传文件。
         /// </summary>
         /// <param name="account">上传账号</param>
         /// <param name="request">Http请求对象</param>
         /// <returns>上传后的文件地址</returns>
-        public override ResponseSet<string> Upload(string account, HttpRequestBase request)
+        public ResponseSet<string> Upload(string account, HttpRequestBase request)
         {
             var fileUpload = new FileUpload
             {
@@ -58,36 +90,9 @@ namespace Mercurius.Sparrow.Services.Storage
         /// <param name="account">上传账号</param>
         /// <param name="fileUpload">上传文件信息</param>
         /// <returns>上传后的文件地址</returns>
-        public override ResponseSet<string> Upload(string account, FileUpload fileUpload)
+        public ResponseSet<string> Upload(string account, FileUpload fileUpload)
         {
-            var request = (HttpWebRequest)WebRequest.Create($"{FileUploadUrl}/{account}");
-
-            request.ContentType = "application/json";
-            request.Method = "POST";
-            request.KeepAlive = true;
-            request.Credentials = CredentialCache.DefaultCredentials;
-
-            var token = this.GetToken();
-
-            if (token != null)
-            {
-                request.Headers.Add(HttpRequestHeader.Authorization, $"{token.TokenType} {token.AccessToken}");
-            }
-
-            using (var stream = request.GetRequestStream())
-            {
-
-                var buffers = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(fileUpload));
-
-                stream.Write(buffers, 0, buffers.Length);
-            }
-
-            var response = (HttpWebResponse)request.GetResponse();
-
-            using (var stream = new StreamReader(response.GetResponseStream()))
-            {
-                return JsonConvert.DeserializeObject<ResponseSet<string>>(stream.ReadToEnd());
-            }
+            return this.Post<ResponseSet<string>>($"{FileUploadUrl}/{account}", fileUpload);
         }
 
         /// <summary>
@@ -97,30 +102,11 @@ namespace Mercurius.Sparrow.Services.Storage
         /// <param name="category">业务分类</param>
         /// <param name="serialNumber">业务流水号</param>
         /// <returns>删除结果</returns>
-        public override Response Remove(string account, string category, string serialNumber)
+        public Response Remove(string account, string category, string serialNumber)
         {
             var url = string.Format(FileRemoveUrl, account, category, serialNumber);
-            var request = (HttpWebRequest)WebRequest.Create(url);
 
-            request.ContentType = "application/json";
-            request.Method = "POST";
-            request.KeepAlive = true;
-            request.ContentLength = 0; // 无请求内容时，必须设置为0.
-            request.Credentials = CredentialCache.DefaultCredentials;
-
-            var token = this.GetToken();
-
-            if (token != null)
-            {
-                request.Headers.Add(HttpRequestHeader.Authorization, $"{token.TokenType} {token.AccessToken}");
-            }
-
-            var response = (HttpWebResponse)request.GetResponse();
-
-            using (var stream = new StreamReader(response.GetResponseStream()))
-            {
-                return JsonConvert.DeserializeObject<Response>(stream.ReadToEnd());
-            }
+            return this.Post<Response>(url);
         }
 
         #region 私有方法
