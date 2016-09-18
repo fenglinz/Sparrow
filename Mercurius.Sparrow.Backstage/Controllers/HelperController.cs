@@ -31,6 +31,11 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         public IUserService UserService { get; set; }
 
         /// <summary>
+        /// 文件上传Web Api客户端。
+        /// </summary>
+        public FileStorageClient FileStorageClient { get; set; }
+
+        /// <summary>
         /// 组织机构服务接口。
         /// </summary>
         public IOrganizationService OrganizationService { get; set; }
@@ -50,8 +55,7 @@ namespace Mercurius.Sparrow.Backstage.Controllers
                 return Content(FileUploadError);
             }
 
-            var client = new FileStorageClient();
-            var rsp = client.Upload(WebHelper.GetLogOnAccount(), this.Request);
+            var rsp = this.FileStorageClient.Upload(WebHelper.GetLogOnAccount(), this.Request);
 
             return Content(string.IsNullOrWhiteSpace(rsp.Datas?.FirstOrDefault()) ? FileUploadError + rsp.ErrorMessage : Url.GetFileUrl(rsp.Datas.FirstOrDefault(), CompressMode.Medium));
         }

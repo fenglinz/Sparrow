@@ -23,6 +23,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         /// </summary>
         public INewsService NewsService { get; set; }
 
+        /// <summary>
+        /// 文件上传Web Api客户端。
+        /// </summary>
+        public FileStorageClient FileStorageClient { get; set; }
+
         #endregion
 
         /// <summary>
@@ -67,8 +72,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrUpdate(News news)
         {
-            var fileUpload = new FileStorageClient();
-            var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request);
+            var rspFile = this.FileStorageClient.Upload(WebHelper.GetLogOnAccount(), this.Request);
 
             if (rspFile.IsSuccess)
             {
@@ -88,8 +92,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         [HttpPost]
         public ActionResult Remove(Guid id)
         {
-            var client = new FileStorageClient();
-            var rsp = client.Remove(WebHelper.GetLogOnAccount(), "新闻管理", id.ToString());
+            var rsp = this.FileStorageClient.Remove(WebHelper.GetLogOnAccount(), "新闻管理", id.ToString());
 
             if (rsp.IsSuccess)
             {

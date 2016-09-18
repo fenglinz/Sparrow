@@ -4,9 +4,11 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Mercurius.Infrastructure;
+using Mercurius.Infrastructure.Cache;
 using Mercurius.Sparrow.Entities.WebApi;
 using Newtonsoft.Json;
 
@@ -20,9 +22,9 @@ namespace Mercurius.Sparrow.Services
         #region 静态变量
 
         /// <summary>
-        /// Web API Token信息。
+        /// Token缓存键。
         /// </summary>
-        private static Token _token;
+        protected static readonly string TokenCacheKey = "__FileStorageWebApiToken";
 
         /// <summary>
         /// 文件上传远程地址。
@@ -43,6 +45,15 @@ namespace Mercurius.Sparrow.Services
         /// 文件上传token密码
         /// </summary>
         private static readonly string TokenPassword = ConfigurationManager.AppSettings["FileStorage.Token.Password"];
+
+        #endregion
+
+        #region 属性
+
+        /// <summary>
+        /// 获取或者设置缓存。
+        /// </summary>
+        public CacheProvider Cache { get; set; }
 
         #endregion
 
@@ -260,9 +271,11 @@ namespace Mercurius.Sparrow.Services
         /// 获取token。
         /// </summary>
         /// <returns>token信息</returns>
-        private static Token GetToken()
+        private Token GetToken()
         {
-            if (_token == null)
+            var token = this.Cache?.Get<Token>("__FileStorageWebApiToken");
+
+            if (token == null)
             {
                 var httpRequest = (HttpWebRequest)WebRequest.Create(TokenEndpointPath);
 
@@ -283,11 +296,13 @@ namespace Mercurius.Sparrow.Services
                 {
                     var streamReader = new StreamReader(httpResponse.GetResponseStream());
 
-                    _token = JsonConvert.DeserializeObject<Token>(streamReader.ReadToEnd());
-                }
+                    token = JsonConvert.DeserializeObject<Token>(streamReader.ReadToEnd());
+
+                    this.Cache?.Add("__FileStorageWebApiToken", token);
+                }    
             }
 
-            return _token;
+            return token;
         }
 
         #endregion

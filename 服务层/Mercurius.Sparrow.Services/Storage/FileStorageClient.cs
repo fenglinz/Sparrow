@@ -14,7 +14,7 @@ using static Mercurius.Sparrow.Entities.Storage.File;
 namespace Mercurius.Sparrow.Services.Storage
 {
     /// <summary>
-    /// 文件上传客户端。
+    /// 文件上传Web Api客户端。
     /// </summary>
     public class FileStorageClient : WebApiClientSupport
     {
@@ -138,6 +138,8 @@ namespace Mercurius.Sparrow.Services.Storage
         public Response ChangeMachineKey(string account, MachineKey machineKey)
         {
             var url = string.Format(ChangeMachineKeyUrl, account);
+
+            this.Cache?.Remove(TokenCacheKey);
 
             return this.Post<Response>(url, machineKey);
         }

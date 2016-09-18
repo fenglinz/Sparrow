@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Autofac;
+using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Entities.Storage;
 using Mercurius.Sparrow.Services.Storage;
 
@@ -26,7 +28,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         static MercuriusUrlHelper()
         {
-            _FileStorageClient = new FileStorageClient();
+            using (var context = AutofacConfig.Container.BeginLifetimeScope())
+            {
+                _FileStorageClient = context.Resolve<FileStorageClient>();
+            }
         }
 
         #endregion

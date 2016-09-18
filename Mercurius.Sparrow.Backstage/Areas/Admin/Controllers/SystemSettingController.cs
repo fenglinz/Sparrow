@@ -30,6 +30,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 属性
 
         /// <summary>
+        /// 文件上传Web Api客户端。
+        /// </summary>
+        public FileStorageClient FileStorageClient { get; set; }
+
+        /// <summary>
         /// 系统设置服务对象。
         /// </summary>
         public ISystemSettingService SystemSettingService { get; set; }
@@ -279,9 +284,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [IgnorePermissionValid]
         public ActionResult GetRemoteMachineKey()
         {
-            var client = new FileStorageClient();
             var localMachineKey = this.GetLocalMachineKey();
-            var rsp = client.GetMachineKey(WebHelper.GetLogOnAccount());
+            var rsp = this.FileStorageClient.GetMachineKey(WebHelper.GetLogOnAccount());
 
             return Json(new
             {
@@ -300,10 +304,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         [IgnorePermissionValid]
         public ActionResult SynchronizeMachineKey()
         {
-            var client = new FileStorageClient();
             var machineKey = this.GetLocalMachineKey();
 
-            var rsp = client.ChangeMachineKey(WebHelper.GetLogOnAccount(), machineKey);
+            var rsp = this.FileStorageClient.ChangeMachineKey(WebHelper.GetLogOnAccount(), machineKey);
 
             return Json(rsp);
         }

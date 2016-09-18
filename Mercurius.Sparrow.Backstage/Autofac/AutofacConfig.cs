@@ -7,6 +7,7 @@ using Mercurius.Infrastructure.Cache;
 using Mercurius.Infrastructure.Log;
 using Mercurius.Sparrow.Repositories;
 using Mercurius.Sparrow.Repositories.Core;
+using Mercurius.Sparrow.Services;
 using Mercurius.Sparrow.Services.Support;
 
 namespace Mercurius.Sparrow.Autofac
@@ -60,6 +61,12 @@ namespace Mercurius.Sparrow.Autofac
                     _builder.Register(c => new Logger { Cache = c.Resolve<CacheProvider>(), SqlMapperManager = c.Resolve<SqlMapperManager>() })
                         .As<ILogger>()
                         .InstancePerLifetimeScope();
+
+                    // Web Api客户端对象。
+                    _builder.RegisterAssemblyTypes(typeof(WebApiClientSupport).Assembly)
+                             .Where(p => p.IsSubclassOf(typeof(WebApiClientSupport)))
+                             .PropertiesAutowired()  // 启用属性注入
+                             .SingleInstance();
 
                     // 注册服务。
                     _builder.RegisterAssemblyTypes(typeof(ServiceSupport).Assembly)
