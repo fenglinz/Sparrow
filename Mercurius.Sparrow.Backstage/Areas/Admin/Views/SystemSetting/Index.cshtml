@@ -65,7 +65,20 @@
 
         function ChangeMachineKey() {
             mercurius.ShowConfirmMessage('是否确定更换计算机密钥？', function () {
+                mercurius.BeginLoading();
                 $('#frmChangeMachineKey').submit();
+            });
+        }
+
+        function SynchronizeMachineKey() {
+            mercurius.ShowConfirmMessage('是否确定同步文件系统的的计算机密钥？', function () {
+                mercurius.Ajax('@Url.Action("SynchronizeMachineKey", "SystemSetting")', { validationKey: $('#ValidationKey').val(), decryptionKey: $('#DecryptionKey').val() },function(rs) {
+                    if (rs.IsSuccess) {
+                        mercurius.ShowTipsMessage('同步成功！', 3000, 4);
+                    } else {
+                        mercurius.ShowTipsMessage('同步失败，请稍后再试！', 3000, 5);
+                    }
+                });
             });
         }
     </script>
@@ -201,12 +214,17 @@
             <div class="form-group">
                 <label class="col-sm-1"></label>
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary" onclick="RefreshMachineKey();">
-                        <i class="glyphicon glyphicon-refresh"></i> 刷新密钥
-                    </button>
-                    <button type="button" class="btn btn-danger" onclick="ChangeMachineKey();">
-                        <i class="glyphicon glyphicon-floppy-saved"></i> 保存
-                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" onclick="RefreshMachineKey();">
+                            <i class="glyphicon glyphicon-refresh"></i> 刷新
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="ChangeMachineKey();">
+                            <i class="glyphicon glyphicon-pencil"></i> 更新
+                        </button>
+                        <button type="button" class="btn btn-success" onclick="SynchronizeMachineKey();">
+                            <i class="glyphicon glyphicon-transfer"></i> 同步文件系统密钥
+                        </button>
+                    </div>
                 </div>
             </div>
         }

@@ -10,7 +10,7 @@
     // 短暂提示
     // msg: 显示消息
     // time：停留时间ms
-    // type：类型 4：成功，5：失败，3：警告
+    // type：类型 3：警告，4：成功，5：失败
     function ShowTipsMessage(msg, time, type) {
         top.ZENG.msgbox.show(msg, type, time);
     }

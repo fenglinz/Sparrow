@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Entities.WebApi;
 using Newtonsoft.Json;
 
@@ -47,8 +48,69 @@ namespace Mercurius.Sparrow.Services
 
         #region 公开方法
 
-        public T Post<T>(string url, object data = null, bool needToken = true)
+        /// <summary>
+        /// Get请求处理。
+        /// </summary>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <param name="webApiRoute">Web Api路由</param>
+        /// <param name="data">传入的数据</param>
+        /// <param name="needToken">是否需要用户认证Token</param>
+        /// <returns>返回的数据</returns>
+        public async Task<T> Get<T>(string webApiRoute, object data = null, bool needToken = true)
         {
+            var url = $"{FileRemoteUrl}{webApiRoute}";
+
+            if (data != null)
+            {
+                var paramters = ParameterHelper.GetProperties(data);
+
+                url = url + "?";
+
+                foreach (var item in paramters)
+                {
+                    url += $"{item.Name}={item.GetValue(data)}&";
+                }
+
+                url = url.Substring(0, url.Length - 1);
+            }
+
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Method = "GET";
+            request.KeepAlive = true;
+            request.Accept = "application/json";
+            request.ContentType = "application/json";
+            request.Credentials = CredentialCache.DefaultCredentials;
+
+            if (needToken)
+            {
+                var token = GetToken();
+
+                if (token != null)
+                {
+                    request.Headers.Add(HttpRequestHeader.Authorization, $"{token.TokenType} {token.AccessToken}");
+                }
+            }
+
+            var response = await request.GetResponseAsync();
+
+            using (var stream = new StreamReader(response.GetResponseStream()))
+            {
+                return JsonConvert.DeserializeObject<T>(stream.ReadToEnd());
+            }
+        }
+
+        /// <summary>
+        /// POST请求处理。
+        /// </summary>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <param name="webApiRoute">Web Api路由</param>
+        /// <param name="data">传入的数据</param>
+        /// <param name="needToken">是否需要用户认证Token</param>
+        /// <returns>返回的数据</returns>
+        public async Task<T> Post<T>(string webApiRoute, object data = null, bool needToken = true)
+        {
+            var url = $"{FileRemoteUrl}{webApiRoute}";
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = "application/json";
@@ -58,7 +120,7 @@ namespace Mercurius.Sparrow.Services
 
             if (needToken)
             {
-                var token = this.GetToken();
+                var token = GetToken();
 
                 if (token != null)
                 {
@@ -80,7 +142,109 @@ namespace Mercurius.Sparrow.Services
                 }
             }
 
-            var response = (HttpWebResponse)request.GetResponse();
+            var response = await request.GetResponseAsync();
+
+            using (var stream = new StreamReader(response.GetResponseStream()))
+            {
+                return JsonConvert.DeserializeObject<T>(stream.ReadToEnd());
+            }
+        }
+
+        /// <summary>
+        /// Put请求处理。
+        /// </summary>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <param name="webApiRoute">Web Api路由</param>
+        /// <param name="data">传入的数据</param>
+        /// <param name="needToken">是否需要用户认证Token</param>
+        /// <returns>返回的数据</returns>
+        public async Task<T> Put<T>(string webApiRoute, object data = null, bool needToken = true)
+        {
+            var url = $"{FileRemoteUrl}{webApiRoute}";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.ContentType = "application/json";
+            request.Method = "PUT";
+            request.KeepAlive = true;
+            request.Credentials = CredentialCache.DefaultCredentials;
+
+            if (needToken)
+            {
+                var token = GetToken();
+
+                if (token != null)
+                {
+                    request.Headers.Add(HttpRequestHeader.Authorization, $"{token.TokenType} {token.AccessToken}");
+                }
+            }
+
+            if (data == null)
+            {
+                request.ContentLength = 0; // 无请求内容时，必须设置为0.
+            }
+            else
+            {
+                using (var stream = await request.GetRequestStreamAsync())
+                {
+                    var buffers = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
+
+                    stream.Write(buffers, 0, buffers.Length);
+                }
+            }
+
+            var response = await request.GetResponseAsync();
+
+            using (var stream = new StreamReader(response.GetResponseStream()))
+            {
+                return JsonConvert.DeserializeObject<T>(stream.ReadToEnd());
+            }
+        }
+
+        /// <summary>
+        /// DELETE请求处理。
+        /// </summary>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <param name="webApiRoute">Web Api路由</param>
+        /// <param name="data">传入的数据</param>
+        /// <param name="needToken">是否需要用户认证Token</param>
+        /// <returns>返回的数据</returns>
+        public async Task<T> Delete<T>(string webApiRoute, object data = null, bool needToken = true)
+        {
+            var url = $"{FileRemoteUrl}{webApiRoute}";
+
+            if (data != null)
+            {
+                var paramters = ParameterHelper.GetProperties(data);
+
+                url = url + "?";
+
+                foreach (var item in paramters)
+                {
+                    url += $"{item.Name}={item.GetValue(data)}&";
+                }
+
+                url = url.Substring(0, url.Length - 1);
+            }
+
+            var request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Method = "DELETE";
+            request.KeepAlive = true;
+            request.Accept = "application/json";
+            request.ContentType = "application/json";
+            request.Credentials = CredentialCache.DefaultCredentials;
+
+            if (needToken)
+            {
+                var token = GetToken();
+
+                if (token != null)
+                {
+                    request.Headers.Add(HttpRequestHeader.Authorization, $"{token.TokenType} {token.AccessToken}");
+                }
+            }
+
+            var response = await request.GetResponseAsync();
 
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
@@ -96,7 +260,7 @@ namespace Mercurius.Sparrow.Services
         /// 获取token。
         /// </summary>
         /// <returns>token信息</returns>
-        private Token GetToken()
+        private static Token GetToken()
         {
             if (_token == null)
             {

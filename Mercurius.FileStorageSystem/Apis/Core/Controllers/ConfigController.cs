@@ -21,13 +21,21 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         /// <summary>
         /// 修改机器密钥。
         /// </summary>
+        /// <param name="account">用户账号</param>
         /// <param name="validationKey">验证密钥</param>
         /// <param name="decryptionKey">解密密钥</param>
         /// <returns>修改后结果提示</returns>
-        [HttpPost]
-        [Route("api/Config/{validationKey}/{decryptionKey}")]
-        public Response ChangeMachineKey(string validationKey, string decryptionKey)
+        [HttpGet]
+        [Route("api/Config/{account}")]
+        public Response ChangeMachineKey(string account, string validationKey, string decryptionKey)
         {
+            var user = GetUser(account);
+
+            if (user == null)
+            {
+                return new Response { ErrorMessage = UserNotExists };
+            }
+
             try
             {
                 var xdoc = XDocument.Load(HttpContext.Current.Server.MapPath("~/web.config"));

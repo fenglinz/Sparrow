@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -16,6 +17,7 @@ using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Sparrow.Services.Storage;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
@@ -258,10 +260,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
                         }
                     } while (pageIndex * 20 <= totalRecords);
 
+                    this.SaveChangedMachineKey(validationKey, decryptionKey);
+
                     tran.Complete();
                 }
-
-                this.SaveChangedMachineKey(validationKey, decryptionKey);
             }
             catch (Exception e)
             {
@@ -269,6 +271,23 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             }
 
             return AlertWithRefresh("计算机密钥修改成功！");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationKey"></param>
+        /// <param name="decryptionKey"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [IgnorePermissionValid]
+        public ActionResult SynchronizeMachineKey(string validationKey, string decryptionKey)
+        {
+            var client = new FileStorageClient();
+
+            var rsp = client.ChangeMachineKey(WebHelper.GetLogOnAccount(), validationKey, decryptionKey).Result;
+
+            return Json(rsp);
         }
 
         #endregion

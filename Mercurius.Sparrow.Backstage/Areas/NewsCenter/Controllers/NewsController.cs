@@ -68,7 +68,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         public ActionResult CreateOrUpdate(News news)
         {
             var fileUpload = new FileStorageClient();
-            var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request);
+            var rspFile = fileUpload.Upload(WebHelper.GetLogOnAccount(), this.Request).Result;
 
             if (rspFile.IsSuccess)
             {
@@ -89,7 +89,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.NewsCenter.Controllers
         public ActionResult Remove(Guid id)
         {
             var client = new FileStorageClient();
-            var rsp = client.Remove(WebHelper.GetLogOnAccount(), "新闻管理", id.ToString());
+            var rsp = client.Remove(WebHelper.GetLogOnAccount(), "新闻管理", id.ToString()).Result;
 
             if (rsp.IsSuccess)
             {
