@@ -63,7 +63,7 @@ namespace Mercurius.Sparrow.Services.Storage
         /// <param name="account">上传账号</param>
         /// <param name="request">Http请求对象</param>
         /// <returns>上传后的文件地址</returns>
-        public async Task<ResponseSet<string>> Upload(string account, HttpRequestBase request)
+        public ResponseSet<string> Upload(string account, HttpRequestBase request)
         {
             var fileUpload = new FileUpload
             {
@@ -89,7 +89,7 @@ namespace Mercurius.Sparrow.Services.Storage
                 });
             }
 
-            return await this.Upload(account, fileUpload);
+            return this.Upload(account, fileUpload);
         }
 
         /// <summary>
@@ -98,9 +98,9 @@ namespace Mercurius.Sparrow.Services.Storage
         /// <param name="account">上传账号</param>
         /// <param name="fileUpload">上传文件信息</param>
         /// <returns>上传后的文件地址</returns>
-        public async Task<ResponseSet<string>> Upload(string account, FileUpload fileUpload)
+        public ResponseSet<string> Upload(string account, FileUpload fileUpload)
         {
-            return await this.Post<ResponseSet<string>>($"{FileUploadUrl}/{account}", fileUpload);
+            return this.Post<ResponseSet<string>>($"{FileUploadUrl}/{account}", fileUpload);
         }
 
         /// <summary>
@@ -110,25 +110,36 @@ namespace Mercurius.Sparrow.Services.Storage
         /// <param name="category">业务分类</param>
         /// <param name="serialNumber">业务流水号</param>
         /// <returns>删除结果</returns>
-        public async Task<Response> Remove(string account, string category, string serialNumber)
+        public Response Remove(string account, string category, string serialNumber)
         {
             var url = string.Format(FileRemoveUrl, account, category, serialNumber);
 
-            return await this.Post<Response>(url);
+            return this.Post<Response>(url);
+        }
+
+        /// <summary>
+        /// 获取计算机密钥。
+        /// </summary>
+        /// <param name="account">用户账号</param>
+        /// <returns>计算机密钥</returns>
+        public Response<MachineKey> GetMachineKey(string account)
+        {
+            var url = $"api/Config/{account}";
+
+            return this.Get<Response<MachineKey>>(url);
         }
 
         /// <summary>
         /// 修改机器密钥。
         /// </summary>
         /// <param name="account">用户账号</param>
-        /// <param name="validationKey">验证密钥</param>
-        /// <param name="decryptionKey">解密密钥</param>
+        /// <param name="machineKey">计算机密钥</param>
         /// <returns>修改后结果提示</returns>
-        public async Task<Response> ChangeMachineKey(string account, string validationKey, string decryptionKey)
+        public Response ChangeMachineKey(string account, MachineKey machineKey)
         {
             var url = string.Format(ChangeMachineKeyUrl, account);
 
-            return await this.Get<Response>(url, new { validationKey, decryptionKey });
+            return this.Post<Response>(url, machineKey);
         }
 
         #endregion

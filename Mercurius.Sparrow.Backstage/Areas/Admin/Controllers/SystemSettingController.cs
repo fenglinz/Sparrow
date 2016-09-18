@@ -16,6 +16,7 @@ using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Entities.RBAC;
+using Mercurius.Sparrow.Entities.Storage;
 using Mercurius.Sparrow.Mvc.Extensions;
 using Mercurius.Sparrow.Services.Storage;
 
@@ -44,10 +45,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
             this.ViewBag.LogLevel = this.SystemSettingService.GetSetting("LogLevel");
             this.ViewBag.ProductInfos = this.SystemSettingService.GetSettings("ProductName");
 
-            var machineKey = this.GetMachineKey();
-
-            this.ViewBag.ValidationKey = machineKey.Item1;
-            this.ViewBag.DecryptionKey = machineKey.Item2;
+            this.ViewBag.LocalMachineKey = this.GetLocalMachineKey();
 
             return this.View();
         }
@@ -276,16 +274,36 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="validationKey"></param>
-        /// <param name="decryptionKey"></param>
         /// <returns></returns>
         [HttpPost]
         [IgnorePermissionValid]
-        public ActionResult SynchronizeMachineKey(string validationKey, string decryptionKey)
+        public ActionResult GetRemoteMachineKey()
         {
             var client = new FileStorageClient();
+            var localMachineKey = this.GetLocalMachineKey();
+            var rsp = client.GetMachineKey(WebHelper.GetLogOnAccount());
 
-            var rsp = client.ChangeMachineKey(WebHelper.GetLogOnAccount(), validationKey, decryptionKey).Result;
+            return Json(new
+            {
+                IsSuccess = rsp.IsSuccess,
+                ValidationKey = rsp.Data?.ValidationKey,
+                DecryptionKey = rsp.Data?.DecryptionKey,
+                IsSame = localMachineKey.ValidationKey == rsp.Data?.ValidationKey
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [IgnorePermissionValid]
+        public ActionResult SynchronizeMachineKey()
+        {
+            var client = new FileStorageClient();
+            var machineKey = this.GetLocalMachineKey();
+
+            var rsp = client.ChangeMachineKey(WebHelper.GetLogOnAccount(), machineKey);
 
             return Json(rsp);
         }
@@ -295,18 +313,21 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
         #region 私有方法
 
         /// <summary>
-        /// 获取计算机密钥(值1：验证密钥、值2：解密密钥)。
+        /// 获取当前系统的计算机密钥。
         /// </summary>
         /// <returns>
-        /// 值1：验证密钥
-        /// 值2：解密密钥
+        /// 计算机密钥。
         /// </returns>
-        private Tuple<string, string> GetMachineKey()
+        private MachineKey GetLocalMachineKey()
         {
             var xdoc = XDocument.Load(Server.MapPath("~/web.config"));
             var machineKey = xdoc.XPathSelectElement("//system.web/machineKey");
 
-            return new Tuple<string, string>(machineKey?.Attribute("validationKey").Value, machineKey?.Attribute("decryptionKey").Value);
+            return new MachineKey
+            {
+                ValidationKey = machineKey?.Attribute("validationKey").Value,
+                DecryptionKey = machineKey?.Attribute("decryptionKey").Value
+            };
         }
 
         private void SaveChangedMachineKey(string validationKey, string decryptionKey)

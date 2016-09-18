@@ -124,6 +124,7 @@
       <Name>Mercurius.Infrastructure</Name>
     </ProjectReference>
     <Compile Include="Storage\File.cs" />
+    <Compile Include="Storage\MachineKey.cs" />
     <Compile Include="Swagger\Xml.cs" />
     <Compile Include="Swagger\Contact.cs" />
     <Compile Include="Swagger\ExternalDocs.cs" />

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Mercurius.Sparrow.Contracts;
+using Mercurius.Sparrow.Entities.Storage;
 using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
 
 namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
@@ -18,16 +20,51 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
     [Authorize]
     public class ConfigController : ApiController
     {
+        #region 公开方法
+
+        /// <summary>
+        /// 获取计算机密钥。
+        /// </summary>
+        /// <param name="account">账号</param>
+        /// <returns>计算机密钥</returns>
+        [HttpGet]
+        [Route("api/Config/{account}")]
+        public async Task<Response<MachineKey>> GetMachineKey(string account)
+        {
+            var user = GetUser(account);
+
+            if (user == null)
+            {
+                return new Response<MachineKey> { ErrorMessage = UserNotExists };
+            }
+
+            var webConfigPath = HttpContext.Current.Server.MapPath("~/web.config");
+
+            return await Task.Run(() =>
+            {
+                var xdoc = XDocument.Load(webConfigPath);
+                var machineKeyElement = xdoc.XPathSelectElement("//system.web/machineKey");
+
+                return new Response<MachineKey>
+                {
+                    Data = new MachineKey
+                    {
+                        ValidationKey = machineKeyElement.Attribute("validationKey").Value,
+                        DecryptionKey = machineKeyElement.Attribute("decryptionKey").Value
+                    }
+                };
+            });
+        }
+
         /// <summary>
         /// 修改机器密钥。
         /// </summary>
         /// <param name="account">用户账号</param>
-        /// <param name="validationKey">验证密钥</param>
-        /// <param name="decryptionKey">解密密钥</param>
+        /// <param name="machineKey">计算机密钥</param>
         /// <returns>修改后结果提示</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/Config/{account}")]
-        public Response ChangeMachineKey(string account, string validationKey, string decryptionKey)
+        public async Task<Response> ChangeMachineKey(string account, MachineKey machineKey)
         {
             var user = GetUser(account);
 
@@ -36,15 +73,25 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
                 return new Response { ErrorMessage = UserNotExists };
             }
 
+            if (machineKey?.IsValid() != true)
+            {
+                return new Response { ErrorMessage = "计算机密钥信息必须要有符合要求(验证密钥长128，加密密钥长48)！" };
+            }
+
             try
             {
-                var xdoc = XDocument.Load(HttpContext.Current.Server.MapPath("~/web.config"));
-                var machineKey = xdoc.XPathSelectElement("//system.web/machineKey");
+                var webConfigPath = HttpContext.Current.Server.MapPath("~/web.config");
 
-                machineKey.Attribute("validationKey").SetValue(validationKey);
-                machineKey.Attribute("decryptionKey").SetValue(decryptionKey);
+                await Task.Run(() =>
+                {
+                    var xdoc = XDocument.Load(webConfigPath);
+                    var machineKeyElement = xdoc.XPathSelectElement("//system.web/machineKey");
 
-                xdoc.Save(HttpContext.Current.Server.MapPath("~/web.config"), SaveOptions.None);
+                    machineKeyElement.Attribute("validationKey").SetValue(machineKey.ValidationKey);
+                    machineKeyElement.Attribute("decryptionKey").SetValue(machineKey.DecryptionKey);
+
+                    xdoc.Save(webConfigPath, SaveOptions.None);
+                });
             }
             catch (Exception exception)
             {
@@ -53,5 +100,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
             return new Response();
         }
+
+        #endregion
     }
 }

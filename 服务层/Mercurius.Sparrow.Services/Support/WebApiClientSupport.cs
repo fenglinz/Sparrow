@@ -56,7 +56,7 @@ namespace Mercurius.Sparrow.Services
         /// <param name="data">传入的数据</param>
         /// <param name="needToken">是否需要用户认证Token</param>
         /// <returns>返回的数据</returns>
-        public async Task<T> Get<T>(string webApiRoute, object data = null, bool needToken = true)
+        public T Get<T>(string webApiRoute, object data = null, bool needToken = true)
         {
             var url = $"{FileRemoteUrl}{webApiRoute}";
 
@@ -92,7 +92,7 @@ namespace Mercurius.Sparrow.Services
                 }
             }
 
-            var response = await request.GetResponseAsync();
+            var response = request.GetResponse();
 
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
@@ -108,7 +108,7 @@ namespace Mercurius.Sparrow.Services
         /// <param name="data">传入的数据</param>
         /// <param name="needToken">是否需要用户认证Token</param>
         /// <returns>返回的数据</returns>
-        public async Task<T> Post<T>(string webApiRoute, object data = null, bool needToken = true)
+        public T Post<T>(string webApiRoute, object data = null, bool needToken = true)
         {
             var url = $"{FileRemoteUrl}{webApiRoute}";
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -142,7 +142,7 @@ namespace Mercurius.Sparrow.Services
                 }
             }
 
-            var response = await request.GetResponseAsync();
+            var response = request.GetResponse();
 
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
@@ -158,7 +158,7 @@ namespace Mercurius.Sparrow.Services
         /// <param name="data">传入的数据</param>
         /// <param name="needToken">是否需要用户认证Token</param>
         /// <returns>返回的数据</returns>
-        public async Task<T> Put<T>(string webApiRoute, object data = null, bool needToken = true)
+        public T Put<T>(string webApiRoute, object data = null, bool needToken = true)
         {
             var url = $"{FileRemoteUrl}{webApiRoute}";
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -184,7 +184,7 @@ namespace Mercurius.Sparrow.Services
             }
             else
             {
-                using (var stream = await request.GetRequestStreamAsync())
+                using (var stream = request.GetRequestStream())
                 {
                     var buffers = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data));
 
@@ -192,7 +192,7 @@ namespace Mercurius.Sparrow.Services
                 }
             }
 
-            var response = await request.GetResponseAsync();
+            var response = request.GetResponse();
 
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
@@ -208,7 +208,7 @@ namespace Mercurius.Sparrow.Services
         /// <param name="data">传入的数据</param>
         /// <param name="needToken">是否需要用户认证Token</param>
         /// <returns>返回的数据</returns>
-        public async Task<T> Delete<T>(string webApiRoute, object data = null, bool needToken = true)
+        public T Delete<T>(string webApiRoute, object data = null, bool needToken = true)
         {
             var url = $"{FileRemoteUrl}{webApiRoute}";
 
@@ -244,7 +244,7 @@ namespace Mercurius.Sparrow.Services
                 }
             }
 
-            var response = await request.GetResponseAsync();
+            var response = request.GetResponse();
 
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
