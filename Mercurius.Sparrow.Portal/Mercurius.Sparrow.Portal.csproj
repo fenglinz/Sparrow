@@ -233,10 +233,22 @@
     <Compile Include="App_Start\Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\IBatisNet\MSSQL\SqlConfig-Reader.xml" />
-    <Content Include="App_Data\IBatisNet\MSSQL\SqlConfig-Writer.xml" />
-    <Content Include="App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml" />
-    <Content Include="App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml" />
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\MSSQL\SqlConfig-Reader.xml">
+      <Link>App_Data\IBatisNet\MSSQL\SqlConfig-Reader.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\MSSQL\SqlConfig-Writer.xml">
+      <Link>App_Data\IBatisNet\MSSQL\SqlConfig-Writer.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml">
+      <Link>App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml">
+      <Link>App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -245,8 +257,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="App_Data\IBatisNet\providers.config" />
-    <Content Include="App_Data\properties.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -255,6 +265,14 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\properties.config">
+      <Link>App_Data\properties.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\providers.config">
+      <Link>App_Data\IBatisNet\providers.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -348,6 +366,10 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /y "$(TargetDir)\App_Data\*.*" "$(ProjectDir)\App_Data\"
+rmdir /q /s "$(TargetDir)\App_Data"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
