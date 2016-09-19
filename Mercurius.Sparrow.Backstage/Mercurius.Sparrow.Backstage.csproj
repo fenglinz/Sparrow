@@ -344,6 +344,7 @@
     <Content Include="Content\Images\loading-2.gif" />
     <Content Include="Content\Images\loading.gif" />
     <Content Include="Content\Images\loading1.gif" />
+    <Content Include="Content\Images\QQ.jpg" />
     <Content Include="Content\Images\validatebox_warning.png" />
     <Content Include="Content\layer.css" />
     <Content Include="Content\LogOn.css" />
