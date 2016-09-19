@@ -66,11 +66,5 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         {
             return View();
         }
-
-        [IgnorePermissionValid]
-        public ActionResult ArchitectureDescription()
-        {
-            return File(Server.MapPath("~/Views/Home/ArchitectureDescription.html"), "text/html");
-        }
     }
 }

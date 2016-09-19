@@ -20,8 +20,23 @@
       <result property="File" column="FileId" select="Mercurius.Sparrow.Repositories.Storage.File.GetById" />
     </resultMap>
   </resultMaps>
-
   <statements>
+
+    <!-- 根据文件编号获取文件信息 -->
+    <select id="GetById" parameterClass="Guid" resultClass="File">
+      <![CDATA[
+        SELECT
+          [Id]
+          ,[Name]
+          ,[Size]
+          ,[MD5]
+          ,[ContentType]
+          ,[SavedPath]
+          ,[SavedDateTime]
+        FROM [Storage].[File]
+        WHERE [Id]=#value#
+      ]]>
+    </select>
 
     <!-- 获取已存在的文件保存路径 -->
     <select id="CheckFileExists" parameterClass="string" resultClass="string">

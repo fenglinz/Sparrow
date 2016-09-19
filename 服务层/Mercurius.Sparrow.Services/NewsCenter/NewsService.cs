@@ -5,6 +5,7 @@ using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.NewsCenter;
 using Mercurius.Sparrow.Entities.NewsCenter.SO;
 using Mercurius.Sparrow.Contracts.NewsCenter;
+using Mercurius.Sparrow.Entities.Storage;
 using Mercurius.Sparrow.Repositories;
 using Mercurius.Sparrow.Services.Support;
 
@@ -38,8 +39,8 @@ namespace Mercurius.Sparrow.Services.NewsCenter
                     this.Persistence.Update(NS, "CreateOrUpdate", news);
 
                     this.ClearCache<News>();
-                },
-                news);
+                    this.ClearCache<File>();
+                }, news);
         }
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace Mercurius.Sparrow.Services.NewsCenter
                 this.Persistence.Delete(NS, "Remove", id);
 
                 this.ClearCache<News>();
+                this.ClearCache<File>();
             }, id);
         }
 
@@ -66,8 +68,7 @@ namespace Mercurius.Sparrow.Services.NewsCenter
         {
             return this.InvokeService(
                 nameof(GetNewsById),
-                () => this.Persistence.QueryForObject<News>(NS, "GetById", id),
-                id);
+                () => this.Persistence.QueryForObject<News>(NS, "GetById", id), id);
         }
 
         /// <summary>
@@ -81,8 +82,7 @@ namespace Mercurius.Sparrow.Services.NewsCenter
 
             return this.InvokePagingService(
                 nameof(SearchNews),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<News>(NS, "SearchNews", out totalRecords, so),
-                so);
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList<News>(NS, "SearchNews", out totalRecords, so), so);
         }
 
         #endregion

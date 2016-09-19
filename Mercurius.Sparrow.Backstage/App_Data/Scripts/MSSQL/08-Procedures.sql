@@ -128,12 +128,18 @@ BEGIN
     Storage.BusinessFile
   WHERE FileId NOT IN (SELECT Id FROM Storage.[File]);
 
+  -- 将无效的文件保存到临时表。
   WITH cte AS (
-    SELECT b.SavedPath FROM Storage.BusinessFile a
-    LEFT JOIN Storage.[File] b ON a.FileId=b.Id
-    LEFT JOIN News n ON a.SerialNumber=n.Id
-    WHERE b.Id IS NULL OR n.id IS NULL
+    SELECT a.SavedPath FROM Storage.[File] a
+    LEFT JOIN Storage.[BusinessFile] b ON a.Id=b.FileId
+    WHERE b.Id IS NULL
   )
-  SELECT TOP 100 * FROM cte WHERE cte.SavedPath IS NOT NULL;
+  SELECT TOP 100 * into #invalids FROM cte;
+
+  -- 删除多余的数据。
+  DELETE FROM [Storage].[File] where SavedPath in(select * from #invalids);
+
+  -- 获取需要删除本地文件列表。
+  SELECT * FROM #invalids;
 END;
 GO

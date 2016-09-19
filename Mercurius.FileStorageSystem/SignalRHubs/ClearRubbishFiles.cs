@@ -42,7 +42,7 @@ namespace Mercurius.FileStorageSystem.SignalRHubs
                     }
 
                     FileManager.Remove(rsp.Datas);
-                    this.SendMessage($"<span style=\"margin-left:25px;\">已经清理{rsp.Datas}个垃圾文件！</span>");
+                    this.SendMessage($"<span style=\"margin-left:25px;\">已经清理{rsp.Datas.Count}个垃圾文件！</span>");
                 }
 
                 // 删除未管理的文件

@@ -39,13 +39,14 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         static HtmlHelperExtensions()
         {
-            var container = AutofacConfig.Container;
-
-            _permissionService = container.Resolve<IPermissionService>();
-            _dictionaryService = container.Resolve<IDictionaryService>();
-            _fileStorageService = container.Resolve<IFileService>();
-            _systemSettingService = container.Resolve<ISystemSettingService>();
-            _globalizationService = container.Resolve<IGlobalizationService>();
+            using (var container = AutofacConfig.Container.BeginLifetimeScope())
+            {
+                _fileStorageService = container.Resolve<IFileService>();
+                _permissionService = container.Resolve<IPermissionService>();
+                _dictionaryService = container.Resolve<IDictionaryService>();
+                _systemSettingService = container.Resolve<ISystemSettingService>();
+                _globalizationService = container.Resolve<IGlobalizationService>();
+            }
         }
 
         #endregion

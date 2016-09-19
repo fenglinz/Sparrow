@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using Mercurius.FileStorageSystem.Extensions;
 using Mercurius.Infrastructure;
@@ -12,6 +13,7 @@ using Mercurius.Sparrow.Contracts.Storage;
 using Mercurius.Sparrow.Entities.Storage;
 using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
 using static Mercurius.FileStorageSystem.Extensions.FileManager;
+using File = System.IO.File;
 
 namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 {
@@ -80,17 +82,21 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 
                 if (!string.IsNullOrWhiteSpace(item.FileData))
                 {
+                    var filePath = this.GetSaveAsFileName(item.FileName);
                     var existsFilePath = this.FileService.CheckFileExists(file.File.MD5).Data;
-
-                    if (!string.IsNullOrWhiteSpace(existsFilePath))
+                    
+                    if (File.Exists(HttpContext.Current.Server.MapPath(existsFilePath)))
                     {
                         file.File.SavedPath = null;
 
                         continue;
+                    }else if (!string.IsNullOrWhiteSpace(existsFilePath))
+                    {
+                        filePath = HttpContext.Current.Server.MapPath(existsFilePath);
                     }
 
                     var buffers = Convert.FromBase64String(item.FileData);
-                    var fileInfo = new FileInfo(this.GetSaveAsFileName(item.FileName));
+                    var fileInfo = new FileInfo(filePath);
 
                     using (var stream = fileInfo.OpenWrite())
                     {

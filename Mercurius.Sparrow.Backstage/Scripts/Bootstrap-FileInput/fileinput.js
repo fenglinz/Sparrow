@@ -3079,15 +3079,15 @@
         this.each(function () {
             var self = $(this), data = self.data('fileinput'), options = typeof option === 'object' && option,
                 theme = options.theme || self.data('theme'), l = {}, t = {},
-                lang = options.language || self.data('language') || 'en', opts;
+                lang = options.language || self.data('language') || 'zh', opts;
             if (!data) {
                 if (theme) {
                     t = $.fn.fileinputThemes[theme] || {};
                 }
-                if (lang !== 'en' && !isEmpty($.fn.fileinputLocales[lang])) {
+                if (lang !== 'zh' && !isEmpty($.fn.fileinputLocales[lang])) {
                     l = $.fn.fileinputLocales[lang] || {};
                 }
-                opts = $.extend(true, {}, $.fn.fileinput.defaults, t, $.fn.fileinputLocales.en, l, options,
+                opts = $.extend(true, {}, $.fn.fileinput.defaults, t, $.fn.fileinputLocales.zh, l, options,
                     self.data());
                 data = new FileInput(this, opts);
                 self.data('fileinput', data);
@@ -3108,12 +3108,12 @@
     };
 
     $.fn.fileinput.defaults = {
-        language: 'en',
+        language: 'zh',
         showCaption: true,
         showBrowse: true,
         showPreview: true,
-        showRemove: true,
-        showUpload: true,
+        showRemove: false,
+        showUpload: false,
         showCancel: true,
         showClose: true,
         showUploadedThumbs: true,
