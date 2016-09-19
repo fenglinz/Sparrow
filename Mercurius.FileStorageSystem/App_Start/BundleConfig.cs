@@ -50,11 +50,11 @@ namespace Mercurius.FileStorageSystem
 
             bundles.Add(new StyleBundle("~/Content/bootcss").Include(
                 "~/Content/bootstrap.css",
-                "~/Contnet/bootstrap-theme.css"));
+                "~/Content/bootstrap-theme.css"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
-                "~/Contnet/bootstrap-theme.css",
+                "~/Content/bootstrap-theme.css",
                 "~/Content/ui-dialog.css",
                 "~/Content/bootstrap-datetimepicker.css",
                 "~/Content/layer.css",
