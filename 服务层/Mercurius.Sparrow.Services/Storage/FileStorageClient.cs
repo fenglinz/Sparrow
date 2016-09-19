@@ -84,7 +84,7 @@ namespace Mercurius.Sparrow.Services.Storage
                     FileName = file.FileName,
                     ContentType = file.ContentType,
                     Description = uploadedFilesDescription?[index],
-                    FileData = GetBase64String(file.InputStream),
+                    FileData = file.InputStream.GetBase64String(),
                     BusinessFileId = modifyUploadedFiles?[index].AsGuid()
                 });
             }
@@ -142,33 +142,6 @@ namespace Mercurius.Sparrow.Services.Storage
             this.Cache?.Remove(TokenCacheKey);
 
             return this.Post<Response>(url, machineKey);
-        }
-
-        #endregion
-
-        #region 私有方法
-
-        /// <summary>
-        /// 获取数据流的base64编码字符串。
-        /// </summary>
-        /// <param name="stream">数据流</param>
-        /// <returns>base64编码字符串</returns>
-        private static string GetBase64String(Stream stream)
-        {
-            if (stream == null || stream.Length == 0 || !stream.CanRead)
-            {
-                return null;
-            }
-
-            using (var stringReader = new BinaryReader(stream))
-            {
-                using (stream)
-                {
-                    var buffers = stringReader.ReadBytes((int)stream.Length);
-
-                    return Convert.ToBase64String(buffers);
-                }
-            }
         }
 
         #endregion

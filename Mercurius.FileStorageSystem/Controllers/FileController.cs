@@ -9,9 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Mercurius.FileStorageSystem.Extensions;
+using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts.Storage;
 using Mercurius.Sparrow.Entities.Storage;
+using Mercurius.Sparrow.Services.Storage;
 using Encoder = System.Drawing.Imaging.Encoder;
+using SFile = Mercurius.Sparrow.Entities.Storage.File;
 
 namespace Mercurius.FileStorageSystem.Controllers
 {
@@ -37,7 +41,53 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// </summary>
         public IFileService FileService { get; set; }
 
+        /// <summary>
+        /// 文件上传Web Api客户端对象。
+        /// </summary>
+        public FileStorageClient FileStorageClient { get; set; }
+
         #endregion
+
+        /// <summary>
+        /// 显示文件上传界面。
+        /// </summary>
+        /// <param name="id">文件编号</param>
+        /// <returns>文件上传界面</returns>
+        public ActionResult Upload(Guid? id = null)
+        {
+            if (id.HasValue)
+            {
+                var rsp = this.FileService.GetById(id.Value);
+
+                if (rsp.IsSuccess && rsp.Data != null && this.Request.HttpMethod.ToUpper() == "POST")
+                {
+                    var file = this.Request.Files[0];
+
+                    if (file != null && file.ContentLength != 0)
+                    {
+                        file.SaveAs(Server.MapPath(rsp.Data.SavedPath));
+
+                        this.FileService.CreateOrUpdate(new SFile
+                        {
+                            Id = rsp.Data.Id,
+                            Name = rsp.Data.Name,
+                            ContentType = file.ContentType,
+                            Size = file.ContentLength,
+                            MD5 = file.InputStream.GetBase64String().MD5(),
+                            SavedPath = rsp.Data.SavedPath
+                        });
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+                this.ViewBag.ErrorMessage = rsp.ErrorMessage;
+
+                return View(rsp.Data);
+            }
+
+            return View();
+        }
 
         /// <summary>
         /// 文件下载。
@@ -45,7 +95,8 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// <param name="id">文件在数据库中的路径</param>
         /// <param name="mode">获取图片的压缩模式</param>
         /// <returns>文件</returns>
-        [OutputCache(Duration = 3600, VaryByParam = "id;mode")]
+        [OutputCache(Duration = 7200, VaryByParam = "id;mode;rnd")]
+        [HandleError(ExceptionType = typeof(Exception), View = "Error")]
         public ActionResult Index(string id, CompressMode mode = CompressMode.Small)
         {
             var bytes = id.ToCharArray();
@@ -58,7 +109,7 @@ namespace Mercurius.FileStorageSystem.Controllers
 
                 if (!System.IO.File.Exists(filePath))
                 {
-                    return Content("文件不存在！");
+                    return View("Error", model: "文件不存在！");
                 }
 
                 if (mode != CompressMode.Original && ImageMimes.Contains(rsp.Data.ContentType))
@@ -131,7 +182,7 @@ namespace Mercurius.FileStorageSystem.Controllers
                 return File(filePath, rsp.Data.ContentType, rsp.Data.Name);
             }
 
-            return Content(rsp.ErrorMessage);
+            return View("Error", model: rsp.IsSuccess ? "文件不存在！" : rsp.ErrorMessage);
         }
 
         #region 私有方法

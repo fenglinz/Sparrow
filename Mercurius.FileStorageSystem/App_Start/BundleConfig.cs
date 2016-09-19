@@ -14,6 +14,11 @@ namespace Mercurius.FileStorageSystem
         /// <param name="bundles">压缩集合</param>
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                "~/Scripts/jquery-{version}.js",
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/respond.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/logon").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/bootstrap.js",
@@ -43,8 +48,13 @@ namespace Mercurius.FileStorageSystem
                 "~/Content/bootstrap-fileinput/themes/gly/theme.js",
                 "~/Scripts/bootstrap-fileinput/locales/zh.js"));
 
+            bundles.Add(new StyleBundle("~/Content/bootcss").Include(
+                "~/Content/bootstrap.css",
+                "~/Contnet/bootstrap-theme.css"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
+                "~/Contnet/bootstrap-theme.css",
                 "~/Content/ui-dialog.css",
                 "~/Content/bootstrap-datetimepicker.css",
                 "~/Content/layer.css",
@@ -54,6 +64,7 @@ namespace Mercurius.FileStorageSystem
             // 登录页面的CSS
             bundles.Add(new StyleBundle("~/Content/logon/css").Include(
                 "~/Content/bootstrap.css",
+                "~/Contnet/bootstrap-theme.css",
                 "~/Content/ui-dialog.css",
                 "~/Content/layer.css",
                 "~/Content/layer.moon.css",

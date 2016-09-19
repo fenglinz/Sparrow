@@ -1,5 +1,9 @@
 ﻿@using SFile = Mercurius.Sparrow.Entities.Storage.File
 
+@{
+    this.ViewBag.Title = "首页";
+}
+
 @model ResponseSet<SFile>
 
 @section Styles
@@ -34,27 +38,6 @@
                 title: '查看文件',
                 content: file,
                 area: ['720px', '600px']
-            });
-        }
-
-        function OnRemove(id) {
-            layer.confirm('是否确定删除？', function (index) {
-                $.ajax({
-                    type: 'POST',
-                    cache: false,
-                    url: '@Url.Action("Remove", "Home")',
-                    data: { id: id },
-                    dataType: 'JSON',
-                    success: function (rs) {
-                        if (rs.IsSuccess) {
-                            window.location.reload();
-                        } else {
-                            layer.alert(rs.ErrorMessage);
-                        }
-                    }
-                });
-
-                layer.close(index);
             });
         }
     </script>

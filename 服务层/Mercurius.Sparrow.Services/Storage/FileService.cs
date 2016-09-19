@@ -101,6 +101,16 @@ namespace Mercurius.Sparrow.Services.Storage
         }
 
         /// <summary>
+        /// 根据文件编号获取文件信息。
+        /// </summary>
+        /// <param name="id">文件编号</param>
+        /// <returns>文件信息</returns>
+        public Response<File> GetById(Guid id)
+        {
+            return this.InvokeService(nameof(GetById), () => this.Persistence.QueryForObject<File>(NS, "GetById", id), id);
+        }
+
+        /// <summary>
         /// 根据保存位置获取文件信息。
         /// </summary>
         /// <param name="path">文件路径</param>

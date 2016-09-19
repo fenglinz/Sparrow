@@ -69,6 +69,19 @@ namespace Mercurius.FileStorageSystem.Controllers
 
         #endregion
 
+        #region Web Api开发文档
+
+        /// <summary>
+        /// Web Api开发文档。
+        /// </summary>
+        /// <returns>Web Api开发文档界面</returns>
+        public ActionResult WebApiDocument()
+        {
+            return View();
+        }
+
+        #endregion
+
         #region 垃圾文件清理
 
         /// <summary>

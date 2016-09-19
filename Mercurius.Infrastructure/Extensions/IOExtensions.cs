@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Mercurius.Infrastructure
 {
@@ -15,6 +16,29 @@ namespace Mercurius.Infrastructure
     public static class IOExtensions
     {
         #region 公开方法
+
+        /// <summary>
+        /// 获取数据流的base64编码字符串。
+        /// </summary>
+        /// <param name="stream">数据流</param>
+        /// <returns>base64编码字符串</returns>
+        public static string GetBase64String(this Stream stream)
+        {
+            if (stream == null || stream.Length == 0 || !stream.CanRead)
+            {
+                return null;
+            }
+
+            using (var stringReader = new BinaryReader(stream))
+            {
+                using (stream)
+                {
+                    var buffers = stringReader.ReadBytes((int)stream.Length);
+
+                    return Convert.ToBase64String(buffers);
+                }
+            }
+        }
 
         /// <summary>
         /// 创建目录：如果目录不存在则创建，否则不创建。

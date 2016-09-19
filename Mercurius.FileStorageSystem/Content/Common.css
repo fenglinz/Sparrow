@@ -261,17 +261,15 @@ a {
         .grid tbody tr:nth-child(even):not(.selected):hover > td > a,
         .FixedTable tbody tr:nth-child(even):not(.selected):hover > td > a {
             color: #fff;
+            text-decoration: none;
+            padding-bottom: 2px;
+            border-bottom: 1px dotted transparent;
         }
 
             .grid tbody tr:not(.selected):hover > td > a:hover,
             .grid tbody tr:nth-child(even):not(.selected):hover > td > a:hover,
             .FixedTable tbody tr:nth-child(even):not(.selected):hover > td > a:hover {
-                text-decoration: underline;
-                -moz-text-decoration-color: #ff8c00;
-                -webkit-text-decoration-color: #ff8c00;
-                -ms-text-decoration-color: #ff8c00;
-                -o-text-decoration-color: #ff8c00;
-                text-decoration-color: #ff8c00;
+                border-bottom-color: #fff;
             }
 
 .check-all {

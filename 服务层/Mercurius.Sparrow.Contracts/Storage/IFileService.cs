@@ -16,7 +16,7 @@ namespace Mercurius.Sparrow.Contracts.Storage
         /// <summary>
         /// 添加或者编辑上传文件
         /// </summary>
-        /// <param name="fileUpload">文件上传信息</param>
+        /// <param name="fileStorage">文件上传信息</param>
         /// <returns>返回添加或保存结果</returns>
         Response CreateOrUpdate(File fileStorage);
 
@@ -43,6 +43,13 @@ namespace Mercurius.Sparrow.Contracts.Storage
         /// <param name="serialNumber">业务流水号</param>
         /// <returns>返回删除结果</returns>
         Response Remove(string category, string serialNumber);
+
+        /// <summary>
+        /// 根据文件编号获取文件信息。
+        /// </summary>
+        /// <param name="id">文件编号</param>
+        /// <returns>文件信息</returns>
+        Response<File> GetById(Guid id);
 
         /// <summary>
         /// 根据文件保存路径获取文件信息。

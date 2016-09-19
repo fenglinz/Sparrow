@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "错误提示";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+@section Head
+{
+    @Styles.Render("~/Content/bootcss")
+}
+
+<div class="container" style="padding: 10px;">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <i class="glyphicon glyphicon-remove-circle"></i>
+            <b>错误详情</b>
+        </div>
+        <div class="panel-body">
+            @Model
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/bootstrap")

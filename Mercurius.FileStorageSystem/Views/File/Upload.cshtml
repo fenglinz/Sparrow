@@ -20,14 +20,14 @@
             @if (Model== null || string.IsNullOrWhiteSpace(Model.SavedPath))
             {
                 <text>
-                $('#file').fileinput();
-                </text>
+            $('#file').fileinput();
+            </text>
            }
            else
            {
             <text>
             $('#file').fileinput({
-                initialCaption:'@Model.Name',
+                initialCaption: '@Model.Name',
                 initialPreview: [
                     '@Html.Raw(Model.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase)? string.Format("<img src=\"{0}\" class=\"file-preview-image\" alt=\"{1}\" style=\"width:120px;height:100%;\" />", Url.Content(Model.SavedPath), Model.Name) : "<div class=\"file-preview-other\"><span class=\"file-icon-4x\"><i class=\"glyphicon glyphicon-file\"></i></span></div>" + Model.Name)'
                 ]
@@ -38,15 +38,37 @@
     </script>
 }
 
-@using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Upload", "File", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
-    @Html.HiddenFor(m => m.SavedPath)
     <div class="form-group">
         <label class="col-sm-offset-1 col-sm-2 control-label" for="file">上传文件</label>
         <div class="col-sm-6">
             <input type="file" id="file" name="file" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-offset-1 col-sm-2 control-label" for="ContentType">文件类型</label>
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.ContentType, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+        </div>
+        <label class="col-sm-1 control-label" for="Size">文件大小</label>
+        <div class="col-sm-2">
+            <div class="input-group">
+                @Html.TextBoxFor(m => m.Size, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+                <span class="input-group-addon">字节</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-offset-1 col-sm-2 control-label" for="MD5">MD5</label>
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.MD5, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+        </div>
+        <label class="col-sm-1 control-label" for="SavedDateTime">创建日期</label>
+        <div class="col-sm-2">
+            @Html.TextBoxFor(m => m.SavedDateTime, "{0:yyyy-mm-dd HH:mm:ss}", new { @class = "form-control", @disabled = "disabled" })
         </div>
     </div>
     <div class="form-group">

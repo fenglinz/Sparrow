@@ -274,7 +274,6 @@
     <Compile Include="App_Start\Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\ScanProperties.config" />
     <Content Include="App_Data\IBatisNet\MSSQL\SqlConfig-Reader.xml" />
     <Content Include="App_Data\IBatisNet\MSSQL\SqlConfig-Writer.xml" />
     <Content Include="App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml" />
@@ -435,9 +434,11 @@
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Scripts\Web.config" />
     <Content Include="Views\Home\ClearRubbish.cshtml" />
+    <Content Include="Views\Home\WebApiDocument.cshtml" />
+    <Content Include="Views\File\Error.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_Files.cshtml" />
-    <Content Include="Views\Home\Upload.cshtml" />
+    <Content Include="Views\File\Upload.cshtml" />
     <Content Include="Views\Shared\_BaseLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
