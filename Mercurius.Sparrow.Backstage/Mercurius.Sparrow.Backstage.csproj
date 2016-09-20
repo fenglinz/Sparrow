@@ -455,6 +455,7 @@
     <Content Include="App_Readme\Handlebarsjs_README.md" />
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
     <Content Include="Content\Documents\系统架构设计说明文档.pdf" />
+    <Content Include="Areas\Console\Views\Home\EncryptOrDecrypt.cshtml" />
     <None Include="Areas\Console\Views\Home\Index.cshtml" />
     <Content Include="Areas\Console\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Console\Views\web.config" />
@@ -813,7 +814,7 @@
     <Content Include="Areas\Admin\Views\Role\_Members.cshtml" />
     <Content Include="App_Code\Dynamic.cshtml" />
     <Content Include="Areas\Admin\Views\Logger\_Logs.cshtml" />
-    <None Include="Areas\Admin\Views\SystemSetting\ShowCaches.cshtml" />
+    <None Include="Areas\Console\Views\Home\ShowCaches.cshtml" />
     <Content Include="Areas\Admin\Views\User\AllotPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\User\ViewDetails.cshtml" />
     <None Include="Areas\DynamicPage\Views\ExtensionProperty\_Properties.cshtml" />

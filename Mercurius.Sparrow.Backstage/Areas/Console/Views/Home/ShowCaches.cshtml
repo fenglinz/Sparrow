@@ -1,0 +1,40 @@
+﻿@model IList<string>
+
+<table id="caches" class="grid">
+    <thead>
+        <tr>
+            <td style="width: 60px;">序号</td>
+            <td style="width: 500px">键</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.IsEmpty())
+        {
+            <tr>
+                <td colspan="3" class="empty-data">
+                    @Html.GetGlobalValue("empty-data")
+                </td>
+            </tr>
+        }
+        else
+        {
+            var index = 1;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@(index++)</td>
+                    <td>@item</td>
+                    <td>
+                        <span class="btn btn-sm btn-primary" onclick="ShowCacheValue(this,'@item')">
+                            <i class="glyphicon glyphicon-menu-down"></i> 显示
+                        </span>
+                        <span class="btn btn-sm btn-danger" onclick="RemoveCache('@item')">
+                            <i class="glyphicon glyphicon-trash"></i> 删除
+                        </span>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,52 +1,123 @@
-﻿@section Scripts
+﻿@section Styles
+{
+    <style type="text/css">
+        tr.cache-value {
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 120px;
+            background: limegreen;
+            border: 1px dotted #ccc;
+        }
+
+        .panel {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+
+@section Scripts
 {
     <script type="text/javascript">
-        function EncryptOrDecrypt(type) {
+        function viewCache() {
             $.ajax({
                 type: 'POST',
                 cache: false,
-                url: '@Url.Action("EncryptOrDecrypt","Home")',
-                data: { type: type, source: $('#__source').val() },
-                dataType: 'json',
-                success: function (rs) {
-                    $('#__target').html(rs);
+                url: '@Url.Action("ShowCaches")',
+                dataType: 'html',
+                success: function (html) {
+                    $('#caches').html(html);
                 }
             });
+        }
+
+        function clearCache() {
+            confirm('是否确定清空缓存？', function () {
+                $('#frmClearCache').submit();
+            });
+        }
+
+        function ShowCacheValue(element, key) {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("ShowCacheValue")',
+                data: { key: key },
+                dataType: 'JSON',
+                success: function (rs) {
+                    if ($(element).text().trim() == '显示') {
+                        $(element).parent().parent().after('<tr class="cache-value"><td colspan="3">' + rs.Value + '</td></tr>');
+                        $(element).html('<i class="glyphicon glyphicon-menu-up"></i> 隐藏');
+                    } else {
+                        $(element).parent().parent().next().remove();
+                        $(element).html('<i class="glyphicon glyphicon-menu-down"></i> 显示');
+                    }
+                }
+            });
+        }
+
+        function RemoveCache(key) {
+            confirm('是否确定删除此缓存？', function () {
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("RemoveCacheValue")',
+                    data: { key: key },
+                    success: function (rs) {
+                        viewCache();
+                    }
+                });
+            });
+
         }
     </script>
 }
 
 <div class="panel panel-primary">
-    <div class="panel-heading">
-        <b>加密/解密</b>
-    </div>
+    <div class="panel-heading"><b>重置密码</b></div>
     <div class="panel-body">
-        <div class="form-horizontal">
+        @using (Ajax.BeginForm("ChangePassword", "Home", null, new AjaxOptions { HttpMethod = "POST"}, new {@class= "form-horizontal" }))
+        {
             <div class="form-group">
-                <label for="__source" class="control-label col-sm-1">字符串</label>
+                <label class="col-sm-1 control-label" for="name">账号</label>
                 <div class="col-sm-8">
-                    <textarea id="__source" class="form-control" rows="2"></textarea>
+                    <input type="text" id="name" name="name" class="form-control" />
                 </div>
             </div>
             <div class="form-group">
-                <label for="__target" class="control-label col-sm-1">结果</label>
+                <label class="col-sm-1 control-label" for="password">密码</label>
                 <div class="col-sm-8">
-                    <div id="__target" class="form-control" readonly style="height: 55px; overflow-x: auto; word-break: break-all;"></div>
+                    <input type="password" id="password" name="password" class="form-control" />
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-sm-1"></label>
+            <div class="row">
+                <label class="col-sm-1">&nbsp;</label>
                 <div class="col-sm-8">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary" onclick="EncryptOrDecrypt('encrypt')">
-                            <i class="glyphicon glyphicon-lock"></i> 加密
-                        </button>
-                        <button type="button" class="btn btn-success" onclick="EncryptOrDecrypt('decrypt')">
-                            <i class="fa fa-key"></i> 解密
-                        </button>
-                    </div>
+                    <button class="btn btn-primary">
+                        <i class="glyphicon glyphicon-pencil"></i> 修改
+                    </button>
                 </div>
             </div>
+        }
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading"><b>缓存管理</b></div>
+    <div class="panel-body">
+        @using (Ajax.BeginForm("ClearCache", "Home", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmClearCache", @class = "form-inline" }))
+        {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <a class="btn btn-primary" onclick="viewCache()">
+                <i class="glyphicon glyphicon-tasks"></i> 查看缓存
+            </a>
+            <button type="button" class="btn btn-danger" onclick="clearCache()">
+                <i class="glyphicon glyphicon-trash"></i> 清空缓存
+            </button>
+        </div>
+        }
+        <div id="caches" style="max-height: 300px; overflow-y: auto; margin-top: 10px;">
+
         </div>
     </div>
 </div>

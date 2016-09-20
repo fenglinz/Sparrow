@@ -1,5 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_BaseLayout.cshtml";
+
+    var features = this.ViewBag.Features;
 }
 
 @section Head
@@ -8,7 +10,7 @@
     @RenderSection("Styles", false)
 }
 
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-default" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navigation-bar">
@@ -17,17 +19,20 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="javascript:void(0)" class="navbar-brand">
+            <a href="@Url.Action("Index", "Home")" class="navbar-brand">
                 <i class="glyphicon glyphicon-cog"></i> 管理控制台
             </a>
         </div>
         <div id="bs-navigation-bar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active">
-                    <a href="@Url.Action("Index", "Home", new { @Area = "Console" })">加密/解密</a>
+                <li @NavigationState(features, "首页")>
+                    <a href="@Url.Action("Index", "Home", new {@Area = "Console"})">首页</a> 
                 </li>
-                <li>
-                    <a href="@Url.Action("Index", "Install", new { @Area = "Console" })">安装数据库</a>
+                <li @NavigationState(features, "加密/解密")>
+                    <a href="@Url.Action("EncryptOrDecrypt", "Home", new {@Area = "Console"})">加密/解密</a>
+                </li>
+                <li @NavigationState(features, "安装数据库")>
+                    <a href="@Url.Action("Index", "Install", new {@Area = "Console"})">安装数据库</a>
                 </li>
             </ul>
         </div>
@@ -39,3 +44,17 @@
 
 @Scripts.Render("~/bundles/common")
 @RenderSection("Scripts", false)
+
+@helper NavigationState(dynamic features, string current)
+{
+    var f = features as string;
+
+    if (string.IsNullOrWhiteSpace(f) && current == "首页")
+    {
+        <text>class="active"</text>
+    }
+    else if (f == current)
+    {
+        <text>class="active"</text>
+    }
+}

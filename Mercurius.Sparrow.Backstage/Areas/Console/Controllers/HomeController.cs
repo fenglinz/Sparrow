@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Autofac;
 using Mercurius.Infrastructure;
+using Mercurius.Infrastructure.Cache;
+using Mercurius.Sparrow.Autofac;
+using Mercurius.Sparrow.Mvc.Extensions;
+using Newtonsoft.Json;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 {
@@ -13,6 +18,15 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
     [AllowAnonymous]
     public class HomeController : BaseController
     {
+        #region 属性
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public CacheProvider Cache { get; set; }
+
+        #endregion
+
         /// <summary>
         /// 
         /// </summary>
@@ -22,7 +36,76 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
             return View();
         }
 
+        #region 缓存管理
+
+        /// <summary>
+        /// 显示缓存列表。
+        /// </summary>
+        /// <returns>显示视图</returns>
+        public ActionResult ShowCaches()
+        {
+            var keys = this.Cache.GetAllKeys();
+
+            return PartialView(keys);
+        }
+
+        /// <summary>
+        /// 显示缓存信息。
+        /// </summary>
+        /// <param name="key">缓存键</param>
+        /// <returns>缓存值信息</returns>
+        [HttpPost]
+        [IgnorePermissionValid]
+        public ActionResult ShowCacheValue(string key)
+        {
+            try
+            {
+                return Json(new { Value = JsonConvert.SerializeObject(this.Cache.Get<object>(key)) });
+            }
+            catch (Exception)
+            {
+                return Json(new { Value = "" });
+            }
+        }
+
+        /// <summary>
+        /// 删除缓存。
+        /// </summary>
+        /// <param name="key">缓存键</param>
+        /// <returns>删除结果信息</returns>
+        [HttpPost]
+        [IgnorePermissionValid]
+        public ActionResult RemoveCacheValue(string key)
+        {
+            var cache = AutofacConfig.Container.Resolve<CacheProvider>();
+
+            cache.Remove(key);
+
+            return Json(new { IsSuccess = true });
+        }
+
+        /// <summary>
+        /// 清空缓存。
+        /// </summary>
+        /// <returns>清空结果</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ClearCache()
+        {
+            var cache = AutofacConfig.Container.Resolve<CacheProvider>();
+
+            cache.Clear();
+
+            return this.AlertWithRefresh("清除成功！");
+        }
+
+        #endregion
         #region 加密/解密
+
+        public ActionResult EncryptOrDecrypt()
+        {
+            return View();
+        }
 
         /// <summary>
         /// 加密、解密处理。
