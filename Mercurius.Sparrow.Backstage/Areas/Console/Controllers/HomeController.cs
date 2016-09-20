@@ -36,6 +36,23 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
             return View();
         }
 
+        #region 修改密码
+
+        public ActionResult ChangePassword(string name, string password)
+        {
+            var connected = this.DynamicQuery.Provider.TryConnect();
+
+            if (connected)
+            {
+
+
+            }
+
+            return JavaScript("alert('数据库连接失败！')");
+        }
+
+        #endregion
+
         #region 缓存管理
 
         /// <summary>
@@ -100,6 +117,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
         }
 
         #endregion
+
         #region 加密/解密
 
         public ActionResult EncryptOrDecrypt()

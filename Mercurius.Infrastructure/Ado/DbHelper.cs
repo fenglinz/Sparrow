@@ -113,6 +113,31 @@ namespace Mercurius.Infrastructure.Ado
 
         #endregion
 
+        #region 尝试连接数据库
+
+        /// <summary>
+        /// 尝试连接数据库。
+        /// </summary>
+        /// <returns>是否连接成功</returns>
+        public bool TryConnect()
+        {
+            try
+            {
+                using (var session = this.OpenSession())
+                {
+                    session.Open();
+
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
         #region 创建/关闭数据库连接
 
         /// <summary>

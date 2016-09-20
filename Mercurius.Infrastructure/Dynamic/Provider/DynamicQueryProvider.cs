@@ -291,6 +291,19 @@ namespace Mercurius.Infrastructure.Dynamic
 
         #region 公开方法
 
+        #region TryConnect
+
+        /// <summary>
+        /// 尝试连接数据库。
+        /// </summary>
+        /// <returns>是否连接成功</returns>
+        public bool TryConnect()
+        {
+            return this._dbHelper.TryConnect();
+        }
+
+        #endregion
+
         #region Create
 
         /// <summary>
