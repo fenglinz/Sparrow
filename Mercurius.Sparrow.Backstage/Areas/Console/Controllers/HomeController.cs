@@ -5,13 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
 
-namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 {
     /// <summary>
     /// 管理控制台控制器。
     /// </summary>
     [AllowAnonymous]
-    public class ConsoleController : BaseController
+    public class HomeController : BaseController
     {
         /// <summary>
         /// 

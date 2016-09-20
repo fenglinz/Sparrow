@@ -16,7 +16,7 @@ using Mercurius.Infrastructure.Cache;
 using Mercurius.Sparrow.Autofac;
 using Microsoft.AspNet.SignalR;
 
-namespace Mercurius.Sparrow.Backstage.Areas.Admin.SignalRHubs
+namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
 {
     /// <summary>
     /// Microsoft SQL Server配置。

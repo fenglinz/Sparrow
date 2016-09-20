@@ -67,18 +67,6 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         /// <returns>登录界面</returns>
         public ActionResult LogOn()
         {
-            var installStatus = 1;
-
-            if (ConfigurationManager.AppSettings[InstallStatusKey] != null)
-            {
-                installStatus = ConfigurationManager.AppSettings[InstallStatusKey].AsInt(0);
-            }
-
-            if (installStatus == 0)
-            {
-                return RedirectToAction("Index", "Install", new { @Area = "Admin" });
-            }
-
             return this.View();
         }
 

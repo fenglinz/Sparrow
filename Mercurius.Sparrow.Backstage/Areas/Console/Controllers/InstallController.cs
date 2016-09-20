@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 {
     /// <summary>
     /// Web应用程序安装控制器。

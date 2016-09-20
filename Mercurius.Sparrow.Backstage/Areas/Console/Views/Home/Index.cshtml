@@ -5,7 +5,7 @@
             $.ajax({
                 type: 'POST',
                 cache: false,
-                url: '@Url.Action("EncryptOrDecrypt","Console")',
+                url: '@Url.Action("EncryptOrDecrypt","Home")',
                 data: { type: type, source: $('#__source').val() },
                 dataType: 'json',
                 success: function (rs) {
@@ -16,7 +16,7 @@
     </script>
 }
 
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         <b>加密/解密</b>
     </div>
