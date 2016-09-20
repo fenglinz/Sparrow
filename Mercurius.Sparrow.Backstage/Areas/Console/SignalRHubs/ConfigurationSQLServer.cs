@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
         /// <param name="account">数据库登录账号</param>
         /// <param name="password">数据库登录密码</param>
         /// <param name="dbName">数据库名称</param>
+        [SuppressMessage("ReSharper", "StringIndexOfIsCultureSpecific.1")]
         public void Configure(string host, string account, string password, string dbName)
         {
             this.SendMessage("--start--");
@@ -67,7 +69,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
 
                 this.ResetConfigSettings(host, account, password, dbName);
 
-                this.RemarkInstalled();
+                // this.RemarkInstalled();
 
                 this.SendMessage("--end--");
             }
