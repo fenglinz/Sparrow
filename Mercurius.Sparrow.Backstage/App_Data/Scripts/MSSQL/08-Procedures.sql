@@ -139,7 +139,7 @@ BEGIN
   -- 删除多余的数据。
   DELETE FROM [Storage].[File] where SavedPath in(select * from #invalids);
 
-  -- 获取需要删除本地文件列表。
+  -- 获取需要删除的文件列表。
   SELECT * FROM #invalids;
 END;
 GO
