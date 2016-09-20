@@ -64,7 +64,7 @@ namespace Mercurius.FileStorageSystem
             // 登录页面的CSS
             bundles.Add(new StyleBundle("~/Content/logon/css").Include(
                 "~/Content/bootstrap.css",
-                "~/Contnet/bootstrap-theme.css",
+                "~/Content/bootstrap-theme.css",
                 "~/Content/ui-dialog.css",
                 "~/Content/layer.css",
                 "~/Content/layer.moon.css",

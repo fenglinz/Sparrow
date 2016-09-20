@@ -17,7 +17,7 @@
     <AssemblyName>Mercurius.FileStorageSystem</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -276,19 +276,19 @@
   <ItemGroup>
     <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\MSSQL\SqlConfig-Reader.xml">
       <Link>App_Data\IBatisNet\MSSQL\SqlConfig-Reader.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\MSSQL\SqlConfig-Writer.xml">
       <Link>App_Data\IBatisNet\MSSQL\SqlConfig-Writer.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml">
       <Link>App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml">
       <Link>App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -336,11 +336,11 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\properties.config">
       <Link>App_Data\properties.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\providers.config">
       <Link>App_Data\IBatisNet\providers.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\dezo-dev.pubxml" />
     <Content Include="Scripts\html5shiv-printshiv.js" />
