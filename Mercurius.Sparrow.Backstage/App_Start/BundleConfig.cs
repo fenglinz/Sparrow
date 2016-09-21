@@ -40,6 +40,9 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/layer.js",
                 "~/Scripts/mercurius.common.js"));
 
+            // jQuery UI
+            bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include("~/Scripts/jquery-ui-{version}.js"));
+
             // 验证JS
             bundles.Add(new ScriptBundle("~/bundles/validate").Include("~/Scripts/Validator/JValidator.js"));
 
