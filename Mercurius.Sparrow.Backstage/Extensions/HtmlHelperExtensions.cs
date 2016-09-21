@@ -280,19 +280,53 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
             if (rsp.IsSuccess && !rsp.Datas.IsEmpty())
             {
-                foreach (var item in rsp.Datas)
+                var groups = rsp.Datas.Where(d => d.Type == 1);
+
+                if (!groups.IsEmpty())
                 {
-                    var optionTag = new TagBuilder("option");
-
-                    optionTag.SetInnerText(item.Key);
-                    optionTag.Attributes.Add("value", item.Value);
-
-                    if (defaultValue == item.Value)
+                    foreach (var group in groups)
                     {
-                        optionTag.Attributes.Add("selected", "selected");
-                    }
+                        var optgroup = new TagBuilder("optgroup");
 
-                    tagBuilder.InnerHtml += optionTag;
+                        optgroup.Attributes.Add("label", group.Key);
+
+                        var items = rsp.Datas.Where(d => d.ParentId == group.Id);
+
+                        foreach (var item in items)
+                        {
+                            var optionTag = new TagBuilder("option");
+
+                            optionTag.SetInnerText(item.Key);
+                            optionTag.Attributes.Add("value", item.Value);
+                            optionTag.Attributes.Add("data-group", group.Key);
+
+                            if (defaultValue == item.Value)
+                            {
+                                optionTag.Attributes.Add("selected", "selected");
+                            }
+
+                            optgroup.InnerHtml += optionTag;
+                        }
+
+                        tagBuilder.InnerHtml += optgroup;
+                    }
+                }
+                else
+                {
+                    foreach (var item in rsp.Datas)
+                    {
+                        var optionTag = new TagBuilder("option");
+
+                        optionTag.SetInnerText(item.Key);
+                        optionTag.Attributes.Add("value", item.Value);
+
+                        if (defaultValue == item.Value)
+                        {
+                            optionTag.Attributes.Add("selected", "selected");
+                        }
+
+                        tagBuilder.InnerHtml += optionTag;
+                    }
                 }
             }
 
