@@ -315,6 +315,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(otherAttributes);
 
             attributes.Add("class", className);
+            attributes.Add("placeholder", fieldName);
             attributes.Add("validate-field", fieldName);
             attributes.Add("validate-rule", Rules[(int)rule]);
 
@@ -354,6 +355,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             }
 
             attributes.Add("class", className);
+            attributes.Add("placeholder", fieldName);
             attributes.Add("validate-field", fieldName);
             attributes.Add("validate-rule", Rules[(int)rule]);
 
