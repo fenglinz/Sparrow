@@ -30,13 +30,14 @@ html, body {
             margin-top: 5px;
             margin-left: 40px;
             font-size: 1.1em;
-            font-weight: bolder;
+            font-weight: bold;
             display: inline-block;
             -moz-user-select: none;
             -ms-user-select: none;
             -webkit-user-select: none;
             -o-user-select: none;
             user-select: none;
+            cursor: default;
         }
 
         .top-header .row .col-lg-12 {
@@ -48,10 +49,13 @@ html, body {
         }
 
             .top-header .row .col-lg-12 .logo h1 {
-                font-size: 25px;
-                color: #fff;
                 margin: 0;
+                color: #fff;
+                cursor: default;
                 padding: 11px 0;
+                font-size: 25px;
+                font-weight: bold;
+                text-shadow: 3px 6px 3px #000;
             }
 
 #loginbox {
@@ -101,12 +105,14 @@ html, body {
     }
 
     #loginbox .panel-title {
-        font-size: 20pt;
+        font-size: 20px;
+        font-weight: bold;
         -moz-user-select: none;
         -ms-user-select: none;
         -webkit-user-select: none;
         user-select: none;
-        padding: 7px 15px 7px 15px;
+        cursor: default;
+        padding: 5px 15px 8px 15px;
     }
 
     #loginbox form#recoverform .form-actions {
@@ -118,7 +124,7 @@ html, body {
 }
 
 .verifyCode {
-    width: 135px;
+    width: 150px;
     height: 44px;
     cursor: pointer;
 }

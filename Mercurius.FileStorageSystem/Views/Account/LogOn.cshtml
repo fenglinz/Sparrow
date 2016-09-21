@@ -15,9 +15,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="logo">
-                    <h1>
-                        文件管理系统
-                    </h1>
+                    <h1>文件管理系统</h1>
                 </div>
             </div>
         </div>
@@ -27,7 +25,9 @@
     </div>
     <div id="loginbox" class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">用户登录</h3>
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-log-in" style="top: 3px;"></i> 系统登录
+            </h3>
         </div>
         <div class="panel-body">
             <div class="form-group form-group-lg">
@@ -35,19 +35,19 @@
                     <label for="txtUserName" class="input-group-addon">
                         <i class="glyphicon glyphicon-user"></i>
                     </label>
-                    <input type="text" id="txtUserName" class="form-control" placeholder="请输入账户" autofocus/>
+                    <input type="text" id="txtUserName" class="form-control" placeholder="请输入账户" autofocus />
                 </div>
                 <div class="input-group input-group-lg">
                     <label for="txtPassword" class="input-group-addon">
                         <i class="glyphicon glyphicon-lock"></i>
                     </label>
-                    <input type="password" onpaste="return false;" id="txtPassword" class="form-control" placeholder="请输入密码"/>
+                    <input type="password" onpaste="return false;" id="txtPassword" class="form-control" placeholder="请输入密码" />
                 </div>
                 <div class="input-group input-group-lg">
                     <label for="txtVerifyCode" class="input-group-addon">
                         <i class="glyphicon glyphicon-qrcode"></i>
                     </label>
-                    <input id="txtVerifyCode" maxlength="4" class="form-control" style="-ms-ime-mode: disabled; ime-mode: disabled; text-transform: uppercase;"/>
+                    <input id="txtVerifyCode" maxlength="4" class="form-control" style="-ms-ime-mode: disabled; ime-mode: disabled; text-transform: uppercase;" />
                     <span class="input-group-addon" style="padding: 0;">
                         <img src="@Url.Action("GetVerifyCode", "Account")" class="verifyCode" id="imgVerifyCode" alt="点击切换验证码" onclick="GetNewVerifyCode()" />
                     </span>
@@ -69,26 +69,34 @@
 </div>
 @Scripts.Render("~/bundles/logon")
 <script type="text/javascript">
+    var dlgOpend = false;
+
+    $(document).ready(function () {
+        ResetPanelMiddle();
+        $(window).resize(ResetPanelMiddle);
+    });
+
     document.onkeydown = function (e) {
         if (!e) e = window.event;
 
         if ((e.keyCode || e.which) == 13) {
-            var obtnSearch = document.getElementById("btnLogOn");
+            if (dlgOpend) {
+                dlgOpend = false;
+                mercurius.CloseDialog();
+            } else {
+                var obtnSearch = document.getElementById("btnLogOn");
 
-            obtnSearch.focus();
-            obtnSearch.click();
+                obtnSearch.click();
+            }
         }
     };
 
-    $(document).ready(function () {
-        ResetPanelMiddle();
-        window.resize = ResetPanelMiddle;
-    });
-
     function ResetPanelMiddle() {
-        $('#loginbox').css({
-            'margin-top': ($(window).height() - 450) / 2
-        });
+        if ($(window).height() > 500) {
+            $('#loginbox').css({
+                'margin-top': ($(window).height() - 500) / 2
+            });
+        }
     }
 
     function GetNewVerifyCode() {
@@ -134,10 +142,9 @@
 
             $.ajax({
                 type: 'POST',
-                dataType: "JSON",
+                cache: false,
                 url: '@Url.Action("LogOn", "Account")',
                 data: { name: name, password: password, verifyCode: verifyCode },
-                cache: false,
                 dataType: 'JSON',
                 success: function (rs) {
                     if (rs != '') {
@@ -145,6 +152,7 @@
                         GetNewVerifyCode();
 
                         alert(rs);
+                        dlgOpend = true;
                     } else {
                         window.location.href = '@Url.Action("Index", "Home")';
                     }

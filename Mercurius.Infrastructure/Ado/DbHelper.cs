@@ -121,19 +121,11 @@ namespace Mercurius.Infrastructure.Ado
         /// <returns>是否连接成功</returns>
         public bool TryConnect()
         {
-            try
-            {
-                using (var session = this.OpenSession())
-                {
-                    session.Open();
+            var result = false;
 
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
-            }
+            this.OpenSession().TryConnect(out result);
+
+            return result;
         }
 
         #endregion

@@ -7,6 +7,7 @@ using Autofac;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Cache;
 using Mercurius.Sparrow.Autofac;
+using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Mvc.Extensions;
 using Newtonsoft.Json;
 
@@ -38,14 +39,21 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 
         #region 修改密码
 
+        /// <summary>
+        /// 修改密码。
+        /// </summary>
+        /// <param name="name">账号</param>
+        /// <param name="password">密码</param>
+        /// <returns>修改结果</returns>
         public ActionResult ChangePassword(string name, string password)
         {
             var connected = this.DynamicQuery.Provider.TryConnect();
 
             if (connected)
             {
+                this.DynamicQuery.Where<User>(u => u.Account, name).Update(new {Password = password.Encrypt()});
 
-
+                return JavaScript("alert('修改成功！')");
             }
 
             return JavaScript("alert('数据库连接失败！')");
