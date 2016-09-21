@@ -96,7 +96,6 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// <param name="mode">获取图片的压缩模式</param>
         /// <returns>文件</returns>
         [OutputCache(Duration = 7200, VaryByParam = "id;mode;rnd")]
-        [HandleError(ExceptionType = typeof(Exception), View = "Error")]
         public ActionResult Index(string id, CompressMode mode = CompressMode.Small)
         {
             var bytes = id.ToCharArray();

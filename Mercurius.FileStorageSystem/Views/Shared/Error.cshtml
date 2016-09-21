@@ -1,9 +1,58 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿@model HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    Layout = "_BaseLayout.cshtml";
+}
+@section Head
+{
+    @Styles.Render("~/Content/bootcss")
+
+    <style type="text/css">
+        .alert {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+            .alert.alert-warning {
+                font-size: 18px;
+                margin-bottom: 0;
+                border-radius: 5px 5px 0 0;
+            }
+
+        pre, .pre {
+            color: #666;
+            font-size: 14px;
+            border-top: none;
+            background-color: #eee;
+            border-radius: 0 0 5px 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            font-family: Courier New, Courier, monospace;
+        }
+
+        .pre {
+            padding: 9.5px 32px;
+        }
+    </style>
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="alert alert-danger">
+    <i class="glyphicon glyphicon-warning-sign"></i> 发生错误
+</div>
 
+<div class="alert alert-warning">
+    错误信息
+</div>
+<div class="pre" style="overflow: auto">
+    @Model.Exception.Message
+</div>
+
+<div class="alert alert-warning">错误堆栈信息</div>
+<pre>
+@Model.Exception.StackTrace
+</pre>
+
+@Scripts.Render("~/bundles/bootstrap")
