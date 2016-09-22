@@ -343,18 +343,19 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             int formControlType = 1,
             object attributes = null)
         {
-            var typeInfo = typeof(T);
             var propertyName = ExpressionHelper.GetExpressionText(expression);
-            var value = html.ViewData.Model == null ? null : html.ViewData.ModelMetadata.ModelType.GetProperty(propertyName).GetValue(html.ViewData.Model);
 
-            var displayAttribute = typeInfo.GetProperty(propertyName).GetCustomAttribute<DisplayAttribute>();
-            var propertyDisplayName = displayAttribute == null ? propertyName : displayAttribute.Name;
+            var fullName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(propertyName);
+            var value = html.ViewData.GetModelStateValue(fullName, typeof(string));
+
+            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
+            var propertyDisplayName = metadata.GetDisplayName();
 
             var divTag = new TagBuilder("div");
             var labelTag = new TagBuilder("label");
 
             labelTag.AddCssClass($"col-sm-{controlLabelCols} control-label");
-            labelTag.Attributes.Add("for", propertyName);
+            labelTag.Attributes.Add("for", fullName.Replace('.', '_'));
             labelTag.SetInnerText(propertyDisplayName);
 
             var formContainerTag = new TagBuilder("div");
@@ -375,8 +376,8 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             }
 
             formControlTag.AddCssClass("form-control");
-            formControlTag.Attributes.Add("id", propertyName);
-            formControlTag.Attributes.Add("name", propertyName);
+            formControlTag.Attributes.Add("name", fullName);
+            formControlTag.Attributes.Add("id", fullName.Replace('.', '_'));
             formControlTag.Attributes.Add("placeholder", propertyDisplayName);
 
             if (rule != ValidRule.Default)
@@ -405,6 +406,19 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             divTag.InnerHtml += formContainerTag;
 
             return divTag;
+        }
+
+        internal static object GetModelStateValue(this ViewDataDictionary viewData, string key, Type destinationType)
+        {
+            ModelState modelState;
+            if (viewData.ModelState.TryGetValue(key, out modelState))
+            {
+                if (modelState.Value != null)
+                {
+                    return modelState.Value.ConvertTo(destinationType, null /* culture */);
+                }
+            }
+            return null;
         }
 
         #endregion
