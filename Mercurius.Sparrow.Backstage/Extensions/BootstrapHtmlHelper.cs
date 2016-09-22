@@ -7,10 +7,8 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using Mercurius.Sparrow.Mvc.Extensions;
-using Microsoft.Ajax.Utilities;
 
-namespace Mercurius.Sparrow.Backstage
+namespace Mercurius.Sparrow.Mvc.Extensions
 {
     /// <summary>
     /// 
