@@ -13,7 +13,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     /// <summary>
     /// 验证规则枚举。
     /// </summary>
-    public enum ValidateRule
+    public enum ValidRule
     {
         /// <summary>
         /// 默认(不能为空)。
@@ -262,7 +262,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="fieldName">字段名</param>
         /// <param name="rule">验证规则</param>
         /// <returns>附加验证属性</returns>
-        public static string AttachValidateAttributes(this HtmlHelper html, string fieldName, ValidateRule rule = ValidateRule.Default)
+        public static string AttachValidateAttributes(this HtmlHelper html, string fieldName, ValidRule rule = ValidRule.Default)
         {
             return $"validate-rule={Rules[(int)rule]} validate-field={fieldName}";
         }
@@ -277,7 +277,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="rule">验证规则</param>
         /// <param name="fieldName">字段名</param>
         /// <returns>附加验证属性</returns>
-        public static string AttachValidateAttributes<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression, ValidateRule rule = ValidateRule.Default, string fieldName = null)
+        public static string AttachValidateAttributes<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression, ValidRule rule = ValidRule.Default, string fieldName = null)
         {
             if (string.IsNullOrWhiteSpace(fieldName))
             {
@@ -302,21 +302,19 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="html">HTML呈现器</param>
         /// <param name="fieldName">字段名称</param>
         /// <param name="rule">验证规则</param>
-        /// <param name="className">css类名称</param>
         /// <param name="htmlAttributes">其他属性</param>
         /// <returns>HTML属性字典</returns>
         public static RouteValueDictionary CreateValidAttributes(
             this HtmlHelper html,
             string fieldName,
-            ValidateRule rule = ValidateRule.Default,
-            string className = "form-control",
+            ValidRule rule = ValidRule.Default,
             object htmlAttributes = null)
         {
             var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
 
             if (!attributes.ContainsKey("class"))
             {
-                attributes.Add("class", className);
+                attributes.Add("class", "form-control");
             }
 
             if (!attributes.ContainsKey("placeholder"))
@@ -338,14 +336,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="html">HTML呈现器</param>
         /// <param name="expression">Lambda表达式</param>
         /// <param name="rule">验证规则</param>
-        /// <param name="className">css类名称</param>
         /// <param name="htmlAttributes">其他属性</param>
         /// <returns>HTML属性字典</returns>
         public static RouteValueDictionary CreateValidAttributes<T, P>(
             this HtmlHelper<T> html,
             Expression<Func<T, P>> expression,
-            ValidateRule rule = ValidateRule.Default,
-            string className = "form-control",
+            ValidRule rule = ValidRule.Default,
             object htmlAttributes = null)
         {
             var typeInfo = typeof(T);
@@ -357,7 +353,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
             if (!attributes.ContainsKey("class"))
             {
-                attributes.Add("class", className);
+                attributes.Add("class", "form-control");
             }
 
             if (!attributes.ContainsKey("placeholder"))
@@ -387,7 +383,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         internal static RouteValueDictionary GetValidAttributes<T, P>(
             this HtmlHelper<T> html,
             string fieldName,
-            ValidateRule rule = ValidateRule.Default)
+            ValidRule rule = ValidRule.Default)
         {
             var attributes = new RouteValueDictionary
             {

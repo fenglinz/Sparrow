@@ -226,7 +226,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             this HtmlHelper<T> html,
             Expression<Func<T, P>> expression,
             FormGroup formGroup = null,
-            ValidateRule rule = ValidateRule.NotNull,
+            ValidRule rule = ValidRule.NotNull,
             int formControlType = 1,
             object attributes = null
         )
@@ -304,7 +304,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             this HtmlHelper<T> html,
             Expression<Func<T, P>> expression,
             FormGroup formGroup = null,
-            ValidateRule rule = ValidateRule.NotNull,
+            ValidRule rule = ValidRule.NotNull,
             int formControlType = 1,
             object attributes = null)
         {
@@ -339,7 +339,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             Expression<Func<T, P>> expression,
             uint controlLabelCols = 1,
             uint formControlCols = 3,
-            ValidateRule rule = ValidateRule.NotNull,
+            ValidRule rule = ValidRule.NotNull,
             int formControlType = 1,
             object attributes = null)
         {
@@ -379,7 +379,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             formControlTag.Attributes.Add("name", propertyName);
             formControlTag.Attributes.Add("placeholder", propertyDisplayName);
 
-            if (rule != ValidateRule.Default)
+            if (rule != ValidRule.Default)
             {
                 var validAttributes = html.GetValidAttributes<T, P>(propertyDisplayName, rule);
 

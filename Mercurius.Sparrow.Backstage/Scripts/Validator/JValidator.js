@@ -461,13 +461,13 @@ function ValidateElement(element, isCallback) {
                 break;
             case "int":
                 if (!isInteger($(element).val())) {
-                    errorMessage = field + "必须为数字！\n";
+                    errorMessage = field + "必须为整数！\n";
                 }
 
                 break;
             case "intOrNull":
                 if (!isIntegerOrNull($(element).val())) {
-                    errorMessage = field + "必须为数字！\n";
+                    errorMessage = field + "必须为整数！\n";
                 }
 
                 break;
@@ -509,13 +509,13 @@ function ValidateElement(element, isCallback) {
                 break;
             case "limit":
                 if (!isLenStr($(element).val(), $(element).attr("length"))) {
-                    errorMessage = field + "不能为空且必须小于" + $(element).attr("length") + "位字符！\n";
+                    errorMessage = field + "不能为空且必须小于" + $(element).attr("length") + "个字符！\n";
                 }
 
                 break;
             case "limitOrNull":
                 if (!isLenStrOrNull($(element).val(), $(element).attr("length"))) {
-                    errorMessage = field + "必须小于" + $(element).attr("length") + "位字符！\n";
+                    errorMessage = field + "必须小于" + $(element).attr("length") + "个字符！\n";
                 }
 
                 break;
@@ -641,13 +641,13 @@ function ValidateElement(element, isCallback) {
                 break;
             case "double":
                 if (!isDouble($(element).val())) {
-                    errorMessage = field + "必须为小数！\n";
+                    errorMessage = field + "必须为数字！\n";
                 }
 
                 break;
             case "doubleOrNull":
                 if (!isDoubleOrNull($(element).val())) {
-                    errorMessage = field + "必须为小数！\n";
+                    errorMessage = field + "必须为数字！\n";
                 }
 
                 break;
@@ -700,21 +700,21 @@ function ChangeCss(obj, validatemsg, isCallback) {
         $(obj).addClass("tooltipinputerr");
 
         if ($(obj).prop('nodeName').toUpperCase() == "SELECT") {
-	        $(obj).css('background-position', $(obj).width() - 10);
-	        $(obj).after('<msg style="background:#FFF7E3;position: absolute;top: 8px;left: 20px;color: gray;font-size: 1.15em;">' + validatemsg + '</msg>');
+            $(obj).css('background-position', $(obj).width() - 10);
+            $(obj).after('<msg style="background:#FFF7E3;position: absolute;top: 8px;left: 20px;color: gray;font-size: 1.15em;">' + validatemsg + '</msg>');
 
-	        $(obj).click(function() {
-		        if (ValidateElement(obj, true)) {
-			        $(obj).addClass("tooltipinputok");
-			        $(obj).removeClass("tooltipinputerr");
+            $(obj).click(function () {
+                if (ValidateElement(obj, true)) {
+                    $(obj).addClass("tooltipinputok");
+                    $(obj).removeClass("tooltipinputerr");
 
-			        $(obj).nextAll('msg').remove();
-		        } else {
+                    $(obj).nextAll('msg').remove();
+                } else {
                     $(obj).addClass("tooltipinputerr");
                     $(obj).removeClass("tooltipinputok");
-			        $(obj).after('<msg style="background:#FFF7E3;position: absolute;top: 8px;left: 20px;color: gray;font-size: 1.15em;">' + validatemsg + '</msg>');
-		        }
-	        });
+                    $(obj).after('<msg style="background:#FFF7E3;position: absolute;top: 8px;left: 20px;color: gray;font-size: 1.15em;">' + validatemsg + '</msg>');
+                }
+            });
         } else {
             $(obj).css('background-position', $(obj).width() - 1);
             $(obj).val('');
