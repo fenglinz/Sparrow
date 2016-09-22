@@ -14,54 +14,57 @@ namespace Mercurius.Sparrow.Entities.Core
         #region 属性
 
         /// <summary>
-        /// 字典编号。
+        /// 编号。
         /// </summary>
+        [Display(Name = "编号")]
         [Column(IsPrimaryKey = true)]
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants)
-           , ErrorMessageResourceName = "MaxStringLength")]
+        [StringLength(36, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Id { get; set; }
 
         /// <summary>
-        /// 字典类别(1:字典分类、其他：字典项)。
+        /// 类别(1:字典分类、其他：字典项)。
         /// </summary>
+        [Display(Name = "类别")]
         public virtual int? Type { get; set; }
 
         /// <summary>
         /// 父节点编号。
         /// </summary>
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants)
-           , ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "父节点编号")]
+        [StringLength(36, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string ParentId { get; set; }
 
         /// <summary>
-        /// 字典键。
+        /// 键。
         /// </summary>
-        [StringLength(200, ErrorMessageResourceType = typeof(Constants)
-            , ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "键")]
+        [StringLength(200, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Key { get; set; }
 
         /// <summary>
-        /// 字典值。
+        /// 值。
         /// </summary>
-        [StringLength(200, ErrorMessageResourceType = typeof(Constants)
-           , ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "值")]
+        [StringLength(200, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Value { get; set; }
 
         /// <summary>
         /// 排序号。
         /// </summary>
+        [Display(Name = "排序号")]
         public virtual int? Sort { get; set; }
 
         /// <summary>
         /// 备注信息
         /// </summary>
-        [StringLength(500, ErrorMessageResourceType = typeof(Constants)
-           , ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "备注")]
+        [StringLength(500, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Remark { get; set; }
 
         /// <summary>
         /// 实体信息的状态。
         /// </summary>
+        [Display(Name = "状态")]
         public virtual int? Status { get; set; }
 
         #endregion

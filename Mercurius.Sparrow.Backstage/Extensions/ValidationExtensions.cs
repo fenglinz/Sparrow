@@ -301,21 +301,29 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="html">HTML呈现器</param>
         /// <param name="fieldName">字段名称</param>
-        /// <param name="className">css类名称</param>
         /// <param name="rule">验证规则</param>
-        /// <param name="otherAttributes">其他属性</param>
+        /// <param name="className">css类名称</param>
+        /// <param name="htmlAttributes">其他属性</param>
         /// <returns>HTML属性字典</returns>
-        public static RouteValueDictionary GetAttributesWithValidate(
+        public static RouteValueDictionary CreateValidAttributes(
             this HtmlHelper html,
             string fieldName,
-            string className = "form-control",
             ValidateRule rule = ValidateRule.Default,
-            object otherAttributes = null)
+            string className = "form-control",
+            object htmlAttributes = null)
         {
-            var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(otherAttributes);
+            var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
 
-            attributes.Add("class", className);
-            attributes.Add("placeholder", fieldName);
+            if (!attributes.ContainsKey("class"))
+            {
+                attributes.Add("class", className);
+            }
+
+            if (!attributes.ContainsKey("placeholder"))
+            {
+                attributes.Add("placeholder", fieldName);
+            }
+
             attributes.Add("validate-field", fieldName);
             attributes.Add("validate-rule", Rules[(int)rule]);
 
@@ -329,35 +337,63 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <typeparam name="P">验证属性类型</typeparam>
         /// <param name="html">HTML呈现器</param>
         /// <param name="expression">Lambda表达式</param>
-        /// <param name="className">css类名称</param>
         /// <param name="rule">验证规则</param>
-        /// <param name="otherAttributes">其他属性</param>
-        /// <param name="fieldName">字段名称</param>
+        /// <param name="className">css类名称</param>
+        /// <param name="htmlAttributes">其他属性</param>
         /// <returns>HTML属性字典</returns>
-        public static RouteValueDictionary GetAttributesWithValidate<T, P>(
+        public static RouteValueDictionary CreateValidAttributes<T, P>(
             this HtmlHelper<T> html,
             Expression<Func<T, P>> expression,
-            string className="form-control",
             ValidateRule rule = ValidateRule.Default,
-            object otherAttributes = null,
-            string fieldName = null)
+            string className = "form-control",
+            object htmlAttributes = null)
         {
-            var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(otherAttributes);
+            var typeInfo = typeof(T);
+            var propertyName = ExpressionHelper.GetExpressionText(expression);
+            var displayAttribute = typeInfo.GetProperty(propertyName).GetCustomAttribute<DisplayAttribute>();
+            var propertyDisplayName = displayAttribute == null ? propertyName : displayAttribute.Name;
 
-            if (string.IsNullOrWhiteSpace(fieldName))
+            var attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+
+            if (!attributes.ContainsKey("class"))
             {
-                var propertyName = ExpressionHelper.GetExpressionText(expression);
-
-                var typeInfo = typeof(T);
-                var displayAttr = typeInfo.GetProperty(propertyName).GetCustomAttribute<DisplayAttribute>();
-
-                fieldName = displayAttr == null ? propertyName : displayAttr.Name;
+                attributes.Add("class", className);
             }
 
-            attributes.Add("class", className);
-            attributes.Add("placeholder", fieldName);
-            attributes.Add("validate-field", fieldName);
+            if (!attributes.ContainsKey("placeholder"))
+            {
+                attributes.Add("placeholder", propertyDisplayName);
+            }
+
+            attributes.Add("validate-field", propertyDisplayName);
             attributes.Add("validate-rule", Rules[(int)rule]);
+
+            return attributes;
+        }
+
+        #endregion
+
+        #region 程序集内方法
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="P"></typeparam>
+        /// <param name="html"></param>
+        /// <param name="fieldName"></param>
+        /// <param name="rule"></param>
+        /// <returns></returns>
+        internal static RouteValueDictionary GetValidAttributes<T, P>(
+            this HtmlHelper<T> html,
+            string fieldName,
+            ValidateRule rule = ValidateRule.Default)
+        {
+            var attributes = new RouteValueDictionary
+            {
+                {"validate-field", fieldName},
+                {"validate-rule", Rules[(int) rule]}
+            };
 
             return attributes;
         }

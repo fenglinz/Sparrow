@@ -394,7 +394,7 @@ input.search-image {
 }
 
 .form-horizontal.form .control-label {
-    padding-top: 7px;
+    padding-top: 5px;
     margin-bottom: 0;
     padding-right: 5px;
     text-align: right;
@@ -749,6 +749,16 @@ input.search-image {
 [validate-rule*=date],
 [validate-rule=time] {
     cursor: pointer;
+}
+
+span.error {
+    color: red;
+    font-size: 1.4em;
+    font-weight: bold;
+    font-style: normal;
+    position: relative;
+    top: 5px;
+    right: 2px;
 }
 
 @media only screen and (max-width: 991px) {

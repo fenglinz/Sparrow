@@ -13,58 +13,59 @@ namespace Mercurius.Sparrow.Entities.RBAC
         #region 属性
 
         /// <summary>
-        /// 按钮编号。
+        /// 编号。
         /// </summary>
         [Required]
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "编号")]
+        [StringLength(36, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Id { get; set; }
 
         /// <summary>
-        /// 按钮名称。
+        /// 名称。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "名称")]
+        [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 按钮标记。
+        /// 标题。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "标题")]
+        [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Title { get; set; }
 
         /// <summary>
         /// 按钮图标。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "图标")]
+        [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Image { get; set; }
 
         /// <summary>
-        /// 按钮代号。
+        /// JavaScript代码。
         /// </summary>
-        [StringLength(200, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "事件")]
+        [StringLength(200, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Code { get; set; }
 
         /// <summary>
-        /// 获取和设置按钮类型。
+        /// 类型。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "类型")]
+        [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Category { get; set; }
 
         /// <summary>
         /// 排序号。
         /// </summary>
+        [Display(Name = "排序号")]
         public virtual int? Sort { get; set; }
 
         /// <summary>
         /// 备注信息。
         /// </summary>
-        [StringLength(500, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "备注")]
+        [StringLength(500, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Remark { get; set; }
 
         /// <summary>

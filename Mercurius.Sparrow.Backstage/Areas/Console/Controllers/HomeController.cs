@@ -128,6 +128,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 
         #region 加密/解密
 
+        /// <summary>
+        /// 显示加密/解密界面。
+        /// </summary>
+        /// <returns>加密/解密界面</returns>
         public ActionResult EncryptOrDecrypt()
         {
             return View();

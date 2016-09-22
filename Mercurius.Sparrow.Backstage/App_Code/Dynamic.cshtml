@@ -4,7 +4,7 @@
 @using Mercurius.Sparrow.Contracts.Dynamic
 @using Mercurius.Sparrow.Entities.Dynamic
 
-@helper RenderProperties(string businessSerialNumber, string category)
+@helper RenderProperties(string category, string businessSerialNumber)
 {
     using (var context = AutofacConfig.Container.BeginLifetimeScope())
     {

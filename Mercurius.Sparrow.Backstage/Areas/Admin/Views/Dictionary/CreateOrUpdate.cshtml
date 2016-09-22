@@ -1,4 +1,5 @@
-﻿@model Dictionary
+﻿@using Mercurius.Sparrow.Backstage
+@model Dictionary
 
 @{
     var categories = this.ViewBag.Categories as ResponseSet<Dictionary>;
@@ -57,13 +58,13 @@
         </div>
     </div>
     <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Key"><span style="color: Red">*</span>字典名称</label>
+        <label class="col-sm-2 control-label" for="Key"><i class="error">*</i>名称</label>
         <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.Key, new { @class = "form-control", @validate_field = "字典名称", @validate_rule = "limit", @length = "100", @maxlength = "100" })
+            @Html.TextBoxFor(m => m.Key, Html.CreateValidAttributes(m => m.Key, ValidateRule.Limit, htmlAttributes: new { @length = "100", @maxlength = "100" }))
         </div>
     </div>
     <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Value"><span style="color: Red">*</span>字典值</label>
+        <label class="col-sm-2 control-label" for="Value"><span style="color: Red">*</span>值</label>
         <div class="col-sm-9">
             @Html.TextBoxFor(m => m.Value, new { @class = "form-control", @validate_field = "字典值", @validate_rule = "limit", @length = "500", @maxlength = "500" })
         </div>
@@ -74,17 +75,7 @@
             @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @validate_field = "显示顺序", @validate_rule = "int", @length = "15", @maxlength = "15" })
         </div>
     </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Status">状态</label>
-        <div class="col-sm-9">
-            <label class="radio-inline">
-                @Html.RadioButtonFor(m => m.Status, 1, new { @checked = "checked" }) 启用
-            </label>
-            <label class="radio-inline">
-                @Html.RadioButtonFor(m => m.Status, 0) 禁用
-            </label>
-        </div>
-    </div>
+    @Html.FormGroupFor(m => m.Status, FormGroup.SM(2, 9),@<text>@Html.RadiosFor(m => m.Status, new List<TextValue> { new TextValue("启用", "1"), new TextValue("禁用", "0") })</text>)
     <div class="form-group form-group-sm">
         <label class="col-sm-2 control-label" for="Remark">备注</label>
         <div class="col-sm-9">

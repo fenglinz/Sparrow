@@ -274,6 +274,7 @@
     <Compile Include="Areas\Admin\Controllers\LoggerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemSettingController.cs" />
     <Compile Include="Controllers\OperationRecordController.cs" />
+    <Compile Include="Extensions\BootstrapHtmlHelper.cs" />
     <Compile Include="Extensions\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Extensions\MercuriusUrlHelper.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
