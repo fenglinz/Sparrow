@@ -37,117 +37,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     }
 
     /// <summary>
-    /// 表单组。
-    /// </summary>
-    public class FormGroup
-    {
-        #region 属性
-
-        /// <summary>
-        /// 表单组类型。
-        /// </summary>
-        internal string Type { get; private set; }
-
-        /// <summary>
-        /// 控件标签宽度(1-12)。
-        /// </summary>
-        internal uint ControlLabelCols { get; private set; }
-
-        /// <summary>
-        /// 表单控件宽度(1-12)。
-        /// </summary>
-        internal uint FormControlCols { get; private set; }
-
-        #endregion
-
-        #region 构造方法
-
-        /// <summary>
-        /// 构造方法。
-        /// </summary>
-        /// <param name="type">表单组类型</param>
-        /// <param name="label">标签宽度</param>
-        /// <param name="form">表单宽度</param>
-        private FormGroup(string type, uint label, uint form)
-        {
-            if (label < 1 || form < 1)
-            {
-                throw new ArgumentException("标签宽度或表单宽度不能小于0！");
-            }
-
-            if (label + form > 12)
-            {
-                throw new ArgumentException("标签宽度和表单宽度之和必须小于12！");
-            }
-
-            this.Type = type;
-            this.ControlLabelCols = label;
-            this.FormControlCols = form;
-        }
-
-        #endregion
-
-        #region 公开方法
-
-        /// <summary>
-        /// 默认类型。
-        /// </summary>
-        /// <param name="label">标签宽度(1-12)</param>
-        /// <param name="form">表单宽度(1-12)</param>
-        /// <returns></returns>
-        public static FormGroup Default(uint label, uint form)
-        {
-            return new FormGroup("", label, form);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="label"></param>
-        /// <param name="form"></param>
-        /// <returns></returns>
-        public static FormGroup XS(uint label, uint form)
-        {
-            return new FormGroup("xs", label, form);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="label"></param>
-        /// <param name="form"></param>
-        /// <returns></returns>
-        public static FormGroup SM(uint label, uint form)
-        {
-            return new FormGroup("sm", label, form);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="label"></param>
-        /// <param name="form"></param>
-        /// <returns></returns>
-        public static FormGroup MD(uint label, uint form)
-        {
-            return new FormGroup("md", label, form);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="label"></param>
-        /// <param name="form"></param>
-        /// <returns></returns>
-        public static FormGroup LG(uint label, uint form)
-        {
-            return new FormGroup("lg", label, form);
-        }
-
-        #endregion
-    }
-
-    /// <summary>
     /// 基于Bootstrap的Html呈现器。
     /// </summary>
     public static class BootstrapHtmlHelper
@@ -210,29 +99,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
             return new MvcHtmlString(btnGroupTag.ToString());
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="P"></typeparam>
-        /// <param name="html"></param>
-        /// <param name="formGroup"></param>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        public static IHtmlString FormGroupFor<T, P>(this HtmlHelper<T> html, FormGroup formGroup, Func<FormControl<T>, object> func)
-        {
-            var formControl = new FormControl<T>(html, formGroup.ControlLabelCols, formGroup.FormControlCols);
-
-            var helpResult = new HelperResult(writer => writer.Write(func(formControl)));
-
-            var divTag = new TagBuilder("div");
-            divTag.AddCssClass($"form-group{(string.IsNullOrWhiteSpace(formGroup.Type) ? "" : $" form-group-{formGroup.Type}")}");
-
-            divTag.InnerHtml = html.Raw(helpResult)?.ToString();
-
-            return new MvcHtmlString(divTag.ToString());
-        }
+        
 
         /// <summary>
         /// 解析视图模型属性元数据信息。

@@ -276,6 +276,7 @@
     <Compile Include="Controllers\OperationRecordController.cs" />
     <Compile Include="Extensions\Bootstrap\BootstrapHtmlHelper.cs" />
     <Compile Include="Extensions\Bootstrap\FormControl.cs" />
+    <Compile Include="Extensions\Bootstrap\FormGroup.cs" />
     <Compile Include="Extensions\Bootstrap\ModelPropertyMetadata.cs" />
     <Compile Include="Extensions\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Extensions\MercuriusUrlHelper.cs" />

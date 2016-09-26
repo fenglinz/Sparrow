@@ -14,7 +14,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     /// <summary>
     /// 表单控件。
     /// </summary>
-    public class FormControl<T>
+    public class FormControl<T, P>
     {
         #region 常量
 
@@ -27,18 +27,22 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 标签宽度。
         /// </summary>
-        private readonly uint _labelWidth;
+        private uint _labelWidth;
 
         /// <summary>
         /// 表单宽度。
         /// </summary>
-        private readonly uint _formWidth;
+        private uint _formWidth;
 
         private readonly HtmlHelper<T> _html;
 
         private bool _labelVisible = true;
 
         private object _labelAttributes;
+
+        private object _formAttributes;
+
+        private ModelPropertyMetadata _propertyMetadata;
 
         private TagBuilder _addOn;
 
@@ -48,17 +52,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #region 构造方法
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="html"></param>
-        /// <param name="labelCols"></param>
-        /// <param name="formCols"></param>
-        internal FormControl(HtmlHelper<T> html, uint labelCols, uint formCols)
+        internal FormControl(HtmlHelper<T> html, Expression<Func<T, P>> expression)
         {
             this._html = html;
-            this._formWidth = formCols;
-            this._labelWidth = labelCols;
+            this._propertyMetadata = this._html.Resolve(expression);
 
             this._addOn = new TagBuilder("span");
             this._addOn.AddCssClass("input-group-addon");
@@ -68,12 +65,28 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #region 基本设置
 
+        public FormControl<T,P> Label(uint cols, object htmlAttributes = null)
+        {
+            this._labelWidth = cols;
+            this._labelAttributes = htmlAttributes;
+
+            return this;
+        }
+
+        public FormControl<T, P> Form(uint cols, object htmlAttributes = null)
+        {
+            this._formWidth = cols;
+            this._formAttributes = htmlAttributes;
+
+            return this;
+        }
+
         /// <summary>
-        /// 
+        /// 表单标签是否显示。
         /// </summary>
-        /// <param name="visible"></param>
-        /// <returns></returns>
-        public FormControl<T> LabelVisible(bool visible = true)
+        /// <param name="visible">是否显示</param>
+        /// <returns>表单控件</returns>
+        public FormControl<T, P> LabelVisible(bool visible = true)
         {
             this._labelVisible = visible;
 
@@ -81,37 +94,35 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         /// <summary>
-        /// 
+        /// 验证信息。
         /// </summary>
-        /// <param name="htmlAttributes"></param>
-        /// <returns></returns>
-        public FormControl<T> LabelAttributes(object htmlAttributes)
-        {
-            this._labelAttributes = htmlAttributes;
-
-            return this;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rule"></param>
-        /// <returns></returns>
-        public FormControl<T> Valid(ValidRule rule)
+        /// <param name="rule">验证规则</param>
+        /// <returns>表单控件</returns>
+        public FormControl<T, P> Valid(ValidRule rule)
         {
             this._rule = rule;
 
             return this;
         }
 
-        public FormControl<T> AddOn(string text)
+        /// <summary>
+        /// 表单的附属标签。
+        /// </summary>
+        /// <param name="text">标签文字</param>
+        /// <returns>表单控件</returns>
+        public FormControl<T, P> AddOn(string text)
         {
             this._addOn.SetInnerText(text);
 
             return this;
         }
 
-        public FormControl<T> AddOn(Func<object> addOnPart)
+        /// <summary>
+        /// 表单附属标签。
+        /// </summary>
+        /// <param name="addOnPart">标签设置区域</param>
+        /// <returns>表单控件</returns>
+        public FormControl<T, P> AddOn(Func<object> addOnPart)
         {
             var helperResult = new HelperResult(writer => writer.Write(addOnPart()));
 
@@ -123,23 +134,20 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         #endregion
 
         /// <summary>
-        /// 
+        /// 呈现表单控件。
         /// </summary>
-        /// <typeparam name="P"></typeparam>
-        /// <param name="expression"></param>
-        /// <param name="formControlPart"></param>
-        /// <returns></returns>
-        public IHtmlString Render<P>(Expression<Func<T, P>> expression, Func<ModelPropertyMetadata, object> formControlPart)
+        /// <typeparam name="P">属性类型</typeparam>
+        /// <param name="formControlPart">表单区</param>
+        /// <returns>呈现的表单HTML片段</returns>
+        public IHtmlString Render(Func<ModelPropertyMetadata, object> formControlPart)
         {
-            var metadata = this._html.Resolve(expression);
-
             var divTag = new TagBuilder("div");
-            var labelTag = this.CreateLabelTag(metadata);
+            var labelTag = this.CreateLabelTag(this._propertyMetadata);
 
             var formContainerTag = new TagBuilder("div");
             formContainerTag.AddCssClass($"col-sm-{this._formWidth}");
 
-            var helperResult = new HelperResult(writer => writer.Write(formControlPart(metadata)));
+            var helperResult = new HelperResult(writer => writer.Write(formControlPart(this._propertyMetadata)));
 
             formContainerTag.InnerHtml += this._html.Raw(helperResult);
 
@@ -150,18 +158,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         /// <summary>
-        /// 
+        /// 呈现文本框表单控件。
         /// </summary>
-        /// <typeparam name="P"></typeparam>
-        /// <param name="expression"></param>
-        /// <param name="htmlAttributes"></param>
-        /// <returns></returns>
-        public IHtmlString RenderTextBox<P>(Expression<Func<T, P>> expression, object htmlAttributes = null)
+        /// <returns>文本框的HTML片段</returns>
+        public IHtmlString RenderTextBox()
         {
-            var metadata = this._html.Resolve(expression);
-
             var divTag = new TagBuilder("div");
-            var labelTag = this.CreateLabelTag(metadata);
+            var labelTag = this.CreateLabelTag(this._propertyMetadata);
             var formContainerTag = new TagBuilder("div");
 
             formContainerTag.AddCssClass($"col-sm-{this._formWidth}");
@@ -169,16 +172,16 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             var formTag = new TagBuilder("input");
 
             formTag.Attributes.Add("type", "text");
-            formTag.Attributes.Add("value", Convert.ToString(metadata.Value));
+            formTag.Attributes.Add("value", Convert.ToString(this._propertyMetadata.Value));
             formTag.AddCssClass("form-control");
-            formTag.Attributes.Add("name", metadata.FullName);
-            formTag.Attributes.Add("id", metadata.ElementId);
-            formTag.Attributes.Add("placeholder", metadata.DisplayName);
-            formTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
+            formTag.Attributes.Add("name", this._propertyMetadata.FullName);
+            formTag.Attributes.Add("id", this._propertyMetadata.ElementId);
+            formTag.Attributes.Add("placeholder", this._propertyMetadata.DisplayName);
+            formTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(this._formAttributes), true);
 
             if (_rule != ValidRule.Default)
             {
-                var validAttributes = this._html.GetValidAttributes<T, P>(metadata.DisplayName, this._rule);
+                var validAttributes = this._html.GetValidAttributes<T, object>(this._propertyMetadata.DisplayName, this._rule);
 
                 formTag.MergeAttributes(validAttributes, true);
             }
@@ -207,34 +210,29 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         /// <summary>
-        /// 
+        /// 呈现文本域表单控件。
         /// </summary>
-        /// <typeparam name="P"></typeparam>
-        /// <param name="expression"></param>
-        /// <param name="htmlAttributes"></param>
-        /// <returns></returns>
-        public IHtmlString RenderTextArea<P>(Expression<Func<T, P>> expression, object htmlAttributes = null)
+        /// <returns>文本域的HTML片段</returns>
+        public IHtmlString RenderTextArea()
         {
-            var metadata = this._html.Resolve(expression);
-
             var divTag = new TagBuilder("div");
-            var labelTag = this.CreateLabelTag(metadata);
+            var labelTag = this.CreateLabelTag(this._propertyMetadata);
             var formContainerTag = new TagBuilder("div");
 
             formContainerTag.AddCssClass($"col-sm-{this._formWidth}");
 
             var formTag = new TagBuilder("textarea");
-            formTag.SetInnerText(Convert.ToString(metadata.Value));
+            formTag.SetInnerText(Convert.ToString(this._propertyMetadata.Value));
 
             formTag.AddCssClass("form-control");
-            formTag.Attributes.Add("id", metadata.ElementId);
-            formTag.Attributes.Add("name", metadata.FullName);
-            formTag.Attributes.Add("placeholder", metadata.DisplayName);
-            formTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
+            formTag.Attributes.Add("id", this._propertyMetadata.ElementId);
+            formTag.Attributes.Add("name", this._propertyMetadata.FullName);
+            formTag.Attributes.Add("placeholder", this._propertyMetadata.DisplayName);
+            formTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(this._formAttributes), true);
 
             if (this._rule != ValidRule.Default)
             {
-                var validAttributes = this._html.GetValidAttributes<T, P>(metadata.DisplayName, this._rule);
+                var validAttributes = this._html.GetValidAttributes<T, object>(this._propertyMetadata.DisplayName, this._rule);
 
                 formTag.MergeAttributes(validAttributes, true);
             }
