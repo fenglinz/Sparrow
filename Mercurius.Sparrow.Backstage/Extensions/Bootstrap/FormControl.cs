@@ -32,7 +32,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         private uint _labelWidth;
 
-        private bool _labelVisible = true;
+        private string _caption;
+
+        private string _labelState = "S";
 
         private object _formAttributes;
 
@@ -68,7 +70,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             var result = new FormControl<T>(html);
 
             result._addOn = new TagBuilder("span");
-            result._addOn.AddCssClass("input-group-addon");
             result._propertyMetadata = html.Resolve(expression);
 
             return result;
@@ -78,6 +79,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #region 基本设置
 
+        public FormControl<T> Caption(string text)
+        {
+            this._caption = text;
+
+            return this;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -86,6 +94,28 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public FormControl<T> Label(uint cols)
         {
             this._labelWidth = cols;
+
+            return this;
+        }
+
+        /// <summary>
+        /// 隐藏标签。
+        /// </summary>
+        /// <returns>表单控件</returns>
+        public FormControl<T> HideLabel()
+        {
+            this._labelState = "H";
+
+            return this;
+        }
+
+        /// <summary>
+        /// 删除标签。
+        /// </summary>
+        /// <returns>表单控件</returns>
+        public FormControl<T> RemoveLabel()
+        {
+            this._labelState = "R";
 
             return this;
         }
@@ -127,18 +157,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         /// <summary>
-        /// 表单标签是否显示。
-        /// </summary>
-        /// <param name="visible">是否显示</param>
-        /// <returns>表单控件</returns>
-        public FormControl<T> LabelVisible(bool visible = true)
-        {
-            this._labelVisible = visible;
-
-            return this;
-        }
-
-        /// <summary>
         /// 验证信息。
         /// </summary>
         /// <param name="rule">验证规则</param>
@@ -158,6 +176,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public FormControl<T> AddOn(string text)
         {
             this._addOn.SetInnerText(text);
+            this._addOn.AddCssClass("input-group-addon");
 
             return this;
         }
@@ -165,12 +184,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 表单附属标签。
         /// </summary>
-        /// <param name="addOnPart">标签设置区域</param>
+        /// <param name="buttonPart">按钮设置区域</param>
         /// <returns>表单控件</returns>
-        public FormControl<T> AddOn(Func<object> addOnPart)
+        public FormControl<T> AddOn(Func<ModelPropertyMetadata, object> buttonPart)
         {
-            var helperResult = new HelperResult(writer => writer.Write(addOnPart()));
+            var helperResult = new HelperResult(writer => writer.Write(buttonPart(this._propertyMetadata)));
 
+            this._addOn.AddCssClass("input-group-btn");
             this._addOn.InnerHtml = this._html.Raw(helperResult)?.ToString();
 
             return this;
@@ -230,12 +250,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions
                 formTag.MergeAttributes(validAttributes, true);
             }
 
-            formContainerTag.InnerHtml += formTag;
-
             divTag.InnerHtml += labelTag;
 
             if (string.IsNullOrWhiteSpace(this._addOn.InnerHtml))
             {
+                formContainerTag.InnerHtml += formTag;
                 divTag.InnerHtml += formContainerTag;
             }
             else
@@ -246,8 +265,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
                 inputGroupTag.InnerHtml += formTag;
                 inputGroupTag.InnerHtml += this._addOn;
+                formContainerTag.InnerHtml += inputGroupTag;
 
-                divTag.InnerHtml += inputGroupTag;
+                divTag.InnerHtml += formContainerTag;
             }
 
             return new MvcHtmlString(divTag.InnerHtml);
@@ -293,12 +313,17 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         private TagBuilder CreateLabelTag(ModelPropertyMetadata metadata)
         {
+            if (this._labelState == "R")
+            {
+                return null;
+            }
+
             var labelTag = new TagBuilder("label");
-            var labelCssClass = $"col-sm-{this._labelWidth} control-label{(this._labelVisible ? "" : HideCssClass)}";
+            var labelCssClass = $"col-sm-{this._labelWidth} control-label";
 
             labelTag.AddCssClass(labelCssClass);
-            labelTag.SetInnerText(metadata.DisplayName);
             labelTag.Attributes.Add("for", metadata.ElementId);
+            labelTag.SetInnerText(this._labelState == "S" ? (string.IsNullOrWhiteSpace(this._caption) ? metadata.DisplayName : this._caption) : "");
             labelTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(this._labelAttributes), true);
 
             if (metadata.IsRequired)
@@ -306,7 +331,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
                 this._rule = ValidRule.NotNull;
             }
 
-            if (this._rule != ValidRule.Default && !this._rule.ToString().Contains("OrNull"))
+            if (this._labelState == "S" && this._rule != ValidRule.Default && !this._rule.ToString().Contains("OrNull"))
             {
                 var errorTag = new TagBuilder("span");
 

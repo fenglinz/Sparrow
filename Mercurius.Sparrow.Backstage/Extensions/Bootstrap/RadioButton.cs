@@ -44,6 +44,16 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             return result;
         }
 
+        public RadioButton<T> Add(params string[] items)
+        {
+            foreach (var item in items)
+            {
+                this._items.Add(new TextValue(item, item));
+            }
+
+            return this;
+        }
+
         public RadioButton<T> Add(string text, object value = null)
         {
             this._items.Add(new TextValue(text, value == null ? text : Convert.ToString(value)));
@@ -90,7 +100,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
                 radioTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(this._attributes), true);
 
-                if ((index == 1 && string.IsNullOrWhiteSpace(item.Value)) || item.Value == value)
+                if ((index == 1 && string.IsNullOrWhiteSpace(value)) || item.Value == value)
                 {
                     labelTag.AddCssClass("active");
                     radioTag.Attributes.Add("checked", "checked");

@@ -44,9 +44,15 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="html"></param>
         /// <param name="screen"></param>
         /// <returns></returns>
-        public static FormGroup<T> FormGroupFor<T>(this HtmlHelper<T> html, Screen screen = Screen.Default)
+        public static FormGroup<T> FormGroup<T>(this HtmlHelper<T> html, Screen screen = Screen.Default)
         {
             return new FormGroup<T>(html, screen);
+        }
+
+        public static FormControl<T> FormControl<T, P>(this HtmlHelper<T> html,
+            Expression<Func<T, P>> expression, uint labelCols = 1, uint formCols = 3, ValidRule rule = ValidRule.Default)
+        {
+            return FormControl<T>.Create(html, expression).Label(labelCols).Form(formCols).Valid(rule);
         }
 
         /// <summary>
