@@ -278,6 +278,8 @@
     <Compile Include="Extensions\Bootstrap\FormControl.cs" />
     <Compile Include="Extensions\Bootstrap\FormGroup.cs" />
     <Compile Include="Extensions\Bootstrap\ModelPropertyMetadata.cs" />
+    <Compile Include="Extensions\Bootstrap\RadioButton.cs" />
+    <Compile Include="Extensions\Bootstrap\Screen.cs" />
     <Compile Include="Extensions\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Extensions\MercuriusUrlHelper.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />

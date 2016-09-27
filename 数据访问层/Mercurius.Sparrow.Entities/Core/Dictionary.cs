@@ -30,7 +30,7 @@ namespace Mercurius.Sparrow.Entities.Core
         /// <summary>
         /// 父节点编号。
         /// </summary>
-        [Display(Name = "父节点编号")]
+        [Display(Name = "父节点")]
         [StringLength(36, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string ParentId { get; set; }
 

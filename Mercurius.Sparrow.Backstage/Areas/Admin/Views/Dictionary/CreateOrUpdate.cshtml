@@ -51,35 +51,12 @@
 @using (Ajax.BeginForm("CreateOrUpdate", "Dictionary", null, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "onSuccess" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
 {
     @Html.HiddenFor(m => m.Id)
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="ParentId"><span style="color: Red">*</span>类别</label>
-        <div class="col-sm-9">
-            @TreeHelper.CreateComboTree(trees, "ParentId", this.ViewBag.ParentId)
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Key"><i class="error">*</i>名称</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.Key, Html.CreateValidAttributes(m => m.Key, ValidateRule.Limit, htmlAttributes: new { @length = "100", @maxlength = "100" }))
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Value"><span style="color: Red">*</span>值</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.Value, new { @class = "form-control", @validate_field = "字典值", @validate_rule = "limit", @length = "500", @maxlength = "500" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Sort"><span style="color: Red">*</span>显示顺序</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @validate_field = "显示顺序", @validate_rule = "int", @length = "15", @maxlength = "15" })
-        </div>
-    </div>
-    @Html.FormGroupFor(m => m.Status, FormGroup.SM(2, 9),@<text>@Html.RadiosFor(m => m.Status, new List<TextValue> { new TextValue("启用", "1"), new TextValue("禁用", "0") })</text>)
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Remark">备注</label>
-        <div class="col-sm-9">
-            @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @style = "height:64px;" })
-        </div>
-    </div>
+    @Html.FormGroupFor(Screen.SM).RenderFor(m => m.ParentId, 2, 9, @<text>
+        @TreeHelper.CreateComboTree(trees, "ParentId", Convert.ToString(item.Value))
+    </text>)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Key, 2, 9, form => form.Valid(ValidRule.NotNull))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Value, 2, 9, form => form.Valid(ValidRule.NotNull))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, form => form.Valid(ValidRule.NotNull))
+    @Html.FormGroupFor(Screen.SM).RadiosFor(m => m.Status, 2, 9, d => d.Add("启用", "1").Add("禁用", "0"))
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Key, 2, 9, form => form.Form(new { @style = "height:64px;" }))
 }

@@ -1,5 +1,4 @@
-﻿@using Mercurius.Sparrow.Backstage
-@model Button
+﻿@model Button
 
 @section Styles{
     <style type="text/css">
@@ -59,26 +58,26 @@
         }
     </script>
 }
+
 @using (Ajax.BeginForm("CreateOrUpdate", "Button", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
-{
+{        
+    var imgUrl = Model != null && Model.Image != null ? Model.Image : string.Empty;
+
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
-    @Html.FormGroupFor(m => m.Name, FormGroup.SM(2, 10), attributes: new { onkeyup = "onkeyButton_Name(this.value)" })
-    @Html.FormGroupFor(m => m.Title, FormGroup.SM(2, 10))
-    @Html.FormGroupFor(m => m.Category, FormGroup.SM(2, 10), @<text>@Html.DropDownListFor(m => m.Category, new List<SelectListItem> { new SelectListItem { Text = "工具栏", Value = "工具栏" } }, new { @class = "form-control" })</text>)
-    @Html.FormGroupFor(m => m.Image, FormGroup.SM(2, 10), @<text>
-        @{
-            var imgUrl = Model != null && Model.Image != null ? Model.Image : string.Empty;
-        }
+    @Html.HiddenFor(m => m.Image, new { @id = "imageName" })
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Name, 2, 9, form => form.Form(new { onkeyup = "onkeyButton_Name(this.value)" }))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Title, 2, 9)
+    @Html.FormGroupFor(Screen.SM).RenderFor(m => m.Category, 2, 9, @<text>@Html.DropDownListFor(m => m.Category, new List<SelectListItem> { new SelectListItem { Text = "工具栏", Value = "工具栏" } }, new { @class = "form-control" })</text>)
+    @Html.FormGroupFor(Screen.SM).RenderFor(m => m.Image, 2, 9, @<text>
         <div class="icon-container">
             <i id="icon" class="@imgUrl"></i>
         </div>
         <a href="#" class="btn btn-sm btn-primary" onclick="SelectOpenImg()">
             <i class="glyphicon glyphicon-picture" style="top: 1.5px;"></i> 选择图标
         </a>
-        @Html.HiddenFor(m => m.Image, new { @id = "imageName" })
     </text>)
-    @Html.FormGroupFor(m => m.Sort, FormGroup.SM(2, 10), ValidateRule.Int)
-    @Html.FormGroupFor(m => m.Code, FormGroup.SM(2, 10), formControlType: 2, attributes: new { @rows = 3 })
-    @Html.FormGroupFor(m => m.Remark, FormGroup.SM(2, 10), ValidateRule.Default, 2, new { @rows = 3 })
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m=>m.Sort, 2, 9)
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Code, 2, 9, form => form.Form(new { @rows = 3 }))
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, form => form.Form(new { @rows = 3 }))
 }

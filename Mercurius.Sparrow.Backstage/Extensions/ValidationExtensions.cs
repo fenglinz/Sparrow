@@ -16,7 +16,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     public enum ValidRule
     {
         /// <summary>
-        /// 默认(不能为空)。
+        /// 默认。
         /// </summary>
         Default = 0,
 
@@ -212,7 +212,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         private static readonly string[] Rules =
         {
-            "notNull",
+            "",
             "notNull",
             "int",
             "intOrNull",

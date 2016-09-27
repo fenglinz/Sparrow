@@ -23,6 +23,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
         /// <summary>
         /// 名称。
         /// </summary>
+        [Required]
         [Display(Name = "名称")]
         [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Name { get; set; }
@@ -30,6 +31,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
         /// <summary>
         /// 标题。
         /// </summary>
+        [Required]
         [Display(Name = "标题")]
         [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Title { get; set; }
@@ -44,6 +46,7 @@ namespace Mercurius.Sparrow.Entities.RBAC
         /// <summary>
         /// JavaScript代码。
         /// </summary>
+        [Required]
         [Display(Name = "事件")]
         [StringLength(200, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
         public virtual string Code { get; set; }
@@ -58,8 +61,9 @@ namespace Mercurius.Sparrow.Entities.RBAC
         /// <summary>
         /// 排序号。
         /// </summary>
+        [Required]
         [Display(Name = "排序号")]
-        public virtual int? Sort { get; set; }
+        public virtual int Sort { get; set; }
 
         /// <summary>
         /// 备注信息。

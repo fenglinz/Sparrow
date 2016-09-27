@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
@@ -14,7 +13,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     /// <summary>
     /// 表单控件。
     /// </summary>
-    public class FormControl<T, P>
+    public class FormControl<T>
     {
         #region 常量
 
@@ -24,58 +23,107 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #region 字段
 
-        /// <summary>
-        /// 标签宽度。
-        /// </summary>
-        private uint _labelWidth;
+        private readonly HtmlHelper<T> _html;
 
         /// <summary>
         /// 表单宽度。
         /// </summary>
         private uint _formWidth;
 
-        private readonly HtmlHelper<T> _html;
+        /// <summary>
+        /// 标签宽度。
+        /// </summary>
+        private uint _labelWidth;
 
         private bool _labelVisible = true;
 
-        private object _labelAttributes;
-
         private object _formAttributes;
 
-        private ModelPropertyMetadata _propertyMetadata;
+        private object _labelAttributes;
 
         private TagBuilder _addOn;
 
         private ValidRule _rule = default(ValidRule);
 
+        private ModelPropertyMetadata _propertyMetadata;
+
         #endregion
 
         #region 构造方法
 
-        internal FormControl(HtmlHelper<T> html, Expression<Func<T, P>> expression)
+        private FormControl(HtmlHelper<T> html)
         {
             this._html = html;
-            this._propertyMetadata = this._html.Resolve(expression);
+            this._rule = ValidRule.Default;
+        }
 
-            this._addOn = new TagBuilder("span");
-            this._addOn.AddCssClass("input-group-addon");
+        #endregion
+
+        #region 静态方法
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="expression"></param>
+        internal static FormControl<T> Create<P>(HtmlHelper<T> html, Expression<Func<T, P>> expression)
+        {
+            var result = new FormControl<T>(html);
+
+            result._addOn = new TagBuilder("span");
+            result._addOn.AddCssClass("input-group-addon");
+            result._propertyMetadata = html.Resolve(expression);
+
+            return result;
         }
 
         #endregion
 
         #region 基本设置
 
-        public FormControl<T,P> Label(uint cols, object htmlAttributes = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cols"></param>
+        /// <returns></returns>
+        public FormControl<T> Label(uint cols)
         {
             this._labelWidth = cols;
+
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="htmlAttributes"></param>
+        /// <returns></returns>
+        public FormControl<T> Label(object htmlAttributes)
+        {
             this._labelAttributes = htmlAttributes;
 
             return this;
         }
 
-        public FormControl<T, P> Form(uint cols, object htmlAttributes = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cols"></param>
+        /// <returns></returns>
+        public FormControl<T> Form(uint cols)
         {
             this._formWidth = cols;
+
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="htmlAttributes"></param>
+        /// <returns></returns>
+        public FormControl<T> Form(object htmlAttributes)
+        {
             this._formAttributes = htmlAttributes;
 
             return this;
@@ -86,7 +134,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="visible">是否显示</param>
         /// <returns>表单控件</returns>
-        public FormControl<T, P> LabelVisible(bool visible = true)
+        public FormControl<T> LabelVisible(bool visible = true)
         {
             this._labelVisible = visible;
 
@@ -98,7 +146,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="rule">验证规则</param>
         /// <returns>表单控件</returns>
-        public FormControl<T, P> Valid(ValidRule rule)
+        public FormControl<T> Valid(ValidRule rule)
         {
             this._rule = rule;
 
@@ -110,7 +158,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="text">标签文字</param>
         /// <returns>表单控件</returns>
-        public FormControl<T, P> AddOn(string text)
+        public FormControl<T> AddOn(string text)
         {
             this._addOn.SetInnerText(text);
 
@@ -122,7 +170,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="addOnPart">标签设置区域</param>
         /// <returns>表单控件</returns>
-        public FormControl<T, P> AddOn(Func<object> addOnPart)
+        public FormControl<T> AddOn(Func<object> addOnPart)
         {
             var helperResult = new HelperResult(writer => writer.Write(addOnPart()));
 
@@ -136,7 +184,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 呈现表单控件。
         /// </summary>
-        /// <typeparam name="P">属性类型</typeparam>
         /// <param name="formControlPart">表单区</param>
         /// <returns>呈现的表单HTML片段</returns>
         public IHtmlString Render(Func<ModelPropertyMetadata, object> formControlPart)
@@ -154,7 +201,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             divTag.InnerHtml += labelTag;
             divTag.InnerHtml += formContainerTag;
 
-            return new MvcHtmlString(divTag.ToString());
+            return new MvcHtmlString(divTag.InnerHtml);
         }
 
         /// <summary>
@@ -257,12 +304,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             labelTag.Attributes.Add("for", metadata.ElementId);
             labelTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(this._labelAttributes), true);
 
-            if (this._rule == default(ValidRule) && metadata.IsRequired)
+            if (metadata.IsRequired)
             {
                 this._rule = ValidRule.NotNull;
             }
 
-            if (!this._rule.ToString().Contains("OrNull"))
+            if (this._rule != ValidRule.Default && !this._rule.ToString().Contains("OrNull"))
             {
                 var errorTag = new TagBuilder("span");
 
