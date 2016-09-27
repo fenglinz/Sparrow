@@ -235,10 +235,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             this HtmlHelper<T> html, Expression<Func<T, P>> expression,
             string category, bool includeAll = true, dynamic htmlAttributes = null)
         {
-            var name = ExpressionHelper.GetExpressionText(expression);
-            var value = html.ViewData.Model == null ? null : html.ViewData.ModelMetadata.ModelType.GetProperty(name).GetValue(html.ViewData.Model);
+            var metadata = html.Resolve(expression);
 
-            return CreateDropdownList(html, name, category, Convert.ToString(value), includeAll, htmlAttributes);
+            return CreateDropdownList(html, metadata.FullName, category, metadata.Value?.ToString(), includeAll, htmlAttributes);
         }
 
         /// <summary>

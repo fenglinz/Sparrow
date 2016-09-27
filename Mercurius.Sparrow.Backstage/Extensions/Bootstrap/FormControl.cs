@@ -44,7 +44,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         private ValidRule _rule = default(ValidRule);
 
-        private ModelPropertyMetadata _propertyMetadata;
+        private ModelPropertyMetadata _metadata;
 
         #endregion
 
@@ -70,7 +70,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             var result = new FormControl<T>(html);
 
             result._addOn = new TagBuilder("span");
-            result._propertyMetadata = html.Resolve(expression);
+            result._metadata = html.Resolve(expression);
 
             return result;
         }
@@ -188,7 +188,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <returns>表单控件</returns>
         public FormControl<T> AddOn(Func<ModelPropertyMetadata, object> buttonPart)
         {
-            var helperResult = new HelperResult(writer => writer.Write(buttonPart(this._propertyMetadata)));
+            var helperResult = new HelperResult(writer => writer.Write(buttonPart(this._metadata)));
 
             this._addOn.AddCssClass("input-group-btn");
             this._addOn.InnerHtml = this._html.Raw(helperResult)?.ToString();
@@ -206,12 +206,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public IHtmlString Render(Func<ModelPropertyMetadata, object> formControlPart)
         {
             var divTag = new TagBuilder("div");
-            var labelTag = this.CreateLabelTag(this._propertyMetadata);
+            var labelTag = this.CreateLabelTag(this._metadata);
 
             var formContainerTag = new TagBuilder("div");
             formContainerTag.AddCssClass($"col-sm-{this._formWidth}");
 
-            var helperResult = new HelperResult(writer => writer.Write(formControlPart(this._propertyMetadata)));
+            var helperResult = new HelperResult(writer => writer.Write(formControlPart(this._metadata)));
 
             formContainerTag.InnerHtml += this._html.Raw(helperResult);
 
@@ -228,7 +228,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public IHtmlString RenderTextBox()
         {
             var divTag = new TagBuilder("div");
-            var labelTag = this.CreateLabelTag(this._propertyMetadata);
+            var labelTag = this.CreateLabelTag(this._metadata);
             var formContainerTag = new TagBuilder("div");
 
             formContainerTag.AddCssClass($"col-sm-{this._formWidth}");
@@ -236,16 +236,16 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             var formTag = new TagBuilder("input");
 
             formTag.Attributes.Add("type", "text");
-            formTag.Attributes.Add("value", Convert.ToString(this._propertyMetadata.Value));
+            formTag.Attributes.Add("value", Convert.ToString(this._metadata.Value));
             formTag.AddCssClass("form-control");
-            formTag.Attributes.Add("name", this._propertyMetadata.FullName);
-            formTag.Attributes.Add("id", this._propertyMetadata.ElementId);
-            formTag.Attributes.Add("placeholder", this._propertyMetadata.DisplayName);
+            formTag.Attributes.Add("name", this._metadata.FullName);
+            formTag.Attributes.Add("id", this._metadata.ElementId);
+            formTag.Attributes.Add("placeholder", this._metadata.DisplayName);
             formTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(this._formAttributes), true);
 
             if (_rule != ValidRule.Default)
             {
-                var validAttributes = this._html.GetValidAttributes<T, object>(this._propertyMetadata.DisplayName, this._rule);
+                var validAttributes = this._html.GetValidAttributes<T, object>(this._metadata.DisplayName, this._rule);
 
                 formTag.MergeAttributes(validAttributes, true);
             }
@@ -280,23 +280,23 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public IHtmlString RenderTextArea()
         {
             var divTag = new TagBuilder("div");
-            var labelTag = this.CreateLabelTag(this._propertyMetadata);
+            var labelTag = this.CreateLabelTag(this._metadata);
             var formContainerTag = new TagBuilder("div");
 
             formContainerTag.AddCssClass($"col-sm-{this._formWidth}");
 
             var formTag = new TagBuilder("textarea");
-            formTag.SetInnerText(Convert.ToString(this._propertyMetadata.Value));
+            formTag.SetInnerText(Convert.ToString(this._metadata.Value));
 
             formTag.AddCssClass("form-control");
-            formTag.Attributes.Add("id", this._propertyMetadata.ElementId);
-            formTag.Attributes.Add("name", this._propertyMetadata.FullName);
-            formTag.Attributes.Add("placeholder", this._propertyMetadata.DisplayName);
+            formTag.Attributes.Add("id", this._metadata.ElementId);
+            formTag.Attributes.Add("name", this._metadata.FullName);
+            formTag.Attributes.Add("placeholder", this._metadata.DisplayName);
             formTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(this._formAttributes), true);
 
             if (this._rule != ValidRule.Default)
             {
-                var validAttributes = this._html.GetValidAttributes<T, object>(this._propertyMetadata.DisplayName, this._rule);
+                var validAttributes = this._html.GetValidAttributes<T, object>(this._metadata.DisplayName, this._rule);
 
                 formTag.MergeAttributes(validAttributes, true);
             }
@@ -307,6 +307,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             divTag.InnerHtml += formContainerTag;
 
             return new MvcHtmlString(divTag.InnerHtml);
+        }
+
+        public IHtmlString DropdownListFor(string category, bool includeAll = false)
+        {
+            return this.Render(p => this._html.CreateDropdownList(p.FullName, category, p.Value?.ToString(), includeAll, this._formAttributes));
         }
 
         #region 私有方法
