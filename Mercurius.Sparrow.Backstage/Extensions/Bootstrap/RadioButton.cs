@@ -44,9 +44,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             return result;
         }
 
-        public RadioButton<T> Add(string text, object value)
+        public RadioButton<T> Add(string text, object value = null)
         {
-            this._items.Add(new TextValue(text, Convert.ToString(value)));
+            this._items.Add(new TextValue(text, value == null ? text : Convert.ToString(value)));
 
             return this;
         }
