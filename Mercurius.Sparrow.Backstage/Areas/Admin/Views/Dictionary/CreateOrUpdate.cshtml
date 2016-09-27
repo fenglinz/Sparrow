@@ -1,5 +1,4 @@
-﻿@using Mercurius.Sparrow.Backstage
-@model Dictionary
+﻿@model Dictionary
 
 @{
     var categories = this.ViewBag.Categories as ResponseSet<Dictionary>;
@@ -54,9 +53,9 @@
     @Html.FormGroupFor(Screen.SM).RenderFor(m => m.ParentId, 2, 9, @<text>
         @TreeHelper.CreateComboTree(trees, "ParentId", Convert.ToString(item.Value))
     </text>)
-    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Key, 2, 9, form => form.Valid(ValidRule.NotNull))
-    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Value, 2, 9, form => form.Valid(ValidRule.NotNull))
-    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, form => form.Valid(ValidRule.NotNull))
-    @Html.FormGroupFor(Screen.SM).RadiosFor(m => m.Status, 2, 9, d => d.Add("启用", "1").Add("禁用", "0"))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Key, 2, 9, ValidRule.NotNull)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Value, 2, 9, ValidRule.NotNull)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, ValidRule.NotNull)
+    @Html.FormGroupFor(Screen.SM).RadiosFor(m => m.Status, 2, 9, (f, r) => r.Add("启用", "1").Add("禁用", "0"))
     @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Key, 2, 9, form => form.Form(new { @style = "height:64px;" }))
 }
