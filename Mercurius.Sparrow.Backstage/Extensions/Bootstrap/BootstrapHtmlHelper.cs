@@ -65,17 +65,23 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <returns>视图模型元数据信息</returns>
         internal static ModelPropertyMetadata Resolve<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression)
         {
-            var expressionName = ExpressionHelper.GetExpressionText(expression);
-            var fullName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(expressionName);
+            var fullName = ExpressionHelper.GetExpressionText(expression);
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
 
-            return new ModelPropertyMetadata
+            var result = new ModelPropertyMetadata
             {
                 FullName = fullName,
-                Value = metadata?.Model,
                 IsRequired = metadata.IsRequired,
-                DisplayName = metadata?.GetDisplayName()
+                DisplayName = metadata.DisplayName
             };
+
+            try
+            {
+                result.Value = metadata.Model;
+            }
+            catch { }
+
+            return result;
         }
     }
 }
