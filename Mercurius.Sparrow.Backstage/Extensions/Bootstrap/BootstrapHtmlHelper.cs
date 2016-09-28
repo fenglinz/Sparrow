@@ -49,10 +49,64 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             return new FormGroup<T>(html, screen);
         }
 
-        public static FormControl<T> FormControl<T, P>(this HtmlHelper<T> html,
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="expression"></param>
+        /// <param name="labelCols"></param>
+        /// <param name="formCols"></param>
+        /// <param name="rule"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="P"></typeparam>
+        /// <returns></returns>
+        public static FormControl FormControl<T, P>(this HtmlHelper<T> html,
             Expression<Func<T, P>> expression, uint labelCols = 1, uint formCols = 3, ValidRule rule = ValidRule.Default)
         {
-            return FormControl<T>.Create(html, expression).Label(labelCols).Form(formCols).Valid(rule);
+            return Extensions.FormControl.Create(html, expression).Label(labelCols).Form(formCols).Valid(rule);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="expression"></param>
+        /// <param name="key"></param>
+        /// <param name="includeAll"></param>
+        /// <param name="attributes"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="P"></typeparam>
+        /// <returns></returns>
+        public static DropdownList SelectFor<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression,
+           string key, bool includeAll, object attributes = null)
+        {
+            return DropdownList.Create(html, expression).Key(key).IncludeAll(includeAll).Attributes(attributes);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="fullName"></param>
+        /// <returns></returns>
+        public static ModelPropertyMetadata Resolve(this HtmlHelper html, string fullName)
+        {
+            var metadata = ModelMetadata.FromStringExpression(fullName, html.ViewData);
+
+            var result = new ModelPropertyMetadata
+            {
+                FullName = fullName,
+                IsRequired = metadata.IsRequired,
+                DisplayName = metadata.DisplayName
+            };
+
+            try
+            {
+                result.Value = metadata.Model;
+            }
+            catch { }
+
+            return result;
         }
 
         /// <summary>
@@ -63,7 +117,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="html">HTML呈现器</param>
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <returns>视图模型元数据信息</returns>
-        internal static ModelPropertyMetadata Resolve<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression)
+        public static ModelPropertyMetadata Resolve<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression)
         {
             var fullName = ExpressionHelper.GetExpressionText(expression);
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);

@@ -144,24 +144,9 @@
     <input type="hidden" id="BusinessSerialNumber" name="BusinessSerialNumber" value="@this.ViewBag.BusinessSerialNumber" />
     @Html.Hidden(SFile.ModifyUploadedFilesFieldName)
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Category, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-8">
-            @Html.CreateDropdownListFor(m => m.Category, "新闻分类", false)
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Title, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-8">
-            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", @validate_rule = "notNull", @validate_field = "标题" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Content, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-8">
-            <textarea id="richBox" name="Content" style="width: 100%; height: 340px;">@Html.Raw(Model != null ? Model.Content : "")</textarea>
-        </div>
-    </div>
+    @Html.FormGroup().SelectFor(m => m.Category, 2, 8, "新闻分类")
+    @Html.FormGroup().TextBoxFor(m => m.Title, 2, 8, ValidRule.NotNull)
+    @Html.FormGroup().TextAreaFor(m => m.Content, 2, 8, form => form.Form(new { @id = "richBox", @style = "height:340px" }))
     <div id="addAttachments" class="form-group @(attachments.IsEmpty()?"":"sr-only")">
         <span class="col-sm-2">&nbsp;</span>
         <div class="col-sm-8">

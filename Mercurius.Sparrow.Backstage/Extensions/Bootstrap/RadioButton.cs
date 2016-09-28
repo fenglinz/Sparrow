@@ -10,12 +10,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class RadioButton<T>
+    public class RadioButton
     {
         #region 字段
 
-        private HtmlHelper<T> _html;
+        private HtmlHelper _html;
 
         private object _attributes;
 
@@ -27,7 +26,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #region 构造方法
 
-        private RadioButton(HtmlHelper<T> html)
+        private RadioButton(HtmlHelper html)
         {
             this._html = html;
             this._items = new List<TextValue>();
@@ -35,16 +34,17 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #endregion
 
-        internal static RadioButton<T> Create<P>(HtmlHelper<T> html, Expression<Func<T, P>> expression)
+        internal static RadioButton Create<T,P>(HtmlHelper<T> html, Expression<Func<T, P>> expression)
         {
-            var result = new RadioButton<T>(html);
-
-            result._metadata = html.Resolve(expression);
-
-            return result;
+            return new RadioButton(html) {_metadata = html.Resolve(expression)};
         }
 
-        public RadioButton<T> Add(params string[] items)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public RadioButton Datas(params string[] items)
         {
             foreach (var item in items)
             {
@@ -54,14 +54,25 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             return this;
         }
 
-        public RadioButton<T> Add(string text, object value = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public RadioButton Item(string text, object value = null)
         {
             this._items.Add(new TextValue(text, value == null ? text : Convert.ToString(value)));
 
             return this;
         }
 
-        public RadioButton<T> Attributes(object attributes)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="attributes"></param>
+        /// <returns></returns>
+        public RadioButton Attributes(object attributes)
         {
             this._attributes = attributes;
 

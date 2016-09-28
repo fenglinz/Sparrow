@@ -56,6 +56,6 @@
     @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Key, 2, 9, ValidRule.NotNull)
     @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Value, 2, 9, ValidRule.NotNull)
     @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, ValidRule.NotNull)
-    @Html.FormGroup(Screen.SM).RadiosFor(m => m.Status, 2, 9, (f, r) => r.Add("启用", "1").Add("禁用", "0"))
+    @Html.FormGroup(Screen.SM).RadiosFor(m => m.Status, 2, 9, (f, r) => r.Item("启用", 1).Item("禁用", 0))
     @Html.FormGroup(Screen.SM).TextAreaFor(m => m.Key, 2, 9, form => form.Form(new { @style = "height:64px;" }))
 }

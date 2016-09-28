@@ -51,9 +51,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="callback"></param>
         /// <returns></returns>
         public FormGroup<T> Add<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, Func<FormControl<T>, IHtmlString> callback)
+            uint labelCols, uint formCols, Func<FormControl, IHtmlString> callback)
         {
-            var formControl = FormControl<T>.Create(this._html, expression);
+            var formControl = FormControl.Create(this._html, expression);
 
             formControl.Label(labelCols).Form(formCols);
 
@@ -71,9 +71,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="callback"></param>
         /// <returns></returns>
         public FormGroup<T> AppendTextBoxFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<FormControl<T>> callback = null)
+            uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<FormControl> callback = null)
         {
-            var formControl = FormControl<T>.Create(this._html, expression);
+            var formControl = FormControl.Create(this._html, expression);
 
             formControl.Label(labelCols).Form(formCols).Valid(rule);
 
@@ -84,10 +84,21 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             return this;
         }
 
-        public FormGroup<T> AppendDropdownListFor<P>(Expression<Func<T, P>> expression,
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="labelCols"></param>
+        /// <param name="formCols"></param>
+        /// <param name="category"></param>
+        /// <param name="includeAll"></param>
+        /// <param name="attributes"></param>
+        /// <typeparam name="P"></typeparam>
+        /// <returns></returns>
+        public FormGroup<T> AppendSelectFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, string category, bool includeAll = false, object attributes = null)
         {
-            var html = this._html.CreateDropdownListFor(expression, category, false, attributes);
+            var html = DropdownList.Create(this._html, expression).Key(category).IncludeAll(includeAll).Attributes(attributes).Render();
 
             this.Add(expression, labelCols, formCols, form => form.Render(p => html));
 
@@ -103,10 +114,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="callback"></param>
         /// <returns></returns>
         public FormGroup<T> AppendRadiosFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, Action<FormControl<T>, RadioButton<T>> callback = null)
+            uint labelCols, uint formCols, Action<FormControl, RadioButton> callback = null)
         {
-            var radioButton = RadioButton<T>.Create(this._html, expression);
-            var formControl = FormControl<T>.Create(this._html, expression);
+            var radioButton = RadioButton.Create(this._html, expression);
+            var formControl = FormControl.Create(this._html, expression);
 
             formControl.Label(labelCols).Form(formCols);
             callback?.Invoke(formControl, radioButton);
@@ -143,13 +154,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         public IHtmlString TextBoxFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<FormControl<T>> callback = null)
+            uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<FormControl> callback = null)
         {
             return this.AppendTextBoxFor(expression, labelCols, formCols, rule, callback).Render();
         }
 
         public IHtmlString TextAreaFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, Action<FormControl<T>> callback = null)
+            uint labelCols, uint formCols, Action<FormControl> callback = null)
         {
             return this.Add(expression, labelCols, formCols, form =>
             {
@@ -159,14 +170,34 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             }).Render();
         }
 
-        public IHtmlString DropdownListFor<P>(Expression<Func<T, P>> expression,
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="labelCols"></param>
+        /// <param name="formCols"></param>
+        /// <param name="category"></param>
+        /// <param name="includeAll"></param>
+        /// <param name="attributes"></param>
+        /// <typeparam name="P"></typeparam>
+        /// <returns></returns>
+        public IHtmlString SelectFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, string category, bool includeAll = false, object attributes = null)
         {
-            return this.AppendDropdownListFor(expression, labelCols, formCols, category, includeAll, attributes).Render();
+            return this.AppendSelectFor(expression, labelCols, formCols, category, includeAll, attributes).Render();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="labelCols"></param>
+        /// <param name="formCols"></param>
+        /// <param name="callback"></param>
+        /// <typeparam name="P"></typeparam>
+        /// <returns></returns>
         public IHtmlString RadiosFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, Action<FormControl<T>, RadioButton<T>> callback = null)
+            uint labelCols, uint formCols, Action<FormControl, RadioButton> callback = null)
         {
             return this.AppendRadiosFor(expression, labelCols, formCols, callback).Render();
         }

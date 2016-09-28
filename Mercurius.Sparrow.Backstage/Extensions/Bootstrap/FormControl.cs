@@ -10,7 +10,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     /// <summary>
     /// 表单控件。
     /// </summary>
-    public class FormControl<T>
+    public class FormControl
     {
         #region 常量
 
@@ -20,7 +20,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #region 字段
 
-        private readonly HtmlHelper<T> _html;
+        private readonly HtmlHelper _html;
 
         /// <summary>
         /// 表单宽度。
@@ -42,7 +42,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         private TagBuilder _addOn;
 
-        private ValidRule _rule = default(ValidRule);
+        private ValidRule _rule;
 
         private ModelPropertyMetadata _metadata;
 
@@ -50,7 +50,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #region 构造方法
 
-        private FormControl(HtmlHelper<T> html)
+        private FormControl(HtmlHelper html)
         {
             this._html = html;
             this._rule = ValidRule.Default;
@@ -65,21 +65,25 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="html"></param>
         /// <param name="expression"></param>
-        internal static FormControl<T> Create<P>(HtmlHelper<T> html, Expression<Func<T, P>> expression)
+        internal static FormControl Create<T,P>(HtmlHelper<T> html, Expression<Func<T, P>> expression)
         {
-            var result = new FormControl<T>(html);
-
-            result._addOn = new TagBuilder("span");
-            result._metadata = html.Resolve(expression);
-
-            return result;
+            return new FormControl(html)
+            {
+                _addOn = new TagBuilder("span"),
+                _metadata = html.Resolve(expression)
+            };
         }
 
         #endregion
 
         #region 基本设置
 
-        public FormControl<T> Caption(string text)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public FormControl Caption(string text)
         {
             this._caption = text;
 
@@ -91,7 +95,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="cols"></param>
         /// <returns></returns>
-        public FormControl<T> Label(uint cols)
+        public FormControl Label(uint cols)
         {
             this._labelWidth = cols;
 
@@ -102,7 +106,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// 隐藏标签。
         /// </summary>
         /// <returns>表单控件</returns>
-        public FormControl<T> HideLabel()
+        public FormControl HideLabel()
         {
             this._labelState = "H";
 
@@ -113,7 +117,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// 删除标签。
         /// </summary>
         /// <returns>表单控件</returns>
-        public FormControl<T> RemoveLabel()
+        public FormControl RemoveLabel()
         {
             this._labelState = "R";
 
@@ -125,7 +129,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="htmlAttributes"></param>
         /// <returns></returns>
-        public FormControl<T> Label(object htmlAttributes)
+        public FormControl Label(object htmlAttributes)
         {
             this._labelAttributes = htmlAttributes;
 
@@ -137,7 +141,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="cols"></param>
         /// <returns></returns>
-        public FormControl<T> Form(uint cols)
+        public FormControl Form(uint cols)
         {
             this._formWidth = cols;
 
@@ -149,7 +153,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="htmlAttributes"></param>
         /// <returns></returns>
-        public FormControl<T> Form(object htmlAttributes)
+        public FormControl Form(object htmlAttributes)
         {
             this._formAttributes = htmlAttributes;
 
@@ -161,7 +165,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="rule">验证规则</param>
         /// <returns>表单控件</returns>
-        public FormControl<T> Valid(ValidRule rule)
+        public FormControl Valid(ValidRule rule)
         {
             this._rule = rule;
 
@@ -173,7 +177,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="text">标签文字</param>
         /// <returns>表单控件</returns>
-        public FormControl<T> AddOn(string text)
+        public FormControl AddOn(string text)
         {
             this._addOn.SetInnerText(text);
             this._addOn.AddCssClass("input-group-addon");
@@ -186,7 +190,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="buttonPart">按钮设置区域</param>
         /// <returns>表单控件</returns>
-        public FormControl<T> AddOn(Func<ModelPropertyMetadata, object> buttonPart)
+        public FormControl AddOn(Func<ModelPropertyMetadata, object> buttonPart)
         {
             var helperResult = new HelperResult(writer => writer.Write(buttonPart(this._metadata)));
 
@@ -245,7 +249,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
             if (_rule != ValidRule.Default)
             {
-                var validAttributes = this._html.GetValidAttributes<T, object>(this._metadata.DisplayName, this._rule);
+                var validAttributes = this._html.GetValidAttributes(this._metadata.DisplayName, this._rule);
 
                 formTag.MergeAttributes(validAttributes, true);
             }
@@ -296,7 +300,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
             if (this._rule != ValidRule.Default)
             {
-                var validAttributes = this._html.GetValidAttributes<T, object>(this._metadata.DisplayName, this._rule);
+                var validAttributes = this._html.GetValidAttributes(this._metadata.DisplayName, this._rule);
 
                 formTag.MergeAttributes(validAttributes, true);
             }
@@ -309,9 +313,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             return new MvcHtmlString(divTag.InnerHtml);
         }
 
-        public IHtmlString DropdownListFor(string category, bool includeAll = false)
+        public IHtmlString SelectFor(string category, bool includeAll = false)
         {
-            return this.Render(p => this._html.CreateDropdownList(p.FullName, category, p.Value?.ToString(), includeAll, this._formAttributes));
+            var dropdownList = DropdownList.Create(this._html, this._metadata);
+
+            dropdownList.Key(category).IncludeAll(includeAll).Attributes(this._formAttributes);
+
+            return this.Render(p => dropdownList.Render());
         }
 
         #region 私有方法

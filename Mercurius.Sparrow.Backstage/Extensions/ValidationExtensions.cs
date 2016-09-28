@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
-using HtmlHelper = System.Web.WebPages.Html.HtmlHelper;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {
@@ -374,14 +373,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="P"></typeparam>
         /// <param name="html"></param>
         /// <param name="fieldName"></param>
         /// <param name="rule"></param>
         /// <returns></returns>
-        internal static RouteValueDictionary GetValidAttributes<T, P>(
-            this HtmlHelper<T> html,
+        internal static RouteValueDictionary GetValidAttributes(
+            this HtmlHelper html,
             string fieldName,
             ValidRule rule = ValidRule.Default)
         {
