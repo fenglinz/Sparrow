@@ -213,8 +213,8 @@
     .ui-dialog-footer button[disabled] {
         pointer-events: none;
         cursor: not-allowed;
-        opacity: 0.65;
-        filter: alpha(opacity=65);
+        opacity: 0.8;
+        filter: alpha(opacity=80);
         -webkit-box-shadow: none;
         box-shadow: none;
     }
@@ -502,9 +502,6 @@
     font-size: 0;
     text-indent: -999em;
     color: #666;
-}
-
-.ui-dialog-loading {
     width: 100%\9;
     text-indent: 0\9;
     line-height: 32px\9;

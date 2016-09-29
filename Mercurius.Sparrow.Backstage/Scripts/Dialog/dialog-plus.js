@@ -688,7 +688,7 @@
 
         // css 文件路径，留空则不会使用 js 自动加载样式
         // 注意：css 只允许加载一个
-        cssUri: '../css/ui-dialog.css',
+        cssUri: '',
 
         // 模板（使用 table 解决 IE7 宽度自适应的 BUG）
         // js 使用 i="***" 属性识别结构，其余的均可自定义
