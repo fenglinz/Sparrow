@@ -10,13 +10,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     /// <summary>
     /// 表单组。
     /// </summary>
-    public class FormGroup<T>
+    public class FormGroup
     {
         #region 字段
 
         private Screen _screen;
 
-        private HtmlHelper<T> _html;
+        protected HtmlHelper _html;
 
         private IList<IHtmlString> _formControls;
 
@@ -29,7 +29,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="html"></param>
         /// <param name="screen"></param>
-        internal FormGroup(HtmlHelper<T> html, Screen screen = Screen.Default)
+        internal FormGroup(HtmlHelper html, Screen screen = Screen.Default)
         {
             this._html = html;
             this._screen = screen;
@@ -50,10 +50,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="formCols"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public FormGroup<T> Add<P>(Expression<Func<T, P>> expression,
+        public FormGroup Add<T, P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, Func<FormControl, IHtmlString> callback)
         {
-            var formControl = FormControl.Create(this._html, expression);
+            var formControl = FormControl.Create(this._html as HtmlHelper<T>, expression);
 
             formControl.Label(labelCols).Form(formCols);
 
@@ -70,10 +70,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="formCols"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public FormGroup<T> AppendTextBoxFor<P>(Expression<Func<T, P>> expression,
+        public FormGroup AppendTextBoxFor<T, P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<FormControl> callback = null)
         {
-            var formControl = FormControl.Create(this._html, expression);
+            var formControl = FormControl.Create(this._html as HtmlHelper<T>, expression);
 
             formControl.Label(labelCols).Form(formCols).Valid(rule);
 
@@ -95,10 +95,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="attributes"></param>
         /// <typeparam name="P"></typeparam>
         /// <returns></returns>
-        public FormGroup<T> AppendSelectFor<P>(Expression<Func<T, P>> expression,
+        public FormGroup AppendSelectFor<T, P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, string category, bool includeAll = false, object attributes = null)
         {
-            var html = DropdownList.Create(this._html, expression).Key(category).IncludeAll(includeAll).Attributes(attributes).Render();
+            var html = MultipleList.Create(this._html as HtmlHelper<T>, expression).Key(category).IncludeAll(includeAll).Attributes(attributes).DropdownList();
 
             this.Add(expression, labelCols, formCols, form => form.Render(p => html));
 
@@ -113,11 +113,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="formCols"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public FormGroup<T> AppendRadiosFor<P>(Expression<Func<T, P>> expression,
+        public FormGroup AppendRadiosFor<T, P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, Action<FormControl, RadioButton> callback = null)
         {
-            var radioButton = RadioButton.Create(this._html, expression);
-            var formControl = FormControl.Create(this._html, expression);
+            var radioButton = RadioButton.Create(this._html as HtmlHelper<T>, expression);
+            var formControl = FormControl.Create(this._html as HtmlHelper<T>, expression);
 
             formControl.Label(labelCols).Form(formCols);
             callback?.Invoke(formControl, radioButton);
@@ -147,18 +147,65 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             return new MvcHtmlString(divTag.ToString());
         }
 
-        public IHtmlString RenderFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, Func<ModelPropertyMetadata, object> formControlPart)
+        #endregion
+    }
+
+    public class FormGroup<T> : FormGroup
+    {
+        private HtmlHelper<T> _html;
+
+        public FormGroup(HtmlHelper html, Screen screen = Screen.Default) : base(html, screen)
         {
-            return this.Add(expression, labelCols, formCols, form => form.Render(formControlPart)).Render();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="P"></typeparam>
+        /// <param name="expression"></param>
+        /// <param name="labelCols"></param>
+        /// <param name="formCols"></param>
+        /// <param name="formControlPart"></param>
+        /// <returns></returns>
+        public IHtmlString RenderFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, Func<PropertyMetadata, object> formControlPart, Action<FormControl> callback = null)
+        {
+            return this.Add(expression, labelCols, formCols, form =>
+            {
+                callback?.Invoke(form);
+
+                return form.Render(formControlPart);
+            }).Render();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="P"></typeparam>
+        /// <param name="expression"></param>
+        /// <param name="labelCols"></param>
+        /// <param name="formCols"></param>
+        /// <param name="rule"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
         public IHtmlString TextBoxFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<FormControl> callback = null)
         {
             return this.AppendTextBoxFor(expression, labelCols, formCols, rule, callback).Render();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="P"></typeparam>
+        /// <param name="expression"></param>
+        /// <param name="labelCols"></param>
+        /// <param name="formCols"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
         public IHtmlString TextAreaFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, Action<FormControl> callback = null)
         {
@@ -201,7 +248,5 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         {
             return this.AppendRadiosFor(expression, labelCols, formCols, callback).Render();
         }
-
-        #endregion
     }
 }

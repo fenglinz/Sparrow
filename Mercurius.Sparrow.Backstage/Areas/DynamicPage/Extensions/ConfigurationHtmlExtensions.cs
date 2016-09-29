@@ -14,7 +14,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Extensions
     {
         #region 常量
 
-        private static readonly Dictionary<string, string> DEFAULTVALUES = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> DefaultValues = new Dictionary<string, string>
         {
             { "", "无" },
             { "GUID", "GUID" },
@@ -25,7 +25,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Extensions
             { "CurrentUserName", "当前用户名" },
         };
 
-        private static readonly Dictionary<string, string> VALIDATERULES = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> ValidRules = new Dictionary<string, string>
         {
             { "", "无" },
             { "notNull", "必填"},
@@ -85,7 +85,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Extensions
             tagBuilder.AddCssClass("form-control");
             tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
 
-            foreach (var item in DEFAULTVALUES)
+            foreach (var item in DefaultValues)
             {
                 tagBuilder.InnerHtml += $"<option value=\"{item.Key}\" {(item.Key == selectedValue ? "selected" : string.Empty) }>{item.Value}</option>";
             }
@@ -101,7 +101,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Extensions
         /// <param name="selectedValue">选定的值</param>
         /// <param name="htmlAttributes">HTML属性</param>
         /// <returns>下拉框HTML</returns>
-        public static MvcHtmlString CreateValidateRuleList(
+        public static MvcHtmlString CreateValidRuleList(
             this HtmlHelper html,
             string name,
             string selectedValue = null,
@@ -113,7 +113,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Extensions
             tagBuilder.AddCssClass("form-control");
             tagBuilder.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
 
-            foreach (var item in VALIDATERULES)
+            foreach (var item in ValidRules)
             {
                 tagBuilder.InnerHtml += $"<option value=\"{item.Key}\" {(item.Key == selectedValue ? "selected" : string.Empty)}>{item.Value}</option>";
             }
@@ -130,13 +130,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Extensions
         /// <param name="expression">Lambda表达式</param>
         /// <param name="htmlAttributes">HTML属性</param>
         /// <returns>下拉框HTML</returns>
-        public static MvcHtmlString CreateValidateRuleListFor<T, R>(this HtmlHelper<T> html,
+        public static MvcHtmlString CreateValidRuleListFor<T, R>(this HtmlHelper<T> html,
             Expression<Func<T, R>> expression, object htmlAttributes = null)
         {
             var propertyName = ExpressionHelper.GetExpressionText(expression);
             var selectedValue = html.ViewData.Model == null ? null : Convert.ToString(html.ViewData.ModelMetadata.ModelType.GetProperty(propertyName).GetValue(html.ViewData.Model));
 
-            return CreateValidateRuleList(html, propertyName, selectedValue, htmlAttributes);
+            return CreateValidRuleList(html, propertyName, selectedValue, htmlAttributes);
         }
 
         #endregion

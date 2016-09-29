@@ -76,6 +76,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
         /// <param name="id">表名称</param>
         /// <param name="conditions">查询条件</param>
         /// <returns>返回数据添加/编辑页面</returns>
+        [ValidateInput(false)]
         public ActionResult CreateOrUpdate(string id, string conditions)
         {
             var model = new CreateOrUpdateModel

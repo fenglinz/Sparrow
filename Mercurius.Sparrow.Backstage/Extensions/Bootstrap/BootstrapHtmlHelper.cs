@@ -33,7 +33,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     }
 
     /// <summary>
-    /// 基于Bootstrap的Html呈现器。
+    /// 基于Bootstrap的HTML呈现助手。
     /// </summary>
     public static class BootstrapHtmlHelper
     {
@@ -41,7 +41,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="html"></param>
+        /// <param name="html">HTML呈现助手</param>
         /// <param name="screen"></param>
         /// <returns></returns>
         public static FormGroup<T> FormGroup<T>(this HtmlHelper<T> html, Screen screen = Screen.Default)
@@ -52,7 +52,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="html"></param>
+        /// <param name="html">HTML呈现助手</param>
         /// <param name="expression"></param>
         /// <param name="labelCols"></param>
         /// <param name="formCols"></param>
@@ -66,21 +66,27 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             return Extensions.FormControl.Create(html, expression).Label(labelCols).Form(formCols).Valid(rule);
         }
 
+        public static IHtmlString Select(this HtmlHelper html,
+            string name, string key, string value = null, bool includeAll = false, object attributes = null)
+        {
+            return MultipleList.Create(html, name).Key(key).Value(value).IncludeAll(includeAll).Attributes(attributes).DropdownList();
+        }
+
         /// <summary>
         /// 
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="P"></typeparam>
         /// <param name="html"></param>
         /// <param name="expression"></param>
         /// <param name="key"></param>
         /// <param name="includeAll"></param>
         /// <param name="attributes"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="P"></typeparam>
         /// <returns></returns>
-        public static DropdownList SelectFor<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression,
-           string key, bool includeAll, object attributes = null)
+        public static IHtmlString SelectFor<T, P>(this HtmlHelper<T> html,
+            Expression<Func<T, P>> expression, string key, bool includeAll = false, object attributes = null)
         {
-            return DropdownList.Create(html, expression).Key(key).IncludeAll(includeAll).Attributes(attributes);
+            return MultipleList.Create(html, expression).Key(key).IncludeAll(includeAll).Attributes(attributes).DropdownList();
         }
 
         /// <summary>
@@ -89,11 +95,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="html"></param>
         /// <param name="fullName"></param>
         /// <returns></returns>
-        public static ModelPropertyMetadata Resolve(this HtmlHelper html, string fullName)
+        public static PropertyMetadata Resolve(this HtmlHelper html, string fullName)
         {
             var metadata = ModelMetadata.FromStringExpression(fullName, html.ViewData);
 
-            var result = new ModelPropertyMetadata
+            var result = new PropertyMetadata
             {
                 FullName = fullName,
                 IsRequired = metadata.IsRequired,
@@ -117,12 +123,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="html">HTML呈现器</param>
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <returns>视图模型元数据信息</returns>
-        public static ModelPropertyMetadata Resolve<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression)
+        public static PropertyMetadata Resolve<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression)
         {
             var fullName = ExpressionHelper.GetExpressionText(expression);
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
 
-            var result = new ModelPropertyMetadata
+            var result = new PropertyMetadata
             {
                 FullName = fullName,
                 IsRequired = metadata.IsRequired,

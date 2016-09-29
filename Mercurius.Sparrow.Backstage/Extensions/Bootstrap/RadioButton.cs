@@ -20,7 +20,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         private IList<TextValue> _items;
 
-        private ModelPropertyMetadata _metadata;
+        private PropertyMetadata _metadata;
 
         #endregion
 

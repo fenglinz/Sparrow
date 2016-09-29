@@ -81,7 +81,7 @@
                             </div>
                             <label class="col-sm-1 control-label" for="ValidateRule_@index">验证规则</label>
                             <div class="col-sm-2">
-                                @Html.CreateValidateRuleList(string.Format("createOrUpdates[{0}].ValidateRule", index), item.ValidateRule, new { @id = "ValidateRule_" + index })
+                                @Html.CreateValidRuleList(string.Format("createOrUpdates[{0}].ValidateRule", index), item.ValidateRule, new { @id = "ValidateRule_" + index })
                             </div>
                         </div>
                     </div>

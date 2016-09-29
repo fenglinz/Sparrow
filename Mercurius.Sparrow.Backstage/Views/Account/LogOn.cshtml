@@ -34,36 +34,27 @@
             </h3>
         </div>
         <div class="panel-body">
+            <div class="form-group form-group-lg has-feedback">
+                <input type="text" id="txtUserName" class="form-control" placeholder="请输入账户" autofocus />
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group form-group-lg has-feedback">
+                <input type="password" onpaste="return false;" id="txtPassword" class="form-control" placeholder="请输入密码" />
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
             <div class="form-group form-group-lg">
-                <div class="input-group input-group-lg">
-                    <label for="txtUserName" class="input-group-addon">
-                        <i class="glyphicon glyphicon-user"></i>
-                    </label>
-                    <input type="text" id="txtUserName" class="form-control" placeholder="请输入账户" autofocus />
-                </div>
-                <div class="input-group input-group-lg">
-                    <label for="txtPassword" class="input-group-addon">
-                        <i class="glyphicon glyphicon-lock"></i>
-                    </label>
-                    <input type="password" onpaste="return false;" id="txtPassword" class="form-control" placeholder="请输入密码" />
-                </div>
-                <div class="input-group input-group-lg">
-                    <label for="txtVerifyCode" class="input-group-addon">
-                        <i class="glyphicon glyphicon-qrcode"></i>
-                    </label>
-                    <input id="txtVerifyCode" maxlength="4" class="form-control" style="-ms-ime-mode: disabled; ime-mode: disabled; text-transform: uppercase;" />
-                    <span class="input-group-addon" style="padding: 0;">
+                <div class="input-group">
+                    <input id="txtVerifyCode" maxlength="4" class="form-control" placeholder="请输入验证码" />
+                    <span class="input-group-btn">
                         <img src="@Url.Action("GetVerifyCode", "Account")" class="verifyCode" id="imgVerifyCode" alt="点击切换验证码" onclick="GetNewVerifyCode()" />
                     </span>
                 </div>
             </div>
-            <div class="form-actions">
-                <span class="pull-left">
-                    <button id="btnLogOn" class="btn btn-primary btn-lg" onclick="return CheckUserDataValid();">
-                        <i id="btnLogOnIcon" class="fa fa-spinner"></i> 登录
-                    </button>
-                    <span id="errorMsg" style="line-height: 42px;" class="text-danger"></span>
-                </span>
+            <div class="form-group form-group-lg" style="margin-bottom:0;">
+                <button id="btnLogOn" class="btn btn-lg btn-primary" onclick="return OnLogOn();">
+                    <i id="btnLogOnIcon" class="fa fa-spinner"></i> 登录
+                </button>
+                <span id="errorMsg" style="line-height: 42px;" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -109,7 +100,7 @@
         $('#imgVerifyCode').attr('src', '@Url.Action("GetVerifyCode", "Account", new {@Area = ""})/?time=' + Math.random());
     }
 
-    function LoginBtn() {
+    function LogOnValid() {
         var name = $('#txtUserName').val();
         var password = $('#txtPassword').val();
         var verifyCode = $('#txtVerifyCode').val();
@@ -136,10 +127,9 @@
         }
     }
 
-    // 数据验证完整性
-    function CheckUserDataValid() {
-        if (LoginBtn()) {
-            CheckingLogin(1);
+    function OnLogOn() {
+        if (LogOnValid()) {
+            ToggleLogOnState(true);
 
             var name = $('#txtUserName').val();
             var password = $('#txtPassword').val();
@@ -153,8 +143,8 @@
                 dataType: "JSON",
                 success: function (rs) {
                     if (rs != '') {
-                        CheckingLogin(0);
                         GetNewVerifyCode();
+                        ToggleLogOnState(false);
 
                         alert(rs);
                         dlgOpend = true;
@@ -166,12 +156,12 @@
         }
     }
 
-    function CheckingLogin(id) {
-        if (id == 1) {
-            $('#btnLogOn').prop('disabled', true);
+    function ToggleLogOnState(state) {
+        $('#btnLogOn').prop('disabled', state);
+
+        if (state) {
             $('#btnLogOnIcon').addClass('fa-spin');
         } else {
-            $('#btnLogOn').prop('disabled', false);
             $('#btnLogOnIcon').removeClass('fa-spin');
         }
     }

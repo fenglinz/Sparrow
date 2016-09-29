@@ -8,7 +8,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     /// <summary>
     /// 视图模型属性元数据信息。
     /// </summary>
-    public class ModelPropertyMetadata
+    public class PropertyMetadata
     {
         #region 属性
 

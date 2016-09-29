@@ -6,28 +6,40 @@
 
 @section Styles{
     <style type="text/css">
-        .category {
-            display: none;
-            position: absolute;
-            z-index: 999;
-            width: 87.2%;
-            left: 5px;
-            top: 33px;
-            max-height: 300px;
-            overflow-y: auto;
-            background-color: white;
-            border: 1px solid #cccccc;
+        .select {
+            width: 100%;
         }
 
-            .category > p {
-                margin: 0;
-                cursor: pointer;
-                padding: 5px 10px;
+            .select > .input-group.active > .form-control {
+                border-bottom-left-radius: 0;
             }
 
-                .category > p:hover {
-                    background: #eee;
+            .select > .input-group.active > .input-group-btn > .btn {
+                border-bottom-right-radius: 0;
+            }
+
+            .select > .select-items {
+                display: none;
+                position: absolute;
+                z-index: 999;
+                width: 100%;
+                left: 5px;
+                top: 33px;
+                max-height: 300px;
+                overflow-y: auto;
+                background-color: white;
+                border: 1px solid #cccccc;
+            }
+
+                .select > .select-items > p {
+                    margin: 0;
+                    cursor: pointer;
+                    padding: 5px 10px;
                 }
+
+                    .select > .select-items > p:hover {
+                        background: #eee;
+                    }
     </style>
 }
 
@@ -52,7 +64,10 @@
                 var target = $(this).attr('nav-target');
 
                 if ($(target).has('p').length > 0) {
-                    $(target).show();
+                    $(target).prev().addClass('active');
+                    $(target).width($(target).parent().width() - 2);
+
+                    $(target).slideDown(200);
                 }
 
                 return false;
@@ -60,15 +75,13 @@
 
             $('#__categories>p').click(function () {
                 $('#Category').val($(this).text());
-                $('#__categories').hide();
 
                 InitGroupNames();
-
-                return false;
             });
 
             $(document).on('click', function () {
-                $('.category').hide();
+                $('.select-items').slideUp();
+                $('.select-items').prev().removeClass('active');
             });
 
             InitGroupNames();
@@ -93,9 +106,6 @@
 
                         $('#__groupNames>p').click(function () {
                             $('#GroupName').val($(this).text());
-                            $('#__groupNames').hide();
-
-                            return false;
                         });
                     }
                 }
@@ -116,22 +126,24 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Category, new { @class = "col-sm-2 control-label" })
         <div class="col-sm-9">
-            <div class="input-group">
-                @Html.TextBoxFor(m => m.Category, new { @class = "form-control", @validate_rule = "notNull" })
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-info" nav-target="#__categories" @(categories.HasData() ? "" : "disabled")>
-                        <i class="glyphicon glyphicon-chevron-down"></i>
-                    </button>
-                </span>
-            </div>
-            <div id="__categories" class="category">
-                @if (categories.HasData())
-                {
-                    foreach (var item in categories.Datas)
+            <div class="select">
+                <div class="input-group">
+                    @Html.TextBoxFor(m => m.Category, new { @class = "form-control", @validate_rule = "notNull" })
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" nav-target="#__categories" @(categories.HasData() ? "" : "disabled")>
+                            <i class="glyphicon glyphicon-chevron-down"></i>
+                        </button>
+                    </span>
+                </div>
+                <div id="__categories" class="select-items">
+                    @if (categories.HasData())
                     {
-                        <p>@item</p>
+                        foreach (var item in categories.Datas)
+                        {
+                    <p>@item</p>
+                        }
                     }
-                }
+                </div>
             </div>
         </div>
     </div>
@@ -152,16 +164,17 @@
         </div>
         @Html.LabelFor(m => m.GroupName, new { @class = "col-sm-2 control-label" })
         <div class="col-sm-3">
-            <div class="input-group">
-                @Html.TextBoxFor(m => m.GroupName, new { @class = "form-control" })
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-info" nav-target="#__groupNames">
-                        <i class="glyphicon glyphicon-chevron-down"></i>
-                    </button>
-                </span>
-            </div>
-            <div id="__groupNames" class="category">
-
+            <div class="select">
+                <div class="input-group">
+                    @Html.TextBoxFor(m => m.GroupName, new { @class = "form-control" })
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" nav-target="#__groupNames">
+                            <i class="glyphicon glyphicon-chevron-down"></i>
+                        </button>
+                    </span>
+                </div>
+                <div id="__groupNames" class="select-items">
+                </div>
             </div>
         </div>
     </div>
@@ -192,7 +205,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.ControlValidateRule, new { @class = "col-sm-2 control-label" })
         <div class="col-sm-4">
-            @Html.CreateValidateRuleListFor(m => m.ControlValidateRule)
+            @Html.CreateValidRuleListFor(m => m.ControlValidateRule)
         </div>
         @Html.LabelFor(m => m.Sort, new { @class = "col-sm-2 control-label" })
         <div class="col-sm-3">

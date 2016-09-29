@@ -25,7 +25,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         #region 字段
 
         private static readonly IPermissionService _permissionService;
-        private static readonly IDictionaryService _dictionaryService;
         private static readonly IFileService _fileStorageService;
         private static readonly ISystemSettingService _systemSettingService;
         private static readonly IGlobalizationService _globalizationService;
@@ -43,7 +42,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             {
                 _fileStorageService = container.Resolve<IFileService>();
                 _permissionService = container.Resolve<IPermissionService>();
-                _dictionaryService = container.Resolve<IDictionaryService>();
                 _systemSettingService = container.Resolve<ISystemSettingService>();
                 _globalizationService = container.Resolve<IGlobalizationService>();
             }
@@ -56,7 +54,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 获取网站根路径。
         /// </summary>
-        /// <param name="html">HTML呈现器</param>
+        /// <param name="html">HTML呈现助手</param>
         /// <returns>网站根路径</returns>
         public static string GetBaseUrl(this HtmlHelper html)
         {
@@ -68,7 +66,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 获取绝对路径。
         /// </summary>
-        /// <param name="html">HTML呈现器</param>
+        /// <param name="html">HTML呈现助手</param>
         /// <param name="actionName">执行方法</param>
         /// <param name="controllerName">控制器</param>
         /// <param name="area">区域</param>
@@ -98,7 +96,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 获取产品名称。
         /// </summary>
-        /// <param name="html">HTML呈现器</param>
+        /// <param name="html">HTML呈现助手</param>
         /// <returns>产品名称</returns>
         public static string GetProductName(this HtmlHelper html)
         {
@@ -110,7 +108,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 获取产品版本。
         /// </summary>
-        /// <param name="html">HTML呈现器</param>
+        /// <param name="html">HTML呈现助手</param>
         /// <returns>产品版本</returns>
         public static string GetProductVersion(this HtmlHelper html)
         {
@@ -141,7 +139,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 显示可访问的按钮脚本。
         /// </summary>
-        /// <param name="html">HTML呈现器</param>
+        /// <param name="html">HTML呈现助手</param>
         /// <param name="button">button名称</param>
         /// <param name="scriptContext">脚本回调</param>
         /// <returns>经过编码的字符串</returns>
@@ -169,7 +167,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 获取当前用户在当前界面可访问的按钮。
         /// </summary>
-        /// <param name="html">HTML呈现器</param>
+        /// <param name="html">HTML呈现助手</param>
         /// <param name="leftPart">附加HTML标签区域</param>
         /// <returns>经过HTML编码的字符串</returns>
         public static IHtmlString RenderAccessibleButtons(this HtmlHelper html, Func<IList<SystemMenu>, object> leftPart = null)
@@ -223,7 +221,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 获取界面资源值。
         /// </summary>
-        /// <param name="html">HTML呈现器</param>
+        /// <param name="html">HTML呈现助手</param>
         /// <param name="key">字典名</param>
         /// <param name="viewName">视图名</param>
         /// <returns>资源值</returns>
@@ -247,210 +245,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 获取全局资源。
         /// </summary>
-        /// <param name="html">HTML呈现器</param>
+        /// <param name="html">HTML呈现助手</param>
         /// <param name="key">键</param>
         /// <returns>全局资源值</returns>
         public static string GetGlobalValue(this HtmlHelper html, string key)
         {
             return _globalizationService.GetGlobalResource(key);
-        }
-
-        #endregion
-
-        #region CheckBoxs
-
-        /// <summary>
-        /// 生成复选框列表。
-        /// </summary>
-        /// <typeparam name="TModel">视图模型类型</typeparam>
-        /// <typeparam name="TProperty">属性类型</typeparam>
-        /// <param name="html">HTML控件呈现器</param>
-        /// <param name="expression">属性表达式</param>
-        /// <param name="items">数据源</param>
-        /// <param name="htmlAttributes">复选框列表容器HTML属性</param>
-        /// <param name="showMoreNumbers">显示更多标签的列表数</param>
-        /// <returns>复选框列表控件HTML代码</returns>
-        public static MvcHtmlString CheckBoxsFor<TModel, TProperty>(
-            this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression,
-            string[] items, object htmlAttributes = null, int? showMoreNumbers = null)
-        {
-            var name = ExpressionHelper.GetExpressionText(expression);
-            var checkedValues = html.ViewData.Model == null ? null : html.ViewData.ModelMetadata.ModelType.GetProperty(name).GetValue(html.ViewData.Model);
-
-            return CheckBoxs(html, name, items.ToDictionary(), checkedValues, htmlAttributes, showMoreNumbers);
-        }
-
-        /// <summary>
-        /// 生成复选框列表。
-        /// </summary>
-        /// <typeparam name="TModel">视图模型类型</typeparam>
-        /// <typeparam name="TProperty">属性类型</typeparam>
-        /// <param name="html">HTML控件呈现器</param>
-        /// <param name="expression">属性表达式</param>
-        /// <param name="items">数据源</param>
-        /// <param name="htmlAttributes">复选框列表容器HTML属性</param>
-        /// <param name="showMoreNumbers">显示更多标签的列表数</param>
-        /// <returns>复选框列表控件HTML代码</returns>
-        public static MvcHtmlString CheckBoxsFor<TModel, TProperty>(
-            this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression,
-            IDictionary<string, object> items, object htmlAttributes = null, int? showMoreNumbers = null)
-        {
-            var name = ExpressionHelper.GetExpressionText(expression);
-            var checkedValues = html.ViewData.Model == null ? null : html.ViewData.ModelMetadata.ModelType.GetProperty(name).GetValue(html.ViewData.Model);
-
-            return CheckBoxs(html, name, items, checkedValues, htmlAttributes, showMoreNumbers);
-        }
-
-        /// <summary>
-        /// 从字典生成复选框列表。
-        /// </summary>
-        /// <typeparam name="TModel">视图模型类型</typeparam>
-        /// <typeparam name="TProperty">属性类型</typeparam>
-        /// <param name="html">HTML控件呈现器</param>
-        /// <param name="expression">属性表达式</param>
-        /// <param name="category">字典分类</param>
-        /// <param name="htmlAttributes">复选框列表容器HTML属性</param>
-        /// <param name="showMoreNumbers">显示更多标签的列表数</param>
-        /// <returns>复选框列表控件HTML代码</returns>
-        public static MvcHtmlString CheckBoxsFor<TModel, TProperty>(
-            this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression,
-            string category, object htmlAttributes = null, int? showMoreNumbers = null)
-        {
-            var name = ExpressionHelper.GetExpressionText(expression);
-            var checkedValues = html.ViewData.Model == null ? null : html.ViewData.ModelMetadata.ModelType.GetProperty(name).GetValue(html.ViewData.Model);
-
-            return CheckBoxs(html, name, category, checkedValues, htmlAttributes, showMoreNumbers);
-        }
-
-        /// <summary>
-        /// 从字典生成复选框列表。
-        /// </summary>
-        /// <param name="html">HTML控件呈现器</param>
-        /// <param name="name">属性名</param>
-        /// <param name="category">字典分类</param>
-        /// <param name="checkedValues">选中的项</param>
-        /// <param name="htmlAttributes">复选框列表容器HTML属性</param>
-        /// <param name="showMoreNumbers">显示更多标签的列表数</param>
-        /// <returns>复选框列表控件HTML代码</returns>
-        public static MvcHtmlString CheckBoxs(this HtmlHelper html, string name, string category,
-            object checkedValues = null, object htmlAttributes = null, int? showMoreNumbers = null)
-        {
-            if (string.IsNullOrWhiteSpace(category))
-            {
-                return null;
-            }
-
-            var rspDictionaries = _dictionaryService.GetCategoryItems(category);
-
-            if (!rspDictionaries.HasData())
-            {
-                return null;
-            }
-
-            return CheckBoxs(html, name, rspDictionaries.Datas.ToDictionary(d => d.Key, d => (object)d.Value), checkedValues, htmlAttributes, showMoreNumbers);
-        }
-
-        /// <summary>
-        /// 生成复选框列表。
-        /// </summary>
-        /// <param name="html">HTML控件呈现器</param>
-        /// <param name="name">属性名称</param>
-        /// <param name="items">数据源</param>
-        /// <param name="checkedValues">选中的值</param>
-        /// <param name="htmlAttributes">复选框列表容器HTML属性</param>
-        /// <param name="showMoreNumbers">显示更多标签的列表数</param>
-        /// <returns>复选框列表控件HTML代码</returns>
-        public static MvcHtmlString CheckBoxs(
-            this HtmlHelper html, string name, string[] items,
-            object checkedValues = null, object htmlAttributes = null, int? showMoreNumbers = null)
-        {
-            return CheckBoxs(html, name, items.ToDictionary(), checkedValues, htmlAttributes, showMoreNumbers);
-        }
-
-        /// <summary>
-        /// 生成复选框列表。
-        /// </summary>
-        /// <param name="html">HTML控件呈现器</param>
-        /// <param name="name">属性名</param>
-        /// <param name="items">数据源</param>
-        /// <param name="checkedValues">选中的值</param>
-        /// <param name="htmlAttributes">复选框列表容器HTML属性</param>
-        /// <param name="showMoreNumbers">显示更多标签的列表数</param>
-        /// <returns>复选框列表控件HTML代码</returns>
-        public static MvcHtmlString CheckBoxs(
-            this HtmlHelper html, string name, IDictionary<string, object> items,
-            object checkedValues = null, object htmlAttributes = null, int? showMoreNumbers = null)
-        {
-            if (items.IsEmpty())
-            {
-                return null;
-            }
-
-            var index = 1;
-
-            if (showMoreNumbers.HasValue && items.Count > showMoreNumbers)
-            {
-                var container = new TagBuilder("div");
-                container.AddCssClass("has-more-checkbox");
-
-                var showItems = items.Take(showMoreNumbers.Value);
-                var showCheckboxsContainer = new TagBuilder("div");
-
-                showCheckboxsContainer.AddCssClass("checkbox-container");
-
-                if (htmlAttributes != null)
-                {
-                    showCheckboxsContainer.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
-                }
-
-                foreach (var item in showItems)
-                {
-                    showCheckboxsContainer.InnerHtml += $"<label><input id=\"chk{name}{index++}\" name=\"{name}\" type=\"checkbox\" value=\"{item.Value}\"{checkedValues?.ToString().GetChecked(item.Value)} />{item.Key}</label>";
-                }
-
-                container.InnerHtml += showCheckboxsContainer;
-
-                var moreCheckboxsContainer = new TagBuilder("div");
-
-                moreCheckboxsContainer.Attributes.Add("id", name + "More");
-                moreCheckboxsContainer.AddCssClass("checkbox-container more-checkbox");
-
-                if (htmlAttributes != null)
-                {
-                    moreCheckboxsContainer.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
-                }
-
-                var moreItems = items.Skip(showMoreNumbers.Value);
-
-                foreach (var item in moreItems)
-                {
-                    moreCheckboxsContainer.InnerHtml += $"<label><input id=\"chk{name}{index++}\" name=\"{name}\" type=\"checkbox\" value=\"{item.Value}\"{checkedValues?.ToString().GetChecked(item.Value)} />{item.Key}</label>";
-                }
-
-                container.InnerHtml += moreCheckboxsContainer;
-
-                container.InnerHtml += $"<span class=\"more\" onclick=\"if ({"$"}(this).text() == '更多+'){"{ $"}('#{name + "More"}').show();{'$'}(this).text('隐藏-');{'}'}else{"{ $"}('#{name + "More"}').hide();{'$'}(this).text('更多+');{'}'}\">更多+</span>";
-
-                return new MvcHtmlString(container.ToString());
-            }
-            else
-            {
-                var checkboxsContainer = new TagBuilder("div");
-
-                checkboxsContainer.AddCssClass("checkbox-container");
-
-                if (htmlAttributes != null)
-                {
-                    checkboxsContainer.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), true);
-                }
-
-                foreach (var item in items)
-                {
-                    checkboxsContainer.InnerHtml += $"<label><input id=\"chk{name}{index++}\" name=\"{name}\" type=\"checkbox\" value=\"{item.Value}\"{checkedValues?.ToString().GetChecked(item.Value)} />{item.Key}</label>";
-                }
-
-                return new MvcHtmlString(checkboxsContainer.ToString());
-            }
         }
 
         #endregion

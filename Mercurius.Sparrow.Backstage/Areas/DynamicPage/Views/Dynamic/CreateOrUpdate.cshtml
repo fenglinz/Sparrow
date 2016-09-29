@@ -84,7 +84,7 @@
                         }
                         else
                         {
-                            @Html.CreateDropdownList(item.Column, item.DictionaryKey, Model.GetValue(item.Name))
+                            @Html.Select(item.Column, item.DictionaryKey, Model.GetValue(item.Column))
                         }
                     </div>
                 </div>

@@ -13,13 +13,11 @@
     position: relative;
     background-color: #FFF;
     border: 0 none;
-    -ms-border-radius: 6px;
     border-radius: 6px;
     outline: 0;
     font-size: 14px;
     line-height: 1.428571429;
     color: #000;
-    -ms-opacity: 0;
     opacity: 0;
     -webkit-transform: scale(0);
     -moz-transform: scale(0);
@@ -28,13 +26,11 @@
     transform: scale(0);
     -webkit-transition: -webkit-transform .15s ease-in-out, opacity .15s ease-in-out;
     -moz-transition: transform .15s ease-in-out, opacity .15s ease-in-out;
-    -ms-transition: transform .15s ease-in-out, opacity .15s ease-in-out;
     -o-transition: transform .15s ease-in-out, opacity .15s ease-in-out;
     transition: transform .15s ease-in-out, opacity .15s ease-in-out;
 }
 
 .ui-popup-show .ui-dialog {
-    -ms-opacity: 1;
     opacity: 1;
     -webkit-transform: scale(1);
     -moz-transform: scale(1);
@@ -45,7 +41,6 @@
 
 .ui-popup-focus .ui-dialog {
     -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    -ms-box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -73,7 +68,6 @@
 .ui-dialog-header {
     color: #ffffff;
     white-space: nowrap;
-    -ms-border-radius: 6px 6px 0 0;
     border-radius: 6px 6px 0 0;
     background-image: -webkit-linear-gradient(top, #428bca 0%, #2d6ca2 100%);
     background-image: -o-linear-gradient(top, #428bca 0%, #2d6ca2 100%);
@@ -96,13 +90,9 @@
     font-weight: bold;
     line-height: 1;
     color: #000;
-    -ms-text-shadow: 0 1px 0 #FFF;
     text-shadow: 0 1px 0 #FFF;
-    -ms-opacity: .8;
     opacity: .8;
-    -webkit-filter: alpha(opacity=70);
     -moz-filter: alpha(opacity=70);
-    -o-filter: alpha(opacity=70);
     filter: alpha(opacity=70);
     cursor: pointer;
     background: transparent;
@@ -117,7 +107,6 @@
         text-decoration: none;
         cursor: pointer;
         outline: 0;
-        -ms-opacity: 1;
         opacity: 1;
         filter: alpha(opacity=100);
     }
@@ -129,7 +118,6 @@
     padding: 8px 0 8px 12px;
     overflow: hidden;
     white-space: nowrap;
-    -moz-text-overflow: ellipsis;
     text-overflow: ellipsis;
     font-weight: bold;
     cursor: default;
@@ -188,9 +176,9 @@
 
 .ui-dialog-footer button {
     display: inline-block;
-    padding: 5px 10px;
-    font-size: 12px;
-    line-height: 1.5;
+    padding: 5px 12px;
+    font-size: 13.444px;
+    line-height: 20px;
     margin-bottom: 0;
     font-weight: normal;
     text-align: center;
@@ -200,19 +188,15 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    -o-user-select: none;
     user-select: none;
     background-image: none;
     border: 1px solid transparent;
-    -ms-border-radius: 3px;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
     .ui-dialog-footer button:focus {
         outline: thin dotted #333;
-        outline: 4px auto -webkit-focus-ring-color;
-        -ms-outline-offset: -2px;
-        outline-offset: -2px;
+        outline-offset: 0;
     }
 
     .ui-dialog-footer button:hover,
@@ -237,7 +221,6 @@
 
 .ui-dialog-footer button {
     color: #333333;
-    -ms-text-shadow: 0 1px 0 #fff;
     text-shadow: 0 1px 0 #fff;
     background-image: -webkit-linear-gradient(top, #fff 0%, #e0e0e0 100%);
     background-image: -o-linear-gradient(top, #fff 0%, #e0e0e0 100%);
@@ -253,13 +236,8 @@
     .ui-dialog-footer button:hover,
     .ui-dialog-footer button:focus,
     .ui-dialog-footer button:active {
-        color: #333333;
-        background-color: #ebebeb;
-        border-color: #adadad;
-    }
-
-    .ui-dialog-footer button:active {
-        background-image: none;
+        background-color: #e0e0e0;
+        background-position: 0 -15px;
     }
 
     .ui-dialog-footer button[disabled],
@@ -459,19 +437,53 @@
 @-webkit-keyframes ui-dialog-loading {
     0% {
         -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
 
     100% {
         -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes ui-dialog-loading {
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
     }
 }
 
 @keyframes ui-dialog-loading {
     0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
 
     100% {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }
@@ -510,7 +522,12 @@
         box-shadow: 0 -10px 0 1px #ccc, 10px 0px #ccc, 0 10px #ccc, -10px 0 #ccc, -7px -7px 0 0.5px #ccc, 7px -7px 0 1.5px #ccc, 7px 7px #ccc, -7px 7px #ccc;
         -webkit-transform: rotate(360deg);
         -webkit-animation: ui-dialog-loading 1.5s infinite linear;
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
         transform: rotate(360deg);
+        -moz-animation: ui-dialog-loading 1.5s infinite linear;
+        -o-animation: ui-dialog-loading 1.5s infinite linear;
         animation: ui-dialog-loading 1.5s infinite linear;
         display: none\9;
     }

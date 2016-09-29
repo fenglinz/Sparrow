@@ -25,7 +25,7 @@
 
             @if (hasChildren)
             {
-                <b class="arrow fa fa-angle-down" role="hasmenu"></b>
+                <b class="arrow fa fa-angle-down"></b>
             }
         </a>
         @if (hasChildren)
@@ -42,7 +42,7 @@
                                 @child.Name
                                 @if (systemMenus.Datas.Any(m => m.ParentId == child.Id && m.Category == 1))
                                 {
-                                    <b class="arrow fa fa-angle-down" role="hasmenu"></b>
+                                    <b class="arrow fa fa-angle-down"></b>
                                 }
                             </a>
                             <b class="arrow"></b>
@@ -60,16 +60,16 @@
     if (menus.Any(m => m.ParentId == parentId && m.Category == 1))
     {
         var children = menus.Where(s => s.ParentId == parentId && s.Category == 1);
-        <ul class="submenu">
+        <ul class="submenu nav-hide">
         @foreach (var item in children)
         {
             <li>
                 <a href="#" class="dropdown-toggle" onclick="OnSidebarItemClick(this,'@item.NavigateUrl', '@item.Target');">
-                    <i class="menu-icon fa fa-caret-right"></i>
+                    <i class="menu-icon fa fa-chain"></i>
                     @item.Name
                     @if (menus.Any(m => m.ParentId == item.Id && m.Category == 1))
                     {
-                        <b class="arrow fa fa-angle-down" role="hasmenu"></b>
+                        <b class="arrow fa fa-angle-down"></b>
                     }
                 </a>
                 <b class="arrow"></b>

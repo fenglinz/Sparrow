@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
+using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Sparrow.Entities.Core.SO;
 using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Controllers
@@ -31,6 +33,11 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         /// </summary>
         public IHomeShortcutService HomeShortcutService { get; set; }
 
+        /// <summary>
+        /// 操作记录服务对象。
+        /// </summary>
+        public IOperationRecordService OperationRecordService { get; set; }
+
         #endregion
 
         /// <summary>
@@ -55,6 +62,17 @@ namespace Mercurius.Sparrow.Backstage.Controllers
             this.ViewBag.HomeShortcuts = rspHomeShortcuts.Datas;
 
             return this.View();
+        }
+
+        /// <summary>
+        /// 显示操作记录页面。
+        /// </summary>
+        /// <returns>显示界面</returns>
+        public ActionResult OperationRecords(OperationRecordSO so)
+        {
+            var rsp = this.OperationRecordService.SearchOperationRecords(so);
+
+            return View(rsp);
         }
 
         /// <summary>

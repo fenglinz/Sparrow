@@ -44,7 +44,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         private ValidRule _rule;
 
-        private ModelPropertyMetadata _metadata;
+        private PropertyMetadata _metadata;
 
         #endregion
 
@@ -190,7 +190,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="buttonPart">按钮设置区域</param>
         /// <returns>表单控件</returns>
-        public FormControl AddOn(Func<ModelPropertyMetadata, object> buttonPart)
+        public FormControl AddOn(Func<PropertyMetadata, object> buttonPart)
         {
             var helperResult = new HelperResult(writer => writer.Write(buttonPart(this._metadata)));
 
@@ -207,7 +207,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// </summary>
         /// <param name="formControlPart">表单区</param>
         /// <returns>呈现的表单HTML片段</returns>
-        public IHtmlString Render(Func<ModelPropertyMetadata, object> formControlPart)
+        public IHtmlString Render(Func<PropertyMetadata, object> formControlPart)
         {
             var divTag = new TagBuilder("div");
             var labelTag = this.CreateLabelTag(this._metadata);
@@ -315,16 +315,16 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         public IHtmlString SelectFor(string category, bool includeAll = false)
         {
-            var dropdownList = DropdownList.Create(this._html, this._metadata);
+            var dropdownList = MultipleList.Create(this._html, this._metadata);
 
             dropdownList.Key(category).IncludeAll(includeAll).Attributes(this._formAttributes);
 
-            return this.Render(p => dropdownList.Render());
+            return this.Render(p => dropdownList.DropdownList());
         }
 
         #region 私有方法
 
-        private TagBuilder CreateLabelTag(ModelPropertyMetadata metadata)
+        private TagBuilder CreateLabelTag(PropertyMetadata metadata)
         {
             if (this._labelState == "R")
             {

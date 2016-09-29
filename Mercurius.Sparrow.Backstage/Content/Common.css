@@ -6,8 +6,9 @@
     position: relative;
     padding: 0;
     height: 100%;
-    font: normal 12px/24px Helvetica, Tahoma, Arial, sans-serif;
-    background: #fff;
+    font-size: 13px;
+    font-family: Arial, sans-serif, Helvetica, Tahoma;
+    background: #ffffff;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -17,11 +18,9 @@
 body {
     margin: 0;
     padding: 0;
-    font-size: 13px;
     min-height: 100%;
     padding-bottom: 0;
     color: #333;
-    font-weight: 300;
     line-height: 20px;
 }
 
@@ -176,21 +175,22 @@ a {
     .FixedTable thead th,
     .grid thead td,
     .grid thead th {
+        cursor: default;
         overflow: hidden;
         text-align: center;
-        padding: 9px 0 8px 0;
+        padding: 8px 0 8px 0;
         border-left: 1px solid #ccc;
         border-top: 1px solid #ccc;
         border-right: 1px dotted #ccc;
         border-bottom: 1px solid #888;
-        text-shadow: 0 1px 0 #fff;
         background-image: -webkit-linear-gradient(top, #fff 0, #e0e0e0 100%);
         background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
         -moz-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
         filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
         background-repeat: repeat-x;
-        font-weight: normal;
+        font-size: 13.444px;
+        font-weight: bold;
         -moz-user-select: none;
         -ms-user-select: none;
         -webkit-user-select: none;
@@ -200,7 +200,7 @@ a {
         .FixedTable thead th:last-of-type,
         .grid thead td:last-of-type,
         .grid thead th:last-of-type {
-            border-right: 1px solid #ccc;
+            border-right: 1px dotted #ccc;
         }
 
     .FixedTable tbody td,

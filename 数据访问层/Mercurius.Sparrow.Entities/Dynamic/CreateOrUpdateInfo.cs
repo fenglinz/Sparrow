@@ -32,11 +32,6 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         public string Column { get; set; }
 
         /// <summary>
-        /// 字段类型。
-        /// </summary>
-        public string DataType { get; set; }
-
-        /// <summary>
         /// 列标签。
         /// </summary>
         public string ColumnLabel { get; set; }
@@ -65,6 +60,16 @@ namespace Mercurius.Sparrow.Entities.Dynamic
         /// 排序号。
         /// </summary>
         public int? Sort { get; set; }
+
+        #endregion
+
+        #region 业务属性
+
+        /// <summary>
+        /// 字段类型。
+        /// </summary>
+        [Column(IsIgnore = true)]
+        public string DataType { get; set; }
 
         #endregion
     }

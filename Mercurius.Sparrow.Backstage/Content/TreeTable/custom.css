@@ -28,20 +28,26 @@ table.treetable {
 }
 
     table.treetable thead tr td {
+        cursor: default;
         overflow: hidden;
         text-align: center;
-        padding: 10px 2px 10px 4px;
+        padding: 8px 0 8px 0;
         border-left: 1px solid #ccc;
         border-top: 1px solid #ccc;
         border-right: 1px dotted #ccc;
         border-bottom: 1px solid #888;
-        text-shadow: 0 1px 0 #fff;
         background-image: -webkit-linear-gradient(top, #fff 0, #e0e0e0 100%);
         background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
+        -moz-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
         filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
         background-repeat: repeat-x;
-        font-weight: normal;
+        font-size: 13.444px;
+        font-weight: bold;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
     }
 
         table.treetable thead tr td:last-child {

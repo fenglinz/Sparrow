@@ -50,9 +50,10 @@
 @using (Ajax.BeginForm("CreateOrUpdate", "Dictionary", null, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "onSuccess" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
 {
     @Html.HiddenFor(m => m.Id)
+    
     @Html.FormGroup(Screen.SM).RenderFor(m => m.ParentId, 2, 9, @<text>
-        @TreeHelper.CreateComboTree(trees, "ParentId", Convert.ToString(item.Value))
-    </text>)
+        @TreeHelper.CreateComboTree(trees, item.FullName, Convert.ToString(item.Value))
+    </text>, form=>form.Caption("分类"))
     @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Key, 2, 9, ValidRule.NotNull)
     @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Value, 2, 9, ValidRule.NotNull)
     @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, ValidRule.NotNull)

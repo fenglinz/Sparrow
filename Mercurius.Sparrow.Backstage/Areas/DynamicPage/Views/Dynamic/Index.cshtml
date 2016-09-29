@@ -129,7 +129,7 @@
                                     <div class="col-sm-2">
                                         @if (!string.IsNullOrWhiteSpace(item.DictionaryKey))
                                         {
-                                            @Html.CreateDropdownList(string.Format("conditions[{0}].Value", index), item.DictionaryKey, item.Value, true, new { @id = string.Format("control{0}", item.Id) })
+                                            @Html.Select(string.Format("conditions[{0}].Value", index), item.DictionaryKey, item.Value, true, new { @id = string.Format("control{0}", item.Id) })
                                         }
                                         else
                                         {

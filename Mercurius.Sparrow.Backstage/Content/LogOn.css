@@ -2,7 +2,7 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    font-size: 13pt;
+    font-size: 13px;
     background-color: #758b94;
     -ms-content-zoom-chaining: none;
     -ms-touch-action: none;
@@ -11,8 +11,8 @@ html, body {
 
 .top-header {
     height: 50px;
+    font-size: 18px;
     background-color: #2d70b2;
-    text-shadow: 0 1px 0 #2d70b2;
     background-image: -webkit-linear-gradient(top, #2d70b2 0, #2a68a6 100%);
     background-image: linear-gradient(to bottom, #2d70b2 0, #2a68a6 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
@@ -35,7 +35,6 @@ html, body {
             -moz-user-select: none;
             -ms-user-select: none;
             -webkit-user-select: none;
-            -o-user-select: none;
             user-select: none;
             cursor: default;
         }
@@ -59,50 +58,19 @@ html, body {
             }
 
 #loginbox {
-    width: 510px;
+    width: 360px;
+    font-size: 15px;
     margin-left: auto;
     margin-right: auto;
     position: relative;
     -ms-touch-action: none;
     touch-action: none;
     min-height: 240px;
-    background: #ffffff;
-    -moz-box-shadow: 0 0 4px #000000;
-    -webkit-box-shadow: 0 0 4px #000000;
-    box-shadow: 0 0 4px #000000;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
-    border-radius: 7px;
-    overflow: hidden !important;
-    text-align: center;
+    -moz-box-shadow: 3px 5px 4px #000000;
+    -webkit-box-shadow: 3px 5px 4px #000000;
+    box-shadow: 3px 5px 4px #000000;
     margin-top: 190px;
-    position: relative;
 }
-
-    #loginbox .input-group-lg > .form-control,
-    .input-group-lg > .input-group-addon,
-    .input-group-lg > .input-group-btn > .btn {
-        padding-top: 8px;
-        padding-bottom: 8px;
-        vertical-align: middle;
-    }
-
-    #loginbox p {
-        margin-top: 20px;
-        padding: 0 20px;
-    }
-
-    #loginbox .input-group {
-        margin: auto;
-        margin-bottom: 10px;
-    }
-
-    #loginbox .form-actions {
-        width: 100%;
-        text-align: left;
-        padding-left: 53px;
-        display: inline-block;
-    }
 
     #loginbox .panel-title {
         font-size: 20px;
@@ -112,26 +80,21 @@ html, body {
         -webkit-user-select: none;
         user-select: none;
         cursor: default;
-        padding: 5px 15px 8px 15px;
+        padding: 5px 15px 8px 2px;
     }
 
-    #loginbox form#recoverform .form-actions {
-        margin-top: 24px;
+    #loginbox img.verifyCode {
+        height: 46px;
+        cursor: pointer;
+        width: auto;
+        border-radius: 0 5px 5px 0;
     }
 
-.form-vertical, .form-actions {
-    margin-bottom: 0;
-}
-
-.verifyCode {
-    width: 150px;
-    height: 44px;
-    cursor: pointer;
-}
-
-.form-actions .pull-left {
-    padding-right: 10px;
-}
+    #loginbox #txtVerifyCode {
+        -ms-ime-mode: disabled;
+        ime-mode: disabled;
+        text-transform: uppercase;
+    }
 
 footer {
     color: #fff;
@@ -139,11 +102,12 @@ footer {
     height: 42px;
     line-height: 42px;
     text-align: center;
+    vertical-align: middle;
     position: fixed;
     bottom: 0;
+    cursor: default;
+    font-size: 16px;
     background-color: #2d70b2;
-    -ms-text-shadow: 0 1px 0 #2d70b2;
-    text-shadow: 0 1px 0 #2d70b2;
     background-image: -webkit-linear-gradient(top, #2d70b2 0, #2a68a6 100%);
     background-image: linear-gradient(to bottom, #2d70b2 0, #2a68a6 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);

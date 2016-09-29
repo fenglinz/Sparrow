@@ -273,12 +273,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoggerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemSettingController.cs" />
-    <Compile Include="Controllers\OperationRecordController.cs" />
     <Compile Include="Extensions\Bootstrap\BootstrapHtmlHelper.cs" />
-    <Compile Include="Extensions\Bootstrap\DropdownList.cs" />
+    <Compile Include="Extensions\Bootstrap\MultipleList.cs" />
     <Compile Include="Extensions\Bootstrap\FormControl.cs" />
     <Compile Include="Extensions\Bootstrap\FormGroup.cs" />
-    <Compile Include="Extensions\Bootstrap\ModelPropertyMetadata.cs" />
+    <Compile Include="Extensions\Bootstrap\PropertyMetadata.cs" />
     <Compile Include="Extensions\Bootstrap\RadioButton.cs" />
     <Compile Include="Extensions\Bootstrap\Screen.cs" />
     <Compile Include="Extensions\IgnorePermissionValidAttribute.cs" />
@@ -437,9 +436,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\ace-elements.js" />
+    <Content Include="Scripts\ace-extra.js" />
     <Content Include="Scripts\ace-extra.min.js" />
     <Content Include="Scripts\ace.js" />
     <Content Include="Scripts\additional-methods.min.js" />
+    <Content Include="Scripts\autosize.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -966,7 +967,7 @@
     <Content Include="Scripts\RichEditor\css\fonts\icomoon.ttf" />
     <Content Include="Scripts\RichEditor\css\fonts\icomoon.woff" />
     <Content Include="Views\Shared\_BaseLayout.cshtml" />
-    <Content Include="Views\OperationRecord\Index.cshtml" />
+    <Content Include="Views\Home\OperationRecords.cshtml" />
     <Content Include="Scripts\Pdf\LICENSE" />
     <Content Include="Scripts\Pdf\web\cmaps\78-EUC-H.bcmap" />
     <Content Include="Scripts\Pdf\web\cmaps\78-EUC-V.bcmap" />

@@ -32,7 +32,7 @@
 
         @*查看用户登录/登出日志*@
         function showlogs() {
-            var url = '@Html.Raw(Url.Action("Index", "OperationRecord", new {@Area = "", @BusinessCategory = "用户管理", @BusinessSerialNumber = WebHelper.GetLogOnUserId()}))';
+            var url = '@Html.Raw(Url.Action("OperationRecords", "Home", new {@Area = "", @BusinessCategory = "用户管理", @BusinessSerialNumber = WebHelper.GetLogOnUserId()}))';
 
             mercurius.OpenDialog(url, 'ShowLogs', '查看日志', 720, 430, { statusbar: false });
         }

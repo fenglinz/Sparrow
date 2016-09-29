@@ -87,11 +87,11 @@ namespace Mercurius.Infrastructure
         /// <summary>
         /// 根据字符串创建图片。
         /// </summary>
-        /// <param name="str">字符串</param>
+        /// <param name="source">字符串</param>
         /// <returns>验证码图</returns>
-        public static byte[] CreateImage(this string str)
+        public static byte[] CreateImage(this string source, float fontSize = 13, string fontFamily= "Courier New")
         {
-            var image = new Bitmap((int)Math.Ceiling(str.Length * 12.4), 22);
+            var image = new Bitmap((int)Math.Ceiling(source.Length * 12.4), 22);
             var graphics = Graphics.FromImage(image);
 
             try
@@ -113,10 +113,10 @@ namespace Mercurius.Infrastructure
                 }
 
                 // 画文字
-                var font = new Font("Arial", 12, FontStyle.Bold | FontStyle.Italic);
+                var font = new Font(fontFamily, fontSize, FontStyle.Bold | FontStyle.Italic);
                 var brush = new LinearGradientBrush(new Rectangle(0, 0, image.Width, image.Height), Color.Blue, Color.DarkRed, 1.2f, true);
 
-                graphics.DrawString(str, font, brush, 1, 2);
+                graphics.DrawString(source, font, brush, 1, 2);
 
                 // 画图片前景干扰点
                 for (var i = 0; i < 100; i++)
