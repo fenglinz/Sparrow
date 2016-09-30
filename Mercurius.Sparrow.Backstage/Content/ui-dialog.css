@@ -433,7 +433,6 @@
     bottom: 15px;
 }
 
-
 @-webkit-keyframes ui-dialog-loading {
     0% {
         -webkit-transform: rotate(0deg);
@@ -502,6 +501,9 @@
     font-size: 0;
     text-indent: -999em;
     color: #666;
+}
+
+.ui-dialog-loading {
     width: 100%\9;
     text-indent: 0\9;
     line-height: 32px\9;
@@ -519,12 +521,7 @@
         box-shadow: 0 -10px 0 1px #ccc, 10px 0px #ccc, 0 10px #ccc, -10px 0 #ccc, -7px -7px 0 0.5px #ccc, 7px -7px 0 1.5px #ccc, 7px 7px #ccc, -7px 7px #ccc;
         -webkit-transform: rotate(360deg);
         -webkit-animation: ui-dialog-loading 1.5s infinite linear;
-        -moz-transform: rotate(360deg);
-        -ms-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
         transform: rotate(360deg);
-        -moz-animation: ui-dialog-loading 1.5s infinite linear;
-        -o-animation: ui-dialog-loading 1.5s infinite linear;
         animation: ui-dialog-loading 1.5s infinite linear;
         display: none\9;
     }
