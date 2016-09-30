@@ -19,6 +19,7 @@ namespace Mercurius.Sparrow.Backstage
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery.unobtrusive-ajax.js",
                 "~/Scripts/bootstrap.js",
+                "~/Scripts/ace-extra.js",
                 "~/Scripts/ace-elements.js",
                 "~/Scripts/ace.js",
                 "~/Scripts/MessageBox/msgbox.js",
@@ -85,12 +86,10 @@ namespace Mercurius.Sparrow.Backstage
             bundles.Add(new StyleBundle("~/Content/logon/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
-                "~/Content/bootstrap-datetimepicker.css",
                 "~/Content/font-awesome.css",
                 "~/Content/ui-dialog.css",
                 "~/Content/layer.css",
                 "~/Content/layer.moon.css",
-                "~/Content/Common.css",
                 "~/Content/LogOn.css"));
 
             // 主页面CSS

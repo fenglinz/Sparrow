@@ -4,20 +4,17 @@
 @section Head
 {
     <title>@Html.GetProductName()</title>
+    @Styles.Render("~/Content/main/css")
     <!--[if lte IE 9]>
     <link rel="stylesheet" href="@Url.Content("~/Content/ace-part2.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Content/ace-ie.css")" />
     <![endif]-->
-    @Styles.Render("~/Content/main/css")
     @RenderSection("Styles", false)
-    <!-- ace settings handler -->
-    <script src="~/Scripts/ace-extra.min.js"></script>
-    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    @Scripts.Render("~/bundles/main")
     <!--[if lte IE 8]>
     <script src="@Url.Content("~/Scripts/html5shiv.min.js")"></script>
     <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
     <![endif]-->
-    @Scripts.Render("~/bundles/main")
 }
 <div id="navbar" class="navbar navbar-default">
     <script type="text/javascript">
