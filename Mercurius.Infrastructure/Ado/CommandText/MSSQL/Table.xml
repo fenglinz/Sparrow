@@ -12,22 +12,26 @@
   <CommandText name="GetTables" commandType="Text">
     <![CDATA[
       WITH cte AS(
-	      SELECT
-	        SCHEMA_NAME(schema_id) AS [Schema],
+        SELECT
+          SCHEMA_NAME(schema_id) AS [Schema],
           type,
           name,
           object_id
-	      FROM sys.objects
-	      WHERE type IN('U','V') AND Name<>'sysdiagrams'
+        FROM sys.objects
+        WHERE type IN('U','V') AND Name<>'sysdiagrams'
       )
       SELECT
         cte.[Schema],
         cte.Name,
+        p.HasIdentityColumn,
         CASE cte.type WHEN 'U' THEN 0 ELSE 1 END IsView,
         CASE WHEN a.value IS NULL THEN cte.name ELSE a.value END Comments
       FROM cte
       LEFT JOIN sys.extended_properties a
         ON cte.object_id=a.major_id AND a.minor_id=0
+      OUTER APPLY(
+        SELECT 1 AS HasIdentityColumn FROM syscolumns s WHERE s.id=cte.object_id AND COLUMNPROPERTY(s.id, s.name, 'IsIdentity')=1
+      ) p
       ORDER BY cte.[schema],cte.Name
     ]]>
   </CommandText>
@@ -36,22 +40,26 @@
   <CommandText name="GetTable" commandType="Text">
     <![CDATA[
       WITH cte AS(
-	      SELECT
-	        SCHEMA_NAME(schema_id) AS [Schema],
-          type,
-          name,
-          object_id
-	      FROM sys.objects
-	      WHERE type IN('U','V') AND Name<>'sysdiagrams'
+	    SELECT
+	      SCHEMA_NAME(schema_id) AS [Schema],
+        type,
+        name,
+        object_id
+	    FROM sys.objects
+	    WHERE type IN('U','V') AND Name<>'sysdiagrams'
       )
       SELECT
         cte.[Schema],
         cte.Name,
+          p.HasIdentityColumn,
         CASE cte.type WHEN 'U' THEN 0 ELSE 1 END IsView,
         CASE WHEN a.value IS NULL THEN cte.name ELSE a.value END Comments
       FROM cte
       LEFT JOIN sys.extended_properties a
         ON cte.object_id=a.major_id AND a.minor_id=0
+      OUTER APPLY(
+        SELECT 1 AS HasIdentityColumn FROM syscolumns s WHERE s.id=cte.object_id AND COLUMNPROPERTY(s.id, s.name, 'IsIdentity')=1
+      ) p
       WHERE cte.[Schema]=@schema AND cte.name=@table
     ]]>
   </CommandText>
