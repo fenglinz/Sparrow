@@ -308,6 +308,7 @@
     <Content Include="App_Data\Scripts\MSSQL\04-WebApi.sql" />
     <Content Include="App_Data\Scripts\MSSQL\08-Procedures.sql" />
     <Content Include="App_Data\Scripts\MSSQL\05-Storage.sql" />
+    <Content Include="App_Data\Scripts\表结构导出.sql" />
     <Content Include="Content\ace-fonts.css" />
     <Content Include="Content\ace-ie.css" />
     <Content Include="Content\ace-part2.css" />
