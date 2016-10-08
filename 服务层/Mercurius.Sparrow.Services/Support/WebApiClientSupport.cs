@@ -51,7 +51,7 @@ namespace Mercurius.Sparrow.Services
         #region 属性
 
         /// <summary>
-        /// 获取或者设置缓存。
+        /// 缓存。
         /// </summary>
         public CacheProvider Cache { get; set; }
 

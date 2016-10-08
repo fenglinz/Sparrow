@@ -13,17 +13,17 @@ namespace Mercurius.Infrastructure.Data.Excel
         #region 属性
 
         /// <summary>
-        /// 获取或者设置数据库表名称。
+        /// 数据库表名称。
         /// </summary>
         public string TableName { get; set; }
 
         /// <summary>
-        /// 获取或者设置sheet名称。
+        /// sheet名称。
         /// </summary>
         public string SheetName { get; set; }
 
         /// <summary>
-        /// 获取或者设置导入导出项集合。
+        /// 导入导出项集合。
         /// </summary>
         public IList<OptionItem> Options { get; set; }
 

@@ -16,37 +16,37 @@ namespace Mercurius.Infrastructure.Ado
         #region 属性
 
         /// <summary>
-        /// 获取或者设置是否忽略属性的映射。
+        /// 是否忽略属性的映射。
         /// </summary>
         public bool IsIgnore { get; set; }
 
         /// <summary>
-        /// 获取或者设置字段名称。
+        /// 字段名称。
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// 获取或者设置字段描述信息。
+        /// 字段描述信息。
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// 获取或者设置该字段是否允许为空。
+        /// 该字段是否允许为空。
         /// </summary>
         public bool IsNullable { get; set; }
 
         /// <summary>
-        /// 获取或者设置是否为主键。
+        /// 是否为主键。
         /// </summary>
         public bool IsPrimaryKey { get; set; }
 
         /// <summary>
-        /// 获取或者设置是否为标识列。
+        /// 是否为标识列。
         /// </summary>
         public bool IsIdentity { get; set; }
 
         /// <summary>
-        /// 获取或者设置是否为只读字段。
+        /// 是否为只读字段。
         /// </summary>
         public bool IsReadOnly { get; set; }
 

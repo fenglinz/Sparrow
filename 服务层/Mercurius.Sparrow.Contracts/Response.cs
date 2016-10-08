@@ -20,12 +20,12 @@ namespace Mercurius.Sparrow.Contracts
         #region 属性
 
         /// <summary>
-        /// 获取或者设置是否成功。
+        /// 是否成功。
         /// </summary>
         public bool IsSuccess { get; set; }
 
         /// <summary>
-        /// 获取或者设置错误消息。
+        /// 错误消息。
         /// </summary>
         public string ErrorMessage
         {
@@ -85,7 +85,7 @@ namespace Mercurius.Sparrow.Contracts
         #region 属性
 
         /// <summary>
-        /// 获取或者设置返回的数据。
+        /// 返回的数据。
         /// </summary>
         public T Data { get; set; }
 
@@ -119,12 +119,12 @@ namespace Mercurius.Sparrow.Contracts
         #region 属性
 
         /// <summary>
-        /// 获取或者设置查询结果的总记录数。
+        /// 查询结果的总记录数。
         /// </summary>
         public int TotalRecords { get; set; }
 
         /// <summary>
-        /// 获取或者设置返回的数据集合。
+        /// 返回的数据集合。
         /// </summary>
         public IList<T> Datas { get; set; }
 

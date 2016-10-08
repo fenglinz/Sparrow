@@ -13,22 +13,22 @@ namespace Mercurius.Infrastructure.Dynamic
         #region 属性
 
         /// <summary>
-        /// 获取或者设置查询属性名称。
+        /// 查询属性名称。
         /// </summary>
         public string PropertyName { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询比较方式。
+        /// 查询比较方式。
         /// </summary>
         public Op Op { get; set; }
 
         /// <summary>
-        /// 获取或者设置查询值。
+        /// 查询值。
         /// </summary>
         public object Value { get; set; }
 
         /// <summary>
-        /// 获取或者设置条件结合方式。
+        /// 条件结合方式。
         /// </summary>
         public string JoinType { get; set; }
 

@@ -15,12 +15,12 @@ namespace Mercurius.Infrastructure.Dynamic
         #region 属性
 
         /// <summary>
-        /// 获取或者设置查询属性名称。
+        /// 查询属性名称。
         /// </summary>
         public string PropertyName { get; set; }
 
         /// <summary>
-        /// 获取或者设置排序方式。
+        /// 排序方式。
         /// </summary>
         public OrderBy OrderBy { get; set; }
 

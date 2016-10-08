@@ -149,12 +149,12 @@ namespace Mercurius.Infrastructure.Data.Excel
         internal class PropertyMetadata
         {
             /// <summary>
-            /// 获取或者设置属性元数据。
+            /// 属性元数据。
             /// </summary>
             public PropertyInfo Property { get; set; }
 
             /// <summary>
-            /// 获取或者设置该属性的导入导出映射。
+            /// 该属性的导入导出映射。
             /// </summary>
             public ColumnMappingAttribute ColumnMapping { get; set; }
         }

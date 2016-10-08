@@ -46,7 +46,7 @@ namespace Mercurius.Sparrow.Services.Support
         #region 属性
 
         /// <summary>
-        /// 获取或者设置日志组件。
+        /// 日志组件。
         /// </summary>
         public ILogger Logger
         {
@@ -63,12 +63,12 @@ namespace Mercurius.Sparrow.Services.Support
         }
 
         /// <summary>
-        /// 获取或者设置缓存提供者。
+        /// 缓存提供者。
         /// </summary>
         public CacheProvider Cache { get; set; }
 
         /// <summary>
-        /// 获取或者设置IBatis.Net持久化器。
+        /// IBatis.Net持久化器。
         /// </summary>
         public Persistence Persistence { get; set; }
 

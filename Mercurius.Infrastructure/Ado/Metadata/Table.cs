@@ -12,22 +12,27 @@ namespace Mercurius.Infrastructure.Ado
         #region 属性
 
         /// <summary>
-        /// 获取或者设置表名称。
+        /// 表名称。
         /// </summary>
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 获取或者设置所属架构。
+        /// 所属架构。
         /// </summary>
         public virtual string Schema { get; set; }
 
         /// <summary>
-		/// 获取或者设置是否为视图。
+		/// 是否为视图。
 		/// </summary>
 		public virtual bool IsView { get; set; }
 
         /// <summary>
-        /// 获取或者设置表说明信息。
+        /// 包含自动增长列。
+        /// </summary>
+        public virtual bool? HasIdentityColumn { get; set; }
+
+        /// <summary>
+        /// 表说明信息。
         /// </summary>
         public virtual string Comments { get; set; }
 

@@ -14,22 +14,22 @@ namespace Mercurius.Infrastructure.Data
         #region 属性
 
         /// <summary>
-        /// 获取或者设置标题。
+        /// 标题。
         /// </summary>
         public string HeaderText { get; set; }
 
         /// <summary>
-        /// 获取或者设置关联的字段名称。
+        /// 关联的字段名称。
         /// </summary>
         public string ColumnName { get; set; }
 
         /// <summary>
-        /// 获取或者设置数据格式化字符串。
+        /// 数据格式化字符串。
         /// </summary>
         public string DataFormat { get; set; }
 
         /// <summary>
-        /// 获取或者设置排序序号。
+        /// 排序序号。
         /// </summary>
         public int Order { get; set; }
 

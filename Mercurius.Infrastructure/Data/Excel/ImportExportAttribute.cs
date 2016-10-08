@@ -14,12 +14,12 @@ namespace Mercurius.Infrastructure.Data.Excel
         #region 属性
 
         /// <summary>
-        /// 获取或者设置表名称。
+        /// 表名称。
         /// </summary>
         public string TableName { get; set; }
 
         /// <summary>
-        /// 获取或者设置Sheet名称。
+        /// Sheet名称。
         /// </summary>
         public string SheetName { get; set; }
 

@@ -28,12 +28,12 @@ namespace Mercurius.Infrastructure.Ado
             #region 属性
 
             /// <summary>
-            /// 获取或者设置SQL命令类型。
+            /// SQL命令类型。
             /// </summary>
             public CommandType CommandType { get; set; }
 
             /// <summary>
-            /// 获取或者设置SQL命令。
+            /// SQL命令。
             /// </summary>
             public string CommandText { get; set; }
 

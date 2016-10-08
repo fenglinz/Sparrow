@@ -37,17 +37,17 @@ namespace Mercurius.Sparrow.Repositories.Core
         #region 属性
 
         /// <summary>
-        /// 获取或者设置缓存器。
+        /// 缓存器。
         /// </summary>
         public CacheProvider Cache { get; set; }
 
         /// <summary>
-        /// 获取或者设置SqlMap的命名空间。
+        /// SqlMap的命名空间。
         /// </summary>
         public string SqlMapNamespace { get; set; }
 
         /// <summary>
-        /// 获取或者设置
+        /// SqlMapper管理器。
         /// </summary>
         public SqlMapperManager SqlMapperManager { get; set; }
 

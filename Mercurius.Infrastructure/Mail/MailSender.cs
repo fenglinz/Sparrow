@@ -22,37 +22,37 @@ namespace Mercurius.Infrastructure.Mail
         #region 属性
 
         /// <summary>
-        /// 获取或者设置邮件发送者。
+        /// 邮件发送者。
         /// </summary>
         public string From { get; set; }
 
         /// <summary>
-        /// 获取或者设置邮件接收者。
+        /// 邮件接收者。
         /// </summary>
         public string To { get; set; }
 
         /// <summary>
-        /// 获取或者设置邮件抄送者。
+        /// 邮件抄送者。
         /// </summary>
         public string CC { get; set; }
 
         /// <summary>
-        /// 获取或者设置邮件密送者。
+        /// 邮件密送者。
         /// </summary>
         public string Bcc { get; set; }
 
         /// <summary>
-        /// 获取或者设置邮件标题。
+        /// 邮件标题。
         /// </summary>
         public string Subject { get; set; }
 
         /// <summary>
-        /// 获取或者设置邮件正文。
+        /// 邮件正文。
         /// </summary>
         public string Body { get; set; }
 
         /// <summary>
-        /// 获取或者设置邮件附件列表。
+        /// 邮件附件列表。
         /// </summary>
         public IList<Attachment> Attachments { get; set; }
 

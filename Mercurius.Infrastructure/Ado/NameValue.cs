@@ -14,12 +14,12 @@ namespace Mercurius.Infrastructure.Ado
         #region 属性
 
         /// <summary>
-        /// 获取或者设置名称。
+        /// 名称。
         /// </summary>
         public string Name;
 
         /// <summary>
-        /// 获取或者设置值。
+        /// 值。
         /// </summary>
         public object Value;
 

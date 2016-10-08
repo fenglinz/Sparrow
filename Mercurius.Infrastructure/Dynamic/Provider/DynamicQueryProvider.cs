@@ -29,12 +29,12 @@ namespace Mercurius.Infrastructure.Dynamic
             #region 属性
 
             /// <summary>
-            /// 获取或者设置数据集合。
+            /// 数据集合。
             /// </summary>
             public TList Datas { get; }
 
             /// <summary>
-            /// 获取或者设置总记录数。
+            /// 总记录数。
             /// </summary>
             public int TotalRecords { get; }
 
@@ -104,12 +104,12 @@ namespace Mercurius.Infrastructure.Dynamic
         #region 属性
 
         /// <summary>
-        /// 获取或者设置日志记录接口对象。
+        /// 日志记录接口对象。
         /// </summary>
         public ILogger Logger { get; set; }
 
         /// <summary>
-        /// 获取或者设置缓存对象。
+        /// 缓存对象。
         /// </summary>
         public CacheProvider Cache { get; set; }
 

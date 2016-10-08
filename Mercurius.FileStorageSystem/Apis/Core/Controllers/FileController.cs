@@ -26,7 +26,7 @@ namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
         #region 属性
 
         /// <summary>
-        /// 获取或者设置文件管理服务。
+        /// 文件管理服务。
         /// </summary>
         public IFileService FileService { get; set; }
 

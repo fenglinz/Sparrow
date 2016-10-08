@@ -15,7 +15,7 @@ namespace Mercurius.Sparrow.Repositories
         #region 属性
 
         /// <summary>
-        /// 获取或者设置SqlMapper管理对象。
+        /// SqlMapper管理对象。
         /// </summary>
         public SqlMapperManager SqlMapperManager { get; set; }
 

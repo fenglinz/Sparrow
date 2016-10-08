@@ -31,12 +31,12 @@ namespace Mercurius.Infrastructure.Ado
         public DatabaseType Database { get; private set; }
 
         /// <summary>
-        /// 获取或者设置数据库连接。
+        /// 数据库连接。
         /// </summary>
         public string ConnectionString { get; set; }
 
         /// <summary>
-        /// 获取或者设置数据库元数据信息。
+        /// 数据库元数据信息。
         /// </summary>
         public DbMetadata DbMetadata
         {

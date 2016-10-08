@@ -14,7 +14,7 @@ namespace Mercurius.Infrastructure.Ado
         #region 属性
 
         /// <summary>
-        /// 获取或者设置数据库访问工具类。
+        /// 数据库访问工具类。
         /// </summary>
         internal DbHelper DbHelper { get; set; }
 

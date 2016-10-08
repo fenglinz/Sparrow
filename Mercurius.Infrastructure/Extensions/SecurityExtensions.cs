@@ -25,7 +25,7 @@ namespace Mercurius.Infrastructure
         #region 属性
 
         /// <summary>
-        /// 获取或者设置定义控制密钥生成和算法的配置信息。
+        /// 定义控制密钥生成和算法的配置信息。
         /// </summary>
         public static MachineKeySection MachineKey { get; private set; }
 

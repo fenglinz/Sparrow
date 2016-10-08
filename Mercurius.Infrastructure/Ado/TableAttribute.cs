@@ -16,7 +16,7 @@ namespace Mercurius.Infrastructure.Ado
         #region 属性
 
         /// <summary>
-        /// 获取或者设置表名称。
+        /// 表名称。
         /// </summary>
         public string Name { get; set; }
 
