@@ -78,17 +78,19 @@
             <option value="Code">工号</option>
             <option value="Name" @(so.SearchCategory == "Name" ? "selected" : string.Empty)>姓名</option>
         </select>
-        <input type="text" id="searchValue" name="SearchValue" value="@so.SearchValue" class="form-control" style="float:left;width:180px;margin-left:5px;" placeholder="查询关键字" />
-        <button id="lbtSearch" type="submit" class="btn btn-sm btn-primary" style="margin-left:2px;margin-top:2px;">
-            <i class="glyphicon glyphicon-search"></i> 查询
-        </button>
-        <button type="button" class="btn btn-sm btn-default" onclick="$('#searchCategory').val('Code'); $('#searchValue').val('');">
-            <i class="glyphicon glyphicon-remove"></i> 重置
-        </button>
-        <button type="button" class="btn btn-sm btn-danger" onclick="ChoosedUser('','')">
-            <i class="glyphicon glyphicon-trash"></i> 清除
-        </button>
-        <b class="text-danger">（*注：双击选择用户！）</b>
+        <input type="text" id="searchValue" name="SearchValue" value="@so.SearchValue" class="form-control" style="float:left;width:160px;margin-left:5px;margin-right:5px;" placeholder="查询关键字" />
+        <div class="btn-group">
+            <button id="lbtSearch" type="submit" class="btn btn-primary">
+                <i class="glyphicon glyphicon-search"></i> 查询
+            </button>
+            <button type="button" class="btn btn-default" onclick="$('#searchCategory').val('Code'); $('#searchValue').val('');">
+                <i class="glyphicon glyphicon-remove"></i> 重置
+            </button>
+            <button type="button" class="btn btn-danger" onclick="ChoosedUser('','')">
+                <i class="glyphicon glyphicon-trash"></i> 清除
+            </button>
+        </div>
+        <b class="text-danger">(注：双击选择用户！)</b>
     }
 </div>
 
