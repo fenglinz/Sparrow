@@ -227,7 +227,7 @@
         ORDER BY Code ASC
       ]]>
     </select>
-    
+
     <select id="GetDepartmentsByUser" parameterClass="string" resultClass="string">
       SELECT OrganizationId FROM RBAC.StaffOrganize WHERE UserId=#value#
     </select>
@@ -311,19 +311,18 @@
         LEFT JOIN RBAC.StaffOrganize S
           ON U.Id = S.UserId
         OUTER APPLY(
-           SELECT
-            ParentIds=REPLACE(
-			        REPLACE(
-				      (
-						    SELECT
-                  b.ParentId+','+a.OrganizationId+',' 
-                FROM RBAC.StaffOrganize a
-								left join RBAC.Organization b
-									on a.OrganizationId=b.Id
-						    WHERE UserId=U.Id FOR XML PATH('')
-				      ),'<ParentId>','')
-			      ,'</ParentId>',',')
-          ) p
+          SELECT
+           ParentIds=REPLACE(
+			      REPLACE(
+				    (
+					    SELECT
+                b.ParentId+','+a.OrganizationId+',' 
+              FROM RBAC.StaffOrganize a
+						  LEFT JOIN RBAC.Organization b ON a.OrganizationId=b.Id
+					    WHERE UserId=U.Id FOR XML PATH('')
+				    ),'<ParentId>','')
+			     ,'</ParentId>',',')
+        ) p
         WHERE U.Status !=0
       ]]>
       <include refid="SearchUsersCondition" />

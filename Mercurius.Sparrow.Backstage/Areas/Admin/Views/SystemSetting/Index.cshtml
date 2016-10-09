@@ -12,6 +12,10 @@
 @section Styles
 {
     <style type="text/css">
+        .panel {
+            margin-top: 5px;
+        }
+
         #cacheLogger .form-inline {
             float: left;
         }
@@ -116,7 +120,6 @@
     </script>
 }
 <div class="header">系统设置</div>
-
 <div class="panel panel-default">
     <div class="panel-heading">
         <b>设置产品信息</b>
@@ -144,7 +147,7 @@
     </div>
 </div>
 
-<div class="panel panel-default" style="margin-top: 1px;">
+<div class="panel panel-default">
     <div class="panel-heading">
         <b>日志设置</b>
     </div>
@@ -226,7 +229,7 @@
                 <label class="col-sm-1"></label>
                 <div class="col-sm-6">
                     <button type="button" class="btn btn-success" onclick="SynchronizeMachineKey();">
-                        <i class="glyphicon glyphicon-transfer"></i> 同步文件系统密钥
+                        <i class="glyphicon glyphicon-transfer"></i> 同步计算机密钥
                     </button>
                     <span id="remoteDiffNotice" class="text-danger sr-only" style="margin-left: 20px;font-weight: bold; font-size: 1.1em;">注：文件系统的计算机密钥与当前系统不一致，需要同步文件系统的计算机密钥！</span>
                 </div>

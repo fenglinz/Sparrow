@@ -2,7 +2,8 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    font-size: 13px;
+    font-size: 14px;
+    font-family: arial, sans-serif;
     background-color: #758b94;
     -ms-content-zoom-chaining: none;
     -ms-touch-action: none;

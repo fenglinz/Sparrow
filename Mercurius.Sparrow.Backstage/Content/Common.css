@@ -6,8 +6,8 @@
     position: relative;
     padding: 0;
     height: 100%;
-    font-size: 13px;
-    font-family: Arial, sans-serif, Helvetica, Tahoma;
+    font-size: 14px;
+    font-family: arial, sans-serif;
     background: #ffffff;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
@@ -359,7 +359,7 @@ input.search-image {
     background-color: #e0eccc;
     color: red;
     font-weight: bold;
-    font-size: 1.4em;
+    font-size: 1.2em;
 }
 
 .grid > tbody .text-danger {

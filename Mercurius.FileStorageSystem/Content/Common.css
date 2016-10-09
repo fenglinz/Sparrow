@@ -6,8 +6,9 @@
     position: relative;
     padding: 0;
     height: 100%;
-    font: normal 12px/24px Helvetica, Tahoma, Arial, sans-serif;
-    background: #fff;
+    font-size: 14px;
+    font-family: arial, sans-serif;
+    background: #ffffff;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -17,11 +18,9 @@
 body {
     margin: 0;
     padding: 0;
-    font-size: 13px;
     min-height: 100%;
     padding-bottom: 0;
-    color: #333;
-    font-weight: 300;
+    color: #000;
     line-height: 20px;
 }
 
@@ -29,16 +28,6 @@ body {
     padding-left: 0;
     padding-right: 0;
 }
-
-    ul.nav > li {
-        padding-top: 2px;
-    }
-
-        ul.nav > li i {
-            top: 2px;
-            font-size: 1.15em;
-        }
-
 
 .bg-primary {
     padding: 10px 15px;
@@ -49,8 +38,12 @@ body {
     height: 100%;
     position: absolute;
     background: #ccc;
-    -ms-opacity: 0.6;
-    opacity: 0.6;
+    opacity: 0.8;
+}
+
+button > .glyphicon,
+.btn > .glyphicon {
+    top: 2px;
 }
 
 label[for],
@@ -181,21 +174,22 @@ a {
     .FixedTable thead th,
     .grid thead td,
     .grid thead th {
+        cursor: default;
         overflow: hidden;
         text-align: center;
-        padding: 10px 2px 10px 4px;
+        padding: 8px 0 8px 0;
         border-left: 1px solid #ccc;
         border-top: 1px solid #ccc;
         border-right: 1px dotted #ccc;
         border-bottom: 1px solid #888;
-        text-shadow: 0 1px 0 #fff;
         background-image: -webkit-linear-gradient(top, #fff 0, #e0e0e0 100%);
         background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
         -moz-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
         filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
         background-repeat: repeat-x;
-        font-weight: normal;
+        font-size: 13.444px;
+        font-weight: bold;
         -moz-user-select: none;
         -ms-user-select: none;
         -webkit-user-select: none;
@@ -205,7 +199,7 @@ a {
         .FixedTable thead th:last-of-type,
         .grid thead td:last-of-type,
         .grid thead th:last-of-type {
-            border-right: 1px solid #ccc;
+            border-right: 1px dotted #ccc;
         }
 
     .FixedTable tbody td,
@@ -261,15 +255,17 @@ a {
         .grid tbody tr:nth-child(even):not(.selected):hover > td > a,
         .FixedTable tbody tr:nth-child(even):not(.selected):hover > td > a {
             color: #fff;
-            text-decoration: none;
-            padding-bottom: 2px;
-            border-bottom: 1px dotted transparent;
         }
 
             .grid tbody tr:not(.selected):hover > td > a:hover,
             .grid tbody tr:nth-child(even):not(.selected):hover > td > a:hover,
             .FixedTable tbody tr:nth-child(even):not(.selected):hover > td > a:hover {
-                border-bottom-color: #fff;
+                text-decoration: underline;
+                -moz-text-decoration-color: #ff8c00;
+                -webkit-text-decoration-color: #ff8c00;
+                -ms-text-decoration-color: #ff8c00;
+                -o-text-decoration-color: #ff8c00;
+                text-decoration-color: #ff8c00;
             }
 
 .check-all {
@@ -363,7 +359,7 @@ input.search-image {
     background-color: #e0eccc;
     color: red;
     font-weight: bold;
-    font-size: 1.4em;
+    font-size: 1.2em;
 }
 
 .grid > tbody .text-danger {
@@ -397,7 +393,7 @@ input.search-image {
 }
 
 .form-horizontal.form .control-label {
-    padding-top: 7px;
+    padding-top: 5px;
     margin-bottom: 0;
     padding-right: 5px;
     text-align: right;
@@ -668,10 +664,10 @@ input.search-image {
 
 /** 分页控件样式。*/
 .pager-container {
-    height: 44px;
+    height: 32px;
     float: right;
     color: black;
-    line-height: 36px;
+    line-height: 33px;
     margin-right: 2px;
     display: inline-block;
 }
@@ -688,8 +684,12 @@ input.search-image {
     }
 
     .pager-container .pagination {
-        margin: 5px 0;
+        margin: 5px 0 0 0;
     }
+
+        .pager-container .pagination > li > a, .pagination > li > span {
+            padding: 4px 11px;
+        }
 
 /** TreeView样式 */
 .treeview li {
@@ -748,4 +748,20 @@ input.search-image {
 [validate-rule*=date],
 [validate-rule=time] {
     cursor: pointer;
+}
+
+span.error {
+    color: red;
+    font-size: 1.4em;
+    font-weight: bold;
+    font-style: normal;
+    position: relative;
+    top: 5px;
+    right: 2px;
+}
+
+@media only screen and (max-width: 991px) {
+    .navbar-toggle {
+        display: inline;
+    }
 }
