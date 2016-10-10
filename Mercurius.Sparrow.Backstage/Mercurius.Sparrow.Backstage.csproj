@@ -246,6 +246,7 @@
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\User\CreateOrUpdateVM.cs" />
     <Compile Include="Areas\Console\ConsoleAreaRegistration.cs" />
+    <Compile Include="Areas\Console\SignalRHubs\GenerateDatabaseScript.cs" />
     <Compile Include="Areas\DynamicPage\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\DynamicPage\Controllers\DynamicController.cs" />
     <Compile Include="Areas\DynamicPage\Controllers\ExtensionPropertyController.cs" />

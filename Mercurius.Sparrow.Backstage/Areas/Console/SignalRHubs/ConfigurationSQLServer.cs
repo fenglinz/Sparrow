@@ -31,7 +31,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
         /// <param name="account">数据库登录账号</param>
         /// <param name="password">数据库登录密码</param>
         /// <param name="dbName">数据库名称</param>
-        [SuppressMessage("ReSharper", "StringIndexOfIsCultureSpecific.1")]
         public void Configure(string host, string account, string password, string dbName)
         {
             this.SendMessage("--start--");

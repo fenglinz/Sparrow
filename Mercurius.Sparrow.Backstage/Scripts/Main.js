@@ -42,22 +42,15 @@ function NavMenuUrl(url, target) {
         return false;
     }
 
-    mercurius.OnWaitProcess(function () {
-        url = (url.indexOf("http") == 0 || url.indexOf(mercurius.BaseUrl) == 0) ? url : mercurius.BaseUrl + url;
+    url = (url.indexOf("http") == 0 || url.indexOf(mercurius.BaseUrl) == 0) ? url : mercurius.BaseUrl + url;
 
-        switch (target) {
-            case "Iframe":
-            case "href":
-                $("#main").attr("src", url);
-
-                break;
-
-            case "Open":
-                window.open(url, 'newwindow' + (winIndex++));
-
-                break;
-        }
-    });
+    if (target == 'Open') {
+        window.open(url, '_blank' + (winIndex++));
+    } else {
+        mercurius.OnWaitProcess(function () {
+            $("#main").attr("src", url);
+        });
+    }
 
     return false;
 }

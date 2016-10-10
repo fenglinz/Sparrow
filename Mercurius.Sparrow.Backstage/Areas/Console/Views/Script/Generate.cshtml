@@ -1,15 +1,42 @@
-﻿
-@{
+﻿@{
     ViewBag.Features = "生成数据库脚本";
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var hub = $.connection.generateDatabaseScript;
+
+            hub.client.Message = function (message) {
+                if (message == '--start--') {
+                    $('#messages').html('');
+                    $('#btnGenerate').prop('disabled', true);
+                } else if (message == '--end--') {
+                    $('#btnGenerate').prop('disabled', false);
+                }
+                else {
+                    $('#messages').append('<p>' + message + '</p>');
+                }
+            };
+
+            $.connection.hub.start().done(function () {
+                $('#btnGenerate').click(function () {
+                    hub.server.generate();
+                });
+            });
+        });
+    </script>
 }
 
 <div class="panel panel-primary">
     <div class="panel-heading" style="display:inline-block; width:100%;padding:3px 15px;">
-        <button type="button" class="btn btn-success pull-right">
+        <button id="btnGenerate" type="button" class="btn btn-success pull-right">
             <i class="glyphicon glyphicon-plus-sign"></i> 生成
         </button>
     </div>
-    <div class="panel-body">
-
+    <div id="messages" class="panel-body" style="max-height:600px; overflow-y:auto;">
     </div>
 </div>
