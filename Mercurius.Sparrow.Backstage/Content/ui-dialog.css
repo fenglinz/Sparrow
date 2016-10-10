@@ -126,7 +126,7 @@
     text-align: center;
     max-width: 960px;
     max-height: 720px;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .ui-dialog-content {
@@ -434,53 +434,29 @@
 @-webkit-keyframes ui-dialog-loading {
     0% {
         -webkit-transform: rotate(0deg);
-        -moz-transform: rotate(0deg);
-        -ms-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-        transform: rotate(0deg);
     }
 
     100% {
         -webkit-transform: rotate(360deg);
-        -moz-transform: rotate(360deg);
-        -ms-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
-        transform: rotate(360deg);
     }
 }
 
 @-moz-keyframes ui-dialog-loading {
     0% {
         -moz-transform: rotate(0deg);
-        -ms-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
     }
 
     100% {
         -moz-transform: rotate(360deg);
-        -ms-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
     }
 }
 
 @keyframes ui-dialog-loading {
     0% {
-        -moz-transform: rotate(0deg);
-        -ms-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-        -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
 
     100% {
-        -moz-transform: rotate(360deg);
-        -ms-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
-        -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }

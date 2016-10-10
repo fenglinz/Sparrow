@@ -83,6 +83,11 @@ namespace Mercurius.Sparrow.Entities.Storage
         /// </summary>
         public virtual File File { get; set; }
 
+        /// <summary>
+        /// 是否为业务数据创建前添加。
+        /// </summary>
+        public bool IsBeforeBusinessData { get; set; }
+
         #endregion
     }
 }

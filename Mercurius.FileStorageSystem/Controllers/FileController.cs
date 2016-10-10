@@ -95,7 +95,7 @@ namespace Mercurius.FileStorageSystem.Controllers
         /// <param name="id">文件在数据库中的路径</param>
         /// <param name="mode">获取图片的压缩模式</param>
         /// <returns>文件</returns>
-        [OutputCache(Duration = 7200, VaryByParam = "id;mode;rnd")]
+        //[OutputCache(Duration = 7200, VaryByParam = "id;mode;rnd")]
         public ActionResult Index(string id, CompressMode mode = CompressMode.Small)
         {
             var bytes = id.ToCharArray();
@@ -113,6 +113,19 @@ namespace Mercurius.FileStorageSystem.Controllers
 
                 if (mode != CompressMode.Original && ImageMimes.Contains(rsp.Data.ContentType))
                 {
+                    // 源图像的信息
+                    var img = Image.FromFile(filePath);
+
+                    // 返回调整后的图像Width与Height
+                    var newSize = NewSize(mode, img.Width, img.Height);
+
+                    if (newSize.Width >= img.Width || newSize.Height >= img.Height)
+                    {
+                        img.Dispose();
+
+                        return File(filePath, rsp.Data.ContentType, rsp.Data.Name);
+                    }
+
                     var compressionPath = this.GetCompressionImage(mode, filePath);
 
                     if (System.IO.File.Exists(compressionPath))
@@ -120,14 +133,8 @@ namespace Mercurius.FileStorageSystem.Controllers
                         return File(compressionPath, rsp.Data.ContentType, rsp.Data.Name);
                     }
 
-                    // 源图像的信息
-                    var img = Image.FromFile(filePath);
-
                     // 源图像的格式
                     var thisformat = img.RawFormat;
-
-                    // 返回调整后的图像Width与Height
-                    var newSize = NewSize(mode, img.Width, img.Height);
                     var outBmp = new Bitmap(newSize.Width, newSize.Height);
 
                     using (var g = Graphics.FromImage(outBmp))

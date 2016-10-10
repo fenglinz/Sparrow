@@ -92,6 +92,9 @@
       <isNotNull property="Files">
         <iterate property="Files" open="" conjunction="" close="">
           <![CDATA[
+            SET @fileId=NULL;
+            SET @businessFileId=NULL;
+
             SELECT @businessFileId=Id FROM Storage.BusinessFile WHERE Id=#Files[].Id#;
 
             IF @businessFileId IS NULL
@@ -155,29 +158,37 @@
                 END
 
                 UPDATE Storage.BusinessFile
-                  SET 
-                    FileId=@fileId,
-                    Description=#Files[].Description#,
-                    Sort=@sort
-                  WHERE Id=@businessFileId;
+                SET 
+                  FileId=@fileId,
+                  Description=#Files[].Description#,
+                  Sort=@sort
+                WHERE Id=@businessFileId;
               END
             END
 
             SET @sort=@sort+1;
-
-            SET @fileId=NULL;
-            SET @businessFileId=NULL;
           ]]>
         </iterate>
       </isNotNull>
-      <![CDATA[
-          SELECT
-            a.SavedPath
-          FROM [Storage].[File] a
-          INNER JOIN [Storage].[BusinessFile] b ON a.[Id]=b.[FileId]
-          WHERE b.[Category]=#Category# AND b.[SerialNumber]=#SerialNumber#;
-        END
-      ]]>
+      <isEqual property="IsBeforeBusinessData" compareValue="true">
+        <![CDATA[
+            SELECT
+              a.SavedPath
+            FROM [Storage].[File] a
+            WHERE a.Id=@fileId;
+          END
+        ]]>
+      </isEqual>
+      <isEqual property="IsBeforeBusinessData" compareValue="false">
+        <![CDATA[
+            SELECT
+              a.SavedPath
+            FROM [Storage].[File] a
+            INNER JOIN [Storage].[BusinessFile] b ON a.[Id]=b.[FileId]
+            WHERE b.[Category]=#Category# AND b.[SerialNumber]=#SerialNumber#;
+          END
+        ]]>
+      </isEqual>
     </select>
 
     <!-- 删除上传文件信息。 -->

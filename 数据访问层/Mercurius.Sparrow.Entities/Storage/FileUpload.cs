@@ -59,12 +59,13 @@ namespace Mercurius.Sparrow.Entities.Storage
                         Source = f.Source,
                         Description = f.Description,
                         Sort = index++,
+                        IsBeforeBusinessData = f.Source == 2,
                         UploadUserId = uploadUserId,
                         File = new File
                         {
                             Name = f.FileName,
                             ContentType = f.ContentType,
-                            MD5 = f.FileData.MD5()
+                            MD5 = f.FileData.MD5(),
                         },
                         Id = f.BusinessFileId.HasValue ? f.BusinessFileId.Value : Guid.NewGuid()
                     }).ToList();

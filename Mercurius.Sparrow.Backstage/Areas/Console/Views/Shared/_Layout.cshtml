@@ -32,8 +32,11 @@
                 <li @NavigationState(features, "加密/解密")>
                     <a href="@Url.Action("EncryptOrDecrypt", "Home", new {@Area = "Console"})">加密/解密</a>
                 </li>
+                <li @NavigationState(features, "生成数据库脚本")>
+                  <a href="@Url.Action("Generate", "Script")">生成数据库脚本</a>
+                </li>
                 <li @NavigationState(features, "安装数据库")>
-                    <a href="@Url.Action("Index", "Install", new {@Area = "Console"})">安装数据库</a>
+                    <a href="@Url.Action("Install", "Script", new {@Area = "Console"})">安装数据库</a>
                 </li>
             </ul>
         </div>

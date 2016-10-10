@@ -239,7 +239,7 @@
     <Compile Include="Areas\Admin\Controllers\ButtonController.cs" />
     <Compile Include="Areas\Console\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeShortcutController.cs" />
-    <Compile Include="Areas\Console\Controllers\InstallController.cs" />
+    <Compile Include="Areas\Console\Controllers\ScriptController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrganizationController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemMenuController.cs" />
@@ -470,6 +470,7 @@
     <Content Include="Areas\Console\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Console\Views\web.config" />
     <Content Include="Areas\Console\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Console\Views\Script\Generate.cshtml" />
     <None Include="Areas\NewsCenter\Views\News\CreateOrUpdate.cshtml" />
     <None Include="Areas\NewsCenter\Views\News\Index.cshtml" />
     <Content Include="Areas\NewsCenter\Views\News\_News.cshtml" />
@@ -851,7 +852,7 @@
     <Content Include="Content\fonts\FontAwesome.otf" />
     <Content Include="Content\fonts\OpenSans-300.woff" />
     <Content Include="Content\fonts\OpenSans-400.woff" />
-    <Content Include="Areas\Console\Views\Install\Index.cshtml" />
+    <Content Include="Areas\Console\Views\Script\Install.cshtml" />
     <None Include="Areas\WebApi\Views\Role\ViewPermissions.cshtml" />
     <None Include="Properties\PublishProfiles\LocalFileSystem.pubxml" />
     <Content Include="Scripts\jquery.validate.unobtrusive.bootstrap.js" />

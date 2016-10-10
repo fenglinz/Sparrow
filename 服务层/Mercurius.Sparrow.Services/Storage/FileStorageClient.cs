@@ -65,6 +65,8 @@ namespace Mercurius.Sparrow.Services.Storage
         /// <returns>上传后的文件地址</returns>
         public ResponseSet<string> Upload(string account, HttpRequestBase request)
         {
+            var source = request.Params["Category"].AsInt32(1);
+
             var fileUpload = new FileUpload
             {
                 Category = request.Params["BusinessCategory"],
@@ -80,7 +82,7 @@ namespace Mercurius.Sparrow.Services.Storage
 
                 fileUpload.Items.Add(new FileUploadItem
                 {
-                    Source = request.Params["Category"].AsInt32(1),
+                    Source = source,
                     FileName = file.FileName,
                     ContentType = file.ContentType,
                     Description = uploadedFilesDescription?[index],

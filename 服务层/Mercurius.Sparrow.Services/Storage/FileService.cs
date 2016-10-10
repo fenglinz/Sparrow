@@ -67,7 +67,8 @@ namespace Mercurius.Sparrow.Services.Storage
             {
                 Category = category,
                 SerialNumber = serialNumber,
-                Files = businessFiles
+                Files = businessFiles,
+                IsBeforeBusinessData = businessFiles.Any(s => s.Source == 2)
             };
 
             return this.InvokeService(nameof(UploadFiles), () =>
