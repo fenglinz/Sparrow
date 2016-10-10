@@ -59,7 +59,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '备注' ,'SCHEMA', 'dbo', 'TA
 GO
 
 Create Table [dbo].[News](
-  [Id] UNIQUEIDENTIFIER NOT NULL,
+  [Id] UNIQUEIDENTIFIER Primary Key,
   [Category] NVARCHAR (250) NULL,
   [Title] NVARCHAR (500) NULL,
   [Content] NVARCHAR (MAX) NULL,
@@ -89,7 +89,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '发布时间' ,'SCHEMA', 'dbo
 GO
 
 Create Table [dbo].[NewsComment](
-  [Id] UNIQUEIDENTIFIER NOT NULL,
+  [Id] UNIQUEIDENTIFIER Primary Key,
   [NewsId] UNIQUEIDENTIFIER NOT NULL,
   [ReplyCommentId] UNIQUEIDENTIFIER NULL,
   [Content] NVARCHAR (2000) NULL,
