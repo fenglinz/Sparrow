@@ -28,6 +28,27 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
             {
                 var utilityService = context.Resolve<IUtilityService>();
 
+                // 导出架构
+                var schemas = utilityService.GetSchemas();
+
+                if (schemas.HasData())
+                {
+                    this.SendMessage("开始导出数据库架构...");
+
+                    using (var writer = this.GetScriptWriter("02-Schemas"))
+                    {
+                        foreach (var item in schemas.Datas)
+                        {
+                            writer.WriteLine($"IF NOT EXISTS(SELECT * FROM sys.schemas WHERE name='{item}')");
+                            writer.WriteLine($"  EXEC sys.sp_executesql N'CREATE SCHEMA [{item}] Authorization [dbo]';");
+
+                            writer.WriteLine("GO");
+                        }
+                    }
+
+                    this.SendMessage("数据库架构导出完毕！");
+                }
+
                 // 导出表定义。
                 var tablesDdl = utilityService.GetTablesDefinition();
 
@@ -35,7 +56,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
                 {
                     this.SendMessage("开始导出表结构...");
 
-                    using (var writer = this.GetScriptWriter("02-Tables"))
+                    using (var writer = this.GetScriptWriter("03-Tables"))
                     {
                         foreach (var item in tablesDdl.Datas)
                         {
@@ -44,42 +65,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
                     }
 
                     this.SendMessage("表结构导出完毕！");
-                }
-
-                var tables = utilityService.GetTables();
-
-                if (tables.HasData())
-                {
-                    this.SendMessage("开始导出表数据...");
-
-                    using (var writer = this.GetScriptWriter("03-Datas"))
-                    {
-                        foreach (var item in tables.Datas)
-                        {
-                            var fullName = $"[{item.Schema}].[{item.Name}]";
-
-                            this.SendMessage($"&nbsp;&nbsp;&nbsp;&nbsp;正在导出{fullName}表数据...");
-
-                            if (item.HasIdentityColumn == true)
-                            {
-                                writer.WriteLine($"SET IDENTITY_INSERT {fullName} ON;\r\nGO");
-                            }
-
-                            var datas = utilityService.GetAddDatasScript(fullName);
-
-                            foreach (var d in datas.Datas)
-                            {
-                                writer.WriteLine($"{d}\r\nGO");
-                            }
-
-                            if (item.HasIdentityColumn == true)
-                            {
-                                writer.WriteLine($"SET IDENTITY_INSERT {fullName} OFF;\r\nGO");
-                            }
-                        }
-                    }
-
-                    this.SendMessage("表数据导出完成！");
                 }
 
                 // 导出过程或函数定义。
@@ -105,6 +90,46 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
                     }
 
                     this.SendMessage("用户自定义过程导出完毕！");
+                }
+
+                var tables = utilityService.GetTables();
+
+                if (tables.HasData())
+                {
+                    this.SendMessage("开始导出表数据...");
+
+                    using (var writer = this.GetScriptWriter("05-Datas"))
+                    {
+                        foreach (var item in tables.Datas)
+                        {
+                            var fullName = $"[{item.Schema}].[{item.Name}]";
+                            var datas = utilityService.GetAddDatasScript(fullName);
+
+                            if (!datas.HasData())
+                            {
+                                continue;
+                            }
+
+                            this.SendMessage($"&nbsp;&nbsp;&nbsp;&nbsp;正在导出{fullName}表数据...");
+
+                            if (item.HasIdentityColumn == true)
+                            {
+                                writer.WriteLine($"SET IDENTITY_INSERT {fullName} ON;\r\nGO");
+                            }
+
+                            foreach (var d in datas.Datas)
+                            {
+                                writer.WriteLine($"{d}\r\nGO");
+                            }
+
+                            if (item.HasIdentityColumn == true)
+                            {
+                                writer.WriteLine($"SET IDENTITY_INSERT {fullName} OFF;\r\nGO");
+                            }
+                        }
+                    }
+
+                    this.SendMessage("表数据导出完成！");
                 }
             }
 

@@ -19,6 +19,16 @@ namespace Mercurius.Sparrow.Services.Core
         #region IUtilityService接口实现
 
         /// <summary>
+        /// 获取所有用户自定义架构。
+        /// </summary>
+        /// <returns>架构名称</returns>
+        public ResponseSet<string> GetSchemas()
+        {
+            return this.InvokeService(nameof(GetSchemas),
+                () => this.Persistence.QueryForList<string>(RepositoryUtilsNamespace, "GetSchemas"), cacheable: false);
+        }
+
+        /// <summary>
         /// 获取所有表的信息。
         /// </summary>
         /// <returns>表信息集合</returns>

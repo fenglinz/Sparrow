@@ -13,6 +13,12 @@ namespace Mercurius.Sparrow.Contracts.Core
     public interface IUtilityService
     {
         /// <summary>
+        /// 获取所有用户自定义架构。
+        /// </summary>
+        /// <returns>架构名称</returns>
+        ResponseSet<string> GetSchemas();
+
+        /// <summary>
         /// 获取所有表的信息。
         /// </summary>
         /// <returns>表信息集合</returns>

@@ -36,222 +36,6 @@ INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewN
 GO
 INSERT INTO [dbo].[News] ([Id], [Category], [Title], [Content], [Status], [BrowseTimes], [PublisherId], [PublishDateTime])  VALUES ('1CC526A1-427D-4FE4-8305-BEEB1948C4AA', '国际新闻', '工作周报', '<p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC9mYTUzOTc3ZC0xNGIzLTRjMGQtODlhNy05NmZjNTRlYTI4NDgucG5n?mode=Medium" alt="HanKouBank" style="max-width:100%;" class=""><br></p><p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC9iNDUxNmUyYS1jYTgxLTQ3OWEtOTI5MS0yYjE3NmM3ZWFiYTYucG5n?mode=Medium" alt="PingAn" style="max-width:100%;" class=""></p><p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC83MTI1YzRmMS05ZWE1LTQ2MjgtYjczZC1kZjUyZDhjMWQ0YWYucG5n?mode=Original" alt="XingYun" style="max-width: 100%;" class=""><br></p><p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC83MTI1YzRmMS05ZWE1LTQ2MjgtYjczZC1kZjUyZDhjMWQ0YWYucG5n?mode=Medium" alt="XingYun" style="max-width:100%;"><br></p><p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC8xYjRlMDg1ZS01Y2I1LTQyOGQtYTY2ZS00NjAxMWIxZjgxNDgucG5n?mode=Medium" alt="cnhbgt" style="max-width:100%;" class=""><br></p><p><br></p>', NULL, NULL, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-14 15:53:18.373')
 GO
-SET IDENTITY_INSERT [dbo].[OperationRecord] ON;
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (1, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-08-18 11:35:58.000')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (2, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-08-18 14:26:25.400')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (3, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-06 11:55:34.663')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (4, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-06 13:42:43.563')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (5, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-08 13:26:47.280')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (6, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-08 14:16:32.187')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (7, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-08 16:17:49.057')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (8, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-08 16:36:46.650')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (9, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-08 17:47:42.050')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (10, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-09 09:15:45.060')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (11, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-09 09:57:28.563')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (12, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-09 10:33:19.860')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (13, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-09 14:24:07.827')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (14, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-09 14:48:21.640')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (15, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-12 12:33:15.173')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (16, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-14 15:24:35.557')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (17, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-18 11:00:35.090')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (18, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-18 11:02:17.550')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (19, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-18 11:17:47.800')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (20, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-18 12:12:36.920')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (21, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-18 12:16:58.407')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (22, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-18 12:24:19.570')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (23, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-18 12:24:38.610')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (24, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-18 13:01:29.793')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (25, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-18 13:08:59.133')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (26, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-18 13:15:47.623')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (27, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-18 15:35:19.607')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (28, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-18 16:02:27.767')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (29, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-18 17:37:34.450')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (30, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-18 17:42:09.363')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (31, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-18 17:42:14.723')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (32, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-19 09:34:33.487')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (33, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-20 09:32:10.943')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (34, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-20 13:50:59.113')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (35, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-20 13:51:51.173')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (36, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-21 09:24:17.650')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (37, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-21 09:24:26.590')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (38, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-21 10:38:06.157')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (39, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-21 10:38:10.300')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (40, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-21 10:40:07.520')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (41, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-21 10:40:11.700')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (42, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-21 10:49:53.070')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (43, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-21 10:50:13.950')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (44, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-21 11:05:54.870')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (45, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-21 11:06:01.607')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (46, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-21 11:06:27.670')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (47, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-21 11:06:31.827')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (48, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-21 14:11:55.977')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (49, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-22 09:46:06.403')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (50, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-22 10:54:14.060')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (51, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-22 12:00:16.747')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (52, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-27 11:27:00.640')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (53, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-27 13:34:03.943')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (54, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-29 09:18:09.783')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (55, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-29 10:49:49.537')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (56, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-29 16:07:51.470')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (57, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-29 17:26:48.577')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (58, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-30 09:10:37.547')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (59, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-09-30 12:36:11.257')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (60, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-08 09:49:34.873')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (61, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-10-08 10:23:32.363')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (62, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-08 13:13:35.023')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (63, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-08 14:22:35.423')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (64, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '::1', NULL, '2016-10-09 12:24:42.727')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (65, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '::1', NULL, '2016-10-10 11:14:00.310')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (66, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '::1', NULL, '2016-10-10 12:41:11.147')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (67, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '::1', NULL, '2016-10-10 16:44:00.413')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (68, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '::1', NULL, '2016-10-10 16:49:59.067')
-GO
-INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (69, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '::1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-10-10 17:13:45.657')
-GO
-SET IDENTITY_INSERT [dbo].[OperationRecord] OFF;
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('038885be-0609-4bec-aeca-24eaa0246665', NULL, '127.0.0.1', '基础模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-09 14:22:19.920')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('0a1f7b37-f918-4faa-b240-e0de706848ef', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 10:01:33.547')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('0c6c9557-d8c5-4aaa-adf1-bbeb84874af0', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-22 12:33:12.057')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('12a15376-4359-4a2e-b504-acac8664b098', NULL, '::1', 'Core', '发生异常：关键字 ''Key'' 附近有语法错误。', NULL, 'Error', '2016-10-11 15:18:45.913')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('17cc7650-6841-4100-985a-fc44486a458b', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 09:53:37.373')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1989968a-dba7-483a-8bd6-7ac933fd26e0', NULL, '::1', 'Core', '发生异常：关键字 ''Key'' 附近有语法错误。', NULL, 'Error', '2016-10-11 15:16:51.440')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3e905b63-d95b-4f5e-8fe3-f5d2a7c787ba', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-18 15:13:25.780')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3f61a3ee-aade-4f32-9651-247bfeb08ed5', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 09:53:44.073')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('4d59a7ef-4611-4076-9a2d-5e14155bed05', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 09:51:45.717')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('5cbe82df-1b09-40bc-ad48-d39230fb4fe1', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 09:53:12.607')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('60fee2a6-2b19-453e-b449-2dadf1550ba4', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-14 15:53:22.047')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('650c9809-842f-458c-b148-ca16d7340a1b', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 09:53:15.080')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('66f6b517-cc72-42e9-b7dc-a879984f0983', '48f3889c-af8d-401f-ada2-c383031af92d', '::1', '文件存储', '发生异常：列名 ''SavedFilePath'' 无效。', NULL, 'Error', '2016-10-10 14:51:57.280')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6aec4f72-6c6f-4e37-91ae-03ef36327c46', NULL, '127.0.0.1', '基于角色的访问控制模块', '发生异常：Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".', NULL, 'Error', '2016-09-18 12:20:14.877')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6b6c289f-a914-482f-b5f2-13ce36bca737', '1', '::1', '文件存储', '发生异常：Object reference not set to an instance of an object.', NULL, 'Error', '2016-10-10 14:09:49.590')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6e5df160-10c8-4f5d-bac4-3e85d393b61d', NULL, '127.0.0.1', '基础模块', '发生异常：Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".', NULL, 'Error', '2016-09-18 12:19:16.710')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6f6e1ab1-f021-4da9-9adc-d694feb2db20', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-18 17:29:16.020')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('72542ccd-841d-4c6c-a88a-5b2efc7b8d79', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-06 16:17:30.467')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7c99cf27-cbf1-4d8e-bd74-5176d81c76b2', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：列名 ''SavedFilePath'' 无效。', NULL, 'Error', '2016-09-19 16:51:50.177')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('82816b9e-d9eb-427b-8bad-160f961ea583', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-18 15:28:18.267')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('905274a0-6ad3-4d7f-955e-67f621a021d8', NULL, '127.0.0.1', '基础模块', '发生异常：无法从传输连接中读取数据: 远程主机强迫关闭了一个现有的连接。。', NULL, 'Error', '2016-08-18 11:40:28.857')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('9b6b4aba-1eeb-4710-bf1a-fccc3fd907bc', '1', '::1', '文件存储', '发生异常：'';'' 附近有语法错误。', NULL, 'Error', '2016-10-10 14:21:35.433')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('9e85ac9c-8159-4ed1-89ec-e79a736aecc3', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 09:55:58.557')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a01ed8e4-019f-40ff-8a79-618901838f8e', '48f3889c-af8d-401f-ada2-c383031af92d', '::1', '文件存储', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-10-10 14:47:56.283')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a78e4851-2ef0-48f1-b6ec-021ad29b35ea', '48f3889c-af8d-401f-ada2-c383031af92d', '::1', '文件存储', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-10-10 14:47:56.283')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a9c3cda3-a95f-49f8-8244-5fdffdb8c316', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-18 17:29:16.020')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b5520b75-768d-48b6-aca6-225ceb08ee18', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 10:01:33.550')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('bf42858f-6e3a-4491-a618-1d8906554427', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-18 15:13:25.780')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('c277c501-4792-4778-b530-0638f634556e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-18 17:29:16.010')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('da71bc19-02c9-44f5-86cb-5fe6e08688ce', NULL, '127.0.0.1', '基础模块', '发生异常：Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".', NULL, 'Error', '2016-09-18 12:19:15.190')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('db4ec420-f15b-4cc7-b803-06adddb4708f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 10:00:51.507')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e2f0d6e1-5014-4c64-bab5-7be1bccf4483', NULL, '127.0.0.1', '基于角色的访问控制模块', '发生异常：Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".', NULL, 'Error', '2016-09-18 12:20:24.230')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e686edf6-3a88-42db-8c7c-31c87e3a0b0a', NULL, '::1', 'Core', '发生异常：关键字 ''Key'' 附近有语法错误。', NULL, 'Error', '2016-10-11 15:30:03.253')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e8e35c00-334f-4def-ae52-5e22c6825e3f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '发生异常：An item with the same key has already been added.', NULL, 'Error', '2016-09-06 16:17:32.063')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ed3b65cb-5658-4c6e-ba4e-b0f3c938601a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-14 15:53:49.507')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('fb3aebfd-e67c-44c0-8c13-254b700d1653', NULL, '127.0.0.1', '基础模块', '发生异常：Unable to Connect: sPort: 8985', NULL, 'Error', '2016-08-18 11:40:29.563')
-GO
-INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('fc1f8270-6c0a-49f7-a199-fef06f2ff31e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '文件存储', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.Storage.File.GetById', NULL, 'Error', '2016-09-19 09:53:44.770')
-GO
 INSERT INTO [dbo].[SystemSetting] ([Id], [ParentId], [Name], [Value], [Remark])  VALUES ('015B6ED3-B4FF-4A61-B200-59203A7DBC77', NULL, 'LogLevel', '2', '')
 GO
 INSERT INTO [dbo].[SystemSetting] ([Id], [ParentId], [Name], [Value], [Remark])  VALUES ('03d5f601-e11e-4a44-982b-baed7eab37a3', '6b9d4e26-8066-4fc2-bb45-fb02824be265', 'ProductVersion', '1.0', NULL)
@@ -259,10 +43,6 @@ GO
 INSERT INTO [dbo].[SystemSetting] ([Id], [ParentId], [Name], [Value], [Remark])  VALUES ('6b9d4e26-8066-4fc2-bb45-fb02824be265', NULL, 'ProductName', '后台管理系统', NULL)
 GO
 INSERT INTO [dbo].[SystemSetting] ([Id], [ParentId], [Name], [Value], [Remark])  VALUES ('E402EAAF-B0C6-4D38-8809-B7F6FACDB051', NULL, 'WebApiDocumentUrl', 'http://127.0.0.1:8000/FileStorage/Swagger/docs/v1', NULL)
-GO
-SET IDENTITY_INSERT [Dynamic].[Condition] ON;
-GO
-SET IDENTITY_INSERT [Dynamic].[Condition] OFF;
 GO
 SET IDENTITY_INSERT [Dynamic].[CreateOrUpdate] ON;
 GO
@@ -295,14 +75,6 @@ GO
 INSERT INTO [Dynamic].[ExtensionProperty] ([Id], [Category], [Name], [Unit], [GroupName], [ControlId], [ControlType], [Placeholder], [ControlDataSource], [ControlMaxLength], [ControlLabelCssClass], [ControlContainerCssClass], [ControlStyle], [ControlValidateRule], [Sort], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('DA841B99-012A-4EB5-B092-9A2385999F56', '个人信息', ' 院校类型', NULL, NULL, 'SchoolType', 3, ' 院校类型', '211学院;非211学院', NULL, 'col-sm-2', 'col-sm-8', NULL, NULL, 5, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-05 14:22:17.610', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-05 15:38:29.953')
 GO
 INSERT INTO [Dynamic].[ExtensionProperty] ([Id], [Category], [Name], [Unit], [GroupName], [ControlId], [ControlType], [Placeholder], [ControlDataSource], [ControlMaxLength], [ControlLabelCssClass], [ControlContainerCssClass], [ControlStyle], [ControlValidateRule], [Sort], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('24987B48-C87F-43CF-AD1B-F9A01E7EF54B', '个人信息', '毕业院校', NULL, 'grp1', 'School', 1, '毕业院校', NULL, NULL, 'col-sm-2', 'col-sm-3', NULL, 'notNull', 2, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-05 13:51:56.460', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-05 16:50:25.270')
-GO
-SET IDENTITY_INSERT [Dynamic].[Order] ON;
-GO
-SET IDENTITY_INSERT [Dynamic].[Order] OFF;
-GO
-SET IDENTITY_INSERT [Dynamic].[Search] ON;
-GO
-SET IDENTITY_INSERT [Dynamic].[Search] OFF;
 GO
 INSERT INTO [RBAC].[Button] ([Id], [Name], [Title], [Image], [Code], [Sort], [Category], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('020e2c2a-e203-4694-85ef-c73bd301ad72', '备份', '备份', 'glyphicon glyphicon-download-alt', 'OnBackup', 32, '工具栏', '数据库备份', 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-05-04 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2015-03-12 15:56:09.410')
 GO
@@ -1096,17 +868,9 @@ INSERT INTO [WebApi].[Role] ([Id], [Name], [Description], [CreateUserId], [Creat
 GO
 SET IDENTITY_INSERT [WebApi].[Role] OFF;
 GO
-SET IDENTITY_INSERT [WebApi].[RolePermission] ON;
-GO
-SET IDENTITY_INSERT [WebApi].[RolePermission] OFF;
-GO
 SET IDENTITY_INSERT [WebApi].[User] ON;
 GO
 INSERT INTO [WebApi].[User] ([Id], [Account], [Password], [Description], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES (1, 'nebula', 'ef5caa746eb6e51eef59a31a96c3e99b', '星云用户', NULL, NULL, '2016-03-10 15:12:53.730', NULL, '2016-03-10 15:12:58.713')
 GO
 SET IDENTITY_INSERT [WebApi].[User] OFF;
-GO
-SET IDENTITY_INSERT [WebApi].[UserRole] ON;
-GO
-SET IDENTITY_INSERT [WebApi].[UserRole] OFF;
 GO

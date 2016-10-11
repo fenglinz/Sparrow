@@ -13,6 +13,19 @@
   </resultMaps>
 
   <statements>
+    <!-- 获取用户自定义架构 -->
+    <select id="GetSchemas" resultClass="string">
+      <![CDATA[
+        SELECT
+          name
+        FROM sys.schemas
+        WHERE principal_id IN(
+          SELECT uid FROM Sysusers where issqluser='1' AND hasdbaccess=1 AND islogin=1
+        )
+        ORDER BY SCHEMA_ID ASC
+      ]]>
+    </select>
+    
     <!-- 获取所有表信息 -->
     <select id="GetTables" resultClass="Table">
       <![CDATA[
