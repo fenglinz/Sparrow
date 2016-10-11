@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sqlMap namespace="Mercurius.Sparrow.Repositories.Core.RepositoryUtils" xmlns="http://ibatis.apache.org/mapping">
   <alias>
+    <typeAlias alias="Table" type="Mercurius.Infrastructure.Ado.Table, Mercurius.Infrastructure"/>
     <typeAlias alias="Partition" type="Mercurius.Sparrow.Entities.Core.Partition, Mercurius.Sparrow.Entities" />
   </alias>
 
@@ -12,6 +13,34 @@
   </resultMaps>
 
   <statements>
+    <!-- 获取所有表信息 -->
+    <select id="GetTables" resultClass="Table">
+      <![CDATA[
+        WITH cte AS(
+          SELECT
+            SCHEMA_NAME(schema_id) AS [Schema],
+            type,
+            name,
+            object_id
+          FROM sys.objects
+          WHERE type IN('U','V') AND Name<>'sysdiagrams'
+        )
+        SELECT
+          cte.[Schema],
+          cte.Name,
+          p.HasIdentityColumn,
+          CASE cte.type WHEN 'U' THEN 0 ELSE 1 END IsView,
+          CASE WHEN a.value IS NULL THEN cte.name ELSE a.value END Comments
+        FROM cte
+        LEFT JOIN sys.extended_properties a
+          ON cte.object_id=a.major_id AND a.minor_id=0
+        OUTER APPLY(
+          SELECT 1 AS HasIdentityColumn FROM syscolumns s WHERE s.id=cte.object_id AND COLUMNPROPERTY(s.id, s.name, 'IsIdentity')=1
+        ) p
+        ORDER BY cte.[schema],cte.Name
+      ]]>
+    </select>
+    
     <!-- 获取所有自定义表的DDL语句。 -->
     <select id="GetTablesDefinition" resultClass="string">
       <![CDATA[
@@ -116,6 +145,8 @@
               IF @dataType in('char', 'nchar', 'varchar', 'nvarchar')
                 SET @sql+=' ('+ CASE @dataLength WHEN -1 THEN 'MAX' ELSE CAST(@dataLength AS NVARCHAR(50)) END+')';
 
+              IF @isIdentity=1 SET @sql+=' IDENTITY';
+
               IF @isPrimaryKey=1 SET @sql+=' Primary Key';
               ELSE
               BEGIN
@@ -154,7 +185,60 @@
         END
       ]]>
     </select>
+    
+    <!-- 获取表的添加数据脚本 -->
+    <select id="GetAddDatasScript" parameterClass="string" resultClass="string">
+      <![CDATA[
+        BEGIN
+          DECLARE @table NVARCHAR(200);
+          DECLARE @sqlstr VARCHAR(4000);
+          DECLARE @sqlstr1 VARCHAR(4000);
+          DECLARE @sqlstr2 VARCHAR(4000);
 
+          SET @table = #value#;
+          SET @sqlstr = 'select ''INSERT INTO ' + @table;
+          SET @sqlstr1 = '';
+          SET @sqlstr2 = ' (';
+          SET @sqlstr1 = ' VALUES (''+';
+
+          SELECT
+            @sqlstr1 = @sqlstr1 + col + '+'', ''+',
+            @sqlstr2 = @sqlstr2 + '[' + name + '], '
+          FROM
+          (
+            SELECT
+              CASE WHEN a.xtype=104 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(1),[' + a.name + '])' + ' END'
+                WHEN a.xtype=175 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'REPLACE([' + a.name + '],'''''''','''''''''''')' + '+''''''''' + ' END'
+                WHEN a.xtype=61 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'CONVERT(VARCHAR(23),[' + a.name + '],121)' + '+''''''''' + ' END'
+                WHEN a.xtype=106 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(' + CONVERT(VARCHAR(4), a.xprec + 2) + '),[' + a.name + '])' + ' END'
+                WHEN a.xtype=62 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(23),[' + a.name + '],2)' + ' END'
+                WHEN a.xtype=56 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(11),[' + a.name + '])' + ' END'
+                WHEN a.xtype=60 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(22),[' + a.name + '])' + ' END'
+                WHEN a.xtype=239 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'REPLACE([' + a.name + '],'''''''','''''''''''')' + '+''''''''' + ' END'
+                WHEN a.xtype=108 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(' + CONVERT(VARCHAR(4), a.xprec + 2) + '),[' + a.name + '])' + ' END'
+                WHEN a.xtype=231 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'REPLACE([' + a.name + '],'''''''','''''''''''')' + '+''''''''' + ' END'
+                WHEN a.xtype=59 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(23),[' + a.name + '],2)' + ' END'
+                WHEN a.xtype=58 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'CONVERT(VARCHAR(23),[' + a.name + '],121)' + '+''''''''' + ' END'
+                WHEN a.xtype=52 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(12),[' + a.name + '])' + ' END'
+                WHEN a.xtype=122 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(22),[' + a.name + '])' + ' END'
+                WHEN a.xtype=48 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(6),[' + a.name + '])' + ' END'
+                WHEN a.xtype=167 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'REPLACE([' + a.name + '],'''''''','''''''''''')' + '+''''''''' + ' END'
+                WHEN a.xtype=36 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'CONVERT(VARCHAR(36),[' + a.name + '])'+ '+''''''''' + ' END'
+                ELSE '''NULL'''
+              END AS col,
+              a.colid,
+              a.name
+            FROM syscolumns a
+            WHERE a.id=OBJECT_ID(@table) AND a.xtype<>189 AND a.xtype<>34 AND a.xtype<>35
+          ) t ORDER BY colid;
+
+          SET @sqlstr = @sqlstr + LEFT(@sqlstr2, LEN(@sqlstr2) - 1) + ') ' + LEFT(@sqlstr1, LEN(@sqlstr1) - 4) + ')'' FROM ' + @table;
+
+          EXEC( @sqlstr);
+        END
+      ]]>
+    </select>
+    
     <!-- 获取数据库中的所有用户自定义过程(包括函数) -->
     <select id="GetProcedures" resultClass="string">
       <![CDATA[
@@ -173,56 +257,5 @@
       ]]>
     </select>
 
-    <!-- 获取表的添加数据脚本 -->
-    <select id="GetTableDatas" parameterClass="string" resultClass="string">
-      <![CDATA[
-        BEGIN
-          DECLARE @table NVARCHAR(200);
-          DECLARE @sqlstr VARCHAR(4000);
-          DECLARE @sqlstr1 VARCHAR(4000);
-          DECLARE @sqlstr2 VARCHAR(4000);
-
-          SET @table = #value#;
-          SET @sqlstr = 'select ''INSERT INTO ' + @table;
-          SET @sqlstr1 = '';
-          SET @sqlstr2 = ' (';
-          SET @sqlstr1 = ' VALUES (''+';
-
-          SELECT
-            @sqlstr1 = @sqlstr1 + col + '+'',''+',
-            @sqlstr2 = @sqlstr2 + name + ','
-          FROM
-          (
-            SELECT
-              CASE WHEN a.xtype=104 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(1),' + a.name + ')' + ' END'
-                WHEN a.xtype=175 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'REPLACE(' + a.name + ','''''''','''''''''''')' + '+''''''''' + ' END'
-                WHEN a.xtype=61 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'CONVERT(VARCHAR(23),' + a.name + ',121)' + '+''''''''' + ' END'
-                WHEN a.xtype=106 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(' + CONVERT(VARCHAR(4), a.xprec + 2) + '),' + a.name + ')' + ' END'
-                WHEN a.xtype=62 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(23),' + a.name + ',2)' + ' END'
-                WHEN a.xtype=56 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(11),' + a.name + ')' + ' END'
-                WHEN a.xtype=60 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(22),' + a.name + ')' + ' END'
-                WHEN a.xtype=239 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'REPLACE(' + a.name + ','''''''','''''''''''')' + '+''''''''' + ' END'
-                WHEN a.xtype=108 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(' + CONVERT(VARCHAR(4), a.xprec + 2) + '),' + a.name + ')' + ' END'
-                WHEN a.xtype=231 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'REPLACE(' + a.name + ','''''''','''''''''''')' + '+''''''''' + ' END'
-                WHEN a.xtype=59 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(23),' + a.name + ',2)' + ' END'
-                WHEN a.xtype=58 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'CONVERT(VARCHAR(23),' + a.name + ',121)' + '+''''''''' + ' END'
-                WHEN a.xtype=52 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(12),' + a.name + ')' + ' END'
-                WHEN a.xtype=122 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(22),' + a.name + ')' + ' END'
-                WHEN a.xtype=48 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(6),' + a.name + ')' + ' END'
-                WHEN a.xtype=167 THEN 'CASE WHEN ' + a.name + ' IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'REPLACE(' + a.name + ','''''''','''''''''''')' + '+''''''''' + ' END'
-                ELSE '''NULL'''
-              END AS col,
-              a.colid,
-              a.name
-            FROM syscolumns a
-            WHERE a.id=OBJECT_ID(@table) AND a.xtype<>189 AND a.xtype<>34 AND a.xtype<>35 AND a.xtype<>36
-          ) t ORDER BY colid;
-
-          SET @sqlstr = @sqlstr + LEFT(@sqlstr2, LEN(@sqlstr2) - 1) + ') ' + LEFT(@sqlstr1, LEN(@sqlstr1) - 3) + ')'' FROM ' + @table;
-
-          EXEC( @sqlstr);
-        END
-      ]]>
-    </select>
   </statements>
 </sqlMap>

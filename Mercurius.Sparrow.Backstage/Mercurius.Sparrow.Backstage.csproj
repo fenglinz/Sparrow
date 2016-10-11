@@ -302,13 +302,9 @@
     <Content Include="App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml" />
     <Content Include="App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml" />
     <Content Include="App_Data\Scripts\MSSQL\02-Tables.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\03-Procedures.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\06-dbo.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\03-Dynamic.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\02-RBAC.sql" />
+    <Content Include="App_Data\Scripts\MSSQL\03-Datas.sql" />
+    <Content Include="App_Data\Scripts\MSSQL\04-Procedures.sql" />
     <Content Include="App_Data\Scripts\MSSQL\01-Initialization.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\04-WebApi.sql" />
-    <Content Include="App_Data\Scripts\MSSQL\05-Storage.sql" />
     <Content Include="App_Data\Scripts\表结构导出.sql" />
     <Content Include="Content\ace-fonts.css" />
     <Content Include="Content\ace-ie.css" />

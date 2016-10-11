@@ -18,7 +18,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
     public class GenerateDatabaseScript : Hub
     {
         /// <summary>
-        /// 
+        /// 生成SQL脚本。
         /// </summary>
         public void Generate()
         {
@@ -33,7 +33,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
 
                 if (tablesDdl.HasData())
                 {
-                    this.SendMessage("开始导出用户自定义表...");
+                    this.SendMessage("开始导出表结构...");
 
                     using (var writer = this.GetScriptWriter("02-Tables"))
                     {
@@ -43,7 +43,43 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
                         }
                     }
 
-                    this.SendMessage("用户自定义表导出完毕！");
+                    this.SendMessage("表结构导出完毕！");
+                }
+
+                var tables = utilityService.GetTables();
+
+                if (tables.HasData())
+                {
+                    this.SendMessage("开始导出表数据...");
+
+                    using (var writer = this.GetScriptWriter("03-Datas"))
+                    {
+                        foreach (var item in tables.Datas)
+                        {
+                            var fullName = $"[{item.Schema}].[{item.Name}]";
+
+                            this.SendMessage($"&nbsp;&nbsp;&nbsp;&nbsp;正在导出{fullName}表数据...");
+
+                            if (item.HasIdentityColumn == true)
+                            {
+                                writer.WriteLine($"SET IDENTITY_INSERT {fullName} ON;\r\nGO");
+                            }
+
+                            var datas = utilityService.GetAddDatasScript(fullName);
+
+                            foreach (var d in datas.Datas)
+                            {
+                                writer.WriteLine($"{d}\r\nGO");
+                            }
+
+                            if (item.HasIdentityColumn == true)
+                            {
+                                writer.WriteLine($"SET IDENTITY_INSERT {fullName} OFF;\r\nGO");
+                            }
+                        }
+                    }
+
+                    this.SendMessage("表数据导出完成！");
                 }
 
                 // 导出过程或函数定义。
@@ -53,7 +89,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
                 {
                     this.SendMessage("开始导出用户自定义过程...");
 
-                    using (var writer = this.GetScriptWriter("03-Procedures"))
+                    using (var writer = this.GetScriptWriter("04-Procedures"))
                     {
                         foreach (var item in procdures.Datas)
                         {
@@ -85,10 +121,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
         private StreamWriter GetScriptWriter(string fileName)
         {
             var fullName = $@"{HttpContext.Current.Server.MapPath("~/App_Data/Scripts/MSSQL")}\{fileName}.sql";
+            var result = new StreamWriter(fullName, false, Encoding.UTF8);
 
             File.SetAttributes(fullName, FileAttributes.Normal);
 
-            return new StreamWriter(fullName, false, Encoding.UTF8);
+            return result;
         }
 
         /// <summary>

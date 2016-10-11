@@ -52,13 +52,8 @@ label:not(:empty) {
 }
 
 .panel {
-    margin-top: 0;
-    margin-bottom: 2px;
+    margin-bottom: 10px;
 }
-
-    .panel .panel-heading {
-        padding: 5px 15px 5px 15px;
-    }
 
 .toolbar {
     height: 35px;
