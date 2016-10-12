@@ -25,7 +25,7 @@
 
             $.connection.hub.start().done(function () {
                 $('#btnNext').click(function () {
-                    hub.server.configure($('#Host').val(), $('#Account').val(), $('#Password').val(), $('#DatabaseName').val());
+                    hub.server.configure($('#Host').val(), $('#Account').val(), $('#Password').val(), $('#DatabaseName').val(), $('#chkClear').val());
                 });
             });
         });
@@ -65,6 +65,9 @@
                     <button id="btnNext" type="submit" class="btn btn-primary">
                         <i class="glyphicon glyphicon-chevron-right"></i> 下一步
                     </button>
+                    <label class="checkbox-inline" style="padding-top:0;padding-left:40px;">
+                        <input id="chkClear" type="checkbox" value="1" checked /> 清空已存在的数据库
+                    </label>
                 </div>
             </div>
         </div>

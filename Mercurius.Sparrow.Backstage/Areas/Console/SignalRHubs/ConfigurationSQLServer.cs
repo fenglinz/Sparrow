@@ -31,12 +31,34 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
         /// <param name="account">数据库登录账号</param>
         /// <param name="password">数据库登录密码</param>
         /// <param name="dbName">数据库名称</param>
-        public void Configure(string host, string account, string password, string dbName)
+        /// <param name="clear">是否清空数据库</param>
+        public void Configure(string host, string account, string password, string dbName, bool clear = true)
         {
             this.SendMessage("--start--");
 
             try
             {
+                if (string.IsNullOrWhiteSpace(host))
+                {
+                    this.SendMessage("必须输入数据库服务器地址！");
+
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(account) || string.IsNullOrWhiteSpace(password))
+                {
+                    this.SendMessage("必须输入数据库登录账号和密码！");
+
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(dbName))
+                {
+                    this.SendMessage("必须输入数据库服务名称！");
+
+                    return;
+                }
+
                 this.CreateDatabase(host, account, password, dbName);
 
                 var dbHelper = DbHelperCreator.Create(DatabaseType.MSSQL, host, dbName, account, password);
@@ -50,8 +72,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
                     var scriptFiles = from f in Directory.GetFiles(directory, "*.sql")
                                       let file = Path.GetFileName(f).Replace(".sql", "")
                                       let sort = file.Substring(file.IndexOf("-")).AsInt(0)
+                                      where (!clear && sort != 1)
                                       orderby sort ascending
                                       select file;
+
 
                     foreach (var script in scriptFiles)
                     {
