@@ -89,7 +89,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '发布时间' ,'SCHEMA', 'dbo
 GO
 
 Create Table [dbo].[NewsComment](
-  [Id] UNIQUEIDENTIFIER Primary Key,
+  [Id] UNIQUEIDENTIFIER NOT NULL,
   [NewsId] UNIQUEIDENTIFIER NOT NULL,
   [ReplyCommentId] UNIQUEIDENTIFIER NULL,
   [Content] NVARCHAR (2000) NULL,
@@ -119,7 +119,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '评论时间' ,'SCHEMA', 'dbo
 GO
 
 Create Table [dbo].[OperationRecord](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [BusinessCategory] NVARCHAR (250) NULL,
   [BusinessSerialNumber] NVARCHAR (250) NULL,
   [Content] NVARCHAR (MAX) NULL,
@@ -197,7 +197,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '备注' ,'SCHEMA', 'dbo', 'TA
 GO
 
 Create Table [Dynamic].[Condition](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [TableName] NVARCHAR (50) NOT NULL,
   [Column] NVARCHAR (50) NOT NULL,
   [Op] INT NOT NULL,
@@ -221,7 +221,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '验证规则' ,'SCHEMA', 'Dyn
 GO
 
 Create Table [Dynamic].[CreateOrUpdate](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [TableName] NVARCHAR (50) NOT NULL,
   [Column] NVARCHAR (50) NOT NULL,
   [ColumnLabel] NVARCHAR (150) NULL,
@@ -335,7 +335,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '值' ,'SCHEMA', 'Dynamic', 'T
 GO
 
 Create Table [Dynamic].[Order](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [TableName] NVARCHAR (50) NOT NULL,
   [Column] NVARCHAR (50) NOT NULL,
   [OrderBy] INT NOT NULL
@@ -353,7 +353,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '排序方式' ,'SCHEMA', 'Dyn
 GO
 
 Create Table [Dynamic].[Search](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [TableName] NVARCHAR (50) NOT NULL,
   [Title] NVARCHAR (250) NULL,
   [SortColumns] NVARCHAR (MAX) NULL,
@@ -794,7 +794,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '文件保存时间' ,'SCHEMA'
 GO
 
 Create Table [WebApi].[Api](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [Route] NVARCHAR (500) NULL,
   [HttpVerb] NVARCHAR (50) NULL,
   [Description] NVARCHAR (2000) NULL,
@@ -824,7 +824,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '修改时间' ,'SCHEMA', 'Web
 GO
 
 Create Table [WebApi].[Role](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [Name] NVARCHAR (50) NULL,
   [Description] NVARCHAR (2000) NULL,
   [CreateUserId] NVARCHAR (36) NULL,
@@ -851,7 +851,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '修改时间' ,'SCHEMA', 'Web
 GO
 
 Create Table [WebApi].[RolePermission](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [RoleId] INT NOT NULL,
   [ApiId] INT NOT NULL,
   [CreateUserId] NVARCHAR (36) NULL,
@@ -872,7 +872,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '创建时间' ,'SCHEMA', 'Web
 GO
 
 Create Table [WebApi].[User](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [Account] NVARCHAR (50) NULL,
   [Password] NVARCHAR (50) NULL,
   [Description] NVARCHAR (2000) NULL,
@@ -905,7 +905,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '修改时间' ,'SCHEMA', 'Web
 GO
 
 Create Table [WebApi].[UserRole](
-  [Id] INT Primary Key,
+  [Id] INT IDENTITY Primary Key,
   [UserId] INT NOT NULL,
   [RoleId] INT NOT NULL,
   [CreateUserId] NVARCHAR (36) NULL,
