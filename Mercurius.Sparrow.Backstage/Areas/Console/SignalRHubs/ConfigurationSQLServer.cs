@@ -72,7 +72,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
                     var scriptFiles = from f in Directory.GetFiles(directory, "*.sql")
                                       let file = Path.GetFileName(f).Replace(".sql", "")
                                       let sort = file.Substring(file.IndexOf("-")).AsInt(0)
-                                      where (!clear && sort != 1)
+                                      where clear || sort != 1
                                       orderby sort ascending
                                       select file;
 

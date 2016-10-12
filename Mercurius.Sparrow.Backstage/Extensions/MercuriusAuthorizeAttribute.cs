@@ -12,7 +12,6 @@ using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities.RBAC;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {

@@ -237,6 +237,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ButtonController.cs" />
+    <Compile Include="Areas\Console\Controllers\AccountController.cs" />
     <Compile Include="Areas\Console\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeShortcutController.cs" />
     <Compile Include="Areas\Console\Controllers\ScriptController.cs" />
@@ -281,6 +282,7 @@
     <Compile Include="Extensions\Bootstrap\PropertyMetadata.cs" />
     <Compile Include="Extensions\Bootstrap\RadioButton.cs" />
     <Compile Include="Extensions\Bootstrap\Screen.cs" />
+    <Compile Include="Extensions\ConsoleAuthorizeAttribute.cs" />
     <Compile Include="Extensions\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Extensions\MercuriusUrlHelper.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
@@ -463,6 +465,7 @@
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
     <Content Include="Content\Documents\系统架构设计说明文档.pdf" />
     <Content Include="Areas\Console\Views\Home\EncryptOrDecrypt.cshtml" />
+    <Content Include="Areas\Console\Views\Account\LogOn.cshtml" />
     <None Include="Areas\Console\Views\Home\Index.cshtml" />
     <Content Include="Areas\Console\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Console\Views\web.config" />

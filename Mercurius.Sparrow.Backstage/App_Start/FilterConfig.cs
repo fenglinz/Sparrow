@@ -16,6 +16,7 @@ namespace Mercurius.Sparrow.Backstage
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new ConsoleAuthorizeAttribute());
             filters.Add(new MercuriusAuthorizeAttribute());
         }
     }

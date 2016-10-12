@@ -16,7 +16,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
     /// <summary>
     /// 管理控制台控制器。
     /// </summary>
-    [AllowAnonymous]
     public class HomeController : BaseController
     {
         #region 属性
