@@ -1,7 +1,49 @@
-﻿@model dynamic
-
-@{
-    ViewBag.Title = "title";
+﻿@section Scripts
+{
+    @Scripts.Render("~/bundles/validate")
+    <script type="text/javascript">
+        function OnLogOn() {
+            if (JudgeValidate('#frmLogOn')) {
+                $('#frmLogOn').submit();
+            }
+        }
+    </script>
 }
 
-<h2>title</h2>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <b>管理员登录</b>
+        @if (Convert.ToString(this.ViewData["type"]) == "1")
+        {
+            <b class="text-danger" style="padding-left: 15px;">注：无管理员权限，请登录！</b>
+        }
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("LogOn", "Account", new { @area = "Console" }, FormMethod.Post, new { @id = "frmLogOn", @class = "form-horizontal", @autocomplete = "off" }))
+        {
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="account">账号</label>
+                <div class="col-sm-4">
+                    <input id="account" name="account" value="@this.ViewBag.Account" type="text" class="form-control" placeholder="请输入账号" @Html.AttachValidateAttributes("账号", ValidRule.NotNull) />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="password">密码</label>
+                <div class="col-sm-4">
+                    <input id="password" name="password" type="password" class="form-control" placeholder="请输入密码" @Html.AttachValidateAttributes("密码", ValidRule.NotNull) />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4"></label>
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-primary" onclick="OnLogOn();">
+                        <i class="glyphicon glyphicon-log-in"></i> 登录
+                    </button>
+                    <label class="text-danger">
+                        @Html.ValidationMessage("account")
+                    </label>
+                </div>
+            </div>
+        }
+    </div>
+</div>

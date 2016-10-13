@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -261,9 +262,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="fieldName">字段名</param>
         /// <param name="rule">验证规则</param>
         /// <returns>附加验证属性</returns>
-        public static string AttachValidateAttributes(this HtmlHelper html, string fieldName, ValidRule rule = ValidRule.Default)
+        public static IHtmlString AttachValidateAttributes(this HtmlHelper html, string fieldName, ValidRule rule = ValidRule.Default)
         {
-            return $"validate-rule={Rules[(int)rule]} validate-field={fieldName}";
+            return html.Raw($"validate-rule=\"{Rules[(int)rule]}\" validate-field=\"{fieldName}\"");
         }
 
         /// <summary>
@@ -276,7 +277,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="rule">验证规则</param>
         /// <param name="fieldName">字段名</param>
         /// <returns>附加验证属性</returns>
-        public static string AttachValidateAttributes<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression, ValidRule rule = ValidRule.Default, string fieldName = null)
+        public static IHtmlString AttachValidateAttributes<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression, ValidRule rule = ValidRule.Default, string fieldName = null)
         {
             if (string.IsNullOrWhiteSpace(fieldName))
             {
@@ -288,7 +289,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
                 fieldName = displayAttr == null ? propertyName : displayAttr.Name;
             }
 
-            return $"validate-rule={Rules[(int)rule]} validate-field={fieldName}";
+            return html.Raw($"validate-rule=\"{Rules[(int)rule]}\" validate-field=\"{fieldName}\"");
         }
 
         #endregion

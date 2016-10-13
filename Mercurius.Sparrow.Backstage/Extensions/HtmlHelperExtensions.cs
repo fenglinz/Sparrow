@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
@@ -135,6 +136,35 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         #endregion
 
         #region 权限
+
+        /// <summary>
+        /// 判断是否拥有控制台管理权限。
+        /// </summary>
+        /// <param name="request">Http请求对象</param>
+        /// <returns>是否拥有权限</returns>
+        public static bool HasConsoleRight(this HttpRequestBase request)
+        {
+            var token = request.Cookies["ConsoleManagerToken"]?.Value;
+
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return false;
+            }
+            
+            var securityData = request.RequestContext.HttpContext.Server.MapPath("~/App_Data/console.dat");
+
+            if (!System.IO.File.Exists(securityData))
+            {
+                return false;
+            }
+
+            using (var reader = new StreamReader(securityData))
+            {
+                var accountToken = reader.ReadLine();
+
+                return accountToken == token;
+            }
+        }
 
         /// <summary>
         /// 显示可访问的按钮脚本。

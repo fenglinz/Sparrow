@@ -468,6 +468,7 @@
     <Content Include="Content\Documents\系统架构设计说明文档.pdf" />
     <Content Include="Areas\Console\Views\Home\EncryptOrDecrypt.cshtml" />
     <Content Include="Areas\Console\Views\Account\LogOn.cshtml" />
+    <Content Include="App_Data\console.dat" />
     <None Include="Areas\Console\Views\Home\Index.cshtml" />
     <Content Include="Areas\Console\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Console\Views\web.config" />

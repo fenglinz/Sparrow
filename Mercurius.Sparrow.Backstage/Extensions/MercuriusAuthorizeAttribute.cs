@@ -26,6 +26,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="filterContext">过滤器上下文</param>
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
+            var area = filterContext.RouteData.DataTokens?["area"];
+
+            if (Convert.ToString(area) == "Console")
+            {
+                return;
+            }
+
             if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true) ||
                 filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
             {

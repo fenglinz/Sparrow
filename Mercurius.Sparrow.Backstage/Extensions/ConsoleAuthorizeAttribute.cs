@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,14 +31,25 @@ namespace Mercurius.Sparrow.Mvc.Extensions
                 return;
             }
 
-            var token = filterContext.HttpContext.Request.Headers["ConsoleManagerToken"];
+            var valid = false;
+            var request = filterContext.HttpContext.Request;
+            var token = request.Cookies["ConsoleManagerToken"]?.Value;
 
-            if (token == null)
+            var securityData = request.RequestContext.HttpContext.Server.MapPath("~/App_Data/console.dat");
+
+            if (!string.IsNullOrWhiteSpace(token) && File.Exists(securityData))
             {
-                filterContext.HttpContext.Response.Redirect("~/Console/Account/LogOn", true);
+                using (var reader = new StreamReader(securityData))
+                {
+                    var accountToken = reader.ReadLine();
 
-                filterContext.HttpContext.Response.Write("<b>无权限访问该页面！</b>");
-                filterContext.HttpContext.Response.End();
+                    valid = accountToken == token;
+                }
+            }
+
+            if (!valid)
+            {
+                filterContext.HttpContext.Response.Redirect("~/Console/Account/LogOn?type=1", true);
             }
         }
     }
