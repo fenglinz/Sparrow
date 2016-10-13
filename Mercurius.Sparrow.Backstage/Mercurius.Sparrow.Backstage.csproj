@@ -446,7 +446,9 @@
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="App_Code\TreeHelper.cshtml" />
     <Content Include="App_Data\IBatisNet\providers.config" />
-    <Content Include="App_Data\properties.config" />
+    <Content Include="App_Data\properties.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\Admin\Views\Button\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Button\Index.cshtml" />
     <Content Include="Areas\Admin\Views\HomeShortcut\CreateOrUpdate.cshtml" />
