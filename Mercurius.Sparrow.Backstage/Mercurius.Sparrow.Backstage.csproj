@@ -276,11 +276,14 @@
     <Compile Include="Areas\Admin\Controllers\LoggerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemSettingController.cs" />
     <Compile Include="Extensions\Bootstrap\BootstrapHtmlHelper.cs" />
-    <Compile Include="Extensions\Bootstrap\MultipleList.cs" />
-    <Compile Include="Extensions\Bootstrap\FormControl.cs" />
+    <Compile Include="Extensions\Bootstrap\Controls\CustomControl.cs" />
+    <Compile Include="Extensions\Bootstrap\Controls\FormBase.cs" />
+    <Compile Include="Extensions\Bootstrap\Controls\TextAreaControl.cs" />
+    <Compile Include="Extensions\Bootstrap\Controls\TextBoxControl.cs" />
+    <Compile Include="Extensions\Bootstrap\Controls\MultipleListControl.cs" />
     <Compile Include="Extensions\Bootstrap\FormGroup.cs" />
     <Compile Include="Extensions\Bootstrap\PropertyMetadata.cs" />
-    <Compile Include="Extensions\Bootstrap\RadioButton.cs" />
+    <Compile Include="Extensions\Bootstrap\Controls\RadioButtonControl.cs" />
     <Compile Include="Extensions\Bootstrap\Screen.cs" />
     <Compile Include="Extensions\ConsoleAuthorizeAttribute.cs" />
     <Compile Include="Extensions\IgnorePermissionValidAttribute.cs" />

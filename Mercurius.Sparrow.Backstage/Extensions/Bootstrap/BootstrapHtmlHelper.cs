@@ -20,9 +20,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
         #endregion
 
-        public TextValue()
+        public TextValue(string data)
         {
-
+            this.Text = data;
+            this.Value = data;
         }
 
         public TextValue(string text, string value)
@@ -52,46 +53,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="html">HTML呈现助手</param>
-        /// <param name="expression"></param>
-        /// <param name="labelCols"></param>
-        /// <param name="formCols"></param>
-        /// <param name="rule"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="P"></typeparam>
-        /// <returns></returns>
-        public static FormControl FormControl<T, P>(this HtmlHelper<T> html,
-            Expression<Func<T, P>> expression, uint labelCols = 1, uint formCols = 3, ValidRule rule = ValidRule.Default)
-        {
-            return Extensions.FormControl.Create(html, expression).Label(labelCols).Form(formCols).Valid(rule);
-        }
-
-        public static IHtmlString Select(this HtmlHelper html,
-            string name, string key, string value = null, bool includeAll = false, object attributes = null)
-        {
-            return MultipleList.Create(html, name).Key(key).Value(value).IncludeAll(includeAll).Attributes(attributes).DropdownList();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="P"></typeparam>
-        /// <param name="html"></param>
-        /// <param name="expression"></param>
-        /// <param name="key"></param>
-        /// <param name="includeAll"></param>
-        /// <param name="attributes"></param>
-        /// <returns></returns>
-        public static IHtmlString SelectFor<T, P>(this HtmlHelper<T> html,
-            Expression<Func<T, P>> expression, string key, bool includeAll = false, object attributes = null)
-        {
-            return MultipleList.Create(html, expression).Key(key).IncludeAll(includeAll).Attributes(attributes).DropdownList();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="html"></param>
         /// <param name="fullName"></param>
         /// <returns></returns>
@@ -102,6 +63,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             var result = new PropertyMetadata
             {
                 FullName = fullName,
+                Type = metadata.ModelType,
                 IsRequired = metadata.IsRequired,
                 DisplayName = metadata.DisplayName
             };

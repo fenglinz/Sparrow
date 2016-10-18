@@ -28,6 +28,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public bool IsRequired { get; set; }
 
         /// <summary>
+        /// 类型。
+        /// </summary>
+        public Type Type { get; set; }
+
+        /// <summary>
         /// 值。
         /// </summary>
         public object Value { get; set; }

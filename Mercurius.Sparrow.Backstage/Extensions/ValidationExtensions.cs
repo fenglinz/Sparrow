@@ -374,12 +374,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="html"></param>
         /// <param name="fieldName"></param>
         /// <param name="rule"></param>
         /// <returns></returns>
         internal static RouteValueDictionary GetValidAttributes(
-            this HtmlHelper html,
             string fieldName,
             ValidRule rule = ValidRule.Default)
         {

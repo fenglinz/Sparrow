@@ -50,13 +50,13 @@
 @using (Ajax.BeginForm("CreateOrUpdate", "Dictionary", null, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "onSuccess" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
 {
     @Html.HiddenFor(m => m.Id)
-    
-    @Html.FormGroup(Screen.SM).RenderFor(m => m.ParentId, 2, 9, @<text>
+
+    @Html.FormGroup(Screen.SM).FormPartFor(m => m.ParentId, 2, 9, @<text>
         @TreeHelper.CreateComboTree(trees, item.FullName, Convert.ToString(item.Value))
-    </text>, form=>form.Caption("分类"))
-    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Key, 2, 9, ValidRule.NotNull)
-    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Value, 2, 9, ValidRule.NotNull)
-    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, ValidRule.NotNull)
-    @Html.FormGroup(Screen.SM).RadiosFor(m => m.Status, 2, 9, (f, r) => r.Item("启用", 1).Item("禁用", 0))
+    </text>, form => form.Label("分类"))
+    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Key, 2, 9, f => f.Valid(ValidRule.NotNull))
+    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Value, 2, 9, f => f.Valid(ValidRule.NotNull))
+    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, f => f.Valid(ValidRule.NotNull))
+    @Html.FormGroup(Screen.SM).RadiosFor(m => m.Status, 2, 9, f => f.Item("启用", 1).Item("禁用", 0))
     @Html.FormGroup(Screen.SM).TextAreaFor(m => m.Key, 2, 9, form => form.Form(new { @style = "height:64px;" }))
 }

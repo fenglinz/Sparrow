@@ -5,46 +5,35 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Mercurius.Sparrow.Mvc.Extensions
+namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 {
     /// <summary>
     /// 
     /// </summary>
-    public class RadioButton
+    public class RadioButtonControl : FormBase
     {
         #region 字段
 
-        private HtmlHelper _html;
-
-        private object _attributes;
-
         private IList<TextValue> _items;
-
-        private PropertyMetadata _metadata;
 
         #endregion
 
         #region 构造方法
 
-        private RadioButton(HtmlHelper html)
+        public RadioButtonControl(Screen screen, PropertyMetadata metadata) : base(screen, metadata)
         {
-            this._html = html;
+            this._class = "btn-group";
             this._items = new List<TextValue>();
         }
 
         #endregion
-
-        internal static RadioButton Create<T,P>(HtmlHelper<T> html, Expression<Func<T, P>> expression)
-        {
-            return new RadioButton(html) {_metadata = html.Resolve(expression)};
-        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>
-        public RadioButton Datas(params string[] items)
+        public RadioButtonControl Datas(params string[] items)
         {
             foreach (var item in items)
             {
@@ -60,21 +49,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="text"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public RadioButton Item(string text, object value = null)
+        public RadioButtonControl Item(string text, object value = null)
         {
             this._items.Add(new TextValue(text, value == null ? text : Convert.ToString(value)));
-
-            return this;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="attributes"></param>
-        /// <returns></returns>
-        public RadioButton Attributes(object attributes)
-        {
-            this._attributes = attributes;
 
             return this;
         }
@@ -83,11 +60,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// 单选按钮组。
         /// </summary>
         /// <returns></returns>
-        public IHtmlString Render()
+        protected override TagBuilder CreateForm()
         {
             var btnGroupTag = new TagBuilder("div");
-
-            btnGroupTag.AddCssClass("btn-group");
+            
             btnGroupTag.Attributes.Add("data-toggle", "buttons");
 
             var index = 0;
@@ -109,8 +85,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
                     autocomplete = "off"
                 }));
 
-                radioTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(this._attributes), true);
-
                 if ((index == 1 && string.IsNullOrWhiteSpace(value)) || item.Value == value)
                 {
                     labelTag.AddCssClass("active");
@@ -121,7 +95,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
                 btnGroupTag.InnerHtml += labelTag;
             }
 
-            return new MvcHtmlString(btnGroupTag.ToString());
+            return btnGroupTag;
         }
     }
 }
