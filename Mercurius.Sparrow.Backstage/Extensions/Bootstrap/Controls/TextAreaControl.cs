@@ -7,14 +7,20 @@ using System.Web.Mvc;
 namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 {
     /// <summary>
-    /// 文本域控制器。
+    /// 文本域表单控件。
     /// </summary>
     public class TextAreaControl : TextBoxControl
     {
         #region 字段
 
+        /// <summary>
+        /// 文本域行数。
+        /// </summary>
         private uint _rows = 3;
 
+        /// <summary>
+        /// 文本域列数。
+        /// </summary>
         private uint _cols;
 
         #endregion
@@ -26,7 +32,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         /// </summary>
         /// <param name="screen"></param>
         /// <param name="metadata">视图模型属性元数据信息</param>
-        public TextAreaControl(Screen screen, PropertyMetadata metadata) : base(screen,metadata)
+        public TextAreaControl(Screen screen, PropertyMetadata metadata) : base(screen, metadata)
         {
         }
 
@@ -35,10 +41,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         #region 公开方法
 
         /// <summary>
-        /// 行数。
+        /// 设置行数。
         /// </summary>
-        /// <param name="rows">行</param>
-        /// <returns></returns>
+        /// <param name="rows">行数</param>
+        /// <returns>文本域表单控件</returns>
         public TextAreaControl Rows(uint rows)
         {
             this._rows = 3;
@@ -47,10 +53,10 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         }
 
         /// <summary>
-        /// 列数。
+        /// 设置列数。
         /// </summary>
         /// <param name="cols">列数</param>
-        /// <returns></returns>
+        /// <returns>文本域表单控件</returns>
         public TextAreaControl Cols(uint cols)
         {
             this._cols = cols;
@@ -60,10 +66,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
         #endregion
 
+        #region 重写基类方法
+
         /// <summary>
-        /// 文本域的呈现。
+        /// 创建表单。
         /// </summary>
-        /// <returns>Html片段</returns>
+        /// <returns>表单信息</returns>
         protected override TagBuilder CreateForm()
         {
             var textTag = new TagBuilder("textarea");
@@ -93,5 +101,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
             return textTag;
         }
+
+        #endregion
     }
 }

@@ -496,26 +496,26 @@ function ValidateElement(element, isCallback) {
 
                 break;
             case "limitInt":
-                if (!isLenNum($(element).val(), $(element).attr("length"))) {
-                    errorMessage = field + "不能为空且必须小于" + $(element).attr("length") + "位数字！\n";
+                if (!isLenNum($(element).val(), $(element).attr("maxlength"))) {
+                    errorMessage = field + "不能为空且必须小于" + $(element).attr("maxlength") + "位数字！\n";
                 }
 
                 break;
             case "limitIntOrNull":
-                if (!isLenNumOrNull($(element).val(), $(element).attr("length"))) {
-                    errorMessage = field + "必须为" + $(element).attr("length") + "位数字！\n";
+                if (!isLenNumOrNull($(element).val(), $(element).attr("maxlength"))) {
+                    errorMessage = field + "必须为" + $(element).attr("maxlength") + "位数字！\n";
                 }
 
                 break;
             case "limit":
-                if (!isLenStr($(element).val(), $(element).attr("length"))) {
-                    errorMessage = field + "不能为空且必须小于" + $(element).attr("length") + "个字符！\n";
+                if (!isLenStr($(element).val(), $(element).attr("maxlength"))) {
+                    errorMessage = field + "不能为空且必须小于" + $(element).attr("maxlength") + "个字符！\n";
                 }
 
                 break;
             case "limitOrNull":
-                if (!isLenStrOrNull($(element).val(), $(element).attr("length"))) {
-                    errorMessage = field + "必须小于" + $(element).attr("length") + "个字符！\n";
+                if (!isLenStrOrNull($(element).val(), $(element).attr("maxlength"))) {
+                    errorMessage = field + "必须小于" + $(element).attr("maxlength") + "个字符！\n";
                 }
 
                 break;
@@ -716,9 +716,9 @@ function ChangeCss(obj, validatemsg, isCallback) {
                 }
             });
         } else {
-            $(obj).css('background-position', $(obj).width() - 1);
             $(obj).val('');
             $(obj).prop('placeholder', validatemsg);
+            $(obj).css('background-position', $(obj).width() - 1);
 
             $(obj).on("blur", function () {
                 if (ValidateElement(obj, true)) {

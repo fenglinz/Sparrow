@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 {
     /// <summary>
-    /// 文本框控制器。
+    /// 文本框控件。
     /// </summary>
     public class TextBoxControl : FormBase
     {
@@ -46,8 +46,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
         #endregion
 
-        #region 公开方法
+        #region 基本设置
 
+        /// <summary>
+        /// 设置最小长度。
+        /// </summary>
+        /// <param name="minLength">最小长度</param>
+        /// <returns>文本框控件</returns>
         public TextBoxControl MinLength(int minLength)
         {
             this._minLength = minLength;
@@ -55,6 +60,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
             return this;
         }
 
+        /// <summary>
+        /// 设置最大长度。
+        /// </summary>
+        /// <param name="maxLength">最大长度</param>
+        /// <returns>文本框控件</returns>
         public TextBoxControl MaxLength(int maxLength)
         {
             this._maxLength = maxLength;
@@ -62,6 +72,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
             return this;
         }
 
+        /// <summary>
+        /// 设置占位符。
+        /// </summary>
+        /// <param name="placeholder">占位符</param>
+        /// <returns>文本框控件</returns>
         public TextBoxControl Placeholder(string placeholder)
         {
             this._placeholder = placeholder;
@@ -71,10 +86,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
         #endregion
 
+        #region 重写基类方法
+
         /// <summary>
-        /// 文本框呈现。
+        /// 创建表单。
         /// </summary>
-        /// <returns>Html片段</returns>
+        /// <returns>表单信息</returns>
         protected override TagBuilder CreateForm()
         {
             var textTag = new TagBuilder("input");
@@ -95,5 +112,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
             return textTag;
         }
+
+        #endregion
     }
 }

@@ -81,8 +81,7 @@
 @using (Ajax.BeginForm("Search", "Logger", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "logsContainer", OnSuccess = "OnSearchSuccess" }, new { @id = "frmSearch", @class = "form-horizontal form", autocomplete = "off" }))
 {
     <div style="margin-top: 8px;">
-        <label for="Level" class="control-label">日志级别</label>
-        @Html.SelectFor(m => m.Level, "日志级别", true, new { @style = "width:80px;" })
+        @Html.MultipleListFor(m => m.Level, "日志级别", f => f.IncludeAll().Label("日志级别").Style("width:80px;"))
         <label class="control-label" for="StartDate">时间范围</label>
         <div class="form-inline">
             @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control date", style = "width: 100px;" })

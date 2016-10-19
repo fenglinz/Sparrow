@@ -8,62 +8,76 @@ using System.Web.Mvc;
 namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 {
     /// <summary>
-    /// 
+    /// 单选框控件。
     /// </summary>
     public class RadioButtonControl : FormBase
     {
         #region 字段
 
-        private IList<TextValue> _items;
+        /// <summary>
+        /// 数据项。
+        /// </summary>
+        private IList<Option> _items;
 
         #endregion
 
         #region 构造方法
 
+        /// <summary>
+        /// 构造方法。
+        /// </summary>
+        /// <param name="screen">屏幕枚举</param>
+        /// <param name="metadata">视图模型的属性元数据信息</param>
         public RadioButtonControl(Screen screen, PropertyMetadata metadata) : base(screen, metadata)
         {
-            this._class = "btn-group";
-            this._items = new List<TextValue>();
+            this.Class = "btn-group";
+            this._items = new List<Option>();
         }
 
         #endregion
 
+        #region 公开方法
+
         /// <summary>
-        /// 
+        /// 设置按钮数据。
         /// </summary>
-        /// <param name="items"></param>
-        /// <returns></returns>
+        /// <param name="items">数据集合</param>
+        /// <returns>按钮对象</returns>
         public RadioButtonControl Datas(params string[] items)
         {
             foreach (var item in items)
             {
-                this._items.Add(new TextValue(item, item));
+                this._items.Add(new Option(item, item));
             }
 
             return this;
         }
 
         /// <summary>
-        /// 
+        /// 添加数据项。
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public RadioButtonControl Item(string text, object value = null)
+        /// <param name="text">文本</param>
+        /// <param name="value">值</param>
+        /// <returns>单选框控件</returns>
+        public RadioButtonControl AddItem(string text, object value = null)
         {
-            this._items.Add(new TextValue(text, value == null ? text : Convert.ToString(value)));
+            this._items.Add(new Option(text, value == null ? text : Convert.ToString(value)));
 
             return this;
         }
 
+        #endregion
+
+        #region 重写基类方法
+
         /// <summary>
-        /// 单选按钮组。
+        /// 创建表单标签。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>表单标签</returns>
         protected override TagBuilder CreateForm()
         {
             var btnGroupTag = new TagBuilder("div");
-            
+
             btnGroupTag.Attributes.Add("data-toggle", "buttons");
 
             var index = 0;
@@ -97,5 +111,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
             return btnGroupTag;
         }
+
+        #endregion
     }
 }

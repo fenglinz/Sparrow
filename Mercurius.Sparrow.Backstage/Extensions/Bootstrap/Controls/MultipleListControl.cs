@@ -12,7 +12,7 @@ using Mercurius.Sparrow.Contracts.Core;
 namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 {
     /// <summary>
-    /// 多选项的列表。
+    /// 多选项的列表控件。
     /// </summary>
     public class MultipleListControl : FormBase
     {
@@ -33,7 +33,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         /// </summary>
         private string _value;
 
-        private IList<TextValue> _items;
+        private IList<Option> _items;
 
         /// <summary>
         /// 是否包含[全部]选项。
@@ -58,36 +58,21 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         /// <summary>
         /// 构造方法。
         /// </summary>
+        /// <param name="screen">屏幕枚举</param>
+        /// <param name="metadata">视图模型的属性元数据信息</param>
         public MultipleListControl(Screen screen, PropertyMetadata metadata) : base(screen, metadata)
         {
         }
 
         #endregion
 
-        #region 设置基本信息
+        #region 公开方法
 
         /// <summary>
-        /// 添加下拉框数据项。
-        /// </summary>
-        /// <param name="datas">数据项</param>
-        /// <returns>下拉框控件</returns>
-        public MultipleListControl Datas(params string[] datas)
-        {
-            this._items = new List<TextValue>();
-
-            foreach (var data in datas)
-            {
-                this._items.Add(new TextValue(data));
-            }
-
-            return this;
-        }
-
-        /// <summary>
-        /// 设置下拉框数据的字典键。
+        /// 设置多选项的列表控件的字典键。
         /// </summary>
         /// <param name="key">字典键</param>
-        /// <returns>下拉框控件</returns>
+        /// <returns>多选项的列表控件</returns>
         public MultipleListControl Key(string key)
         {
             this._dictionaryKey = key;
@@ -96,10 +81,27 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         }
 
         /// <summary>
-        /// 
+        /// 添加多选项的列表控件的数据。
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="datas">数据项</param>
+        /// <returns>多选项的列表控件</returns>
+        public MultipleListControl Datas(params string[] datas)
+        {
+            this._items = new List<Option>();
+
+            foreach (var data in datas)
+            {
+                this._items.Add(new Option(data));
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// 设置值。
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <returns>多选项的列表控件</returns>
         public MultipleListControl Value(string value)
         {
             this._value = value;
@@ -110,21 +112,23 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         /// <summary>
         /// 下拉框中是否包含[全部]选项。
         /// </summary>
-        /// <param name="includeAll">是否包含[全部]选项</param>
-        /// <returns>下拉框控件</returns>
-        public MultipleListControl IncludeAll(bool includeAll)
+        /// <param name="include">是否包含[全部]选项</param>
+        /// <returns>多选项的列表控件</returns>
+        public MultipleListControl IncludeAll(bool include = true)
         {
-            this._includeAll = includeAll;
+            this._includeAll = include;
 
             return this;
         }
 
         #endregion
 
+        #region 重写基类方法
+
         /// <summary>
-        /// 创建下拉框。
+        /// 创建表单。
         /// </summary>
-        /// <returns>下拉框HTML编码字符串</returns>
+        /// <returns>表单信息</returns>
         protected override TagBuilder CreateForm()
         {
             var tagBuilder = new TagBuilder("select");
@@ -213,5 +217,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
             return tagBuilder;
         }
+
+        #endregion
     }
 }
