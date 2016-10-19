@@ -124,15 +124,16 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="fullName">属性名称</param>
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
+        /// <param name="key">字典键</param>
         /// <param name="callback">表单设置回调</param>
         /// <returns>表单组</returns>
         public FormGroup AppendMultipleList(string fullName,
-            uint labelCols, uint formCols, Action<MultipleListControl> callback = null)
+            uint labelCols, uint formCols, string key, Action<MultipleListControl> callback = null)
         {
             var metadata = this._html.Resolve(fullName);
             var control = new MultipleListControl(this._screen, metadata);
 
-            control.Layout(labelCols, formCols);
+            control.Layout(labelCols, formCols).Key(key);
 
             callback?.Invoke(control);
 
@@ -201,11 +202,12 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="fullName">属性名称</param>
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
+        /// <param name="key">字典键</param>
         /// <param name="callback">表单设置回调</param>
         public IHtmlString MultipleList(string fullName,
-            uint labelCols, uint formCols, Action<MultipleListControl> callback = null)
+            uint labelCols, uint formCols, string key, Action<MultipleListControl> callback = null)
         {
-            return this.AppendMultipleList(fullName, labelCols, formCols, callback).Render();
+            return this.AppendMultipleList(fullName, labelCols, formCols, key, callback).Render();
         }
 
         /// <summary>
@@ -279,10 +281,79 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public FormGroup<T> AppendTextBoxFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, Action<TextBoxControl> callback = null)
         {
+            return this.AppendTextBoxFor(expression, labelCols, formCols, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 添加文本框。
+        /// </summary>
+        /// <param name="expression">表单名称Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public FormGroup<T> AppendTextBoxFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<TextBoxControl> callback = null)
+        {
             var metadata = (this._html as HtmlHelper<T>).Resolve(expression);
             var control = new TextBoxControl(this._screen, metadata);
 
-            control.Layout(labelCols, formCols);
+            control.Layout(labelCols, formCols).Valid(rule);
+
+            callback?.Invoke(control);
+
+            this._formControls.Add(control.Render());
+
+            return this;
+        }
+
+        /// <summary>
+        /// 添加下拉列表框。
+        /// </summary>
+        /// <param name="expression">表单名称Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public FormGroup<T> AppendMultipleListFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, Action<MultipleListControl> callback = null)
+        {
+            return this.AppendMultipleListFor(expression, labelCols, formCols, null, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 添加下拉列表框。
+        /// </summary>
+        /// <param name="expression">表单名称Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public FormGroup<T> AppendMultipleListFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<MultipleListControl> callback = null)
+        {
+            return this.AppendMultipleListFor(expression, labelCols, formCols, null, rule, callback);
+        }
+
+        /// <summary>
+        /// 添加下拉列表框。
+        /// </summary>
+        /// <param name="expression">表单名称Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="key">字典键</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public FormGroup<T> AppendMultipleListFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, string key, ValidRule rule=ValidRule.Default, Action<MultipleListControl> callback = null)
+        {
+            var metadata = (this._html as HtmlHelper<T>).Resolve(expression);
+            var control = new MultipleListControl(this._screen, metadata);
+
+            control.Layout(labelCols, formCols).Key(key).Valid(rule);
 
             callback?.Invoke(control);
 
@@ -304,29 +375,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         {
             var metadata = (this._html as HtmlHelper<T>).Resolve(expression);
             var control = new RadioButtonControl(this._screen, metadata);
-
-            control.Layout(labelCols, formCols);
-
-            callback?.Invoke(control);
-
-            this._formControls.Add(control.Render());
-
-            return this;
-        }
-
-        /// <summary>
-        /// 添加下拉列表框。
-        /// </summary>
-        /// <param name="expression">表单名称Lambda表达式</param>
-        /// <param name="labelCols">标签宽度</param>
-        /// <param name="formCols">表单宽度</param>
-        /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
-        public FormGroup<T> AppendMultipleListFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, Action<MultipleListControl> callback = null)
-        {
-            var metadata = (this._html as HtmlHelper<T>).Resolve(expression);
-            var control = new MultipleListControl(this._screen, metadata);
 
             control.Layout(labelCols, formCols);
 
@@ -380,31 +428,18 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         /// <summary>
-        /// 生成只包含单选框的表单组。
+        /// 生成只包含文本框的表单组。
         /// </summary>
         /// <param name="expression">表单名称Lambda表达式</param>
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
         /// <param name="callback">表单设置回调函数</param>
         /// <returns>强类型表单组</returns>
-        public IHtmlString RadiosFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, Action<RadioButtonControl> callback = null)
+        public IHtmlString TextBoxFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, ValidRule rule, Action<TextBoxControl> callback = null)
         {
-            return this.AppendRadiosFor(expression, labelCols, formCols, callback).Render();
-        }
-
-        /// <summary>
-        /// 生成只包含下拉文本框的表单组。
-        /// </summary>
-        /// <param name="expression">表单名称Lambda表达式</param>
-        /// <param name="labelCols">标签宽度</param>
-        /// <param name="formCols">表单宽度</param>
-        /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
-        public IHtmlString MultipleListFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, Action<MultipleListControl> callback = null)
-        {
-            return this.AppendMultipleListFor(expression, labelCols, formCols, callback).Render();
+            return this.AppendTextBoxFor(expression, labelCols, formCols, rule, callback).Render();
         }
 
         /// <summary>
@@ -428,6 +463,65 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             this._formControls.Add(control.Render());
 
             return this.Render();
+        }
+
+        /// <summary>
+        /// 生成只包含下拉文本框的表单组。
+        /// </summary>
+        /// <param name="expression">表单名称Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public IHtmlString MultipleListFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, Action<MultipleListControl> callback = null)
+        {
+            return this.AppendMultipleListFor(expression, labelCols, formCols, null, ValidRule.Default, callback).Render();
+        }
+
+
+        /// <summary>
+        /// 生成只包含下拉文本框的表单组。
+        /// </summary>
+        /// <param name="expression">表单名称Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public IHtmlString MultipleListFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<MultipleListControl> callback = null)
+        {
+            return this.AppendMultipleListFor(expression, labelCols, formCols, null, rule, callback).Render();
+        }
+
+        /// <summary>
+        /// 生成只包含下拉文本框的表单组。
+        /// </summary>
+        /// <param name="expression">表单名称Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="key">字典键</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public IHtmlString MultipleListFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, string key, Action<MultipleListControl> callback = null)
+        {
+            return this.AppendMultipleListFor(expression, labelCols, formCols, key, ValidRule.Default, callback).Render();
+        }
+
+        /// <summary>
+        /// 生成只包含单选框的表单组。
+        /// </summary>
+        /// <param name="expression">表单名称Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public IHtmlString RadiosFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, Action<RadioButtonControl> callback = null)
+        {
+            return this.AppendRadiosFor(expression, labelCols, formCols, callback).Render();
         }
 
         /// <summary>

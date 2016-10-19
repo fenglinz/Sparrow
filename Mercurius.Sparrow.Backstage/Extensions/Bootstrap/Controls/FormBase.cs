@@ -130,8 +130,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
             if (this.FormCols > 0)
             {
                 var formContainer = new TagBuilder("div");
+                var colScreen = this.Screen == Screen.Default ? "sm" : this.Screen.ToString().ToLower();
 
-                formContainer.AddCssClass($"col-{this.Screen.ToString().ToLower()}-{this.FormCols}");
+                formContainer.AddCssClass($"col-{colScreen}-{this.FormCols}");
 
                 formContainer.InnerHtml += form;
                 container.InnerHtml += formContainer;
@@ -178,7 +179,8 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
             if (this.LabelCols > 0)
             {
-                var labelCssClass = $"col-{this.Screen.ToString().ToLower()}-{this.LabelCols}";
+                var colScreen = this.Screen == Screen.Default ? "sm" : this.Screen.ToString().ToLower();
+                var labelCssClass = $"col-{colScreen}-{this.LabelCols}";
 
                 labelTag.AddCssClass(labelCssClass);
             }

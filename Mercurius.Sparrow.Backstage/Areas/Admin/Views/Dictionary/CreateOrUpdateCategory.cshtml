@@ -23,9 +23,9 @@
 @using (Ajax.BeginForm("CreateOrUpdateCategory", "Dictionary", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
 {
     @Html.HiddenFor(m => m.Id)
-    @Html.FormGroup(Screen.SM).FormPartFor(m => m.ParentId, 2, 9, @<text>@TreeHelper.CreateComboTree(trees, item.FullName, Convert.ToString(item.Value), this.ViewBag.Id)</text>, form => form.Label("父分类"))
-    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Key, 2, 9, form => form.MaxLength(100).Label("分类名").Valid(ValidRule.Limit))
-    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Value, 2, 9, form => form.MaxLength(100).Valid(ValidRule.LimitOrNull))
-    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, f => f.Valid(ValidRule.Int))
-    @Html.FormGroup(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, form => form.Rows(3))
+    @Html.FormGroupFor(Screen.SM).FormPartFor(m => m.ParentId, 2, 9, @<text>@TreeHelper.CreateComboTree(trees, item.FullName, Convert.ToString(item.Value), this.ViewBag.Id)</text>, form => form.Label("父分类"))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Key, 2, 9, ValidRule.Limit, form => form.MaxLength(100).Label("分类名"))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Value, 2, 9, ValidRule.LimitOrNull, form => form.MaxLength(100))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, ValidRule.Int)
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, form => form.Rows(3))
 }

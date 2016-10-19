@@ -66,10 +66,10 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.Image, new { @id = "imageName" })
-    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Name, 2, 9, form => form.Form(new { onkeyup = "onkeyButton_Name(this.value)" }))
-    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Title, 2, 9)
-    @Html.FormGroup(Screen.SM).DropdownListFor(m => m.Category, 2, 9, f => f.Datas("工具栏"))
-    @Html.FormGroup(Screen.SM).FormPartFor(m => m.Image, 2, 9, @<text>
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Name, 2, 9, form => form.Form(new { onkeyup = "onkeyButton_Name(this.value)" }))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Title, 2, 9)
+    @Html.FormGroupFor(Screen.SM).MultipleListFor(m => m.Category, 2, 9, f => f.Datas("工具栏"))
+    @Html.FormGroupFor(Screen.SM).FormPartFor(m => m.Image, 2, 9, @<text>
         <div class="icon-container">
             <i id="icon" class="@imgUrl"></i>
         </div>
@@ -77,7 +77,7 @@
             <i class="glyphicon glyphicon-picture" style="top: 1.5px;"></i> 选择图标
         </a>
     </text>)
-    @Html.FormGroup(Screen.SM).TextBoxFor(m => m.Sort, 2, 9)
-    @Html.FormGroup(Screen.SM).TextAreaFor(m => m.Code, 2, 9, form => form.Rows(3))
-    @Html.FormGroup(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, form => form.Rows(3))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9)
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Code, 2, 9, form => form.Rows(3))
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, form => form.Rows(3))
 }
