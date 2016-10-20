@@ -182,19 +182,22 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
                         tagBuilder.InnerHtml += optgroup;
                     }
                 }
-                foreach (var item in rsp.Datas)
+                else
                 {
-                    var optionTag = new TagBuilder("option");
-
-                    optionTag.SetInnerText(item.Key);
-                    optionTag.Attributes.Add("value", item.Value);
-
-                    if (value == item.Value)
+                    foreach (var item in rsp.Datas)
                     {
-                        optionTag.Attributes.Add("selected", "selected");
-                    }
+                        var optionTag = new TagBuilder("option");
 
-                    tagBuilder.InnerHtml += optionTag;
+                        optionTag.SetInnerText(item.Key);
+                        optionTag.Attributes.Add("value", item.Value);
+
+                        if (value == item.Value)
+                        {
+                            optionTag.Attributes.Add("selected", "selected");
+                        }
+
+                        tagBuilder.InnerHtml += optionTag;
+                    }
                 }
             }
             else

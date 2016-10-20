@@ -23,72 +23,72 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         /// <summary>
         /// 屏幕枚举。
         /// </summary>
-        public Screen Screen { get; set; }
+        internal Screen Screen { get; set; }
 
         /// <summary>
         /// 标签宽度。
         /// </summary>
-        public uint LabelCols { get; set; }
+        internal uint LabelCols { get; set; }
 
         /// <summary>
         /// 表单宽度。
         /// </summary>
-        public uint FormCols { get; set; }
+        internal uint FormCols { get; set; }
 
         /// <summary>
         /// 标签。
         /// </summary>
-        public string Label { get; set; }
+        internal string Label { get; set; }
 
         /// <summary>
         /// 标签的内联样式。
         /// </summary>
-        public string LabelStyle { get; set; }
+        internal string LabelStyle { get; set; }
 
         /// <summary>
         /// 标签状态。
         /// </summary>
-        public string LabelState { get; set; } = "S";
+        internal string LabelState { get; set; } = "S";
 
         /// <summary>
         /// css样式类名称。
         /// </summary>
-        public string Class { get; set; }
+        internal string Class { get; set; }
 
         /// <summary>
         /// 表单内联样式。
         /// </summary>
-        public string Style { get; set; }
+        internal string Style { get; set; }
 
         /// <summary>
         /// 是否为只读。
         /// </summary>
-        public bool Readonly { get; set; }
+        internal bool Readonly { get; set; }
 
         /// <summary>
         /// 是否禁用。
         /// </summary>
-        public bool Disabled { get; set; }
+        internal bool Disabled { get; set; }
 
         /// <summary>
         /// 属性。
         /// </summary>
-        public object HtmlAttributes { get; set; }
+        internal object HtmlAttributes { get; set; }
 
         /// <summary>
         /// 验证字段名称。
         /// </summary>
-        public string RuleField { get; set; }
+        internal string RuleField { get; set; }
 
         /// <summary>
         /// 格式化字符串。
         /// </summary>
-        public string FormatString { get; set; }
+        internal string FormatString { get; set; }
 
         /// <summary>
         /// 验证规则。
         /// </summary>
-        public ValidRule Rule { get; set; } = ValidRule.Default;
+        internal ValidRule Rule { get; set; } = ValidRule.Default;
 
         #endregion
 

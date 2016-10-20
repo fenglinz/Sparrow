@@ -294,7 +294,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="callback">表单设置回调函数</param>
         /// <returns>强类型表单组</returns>
         public FormGroup<T> AppendTextBoxFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<TextBoxControl> callback = null)
+            uint labelCols, uint formCols, ValidRule rule, Action<TextBoxControl> callback = null)
         {
             var metadata = (this._html as HtmlHelper<T>).Resolve(expression);
             var control = new TextBoxControl(this._screen, metadata);
@@ -328,13 +328,13 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="expression">表单名称Lambda表达式</param>
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
-        /// <param name="rule">验证规则</param>
+        /// <param name="key">验证规则</param>
         /// <param name="callback">表单设置回调函数</param>
         /// <returns>强类型表单组</returns>
         public FormGroup<T> AppendMultipleListFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<MultipleListControl> callback = null)
+            uint labelCols, uint formCols, string key, Action<MultipleListControl> callback = null)
         {
-            return this.AppendMultipleListFor(expression, labelCols, formCols, null, rule, callback);
+            return this.AppendMultipleListFor(expression, labelCols, formCols, key, ValidRule.Default, callback);
         }
 
         /// <summary>
@@ -348,7 +348,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="callback">表单设置回调函数</param>
         /// <returns>强类型表单组</returns>
         public FormGroup<T> AppendMultipleListFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, string key, ValidRule rule=ValidRule.Default, Action<MultipleListControl> callback = null)
+            uint labelCols, uint formCols, string key, ValidRule rule, Action<MultipleListControl> callback = null)
         {
             var metadata = (this._html as HtmlHelper<T>).Resolve(expression);
             var control = new MultipleListControl(this._screen, metadata);

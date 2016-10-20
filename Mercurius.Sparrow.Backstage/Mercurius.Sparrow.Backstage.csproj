@@ -278,6 +278,7 @@
     <Compile Include="Extensions\Bootstrap\BootstrapHtmlHelper.cs" />
     <Compile Include="Extensions\Bootstrap\Controls\CustomControl.cs" />
     <Compile Include="Extensions\Bootstrap\Controls\FormBase.cs" />
+    <Compile Include="Extensions\Bootstrap\FormBaseExtensions.cs" />
     <Compile Include="Extensions\Bootstrap\Controls\TextAreaControl.cs" />
     <Compile Include="Extensions\Bootstrap\Controls\TextBoxControl.cs" />
     <Compile Include="Extensions\Bootstrap\Controls\MultipleListControl.cs" />
