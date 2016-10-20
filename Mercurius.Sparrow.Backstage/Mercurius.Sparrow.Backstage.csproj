@@ -232,6 +232,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BaseController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\Constants.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Models\User\CreateOrUpdateVM.cs" />
     <Compile Include="Areas\Console\ConsoleAreaRegistration.cs" />
+    <Compile Include="Areas\Console\Controllers\ToolsController.cs" />
     <Compile Include="Areas\Console\SignalRHubs\GenerateDatabaseScript.cs" />
     <Compile Include="Areas\DynamicPage\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\DynamicPage\Controllers\DynamicController.cs" />
@@ -287,11 +289,11 @@
     <Compile Include="Extensions\Bootstrap\Controls\RadioButtonControl.cs" />
     <Compile Include="Extensions\Bootstrap\Screen.cs" />
     <Compile Include="Extensions\Bootstrap\Option.cs" />
-    <Compile Include="Extensions\ConsoleAuthorizeAttribute.cs" />
-    <Compile Include="Extensions\IgnorePermissionValidAttribute.cs" />
+    <Compile Include="Filters\ConsoleAuthorizeAttribute.cs" />
+    <Compile Include="Filters\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Extensions\MercuriusUrlHelper.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
-    <Compile Include="Extensions\MercuriusAuthorizeAttribute.cs" />
+    <Compile Include="Filters\MercuriusAuthorizeAttribute.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\PagingExtensions.cs" />
     <Compile Include="Extensions\ValidationExtensions.cs" />
@@ -471,7 +473,7 @@
     <Content Include="App_Readme\Handlebarsjs_README.md" />
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
     <Content Include="Content\Documents\系统架构设计说明文档.pdf" />
-    <Content Include="Areas\Console\Views\Home\EncryptOrDecrypt.cshtml" />
+    <Content Include="Areas\Console\Views\Tools\Index.cshtml" />
     <Content Include="Areas\Console\Views\Account\LogOn.cshtml" />
     <Content Include="App_Data\console.dat" />
     <None Include="Areas\Console\Views\Home\Index.cshtml" />
@@ -479,6 +481,7 @@
     <Content Include="Areas\Console\Views\web.config" />
     <Content Include="Areas\Console\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Console\Views\Script\Generate.cshtml" />
+    <Content Include="Areas\Console\Views\Tools\_Result.cshtml" />
     <None Include="Areas\NewsCenter\Views\News\CreateOrUpdate.cshtml" />
     <None Include="Areas\NewsCenter\Views\News\Index.cshtml" />
     <Content Include="Areas\NewsCenter\Views\News\_News.cshtml" />

@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using Autofac;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Contracts.Core;
 using Mercurius.Sparrow.Contracts.RBAC;
 using Mercurius.Sparrow.Contracts.Storage;
 using Mercurius.Sparrow.Entities.RBAC;
 using Mercurius.Sparrow.Entities.Storage;
+using static Mercurius.Sparrow.Backstage.Constants;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {
@@ -144,21 +143,19 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <returns>是否拥有权限</returns>
         public static bool HasConsoleRight(this HttpRequestBase request)
         {
-            var token = request.Cookies["ConsoleManagerToken"]?.Value;
+            var token = request.Cookies[ConsoleManagerToken]?.Value;
 
             if (string.IsNullOrWhiteSpace(token))
             {
                 return false;
             }
             
-            var securityData = request.RequestContext.HttpContext.Server.MapPath("~/App_Data/console.dat");
-
-            if (!System.IO.File.Exists(securityData))
+            if (!System.IO.File.Exists(ConsoleManagerStoragePath))
             {
                 return false;
             }
 
-            using (var reader = new StreamReader(securityData))
+            using (var reader = new StreamReader(ConsoleManagerStoragePath))
             {
                 var accountToken = reader.ReadLine();
 

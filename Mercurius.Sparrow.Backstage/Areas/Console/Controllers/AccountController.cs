@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Mvc.Extensions;
+using static Mercurius.Sparrow.Backstage.Constants;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 {
@@ -43,11 +44,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
         {
             this.ViewBag.Account = account;
 
-            var securityFile = Server.MapPath("~/App_Data/console.dat");
-
-            if (System.IO.File.Exists(securityFile))
+            if (System.IO.File.Exists(ConsoleManagerStoragePath))
             {
-                using (var reader = new StreamReader(securityFile))
+                using (var reader = new StreamReader(ConsoleManagerStoragePath))
                 {
                     var token = reader.ReadLine();
 
@@ -55,9 +54,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
                     {
                         if (token == $"{account}--->{password}".MD5())
                         {
-                            this.Response.SetCookie(new HttpCookie("ConsoleManagerToken", token)
+                            this.Response.SetCookie(new HttpCookie(ConsoleManagerToken, token)
                             {
-                                Expires = DateTime.Now.AddMinutes(15)
+                                Expires = DateTime.Now.AddMinutes(ConsoleManagerTokenExpires)
                             });
 
                             return RedirectToAction("Index", "Home", new { @Area = "Console" });
@@ -70,14 +69,14 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
             {
                 var token = $"{account}--->{password}".MD5();
 
-                using (var writer = new StreamWriter(securityFile, false, Encoding.UTF8))
+                using (var writer = new StreamWriter(ConsoleManagerStoragePath, false, Encoding.UTF8))
                 {
                     writer.WriteLine(token);
                 }
 
-                this.Response.SetCookie(new HttpCookie("ConsoleManagerToken", token)
+                this.Response.SetCookie(new HttpCookie(ConsoleManagerToken, token)
                 {
-                    Expires = DateTime.Now.AddMinutes(15)
+                    Expires = DateTime.Now.AddMinutes(ConsoleManagerTokenExpires)
                 });
 
                 return RedirectToAction("Index", "Home", new { @Area = "Console" });
@@ -86,6 +85,19 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
             ModelState.AddModelError("account", "账号或者密码错误！");
 
             return View();
+        }
+
+        public ActionResult LogOff()
+        {
+            var cookie = this.Request.Cookies[ConsoleManagerToken];
+
+            if (cookie != null)
+            {
+                cookie.Expires = DateTime.Now;
+                this.Response.SetCookie(cookie);
+            }
+
+            return RedirectToAction("LogOn", "Account", new { @Area = "Console" });
         }
     }
 }

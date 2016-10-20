@@ -31,8 +31,8 @@
                     <li @NavigationState(features, "首页")>
                         <a href="@Url.Action("Index", "Home", new {@Area = "Console"})">首页</a>
                     </li>
-                    <li @NavigationState(features, "加密/解密")>
-                        <a href="@Url.Action("EncryptOrDecrypt", "Home", new {@Area = "Console"})">加密/解密</a>
+                    <li @NavigationState(features, "工具")>
+                        <a href="@Url.Action("Index", "Tools", new {@Area = "Console"})">工具</a>
                     </li>
                     <li @NavigationState(features, "生成数据库脚本")>
                         <a href="@Url.Action("Generate", "Script")">生成数据库脚本</a>
@@ -44,8 +44,18 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="@Url.Action("Index", "Home", new {@Area = ""})"><i class="glyphicon glyphicon-home"></i> 返回后台</a>
+                    <a href="@Url.Action("Index", "Home", new {@Area = ""})">
+                        <i class="glyphicon glyphicon-home"></i> 返回后台
+                    </a>
                 </li>
+                @if (Request.HasConsoleRight())
+                {
+                    <li>
+                        <a onclick="OnLogOff()" href="javascript:void(0);">
+                            <i class="glyphicon glyphicon-log-out"></i> 退出
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
     </div>
@@ -55,18 +65,28 @@
 </div>
 
 @Scripts.Render("~/bundles/common")
+@if (this.Request.HasConsoleRight())
+{
+    <script type="text/javascript">
+        function OnLogOff() {
+            mercurius.ShowConfirmMessage('是否退出管理控制台？', function () {
+                window.location.href = '@Url.Action("LogOff", "Account",new {@Area="Console"})';
+            });
+        }
+    </script>
+}
 @RenderSection("Scripts", false)
 
 @helper NavigationState(dynamic features, string current)
 {
-    var f = features as string;
+var f = features as string;
 
-    if (string.IsNullOrWhiteSpace(f) && current == "首页")
-    {
+if (string.IsNullOrWhiteSpace(f) && current == "首页")
+{
         <text>class="active"</text>
-    }
-    else if (f == current)
-    {
+}
+else if (f == current)
+{
         <text>class="active"</text>
-    }
+}
 }

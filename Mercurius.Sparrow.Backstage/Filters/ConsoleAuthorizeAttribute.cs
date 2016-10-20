@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static Mercurius.Sparrow.Backstage.Constants;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {
@@ -33,18 +34,18 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
             var valid = false;
             var request = filterContext.HttpContext.Request;
-            var token = request.Cookies["ConsoleManagerToken"]?.Value;
-
-            var securityData = request.RequestContext.HttpContext.Server.MapPath("~/App_Data/console.dat");
-
-            if (!string.IsNullOrWhiteSpace(token) && File.Exists(securityData))
+            var token = request.Cookies[ConsoleManagerToken]?.Value;
+            
+            if (!string.IsNullOrWhiteSpace(token) && File.Exists(ConsoleManagerStoragePath))
             {
-                using (var reader = new StreamReader(securityData))
+                using (var reader = new StreamReader(ConsoleManagerStoragePath))
                 {
                     var accountToken = reader.ReadLine();
 
                     valid = accountToken == token;
                 }
+
+                request.Cookies[ConsoleManagerToken].Expires = DateTime.Now.AddMinutes(ConsoleManagerTokenExpires);
             }
 
             if (!valid)

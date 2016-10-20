@@ -1,0 +1,160 @@
+﻿@{
+    this.ViewBag.Features = "工具";
+}
+
+@section Styles{
+    <style type="text/css">
+        .result {
+            height: 94px;
+            cursor: default;
+            background: #eee;
+            overflow-y: auto;
+            overflow-wrap: break-word;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('button[data-type]').click(function () {
+                $($(this).attr('target')).val($(this).attr('data-type'));
+
+                $($(this).attr('form-id')).submit();
+
+                return false;
+            });
+
+            $('button[data-action]').click(function () {
+                var action = $(this).attr('data-action');
+                var dataId = $(this).attr('data-id');
+
+                if (action == 'copy') {
+                    $('#source' + dataId).val($('#target' + dataId).text()).focus();
+                } else if (action == 'clear') {
+                    $('#target' + dataId).text('');
+                    $('#source' + dataId).val('').focus();
+                }
+            });
+        });
+    </script>
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <b>加密/解密</b>
+    </div>
+    <div class="panel-body">
+        @using (Ajax.BeginForm("EncryptOrDecrypt", "Tools", null, new AjaxOptions { HttpMethod = "POST", AllowCache = false, UpdateTargetId = "target1" }, new { @id = "frmType1", @class = "form-horizontal" }))
+        {
+            @Html.Hidden("type", "encrypt", new { @id = "type1" })
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <textarea id="source1" name="source" class="form-control" rows="4" placeholder="需要进行加密/解密的字符"></textarea>
+                </div>
+                <div class="col-sm-6">
+                    <div id="target1" class="form-control result"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" form-id="#frmType1" target="#type1" data-type="encrypt">
+                            <i class="glyphicon glyphicon-lock"></i> 加密
+                        </button>
+                        <button type="button" class="btn btn-success" form-id="#frmType1" target="#type1" data-type="decrypt">
+                            <i class="fa fa-key"></i> 解密
+                        </button>
+                        <button type="button" class="btn btn-default" data-id="1" data-action="copy">
+                            <i class="glyphicon glyphicon-copy"></i> 复制
+                        </button>
+                        <button type="button" class="btn btn-danger" data-id="1" data-action="clear">
+                            <i class="glyphicon glyphicon-trash"></i> 清空
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <b>Base64加密/解密</b>
+    </div>
+    <div class="panel-body">
+        @using (Ajax.BeginForm("Base64", "Tools", null, new AjaxOptions { HttpMethod = "POST", AllowCache = false, UpdateTargetId = "target2" }, new { @id = "frmType2", @class = "form-horizontal" }))
+        {
+            @Html.Hidden("type", "encrypt", new { @id = "type2" })
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <textarea id="source2" name="source" class="form-control" rows="4" placeholder="需要进行base64编码/解码的字符"></textarea>
+                </div>
+                <div class="col-sm-6">
+                    <div id="target2" class="form-control result"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" form-id="#frmType2" target="#type2" data-type="encrypt">
+                            <i class="glyphicon glyphicon-lock"></i> 编码
+                        </button>
+                        <button type="button" class="btn btn-success" form-id="#frmType2" target="#type2" data-type="decrypt">
+                            <i class="fa fa-key"></i> 解码
+                        </button>
+                        <button type="button" class="btn btn-default" data-id="2" data-action="copy">
+                            <i class="glyphicon glyphicon-copy"></i> 复制
+                        </button>
+                        <button type="button" class="btn btn-danger" data-id="2" data-action="clear">
+                            <i class="glyphicon glyphicon-trash"></i> 清空
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <b>URL编码/解码</b>
+    </div>
+    <div class="panel-body">
+        @using (Ajax.BeginForm("Url", "Tools", null, new AjaxOptions { HttpMethod = "POST", AllowCache = false, UpdateTargetId = "target3" }, new { @id = "frmType3", @class = "form-horizontal" }))
+        {
+            @Html.Hidden("type", "encrypt", new { @id = "type3" })
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <textarea id="source3" name="source" class="form-control" rows="4" placeholder="需要进行Url编码/解码的字符"></textarea>
+                </div>
+                <div class="col-sm-6">
+                    <div id="target3" class="form-control result"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" form-id="#frmType3" target="#type3" data-type="encrypt">
+                            <i class="glyphicon glyphicon-lock"></i> 编码
+                        </button>
+                        <button type="button" class="btn btn-success" form-id="#frmType3" target="#type3" data-type="decrypt">
+                            <i class="fa fa-key"></i> 解码
+                        </button>
+                        <button type="button" class="btn btn-default" data-id="3" data-action="copy">
+                            <i class="glyphicon glyphicon-copy"></i> 复制
+                        </button>
+                        <button type="button" class="btn btn-danger" data-id="3" data-action="clear">
+                            <i class="glyphicon glyphicon-trash"></i> 清空
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
