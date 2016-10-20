@@ -13,20 +13,34 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     /// </summary>
     public static class BootstrapHtmlHelper
     {
-        #region 表单
+        #region 文本框
 
         /// <summary>
-        /// 
+        /// 生成文本框片段。
         /// </summary>
-        /// <param name="html"></param>
-        /// <param name="fullName"></param>
-        /// <param name="callback"></param>
-        /// <returns></returns>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="fullName">文本框名称</param>
+        /// <param name="callback">文本框设置回调函数</param>
+        /// <returns>Html片段</returns>
         public static IHtmlString TextBox(this HtmlHelper html,
             string fullName, Action<TextBoxControl> callback = null)
         {
+            return html.TextBox(fullName, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 生成文本框片段。
+        /// </summary>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="fullName">文本框名称</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">文本框设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString TextBox(this HtmlHelper html,
+            string fullName, ValidRule rule, Action<TextBoxControl> callback = null)
+        {
             var metadata = html.Resolve(fullName);
-            var control = new TextBoxControl(Screen.Default, metadata);
+            var control = new TextBoxControl(Screen.Default, metadata).Valid(rule);
 
             callback?.Invoke(control);
 
@@ -34,19 +48,73 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         /// <summary>
-        /// 
+        /// 生成文本框片段。
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="P"></typeparam>
-        /// <param name="html"></param>
-        /// <param name="expression"></param>
-        /// <param name="callback"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">视图模型的类型</typeparam>
+        /// <typeparam name="P">视图模型的属性类型</typeparam>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="expression">获取视图属性的Lambda表达式</param>
+        /// <param name="callback">文本框设置回调函数</param>
+        /// <returns>Html片段</returns>
         public static IHtmlString TextBoxFor<T, P>(this HtmlHelper<T> html,
             Expression<Func<T, P>> expression, Action<TextBoxControl> callback = null)
         {
+            return html.TextBoxFor(expression, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 生成文本框片段。
+        /// </summary>
+        /// <typeparam name="T">视图模型的类型</typeparam>
+        /// <typeparam name="P">视图模型的属性类型</typeparam>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="expression">获取视图属性的Lambda表达式</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">文本框设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString TextBoxFor<T, P>(this HtmlHelper<T> html,
+            Expression<Func<T, P>> expression, ValidRule rule, Action<TextBoxControl> callback = null)
+        {
             var metadata = html.Resolve(expression);
-            var control = new TextBoxControl(Screen.Default, metadata);
+            var control = new TextBoxControl(Screen.Default, metadata).Valid(rule);
+
+            callback?.Invoke(control);
+
+            return control.Render();
+        }
+
+        #endregion
+
+        #region 文本域
+
+        /// <summary>
+        /// 生成文本域片段。
+        /// </summary>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="fullName">文本框名称</param>
+        /// <param name="rows">行数</param>
+        /// <param name="callback">文本框设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString TextArea(this HtmlHelper html,
+            string fullName, uint rows, Action<TextAreaControl> callback = null)
+        {
+            return html.TextArea(fullName, rows, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 生成文本域片段。
+        /// </summary>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="fullName">文本框名称</param>
+        /// <param name="rows">行数</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">文本框设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString TextArea(this HtmlHelper html, string fullName,
+            uint rows, ValidRule rule, Action<TextAreaControl> callback = null)
+        {
+            var metadata = html.Resolve(fullName);
+            var control = new TextAreaControl(Screen.Default, metadata).Rows(rows).Valid(rule);
 
             callback?.Invoke(control);
 
@@ -54,18 +122,117 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         /// <summary>
-        /// 
+        /// 生成文本框片段。
         /// </summary>
-        /// <param name="html"></param>
-        /// <param name="fullName"></param>
-        /// <param name="key"></param>
-        /// <param name="callback"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">视图模型的类型</typeparam>
+        /// <typeparam name="P">视图模型的属性类型</typeparam>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="expression">获取视图属性的Lambda表达式</param>
+        /// <param name="rows">行数</param>
+        /// <param name="callback">文本框设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString TextAreaFor<T, P>(this HtmlHelper<T> html,
+            Expression<Func<T, P>> expression, uint rows, Action<TextAreaControl> callback = null)
+        {
+            return html.TextAreaFor(expression, rows, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 生成文本框片段。
+        /// </summary>
+        /// <typeparam name="T">视图模型的类型</typeparam>
+        /// <typeparam name="P">视图模型的属性类型</typeparam>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="expression">获取视图属性的Lambda表达式</param>
+        /// <param name="rows">行数</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">文本框设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString TextAreaFor<T, P>(this HtmlHelper<T> html,
+            Expression<Func<T, P>> expression, uint rows, ValidRule rule, Action<TextAreaControl> callback = null)
+        {
+            var metadata = html.Resolve(expression);
+            var control = new TextAreaControl(Screen.Default, metadata).Rows(3).Valid(rule);
+
+            callback?.Invoke(control);
+
+            return control.Render();
+        }
+
+        #endregion
+
+        #region 单选组
+
+        /// <summary>
+        /// 生成单选组片段。
+        /// </summary>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="fullName">元素名称</param>
+        /// <param name="callback">单选组设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString Radios(this HtmlHelper html,
+            string fullName, Action<RadioButtonControl> callback = null)
+        {
+            var metadata = html.Resolve(fullName);
+            var control = new RadioButtonControl(Screen.Default, metadata);
+
+            callback?.Invoke(control);
+
+            return control.Render();
+        }
+
+        /// <summary>
+        /// 生成单选组片段。
+        /// </summary>
+        /// <typeparam name="T">视图模型的类型</typeparam>
+        /// <typeparam name="P">视图模型属性的类型</typeparam>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="expression">视图模型属性的获取Lambda表达式</param>
+        /// <param name="callback">单选组设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString RadiosFor<T, P>(this HtmlHelper<T> html,
+            Expression<Func<T, P>> expression, Action<RadioButtonControl> callback = null)
+        {
+            var metadata = html.Resolve(expression);
+            var control = new RadioButtonControl(Screen.Default, metadata);
+
+            callback?.Invoke(control);
+
+            return control.Render();
+        }
+
+        #endregion
+
+        #region 多选列表
+
+        /// <summary>
+        /// 生成多选列表片段。
+        /// </summary>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="fullName">元素名称</param>
+        /// <param name="key">字典键</param>
+        /// <param name="callback">多选项设置回调</param>
+        /// <returns>Html片段</returns>
         public static IHtmlString MultipleList(this HtmlHelper html,
             string fullName, string key, Action<MultipleListControl> callback = null)
         {
+            return html.MultipleList(fullName, key, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 生成多选列表片段。
+        /// </summary>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="fullName">元素名称</param>
+        /// <param name="key">字典键</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">多选项设置回调</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString MultipleList(this HtmlHelper html,
+            string fullName, string key, ValidRule rule, Action<MultipleListControl> callback = null)
+        {
             var metadata = html.Resolve(fullName);
-            var control = new MultipleListControl(Screen.Default, metadata);
+            var control = new MultipleListControl(Screen.Default, metadata).Valid(rule);
 
             control.Key(key);
 
@@ -87,10 +254,75 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public static IHtmlString MultipleListFor<T, P>(this HtmlHelper<T> html,
            Expression<Func<T, P>> expression, string key, Action<MultipleListControl> callback = null)
         {
+            return html.MultipleListFor(expression, key, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 生成多选列表片段。
+        /// </summary>
+        /// <typeparam name="T">视图模型的类型</typeparam>
+        /// <typeparam name="P">视图模型属性的类型</typeparam>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="expression">获取视图属性的Lambda表达式</param>
+        /// <param name="key">字典键</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">多选项控件设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString MultipleListFor<T, P>(this HtmlHelper<T> html,
+           Expression<Func<T, P>> expression, string key, ValidRule rule, Action<MultipleListControl> callback = null)
+        {
             var metadata = html.Resolve(expression);
-            var control = new MultipleListControl(Screen.Default, metadata);
+            var control = new MultipleListControl(Screen.Default, metadata).Valid(rule);
 
             control.Key(key);
+
+            callback?.Invoke(control);
+
+            return control.Render();
+        }
+
+        #endregion
+
+        #region 自定义表单
+
+        /// <summary>
+        /// 生成自定义表单片段。
+        /// </summary>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="fullName">元素名称</param>
+        /// <param name="part">自定义表单区域设置回调</param>
+        /// <param name="callback">自定义表单设置回调</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString FormPart(this HtmlHelper html,
+            string fullName, Func<PropertyMetadata, object> part, Action<CustomControl> callback = null)
+        {
+            var metadata = html.Resolve(fullName);
+            var control = new CustomControl(Screen.Default, metadata);
+
+            control.FormPart(part);
+
+            callback?.Invoke(control);
+
+            return control.Render();
+        }
+
+        /// <summary>
+        /// 生成自定义表单片段。
+        /// </summary>
+        /// <typeparam name="T">视图模型的类型</typeparam>
+        /// <typeparam name="P">视图模型属性的类型</typeparam>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="expression">视图模型属性的获取Lambda表达式</param>
+        /// <param name="part">自定义表单区域设置回调</param>
+        /// <param name="callback">自定义表单设置回调</param>
+        /// <returns>Html片段</returns>
+        public static IHtmlString FormPartFor<T, P>(this HtmlHelper<T> html,
+            Expression<Func<T, P>> expression, Func<PropertyMetadata, object> part, Action<CustomControl> callback = null)
+        {
+            var metadata = html.Resolve(expression);
+            var control = new CustomControl(Screen.Default, metadata);
+
+            control.FormPart(part);
 
             callback?.Invoke(control);
 

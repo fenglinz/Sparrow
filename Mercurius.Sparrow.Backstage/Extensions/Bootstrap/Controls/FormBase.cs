@@ -117,7 +117,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         /// 控件呈现。
         /// </summary>
         /// <returns>Html片段</returns>
-        public IHtmlString Render()
+        public virtual IHtmlString Render()
         {
             var container = new TagBuilder("div");
             var label = this.CreateLabel();
@@ -130,9 +130,8 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
             if (this.FormCols > 0)
             {
                 var formContainer = new TagBuilder("div");
-                var colScreen = this.Screen == Screen.Default ? "sm" : this.Screen.ToString().ToLower();
 
-                formContainer.AddCssClass($"col-{colScreen}-{this.FormCols}");
+                formContainer.AddCssClass($"col-sm-{this.FormCols}");
 
                 formContainer.InnerHtml += form;
                 container.InnerHtml += formContainer;
@@ -179,8 +178,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
             if (this.LabelCols > 0)
             {
-                var colScreen = this.Screen == Screen.Default ? "sm" : this.Screen.ToString().ToLower();
-                var labelCssClass = $"col-{colScreen}-{this.LabelCols}";
+                var labelCssClass = $"col-sm-{this.LabelCols}";
 
                 labelTag.AddCssClass(labelCssClass);
             }

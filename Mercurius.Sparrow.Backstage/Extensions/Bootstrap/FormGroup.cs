@@ -448,15 +448,32 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="expression">表单名称Lambda表达式</param>
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
+        /// <param name="rows">行数</param>
         /// <param name="callback">表单设置回调函数</param>
         /// <returns>强类型表单组</returns>
         public IHtmlString TextAreaFor<P>(Expression<Func<T, P>> expression,
-            uint labelCols, uint formCols, Action<TextAreaControl> callback = null)
+            uint labelCols, uint formCols, uint rows, Action<TextAreaControl> callback = null)
+        {
+            return this.TextAreaFor(expression, labelCols, formCols, rows, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 生成只包含文本域的表单组。
+        /// </summary>
+        /// <param name="expression">表单名称Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="rows">行数</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public IHtmlString TextAreaFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, uint rows, ValidRule rule, Action<TextAreaControl> callback = null)
         {
             var metadata = (this._html as HtmlHelper<T>).Resolve(expression);
             var control = new TextAreaControl(this._screen, metadata);
 
-            control.Layout(labelCols, formCols);
+            control.Layout(labelCols, formCols).Rows(rows).Valid(rule);
 
             callback?.Invoke(control);
 

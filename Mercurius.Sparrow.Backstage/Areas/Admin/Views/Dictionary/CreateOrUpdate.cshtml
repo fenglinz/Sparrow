@@ -58,5 +58,5 @@
     @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Value, 2, 9, ValidRule.Limit, f => f.MaxLength(100))
     @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, ValidRule.Int)
     @Html.FormGroupFor(Screen.SM).RadiosFor(m => m.Status, 2, 9, f => f.AddItem("启用", 1).AddItem("禁用", 0))
-    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Key, 2, 9, f => f.Rows(3))
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Key, 2, 9, 3)
 }

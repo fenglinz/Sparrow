@@ -78,6 +78,6 @@
         </a>
     </text>)
     @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9)
-    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Code, 2, 9, form => form.Rows(3))
-    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, form => form.Rows(3))
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Code, 2, 9, 3)
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, 3)
 }

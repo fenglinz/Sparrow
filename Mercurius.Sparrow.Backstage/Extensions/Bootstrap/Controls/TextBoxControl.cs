@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 
 namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 {
@@ -18,17 +19,17 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         /// <summary>
         /// 表单允许输入字符的最小长度。
         /// </summary>
-        protected int? _minLength;
+        private int? _minLength;
 
         /// <summary>
         /// 表单允许输入字符的最大长度。
         /// </summary>
-        protected int? _maxLength;
+        private int? _maxLength;
 
         /// <summary>
         /// 表单占位符。
         /// </summary>
-        protected string _placeholder;
+        private string _placeholder;
 
         #endregion
 
@@ -84,9 +85,99 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
             return this;
         }
 
+        /// <summary>
+        /// 表单的附属标签。
+        /// </summary>
+        /// <param name="text">标签文字</param>
+        /// <returns>表单控件</returns>
+        public TextBoxControl AddOn(string text)
+        {
+            this._addOn = new TagBuilder("div");
+            this._addOn.SetInnerText(text);
+            this._addOn.AddCssClass("input-group-addon");
+
+            return this;
+        }
+
+        /// <summary>
+        /// 表单附属标签。
+        /// </summary>
+        /// <param name="buttonPart">按钮设置区域</param>
+        /// <returns>表单控件</returns>
+        public TextBoxControl AddOn(Func<PropertyMetadata, object> buttonPart)
+        {
+            var helperResult = new HelperResult(writer => writer.Write(buttonPart(this._metadata)));
+
+            this._addOn = new TagBuilder("div");
+            this._addOn.AddCssClass("input-group-btn");
+            this._addOn.InnerHtml = helperResult.ToHtmlString();
+
+            return this;
+        }
+
         #endregion
 
         #region 重写基类方法
+
+        /// <summary>
+        /// 控件呈现。
+        /// </summary>
+        /// <returns>Html片段</returns>
+        public override IHtmlString Render()
+        {
+            var container = new TagBuilder("div");
+            var label = this.CreateLabel();
+            var form = this.CreateForm();
+
+            form.MergeAttributes(this.GetFormAttributes(), true);
+
+            container.InnerHtml += label;
+            
+            if (this.FormCols > 0)
+            {
+                var formContainer = new TagBuilder("div");
+
+                formContainer.AddCssClass($"col-sm-{this.FormCols}");
+                
+                if (!string.IsNullOrWhiteSpace(_addOn?.InnerHtml))
+                {
+                    var addOnTag = new TagBuilder("div");
+
+                    addOnTag.AddCssClass("input-group");
+
+                    addOnTag.InnerHtml += form;
+                    addOnTag.InnerHtml += this._addOn;
+
+                    formContainer.InnerHtml += addOnTag;
+
+                    container.InnerHtml += formContainer;
+                }
+                else
+                {
+                    formContainer.InnerHtml += form;
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(_addOn?.InnerHtml))
+                {
+                    var addOnTag = new TagBuilder("div");
+
+                    addOnTag.AddCssClass("input-group");
+
+                    addOnTag.InnerHtml += form;
+                    addOnTag.InnerHtml += this._addOn;
+                    
+                    container.InnerHtml += addOnTag;
+                }
+                else
+                {
+                    container.InnerHtml += form;
+                }
+            }
+
+            return new MvcHtmlString(container.InnerHtml);
+        }
 
         /// <summary>
         /// 创建表单。
@@ -98,7 +189,11 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
             textTag.Attributes.Add("type", "text");
             textTag.Attributes.Add("value", this.GetValue());
-            textTag.Attributes.Add("placeholder", this._placeholder);
+
+            if (!string.IsNullOrWhiteSpace(this._placeholder))
+            {
+                textTag.Attributes.Add("placeholder", this._placeholder);
+            }
 
             if (this._minLength > 0)
             {
