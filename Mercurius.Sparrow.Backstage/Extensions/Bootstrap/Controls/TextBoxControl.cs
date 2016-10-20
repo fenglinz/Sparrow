@@ -155,6 +155,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
                 else
                 {
                     formContainer.InnerHtml += form;
+                    container.InnerHtml += formContainer;
                 }
             }
             else
