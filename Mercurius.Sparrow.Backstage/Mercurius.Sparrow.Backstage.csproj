@@ -1258,6 +1258,7 @@
     <Content Include="Scripts\Pdf\web\locale\zh-CN\viewer.properties" />
     <Content Include="Scripts\Pdf\web\locale\zh-TW\viewer.properties" />
     <Content Include="Scripts\Pdf\web\locale\zu\viewer.properties" />
+    <Content Include="Views\Home\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Shared\" />

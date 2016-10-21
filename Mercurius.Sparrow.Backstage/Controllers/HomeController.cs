@@ -84,5 +84,15 @@ namespace Mercurius.Sparrow.Backstage.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// 404界面。
+        /// </summary>
+        /// <returns>显示界面</returns>
+        [AllowAnonymous]
+        public ActionResult NotFound()
+        {
+            return View();
+        }
     }
 }
