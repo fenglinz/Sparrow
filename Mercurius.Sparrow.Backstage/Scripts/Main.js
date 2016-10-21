@@ -45,10 +45,14 @@ function NavMenuUrl(url, target) {
     url = (url.indexOf("http") == 0 || url.indexOf(mercurius.BaseUrl) == 0) ? url : mercurius.BaseUrl + url;
 
     if (target == 'Open') {
-        window.open(url, '_blank' + (winIndex++));
-    } else {
+        window.open(url, '_blank');
+    } else if (target == 'Iframe') {
         mercurius.OnWaitProcess(function () {
             $("#main").attr("src", url);
+        });
+    } else {
+        mercurius.OnWaitProcess(function () {
+            top.location.href = url;
         });
     }
 

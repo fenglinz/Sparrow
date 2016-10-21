@@ -14,13 +14,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
     /// <summary>
     /// 控制台管理控制器。
     /// </summary>
-    [AllowAnonymous]
     public class AccountController : BaseController
     {
         /// <summary>
         /// 用户登录界面。
         /// </summary>
         /// <returns>视图界面</returns>
+        [AllowAnonymous]
         public ActionResult LogOn()
         {
             if (Request.HasConsoleRight())
@@ -40,6 +40,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
         /// <param name="password">密码</param>
         /// <returns>登录结果</returns>
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult LogOn(string account, string password)
         {
             this.ViewBag.Account = account;
@@ -52,7 +53,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 
                     if (!string.IsNullOrWhiteSpace(token))
                     {
-                        if (token == $"{account}--->{password}".MD5())
+                        if (token == GenerateConsoleManagerToken(password))
                         {
                             this.Response.SetCookie(new HttpCookie(ConsoleManagerToken, token)
                             {
@@ -61,13 +62,19 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 
                             return RedirectToAction("Index", "Home", new { @Area = "Console" });
                         }
+                        else
+                        {
+                            ModelState.AddModelError("account", "账号或者密码错误！");
+
+                            return View();
+                        }
                     }
                 }
             }
 
-            if (account == "admin" && password == "admin")
+            if (account == ConsoleManagerAccount && password == ConsoleManagerDefaultPassword)
             {
-                var token = $"{account}--->{password}".MD5();
+                var token = GenerateConsoleManagerToken(password);
 
                 using (var writer = new StreamWriter(ConsoleManagerStoragePath, false, Encoding.UTF8))
                 {
@@ -87,6 +94,55 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
             return View();
         }
 
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(string oldPassword, string newPassword, string confirmPassword)
+        {
+            if (newPassword != confirmPassword)
+            {
+                this.ViewBag.Message = "确认密码和新密码不一致！";
+
+                return View();
+            }
+
+            using (var reader = new StreamReader(ConsoleManagerStoragePath, Encoding.UTF8))
+            {
+                var token = reader.ReadLine();
+                var oldToken = GenerateConsoleManagerToken(oldPassword);
+
+                if (token != oldToken)
+                {
+                    this.ViewBag.Message = "旧密码不正确！";
+
+                    return View();
+                }
+            }
+
+            using (var writer = new StreamWriter(ConsoleManagerStoragePath, false, Encoding.UTF8))
+            {
+                var newToken = GenerateConsoleManagerToken(newPassword);
+
+                writer.WriteLine(newToken);
+
+                this.Response.SetCookie(new HttpCookie(ConsoleManagerToken, newToken)
+                {
+                    Expires = DateTime.Now.AddMinutes(ConsoleManagerTokenExpires)
+                });
+
+                this.ViewBag.Message = "修改成功！";
+
+                return View();
+            }
+        }
+
+        /// <summary>
+        /// 退出登录。
+        /// </summary>
+        /// <returns>退出结果</returns>
         public ActionResult LogOff()
         {
             var cookie = this.Request.Cookies[ConsoleManagerToken];

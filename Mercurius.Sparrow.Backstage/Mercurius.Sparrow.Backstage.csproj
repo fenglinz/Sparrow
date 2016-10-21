@@ -280,6 +280,7 @@
     <Compile Include="Extensions\Bootstrap\BootstrapHtmlHelper.cs" />
     <Compile Include="Extensions\Bootstrap\Controls\CustomControl.cs" />
     <Compile Include="Extensions\Bootstrap\Controls\FormBase.cs" />
+    <Compile Include="Extensions\Bootstrap\Controls\PasswordControl.cs" />
     <Compile Include="Extensions\Bootstrap\FormBaseExtensions.cs" />
     <Compile Include="Extensions\Bootstrap\Controls\TextAreaControl.cs" />
     <Compile Include="Extensions\Bootstrap\Controls\TextBoxControl.cs" />
@@ -476,6 +477,7 @@
     <Content Include="Areas\Console\Views\Tools\Index.cshtml" />
     <Content Include="Areas\Console\Views\Account\LogOn.cshtml" />
     <Content Include="App_Data\console.dat" />
+    <Content Include="Areas\Console\Views\Account\ChangePassword.cshtml" />
     <None Include="Areas\Console\Views\Home\Index.cshtml" />
     <Content Include="Areas\Console\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Console\Views\web.config" />

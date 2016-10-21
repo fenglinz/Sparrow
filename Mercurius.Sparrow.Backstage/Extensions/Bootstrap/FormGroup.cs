@@ -83,10 +83,63 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         public FormGroup AppendTextBox(string fullName,
             uint labelCols, uint formCols, Action<TextBoxControl> callback = null)
         {
+            return this.AppendTextBox(fullName, labelCols, formCols, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 追加文本框。
+        /// </summary>
+        /// <param name="fullName">属性名称</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调</param>
+        /// <returns>表单组</returns>
+        public FormGroup AppendTextBox(string fullName,
+            uint labelCols, uint formCols, ValidRule rule, Action<TextBoxControl> callback = null)
+        {
             var metadata = this._html.Resolve(fullName);
-            var control = new TextBoxControl(this._screen, metadata);
+            var control = new TextBoxControl(this._screen, metadata).Valid(rule);
 
             control.Layout(labelCols, formCols);
+
+            callback?.Invoke(control);
+
+            this._formControls.Add(control.Render());
+
+            return this;
+        }
+
+        /// <summary>
+        /// 追加按钮。
+        /// </summary>
+        /// <param name="fullName">元素名称</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="callback">表单设置回调</param>
+        /// <returns>表单组</returns>
+        public FormGroup AppendPassword(string fullName,
+            uint labelCols, uint formCols, Action<PasswordControl> callback = null)
+        {
+            return this.AppendPassword(fullName, labelCols, formCols, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 追加按钮。
+        /// </summary>
+        /// <param name="fullName">元素名称</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调</param>
+        /// <returns>表单组</returns>
+        public FormGroup AppendPassword(string fullName,
+            uint labelCols, uint formCols, ValidRule rule, Action<PasswordControl> callback = null)
+        {
+            var metadata = this._html.Resolve(fullName);
+            var control = new PasswordControl(this._screen, metadata);
+            
+            control.Layout(labelCols, formCols).Valid(rule);
 
             callback?.Invoke(control);
 
@@ -124,16 +177,46 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="fullName">属性名称</param>
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
+        /// <param name="callback">表单设置回调</param>
+        /// <returns>表单组</returns>
+        public FormGroup AppendMultipleList(string fullName,
+            uint labelCols, uint formCols, Action<MultipleListControl> callback = null)
+        {
+            return this.AppendMultipleList(fullName, labelCols, formCols, null, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 追加下拉列表框。
+        /// </summary>
+        /// <param name="fullName">属性名称</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
         /// <param name="key">字典键</param>
         /// <param name="callback">表单设置回调</param>
         /// <returns>表单组</returns>
         public FormGroup AppendMultipleList(string fullName,
             uint labelCols, uint formCols, string key, Action<MultipleListControl> callback = null)
         {
+            return this.AppendMultipleList(fullName, labelCols, formCols, key, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 追加下拉列表框。
+        /// </summary>
+        /// <param name="fullName">属性名称</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="key">字典键</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调</param>
+        /// <returns>表单组</returns>
+        public FormGroup AppendMultipleList(string fullName,
+            uint labelCols, uint formCols, string key, ValidRule rule, Action<MultipleListControl> callback = null)
+        {
             var metadata = this._html.Resolve(fullName);
             var control = new MultipleListControl(this._screen, metadata);
 
-            control.Layout(labelCols, formCols).Key(key);
+            control.Layout(labelCols, formCols).Key(key).Valid(rule);
 
             callback?.Invoke(control);
 
@@ -177,6 +260,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
         /// <param name="callback">表单设置回调</param>
+        /// <returns>Html片段</returns>
         public IHtmlString TextBox(string fullName,
             uint labelCols, uint formCols, Action<TextBoxControl> callback = null)
         {
@@ -184,32 +268,48 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         /// <summary>
-        /// 生成只包含单选组的表单组。
+        /// 生成只包含文本框的表单组。
         /// </summary>
         /// <param name="fullName">属性名称</param>
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
         /// <param name="callback">表单设置回调</param>
-        public IHtmlString Radios(string fullName,
-            uint labelCols, uint formCols, Action<RadioButtonControl> callback = null)
+        /// <returns>Html片段</returns>
+        public IHtmlString TextBox(string fullName,
+            uint labelCols, uint formCols, ValidRule rule, Action<TextBoxControl> callback = null)
         {
-            return this.AppendRadios(fullName, labelCols, formCols, callback).Render();
+            return this.AppendTextBox(fullName, labelCols, formCols, rule, callback).Render();
         }
 
         /// <summary>
-        /// 生成只包含下拉列表的表单组。
+        /// 生成只包含密码框的表单组。
         /// </summary>
-        /// <param name="fullName">属性名称</param>
+        /// <param name="fullName">元素名称</param>
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
-        /// <param name="key">字典键</param>
         /// <param name="callback">表单设置回调</param>
-        public IHtmlString MultipleList(string fullName,
-            uint labelCols, uint formCols, string key, Action<MultipleListControl> callback = null)
+        /// <returns>Html片段</returns>
+        public IHtmlString Password(string fullName,
+            uint labelCols, uint formCols, Action<PasswordControl> callback = null)
         {
-            return this.AppendMultipleList(fullName, labelCols, formCols, key, callback).Render();
+            return this.AppendPassword(fullName, labelCols, formCols, callback).Render();
         }
 
+        /// <summary>
+        /// 生成只包含密码框的表单组。
+        /// </summary>
+        /// <param name="fullName">元素名称</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调</param>
+        /// <returns>Html片段</returns>
+        public IHtmlString Password(string fullName,
+            uint labelCols, uint formCols, ValidRule rule, Action<PasswordControl> callback = null)
+        {
+            return this.AppendPassword(fullName, labelCols, formCols, rule, callback).Render();
+        }
         /// <summary>
         /// 生成只包含文本域的表单组。
         /// </summary>
@@ -217,6 +317,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
         /// <param name="callback">表单设置回调</param>
+        /// <returns>Html片段</returns>
         public IHtmlString TextArea(string fullName,
             uint labelCols, uint formCols, Action<TextAreaControl> callback = null)
         {
@@ -233,6 +334,35 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         }
 
         /// <summary>
+        /// 生成只包含单选组的表单组。
+        /// </summary>
+        /// <param name="fullName">属性名称</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="callback">表单设置回调</param>
+        /// <returns>Html片段</returns>
+        public IHtmlString Radios(string fullName,
+            uint labelCols, uint formCols, Action<RadioButtonControl> callback = null)
+        {
+            return this.AppendRadios(fullName, labelCols, formCols, callback).Render();
+        }
+
+        /// <summary>
+        /// 生成只包含下拉列表的表单组。
+        /// </summary>
+        /// <param name="fullName">属性名称</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="key">字典键</param>
+        /// <param name="callback">表单设置回调</param>
+        /// <returns>Html片段</returns>
+        public IHtmlString MultipleList(string fullName,
+            uint labelCols, uint formCols, string key, Action<MultipleListControl> callback = null)
+        {
+            return this.AppendMultipleList(fullName, labelCols, formCols, key, callback).Render();
+        }
+
+        /// <summary>
         /// 生成只包含自定义表单的表单组。
         /// </summary>
         /// <param name="fullName">属性名称</param>
@@ -240,6 +370,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="formCols">表单宽度</param>
         /// <param name="part">自定义表单区域设置回调</param>
         /// <param name="callback">表单设置回调</param>
+        /// <returns>Html片段</returns>
         public IHtmlString FormPart(string fullName,
             uint labelCols, uint formCols, Func<PropertyMetadata, object> part, Action<FormBase> callback = null)
         {
@@ -300,6 +431,44 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             var control = new TextBoxControl(this._screen, metadata);
 
             control.Layout(labelCols, formCols).Valid(rule);
+
+            callback?.Invoke(control);
+
+            this._formControls.Add(control.Render());
+
+            return this;
+        }
+
+        /// <summary>
+        /// 添加密码框。
+        /// </summary>
+        /// <typeparam name="P">视图模型属性的类型</typeparam>
+        /// <param name="expression">获取表单名称的Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public FormGroup<T> AppendPasswordFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, Action<PasswordControl> callback = null)
+        {
+            return this.AppendPasswordFor(expression, labelCols, formCols, ValidRule.Default, callback);
+        }
+
+        /// <summary>
+        /// 添加密码框。
+        /// </summary>
+        /// <typeparam name="P">视图模型属性的类型</typeparam>
+        /// <param name="expression">获取表单名称的Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>强类型表单组</returns>
+        public FormGroup<T> AppendPasswordFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, ValidRule rule, Action<PasswordControl> callback = null)
+        {
+            var metadata = (this._html as HtmlHelper<T>).Resolve(expression);
+            var control = new PasswordControl(this._screen, metadata).Valid(rule);
 
             callback?.Invoke(control);
 
@@ -420,7 +589,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
         /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
+        /// <returns>Html片段</returns>
         public IHtmlString TextBoxFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, Action<TextBoxControl> callback = null)
         {
@@ -435,11 +604,42 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="formCols">表单宽度</param>
         /// <param name="rule">验证规则</param>
         /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
+        /// <returns>Html片段</returns>
         public IHtmlString TextBoxFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, ValidRule rule, Action<TextBoxControl> callback = null)
         {
             return this.AppendTextBoxFor(expression, labelCols, formCols, rule, callback).Render();
+        }
+
+        /// <summary>
+        /// 生成只包含密码框的表单组。
+        /// </summary>
+        /// <typeparam name="P">视图模型属性的类型</typeparam>
+        /// <param name="expression">获取表单名称的Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public IHtmlString PasswordFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, Action<PasswordControl> callback = null)
+        {
+            return this.AppendPasswordFor(expression, labelCols, formCols, callback).Render();
+        }
+
+        /// <summary>
+        /// 生成只包含密码框的表单组。
+        /// </summary>
+        /// <typeparam name="P">视图模型属性的类型</typeparam>
+        /// <param name="expression">获取表单名称的Lambda表达式</param>
+        /// <param name="labelCols">标签宽度</param>
+        /// <param name="formCols">表单宽度</param>
+        /// <param name="rule">验证规则</param>
+        /// <param name="callback">表单设置回调函数</param>
+        /// <returns>Html片段</returns>
+        public IHtmlString PasswordFor<P>(Expression<Func<T, P>> expression,
+            uint labelCols, uint formCols, ValidRule rule, Action<PasswordControl> callback = null)
+        {
+            return this.AppendPasswordFor(expression, labelCols, formCols, rule, callback).Render();
         }
 
         /// <summary>
@@ -450,7 +650,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="formCols">表单宽度</param>
         /// <param name="rows">行数</param>
         /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
+        /// <returns>Html片段</returns>
         public IHtmlString TextAreaFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, uint rows, Action<TextAreaControl> callback = null)
         {
@@ -466,7 +666,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="rows">行数</param>
         /// <param name="rule">验证规则</param>
         /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
+        /// <returns>Html片段</returns>
         public IHtmlString TextAreaFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, uint rows, ValidRule rule, Action<TextAreaControl> callback = null)
         {
@@ -489,7 +689,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
         /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
+        /// <returns>Html片段</returns>
         public IHtmlString MultipleListFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, Action<MultipleListControl> callback = null)
         {
@@ -505,7 +705,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="formCols">表单宽度</param>
         /// <param name="rule">验证规则</param>
         /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
+        /// <returns>Html片段</returns>
         public IHtmlString MultipleListFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, ValidRule rule = ValidRule.Default, Action<MultipleListControl> callback = null)
         {
@@ -520,7 +720,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="formCols">表单宽度</param>
         /// <param name="key">字典键</param>
         /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
+        /// <returns>Html片段</returns>
         public IHtmlString MultipleListFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, string key, Action<MultipleListControl> callback = null)
         {
@@ -534,7 +734,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="labelCols">标签宽度</param>
         /// <param name="formCols">表单宽度</param>
         /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
+        /// <returns>Html片段</returns>
         public IHtmlString RadiosFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, Action<RadioButtonControl> callback = null)
         {
@@ -549,7 +749,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="formCols">表单宽度</param>
         /// <param name="part">自定义表单设置回调</param>
         /// <param name="callback">表单设置回调函数</param>
-        /// <returns>强类型表单组</returns>
+        /// <returns>Html片段</returns>
         public IHtmlString FormPartFor<P>(Expression<Func<T, P>> expression,
             uint labelCols, uint formCols, Func<PropertyMetadata, object> part, Action<FormBase> callback = null)
         {

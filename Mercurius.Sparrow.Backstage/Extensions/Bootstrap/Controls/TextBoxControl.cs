@@ -14,22 +14,22 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
     {
         #region 字段
 
-        private TagBuilder _addOn;
+        protected TagBuilder _addOn;
 
         /// <summary>
         /// 表单允许输入字符的最小长度。
         /// </summary>
-        private int? _minLength;
+        protected int? _minLength;
 
         /// <summary>
         /// 表单允许输入字符的最大长度。
         /// </summary>
-        private int? _maxLength;
+        protected int? _maxLength;
 
         /// <summary>
         /// 表单占位符。
         /// </summary>
-        private string _placeholder;
+        protected string _placeholder;
 
         #endregion
 
@@ -132,14 +132,14 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
             form.MergeAttributes(this.GetFormAttributes(), true);
 
             container.InnerHtml += label;
-            
+
             if (this.FormCols > 0)
             {
                 var formContainer = new TagBuilder("div");
 
                 formContainer.AddCssClass($"col-sm-{this.FormCols}");
-                
-                if (!string.IsNullOrWhiteSpace(_addOn?.InnerHtml))
+
+                if (!string.IsNullOrWhiteSpace(this._addOn?.InnerHtml))
                 {
                     var addOnTag = new TagBuilder("div");
 
@@ -160,7 +160,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
             }
             else
             {
-                if (!string.IsNullOrWhiteSpace(_addOn?.InnerHtml))
+                if (!string.IsNullOrWhiteSpace(this._addOn?.InnerHtml))
                 {
                     var addOnTag = new TagBuilder("div");
 
@@ -168,7 +168,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
                     addOnTag.InnerHtml += form;
                     addOnTag.InnerHtml += this._addOn;
-                    
+
                     container.InnerHtml += addOnTag;
                 }
                 else
@@ -190,11 +190,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
             textTag.Attributes.Add("type", "text");
             textTag.Attributes.Add("value", this.GetValue());
-
-            if (!string.IsNullOrWhiteSpace(this._placeholder))
-            {
-                textTag.Attributes.Add("placeholder", this._placeholder);
-            }
+            textTag.Attributes.Add("placeholder", !string.IsNullOrWhiteSpace(this._placeholder) ? this._placeholder : this.Label);
 
             if (this._minLength > 0)
             {

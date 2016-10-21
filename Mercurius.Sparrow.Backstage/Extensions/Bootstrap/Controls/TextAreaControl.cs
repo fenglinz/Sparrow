@@ -130,11 +130,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
 
             textTag.Attributes.Add("type", "text");
             textTag.InnerHtml = this.GetValue();
-
-            if (!string.IsNullOrWhiteSpace(this._placeholder))
-            {
-                textTag.Attributes.Add("placeholder", this._placeholder);
-            }
+            textTag.Attributes.Add("placeholder", !string.IsNullOrWhiteSpace(this._placeholder) ? this._placeholder : this.Label);
 
             if (this._minLength > 0)
             {
