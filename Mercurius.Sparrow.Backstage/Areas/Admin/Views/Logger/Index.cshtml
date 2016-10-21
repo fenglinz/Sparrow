@@ -81,25 +81,24 @@
 @using (Ajax.BeginForm("Search", "Logger", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "logsContainer", OnSuccess = "OnSearchSuccess" }, new { @id = "frmSearch", @class = "form-horizontal form", autocomplete = "off" }))
 {
     <div style="margin-top: 8px;">
-        @Html.MultipleListFor(m => m.Level, "日志级别", f => f.IncludeAll().Label("日志级别").Style("width:80px;"))
+        @Html.MultipleListFor(m => m.Level, "日志级别", f => f.Label("日志级别").IncludeAll().Style("width:80px;"))
         <label class="control-label" for="StartDate">时间范围</label>
         <div class="form-inline">
             @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control date", style = "width: 100px;" })
             &nbsp;～&nbsp;
             @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control date", style = "width: 100px;" })
         </div>
-        <label class="control-label" for="LogOnName">用户</label>
-        @Html.TextBoxFor(m => m.LogOnName, new { @class = "form-control" })
-        <label class="control-label" for="LogOnIP">登录IP</label>
-        @Html.TextBoxFor(m => m.LogOnIP, new { @class = "form-control" })
-        <label class="control-label" for="ModelName">模块</label>
-        @Html.TextBoxFor(m => m.ModelName, new { @class = "form-control" })
-        <button type="submit" class="btn btn-primary" style="margin: -4px 0 0 0;">
-            <i class="glyphicon glyphicon-search"></i> 查询
-        </button>
-        <button type="button" class="btn btn-default" style="margin: -4px 0 0 0;" onclick="$('#frmSearch input[name],#frmSearch select').val('');">
-            <i class="glyphicon glyphicon-remove"></i> 重置
-        </button>
+        @Html.TextBoxFor(m => m.LogOnName, f => f.Label("用户"))
+        @Html.TextBoxFor(m => m.LogOnIP, f => f.Label("登录IP"))
+        @Html.TextBoxFor(m => m.ModelName, f => f.Label("模块"))
+        <span class="btn-group" style="margin: -4px 0 0 0;">
+            <button type="submit" class="btn btn-primary">
+                <i class="glyphicon glyphicon-search"></i> 查询
+            </button>
+            <button type="button" class="btn btn-default" onclick="$('#frmSearch input[name],#frmSearch select').val('');">
+                <i class="glyphicon glyphicon-remove"></i> 重置
+            </button>
+        </span>
     </div>
 }
 <div class="toolbar panel panel-default" style="margin-top: 6px;">
