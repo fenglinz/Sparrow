@@ -15,6 +15,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
     /// </summary>
     public class AccountController : BaseController
     {
+        #region 用户登录
+
         /// <summary>
         /// 用户登录界面。
         /// </summary>
@@ -92,6 +94,8 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 
             return View();
         }
+
+        #endregion
 
         #region 修改密码
 
