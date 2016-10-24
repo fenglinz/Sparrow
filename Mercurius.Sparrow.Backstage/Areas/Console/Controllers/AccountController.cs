@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Mvc.Extensions;
 using static Mercurius.Sparrow.Backstage.Constants;
 
@@ -94,11 +93,30 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
             return View();
         }
 
-        public ActionResult ChangePassword()
+        #region 修改密码
+
+        /// <summary>
+        /// 显示修改密码界面。
+        /// </summary>
+        /// <param name="type">消息类型</param>
+        /// <returns>UI界面</returns>
+        public ActionResult ChangePassword(string type = "")
         {
+            if (!string.IsNullOrWhiteSpace(type))
+            {
+                this.ViewBag.Message = "密码修改成功！";
+            }
+
             return View();
         }
 
+        /// <summary>
+        /// 修改控制台管理员密码。
+        /// </summary>
+        /// <param name="oldPassword">旧密码</param>
+        /// <param name="newPassword">新密码</param>
+        /// <param name="confirmPassword">确认密码</param>
+        /// <returns>显示结果</returns>
         [HttpPost]
         public ActionResult ChangePassword(string oldPassword, string newPassword, string confirmPassword)
         {
@@ -135,9 +153,11 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 
                 this.ViewBag.Message = "修改成功！";
 
-                return View();
+                return RedirectToAction("ChangePassword", new { type = 1 });
             }
         }
+
+        #endregion
 
         /// <summary>
         /// 退出登录。
