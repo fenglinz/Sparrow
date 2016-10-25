@@ -63,7 +63,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         /// <returns>文本域表单控件</returns>
         public TextAreaControl Rows(uint rows)
         {
-            this._rows = 3;
+            this._rows = rows;
 
             return this;
         }

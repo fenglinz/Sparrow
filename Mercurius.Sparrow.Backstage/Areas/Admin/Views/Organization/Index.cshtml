@@ -29,7 +29,7 @@
         function @(item.NavigateUrl)() {
             var url = "@Url.Action("CreateOrUpdate")/?parentId=" + GetSelectedValue();
 
-            mercurius.OpenDialog(url, 'ChooseUserContainer', '部门信息-添加', 600, 300);
+            mercurius.OpenDialog(url, 'ChooseUserContainer', '添加部门信息', 650, 320);
         }
         </text>)
 
@@ -40,7 +40,7 @@
             if (mercurius.HasSingleRowSelected(orgId)) {
                 var url = "@Url.Action("CreateOrUpdate")/?id=" + orgId;
 
-                mercurius.OpenDialog(url, 'ChooseUserContainer', '部门信息-编辑', 600, 300);
+                mercurius.OpenDialog(url, 'ChooseUserContainer', '编辑部门信息', 650, 320);
             }
         }
         </text>)

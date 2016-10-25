@@ -46,69 +46,16 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
-
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Code">部门编号</label>
-        <div class="col-sm-3">
-            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @validate_field = "部门编号", @validate_rule = "notNull" })
-        </div>
-        <label class="col-sm-2 control-label" for="Name">机构名称</label>
-        <div class="col-sm-4">
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @validate_field = "机构名称", @validate_rule = "notNull" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="ManagerName">负责人</label>
-        <div class="col-sm-3">
-            @Html.HiddenFor(m => m.Manager)
-            @Html.TextBoxFor(m => m.ManagerName, new { @class = "form-control", @readonly = "readonly" })
-        </div>
-        <label class="col-sm-2 control-label" for="AssistantManagerName">助理</label>
-        <div class="col-sm-4">
-            @Html.HiddenFor(m => m.AssistantManager)
-            @Html.TextBoxFor(m => m.AssistantManagerName, new { @class = "form-control", @readonly = "readonly" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="OuterPhone">外线电话</label>
-        <div class="col-sm-3">
-            @Html.TextBoxFor(m => m.OuterPhone, new { @class = "form-control" })
-        </div>
-        <label class="col-sm-2 control-label" for="InnerPhone">内线电话</label>
-        <div class="col-sm-4">
-            @Html.TextBoxFor(m => m.InnerPhone, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Fax">传真号码</label>
-        <div class="col-sm-3">
-            @Html.TextBoxFor(m => m.Fax, new { @class = "form-control" })
-        </div>
-        <label class="col-sm-2 control-label" for="ZipCode">邮政区号</label>
-        <div class="col-sm-4">
-            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", @validate_field = "邮政区号", @validate_rule = "zipOrNull" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="ParentIdText">所属部门</label>
-        <div class="col-sm-7">
-            @TreeHelper.CreateComboTree(tree, "ParentId", this.ViewBag.ParentId, Model == null ? null : Model.Id)
-        </div>
-        <label class="col-sm-1 control-label" for="Sort">顺序</label>
-        <div class="col-sm-1">
-            @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @validate_field = "显示顺序", @validate_rule = "int" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Address">所在地址</label>
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Remark">说明</label>
-        <div class="col-sm-9">
-            @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @style = "height: 85px;" })
-        </div>
-    </div>
+    @Html.HiddenFor(m => m.Manager)
+    @Html.HiddenFor(m => m.AssistantManager)
+    @Html.FormGroupFor(Screen.SM).AppendTextBoxFor(m => m.Code, 2, 3, ValidRule.NotNull).AppendTextBoxFor(m => m.Name, 2, 4, ValidRule.NotNull).Render()
+    @Html.FormGroupFor(Screen.SM).AppendTextBoxFor(m => m.ManagerName, 2, 3, f => f.Readonly()).AppendTextBoxFor(m => m.AssistantManagerName, 2, 4, f => f.Readonly()).Render()
+    @Html.FormGroupFor(Screen.SM).AppendTextBoxFor(m => m.OuterPhone, 2, 3).AppendTextBoxFor(m => m.InnerPhone, 2, 4).Render()
+    @Html.FormGroupFor(Screen.SM).AppendTextBoxFor(m => m.Fax, 2, 3, ValidRule.PhoneOrNull).AppendTextBoxFor(m => m.ZipCode, 2, 4, ValidRule.ZipOrNull).Render()
+    @Html.FormGroupFor(Screen.SM).FormPartFor(m => m.ParentId, 2, 9,@<text>
+        @TreeHelper.CreateComboTree(tree, "ParentId", this.ViewBag.ParentId, Model == null ? null : Model.Id)
+    </text>, f => f.Label("所属部门"))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, ValidRule.Int)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Address, 2, 9)
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, 3)
 }

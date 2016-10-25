@@ -15,77 +15,113 @@ namespace Mercurius.Sparrow.Entities.RBAC
         #region 属性
 
         /// <summary>
-        /// 用户编号。
+        /// 编号。
         /// </summary>
-        [Required]
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "编号")]
+        [Column("Id", IsPrimaryKey = true)]
+        [StringLength(36, ErrorMessage = "编号不能超过{1}个字符。")]
         public virtual string Id { get; set; }
 
         /// <summary>
-        /// 报告人。
+        /// 汇报者编号。
         /// </summary>
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "汇报者编号")]
+        [Column("Reporter")]
+        [StringLength(36, ErrorMessage = "汇报者编号不能超过{1}个字符。")]
         public virtual string Reporter { get; set; }
 
         /// <summary>
-        /// 用户代号。
+        /// 用户编码。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "用户编码")]
+        [Column("Code")]
+        [StringLength(100, ErrorMessage = "用户编码不能超过{1}个字符。")]
         public virtual string Code { get; set; }
 
         /// <summary>
-        /// 用户登录账号。
+        /// 登录账号。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "登录账号")]
+        [Column("Account")]
+        [StringLength(100, ErrorMessage = "登录账号不能超过{1}个字符。")]
         public virtual string Account { get; set; }
 
         /// <summary>
-        /// 用户登录密码。
+        /// 登录密码。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "登录密码")]
+        [Column("Password")]
+        [StringLength(100, ErrorMessage = "登录密码不能超过{1}个字符。")]
         public virtual string Password { get; set; }
 
         /// <summary>
-        /// 用户名称。
+        /// 用户名。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "用户名")]
+        [Column("Name")]
+        [StringLength(100, ErrorMessage = "用户名不能超过{1}个字符。")]
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 性别。
+        /// 性别(0：女、1：男)。
         /// </summary>
+        [Display(Name = "性别")]
+        [Column("Sex")]
         public virtual int? Sex { get; set; }
 
         /// <summary>
         /// 职称。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "职称")]
+        [Column("Title")]
+        [StringLength(100, ErrorMessage = "职称不能超过{1}个字符。")]
         public virtual string Title { get; set; }
 
         /// <summary>
         /// 电子邮件。
         /// </summary>
-        [StringLength(200, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "电子邮件")]
+        [Column("Email")]
+        [StringLength(400, ErrorMessage = "电子邮件不能超过{1}个字符。")]
         public virtual string Email { get; set; }
 
         /// <summary>
-        /// 备注信息。
+        /// 主题。
         /// </summary>
-        [StringLength(500, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "主题")]
+        [Column("Theme")]
+        [StringLength(100, ErrorMessage = "主题不能超过{1}个字符。")]
+        public virtual string Theme { get; set; }
+
+        /// <summary>
+        /// 找回密码的问题。
+        /// </summary>
+        [Display(Name = "找回密码的问题")]
+        [Column("Question")]
+        [StringLength(100, ErrorMessage = "找回密码的问题不能超过{1}个字符。")]
+        public virtual string Question { get; set; }
+
+        /// <summary>
+        /// 找回密码的答案。
+        /// </summary>
+        [Display(Name = "找回密码的答案")]
+        [Column("Answer")]
+        [StringLength(100, ErrorMessage = "找回密码的答案不能超过{1}个字符。")]
+        public virtual string Answer { get; set; }
+
+        /// <summary>
+        /// 备注。
+        /// </summary>
+        [Display(Name = "备注")]
+        [Column("Remark")]
+        [StringLength(500, ErrorMessage = "备注不能超过{1}个字符。")]
         public virtual string Remark { get; set; }
 
         /// <summary>
-        /// 实体信息的状态。
+        /// 状态(0：删除、1：启用、2：停用)。
         /// </summary>
+        [Display(Name = "状态")]
+        [Column("Status")]
         public virtual int? Status { get; set; }
 
         #endregion

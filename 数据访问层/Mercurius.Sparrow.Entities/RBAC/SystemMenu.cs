@@ -14,68 +14,80 @@ namespace Mercurius.Sparrow.Entities.RBAC
         #region 属性
 
         /// <summary>
-        /// 系统菜单编号。
+        /// 编号。
         /// </summary>
-        [Required]
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "编号")]
+        [Column("Id", IsPrimaryKey = true)]
+        [StringLength(36, ErrorMessage = "编号不能超过{1}个字符。")]
         public virtual string Id { get; set; }
 
         /// <summary>
-        /// 父菜单编号。
+        /// 父节点主键。
         /// </summary>
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "父节点编号")]
+        [Column("ParentId")]
+        [StringLength(100, ErrorMessage = "父节点编号不能超过{1}个字符。")]
         public virtual string ParentId { get; set; }
 
         /// <summary>
         /// 菜单名称。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "名称")]
+        [Column("Name")]
+        [StringLength(100, ErrorMessage = "名称不能超过{1}个字符。")]
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 菜单标题。
+        /// 标题。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "标题")]
+        [Column("Title")]
+        [StringLength(100, ErrorMessage = "标题不能超过{1}个字符。")]
         public virtual string Title { get; set; }
 
         /// <summary>
         /// 菜单图标。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "图标")]
+        [Column("Image")]
+        [StringLength(100, ErrorMessage = "图标不能超过{1}个字符。")]
         public virtual string Image { get; set; }
 
         /// <summary>
-        /// 菜单类型。
+        /// 菜单分类。
         /// </summary>
+        [Display(Name = "分类")]
+        [Column("Category")]
         public virtual int? Category { get; set; }
 
         /// <summary>
         /// 导航地址。
         /// </summary>
-        [StringLength(200, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "导航地址")]
+        [Column("NavigateUrl")]
+        [StringLength(400, ErrorMessage = "导航地址不能超过{1}个字符。")]
         public virtual string NavigateUrl { get; set; }
 
         /// <summary>
         /// 目标。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "目标")]
+        [Column("Target")]
+        [StringLength(100, ErrorMessage = "目标不能超过{1}个字符。")]
         public virtual string Target { get; set; }
 
         /// <summary>
-        /// 排序号。
+        /// 排序码。
         /// </summary>
+        [Display(Name = "排序码")]
+        [Column("Sort")]
         public virtual int? Sort { get; set; }
 
         /// <summary>
-        /// 实体信息的状态。
+        /// 状态(0：删除、1：有效)。
         /// </summary>
+        [Display(Name = "状态")]
+        [Column("Status")]
         public virtual int? Status { get; set; }
 
         #endregion

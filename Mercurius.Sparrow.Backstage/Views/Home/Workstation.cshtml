@@ -27,7 +27,8 @@
         @*新增快捷功能*@
         function add_HomeShortcut() {
             var url = "@Url.Action("CreateOrUpdate", "HomeShortcut", new {@Area = "Admin"})";
-            mercurius.OpenDialog(url, 'ChooseImageContainer', '首页快捷功能信息-添加', 450, 300);
+
+            mercurius.OpenDialog(url, 'ChooseImageContainer', '添加首页快捷菜单', 520, 265);
         }
 
         @*快捷功能点击事件*@

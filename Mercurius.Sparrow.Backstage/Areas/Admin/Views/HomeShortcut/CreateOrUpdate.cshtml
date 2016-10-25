@@ -11,6 +11,7 @@
             margin-right: 4px;
             -moz-border-radius: 4px;
             -webkit-border-radius: 4px;
+            -ms-border-radius: 4px;
             border-radius: 4px;
         }
 
@@ -36,8 +37,8 @@
 
         //全取图标回调赋值
         function SetImage(img) {
-            $("#icon").prop('class', img);
             $("#Image").val(img);
+            $("#icon").prop('class', img);
         }
 
         function OnSave() {
@@ -50,52 +51,21 @@
 @using (Ajax.BeginForm("CreateOrUpdate", "HomeShortcut", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "form1", @class = "form-horizontal form", @role = "form" }))
 {
     @Html.HiddenFor(m => m.Id)
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Name">快捷功能</label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @validate_field = "快捷功能", @validate_rule = "notNull" })
+    @Html.HiddenFor(m => m.Image)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Name, 2, 9, ValidRule.NotNull)
+    @Html.FormGroupFor(Screen.SM).MultipleListFor(m => m.Target, 2, 9, f => f.Datas("Iframe", "Open", "href"))
+    @Html.FormGroupFor(Screen.SM).FormPartFor(m => m.Image, 2, 9, @<text>
+        @{
+            var imgUrl = Model != null && Model.Image != null ? Model.Image : string.Empty;
+        }
+        <div class="icon-container">
+            <i id="icon" class="@imgUrl"></i>
         </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Target">连接目标</label>
-        <div class="col-sm-10">
-            <select id="Target" name="Target" class="form-control">
-                <option value="Iframe">Iframe</option>
-                <option value="Open">Open</option>
-                <option value="href">href</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Image">显示图标</label>
-        <div class="col-sm-10">
-            @Html.HiddenFor(m => m.Image, new { @validate_field = "菜单图标", @validate_rule = "notNull" })
-            @{    var imgUrl = Model != null && Model.Image != null ? Model.Image : string.Empty;
-            }
-            <div class="icon-container">
-                <i id="icon" class="@imgUrl"></i>
-            </div>
-            <a href="javascript:void(0)" class="btn btn-sm btn-primary" onclick="SelectOpenImg()">
-                <i class="glyphicon glyphicon-picture" style="top:1px;"></i> 选择图标
-            </a>
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Sort">显示顺序</label>
-        <div class="col-sm-10">
-            @Html.TextBoxFor(m => m.Sort, new { @class = "form-control", @validate_field = "显示顺序", @validate_rule = "int" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="NavigateUrl">链接地址</label>
-        <div class="col-sm-10">
-            @Html.TextAreaFor(m => m.NavigateUrl, new { @class = "form-control", @validate_field = "连接地址", @validate_rule = "notNull", @style = "height: 59px;" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        <label class="col-sm-2 control-label" for="Remark">描述</label>
-        <div class="col-sm-10">
-            @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @style = "height: 59px;" })
-        </div>
-    </div>
+        <a href="javascript:void(0)" class="btn btn-sm btn-primary" onclick="SelectOpenImg()">
+            <i class="glyphicon glyphicon-picture" style="top:1px;"></i> 选择图标
+        </a>
+    </text>)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9, ValidRule.Int)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.NavigateUrl, 2, 9, ValidRule.NotNull)
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, 4)
 }

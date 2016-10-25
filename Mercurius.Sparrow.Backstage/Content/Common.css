@@ -754,6 +754,28 @@ span.error {
     right: 2px;
 }
 
+.form-control.tree-active {
+    -ms-border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;
+    -ms-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-color: #66afe9;
+    border-right-color: #ccc;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+    .form-control.tree-active + .input-group-btn > .btn {
+        -ms-border-bottom-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-color: #66afe9;
+        border-left-color: #ccc;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+    }
+
 @media only screen and (max-width: 991px) {
     .navbar-toggle {
         display: inline;

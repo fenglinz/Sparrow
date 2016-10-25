@@ -13,52 +13,66 @@ namespace Mercurius.Sparrow.Entities.RBAC
         #region 属性
 
         /// <summary>
-        /// 首页快捷方式编号。
+        /// 编号。
         /// </summary>
-        [Required]
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "编号")]
+        [Column("Id", IsPrimaryKey = true)]
+        [StringLength(36, ErrorMessage = "编号不能超过{1}个字符。")]
         public virtual string Id { get; set; }
 
         /// <summary>
         /// 用户编号。
         /// </summary>
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "用户编号")]
+        [Column("UserId")]
+        [StringLength(36, ErrorMessage = "用户编号不能超过{1}个字符。")]
         public virtual string UserId { get; set; }
 
         /// <summary>
-        /// 功能名称。
+        /// 快捷方式名称。
         /// </summary>
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "名称")]
+        [Column("Name")]
+        [StringLength(100, ErrorMessage = "名称不能超过{1}个字符。")]
         public virtual string Name { get; set; }
 
         /// <summary>
         /// 导航地址。
         /// </summary>
-        [StringLength(200, ErrorMessageResourceType = typeof(Constants),
-            ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "导航地址")]
+        [Column("NavigateUrl")]
+        [StringLength(400, ErrorMessage = "导航地址不能超过{1}个字符。")]
         public virtual string NavigateUrl { get; set; }
 
         /// <summary>
-        /// 导航目标。
+        /// 目标。
         /// </summary>
+        [Display(Name = "目标")]
+        [Column("Target")]
+        [StringLength(100, ErrorMessage = "目标不能超过{1}个字符。")]
         public virtual string Target { get; set; }
 
         /// <summary>
-        /// 菜单图标。
+        /// 快捷方式图标。
         /// </summary>
+        [Display(Name = "图标")]
+        [Column("Image")]
+        [StringLength(100, ErrorMessage = "图标不能超过{1}个字符。")]
         public virtual string Image { get; set; }
 
         /// <summary>
         /// 排序号。
         /// </summary>
+        [Display(Name = "排序号")]
+        [Column("Sort")]
         public virtual int? Sort { get; set; }
 
         /// <summary>
-        /// 备注信息。
+        /// 备注。
         /// </summary>
+        [Display(Name = "备注")]
+        [Column("Remark")]
+        [StringLength(500, ErrorMessage = "备注不能超过{1}个字符。")]
         public virtual string Remark { get; set; }
 
         #endregion

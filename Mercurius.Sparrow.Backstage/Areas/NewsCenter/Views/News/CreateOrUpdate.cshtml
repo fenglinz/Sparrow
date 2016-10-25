@@ -22,7 +22,7 @@
 
             .description .form-control {
                 padding-top: 8px;
-                border-top-left-radius: 0;
+                -ms-border-top-left-radius: 0;
                 border-top-left-radius: 0;
             }
     </style>
@@ -145,9 +145,9 @@
     @Html.Hidden(SFile.ModifyUploadedFilesFieldName)
 
     @Html.FormGroupFor().MultipleListFor(m => m.Category, 2, 8, "新闻分类")
-    @Html.FormGroupFor().TextBoxFor(m => m.Title, 2, 8, f=>f.Valid(ValidRule.NotNull))
-    @Html.FormGroupFor().TextAreaFor(m => m.Content, 2, 8, form => form.Form(new { @id = "richBox", @style = "height:340px" }))
-    <div id="addAttachments" class="form-group @(attachments.IsEmpty()?"":"sr-only")">
+    @Html.FormGroupFor().TextBoxFor(m => m.Title, 2, 8, f => f.Valid(ValidRule.NotNull))
+    @Html.FormGroupFor().TextAreaFor(m => m.Content, 2, 8, 10, form => form.Style("height:340px;").Form(new { @id = "richBox" }))
+    <div id="addAttachments" class="form-group @(attachments.IsEmpty() ? "" : "sr-only")">
         <span class="col-sm-2">&nbsp;</span>
         <div class="col-sm-8">
             <button type="button" class="btn btn-primary">
@@ -185,13 +185,12 @@
             </div>
             <script type="text/javascript">
                 $(function () {
-                    $('#file@(index)')
-                        .fileinput({
-                            showPreview: false,
-                            browseClass: 'btn btn-default',
-                            initialCaption: '@item.File.Name',
-                            initialPreview: '@item.File.SavedPath'
-                        });
+                    $('#file@(index)').fileinput({
+                        showPreview: false,
+                        browseClass: 'btn btn-default',
+                        initialCaption: '@item.File.Name',
+                        initialPreview: '@item.File.SavedPath'
+                    });
                 });
             </script>
 

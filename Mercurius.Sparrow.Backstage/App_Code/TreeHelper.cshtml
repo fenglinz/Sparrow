@@ -32,7 +32,7 @@
         @foreach (var child in children)
         {
             <li>
-                <span class="file">&nbsp;</span><i id="@child.Id">@child.Text</i>
+                <span class="file">&nbsp;</span><i data="@child.Id">@child.Text</i>
                 @CreateTreeNode(child.Children)
             </li>
         }
@@ -43,10 +43,17 @@
 {
     if (hasRoot)
     {
-        nodes = new TreeNode[] { new TreeNode { Id = "0", Text = "根", Children = nodes } };
+        nodes = new[] { new TreeNode { Id = "0", Text = "根", Children = nodes } };
     }
     <input id="@name" type="hidden" name="@name" value="@selectedValue" />
-    <input id="@string.Format("{0}Text",name)" type="text" value="" class="form-control" validate-field="所属部门" validate-rule="notNull" readonly="readonly" style="cursor: pointer;background-color:#fff;" />
+    <div class="input-group">
+        <input id="@string.Format("{0}Text", name)" type="text" value="" class="form-control" validate-field="所属部门" validate-rule="notNull" readonly="readonly" style="cursor: pointer;background-color:#fff;" />
+        <span class="input-group-btn">
+            <button id="@string.Format("btn{0}", name)" class="btn btn-sm btn-default">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </button>
+        </span>
+    </div>
     <div id="@string.Format("{0}Container", name)" style="display: none; position: absolute; min-height: 120px; overflow-y: auto; background: #fff; border: 1px solid #ccc; z-index: 111;">
         @CreateTree(nodes, "tree" + name)
     </div>
@@ -66,7 +73,7 @@
             });
 
             $('#@string.Format("tree{0}", name) li > i').click(function () {
-                var id = $(this).prop('id');
+                var id = $(this).attr('data');
 
                 if (id == '@defaultValue') {
                     mercurius.ShowWarningMessage('不能选择自己作为自己的上级！');
@@ -80,13 +87,17 @@
                 return false;
             });
 
-            $('#@string.Format("{0}Text",name)').click(function () {
-                if ($('#@string.Format("{0}Container", name)').is(':visible')) {
-                    $('#@string.Format("{0}Container", name)').hide();
+            $('#@string.Format("{0}Text",name), #@string.Format("btn{0}", name)').click(function () {
+                var input = $('#@string.Format("{0}Text", name)');
+                var container = $('#@string.Format("{0}Container", name)');
+
+                if (container.is(':visible')) {
+                    container.hide();
+                    input.removeClass('tree-active');
                 } else {
                     var offset = $(this).offset();
-
-                    $('#@string.Format("{0}Container", name)').css('width', $(this).width() + 20).css('left', 5).css('top', 30).show();
+                    input.addClass('tree-active');
+                    container.css('width', container.prev().width()).css('left', 5).css('top', 30).show();
 
                     if (!treeInitalized) {
                         $('#@string.Format("tree{0}", name)').treeview({
@@ -94,7 +105,7 @@
                             unique: false
                         });
 
-                        $('#@string.Format("{0}Container", name)').height($(document).height() - offset.top - 36);
+                        container.height($(document).height() - offset.top - 36);
 
                         treeInitalized = true;
                     }
@@ -105,6 +116,7 @@
 
             $(document).click(function () {
                 $('#@string.Format("{0}Container", name)').hide();
+                $('#@string.Format("{0}Text", name)').removeClass('tree-active');
 
                 return false;
             });

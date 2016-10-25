@@ -15,40 +15,10 @@
 @using (Ajax.BeginForm("CreateOrUpdateLocalResource", "Globalization", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frm1", @class = "form-horizontal form" }))
 {
     @Html.HiddenFor(m => m.Id)
-    <div class="form-group form-group-sm">
-        @Html.LabelFor(m => m.Area, "区域", new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.Area, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        @Html.LabelFor(m => m.Controller, "控制器", new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.Controller, new { @class = "form-control", @validate_field = "控制器", @validate_rule = "notNull" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        @Html.LabelFor(m => m.View, "视图", new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.View, new { @class = "form-control", @validate_field = "视图", @validate_rule = "notNull" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        @Html.LabelFor(m => m.Key, "键", new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.Key, new { @class = "form-control", @validate_field = "键", @validate_rule = "notNull" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        @Html.LabelFor(m => m.Value, "值", new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-9">
-            @Html.TextBoxFor(m => m.Value, new { @class = "form-control", @validate_field = "值", @validate_rule = "notNull" })
-        </div>
-    </div>
-    <div class="form-group form-group-sm">
-        @Html.LabelFor(m => m.Remark, "备注", new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-9">
-            @Html.TextAreaFor(m => m.Remark, new { @class = "form-control", @style = "height:80px;" })
-        </div>
-    </div>
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Area, 2, 9)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Controller, 2, 9, ValidRule.NotNull)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.View, 2, 9, ValidRule.NotNull)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Key, 2, 9, ValidRule.NotNull)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Value, 2, 9, ValidRule.NotNull)
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, 4)
 }

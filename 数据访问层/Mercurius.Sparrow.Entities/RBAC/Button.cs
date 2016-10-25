@@ -15,66 +15,71 @@ namespace Mercurius.Sparrow.Entities.RBAC
         /// <summary>
         /// 编号。
         /// </summary>
-        [Required]
         [Display(Name = "编号")]
-        [StringLength(36, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
+        [Column("Id", IsPrimaryKey = true)]
+        [StringLength(36, ErrorMessage = "编号不能超过{1}个字符。")]
         public virtual string Id { get; set; }
 
         /// <summary>
-        /// 名称。
+        /// 按钮名称。
         /// </summary>
-        [Required]
         [Display(Name = "名称")]
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
+        [Column("Name")]
+        [StringLength(100, ErrorMessage = "按钮名称不能超过{1}个字符。")]
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// 标题。
+        /// 按钮标题。
         /// </summary>
-        [Required]
         [Display(Name = "标题")]
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
+        [Column("Title")]
+        [StringLength(100, ErrorMessage = "按钮标题不能超过{1}个字符。")]
         public virtual string Title { get; set; }
 
         /// <summary>
         /// 按钮图标。
         /// </summary>
         [Display(Name = "图标")]
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
+        [Column("Image")]
+        [StringLength(100, ErrorMessage = "按钮图标不能超过{1}个字符。")]
         public virtual string Image { get; set; }
 
         /// <summary>
-        /// JavaScript代码。
+        /// 按钮代码。
         /// </summary>
-        [Required]
-        [Display(Name = "事件")]
-        [StringLength(200, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
+        [Display(Name = "代码")]
+        [Column("Code")]
+        [StringLength(400, ErrorMessage = "按钮代码不能超过{1}个字符。")]
         public virtual string Code { get; set; }
-
-        /// <summary>
-        /// 类型。
-        /// </summary>
-        [Display(Name = "类型")]
-        [StringLength(50, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
-        public virtual string Category { get; set; }
 
         /// <summary>
         /// 排序号。
         /// </summary>
-        [Required]
         [Display(Name = "排序号")]
-        public virtual int Sort { get; set; }
+        [Column("Sort")]
+        public virtual int? Sort { get; set; }
 
         /// <summary>
-        /// 备注信息。
+        /// 按钮分类。
+        /// </summary>
+        [Display(Name = "分类")]
+        [Column("Category")]
+        [StringLength(100, ErrorMessage = "按钮分类不能超过{1}个字符。")]
+        public virtual string Category { get; set; }
+
+        /// <summary>
+        /// 备注。
         /// </summary>
         [Display(Name = "备注")]
-        [StringLength(500, ErrorMessageResourceType = typeof(Constants), ErrorMessageResourceName = "MaxStringLength")]
+        [Column("Remark")]
+        [StringLength(500, ErrorMessage = "备注不能超过{1}个字符。")]
         public virtual string Remark { get; set; }
 
         /// <summary>
-        /// 实体信息的状态。
+        /// 状态(0：删除、1：有效)。
         /// </summary>
+        [Display(Name = "状态")]
+        [Column("Status")]
         public virtual int? Status { get; set; }
 
         #endregion
