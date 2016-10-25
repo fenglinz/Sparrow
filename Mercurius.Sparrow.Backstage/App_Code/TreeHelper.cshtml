@@ -14,7 +14,7 @@
             foreach (var parent in nodes)
             {
                 <li>
-                    <span class="folder">&nbsp;</span><i id="@parent.Id">@parent.Text</i>
+                    <span class="folder">&nbsp;</span><i data="@parent.Id">@parent.Text</i>
                     @CreateTreeNode(parent.Children)
                 </li>
             }
@@ -65,7 +65,7 @@
             if ('@selectedValue' == '') {
                 $('#@string.Format("{0}Text", name)').val('根');
             } else {
-                $('#@string.Format("{0}Text", name)').val($('#@string.Format("tree{0}",name) li > i[id=@selectedValue]').text());
+                $('#@string.Format("{0}Text", name)').val($('#@string.Format("tree{0}", name) li > i[data=@selectedValue]').text());
             }
 
             $('#@string.Format("tree{0}", name) li').click(function () {

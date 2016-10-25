@@ -129,7 +129,7 @@
 		        ,ModifyDateTime
 		        ,ROW_NUMBER() over(order by Sort asc) as orderId
 	        FROM RBAC.Role
-	        WHERE ParentId='0'
+	        WHERE (ParentId='0' OR ParentId Is NULL)
 	        UNION ALL
           SELECT
 		        a.Id

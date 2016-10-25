@@ -54,6 +54,35 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
         #region 重写基类方法
 
         /// <summary>
+        /// 控件呈现。
+        /// </summary>
+        /// <returns>Html片段</returns>
+        public override IHtmlString Render()
+        {
+            var container = new TagBuilder("div");
+            var label = this.CreateLabel();
+            var form = this.CreateForm();
+
+            container.InnerHtml += label;
+
+            if (this.FormCols > 0)
+            {
+                var formContainer = new TagBuilder("div");
+
+                formContainer.AddCssClass($"col-sm-{this.FormCols}");
+
+                formContainer.InnerHtml += form.InnerHtml;
+                container.InnerHtml += formContainer;
+            }
+            else
+            {
+                container.InnerHtml += form.InnerHtml;
+            }
+
+            return new MvcHtmlString(container.InnerHtml);
+        }
+
+        /// <summary>
         /// 创建表单。
         /// </summary>
         /// <returns>表单信息</returns>
