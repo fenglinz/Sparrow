@@ -546,9 +546,20 @@
         </member>
         <member name="M:Autofac.Integration.WebApi.RegistrationExtensions.RegisterApiControllers(Autofac.ContainerBuilder,System.Reflection.Assembly[])">
             <summary>
-            Register types that implement <see cref="T:System.Web.Http.Controllers.IHttpController"/> in the provided assemblies.
+            Register types in the provided assemblies that implement <see cref="T:System.Web.Http.Controllers.IHttpController"/> and
+            match the default type name suffix of "Controller".
             </summary>
             <param name="builder">The container builder.</param>
+            <param name="controllerAssemblies">Assemblies to scan for controllers.</param>
+            <returns>Registration builder allowing the controller components to be customised.</returns>
+        </member>
+        <member name="M:Autofac.Integration.WebApi.RegistrationExtensions.RegisterApiControllers(Autofac.ContainerBuilder,System.String,System.Reflection.Assembly[])">
+            <summary>
+            Register types in the provided assemblies that implement <see cref="T:System.Web.Http.Controllers.IHttpController"/> and
+            match the provided type name suffix.
+            </summary>
+            <param name="builder">The container builder.</param>
+            <param name="controllerSuffix">The type name suffix of the controllers.</param>
             <param name="controllerAssemblies">Assemblies to scan for controllers.</param>
             <returns>Registration builder allowing the controller components to be customised.</returns>
         </member>

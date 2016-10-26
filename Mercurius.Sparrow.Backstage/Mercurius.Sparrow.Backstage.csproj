@@ -59,7 +59,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.WebApi2.4.0.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+      <HintPath>..\packages\Autofac.WebApi2.4.0.1\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -450,8 +450,6 @@
     <Content Include="Scripts\additional-methods.min.js" />
     <Content Include="Scripts\autosize.js" />
     <Content Include="Scripts\bootbox.min.js" />
-    <Content Include="Scripts\bootstrap-datetimepicker.js" />
-    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="App_Code\TreeHelper.cshtml" />
     <Content Include="App_Data\IBatisNet\providers.config" />
     <Content Include="App_Data\properties.config">
@@ -488,6 +486,8 @@
     <None Include="Areas\NewsCenter\Views\News\Index.cshtml" />
     <Content Include="Areas\NewsCenter\Views\News\_News.cshtml" />
     <None Include="Areas\NewsCenter\Views\News\ShowPreview.cshtml" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\Bootstrap-FileInput\fileinput.js" />
     <Content Include="Scripts\Bootstrap-FileInput\fileinput.min.js" />
     <Content Include="Scripts\bootstrap.js" />
