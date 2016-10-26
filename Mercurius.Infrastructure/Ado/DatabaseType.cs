@@ -21,8 +21,13 @@
         MySQL,
 
         /// <summary>
+        /// SQLite数据库。
+        /// </summary>
+        SQLite,
+
+        /// <summary>
         /// PostgreSQL数据库。
         /// </summary>
-        PostgreSQL
+        PostgreSQL,
     }
 }

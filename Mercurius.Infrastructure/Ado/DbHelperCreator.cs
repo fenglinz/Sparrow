@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +15,7 @@ namespace Mercurius.Infrastructure.Ado
         private const string MSSQLFormater = "Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3}";
         private const string OracleFormater = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={0})(PORT={4})))(CONNECT_DATA=(sid={1})));User Id={2};Password={3}";
         private const string MySQLFormater = "server={0};database={1};persistsecurityinfo=True;user id={2};password={3}";
+        private const string SQLiteFormater = "Data Source={0};Default Database Type=String";
 
         #endregion
 
@@ -22,7 +24,12 @@ namespace Mercurius.Infrastructure.Ado
         /// <summary>
         /// 数据库提供者集合。
         /// </summary>
-        private static readonly string[] Providers = { "System.Data.SqlClient", "Oracle.ManagedDataAccess.Client", "MySql.Data.MySqlClient" };
+        private static readonly string[] Providers = {
+            "System.Data.SqlClient",
+            "Oracle.ManagedDataAccess.Client",
+            "MySql.Data.MySqlClient",
+            "System.Data.SQLite"
+        };
 
         #endregion
 
@@ -37,13 +44,17 @@ namespace Mercurius.Infrastructure.Ado
         {
             var result = default(DatabaseType);
 
-            if (string.Compare(Providers[0], provider,true)==0)
+            if (string.Compare(Providers[0], provider, StringComparison.OrdinalIgnoreCase) == 0)
             {
                 result = DatabaseType.MSSQL;
             }
-            else if (string.Compare(Providers[1], provider, true)==0)
+            else if (string.Compare(Providers[1], provider, StringComparison.OrdinalIgnoreCase) == 0)
             {
                 result = DatabaseType.Oracle;
+            }
+            else if (string.CompareOrdinal(Providers[3], provider) == 0)
+            {
+                result = DatabaseType.SQLite;
             }
             else
             {
@@ -121,6 +132,11 @@ namespace Mercurius.Infrastructure.Ado
                     break;
                 case DatabaseType.MySQL:
                     connectionString = string.Format(MySQLFormater, host, instance, account, password);
+
+                    break;
+
+                case DatabaseType.SQLite:
+                    connectionString = string.Format(SQLiteFormater, host);
 
                     break;
             }
