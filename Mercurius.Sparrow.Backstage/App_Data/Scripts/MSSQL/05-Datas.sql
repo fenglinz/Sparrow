@@ -18,7 +18,7 @@ INSERT INTO [dbo].[Dictionary] ([Id], [Type], [Key], [Value], [ParentId], [Sort]
 GO
 INSERT INTO [dbo].[Dictionary] ([Id], [Type], [Key], [Value], [ParentId], [Sort], [Status], [Remark])  VALUES ('f871b534-81ec-4f73-a2cc-e2dac035584c', NULL, '日志级别', NULL, NULL, 5, NULL, NULL)
 GO
-INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark])  VALUES ('0a564fd0-80d4-49f0-b8c0-8ef958f50915', NULL, NULL, NULL, NULL, 'add', '新增', NULL)
+INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark])  VALUES ('0a564fd0-80d4-49f0-b8c0-8ef958f50915', NULL, NULL, NULL, NULL, 'add', '添加', NULL)
 GO
 INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark])  VALUES ('1226AF72-F686-4A19-8A77-C08E6A6E0608', NULL, NULL, 'Resource', 'Index', 'area', '区域', '区域标签')
 GO
@@ -26,7 +26,7 @@ INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewN
 GO
 INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark])  VALUES ('2a075689-42d9-4fae-85e9-6485a1f95567', NULL, NULL, NULL, NULL, 'query', '查询', '查询')
 GO
-INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark])  VALUES ('5cb0b7a6-02b5-464c-ba13-3539ff490e07', NULL, NULL, NULL, NULL, 'close', '关闭', '33')
+INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark])  VALUES ('5cb0b7a6-02b5-464c-ba13-3539ff490e07', NULL, NULL, NULL, NULL, 'close', '关闭', '关闭')
 GO
 INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark])  VALUES ('663689c3-d9ad-4f30-9df1-985ba257161e', NULL, NULL, NULL, NULL, 'back', '返回', '返回')
 GO
@@ -35,6 +35,34 @@ GO
 INSERT INTO [dbo].[Globalization] ([Id], [Culture], [Area], [Controller], [ViewName], [Key], [Value], [Remark])  VALUES ('a3a03e02-db48-4139-aeb1-fa2503278714', NULL, NULL, NULL, NULL, 'save', '保存', '保存')
 GO
 INSERT INTO [dbo].[News] ([Id], [Category], [Title], [Content], [Status], [BrowseTimes], [PublisherId], [PublishDateTime])  VALUES ('1CC526A1-427D-4FE4-8305-BEEB1948C4AA', '国际新闻', '工作周报', '<p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC9mYTUzOTc3ZC0xNGIzLTRjMGQtODlhNy05NmZjNTRlYTI4NDgucG5n?mode=Medium" alt="HanKouBank" style="max-width:100%;" class=""><br></p><p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC9iNDUxNmUyYS1jYTgxLTQ3OWEtOTI5MS0yYjE3NmM3ZWFiYTYucG5n?mode=Medium" alt="PingAn" style="max-width:100%;" class=""></p><p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC83MTI1YzRmMS05ZWE1LTQ2MjgtYjczZC1kZjUyZDhjMWQ0YWYucG5n?mode=Original" alt="XingYun" style="max-width: 100%;" class=""><br></p><p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC83MTI1YzRmMS05ZWE1LTQ2MjgtYjczZC1kZjUyZDhjMWQ0YWYucG5n?mode=Medium" alt="XingYun" style="max-width:100%;"><br></p><p><img src="http://localhost:59000/File/Index/fi91cGxvYWRzLzIwMTYxMC8xYjRlMDg1ZS01Y2I1LTQyOGQtYTY2ZS00NjAxMWIxZjgxNDgucG5n?mode=Medium" alt="cnhbgt" style="max-width:100%;" class=""><br></p><p><br></p>', NULL, NULL, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-14 15:53:18.373')
+GO
+SET IDENTITY_INSERT [dbo].[OperationRecord] ON;
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (1, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-19 09:32:09.547')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (2, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-19 12:59:55.720')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (3, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-19 15:49:21.910')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (4, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-19 17:14:12.980')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (5, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-20 10:37:06.970')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (6, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-20 15:07:15.110')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (7, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-21 13:21:43.017')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (8, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-24 09:19:19.970')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (9, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-25 11:21:49.513')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (10, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-25 13:43:22.607')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (11, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-25 14:05:24.300')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (12, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-26 09:15:38.973')
+GO
+SET IDENTITY_INSERT [dbo].[OperationRecord] OFF;
 GO
 INSERT INTO [dbo].[SystemSetting] ([Id], [ParentId], [Name], [Value], [Remark])  VALUES ('015B6ED3-B4FF-4A61-B200-59203A7DBC77', NULL, 'LogLevel', '2', '')
 GO
@@ -142,7 +170,7 @@ INSERT INTO [RBAC].[Button] ([Id], [Name], [Title], [Image], [Code], [Sort], [Ca
 GO
 INSERT INTO [RBAC].[Button] ([Id], [Name], [Title], [Image], [Code], [Sort], [Category], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('e7f33901-604c-4a51-b122-e6529066983c', '导出', '导出', 'glyphicon glyphicon-export', 'OnExport', 6, '工具栏', NULL, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-06 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-27 13:51:41.667')
 GO
-INSERT INTO [RBAC].[HomeShortcut] ([Id], [UserId], [Name], [NavigateUrl], [Target], [Image], [Sort], [Remark])  VALUES ('2DB04F75-FC78-40E6-A401-C9E6D660F092', '48f3889c-af8d-401f-ada2-c383031af92d', '系统管理', '/Console/Home/Index', 'Open', 'glyphicon glyphicon-cog', 3, NULL)
+INSERT INTO [RBAC].[HomeShortcut] ([Id], [UserId], [Name], [NavigateUrl], [Target], [Image], [Sort], [Remark])  VALUES ('2DB04F75-FC78-40E6-A401-C9E6D660F092', '48f3889c-af8d-401f-ada2-c383031af92d', '系统管理', '/Console/Home/Index', 'href', 'glyphicon glyphicon-cog', 3, NULL)
 GO
 INSERT INTO [RBAC].[HomeShortcut] ([Id], [UserId], [Name], [NavigateUrl], [Target], [Image], [Sort], [Remark])  VALUES ('40abb9d3-219a-4469-9ce5-40c4eb088b0a', '48f3889c-af8d-401f-ada2-c383031af92d', '个人信息', '/Admin/User/ViewDetails', 'Iframe', 'glyphicon glyphicon-user', 2, NULL)
 GO
@@ -158,7 +186,7 @@ INSERT INTO [RBAC].[Organization] ([Id], [ParentId], [Code], [Name], [InnerPhone
 GO
 INSERT INTO [RBAC].[Role] ([Id], [ParentId], [Name], [Sort], [Remark], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('d0533453-9cf8-459c-b28c-98cf397efaf1', '0', '管理员', 1, '管理员所在角色。', '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-10 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2014-08-22 15:52:13.677')
 GO
-INSERT INTO [RBAC].[Role] ([Id], [ParentId], [Name], [Sort], [Remark], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('ecff6bc6-8024-43cf-810c-c58604403a76', '0', '普通员工', 2, '普通员工', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-18 14:44:58.793', NULL, NULL)
+INSERT INTO [RBAC].[Role] ([Id], [ParentId], [Name], [Sort], [Remark], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('ecff6bc6-8024-43cf-810c-c58604403a76', '0', '普通员工', 2, '普通员工', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-18 14:44:58.793', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-10-25 16:51:28.520')
 GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('008FCE8B-DE1E-483D-8256-94D1A8A1FC62', 'd0533453-9cf8-459c-b28c-98cf397efaf1', '6ECCEFAF-F7C9-4F3A-9F00-19E5D48FA5E4', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
 GO

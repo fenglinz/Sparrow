@@ -393,17 +393,17 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '按钮', 'SCHEMA', 'RBAC', 'T
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '编号' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Id';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '按钮名称' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Name';
+EXEC sys.sp_addextendedproperty 'MS_Description', '名称' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Name';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '按钮标题' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Title';
+EXEC sys.sp_addextendedproperty 'MS_Description', '标题' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Title';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '按钮图标' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Image';
+EXEC sys.sp_addextendedproperty 'MS_Description', '图标' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Image';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '按钮代码' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Code';
+EXEC sys.sp_addextendedproperty 'MS_Description', '代码' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Code';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '排序号' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Sort';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '按钮分类' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Category';
+EXEC sys.sp_addextendedproperty 'MS_Description', '分类' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Category';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '备注' ,'SCHEMA', 'RBAC', 'TABLE', 'Button', 'COLUMN', 'Remark';
 GO
@@ -435,13 +435,13 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '编号' ,'SCHEMA', 'RBAC', 'T
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '用户编号' ,'SCHEMA', 'RBAC', 'TABLE', 'HomeShortcut', 'COLUMN', 'UserId';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '快捷方式名称' ,'SCHEMA', 'RBAC', 'TABLE', 'HomeShortcut', 'COLUMN', 'Name';
+EXEC sys.sp_addextendedproperty 'MS_Description', '名称' ,'SCHEMA', 'RBAC', 'TABLE', 'HomeShortcut', 'COLUMN', 'Name';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '导航地址' ,'SCHEMA', 'RBAC', 'TABLE', 'HomeShortcut', 'COLUMN', 'NavigateUrl';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '目标' ,'SCHEMA', 'RBAC', 'TABLE', 'HomeShortcut', 'COLUMN', 'Target';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '快捷方式图标' ,'SCHEMA', 'RBAC', 'TABLE', 'HomeShortcut', 'COLUMN', 'Image';
+EXEC sys.sp_addextendedproperty 'MS_Description', '图标' ,'SCHEMA', 'RBAC', 'TABLE', 'HomeShortcut', 'COLUMN', 'Image';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '排序号' ,'SCHEMA', 'RBAC', 'TABLE', 'HomeShortcut', 'COLUMN', 'Sort';
 GO
@@ -526,7 +526,7 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '编号' ,'SCHEMA', 'RBAC', 'T
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '父角色编号' ,'SCHEMA', 'RBAC', 'TABLE', 'Role', 'COLUMN', 'ParentId';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '角色名称' ,'SCHEMA', 'RBAC', 'TABLE', 'Role', 'COLUMN', 'Name';
+EXEC sys.sp_addextendedproperty 'MS_Description', '名称' ,'SCHEMA', 'RBAC', 'TABLE', 'Role', 'COLUMN', 'Name';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '排序号' ,'SCHEMA', 'RBAC', 'TABLE', 'Role', 'COLUMN', 'Sort';
 GO
@@ -602,17 +602,17 @@ Create Table [RBAC].[SystemMenu](
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '菜单导航', 'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', NULL, NULL;
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '主键' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Id';
+EXEC sys.sp_addextendedproperty 'MS_Description', '编号' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Id';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '父节点主键' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'ParentId';
+EXEC sys.sp_addextendedproperty 'MS_Description', '父节点编号' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'ParentId';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '菜单名称' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Name';
+EXEC sys.sp_addextendedproperty 'MS_Description', '名称' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Name';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '标题' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Title';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '菜单图标' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Image';
+EXEC sys.sp_addextendedproperty 'MS_Description', '图标' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Image';
 GO
-EXEC sys.sp_addextendedproperty 'MS_Description', '菜单分类' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Category';
+EXEC sys.sp_addextendedproperty 'MS_Description', '分类' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Category';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '导航地址' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'NavigateUrl';
 GO

@@ -34,6 +34,7 @@ BEGIN
 END;
 GO
 
+
 -- =============================================
 -- Author:      张枫林
 -- Create date: 2016-4-7
@@ -75,6 +76,7 @@ BEGIN
 END;
 GO
 
+
 -- =============================================
 -- Author:      张枫林
 -- Create date: 2016-4-13
@@ -92,9 +94,9 @@ AS
 BEGIN
   IF @systemMenuId IS NULL
   BEGIN
-        RAISERROR('没有指定菜单编号', 16, 1);
+    RAISERROR('没有指定菜单编号', 16, 1);
   
-        RETURN;
+    RETURN;
   END;
 
   DECLARE @tb_button TABLE
@@ -191,6 +193,7 @@ BEGIN
   DEALLOCATE cur_buttons;
 END;
 GO
+
 
 -- =============================================
 -- Author:      张枫林
