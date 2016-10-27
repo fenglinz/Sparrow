@@ -62,10 +62,25 @@
         var treeInitalized = false;
 
         $(document).ready(function () {
+            var input = $('#@string.Format("{0}Text", name)');
+            var container = $('#@string.Format("{0}Container", name)');
+
             if ('@selectedValue' == '') {
-                $('#@string.Format("{0}Text", name)').val('根');
+                input.val('根');
             } else {
-                $('#@string.Format("{0}Text", name)').val($('#@string.Format("tree{0}", name) li > i[data=@selectedValue]').text());
+                input.val($('#@string.Format("tree{0}", name) li > i[data=@selectedValue]').text());
+            }
+
+            if (!treeInitalized) {
+                $('#@string.Format("tree{0}", name)').treeview({
+                    collapsed: false,
+                    unique: false
+                });
+
+                var offset = input.offset();
+                container.css('max-height', $(document).height() - offset.top - 32);
+
+                treeInitalized = true;
             }
 
             $('#@string.Format("tree{0}", name) li').click(function () {
@@ -79,44 +94,29 @@
                     mercurius.ShowWarningMessage('不能选择自己作为自己的上级！');
                 } else {
                     $('#@name').val(id);
-                    $('#@string.Format("{0}Text", name)').val($(this).text());
+                    input.val($(this).text());
 
-                    $('#@string.Format("{0}Container", name)').hide();
+                    container.hide();
                 }
 
                 return false;
             });
 
             $('#@string.Format("{0}Text",name), #@string.Format("btn{0}", name)').click(function () {
-                var input = $('#@string.Format("{0}Text", name)');
-                var container = $('#@string.Format("{0}Container", name)');
-
                 if (container.is(':visible')) {
                     container.hide();
                     input.removeClass('tree-active');
                 } else {
-                    var offset = $(this).offset();
                     input.addClass('tree-active');
                     container.css('width', container.prev().width()).css('left', 5).css('top', 30).show();
-
-                    if (!treeInitalized) {
-                        $('#@string.Format("tree{0}", name)').treeview({
-                            collapsed: false,
-                            unique: false
-                        });
-
-                        container.height($(document).height() - offset.top - 36);
-
-                        treeInitalized = true;
-                    }
                 }
 
                 return false;
             });
 
             $(document).click(function () {
-                $('#@string.Format("{0}Container", name)').hide();
-                $('#@string.Format("{0}Text", name)').removeClass('tree-active');
+                container.hide();
+                input.removeClass('tree-active');
 
                 return false;
             });
