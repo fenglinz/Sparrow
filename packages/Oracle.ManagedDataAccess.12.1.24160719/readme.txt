@@ -1,13 +1,11 @@
-Oracle.ManagedDataAccess NuGet Package 12.1.24160419 README
+Oracle.ManagedDataAccess NuGet Package 12.1.24160719 README
 ===========================================================
-
-for ODAC 12c Release 4
 
 Release Notes: Oracle Data Provider for .NET, Managed Driver
 
-April 2016
+September 2016
 
-Copyright (c) Oracle Corporation 2016
+Copyright (c) 2016, Oracle and/or its affiliates. All rights reserved.
 
 This document provides information that supplements the Oracle Data Provider for .NET (ODP.NET) documentation. 
 You have downloaded Oracle Data Provider for .NET from Oracle, the license agreement to which is available at 
@@ -15,6 +13,7 @@ http://www.oracle.com/technetwork/licenses/distribution-license-152002.html
 
 TABLE OF CONTENTS
 *New Features
+*Bug Fixes
 *Installation and Configuration Steps
 *Installation Changes
 *Documentation Corrections and Additions
@@ -27,86 +26,31 @@ This version of ODP.NET supports Oracle Database version 10.2 and higher.
 
 
 
-New Features since Oracle.ManagedDataAccess NuGet Package 12.1.2400
-===================================================================
-1. Data Integrity
-ODP.NET, Managed Driver supports cryptographic hash functions to better ensure data integrity between the 
-database server and client. The algorithms supported include MD5, SHA-1, and SHA-2 (SHA-256, SHA-384, and 
-SHA-512).
-
-To enable ODP.NET, Managed Driver data integrity, use the following .NET configuration file (i.e. 
-web.config, machine.config) properties available in the oracle.manageddataaccess.client section:
-
-* SQLNET.CRYPTO_CHECKSUM_CLIENT = Specifies the desired data integrity behavior when this client connects 
-to a server. Supported values are accepted, rejected, requested, or required. Default = accepted.
-More info: http://docs.oracle.com/database/121/NETRF/sqlnet.htm#NETRF200
-
-* SQLNET.CRYPTO_CHECKSUM_TYPES_CLIENT = Specifies the data integrity algorithms that this client uses. 
-Supported values are SHA512, SHA384, SHA256, SHA1, and MD5.
-More info: http://docs.oracle.com/database/121/NETRF/sqlnet.htm#NETRF202
+New Features since Oracle.ManagedDataAccess NuGet Package 12.1.24160419
+=======================================================================
+1. ODP.NET can connect to Oracle Database Exadata Express Cloud Service using the following instructions. 
+http://www.oracle.com/technetwork/topics/dotnet/tech-info/dotnetcloudexaexpress-3112654.html
 
 
-2. Secure Sockets Layer (SSL) and Transport Layer Security (TLS)
-    ODP.NET, Managed Driver has added support for TLS 1.1 and 1.2, to go along with our previous support for
-    SSL 3.0 and TLS 1.0.
+Bug Fixes since Oracle.ManagedDataAccess NuGet Package 12.1.24160419
+====================================================================
 
-    To utilize a specific version of SSL/TLS, use the SSL_VERSION .NET Application configuration setting parameter.
-    By default the SSL_VERSION is set to all supported versions, in the order 3.0, 1.0, 1.1, and 1.2.
-
-    The client and server negotiate to the highest version among the common conversions
-    specified in the client and server configurations.  The versions from lowest to highest are:
-    3.0 (lowest), 1.0, 1.1, and 1.2 (highest).
-
-    Please reference the following documentation for a more thorough discussion of the SSL_VERSION parameter:
-
-https://docs.oracle.com/cd/E11882_01/network.112/e10835/sqlnet.htm#NETRF235
-
-
-3. Configuration Settings with Relative Windows Path and Windows Environment Variables
-
-The following managed ODP.NET configuration settings support relative Windows path and environment 
-variables:
-
-a. TraceFileLocation
-b. WALLET_LOCATION
-
-File locations for the above config parameters can now be set using relative Windows paths. The 
-"." notation informs ODP.NET to use the current working directory. Sub-directories can be added by 
-appending them. For example, ".\mydir" refers to the sub-directory "mydir" in the current working 
-directory.  To navigate to a parent directory, use the ".." notation.
-
-For web applications, the current working directory is the application directory. For Windows
-applications, the .EXE location is the current working directory.
-
-Windows paths can also be set using Windows environment variable names within "%" characters.
-(e.g. "%tns_admin%", "c:\%dir%\my_app_location", "c:\%top_level_dir%\%bottom_level_dir%")
-
-Please note the following for Windows environment variables:
-- If the environment variable that is used by the configuration parameter is not set to anything, 
-an exception will be thrown.
-- A directory name cannot partially be using an environment variable (i.e. "c:\my_app_%id%")
-- Multiple variables can used in given directory location. 
-(i.e. "c:\%top_level_dir%\%bottom_level_dir%")
-
-
-4. .ORA File Search Order
-For Windows applications, ODP.NET will now search for tnsnames.ora, sqlnet.ora. and ldap.ora 
-files first in the .EXE directory before looking in the current working directory.
-
-
-5. NuGet Package Versioning - new versioning scheme
-Oracle .NET NuGet packages will use a new versioning scheme as NuGet releases are expected to be more 
-frequent than ODAC releases. This scheme will help customers distinguish the version they are using.
-
-[DB major version].[DB minor version].[DB patchset version][ODAC version][6-digit patchset version]
-
-For example, this NuGet version is 12.1.24160419, which is equivalent to
-[DB major version] = 12
-[DB minor version] = 1
-[DB patchset version] = 2
-[ODAC version] = 4
-[6-digit patchset version] = 160419
-
+21111355 LDAP: CONNECTION PERFORMANCE ISSUE WITH LDAP CONFIGURATION
+22652577 CHECKSUM: HIT "ORA-12599" WHILE IT SHOULD BE "ORA-01013" AFTER CANCEL COMMAND
+22936067 ODPMANAGED SSL DOESN'T SUPPORT DN MATCHING
+22995665 ODPM - INCORRECT VALUE OF DATACOLUMN'S READONLY PROPERTY
+23040870 ODPM DOES NOT HANDLE PROMOTION PROPERLY
+23059650 SSL: NTS DOESN'T WORK WITH SQLNET.AUTHENTICATION_SERVICES=(NTS,TCPS)
+23102388 ORA-01461: CAN BIND A LONG VALUE ONLY FOR INSERT INTO A LONG COLUMN MANAGED ODP
+23135026 TTC_HARDEN: BEHAVIOR DIFFERENCE FOR TRANSACTION RESTRICTION IN ODPU&ODPM
+23136980 ODPM: ADAPTER FILL FAIL WITH XMLTYPE WHEN RETURNPROVIDERSPECIFICTYPES=TRUE
+23168763 REFCURSORS IN OUTPUT ARRAY BIND DO NOT RETURN ANY ROWS
+23263802 ODPM: CONNECTION IS NOT LOCKED BEFORE DOING COMMIT/ROLLBACK RPC FOR LOCAL TXN
+23265098 IMPLICITLY RETURNED RESULTSET MISSING VALID REFCURSOR WHEN CONTAINS EMPTY REFCUR
+23317774 ODPM : CURSORS NOT FREED WHEN THE CONNECTION IS BEING CLOSED
+23323754 ODPM: CONNECTIONS DO NOT DRAIN PROPERLY IN DTXN/HA SCENARIO
+23342504 ORA-03137: MALFORMED TTC PACKET FROM CLIENT REJECTED
+23559078 ODPM: UOPF_BER FLAG SHOULD NOT BE SET FOR NON-DML ARRAY BIND OPERATIONS
 
 
 Installation and Configuration Steps

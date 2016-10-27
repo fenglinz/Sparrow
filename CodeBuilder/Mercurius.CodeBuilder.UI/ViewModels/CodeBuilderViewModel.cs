@@ -41,6 +41,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         private ICommand _selectFolderCommand;
         private ICommand _initializeProjectCommand;
         private ICommand _createTableDefinitionCommand;
+        private ICommand _buildingDatabaseScriptsCommand;
 
         #endregion
 
@@ -202,6 +203,25 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     catch (Exception e)
                     {
                         MessageBox.Show(Application.Current.MainWindow, "生成不成功，请稍后重试！\n错误详情：" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }));
+            }
+        }
+
+        public ICommand BuildingDatabaseScriptsCommand
+        {
+            get
+            {
+                return this._buildingDatabaseScriptsCommand ?? (this._buildingDatabaseScriptsCommand = new DelegateCommand(() =>
+                {
+                    var dialog = new FolderBrowserDialog
+                    {
+                        Description = "选择数据库脚本保存目录"
+                    };
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        
                     }
                 }));
             }
