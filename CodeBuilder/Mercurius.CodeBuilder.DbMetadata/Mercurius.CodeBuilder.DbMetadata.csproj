@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MSSQL\MSSQLDatabaseScriptExporter.cs" />
     <Compile Include="MySQL\MySQLMetadata.cs" />
     <Compile Include="MySQL\MySQLDbTypeMapping.cs" />
     <Compile Include="Oracle\OracleDbTypeMapping.cs" />
@@ -84,6 +85,9 @@
   <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Oracle\DbTypeMapping_CSharp.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MSSQL\CommandText\MSSQL\MSSQLDatabaseScriptExporter.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

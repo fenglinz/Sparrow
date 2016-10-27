@@ -17,6 +17,7 @@ using Prism.Mvvm;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 using static System.Configuration.ConfigurationManager;
+using Mercurius.CodeBuilder.DbMetadata.MSSQL;
 
 namespace Mercurius.CodeBuilder.UI.ViewModels
 {
@@ -221,7 +222,20 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        
+                        try
+                        {
+                            var db = this.Configuration.CurrentDatabase;
+
+                            var dbHelper = DbHelperCreator.Create(DatabaseType.MSSQL, db.ServerUri, db.Name, db.Account, db.Password);
+                            var scripter = new MSSQLDatabaseScriptExporter(dbHelper);
+
+                            scripter.Export(dialog.SelectedPath);
+                            MessageBox.Show(Application.Current.MainWindow, "数据库脚本生成成功！", "提示", MessageBoxButton.OK);
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(Application.Current.MainWindow, "出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
+                        }
                     }
                 }));
             }

@@ -71,6 +71,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <summary>
         /// 根据资源文件创建SQL命令执行对象。
         /// </summary>
+        /// <typeparam name="T">数据访问对象类型</typeparam>
         /// <param name="dbHelper"></param>
         /// <param name="name">CommandTexe名称</param>
         /// <returns>SQL命令执行对象</returns>
@@ -84,7 +85,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <summary>
         /// 根据资源文件创建SQL命令执行对象。
         /// </summary>
-        /// <param name="dbHelper"></param>
+        /// <param name="dbHelper">数据库访问对象</param>
         /// <param name="ns">命名空间</param>
         /// <param name="file">Command命令文件名</param>
         /// <param name="name">CommandTexe名称</param>
@@ -119,10 +120,12 @@ namespace Mercurius.Infrastructure.Ado
 
         #endregion
 
+        #region 私有方法
+
         /// <summary>
         /// 解析命令信息。
         /// </summary>
-        /// <typeparam name="T">类型</typeparam>
+        /// <typeparam name="T">数据访问对象类型</typeparam>
         /// <param name="database">数据库类型</param>
         /// <param name="name">命令名</param>
         /// <returns>命令信息</returns>
@@ -186,5 +189,6 @@ namespace Mercurius.Infrastructure.Ado
             return xcommand;
         }
 
+        #endregion
     }
 }

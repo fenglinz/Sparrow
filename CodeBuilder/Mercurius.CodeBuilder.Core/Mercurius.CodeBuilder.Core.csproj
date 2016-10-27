@@ -70,6 +70,7 @@
     <Compile Include="Database\ConnectedDatabaseCollection.cs" />
     <Compile Include="Database\ConnectedDatabaseManager.cs" />
     <Compile Include="Database\CustomObject.cs" />
+    <Compile Include="Database\DatabaseScriptExporter.cs" />
     <Compile Include="Database\Metadata.cs" />
     <Compile Include="Database\DbColumn.cs" />
     <Compile Include="Database\DbTable.cs" />
