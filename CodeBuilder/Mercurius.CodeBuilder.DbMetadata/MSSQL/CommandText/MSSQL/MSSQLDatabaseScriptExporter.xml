@@ -190,9 +190,9 @@
   <CommandText name="GetAddDatasScript" commandType="Text">
     <![CDATA[
       BEGIN
-        DECLARE @sqlstr VARCHAR(4000);
-        DECLARE @sqlstr1 VARCHAR(4000);
-        DECLARE @sqlstr2 VARCHAR(4000);
+        DECLARE @sqlstr VARCHAR(MAX);
+        DECLARE @sqlstr1 VARCHAR(MAX);
+        DECLARE @sqlstr2 VARCHAR(MAX);
 
         SET @sqlstr = 'select ''INSERT INTO ' + @table;
         SET @sqlstr1 = '';

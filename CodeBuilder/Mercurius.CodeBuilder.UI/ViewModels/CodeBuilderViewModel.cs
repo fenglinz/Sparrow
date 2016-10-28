@@ -85,6 +85,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                             return;
                         }
+
                         if (string.IsNullOrWhiteSpace(this.Configuration.BaseNamespace))
                         {
                             MessageBox.Show(Application.Current.MainWindow, "请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -222,18 +223,32 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
+                        var buildEvent = this._eventAggregator?.GetEvent<BuildEvent>();
+
                         try
                         {
+                            buildEvent?.Publish(new BuildEventArg(Status.Begin, "开始导出脚本，请稍后..."));
+                            
                             var db = this.Configuration.CurrentDatabase;
 
-                            var dbHelper = DbHelperCreator.Create(DatabaseType.MSSQL, db.ServerUri, db.Name, db.Account, db.Password);
-                            var scripter = new MSSQLDatabaseScriptExporter(dbHelper);
+                            var task = new Task(() =>
+                            {
+                                var dbHelper = DbHelperCreator.Create(DatabaseType.MSSQL, db.ServerUri, db.Name, db.Account, db.Password);
+                                var scripter = new MSSQLDatabaseScriptExporter(dbHelper);
 
-                            scripter.Export(dialog.SelectedPath);
-                            MessageBox.Show(Application.Current.MainWindow, "数据库脚本生成成功！", "提示", MessageBoxButton.OK);
+                                scripter.Export(dialog.SelectedPath);
+                                buildEvent?.Publish(new BuildEventArg(Status.Success, "脚本导出完成！"));
+                            });
+
+                            task.Start();
+                            task.ContinueWith(t =>
+                            {
+                                MessageBox.Show(Application.Current.MainWindow, "数据库脚本生成成功！", "提示", MessageBoxButton.OK);
+                            });
                         }
                         catch (Exception e)
                         {
+                            buildEvent?.Publish(new BuildEventArg(Status.Failure));
                             MessageBox.Show(Application.Current.MainWindow, "出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
                         }
                     }

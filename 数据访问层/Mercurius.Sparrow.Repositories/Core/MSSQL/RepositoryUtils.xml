@@ -204,9 +204,9 @@
       <![CDATA[
         BEGIN
           DECLARE @table NVARCHAR(200);
-          DECLARE @sqlstr VARCHAR(4000);
-          DECLARE @sqlstr1 VARCHAR(4000);
-          DECLARE @sqlstr2 VARCHAR(4000);
+          DECLARE @sqlstr VARCHAR(MAX);
+          DECLARE @sqlstr1 VARCHAR(MAX);
+          DECLARE @sqlstr2 VARCHAR(MAX);
 
           SET @table = #value#;
           SET @sqlstr = 'select ''INSERT INTO ' + @table;
@@ -220,7 +220,8 @@
           FROM
           (
             SELECT
-              CASE WHEN a.xtype=104 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(1),[' + a.name + '])' + ' END'
+              CASE
+                WHEN a.xtype=104 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(1),[' + a.name + '])' + ' END'
                 WHEN a.xtype=175 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'REPLACE([' + a.name + '],'''''''','''''''''''')' + '+''''''''' + ' END'
                 WHEN a.xtype=61 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + '''''''''+' + 'CONVERT(VARCHAR(23),[' + a.name + '],121)' + '+''''''''' + ' END'
                 WHEN a.xtype=106 THEN 'CASE WHEN [' + a.name + '] IS NULL THEN ''NULL'' ELSE ' + 'CONVERT(VARCHAR(' + CONVERT(VARCHAR(4), a.xprec + 2) + '),[' + a.name + '])' + ' END'
