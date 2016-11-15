@@ -52,8 +52,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=4.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.2.0\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -478,6 +478,7 @@
     <Content Include="Areas\Console\Views\Account\LogOn.cshtml" />
     <Content Include="App_Data\console.dat" />
     <Content Include="Areas\Console\Views\Account\ChangePassword.cshtml" />
+    <Content Include="apiapp.json" />
     <None Include="Areas\Console\Views\Home\Index.cshtml" />
     <Content Include="Areas\Console\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Console\Views\web.config" />
