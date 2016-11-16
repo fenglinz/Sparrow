@@ -9,6 +9,12 @@
 @section Styles
 {
     @Styles.Render("~/Content/tree/css")
+    <style type="text/css">
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    </style>
 }
 
 @section Scripts
@@ -24,15 +30,15 @@
 
             mercurius.FixedTableHeader('#usersGrid', 120);
 
-            $('#treeContainer li > i').click(function () {
-                $('#treeContainer li i').removeClass('selected');
+            $('#treeContainer li > b').click(function () {
+                $('#treeContainer li b').removeClass('selected');
 
                 $.ajax({
                     type: 'POST',
                     cache: false,
                     url: '@Url.Action("GetUsers")',
                     data: {
-                        OrganizationId: $(this).prop('id'),
+                        OrganizationId: $(this).attr('data'),
                         SearchCategory: $('#searchCategory').val(),
                         SearchValue: $('#searchValue').val(),
                         ExcludeReporter: '@so.ExcludeReporter'

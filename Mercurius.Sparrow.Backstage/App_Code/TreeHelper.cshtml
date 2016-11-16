@@ -1,25 +1,31 @@
 ﻿@using Mercurius.Infrastructure
+
 @helper CreateTree(IEnumerable<TreeNode> nodes, string containerId = "treeContainer", string emptyMessage = "无")
 {
     if (nodes.IsEmpty())
     {
         <ul id="@containerId" class="filetree">
             <li>
-                <span class="file empty-data"></span> @emptyMessage
+                <span class="file empty-data"></span>
+                <b class="text">@emptyMessage</b>
             </li>
         </ul>
     }
-    <ul id="@containerId" class="filetree">
-        @{
-            foreach (var parent in nodes)
-            {
-                <li>
-                    <span class="folder open">&nbsp;</span><i data="@parent.Id">@parent.Text</i>
-                    @CreateTreeNode(parent.Children)
-                </li>
+    else
+    {
+        <ul id="@containerId" class="filetree">
+            @{
+                foreach (var parent in nodes)
+                {
+                    <li>
+                        <span class="folder"></span>
+                        <b class="text" data="@parent.Id">@parent.Text</b>
+                        @CreateTreeNode(parent.Children)
+                    </li>
+                }
             }
-        }
-    </ul>
+        </ul>
+    }
 }
 
 @helper CreateTreeNode(IEnumerable<TreeNode> children)
@@ -32,7 +38,8 @@
         @foreach (var child in children)
         {
             <li>
-                <span class="file">&nbsp;</span><i data="@child.Id">@child.Text</i>
+                <span class="@(child.Children.IsEmpty()?"file":"folder")"></span>
+                <b class="text" data="@child.Id">@child.Text</b>
                 @CreateTreeNode(child.Children)
             </li>
         }
@@ -68,7 +75,7 @@
             if ('@selectedValue' == '') {
                 input.val('根');
             } else {
-                input.val($('#@string.Format("tree{0}", name) li > i[data=@selectedValue]').text());
+                input.val($('#@string.Format("tree{0}", name) li > b[data=@selectedValue]').text());
             }
 
             if (!treeInitalized) {
@@ -87,7 +94,7 @@
                 return false;
             });
 
-            $('#@string.Format("tree{0}", name) li > i').click(function () {
+            $('#@string.Format("tree{0}", name) li > b.text').click(function () {
                 var id = $(this).attr('data');
 
                 if (id == '@defaultValue') {
@@ -114,7 +121,7 @@
                 return false;
             });
 
-            $(document).click(function () {
+            $(document).not('.treeview span.folder').click(function () {
                 container.hide();
                 input.removeClass('tree-active');
 

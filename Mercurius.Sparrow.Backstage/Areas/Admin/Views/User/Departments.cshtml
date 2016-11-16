@@ -18,8 +18,8 @@
                 unique: false
             });
 
-            $('#treeContainer li > i').click(function () {
-                $('#treeContainer li i').removeClass('selected');
+            $('#treeContainer li > b').click(function () {
+                $('#treeContainer li b').removeClass('selected');
 
                 var path = '@Url.Action("Users")/?OrganizationId=' + $(this).prop('id');
                 window.parent.frames["target_right"].location = path;
