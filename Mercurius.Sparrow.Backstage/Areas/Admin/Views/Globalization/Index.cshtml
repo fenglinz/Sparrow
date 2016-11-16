@@ -1,239 +1,238 @@
 ﻿@section Scripts{
-	<script type="text/javascript">
-		var isLoaded = false;
-		var resourceType = 'local';
-		var localResourceId = '';
-		var globalResourceId = '';
+    <script type="text/javascript">
+        var isLoaded = false;
+        var resourceType = 'local';
+        var localResourceId = '';
+        var globalResourceId = '';
 
-		$(document).ready(function () {
-			$.ajax({
-				type: 'POST',
-				cache: false,
-				url: '@Url.Action("_GetLocalResources", "Globalization")',
-				dataType: 'html',
-				success: function (rs) {
-					$('#localResource').html(rs);
+        $(document).ready(function () {
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("_GetLocalResources", "Globalization")',
+                dataType: 'html',
+                success: function (rs) {
+                    $('#localResource').html(rs);
 
-					OnGetLocalResoucesComplated();
-				}
-			});
-		});
+                    OnGetLocalResoucesComplated();
+                }
+            });
+        });
 
-		function LoadLocalResource() {
-			$('#localResource').show();
-			$('#globalResource').hide();
-			$('#globalResource table tr').removeClass('selected');
+        function LoadLocalResource() {
+            $('#localResource').show();
+            $('#globalResource').hide();
+            $('#globalResource table tr').removeClass('selected');
 
-			resourceType = 'local';
-			globalResourceId = '';
+            resourceType = 'local';
+            globalResourceId = '';
 
-			$('#localResource').addClass('active');
-			$('#li1').addClass('active');
-			$('#li2').removeClass('active');
-		}
+            $('#localResource').addClass('active');
+            $('#li1').addClass('active');
+            $('#li2').removeClass('active');
+        }
 
-		function LoadGlobalResource() {
-			$('#localResource').hide();
-			$('#localResource table tr').removeClass('selected');
-			$('#globalResource').show();
+        function LoadGlobalResource() {
+            $('#localResource').hide();
+            $('#localResource table tr').removeClass('selected');
+            $('#globalResource').show();
 
-			resourceType = 'global';
-			localResourceId = '';
+            resourceType = 'global';
+            localResourceId = '';
 
-			if (!isLoaded) {
-				isLoaded = true;
+            if (!isLoaded) {
+                isLoaded = true;
 
-				$.ajax({
-					type: 'POST',
-					cache: false,
-					url: '@Url.Action("_GetGlobalResources", "Globalization")',
-					dataType: 'html',
-					success: function (rs) {
-						$('#globalResource').html(rs);
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("_GetGlobalResources", "Globalization")',
+                    dataType: 'html',
+                    success: function (rs) {
+                        $('#globalResource').html(rs);
 
-						OnGetGlobalResoucesComplated();
-					}
-				});
-			}
-		}
+                        OnGetGlobalResoucesComplated();
+                    }
+                });
+            }
+        }
 
-		function OnGetLocalResoucesComplated() {
-			LoadLocalResource();
+        function OnGetLocalResoucesComplated() {
+            LoadLocalResource();
 
-			mercurius.FixedTableHeader("#gvLocal", 247);
+            mercurius.FixedTableHeader("#gvLocal", 260);
 
-			$('#gvLocal tbody tr').click(function () {
-				localResourceId = $(this).find('td').eq(7).text().trim();
-			});
-		}
+            $('#gvLocal tbody tr').click(function () {
+                localResourceId = $(this).find('td').eq(7).text().trim();
+            });
+        }
 
-		function OnGetGlobalResoucesComplated() {
-			LoadGlobalResource();
+        function OnGetGlobalResoucesComplated() {
+            LoadGlobalResource();
 
-			mercurius.FixedTableHeader("#gvGlobal", 247);
+            mercurius.FixedTableHeader("#gvGlobal", 260);
 
-			$('#gvGlobal tbody tr').click(function () {
-				globalResourceId = $(this).find('td:eq(4)').text().trim();
-			});
-		}
+            $('#gvGlobal tbody tr').click(function () {
+                globalResourceId = $(this).find('td:eq(4)').text().trim();
+            });
+        }
 
-		function ReloadResource(type) {
-			if (type == 'local') {
-				mercurius.Reloading();
-			} else if (type == 'global') {
-				isLoaded = false;
-				LoadGlobalResource();
-			}
-		}
+        function ReloadResource(type) {
+            if (type == 'local') {
+                mercurius.Reloading();
+            } else if (type == 'global') {
+                isLoaded = false;
+                LoadGlobalResource();
+            }
+        }
 
-		@Html.RenderButtonScript("添加",@<text>
-		function @(item.NavigateUrl)() {
-			var url = '';
-			var height = 291;
-			var title = '';
+        @Html.RenderButtonScript("添加",@<text>
+        function @(item.NavigateUrl)() {
+            var url = '';
+            var height = 300;
+            var title = '';
 
-			switch (resourceType) {
-				case 'local':
-					height = 255;
-					title = '添加局部资源信息';
-					url = '@Url.Action("CreateOrUpdateLocalResource")';
+            switch (resourceType) {
+                case 'local':
+                    height = 270;
+                    title = '添加局部资源信息';
+                    url = '@Url.Action("CreateOrUpdateLocalResource")';
 
-					break;
+                    break;
 
-				case 'global':
-					height = 150;
-					title = '添加全局资源信息';
-					url = '@Url.Action("CreateOrUpdateGlobalResource")';
+                case 'global':
+                    height = 150;
+                    title = '添加全局资源信息';
+                    url = '@Url.Action("CreateOrUpdateGlobalResource")';
 
-					break;
-			}
+                    break;
+            }
 
-		    mercurius.OpenDialog(url, 'CreateOrUpdateResource', title, 450, height);
-		}
-		</text>)
+            mercurius.OpenDialog(url, 'CreateOrUpdateResource', title, 460, height);
+        }
+        </text>)
 
-		@Html.RenderButtonScript("编辑",@<text>
-		function @(item.NavigateUrl)() {
-		    var url;
-		    switch (resourceType) {
-				case 'local':
-				    if (mercurius.HasSingleRowSelected(localResourceId)) {
-				        url = '@Url.Action("CreateOrUpdateLocalResource")/' + localResourceId;
-				        mercurius.OpenDialog(url, 'CreateOrUpdateLocalResource', '编辑局部资源信息', 450, 255);
-					}
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)() {
+            var url;
+            switch (resourceType) {
+                case 'local':
+                    if (mercurius.HasSingleRowSelected(localResourceId)) {
+                        url = '@Url.Action("CreateOrUpdateLocalResource")/' + localResourceId;
+                        mercurius.OpenDialog(url, 'CreateOrUpdateLocalResource', '编辑局部资源信息', 450, 270);
+                    }
 
-					break;
+                    break;
 
-				case 'global':
-				    if (mercurius.HasSingleRowSelected(globalResourceId)) {
-				        url = '@Url.Action("CreateOrUpdateGlobalResource")/' + globalResourceId;
-				        mercurius.OpenDialog(url, 'CreateOrUpdateLocalResource', '编辑全局资源信息', 450, 150);
-					}
+                case 'global':
+                    if (mercurius.HasSingleRowSelected(globalResourceId)) {
+                        url = '@Url.Action("CreateOrUpdateGlobalResource")/' + globalResourceId;
+                        mercurius.OpenDialog(url, 'CreateOrUpdateLocalResource', '编辑全局资源信息', 450, 150);
+                    }
 
-					break;
-			}
-		}
-		</text>)
+                    break;
+            }
+        }
+        </text>)
 
-		@Html.RenderButtonScript("删除",@<text>
-		function @(item.NavigateUrl)() {
-			var id = '';
-			var msg = '';
-			var canDelete = false;
+        @Html.RenderButtonScript("删除",@<text>
+        function @(item.NavigateUrl)() {
+            var id = '';
+            var msg = '';
+            var canDelete = false;
 
-			switch (resourceType) {
-				case 'local':
-				    if (mercurius.HasSingleRowSelected(localResourceId)) {
-						canDelete = true;
-						id = localResourceId;
-						msg = '是否删除局部资源？';
-					}
+            switch (resourceType) {
+                case 'local':
+                    if (mercurius.HasSingleRowSelected(localResourceId)) {
+                        canDelete = true;
+                        id = localResourceId;
+                        msg = '是否删除局部资源？';
+                    }
 
-					break;
+                    break;
 
-				case 'global':
-				    if (mercurius.HasSingleRowSelected(globalResourceId)) {
-						canDelete = true;
-						id = globalResourceId;
-						msg = '是否删除全局资源？';
-					}
+                case 'global':
+                    if (mercurius.HasSingleRowSelected(globalResourceId)) {
+                        canDelete = true;
+                        id = globalResourceId;
+                        msg = '是否删除全局资源？';
+                    }
 
-					break;
-			}
+                    break;
+            }
 
-			if (canDelete) {
-			    mercurius.ShowConfirmMessage(msg, function () {
-					$.ajax({
-						type: 'POST',
-						cache: false,
-						url: '@Url.Action("Remove")',
-						data: { id: id, type: resourceType },
-						dataType: 'JSON',
-						success: function (rs) {
-							if (rs.IsSuccess) {
-								ReloadResource(rs.Type);
-							} else {
-							    mercurius.ShowTipsMessage('删除失败，失败原因：' + rs.ErrorMessage, 4000, 5);
-							}
-						}
-					});
-				});
-			}
-		}
-		</text>)
-	</script>
+            if (canDelete) {
+                mercurius.ShowConfirmMessage(msg, function () {
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        url: '@Url.Action("Remove")',
+                        data: { id: id, type: resourceType },
+                        dataType: 'JSON',
+                        success: function (rs) {
+                            if (rs.IsSuccess) {
+                                ReloadResource(rs.Type);
+                            } else {
+                                mercurius.ShowTipsMessage('删除失败，失败原因：' + rs.ErrorMessage, 4000, 5);
+                            }
+                        }
+                    });
+                });
+            }
+        }
+        </text>)
+    </script>
 }
 <div class="header">视图资源管理</div>
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<div class="left">
-			@using (Ajax.BeginForm("_GetLocalResources", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "localResource", OnComplete = "OnGetLocalResoucesComplated" }, new { @id = "frmSearch", @class = "form-inline" }))
-			{
-				<div style="float:left;margin-left:4px;">
-					<label class="control-label" for="AreaName">区域</label>
-					<input type="text" class="form-control" id="AreaName" name="AreaName" />
-				</div>
-				<div style="float:left;margin-left:20px;">
-					<label class="control-label" for="ControllerName">控制器</label>
-					<input type="text" class="form-control" id="ControllerName" name="ControllerName" />
-				</div>
-				<div style="float:left;margin-left:20px;">
-					<label class="control-label" for="View">视图</label>
-					<input type="text" class="form-control" id="View" name="View" />
-				</div>
-				<div style="float:left;margin-left:20px;">
-					<label class="control-label" for="Key">键</label>
-					<input type="text" class="form-control" id="Key" name="Key" />
-				</div>
-				<button type="submit" class="btn btn-primary" style="margin-left:10px;">
-					<i class="glyphicon glyphicon-search"></i> @Html.GetGlobalValue("query")
-				</button>
-				<button type="button" class="btn btn-default" onclick="$('#frmSearch [name]').val('');">
-					<i class="glyphicon glyphicon-remove"></i> 重置
-				</button>
-			}
-		</div>
-	</div>
+    <div class="panel-heading">
+        <div class="left">
+            @using (Ajax.BeginForm("_GetLocalResources", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "localResource", OnComplete = "OnGetLocalResoucesComplated" }, new { @id = "frmSearch", @class = "form-inline" }))
+            {
+                <div style="float:left;margin-left:4px;">
+                    <label class="control-label" for="AreaName">区域</label>
+                    <input type="text" class="form-control" id="AreaName" name="AreaName" />
+                </div>
+                <div style="float:left;margin-left:20px;">
+                    <label class="control-label" for="ControllerName">控制器</label>
+                    <input type="text" class="form-control" id="ControllerName" name="ControllerName" />
+                </div>
+                <div style="float:left;margin-left:20px;">
+                    <label class="control-label" for="View">视图</label>
+                    <input type="text" class="form-control" id="View" name="View" />
+                </div>
+                <div style="float:left;margin-left:20px;">
+                    <label class="control-label" for="Key">键</label>
+                    <input type="text" class="form-control" id="Key" name="Key" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-left:10px;">
+                    <i class="glyphicon glyphicon-search"></i> @Html.GetGlobalValue("query")
+                </button>
+                <button type="button" class="btn btn-default" onclick="$('#frmSearch [name]').val('');">
+                    <i class="glyphicon glyphicon-remove"></i> 重置
+                </button>}
+        </div>
+    </div>
 </div>
 @Html.RenderAccessibleButtons()
 <ul class="nav nav-tabs" role="tablist" style="margin-top: 2px;">
-	<li id="li1" class="active" onclick="LoadLocalResource();"><a href="#localResource" role="tab" data-toggle="tab">局部资源</a></li>
-	<li id="li2" onclick="LoadGlobalResource();"><a href="#globalResource" role="tab" data-toggle="tab">全局资源</a></li>
+    <li id="li1" class="active" onclick="LoadLocalResource();"><a href="#localResource" role="tab" data-toggle="tab">局部资源</a></li>
+    <li id="li2" onclick="LoadGlobalResource();"><a href="#globalResource" role="tab" data-toggle="tab">全局资源</a></li>
 </ul>
 <div id="tabContent" class="tab-content">
-	<div id="localResource" class="tab-pane active">
+    <div id="localResource" class="tab-pane active">
 
-	</div>
-	<div id="globalResource" class="tab-pane">
-		<table class="grid" style="border-top:none;">
-			<thead>
-				<tr>
-					<td style="width:80px;">序号</td>
-					<td style="width:300px;">键</td>
-					<td>值</td>
-				</tr>
-			</thead>
-			<tbody></tbody>
-		</table>
-	</div>
+    </div>
+    <div id="globalResource" class="tab-pane">
+        <table class="grid" style="border-top:none;">
+            <thead>
+                <tr>
+                    <td style="width:80px;">序号</td>
+                    <td style="width:300px;">键</td>
+                    <td>值</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 </div>

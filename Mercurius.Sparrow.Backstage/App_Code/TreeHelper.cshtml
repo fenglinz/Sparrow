@@ -14,7 +14,7 @@
             foreach (var parent in nodes)
             {
                 <li>
-                    <span class="folder">&nbsp;</span><i data="@parent.Id">@parent.Text</i>
+                    <span class="folder open">&nbsp;</span><i data="@parent.Id">@parent.Text</i>
                     @CreateTreeNode(parent.Children)
                 </li>
             }
@@ -49,7 +49,7 @@
     <div class="input-group">
         <input id="@string.Format("{0}Text", name)" type="text" value="" class="form-control" validate-field="所属部门" validate-rule="notNull" readonly="readonly" style="cursor: pointer;background-color:#fff;" />
         <span class="input-group-btn">
-            <button id="@string.Format("btn{0}", name)" class="btn btn-sm btn-default">
+            <button type="button" id="@string.Format("btn{0}", name)" class="btn btn-sm btn-default">
                 <i class="glyphicon glyphicon-chevron-down"></i>
             </button>
         </span>

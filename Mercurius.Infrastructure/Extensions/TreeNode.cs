@@ -23,7 +23,7 @@ namespace Mercurius.Infrastructure
         /// <summary>
         /// 树节点显示文本。
         /// </summary>
-        [JsonProperty("name")]
+        [JsonProperty("text")]
         public string Text { get; set; }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Mercurius.Infrastructure
         /// <summary>
         /// 树的子节点。
         /// </summary>
-        [JsonProperty("children", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("nodes", NullValueHandling = NullValueHandling.Ignore)]
         public IEnumerable<TreeNode> Children { get; set; }
 
         #endregion
