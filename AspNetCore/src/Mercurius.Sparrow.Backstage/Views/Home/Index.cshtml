@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "首页";
+}
+
+@model Mercurius.Sparrow.Backstage.ViewModels.User
+
+<form class="form-horizontal" role="form" style="margin-top:15px;">
+    <form-group asp-for="Name" layout="2,3" />
+    <form-group asp-for="Sex" layout="2,3" label="性别" add-on="性别" />
+    <form-group asp-for="Birthdate" layout="2,3" label="出生日期" format="yyyy-MM-dd" />
+</form>

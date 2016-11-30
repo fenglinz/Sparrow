@@ -62,6 +62,22 @@ INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNu
 GO
 INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (12, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-26 09:15:38.973')
 GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (13, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-10-26 11:57:13.317')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (14, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-11-14 19:10:31.783')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (15, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-11-15 15:21:17.830')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (16, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-11-16 09:29:00.920')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (17, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-11-16 12:43:00.613')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (18, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-11-16 13:40:51.127')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (19, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '登录', '127.0.0.1', NULL, '2016-11-22 11:15:04.370')
+GO
+INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNumber], [Content], [LogOnIPAddress], [AddedUserId], [AddedDateTime])  VALUES (20, '用户管理', '48f3889c-af8d-401f-ada2-c383031af92d', '退出', '127.0.0.1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-11-22 11:29:03.010')
+GO
 SET IDENTITY_INSERT [dbo].[OperationRecord] OFF;
 GO
 INSERT INTO [dbo].[SystemSetting] ([Id], [ParentId], [Name], [Value], [Remark])  VALUES ('015B6ED3-B4FF-4A61-B200-59203A7DBC77', NULL, 'LogLevel', '2', '')
@@ -550,7 +566,7 @@ INSERT INTO [RBAC].[StaffOrganize] ([Id], [UserId], [OrganizationId], [CreateUse
 GO
 INSERT INTO [RBAC].[StaffOrganize] ([Id], [UserId], [OrganizationId], [CreateUserId], [CreateDateTime])  VALUES ('ddbe38af-3cd3-4115-a318-47d56f7d7c81', '630ecf4b-24b8-4f93-8ca0-2e08f618dae1', 'ebcea0bb-232a-494b-996e-4eb5aa59d1af', '48f3889c-af8d-401f-ada2-c383031af92d', '2014-04-16 00:00:00.000')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('010B7B7D-9FFD-4C5B-A2EF-502AF100C193', '0', '后台', '后台', NULL, 2, '/Home/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:16:55.330', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:19:43.670')
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('010B7B7D-9FFD-4C5B-A2EF-502AF100C193', '0', '后台', '后台', NULL, 2, '/Home/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:16:55.330', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-11-16 10:27:24.563')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('02b48102-4e8a-44fb-84a0-7a8c8535676a', '545d2450-4dac-4377-afbe-d9aa451f795f', '查看角色权限', '查看角色权限', NULL, 2, '/Admin/Role/ViewPermissions', 'href', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-13 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:46:35.587')
 GO
@@ -586,7 +602,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('365c5bf3-b266-4271-bde3-4d33b280abc1', '3885ba7f-c246-493f-9053-7aa70a642662', '按钮管理', '按钮管理', 'fa fa-cogs', 3, 'OnAllotButtons', 'OnClick', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-05-04 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 16:53:44.600')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('3885ba7f-c246-493f-9053-7aa70a642662', '3e544d7a-d850-4785-9648-feafc4698a3b', '网站地图', '网站地图', 'sitemap.png', 1, '/Admin/SystemMenu/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-03-31 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-10-08 10:05:50.347')
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('3885ba7f-c246-493f-9053-7aa70a642662', '3e544d7a-d850-4785-9648-feafc4698a3b', '网站地图', '网站地图', 'sitemap.png', 1, '/Admin/SystemMenu/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-03-31 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-11-15 17:15:00.267')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('3e544d7a-d850-4785-9648-feafc4698a3b', '0', '权限管理', '权限管理', 'fa fa-key', 1, NULL, 'Iframe', 500, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-03-31 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2015-07-31 13:38:33.917')
 GO
@@ -692,7 +708,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('a5c7ffb2-c271-4b77-952b-a1d0f7f385c2', '55ef2c2f-0642-4448-b7f8-0351f4e00ea1', '资源管理', '资源管理', '625.png', 1, '/Admin/Globalization/Index', 'Iframe', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-04-28 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-24 12:55:37.207')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('a63a0ca2-f2a7-4d27-bffa-67e548513df1', '0', '个人信息', '个人信息', 'glyphicon glyphicon-user', 1, NULL, 'Iframe', 300, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-04-29 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-24 12:56:49.890')
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('a63a0ca2-f2a7-4d27-bffa-67e548513df1', '0', '个人信息', '个人信息', 'glyphicon glyphicon-user', 1, NULL, 'Iframe', 300, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-04-29 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-11-15 17:43:44.810')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('A7C5B542-A71B-47C9-AF0D-8C76DE7EEB70', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '发布', '发布', 'glyphicon glyphicon-globe', 3, 'OnPublish', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:01:49.983', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:05:26.287')
 GO
@@ -740,7 +756,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('cc91e8f6-b7ff-4c73-b934-302ad3398922', 'bbc045ff-7f04-4da9-b0db-e1dbd24cb3d9', '锁定', '锁定', 'glyphicon glyphicon-lock', 3, 'OnLock', 'Onclick', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-17 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:11:59.767')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('CEFA45C7-5D3E-42D0-A0B2-3CF68980AFD1', '0', '组织机构', '组织机构', 'glyphicon glyphicon-pawn', 1, NULL, 'Iframe', 400, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-29 10:23:45.403', NULL, NULL)
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('CEFA45C7-5D3E-42D0-A0B2-3CF68980AFD1', '0', '组织机构', '组织机构', 'glyphicon glyphicon-pawn', 1, NULL, 'Iframe', 400, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-29 10:23:45.403', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-11-15 17:43:36.703')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('d396873e-ec5b-4c44-919a-7d206cd0cc90', 'e620450b-6d17-4192-bee0-66fbd114e82a', '添加', '添加', 'glyphicon glyphicon-plus-sign', 3, 'OnCreate', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-05-04 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-04 15:00:51.533')
 GO

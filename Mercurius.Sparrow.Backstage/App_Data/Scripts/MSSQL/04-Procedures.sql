@@ -94,9 +94,9 @@ AS
 BEGIN
   IF @systemMenuId IS NULL
   BEGIN
-    RAISERROR('没有指定菜单编号', 16, 1);
+        RAISERROR('没有指定菜单编号', 16, 1);
   
-    RETURN;
+        RETURN;
   END;
 
   DECLARE @tb_button TABLE
