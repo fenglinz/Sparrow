@@ -292,6 +292,7 @@
     <Compile Include="Extensions\Bootstrap\Controls\RadioButtonControl.cs" />
     <Compile Include="Extensions\Bootstrap\Screen.cs" />
     <Compile Include="Extensions\Bootstrap\Option.cs" />
+    <Compile Include="Extensions\RefreshTokenProvider.cs" />
     <Compile Include="Filters\ConsoleAuthorizeAttribute.cs" />
     <Compile Include="Filters\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Extensions\MercuriusUrlHelper.cs" />
