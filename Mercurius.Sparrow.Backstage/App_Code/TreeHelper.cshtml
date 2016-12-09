@@ -38,7 +38,7 @@
         @foreach (var child in children)
         {
             <li>
-                <span class="@(child.Children.IsEmpty()?"file":"folder")"></span>
+                <span class="@(child.Children.IsEmpty() ? "file" : "folder")"></span>
                 <b class="text" data="@child.Id">@child.Text</b>
                 @CreateTreeNode(child.Children)
             </li>

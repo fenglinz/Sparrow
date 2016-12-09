@@ -669,9 +669,6 @@
     <Content Include="Scripts\Bootstrap-FileInput\locales\zh-TW.js" />
     <Content Include="Scripts\Bootstrap-FileInput\locales\zh.js" />
     <Content Include="Scripts\jquery-2.2.4.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\DateTimePicker\ar.js" />
     <Content Include="Scripts\DateTimePicker\bg.js" />
     <Content Include="Scripts\DateTimePicker\ca.js" />
@@ -698,6 +695,9 @@
     <Content Include="Scripts\DateTimePicker\uk.js" />
     <Content Include="Scripts\DateTimePicker\zh-TW.js" />
     <Content Include="Scripts\DateTimePicker\zh.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />

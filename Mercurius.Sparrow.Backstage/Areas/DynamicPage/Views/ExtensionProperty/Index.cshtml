@@ -19,8 +19,8 @@
                 unique: false
             });
 
-            $('#treeContainer i[data]').click(function() {
-                $('#treeContainer i[data]').removeClass('selected');
+            $('#treeContainer b[data]').click(function() {
+                $('#treeContainer b[data]').removeClass('selected');
 
                 ReSearch($(this).attr('data'));
 
@@ -81,17 +81,17 @@
         <div class="toolbar panel panel-default" style="min-width: auto;">
             <div class="panel-heading" style="padding-left: 10px; line-height: 35px;">动态属性分类</div>
             <div class="panel-body" style="padding: 0 5px;">
-                <ul id="treeContainer" class="filetree treeview">
-                    <li class="collapsable lastCollapsable">
-                        <div class="hitarea collapsable-hitarea lastCollapsable-hitarea"></div>
-                        <span class="folder"></span><i data="" class="selected">全部分类</i>
+                <ul id="treeContainer" class="filetree">
+                    <li>
+                        <span class="folder"></span>
+                        <b data="" class="text selected">全部分类</b>
                         <ul id="blList">
                             @if (categories.HasData())
                             {
                                 foreach (var item in categories.Datas)
                                 {
                                     <li>
-                                        <span class="file"></span><i class="file" data="@item">@item</i>
+                                        <span class="file"></span><b class="text" data="@item">@item</b>
                                     </li>
                                 }
                             }
