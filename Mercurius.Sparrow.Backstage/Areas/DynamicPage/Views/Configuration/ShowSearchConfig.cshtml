@@ -41,7 +41,7 @@
             padding: 0 8px 8px 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin: 0 5px 5px 0px;
+            margin: 0 5px 5px 0;
             cursor: default;
             text-shadow: 0 1px 0 #fff;
             background-image: -webkit-linear-gradient(top, #fff 0%, #e0e0e0 100%);
@@ -140,7 +140,7 @@
             </div>
             <label class="col-sm-1 control-label">验证</label>
             <div class="col-sm-2">
-                @Html.CreateValidateRuleList("conditions[#index#].ValidateRule")
+                @Html.CreateValidRuleList("conditions[#index#].ValidateRule")
             </div>
             <div class="col-sm-1 btn-group btn-group-sm">
                 <button type="button" class="btn btn-sm btn-default" onclick="OnAppendCondition(this)">
@@ -271,7 +271,7 @@
                             </div>
                             <label class="col-sm-1 control-label">验证</label>
                             <div class="col-sm-2">
-                                @Html.CreateValidateRuleList("conditions[#index#].ValidateRule", item.ValidateRule)
+                                @Html.CreateValidRuleList("conditions[#index#].ValidateRule", item.ValidateRule)
                             </div>
                             <div class="col-sm-1 btn-group btn-group-sm">
                                 <button type="button" class="btn btn-sm btn-default" onclick="OnAppendCondition(this)">

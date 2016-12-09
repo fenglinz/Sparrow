@@ -19,14 +19,14 @@ namespace Mercurius.Infrastructure.Cache
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="timeSpan">保存时间</param>
-        public override void Add(string key, object value, TimeSpan? timeSpan = null)
+        public override void Add<T>(string key, T value, TimeSpan? timeSpan = null)
         {
             HttpRuntime.Cache.Insert(
                 key,
                 value,
                 null,
                 SysCache.NoAbsoluteExpiration,
-                timeSpan.HasValue ? timeSpan.Value : SysCache.NoSlidingExpiration);
+                timeSpan ?? SysCache.NoSlidingExpiration);
         }
 
         /// <summary>

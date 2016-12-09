@@ -36,7 +36,7 @@
                         }
                         else
                         {
-                            @Html.CreateDropdownList(item.Column, item.DictionaryKey, Model.GetValue(item.Name), htmlAttributes: new { @disabled = "disabled" })
+                            @Html.MultipleList(item.Column, item.DictionaryKey, f=>f.Value(Model.GetValue(item.Name)).Disabled())
                         }
                     </div>
                 </div>

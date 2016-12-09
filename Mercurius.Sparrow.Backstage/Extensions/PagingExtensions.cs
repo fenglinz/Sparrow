@@ -10,6 +10,7 @@ using System.Web.Mvc.Html;
 using System.Web.Routing;
 using System.Web.WebPages;
 using Mercurius.Sparrow.Entities;
+using static Mercurius.Infrastructure.SystemConfiguration;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {
@@ -52,7 +53,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
 
             htmlString.Append("<div class=\"pager-container\">");
 
-            pageSize = pageSize ?? SearchObject.DefalutPageSize;
+            pageSize = pageSize ?? DefaultPageSize;
 
             var currentIndex = html.GetCurrentIndex();
             var pageCount = totalRecords % pageSize.Value == 0 ?

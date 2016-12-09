@@ -34,7 +34,7 @@
         {
             foreach (var item in primaryKeys)
             {
-                <input type="hidden" name="@item.PropertyName" value="@Model.GetValue(item.Name)" />  
+                <input type="hidden" name="@item.PropertyName" value="@Model.GetValue(item.Name)" />
             }
         }
 
@@ -53,7 +53,7 @@
 
                             if (string.IsNullOrWhiteSpace(item.ValidateRule))
                             {
-                                if (string.CompareOrdinal(item.DataType, "date")  == 0)
+                                if (string.CompareOrdinal(item.DataType, "date") == 0)
                                 {
                                     item.ValidateRule = item.IsNullable ? "dateOrNull" : "date";
                                 }
@@ -84,7 +84,7 @@
                         }
                         else
                         {
-                            @Html.Select(item.Column, item.DictionaryKey, Model.GetValue(item.Column))
+                            @Html.MultipleList(item.Column, item.DictionaryKey, f => f.RemoveLabel().Value(Model.GetValue(item.Column)))
                         }
                     </div>
                 </div>

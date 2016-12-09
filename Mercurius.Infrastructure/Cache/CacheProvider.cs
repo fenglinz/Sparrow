@@ -56,7 +56,10 @@ namespace Mercurius.Infrastructure.Cache
                         .Replace("[", string.Empty)
                         .Replace("]", string.Empty)
                         .Replace(@"\", string.Empty)
-                        .Replace("\"", string.Empty));
+                        .Replace("\"", string.Empty)
+                        .Replace('.', '_')
+                        .Replace(':', '_')
+                        .Replace(',', '_'));
         }
 
         /// <summary>
@@ -79,10 +82,11 @@ namespace Mercurius.Infrastructure.Cache
         /// <summary>
         /// 将数据添加到缓存。
         /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="timeSpan">保存时间</param>
-        public abstract void Add(string key, object value, TimeSpan? timeSpan = null);
+        public abstract void Add<T>(string key, T value, TimeSpan? timeSpan = null);
 
         /// <summary>
         /// 移除缓存。

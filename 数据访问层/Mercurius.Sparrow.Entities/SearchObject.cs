@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Text;
+using static Mercurius.Infrastructure.SystemConfiguration;
 
 namespace Mercurius.Sparrow.Entities
 {
@@ -32,7 +33,7 @@ namespace Mercurius.Sparrow.Entities
         public SearchObject()
         {
             this.PageIndex = 1;
-            this.PageSize = DefalutPageSize;
+            this.PageSize = DefaultPageSize;
         }
 
         #endregion
@@ -55,25 +56,6 @@ namespace Mercurius.Sparrow.Entities
             }
 
             return buffers.ToString();
-        }
-
-        #endregion
-
-        #region 公开方法
-
-        /// <summary>
-        /// 获取默认的分页大小。
-        /// </summary>
-        /// <returns>默认分页大小</returns>
-        public static int DefalutPageSize
-        {
-            get
-            {
-                int pageSize;
-                var defaultPageSize = ConfigurationManager.AppSettings["DefaultPageSize"];
-
-                return int.TryParse(defaultPageSize, out pageSize) ? pageSize : 10;
-            }
         }
 
         #endregion

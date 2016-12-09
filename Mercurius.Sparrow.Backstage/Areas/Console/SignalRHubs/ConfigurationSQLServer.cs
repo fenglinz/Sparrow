@@ -202,13 +202,13 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
         /// <summary>
         /// 重设数据库连接配置。
         /// </summary>
-        /// <param name="host"></param>
-        /// <param name="account"></param>
-        /// <param name="password"></param>
-        /// <param name="dbName"></param>
+        /// <param name="host">数据库地址</param>
+        /// <param name="account">登录账号</param>
+        /// <param name="password">密码</param>
+        /// <param name="dbName">数据库名称</param>
         private void ResetConfigSettings(string host, string account, string password, string dbName)
         {
-            var databaseConfigFile = $@"{AppDomain.CurrentDomain.BaseDirectory}\App_Data\properties.config";
+            var databaseConfigFile = $@"{AppDomain.CurrentDomain.BaseDirectory}\App_Data\IBatisNet\properties.config";
             var document = XDocument.Load(databaseConfigFile);
 
             document.XPathSelectElement("//add[@key='rhost']")?.Attribute("value")?.SetValue(host);
@@ -224,6 +224,9 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
             document.Save(databaseConfigFile);
         }
 
+        /// <summary>
+        /// 标记是否已经安装完成。
+        /// </summary>
         private void RemarkInstalled()
         {
             var webConfigFile = $@"{AppDomain.CurrentDomain.BaseDirectory}\Web.config";

@@ -172,6 +172,7 @@
     <Compile Include="Mail\MailSettingElement.cs" />
     <Compile Include="Mail\MailSettingSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ado\CommandText.xsd">

@@ -5,11 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Dynamic;
-using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.Dynamic;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic;
 using Mercurius.Sparrow.Mvc.Extensions;
+using static Mercurius.Infrastructure.SystemConfiguration;
 
 namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 {
@@ -44,7 +44,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
                 int totalRecords;
                 if (conditions.IsEmpty())
                 {
-                    model.DataSource = this.DynamicQuery.OrderBy(orders.ToArray()).PagedList(id, pageIndex < 1 ? 1 : pageIndex, SearchObject.DefalutPageSize, out totalRecords, showColumns);
+                    model.DataSource = this.DynamicQuery.OrderBy(orders.ToArray()).PagedList(id, pageIndex < 1 ? 1 : pageIndex, DefaultPageSize, out totalRecords, showColumns);
                 }
                 else
                 {
@@ -59,7 +59,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
                         i1.DictionaryKey = i2.DictionaryKey;
                     }) as IList<ConditionInfo>;
 
-                    model.DataSource = this.DynamicQuery.Where(temps).OrderBy(orders.ToArray()).PagedList(id, pageIndex < 1 ? 1 : pageIndex, SearchObject.DefalutPageSize, out totalRecords, showColumns);
+                    model.DataSource = this.DynamicQuery.Where(temps).OrderBy(orders.ToArray()).PagedList(id, pageIndex < 1 ? 1 : pageIndex, DefaultPageSize, out totalRecords, showColumns);
                 }
 
                 model.TotalRecords = totalRecords;

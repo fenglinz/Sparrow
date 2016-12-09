@@ -10,6 +10,7 @@ using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.Storage;
 using static Mercurius.Sparrow.Entities.Storage.File;
+using static Mercurius.Infrastructure.SystemConfiguration;
 
 namespace Mercurius.Sparrow.Services.Storage
 {
@@ -54,7 +55,7 @@ namespace Mercurius.Sparrow.Services.Storage
 
             var id = Convert.ToBase64String(Encoding.UTF8.GetBytes(path));
 
-            return $"{FileRemoteUrl}File/Index/{id}?mode={mode}";
+            return $"{FileStorageRomoteUrl}File/Index/{id}?mode={mode}";
         }
 
         /// <summary>

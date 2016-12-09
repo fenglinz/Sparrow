@@ -58,7 +58,7 @@ namespace Mercurius.Sparrow.Services.Support
             set
             {
                 this._logger = value;
-                this._className = this.GetType().FullName;
+                this._className = this.GetType().FullName.Replace('.', '_');
             }
         }
 

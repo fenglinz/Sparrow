@@ -480,6 +480,9 @@
     <Content Include="App_Data\console.dat" />
     <Content Include="Areas\Console\Views\Account\ChangePassword.cshtml" />
     <Content Include="apiapp.json" />
+    <Content Include="App_Data\IBatisNet\properties.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Areas\Console\Views\Home\Index.cshtml" />
     <Content Include="Areas\Console\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Console\Views\web.config" />

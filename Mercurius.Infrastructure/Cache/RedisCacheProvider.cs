@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ServiceStack.Redis;
-using System.Configuration;
+using static Mercurius.Infrastructure.SystemConfiguration;
 
 namespace Mercurius.Infrastructure.Cache
 {
@@ -15,36 +15,7 @@ namespace Mercurius.Infrastructure.Cache
     /// </summary>
     public class RedisCacheProvider : CacheProvider
     {
-        #region 常量
-
-        /// <summary>
-        /// 服务器地址配置键。
-        /// </summary>
-        private const string HOST_KEY = "Cache.Redis.Host";
-
-        /// <summary>
-        /// 端口号配置键。
-        /// </summary>
-        private const string PORT_KEY = "Cache.Redis.Port";
-
-        /// <summary>
-        /// Redis登录密码。
-        /// </summary>
-        private const string PASSWORD_KEY = "Cache.Redis.Password";
-
-        /// <summary>
-        /// Redis数据库。
-        /// </summary>
-        private const string DATABASE_KEY = "Cache.Redis.Database";
-
-        #endregion
-
         #region 字段
-
-        private static readonly string Host;
-        private static readonly int Port;
-        private static readonly string Password;
-        private static readonly int Database;
 
         private object _locker = new object();
         private readonly RedisClient _redisClient;
@@ -54,24 +25,11 @@ namespace Mercurius.Infrastructure.Cache
         #region 构造方法
 
         /// <summary>
-        /// 静态构造方法。
-        /// </summary>
-        static RedisCacheProvider()
-        {
-            Host = ConfigurationManager.AppSettings[HOST_KEY];
-            Port = int.Parse(ConfigurationManager.AppSettings[PORT_KEY]);
-            Password = ConfigurationManager.AppSettings[PASSWORD_KEY];
-            Database = int.Parse(ConfigurationManager.AppSettings[DATABASE_KEY]);
-
-            Password = string.IsNullOrWhiteSpace(Password) ? null : Password;
-        }
-
-        /// <summary>
         /// 默认构造方法。
         /// </summary>
         public RedisCacheProvider()
         {
-            this._redisClient = new RedisClient(Host, Port, Password, Database);
+            this._redisClient = new RedisClient(RedisHost, RedisPort, RedisPassword, RedisDatabase);
         }
 
         /// <summary>
@@ -94,24 +52,17 @@ namespace Mercurius.Infrastructure.Cache
         /// <summary>
         /// 将数据添加到缓存。
         /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <param name="timeSpan">保存时间</param>
-        public override void Add(string key, object value, TimeSpan? timeSpan = null)
+        public override void Add<T>(string key, T value, TimeSpan? timeSpan = null)
         {
             lock (this._locker)
             {
-                if (value is DataTable)
-                {
-                    var b = timeSpan.HasValue
-                    ? this._redisClient.Set(key, value.AsJson(), timeSpan.Value)
-                    : this._redisClient.Set(key, value.AsJson());
-                }
-                else {
-                    var b = timeSpan.HasValue
-                        ? this._redisClient.Set(key, value, timeSpan.Value)
-                        : this._redisClient.Set(key, value);
-                }
+                var b = timeSpan.HasValue
+                    ? this._redisClient.Set(key, value, timeSpan.Value)
+                    : this._redisClient.Set(key, value);
             }
         }
 

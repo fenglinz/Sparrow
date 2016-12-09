@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sqlMapConfig xmlns="http://ibatis.apache.org/dataMapper">
-  <properties resource="App_Data/properties.config" />
+  <properties resource="App_Data/IBatisNet/properties.config" />
   <settings>
     <setting validateSqlMap="false" />
     <setting cacheModelsEnabled="true" />

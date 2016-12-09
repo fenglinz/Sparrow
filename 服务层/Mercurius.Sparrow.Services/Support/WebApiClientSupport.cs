@@ -11,6 +11,7 @@ using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Cache;
 using Mercurius.Sparrow.Entities.WebApi;
 using Newtonsoft.Json;
+using static Mercurius.Infrastructure.SystemConfiguration;
 
 namespace Mercurius.Sparrow.Services
 {
@@ -25,26 +26,6 @@ namespace Mercurius.Sparrow.Services
         /// Token缓存键。
         /// </summary>
         protected static readonly string TokenCacheKey = "__FileStorageWebApiToken";
-
-        /// <summary>
-        /// 文件上传远程地址。
-        /// </summary>
-        protected static readonly string FileRemoteUrl = ConfigurationManager.AppSettings["FileStorage.RomoteUrl"];
-
-        /// <summary>
-        /// 文件上传token认证地址。
-        /// </summary>
-        private static readonly string TokenEndpointPath = $"{FileRemoteUrl}{ConfigurationManager.AppSettings["FileStorage.Token.TokenEndpointPath"]}";
-
-        /// <summary>
-        /// 文件上传token账号。
-        /// </summary>
-        private static readonly string TokenAccount = ConfigurationManager.AppSettings["FileStorage.Token.Account"];
-
-        /// <summary>
-        /// 文件上传token密码
-        /// </summary>
-        private static readonly string TokenPassword = ConfigurationManager.AppSettings["FileStorage.Token.Password"];
 
         #endregion
 
@@ -69,7 +50,7 @@ namespace Mercurius.Sparrow.Services
         /// <returns>返回的数据</returns>
         public T Get<T>(string webApiRoute, object data = null, bool needToken = true)
         {
-            var url = $"{FileRemoteUrl}{webApiRoute}";
+            var url = $"{FileStorageRomoteUrl}{webApiRoute}";
 
             if (data != null)
             {
@@ -121,7 +102,7 @@ namespace Mercurius.Sparrow.Services
         /// <returns>返回的数据</returns>
         public T Post<T>(string webApiRoute, object data = null, bool needToken = true)
         {
-            var url = $"{FileRemoteUrl}{webApiRoute}";
+            var url = $"{FileStorageRomoteUrl}{webApiRoute}";
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = "application/json";
@@ -171,7 +152,7 @@ namespace Mercurius.Sparrow.Services
         /// <returns>返回的数据</returns>
         public T Put<T>(string webApiRoute, object data = null, bool needToken = true)
         {
-            var url = $"{FileRemoteUrl}{webApiRoute}";
+            var url = $"{FileStorageRomoteUrl}{webApiRoute}";
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = "application/json";
@@ -221,7 +202,7 @@ namespace Mercurius.Sparrow.Services
         /// <returns>返回的数据</returns>
         public T Delete<T>(string webApiRoute, object data = null, bool needToken = true)
         {
-            var url = $"{FileRemoteUrl}{webApiRoute}";
+            var url = $"{FileStorageRomoteUrl}{webApiRoute}";
 
             if (data != null)
             {
@@ -277,13 +258,13 @@ namespace Mercurius.Sparrow.Services
 
             if (token == null)
             {
-                var httpRequest = (HttpWebRequest)WebRequest.Create(TokenEndpointPath);
+                var httpRequest = (HttpWebRequest)WebRequest.Create(FileStorageTokenTokenEndpointPath);
 
                 httpRequest.Method = "POST";
                 httpRequest.Accept = "application/json";
                 httpRequest.ContentType = "application/x-www-form-urlencoded";
 
-                var tokenRequest = $"grant_type=password&username={TokenAccount}&password={TokenPassword}";
+                var tokenRequest = $"grant_type=password&username={FileStorageTokenAccount}&password={FileStorageTokenPassword}";
                 var buffers = Encoding.UTF8.GetBytes(tokenRequest);
 
                 httpRequest.ContentLength = buffers.Length;
