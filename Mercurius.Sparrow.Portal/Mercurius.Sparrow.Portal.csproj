@@ -274,6 +274,10 @@
       <Link>App_Data\IBatisNet\providers.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\properties.config">
+      <Link>App_Data\IBatisNet\properties.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

@@ -77,7 +77,7 @@ namespace Mercurius.Infrastructure
         /// <summary>
         /// 文件系统Web Api token认证获取地址。
         /// </summary>
-        public static string FileStorageTokenTokenEndpointPath => Get("FileStorage.Token.TokenEndpointPath", "api/token");
+        public static string FileStorageTokenTokenEndpointPath => FileStorageRomoteUrl + Get("FileStorage.Token.TokenEndpointPath", "api/token");
 
         #endregion
 

@@ -346,6 +346,10 @@
       <Link>App_Data\IBatisNet\providers.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\properties.config">
+      <Link>App_Data\IBatisNet\properties.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\dezo-dev.pubxml" />
     <Content Include="Scripts\html5shiv-printshiv.js" />
     <Content Include="Scripts\html5shiv-printshiv.min.js" />
