@@ -21,14 +21,14 @@
         $(document).ready(function () {
             mercurius.ShowDatePicker();
 
+            OnPagedSuccess();
+        });
+
+        function OnPagedSuccess() {
             $("[data-toggle='tooltip']").tooltip({
                 container: 'html'
             });
 
-            mercurius.FixedTableHeader('#uploadFiles', 275);
-        });
-
-        function OnPagedSuccess() {
             mercurius.FixedTableHeader('#uploadFiles', 275);
         }
 
@@ -49,7 +49,7 @@
 
 <div class="panel panel-primary" style="margin: 4px 4px 10px 4px;">
     <div class="panel-body">
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-inline", @autocomplete = "off" }))
+        @using (Ajax.BeginForm("SearchFileStorages", "Home", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "fileStorages", OnSuccess = "OnPagedSuccess" }, new { @class = "form-inline", @autocomplete = "off" }))
         {
             <div class="form-group">
                 <label for="FileName">文件名</label>
@@ -69,7 +69,7 @@
                 ~
                 <input type="text" id="EndUploadDate" name="EndUploadDate" value="@(so.EndUploadDate==null?"":so.EndUploadDate.ToString("yyyy-MM-dd"))" class="form-control date" />
             </div>
-            <div class="form-group">
+            <div class="btn-group" style="margin-left: 15px;">
                 <button type="submit" class="btn btn-primary">
                     <i class="glyphicon glyphicon-search"></i> 查询
                 </button>
