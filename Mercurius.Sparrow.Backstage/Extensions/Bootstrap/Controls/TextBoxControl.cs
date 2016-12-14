@@ -14,6 +14,9 @@ namespace Mercurius.Sparrow.Mvc.Extensions.Controls
     {
         #region 字段
 
+        /// <summary>
+        /// 表单附加信息。
+        /// </summary>
         protected TagBuilder _addOn;
 
         /// <summary>

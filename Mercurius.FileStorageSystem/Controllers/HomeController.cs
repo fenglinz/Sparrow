@@ -64,7 +64,7 @@ namespace Mercurius.FileStorageSystem.Controllers
 
             var model = this.FileService.SearchFiles(so);
 
-            return PartialView("_FileStorages", model);
+            return PartialView("_Files", model);
         }
 
         #endregion

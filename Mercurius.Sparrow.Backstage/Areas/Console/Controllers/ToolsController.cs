@@ -76,7 +76,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
         /// <param name="source">源字符串</param>
         /// <returns>操作结果</returns>
         [HttpPost]
-        public ActionResult Url(string type, string source)
+        public new ActionResult Url(string type, string source)
         {
             var result = type == "encrypt" ? HttpUtility.UrlEncode(source) : HttpUtility.UrlDecode(source);
 
