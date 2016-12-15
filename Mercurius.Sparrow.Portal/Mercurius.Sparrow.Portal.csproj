@@ -242,12 +242,12 @@
       <Link>App_Data\IBatisNet\MSSQL\SqlConfig-Writer.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml">
-      <Link>App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml</Link>
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\MySQL\SqlConfig-Reader.xml">
+      <Link>App_Data\IBatisNet\MySQL\SqlConfig-Reader.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml">
-      <Link>App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml</Link>
+    <Content Include="..\Mercurius.Sparrow.Backstage\App_Data\IBatisNet\MySQL\SqlConfig-Writer.xml">
+      <Link>App_Data\IBatisNet\MySQL\SqlConfig-Writer.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\bootstrap-theme.css" />

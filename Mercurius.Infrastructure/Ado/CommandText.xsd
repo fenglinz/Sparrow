@@ -3,7 +3,7 @@
     targetNamespace="http://www.mercurius.com/CommandText.xsd"
     elementFormDefault="qualified"
     xmlns="http://www.mercurius.com/CommandText.xsd"
-    xmlns:mstns="http://www.Mercurius.com/CommandText.xsd"
+    xmlns:mstns="http://www.mercurius.com/CommandText.xsd"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="CommandTexts" type="CommandTexts"/>
 

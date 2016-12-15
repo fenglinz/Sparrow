@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sqlMap namespace="Mercurius.Sparrow.Repositories.Core.Dictionary" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Dictionary" type="Mercurius.Sparrow.Entities.Core.Dictionary, Mercurius.Sparrow.Entities" />
+  </alias>
+  <statements>
+
+    <!-- 获取字典信息 -->
+    <select id="GetDictionary" parameterClass="string" resultClass="Dictionary">
+      <![CDATA[
+        SELECT 
+          Id
+          ,[Type]
+          ,[Key]
+          ,Value
+          ,Sort
+          ,Status
+          ,Remark
+          ,ParentId
+        FROM Dictionary
+        WHERE Id=#value#
+      ]]>
+    </select>
+
+    <!-- 获取字典信息集合 -->
+    <select id="GetDictionaries" resultClass="Dictionary">
+      <![CDATA[
+        SELECT
+          a.Id
+          ,a.[Type]
+          ,a.[Key]
+          ,a.Value
+          ,a.Status
+          ,a.Remark
+          ,a.ParentId
+          ,a.Sort
+          ,CAST(b.Sort as varchar)+'-'+CAST(a.Sort as varchar) AS FullSort
+          ,b.[Key] AS ParentName
+        FROM Dictionary a 
+        LEFT JOIN Dictionary b 
+          ON a.ParentId=b.id
+        ORDER BY b.Sort ASC,a.Sort ASC
+      ]]>
+    </select>
+
+    <!-- 获取字典类型 -->
+    <select id="GetCategories" resultClass="Dictionary">
+      <![CDATA[
+        SELECT 
+          a.Id,
+          a.[Type],
+          a.[ParentId],
+          a.[Key],
+          a.[Value],
+          a.[Sort]
+        FROM Dictionary a
+        WHERE a.ParentId IS NULL OR a.ParentId='0' OR a.[Type] IS NOT NULL
+        ORDER BY a.[Sort] ASC
+      ]]>
+    </select>
+
+    <!-- 获取字典分类 -->
+    <select id="GetCategoriesByParentKey" parameterClass="string" resultClass="Dictionary">
+      <![CDATA[
+        SELECT
+          [Id],
+          [Type],
+          [ParentId],
+          [Key],
+          [Value],
+          [Sort]
+        FROM Dictionary
+        WHERE ParentId=(SELECT TOP 1 Id FROM Dictionary WHERE ([Type]=1 OR ParentId IS NULL) AND [Key]=#value#)
+        ORDER BY Sort ASC
+      ]]>
+    </select>
+
+    <!-- 获取分类数据项 -->
+    <select id="GetCategoryItems" parameterClass="string" resultClass="Dictionary">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT 
+            [Id],
+            [Type],
+            [ParentId],
+            [Key],
+            [value],
+            [Sort],
+            CAST(CHAR(96+ROW_NUMBER() over(ORDER BY Sort ASC)) AS NVARCHAR) AS RowIndex
+          FROM Dictionary WHERE ParentId=(SELECT TOP 1 Id FROM Dictionary WHERE [Key]=#value#)
+          UNION ALL
+          SELECT
+            a.[Id],
+            a.[Type],
+            a.[ParentId],
+            a.[Key],
+            a.[value],
+            a.[Sort],
+            CAST(cte.RowIndex + LTRIM(ROW_NUMBER() OVER(ORDER BY a.[Sort] ASC)) AS NVARCHAR) AS RowIndex
+          FROM Dictionary a
+          INNER JOIN cte
+            ON a.ParentId=cte.Id
+        )
+        SELECT
+          [Id],
+          [Type],
+          [ParentId],
+          [Key],
+          [Value]
+        FROM CTE
+        ORDER BY LTRIM(RowIndex) ASC
+      ]]>
+    </select>
+
+    <!-- 添加或更新字典信息 -->
+    <insert id="CreateOrUpdate" parameterClass="Dictionary">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM Dictionary WHERE Id=#Id#)
+          UPDATE Dictionary
+          SET
+            [Key]=#Key#,
+            Value=#Value#,
+            ParentId=#ParentId#,
+            Sort=#Sort#,
+            Status=#Status#,
+            Remark=#Remark#
+          WHERE Id=#Id#
+        ELSE
+          INSERT INTO Dictionary
+          (
+            Id
+            ,[Type]
+            ,[Key]
+            ,Value
+            ,ParentId
+            ,Sort
+            ,Status
+            ,Remark
+          )
+          VALUES
+          (
+            #Id#
+            ,#Type#
+            ,#Key#
+            ,#Value#
+            ,#ParentId#
+            ,#Sort#
+            ,#Status#
+            ,#Remark#
+          )
+      ]]>
+    </insert>
+
+    <!-- 检查资源分类是否存在 -->
+    <select id="CheckCategoryExists" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+	        IF EXISTS(SELECT * from Dictionary WHERE ([KEY]=#Category# OR Id IS NULL) AND ([Key]=#Category# AND ParentId=#ParentId#) AND ([Key]=#Key# AND ParentId=#ParentId# AND Id<>#Id#))
+		        SELECT 1
+	        ELSE
+		        SELECT 0
+        END
+      ]]>
+    </select>
+
+    <!-- 检查资源是否存在 -->
+    <select id="CheckDictionaryExists" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+	        IF EXISTS(SELECT * FROM Dictionary WHERE ParentId=#ParentId# AND ([KEY]=#Key# OR Id IS NULL ) AND (ParentId=#ParentId# AND [Key]=#Key# AND Id<>#Id#))
+		        select 1
+	        ELSE
+		        select 0
+        END
+      ]]>
+    </select>
+
+    <!-- 更改字典状态 -->
+    <update id="ChangeStatus" parameterClass="Params">
+      <![CDATA[
+        UPDATE Dictionary
+        SET
+          Status=#Status#
+        WHERE Id=#Id#
+      ]]>
+    </update>
+
+    <!-- 删除字典信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        BEGIN
+          IF EXISTS(SELECT * FROM Dictionary WHERE ParentId=#value#)
+            RAISERROR('不能直接删除父节点！',16,1)
+          ELSE
+            DELETE FROM Dictionary WHERE Id=#value#
+        END;
+      ]]>
+    </delete>
+  </statements>
+</sqlMap>

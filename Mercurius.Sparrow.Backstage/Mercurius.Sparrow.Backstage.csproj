@@ -312,8 +312,8 @@
     <Content Include="App_Data\IBatisNet\MSSQL\SqlConfig-Writer.xml" />
     <Content Include="App_Data\IBatisNet\Oracle\SqlConfig-Reader.xml" />
     <Content Include="App_Data\IBatisNet\Oracle\SqlConfig-Writer.xml" />
-    <Content Include="App_Data\IBatisNet\PostgreSQL\SqlConfig-Reader.xml" />
-    <Content Include="App_Data\IBatisNet\PostgreSQL\SqlConfig-Writer.xml" />
+    <Content Include="App_Data\IBatisNet\MySQL\SqlConfig-Reader.xml" />
+    <Content Include="App_Data\IBatisNet\MySQL\SqlConfig-Writer.xml" />
     <Content Include="App_Data\Scripts\MSSQL\02-Schemas.sql" />
     <Content Include="App_Data\Scripts\MSSQL\03-Tables.sql" />
     <Content Include="App_Data\Scripts\MSSQL\05-Datas.sql" />

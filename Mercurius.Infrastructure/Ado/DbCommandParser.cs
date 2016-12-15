@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
@@ -44,7 +45,7 @@ namespace Mercurius.Infrastructure.Ado
 
         #region 静态字段
 
-        private static readonly XNamespace XNamespace = "http://www.Mercurius.com/CommandText.xsd";
+        private static readonly XNamespace XNamespace = "http://www.mercurius.com/CommandText.xsd";
 
         private static readonly Dictionary<string, XDocument> XDocumentDictionary;
         private static readonly Dictionary<string, XCommand> CommandTextDictionary;
@@ -164,10 +165,22 @@ namespace Mercurius.Infrastructure.Ado
                 {
                     if (!XDocumentDictionary.ContainsKey(documentKey))
                     {
-                        var stream = embeddedAssembly.GetManifestResourceStream($"{ns}.CommandText.{database}.{file}.xml");
+                        Stream stream = null;
+
+                        try
+                        {
+                            stream = embeddedAssembly.GetManifestResourceStream($"{ns}.CommandText.{database}.{file}.xml");
+                        }
+                        catch { }
+
+                        if (stream == null)
+                        {
+                            stream = embeddedAssembly.GetManifestResourceStream($"{ns}.CommandText.{file}.xml");
+                        }
 
                         XDocumentDictionary.Add(documentKey, XDocument.Load(stream));
                     }
+
 
                     var xdocment = XDocumentDictionary[documentKey];
 

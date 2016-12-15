@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sqlMap namespace="Mercurius.Sparrow.Repositories.WebApi.Role" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="WebApiRole" type="Mercurius.Sparrow.Entities.WebApi.Role, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="WebApiRoleSO" type="Mercurius.Sparrow.Entities.WebApi.SO.RoleSO, Mercurius.Sparrow.Entities" />
+  </alias>
+  <statements>
+    <!-- 添加或者更新Web API角色信息。 -->
+    <update id="CreateOrUpdate" parameterClass="WebApiRole">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [WebApi].[Role] WHERE Id=#Id#)
+          UPDATE [WebApi].[Role]
+          SET
+            [Name]=#Name#,
+            [Description]=#Description#,
+            [ModifyUserId]=#ModifyUserId#,
+            [ModifyDateTime]=GETDATE()
+          WHERE Id=#Id#
+        ELSE
+          INSERT INTO [WebApi].[Role]
+          (
+            [Name],
+            [Description],
+            [CreateUserId],
+            [CreateDateTime]
+          )
+          VALUES
+          (
+            #Name#,
+            #Description#,
+            #CreateUserId#,
+            GETDATE()
+          )
+      ]]>
+    </update>
+
+    <!-- 删除Web API角色信息。 -->
+    <delete id="Remove" parameterClass="int">
+      <![CDATA[
+        DELETE FROM [WebApi].[Role] WHERE Id=#value#;
+        DELETE FROM [WebApi].[UserRole] WHERE RoleId=#value#;
+        DELETE FROM [WebApi].[RolePermission] WHERE RoleId=#value#;
+      ]]>
+    </delete>
+
+    <!-- 添加角色成员 -->
+    <insert id="AddMember" parameterClass="Params">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [WebApi].[UserRole] WHERE RoleId=#RoleId# AND UserId=#UserId#)
+          RAISERROR('该用户已经添加！',16,1) WITH NOWAIT
+        ELSE
+          INSERT INTO [WebApi].[UserRole]
+          (
+            [UserId]
+            ,[RoleId]
+            ,[CreateUserId]
+            ,[CreateDateTime]
+          )
+          VALUES
+          (
+            #UserId#,
+            #RoleId#,
+            #CreateUserId#,
+            GETDATE()
+          )
+      ]]>
+    </insert>
+
+    <!-- 删除角色成员 -->
+    <delete id="RemoveMember" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM [WebApi].[UserRole] WHERE RoleId=#RoleId# AND UserId=#UserId#
+      ]]>
+    </delete>
+
+    <!-- 根据主键获取Web API角色信息。 -->
+    <select id="GetById" parameterClass="int" resultClass="WebApiRole">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [Name] AS Name,
+          [Description] AS Description,
+          [CreateUserId] AS CreateUserId,
+          [CreateDateTime] AS CreateDateTime,
+          [ModifyUserId] AS ModifyUserId,
+          [ModifyDateTime] AS ModifyDateTime
+        FROM [WebApi].[Role]
+        WHERE Id=#value#
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的Web API角色信息。 -->
+    <select id="SearchRoles" parameterClass="WebApiRoleSO" resultClass="WebApiRole">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+            [Id] AS Id,
+            [Name] AS Name,
+            [Description] AS Description,
+            [CreateUserId] AS CreateUserId,
+            [CreateDateTime] AS CreateDateTime,
+            [ModifyUserId] AS ModifyUserId,
+            [ModifyDateTime] AS ModifyDateTime
+          FROM [WebApi].[Role]
+      ]]>
+      <include refid="searchConditions" />
+      <![CDATA[
+        ),
+        PAGING AS (
+          SELECT 
+            ROW_NUMBER() OVER(ORDER BY Id ASC) AS RowIndex,
+            CTE.*
+          FROM CTE
+        )
+        SELECT * FROM PAGING
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+      ]]>
+    </select>
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select resultClass="int" id="SearchRolesCount" parameterClass="WebApiRoleSO">
+      <![CDATA[
+        SELECT COUNT(*) FROM [WebApi].[Role]
+      ]]>
+      <include refid="searchConditions" />
+    </select>
+
+    <!-- 获取已分配的用户 -->
+    <select id="GetAllotUsers" parameterClass="int" resultClass="WebApiUser">
+      <![CDATA[
+        SELECT
+          a.Id,
+          a.Account,
+          a.Password,
+          a.Description,
+          a.Status,
+          a.CreateUserId,
+          a.CreateDateTime,
+          a.ModifyUserId,
+          a.ModifyDateTime
+        FROM WebApi.[User] a
+        INNER JOIN WebApi.UserRole b
+          ON a.Id=b.UserId
+        WHERE b.RoleId=#value#
+      ]]>
+    </select>
+
+    <!-- 获取未分配的用户 -->
+    <select id="GetUnAllotUsers" parameterClass="Params" resultClass="WebApiUser">
+      <![CDATA[
+        SELECT
+          a.Id,
+          a.Account,
+          a.Password,
+          a.Description,
+          a.Status,
+          a.CreateUserId,
+          a.CreateDateTime,
+          a.ModifyUserId,
+          a.ModifyDateTime
+        FROM WebApi.[User] a
+        WHERE a.Id NOT IN(SELECT UserId FROM WebApi.UserRole WHERE RoleId=#RoleId#)
+      ]]>
+      <dynamic>
+        <isNotEmpty property="Account" prepend="AND">
+          a.Account LIKE '%'+#Account#+'%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <!-- 添加WebApi权限列表信息。 -->
+    <insert id="AllotPermissions" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM [WebApi].[RolePermission] WHERE [RoleId]=#RoleId#;
+      ]]>
+      <iterate property="Apis" open="" conjunction=";" close=";">
+        <![CDATA[
+          INSERT INTO [WebApi].[RolePermission]
+          (
+            [RoleId],
+            [ApiId],
+            [CreateUserId],
+            [CreateDateTime]
+          )
+          VALUES
+          (
+            #RoleId#,
+            #Apis[]#,
+            #CreateUserId#,
+            GETDATE()
+          )
+        ]]>
+      </iterate>
+    </insert>
+
+    <!-- 分页返回满足查询条件的WebApi权限列表信息。 -->
+    <select id="GetRolePermissions" parameterClass="int" resultClass="Api">
+      <![CDATA[
+        SELECT
+          a.[Id] AS Id,
+          a.[Route] AS Route,
+          a.[HttpVerb] AS HttpVerb,
+          a.[Description] AS Description,
+          CASE WHEN p.ApiId IS NULL THEN 0 ELSE 1 END AS HasPermission
+        FROM WebApi.Api a
+        OUTER APPLY (
+	        SELECT ApiId FROM WebApi.RolePermission WHERE ApiId=a.Id AND RoleId=#value#
+        ) p
+      ]]>
+    </select>
+    
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotNull property="Name">
+            [Name]=#Name#
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

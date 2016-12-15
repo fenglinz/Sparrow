@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Organization" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Organization" type="Mercurius.Sparrow.Entities.RBAC.Organization, Mercurius.Sparrow.Entities"/>
+    <typeAlias alias="OrganizationSO" type="Mercurius.Sparrow.Entities.RBAC.SO.OrganizationSO, Mercurius.Sparrow.Entities"/>
+  </alias>
+
+  <statements>
+
+    <!-- 添加或者编辑组织信息 -->
+    <update id="CreateOrUpdate" parameterClass="Organization">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.Organization WHERE Id=#Id#)
+          IF EXISTS(SELECT * FROM RBAC.Organization WHERE Id<>#Id# AND Code=#Code#)
+          BEGIN
+            RAISERROR('部门编号已经被使用，请更换新的部门编号！', 16, 1);
+            
+            RETURN;
+          END
+          ELSE
+            UPDATE RBAC.Organization
+            SET 
+              ParentId=#ParentId#,
+              Code=#Code#,
+              Name=#Name#,
+              InnerPhone=#InnerPhone#,
+              OuterPhone=#OuterPhone#,
+              Manager=#Manager#,
+              AssistantManager=#AssistantManager#,
+              Fax=#Fax#,
+              ZipCode=#ZipCode#,
+              Address=#Address#,
+              Sort=#Sort#,
+              Remark=#Remark#,
+              ModifyUserId=#ModifyUserId#,
+              ModifyDateTime=GETDATE()
+            WHERE Id=#Id#;
+        ELSE
+          IF EXISTS(SELECT * FROM RBAC.Organization WHERE Code=#Code#)
+          BEGIN
+            RAISERROR('部门编号已经被使用，请更换新的部门编号！', 16, 1);
+            
+            RETURN;
+          END
+          ELSE
+            INSERT INTO RBAC.Organization
+            (
+              Id,
+              ParentId,
+              Code,
+              Name,
+              InnerPhone,
+              OuterPhone,
+              Manager,
+              AssistantManager,
+              Fax,
+              ZipCode,
+              Address,
+              Sort,
+              Remark,
+              Status,
+              CreateUserId,
+              CreateDateTime
+            )
+            VALUES
+            (
+              NEWID(),
+              #ParentId#,
+              #Code#,
+              #Name#,
+              #InnerPhone#,
+              #OuterPhone#,
+              #Manager#,
+              #AssistantManager#,
+              #Fax#,
+              #ZipCode#,
+              #Address#,
+              #Sort#,
+              #Remark#,
+              1,
+              #CreateUserId#,
+              GETDATE()
+            )
+      ]]>
+    </update>
+
+    <!-- 删除组织机构信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.StaffOrganize WHERE OrganizationId=#value#)
+          RAISERROR('不能删除包含员工的组织机构！', 16, 1);
+        ELSE IF EXISTS(SELECT * FROM RBAC.Organization WHERE ParentId=#value#)
+          RAISERROR('不能直接删除包含下级组织的机构！', 16, 1);
+        ELSE
+        BEGIN
+          DELETE FROM RBAC.StaffOrganize WHERE OrganizationId=#value#;
+          DELETE FROM RBAC.Organization WHERE Id=#value#;
+        END
+      ]]>
+    </delete>
+
+    <!-- 根据编号获取组织机构信息 -->
+    <select id="GetOrganizationById" parameterClass="string" resultClass="Organization">
+      <![CDATA[
+        SELECT
+		      a.Id
+		      ,a.ParentId
+		      ,a.Code
+		      ,a.Name
+		      ,a.InnerPhone
+		      ,a.OuterPhone
+		      ,a.Manager
+          ,u1.Name AS ManagerName
+		      ,a.AssistantManager
+          ,u2.Name AS AssistantManagerName
+		      ,a.Fax
+		      ,a.ZipCode
+		      ,a.Address
+		      ,a.Sort
+		      ,a.Remark
+		      ,a.CreateUserId
+          ,u3.Name AS CreateUserName
+		      ,a.CreateDateTime
+		      ,a.ModifyUserId
+          ,u4.Name AS ModifyUserName
+		      ,a.ModifyDateTime
+		      ,a.Status
+        FROM RBAC.Organization a
+        LEFT JOIN RBAC.[User] u1
+          ON a.Manager=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON a.AssistantManager=u2.Id
+        LEFT JOIN RBAC.[User] u3
+          ON a.CreateUserId=u3.Id
+        LEFT JOIN RBAC.[User] u4
+          ON a.ModifyUserId=u4.Id
+        WHERE a.Id=#value#
+      ]]>
+    </select>
+
+    <!-- 获取所有组织机构信息 -->
+    <select id="GetOrganizations" resultClass="Organization">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+		        Id
+		        ,ParentId
+		        ,Code
+		        ,Name
+		        ,InnerPhone
+		        ,OuterPhone
+		        ,Manager
+		        ,AssistantManager
+		        ,Fax
+		        ,ZipCode
+		        ,Address
+		        ,Sort
+		        ,Remark
+		        ,CreateUserId
+		        ,CreateDateTime
+		        ,ModifyUserId
+		        ,ModifyDateTime
+		        ,Status
+            ,ROW_NUMBER() OVER(ORDER BY Sort ASC) AS orderId
+          FROM RBAC.Organization
+          WHERE ParentId='0'
+          UNION ALL
+          SELECT
+		        a.Id
+		        ,a.ParentId
+		        ,a.Code
+		        ,a.Name
+		        ,a.InnerPhone
+		        ,a.OuterPhone
+		        ,a.Manager
+		        ,a.AssistantManager
+		        ,a.Fax
+		        ,a.ZipCode
+		        ,a.Address
+		        ,a.Sort
+		        ,a.Remark
+		        ,a.CreateUserId
+		        ,a.CreateDateTime
+		        ,a.ModifyUserId
+		        ,a.ModifyDateTime
+		        ,a.Status
+            ,cte.orderId*100+(ROW_NUMBER() OVER(ORDER BY a.sort ASC)) as orderId
+          FROM RBAC.Organization a
+          INNER JOIN cte
+            ON a.ParentId=cte.id
+        )
+        SELECT 
+          cte.*,
+          u1.Name AS ManagerName,
+          u2.Name AS AssistantManagerName,
+          u3.Name AS CreateUserName,
+          u4.Name AS ModifyUserName
+        FROM cte
+        LEFT JOIN RBAC.[User] u1
+          ON cte.Manager=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON cte.AssistantManager=u2.Id
+        LEFT JOIN RBAC.[User] u3
+          ON cte.CreateUserId=u3.Id
+        LEFT JOIN RBAC.[User] u4
+          ON cte.ModifyUserId=u4.Id
+        WHERE cte.Status=1
+        ORDER BY LTRIM(orderId)
+      ]]>
+    </select>
+
+    <!-- 添加组织成员 -->
+    <insert id="AddMembers" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM RBAC.StaffOrganize WHERE OrganizationId=#Id#;
+      ]]>
+      <isNotNull property="UserIds">
+        <![CDATA[
+          INSERT INTO RBAC.StaffOrganize
+          ( 
+            Id,
+            UserId,
+            OrganizationId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="UserIds" open="" conjunction="," close=";">
+          <![CDATA[
+            (
+              NEWID(),
+              #UserIds[]#,
+              #Id#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+    </insert>
+
+    <!-- 删除组成员 -->
+    <insert id="RemoveMembers" parameterClass="Params">
+      <isNotNull property="UserIds">
+        <![CDATA[
+          DELETE FROM RBAC.StaffOrganize WHERE OrganizationId=#Id# AND UserId IN
+        ]]>
+        <iterate property="UserIds" open="(" conjunction="," close=")">
+          <![CDATA[#UserIds[]#]]>
+        </iterate>
+      </isNotNull>
+    </insert>
+
+    <!-- 获取未分配的用户 -->
+    <select id="GetUnAllotUsers" parameterClass="OrganizationSO" resultClass="User">
+      <![CDATA[
+        WITH cte AS(
+	        SELECT
+		        DISTINCT U.Id,
+		        U.Code,
+		        U.Name,
+		        U.Account,
+		        U.Sex,
+		        U.Title,
+		        U1.Name AS ReporterName,
+            U.CreateDateTime,
+		        CASE 
+			        WHEN p.Name IS NULL THEN NULL
+			        ELSE STUFF(p.Name,LEN(p.Name),1,'')
+		        END DepartmentNames,
+		        p.ParentIds
+	        FROM RBAC.[User] U
+	        LEFT JOIN RBAC.[User] U1
+		        ON U.Reporter=U1.Id
+	        LEFT JOIN RBAC.StaffOrganize S
+		        ON U.Id = S.UserId
+	        OUTER APPLY(
+	         SELECT 
+		        Name=REPLACE(
+			        REPLACE(
+				        (
+					        SELECT Name FROM RBAC.Organization
+					        WHERE Id IN (
+						        SELECT OrganizationId FROM RBAC.StaffOrganize
+						        WHERE UserId=U.Id) FOR XML PATH('')
+				        ),'<Name>','')
+			        ,'</Name>','，'),
+			        ParentIds=REPLACE(
+			        REPLACE(
+				        (
+					        SELECT
+						        b.ParentId+','+a.OrganizationId+',' 
+					        FROM RBAC.StaffOrganize a
+					        LEFT JOIN RBAC.Organization b
+						        ON a.OrganizationId=b.Id
+					        WHERE UserId=U.Id FOR XML PATH('')
+				        ),'<ParentId>','')
+			        ,'</ParentId>',',')
+	        ) p
+	        WHERE U.Status!=0 AND CHARINDEX(#OrganizationId#+',', p.ParentIds)<=0
+      ]]>
+      <include refid="GetUnAllotUsersCondition" />
+      <![CDATA[
+        ),
+        pg AS(
+          SELECT 
+            cte.*,
+						ROW_NUMBER() OVER(ORDER BY cte.CreateDateTime ASC) AS RowIndex
+					FROM CTE
+        )
+        SELECT * FROM pg
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 获取未分配的用户的数量 -->
+    <select id="GetUnAllotUsersCount" parameterClass="OrganizationSO" resultClass="int">
+      <![CDATA[
+        SELECT
+          COUNT(DISTINCT(U.Id))
+        FROM RBAC.[User] U 
+        LEFT JOIN RBAC.StaffOrganize S
+          ON U.Id = S.UserId
+        OUTER APPLY(
+           SELECT
+            ParentIds=REPLACE(
+			        REPLACE(
+				      (
+						    SELECT
+                  b.ParentId+','+a.OrganizationId+',' 
+                FROM RBAC.StaffOrganize a
+								left join RBAC.Organization b
+									on a.OrganizationId=b.Id
+						    WHERE UserId=U.Id FOR XML PATH('')
+				      ),'<ParentId>','')
+			      ,'</ParentId>',',')
+          ) p
+        WHERE U.Status !=0 AND CHARINDEX(#OrganizationId#+',', p.ParentIds)<=0
+      ]]>
+      <include refid="GetUnAllotUsersCondition" />
+    </select>
+
+    <!-- 获取未分配组织机构的成员查询条件 -->
+    <sql id="GetUnAllotUsersCondition">
+      <isNotNull property=".">
+        <isNotEmpty property="SearchValue">
+          <isEqual property="SearchCategory" compareValue="Code" prepend="AND">
+            U.Code LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+          <isEqual property="SearchCategory" compareValue="Account" prepend="AND">
+            U.Account LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+          <isEqual property="SearchCategory" compareValue="Name" prepend="AND">
+            U.Name LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+        </isNotEmpty>
+      </isNotNull>
+    </sql>
+  </statements>
+</sqlMap>

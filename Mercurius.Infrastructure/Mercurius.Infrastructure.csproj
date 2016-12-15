@@ -108,7 +108,7 @@
     <Compile Include="Ado\DbHelperCreator.cs" />
     <Compile Include="Ado\DbTypeMapping\DbTypeResolve.cs" />
     <Compile Include="Ado\Metadata\ExportTablesDefinition.cs" />
-    <Compile Include="Ado\Metadata\PostgreSQLMetadata.cs" />
+    <Compile Include="Ado\Metadata\MySQLMetadata.cs" />
     <Compile Include="Cache\RedisCacheProvider.cs" />
     <Compile Include="Dynamic\ConditionExtension.cs" />
     <Compile Include="Dynamic\DynamicQuery.cs" />
@@ -117,7 +117,7 @@
     <Compile Include="Dynamic\DynamicQueryExtension.cs" />
     <Compile Include="Dynamic\Provider\DynamicQueryProvider.cs" />
     <Compile Include="Dynamic\IDataAccess.cs" />
-    <Compile Include="Dynamic\Provider\PostgreSQLDynamicQueryProvider.cs" />
+    <Compile Include="Dynamic\Provider\MySQLDynamicQueryProvider.cs" />
     <Compile Include="Dynamic\Op.cs" />
     <Compile Include="Dynamic\Provider\MSSQLDynamicQueryProvider.cs" />
     <Compile Include="Dynamic\Order.cs" />
@@ -174,13 +174,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ado\CommandText\MSSQL\Table.xml" />
+    <EmbeddedResource Include="Ado\CommandText\MSSQL.Table.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ado\CommandText\MSSQL\Column.xml" />
+    <EmbeddedResource Include="Ado\CommandText\MSSQL.Column.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ado\DbTypeMapping\DbTypeMapping.PostgreSQL.txt" />
+    <EmbeddedResource Include="Ado\DbTypeMapping\DbTypeMapping.MySQL.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ado\CommandText\Oracle\Table.xml">
@@ -193,10 +193,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ado\CommandText\PostgreSQL\Column.xml" />
+    <EmbeddedResource Include="Ado\CommandText\MySQL.Column.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Ado\CommandText\PostgreSQL\Table.xml" />
+    <Content Include="Ado\CommandText\MySQL.Table.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -148,69 +148,63 @@
     <EmbeddedResource Include="WebApi\MSSQL\User.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Core\PostgreSQL\Dictionary.xml" />
+    <EmbeddedResource Include="Core\MySQL\Dictionary.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Core\PostgreSQL\FileStorage.xml" />
+    <EmbeddedResource Include="Core\MySQL\Globalization.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Core\PostgreSQL\Globalization.xml" />
+    <EmbeddedResource Include="Core\MySQL\Logger.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Core\PostgreSQL\Logger.xml" />
+    <EmbeddedResource Include="Core\MySQL\RepositoryUtils.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Core\PostgreSQL\RepositoryUtils.xml" />
+    <EmbeddedResource Include="Core\MySQL\SystemSetting.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Core\PostgreSQL\SystemSetting.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="RBAC\PostgreSQL\Button.xml">
+    <EmbeddedResource Include="RBAC\MySQL\Button.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RBAC\PostgreSQL\HomeShortcut.xml">
+    <EmbeddedResource Include="RBAC\MySQL\HomeShortcut.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RBAC\PostgreSQL\Organization.xml">
+    <EmbeddedResource Include="RBAC\MySQL\Organization.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RBAC\PostgreSQL\Permission.xml">
+    <EmbeddedResource Include="RBAC\MySQL\Permission.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RBAC\PostgreSQL\Recyclebin.xml">
+    <EmbeddedResource Include="RBAC\MySQL\Recyclebin.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RBAC\PostgreSQL\Role.xml">
+    <EmbeddedResource Include="RBAC\MySQL\Role.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RBAC\PostgreSQL\User.xml">
+    <EmbeddedResource Include="RBAC\MySQL\User.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WebApi\PostgreSQL\Api.xml" />
+    <EmbeddedResource Include="WebApi\MySQL\Api.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WebApi\PostgreSQL\Role.xml" />
+    <EmbeddedResource Include="WebApi\MySQL\Role.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WebApi\PostgreSQL\RolePermission.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="WebApi\PostgreSQL\User.xml" />
+    <EmbeddedResource Include="WebApi\MySQL\User.xml" />
     <EmbeddedResource Include="Dynamic\MSSQL\ExtensionProperty.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -221,6 +215,25 @@
   <ItemGroup>
     <EmbeddedResource Include="NewsCenter\MSSQL\News.xml" />
     <EmbeddedResource Include="NewsCenter\MSSQL\NewsComment.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dynamic\MySQL\ExtensionProperty.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NewsCenter\MySQL\News.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NewsCenter\MySQL\NewsComment.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Storage\MySQL\File.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\MySQL\OperationRecord.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

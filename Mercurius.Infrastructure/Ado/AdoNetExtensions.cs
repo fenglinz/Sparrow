@@ -182,7 +182,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="command">数据库命令对象</param>
         /// <returns>数据信息</returns>
-        public static T GetData<T>(this DbCommand command) where T : new()
+        public static T GetData<T>(this DbCommand command)
         {
             if (command == null)
             {
@@ -209,7 +209,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <param name="command">数据库命令对象</param>
         /// <param name="dataMappingHandler">数据映射回调</param>
         /// <returns>数据信息</returns>
-        public static T GetData<T>(this DbCommand command, Func<DbDataReader, T> dataMappingHandler) where T : new()
+        public static T GetData<T>(this DbCommand command, Func<DbDataReader, T> dataMappingHandler)
         {
             if (command == null)
             {
@@ -288,7 +288,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="dataReader">DataReader对象</param>
         /// <returns>数据对象</returns>
-        public static T GetData<T>(this DbDataReader dataReader) where T : new()
+        public static T GetData<T>(this DbDataReader dataReader)
         {
             if (dataReader == null)
             {
@@ -476,9 +476,9 @@ namespace Mercurius.Infrastructure.Ado
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="dataReader">DataReader对象</param>
         /// <returns>数据</returns>
-        internal static T ReflectionDataMapping<T>(DbDataReader dataReader) where T : new()
+        internal static T ReflectionDataMapping<T>(DbDataReader dataReader)
         {
-            var data = new T();
+            var data=default(T);
             var type = typeof(T);
 
             if (!PropertiesDictionary.ContainsKey(type))

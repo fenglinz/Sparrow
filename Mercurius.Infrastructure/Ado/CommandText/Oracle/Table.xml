@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<CommandTexts xmlns="http://www.Mercurius.com/CommandText.xsd">
+<CommandTexts xmlns="http://www.mercurius.com/CommandText.xsd">
 
   <!-- 获取数据库信息 -->
   <CommandText name="GetDatabases" commandType="Text">
