@@ -45,6 +45,13 @@ namespace Mercurius.Sparrow.Extensions
                     {
                         foreach (var bin in bins)
                         {
+                            if (AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().Name == Path.GetFileName(bin)))
+                            {
+                                File.Delete(bin);
+
+                                continue;
+                            }
+
                             var assembly = Assembly.LoadFile(bin);
 
                             // 解决控制器命名冲突的问题。

@@ -72,4 +72,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>iisreset /stop
+xcopy /s /y "$(ProjectDir)Views\*.*" "$(SolutionDir)Mercurius.Sparrow\Plugins\News\Views\" 
+xcopy /s /y "$(TargetDir)*.dll" "$(SolutionDir)Mercurius.Sparrow\Plugins\News\bin\" 
+iisreset /start</PostBuildEvent>
+  </PropertyGroup>
 </Project>
