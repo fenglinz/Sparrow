@@ -47,7 +47,7 @@ namespace Mercurius.Sparrow.Extensions
 
                         foreach (var bin in bins)
                         {
-                            if (assemblies.Any(a => a.GetName().Name == Path.GetFileName(bin)))
+                            if (assemblies.Any(a => a.GetName().Name == Path.GetFileNameWithoutExtension(bin)))
                             {
                                 File.Delete(bin);
 
