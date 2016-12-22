@@ -37,6 +37,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceStack.Redis", "Servi
 		Assemblys\ServiceStack.Redis\ServiceStack.Text.xml = Assemblys\ServiceStack.Redis\ServiceStack.Text.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow", "Mercurius.Sparrow\Mercurius.Sparrow.csproj", "{9743975B-3750-494A-9E33-06AD8D594202}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "插件", "插件", "{47209CF1-9216-4784-847E-624A0D066EE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "新闻", "新闻", "{51384A29-CFCC-41B6-A0FB-5A9DF21719C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Plugins.News", "插件\新闻\Mercurius.Sparrow.Plugins.News\Mercurius.Sparrow.Plugins.News.csproj", "{DDF3674C-FDB8-4395-8091-C77AE0B03FC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +83,14 @@ Global
 		{E0E9780E-900E-466F-A805-F48E64C861E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0E9780E-900E-466F-A805-F48E64C861E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0E9780E-900E-466F-A805-F48E64C861E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9743975B-3750-494A-9E33-06AD8D594202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9743975B-3750-494A-9E33-06AD8D594202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9743975B-3750-494A-9E33-06AD8D594202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9743975B-3750-494A-9E33-06AD8D594202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDF3674C-FDB8-4395-8091-C77AE0B03FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF3674C-FDB8-4395-8091-C77AE0B03FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF3674C-FDB8-4395-8091-C77AE0B03FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF3674C-FDB8-4395-8091-C77AE0B03FC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,9 +101,11 @@ Global
 		{05FCDE91-E15A-4867-AA0E-FC7E8414B2D2} = {428A97D4-B01B-48ED-A3A8-599C74F40164}
 		{166646D7-8172-4011-9CB0-385C6A6D7FFB} = {428A97D4-B01B-48ED-A3A8-599C74F40164}
 		{8D1496D2-E6AF-4F70-B708-AF4DF0224BAD} = {DD35E1CF-1365-4536-BFD3-992B41B92A08}
+		{51384A29-CFCC-41B6-A0FB-5A9DF21719C8} = {47209CF1-9216-4784-847E-624A0D066EE6}
+		{DDF3674C-FDB8-4395-8091-C77AE0B03FC7} = {51384A29-CFCC-41B6-A0FB-5A9DF21719C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal
