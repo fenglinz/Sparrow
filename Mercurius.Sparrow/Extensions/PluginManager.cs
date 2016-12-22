@@ -43,9 +43,11 @@ namespace Mercurius.Sparrow.Extensions
 
                     if (bins != null && bins.Length > 0)
                     {
+                        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
                         foreach (var bin in bins)
                         {
-                            if (AppDomain.CurrentDomain.GetAssemblies().Any(a => a.GetName().Name == Path.GetFileName(bin)))
+                            if (assemblies.Any(a => a.GetName().Name == Path.GetFileName(bin)))
                             {
                                 File.Delete(bin);
 
