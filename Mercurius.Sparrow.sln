@@ -37,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceStack.Redis", "Servi
 		Assemblys\ServiceStack.Redis\ServiceStack.Text.xml = Assemblys\ServiceStack.Redis\ServiceStack.Text.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow", "Mercurius.Sparrow\Mercurius.Sparrow.csproj", "{9743975B-3750-494A-9E33-06AD8D594202}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Backstage", "Mercurius.Backstage\Mercurius.Backstage.csproj", "{9743975B-3750-494A-9E33-06AD8D594202}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "插件", "插件", "{47209CF1-9216-4784-847E-624A0D066EE6}"
 EndProject
@@ -45,9 +45,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "新闻", "新闻", "{51384A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "动态页", "动态页", "{0EB98E44-EE27-4F04-95F9-5C39FB4B3227}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Plugins.Dynamic", "插件\动态页\Mercurius.Sparrow.Plugins.Dynamic\Mercurius.Sparrow.Plugins.Dynamic.csproj", "{0665DD54-B960-48F8-B1F8-71082152D93E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.Dynamic", "插件\动态页\Mercurius.Plugins.Dynamic\Mercurius.Plugins.Dynamic.csproj", "{0665DD54-B960-48F8-B1F8-71082152D93E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Sparrow.Plugins.News", "插件\新闻\Mercurius.Sparrow.Plugins.News\Mercurius.Sparrow.Plugins.News.csproj", "{0032D18B-9108-4774-BC4E-F72C64EAFEF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.NewsCenter", "插件\新闻\Mercurius.Plugins.News\Mercurius.Plugins.NewsCenter.csproj", "{0032D18B-9108-4774-BC4E-F72C64EAFEF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.EntityBase", "Mercurius.EntityBase\Mercurius.EntityBase.csproj", "{5B236DA6-7A5A-48E8-813E-5745B0E50D65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "基础", "基础", "{E4956A8B-6792-47B0-A3CD-713684E7848D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.ServiceBase", "Mercurius.ServiceBase\Mercurius.ServiceBase.csproj", "{1002E71D-798E-4180-A838-582D93C5A3FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.RepositoryBase", "Mercurius.RepositoryBase\Mercurius.RepositoryBase.csproj", "{784654C8-CC89-4ADF-BB00-1E0085C768DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.NewsCenter.Interfaces", "插件\新闻\Mercurius.News.Interfaces\Mercurius.NewsCenter.Interfaces.csproj", "{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.NewsCenter.Implements", "插件\新闻\Mercurius.News.Implements\Mercurius.NewsCenter.Implements.csproj", "{AFD86F60-C751-45A9-9798-7A0C4579D9D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +111,26 @@ Global
 		{0032D18B-9108-4774-BC4E-F72C64EAFEF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0032D18B-9108-4774-BC4E-F72C64EAFEF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0032D18B-9108-4774-BC4E-F72C64EAFEF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1002E71D-798E-4180-A838-582D93C5A3FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1002E71D-798E-4180-A838-582D93C5A3FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1002E71D-798E-4180-A838-582D93C5A3FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1002E71D-798E-4180-A838-582D93C5A3FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFD86F60-C751-45A9-9798-7A0C4579D9D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFD86F60-C751-45A9-9798-7A0C4579D9D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFD86F60-C751-45A9-9798-7A0C4579D9D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFD86F60-C751-45A9-9798-7A0C4579D9D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,9 +145,14 @@ Global
 		{0EB98E44-EE27-4F04-95F9-5C39FB4B3227} = {47209CF1-9216-4784-847E-624A0D066EE6}
 		{0665DD54-B960-48F8-B1F8-71082152D93E} = {0EB98E44-EE27-4F04-95F9-5C39FB4B3227}
 		{0032D18B-9108-4774-BC4E-F72C64EAFEF6} = {51384A29-CFCC-41B6-A0FB-5A9DF21719C8}
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65} = {E4956A8B-6792-47B0-A3CD-713684E7848D}
+		{1002E71D-798E-4180-A838-582D93C5A3FB} = {E4956A8B-6792-47B0-A3CD-713684E7848D}
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD} = {E4956A8B-6792-47B0-A3CD-713684E7848D}
+		{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9} = {51384A29-CFCC-41B6-A0FB-5A9DF21719C8}
+		{AFD86F60-C751-45A9-9798-7A0C4579D9D5} = {51384A29-CFCC-41B6-A0FB-5A9DF21719C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

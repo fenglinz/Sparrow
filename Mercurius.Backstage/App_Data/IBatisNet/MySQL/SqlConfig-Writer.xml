@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sqlMapConfig xmlns="http://ibatis.apache.org/dataMapper">
+  <properties resource="App_Data/IBatisNet/properties.config" />
+  <settings>
+    <setting validateSqlMap="false" />
+    <setting cacheModelsEnabled="true" />
+    <setting useStatementNamespaces="true" />
+    <setting useReflectionOptimizer="true" />
+    <setting useEmbedStatementParams="true" />
+  </settings>
+  <providers resource="App_Data/IBatisNet/providers.config" />
+  <database>
+    <provider name="MySql" />
+    <dataSource name="MySQLDataSource" connectionString="server=${whost};database=${wsid};Port=${wport};persistsecurityinfo=True;user id=${wusername};password=${wpassword}" />
+  </database>
+  <alias>
+    <typeAlias alias="DataTable" type="System.Data.DataTable" />
+    <typeAlias alias="Params" type="System.Collections.IDictionary" />
+    <typeAlias alias="Entry" type="Mercurius.Sparrow.Entities.Chart.Entry, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="Series" type="Mercurius.Sparrow.Entities.Chart.Series, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="SearchObject" type="Mercurius.Sparrow.Entities.SearchObject, Mercurius.Sparrow.Entities" />
+  </alias>
+  <sqlMaps>
+    <!-- 基础模块 -->
+    <sqlMap embedded="Core.MySQL.Logger.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.MySQL.OperationRecord.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.MySQL.Dictionary.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.MySQL.SystemSetting.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.MySQL.Globalization.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="Core.MySQL.RepositoryUtils.xml, Mercurius.Sparrow.Repositories" />
+
+    <!-- 文件存储模块 -->
+    <sqlMap embedded="Storage.MySQL.File.xml, Mercurius.Sparrow.Repositories" />
+
+    <!-- 基于角色访问控制(RBAC)模块 -->
+    <sqlMap embedded="RBAC.MySQL.User.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.MySQL.Role.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.MySQL.Button.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.MySQL.Permission.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.MySQL.Organization.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="RBAC.MySQL.HomeShortcut.xml, Mercurius.Sparrow.Repositories" />
+
+    <!-- 动态属性模块 -->
+    <sqlMap embedded="Dynamic.MySQL.ExtensionProperty.xml, Mercurius.Sparrow.Repositories" />
+
+    <!-- Web API管理模块 -->
+    <sqlMap embedded="WebApi.MySQL.Api.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="WebApi.MySQL.User.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="WebApi.MySQL.Role.xml, Mercurius.Sparrow.Repositories" />
+
+    <!-- 新闻中心模块 -->
+    <sqlMap embedded="NewsCenter.MySQL.News.xml, Mercurius.Sparrow.Repositories" />
+    <sqlMap embedded="NewsCenter.MySQL.NewsComment.xml, Mercurius.Sparrow.Repositories" />
+  </sqlMaps>
+</sqlMapConfig>

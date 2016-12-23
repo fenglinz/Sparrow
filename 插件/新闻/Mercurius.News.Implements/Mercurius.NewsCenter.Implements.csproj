@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AFD86F60-C751-45A9-9798-7A0C4579D9D5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mercurius.NewsCenter.Implements</RootNamespace>
+    <AssemblyName>Mercurius.NewsCenter.Implements</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NewsCommentService.cs" />
+    <Compile Include="NewsService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IBatisNet\MSSQL\News.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IBatisNet\MSSQL\NewsComment.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Mercurius.EntityBase\Mercurius.EntityBase.csproj">
+      <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
+      <Name>Mercurius.EntityBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Mercurius.RepositoryBase\Mercurius.RepositoryBase.csproj">
+      <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
+      <Name>Mercurius.RepositoryBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Mercurius.ServiceBase\Mercurius.ServiceBase.csproj">
+      <Project>{1002e71d-798e-4180-a838-582d93c5a3fb}</Project>
+      <Name>Mercurius.ServiceBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mercurius.News.Interfaces\Mercurius.NewsCenter.Interfaces.csproj">
+      <Project>{1eda83c9-e710-41e8-a31e-d5bf59ee86a9}</Project>
+      <Name>Mercurius.NewsCenter.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
