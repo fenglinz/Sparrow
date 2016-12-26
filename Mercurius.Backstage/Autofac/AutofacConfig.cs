@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
+using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
@@ -47,41 +49,41 @@ namespace Mercurius.Backstage.Autofac
                     _builder.RegisterModule<IBatisNetModule>();
 
                     // 注册缓存。
-                    //_builder.RegisterType<DefaultCacheProvider>()
-                    //    .As<CacheProvider>()
-                    //    .InstancePerLifetimeScope();
-                    _builder.Register(c => new RedisCacheProvider())
+                    _builder.RegisterType<DefaultCacheProvider>()
                         .As<CacheProvider>()
                         .InstancePerLifetimeScope();
+                    //_builder.Register(c => new RedisCacheProvider())
+                    //    .As<CacheProvider>()
+                    //    .InstancePerLifetimeScope();
 
                     // 注册Logger。
                     //_builder.Register(c => new Logger { Cache = c.Resolve<CacheProvider>(), SqlMapperManager = c.Resolve<SqlMapperManager>() })
                     //    .As<ILogger>()
                     //    .InstancePerLifetimeScope();
 
+                    // 当前执行代码的程序集。
+                    var appDomainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
                     // Web Api客户端对象。
-                    _builder.RegisterAssemblyTypes(typeof(WebApiClientSupport).Assembly)
+                    _builder.RegisterAssemblyTypes(appDomainAssemblies)
                              .Where(p => p.IsSubclassOf(typeof(WebApiClientSupport)))
                              .PropertiesAutowired()  // 启用属性注入
                              .SingleInstance();
 
                     // 注册服务。
-                    _builder.RegisterAssemblyTypes(typeof(ServiceSupport).Assembly)
+                    _builder.RegisterAssemblyTypes(appDomainAssemblies)
                              .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
                              .PropertiesAutowired()  // 启用属性注入
                              .AsImplementedInterfaces()
                              .InstancePerLifetimeScope();
 
-                    // 当前执行代码的程序集。
-                    var executingAssembly = Assembly.GetExecutingAssembly();
-
                     // 注册MVC控制器。
-                    _builder.RegisterControllers(executingAssembly)
+                    _builder.RegisterControllers(appDomainAssemblies)
                         .PropertiesAutowired()
                         .InstancePerRequest();
 
                     // 注册Model Binder。
-                    _builder.RegisterModelBinders(executingAssembly);
+                    _builder.RegisterModelBinders(appDomainAssemblies);
                     _builder.RegisterModelBinderProvider();
 
                     // 注册Web抽象模块。
@@ -94,7 +96,7 @@ namespace Mercurius.Backstage.Autofac
                     _builder.RegisterFilterProvider();
 
                     // WebApi注册。
-                    _builder.RegisterApiControllers(executingAssembly)
+                    _builder.RegisterApiControllers(appDomainAssemblies)
                         .PropertiesAutowired()
                         .InstancePerRequest();
 

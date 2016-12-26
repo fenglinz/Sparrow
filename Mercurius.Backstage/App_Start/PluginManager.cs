@@ -8,30 +8,18 @@ using System.Web.Compilation;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Xml;
-using Mercurius.Backstage.Extensions;
+using Mercurius.Backstage.Plugins;
 
-namespace Mercurius.Backstage.Extensions
+namespace Mercurius.Backstage
 {
     /// <summary>
     /// 插件管理类。
     /// </summary>
     public class PluginManager
     {
-        #region 属性
-
-        public static IList<Route> Routes { get; private set; }
-
-        #endregion
-
-        #region 插件注册
-
-        /// <summary>
-        /// 注册插件。
-        /// </summary>
-        public static void RegisterPlugins()
+        public static void Initialize()
         {
-            // 插件所在的目录。
-            var pluginsPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\Plugins";
+            var pluginsPath = $"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\Plugins";
 
             if (!Directory.Exists(pluginsPath))
             {
@@ -44,13 +32,8 @@ namespace Mercurius.Backstage.Extensions
             // 加载插件的程序集&注册插件为区域。
             if (plugins != null && plugins.Length > 0)
             {
-                Routes = new List<Route>();
-
                 foreach (var item in plugins)
                 {
-                    var pluginNamespaces = string.Empty;
-                    var pluginArea = item.Split('\\').Last();
-
                     var binPath = Path.Combine(item, "bin");
                     var bins = Directory.GetFiles(binPath, "*.dll");
 
@@ -67,29 +50,75 @@ namespace Mercurius.Backstage.Extensions
                                 continue;
                             }
 
-                            var assembly = Assembly.Load(AssemblyName.GetAssemblyName(bin));
+                            // 在Autofac容器中注册。
+                            var assembly = Assembly.LoadFile(bin);
 
-                            BuildManager.AddReferencedAssembly(assembly);
+                            AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(bin));
+                            // BuildManager.AddReferencedAssembly(assembly);
+                        }
+                    }
+                }
+            }
+        }
+
+        #region 插件注册
+
+        /// <summary>
+        /// 将插件注册为区域。
+        /// </summary>
+        public static void RegisterPluginAreas()
+        {
+            // 插件所在的目录。
+            var pluginsPath = $"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\Plugins";
+
+            if (!Directory.Exists(pluginsPath))
+            {
+                return;
+            }
+
+            // 查找插件。
+            var plugins = Directory.GetDirectories(pluginsPath);
+
+            // 加载插件的程序集&注册插件为区域。
+            if (plugins != null && plugins.Length > 0)
+            {
+                foreach (var item in plugins)
+                {
+                    var pluginArea = item.Split('\\').Last();
+
+                    var binPath = Path.Combine(item, "bin");
+                    var bins = Directory.GetFiles(binPath, "*.dll");
+
+                    if (bins != null && bins.Length > 0)
+                    {
+                        var pluginNamespaces = string.Empty;
+
+                        foreach (var bin in bins)
+                        {
+                            var assembleName = Path.GetFileNameWithoutExtension(bin);
 
                             // 解决控制器命名冲突的问题。
                             if (bin.EndsWith($"Plugins.{pluginArea}.dll"))
                             {
-                                pluginNamespaces = assembly.GetCustomAttribute<AssemblyProductAttribute>().Product;
+                                pluginNamespaces = assembleName;
                             }
                         }
-                    }
 
-                    // 将插件注册为Asp.Net MVC区域。
-                    Routes.Add(new Route(pluginArea + "/{controller}/{action}/{id}", new MvcRouteHandler())
-                    {
-                        Defaults = new RouteValueDictionary(new { controller = "Home", action = "Index", id = UrlParameter.Optional }),
-                        DataTokens = new RouteValueDictionary(new { area = pluginArea, namespaces = new[] { $"{pluginNamespaces}.Controllers" } })
-                    });
+                        // 将插件注册为Asp.Net MVC区域。
+                        var route = RouteTable.Routes.MapRoute(
+                            $"{pluginArea}_Plugin",
+                            pluginArea + "/{controller}/{action}/{id}",
+                            new { controller = "Home", action = "Index", id = UrlParameter.Optional, pluginName = pluginNamespaces },
+                            new[] { $"{pluginNamespaces}.Controllers" }
+                        );
+
+                        route.DataTokens["area"] = pluginArea;
+                    }
                 }
 
                 // 采用自定义的Razor视图引擎。
                 ViewEngines.Engines.Clear();
-                ViewEngines.Engines.Add(new ExtraRazorViewEngine());
+                ViewEngines.Engines.Add(new PluginRazorViewEngine());
             }
         }
 
@@ -106,7 +135,7 @@ namespace Mercurius.Backstage.Extensions
             var result = new List<XmlNodeList>();
 
             // 插件所在的目录。
-            var pluginsPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\Plugins";
+            var pluginsPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\App_Data\\Plugins";
 
             if (!Directory.Exists(pluginsPath))
             {

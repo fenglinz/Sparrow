@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Mercurius.NewsCenter.Interfaces.Entities.SO;
 using Mercurius.NewsCenter.Interfaces.Services;
 
-namespace Mercurius.Plugins.NewsCenter.Controllers
+namespace Mercurius.Plugins.NewsCenter.Areas.NewsCenter.Controllers
 {
     public class HomeController : Controller
     {

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac.Integration.Mvc;
+using Mercurius.Backstage;
 using Mercurius.Backstage.Autofac;
 using Mercurius.Backstage.Extensions;
 
-// 插件注册。
-[assembly: PreApplicationStartMethod(typeof(PluginManager), "RegisterPlugins")]
-
+[assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
 namespace Mercurius.Backstage
 {
     /// <summary>
@@ -21,23 +21,19 @@ namespace Mercurius.Backstage
     {
         protected void Application_Start()
         {
-            if (PluginManager.Routes != null)
-            {
-                foreach (var route in PluginManager.Routes)
-                {
-                    RouteTable.Routes.Add(route);
-                }
-            }
+            ControllerBuilder.Current.SetControllerFactory(new PluginControllerFactory());
 
+            PluginManager.RegisterPluginAreas();
             AreaRegistration.RegisterAllAreas();
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // 设置Asp.Net MVC依赖解析。
             DependencyResolver.SetResolver(new AutofacDependencyResolver(AutofacConfig.Container));
-
         }
     }
 }

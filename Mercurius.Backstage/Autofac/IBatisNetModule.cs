@@ -11,7 +11,6 @@ using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Dynamic;
-using Mercurius.Backstage.Extensions;
 
 namespace Mercurius.Backstage.Autofac
 {
@@ -40,9 +39,12 @@ namespace Mercurius.Backstage.Autofac
 
                     if (!result.IsEmpty())
                     {
-                        var navigator = document.DocumentElement.CreateNavigator();
+                        var navigator = document.CreateNavigator();
+                        var xmlNamespaceManager = new XmlNamespaceManager(document.NameTable);
 
-                        var sqlMaps = navigator.SelectSingleNode("//sqlMaps");
+                        xmlNamespaceManager.AddNamespace("ns", "http://ibatis.apache.org/dataMapper");
+
+                        var sqlMaps = navigator.SelectSingleNode("//ns:sqlMaps", xmlNamespaceManager);
 
                         foreach (var item in result)
                         {

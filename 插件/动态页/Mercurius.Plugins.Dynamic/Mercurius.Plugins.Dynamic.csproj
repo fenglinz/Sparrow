@@ -172,9 +172,9 @@
   </Target>
   <PropertyGroup>
     <PostBuildEvent>iisreset /stop
-xcopy /s /y "$(ProjectDir)App_Data\*.*" "$(SolutionDir)Mercurius.Backstage\Plugins\Dynamic\App_Data\" 
-xcopy /s /y "$(ProjectDir)Views\*.*" "$(SolutionDir)Mercurius.Backstage\Plugins\Dynamic\Views\" 
-xcopy /y "$(TargetDir)*.dll" "$(SolutionDir)Mercurius.Backstage\Plugins\Dynamic\bin\" 
+xcopy /s /y "$(ProjectDir)App_Data\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\Dynamic\App_Data\" 
+xcopy /s /y "$(ProjectDir)Views\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\Dynamic\Views\" 
+xcopy /y "$(TargetDir)*.dll" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\Dynamic\bin\" 
 iisreset /start</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

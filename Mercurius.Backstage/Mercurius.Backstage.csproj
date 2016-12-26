@@ -162,8 +162,9 @@
     <Compile Include="Autofac\AutofacConfig.cs" />
     <Compile Include="Autofac\IBatisNetModule.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Extensions\ExtraRazorViewEngine.cs" />
-    <Compile Include="Extensions\PluginManager.cs" />
+    <Compile Include="Plugins\PluginRazorViewEngine.cs" />
+    <Compile Include="App_Start\PluginManager.cs" />
+    <Compile Include="Plugins\PluginControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -234,8 +235,8 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\Plugins\" />
     <Folder Include="Models\" />
-    <Folder Include="Plugins\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
