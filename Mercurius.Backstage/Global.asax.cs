@@ -7,12 +7,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac.Integration.Mvc;
-using Mercurius.Backstage;
 using Mercurius.Backstage.Autofac;
-using Mercurius.Backstage.Extensions;
-
-// 初始化插件。
-[assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
+using Mercurius.Backstage.Plugins;
 
 namespace Mercurius.Backstage
 {

@@ -11,7 +11,10 @@ using System.Xml;
 using Mercurius.Backstage.Plugins;
 using Mercurius.Infrastructure;
 
-namespace Mercurius.Backstage
+// 初始化插件。
+[assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
+
+namespace Mercurius.Backstage.Plugins
 {
     /// <summary>
     /// 插件管理类。
@@ -26,6 +29,8 @@ namespace Mercurius.Backstage
         public static IList<Plugin> Plugins { get; private set; }
 
         #endregion
+
+        #region 插件初始化处理
 
         /// <summary>
         /// 插件初始化处理。
@@ -70,11 +75,12 @@ namespace Mercurius.Backstage
                                 continue;
                             }
 
-                            // 在Autofac容器中注册。
+                            // 加载程序集。
                             var assembly = Assembly.LoadFile(bin);
 
                             plugin.Assembly = assembly;
 
+                            // 扫描程序集中的控制器。
                             if (assembly.GetTypes().Any(t => t.IsSubclassOf(typeof(Controller))))
                             {
                                 var controllers = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Controller)));
@@ -88,9 +94,11 @@ namespace Mercurius.Backstage
                                 }
                             }
 
+                            // 将程序集加载到当前应用程序域。
                             AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(bin));
                             // BuildManager.AddReferencedAssembly(assembly);
 
+                            // 扫描插件中的IBatisNet配置。
                             var sqlMapPath = Path.Combine(item, "App_Data\\SqlMaps.xml");
 
                             if (File.Exists(sqlMapPath))
@@ -104,6 +112,8 @@ namespace Mercurius.Backstage
                 }
             }
         }
+
+        #endregion
 
         #region 插件注册
 
@@ -138,14 +148,13 @@ namespace Mercurius.Backstage
         #region 插件中的IBatis配置
 
         /// <summary>
-        /// 获取IBaitsNetSqlMaps配置信息。
+        /// 获取IBaitsNet SqlMaps配置信息。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>SqlMaps配置集合</returns>
         public static IList<XmlNodeList> GetIBatisNetSqlMaps()
         {
             var result = new List<XmlNodeList>();
 
-            // 加载插件的程序集&注册插件为区域。
             if (!Plugins.IsEmpty())
             {
                 foreach (var item in Plugins)

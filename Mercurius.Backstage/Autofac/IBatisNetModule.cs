@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Xml;
-using System.Xml.XPath;
 using Autofac;
 using Mercurius.RepositoryBase;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
+using Mercurius.Backstage.Plugins;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Dynamic;
 
@@ -27,55 +26,46 @@ namespace Mercurius.Backstage.Autofac
         {
             // 注册IBatisNet。
             builder.Register(c =>
+            {
+                var sqlMapBuilder = new DomSqlMapBuilder();
+                var sqlMapConfigPath = HttpContext.Current.Server.MapPath("~/App_Data/IBatisNet/MSSQL/SqlConfig-Reader.xml");
+
+                var document = new XmlDocument();
+
+                document.Load(sqlMapConfigPath);
+
+                var result = PluginManager.GetIBatisNetSqlMaps();
+
+                // 整合插件中的IBatisNet SqlMaps配置。
+                if (!result.IsEmpty())
                 {
-                    var sqlMapBuilder = new DomSqlMapBuilder();
-                    var sqlMapConfigPath = HttpContext.Current.Server.MapPath("~/App_Data/IBatisNet/MSSQL/SqlConfig-Reader.xml");
+                    var navigator = document.CreateNavigator();
+                    var xmlNamespaceManager = new XmlNamespaceManager(document.NameTable);
 
-                    var document = new XmlDocument();
+                    xmlNamespaceManager.AddNamespace("ns", "http://ibatis.apache.org/dataMapper");
 
-                    document.Load(sqlMapConfigPath);
+                    var sqlMaps = navigator.SelectSingleNode("//ns:sqlMaps", xmlNamespaceManager);
 
-                    var result = PluginManager.GetIBatisNetSqlMaps();
-
-                    if (!result.IsEmpty())
+                    foreach (var item in result)
                     {
-                        var navigator = document.CreateNavigator();
-                        var xmlNamespaceManager = new XmlNamespaceManager(document.NameTable);
-
-                        xmlNamespaceManager.AddNamespace("ns", "http://ibatis.apache.org/dataMapper");
-
-                        var sqlMaps = navigator.SelectSingleNode("//ns:sqlMaps", xmlNamespaceManager);
-
-                        foreach (var item in result)
+                        foreach (XmlNode a in item)
                         {
-                            foreach (XmlNode a in item)
-                            {
-                                sqlMaps.AppendChild(a.OuterXml);
-                            }
+                            sqlMaps.AppendChild(a.OuterXml);
                         }
                     }
+                }
 
-                    Debug.WriteLine(document.OuterXml);
+                return sqlMapBuilder.Configure(document);
+            }).As<ISqlMapper>().SingleInstance();
 
-                    return sqlMapBuilder.Configure(document);
-                })
-                .As<ISqlMapper>()
-                .SingleInstance();
-
-            builder.Register(c => new SqlMapperManager(c.Resolve<ISqlMapper>()))
-                .SingleInstance();
-
-            builder.Register(c => new Persistence { SqlMapperManager = c.Resolve<SqlMapperManager>() })
-                .InstancePerLifetimeScope();
+            builder.Register(c => new SqlMapperManager(c.Resolve<ISqlMapper>())).SingleInstance();
+            builder.Register(c => new Persistence { SqlMapperManager = c.Resolve<SqlMapperManager>() }).InstancePerLifetimeScope();
 
             // 注册基于SQL Server的DynamicQueryProvider
-            builder.Register(c => new IBatisNetMSSQLDynamicQueryProvider(c.Resolve<ISqlMapper>()))
-                .As<DynamicQueryProvider>()
-                .InstancePerLifetimeScope();
+            builder.Register(c => new IBatisNetMSSQLDynamicQueryProvider(c.Resolve<ISqlMapper>())).As<DynamicQueryProvider>().InstancePerLifetimeScope();
 
             // 注册DynamicQuery
-            builder.Register(c => new DynamicQuery { Provider = c.Resolve<DynamicQueryProvider>() })
-                .InstancePerLifetimeScope();
+            builder.Register(c => new DynamicQuery { Provider = c.Resolve<DynamicQueryProvider>() }).InstancePerLifetimeScope();
         }
     }
 }
