@@ -162,6 +162,8 @@
     <Compile Include="Autofac\AutofacConfig.cs" />
     <Compile Include="Autofac\IBatisNetModule.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginItem.cs" />
     <Compile Include="Plugins\PluginRazorViewEngine.cs" />
     <Compile Include="App_Start\PluginManager.cs" />
     <Compile Include="Plugins\PluginControllerFactory.cs" />

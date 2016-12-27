@@ -11,7 +11,9 @@ using Mercurius.Backstage;
 using Mercurius.Backstage.Autofac;
 using Mercurius.Backstage.Extensions;
 
+// 初始化插件。
 [assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
+
 namespace Mercurius.Backstage
 {
     /// <summary>

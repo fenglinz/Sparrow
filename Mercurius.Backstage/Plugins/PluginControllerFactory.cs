@@ -8,17 +8,17 @@ using System.Web.Routing;
 
 namespace Mercurius.Backstage.Extensions
 {
-    public class PluginControllerFactory: DefaultControllerFactory
+    public class PluginControllerFactory : DefaultControllerFactory
     {
         protected override Type GetControllerType(RequestContext requestContext, string controllerName)
         {
-            string pluginName = string.Empty;
             Type controllerType = null;
 
-            if (requestContext.RouteData.Values.ContainsKey("pluginName"))
+            if (requestContext.RouteData.DataTokens.ContainsKey("Namespaces"))
             {
-                pluginName = requestContext.RouteData.GetRequiredString("pluginName");
-                controllerType = this.GetControllerType(pluginName, controllerName);
+                var namespaces = requestContext.RouteData.DataTokens["Namespaces"] as string[];
+
+                controllerType = this.GetControllerType(namespaces, controllerName);
             }
 
             if (controllerType == null)
@@ -32,20 +32,13 @@ namespace Mercurius.Backstage.Extensions
         /// <summary>
         /// 根据控制器名称获得控制器类型。
         /// </summary>
-        /// <param name="controllerName">控制器名称。</param>
+        /// <param name="namespaces">控制器名称。</param>
         /// <returns>控制器类型。</returns>
-        private Type GetControllerType(string pluginName, string controllerName)
+        private Type GetControllerType(string[] namespaces, string controllerName)
         {
-            var plugin = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == pluginName);
-            var controlName = controllerName + "Controller";
-            var control = plugin.GetTypes().FirstOrDefault(p => p.Name == controlName); ;
+            var plugin = PluginManager.Plugins.FirstOrDefault(p => p.InNamespaces(namespaces));
 
-            if (control != null)
-            {
-                return control;
-            }
-
-            return null;
+            return plugin?.Items.FirstOrDefault(i => i.Controller.Name == controllerName + "Controller")?.Controller;
         }
     }
 }
