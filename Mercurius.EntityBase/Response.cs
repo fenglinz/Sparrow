@@ -66,11 +66,7 @@ namespace Mercurius.EntityBase
         /// <returns></returns>
         public override string ToString()
         {
-            var result = string.Empty;
-
-            result = this.IsSuccess ? "执行成功！" : $"发生异常\n异常详情：{this.ErrorMessage}";
-
-            return result;
+            return this.IsSuccess ? "执行成功！" : $"发生异常\n异常详情：{this.ErrorMessage}";
         }
 
         #endregion
@@ -99,12 +95,8 @@ namespace Mercurius.EntityBase
         /// <returns></returns>
         public override string ToString()
         {
-            var result = string.Empty;
-
-            result = this.IsSuccess ? (this.Data != null ? this.Data.ToString() : string.Empty) :
+            return this.IsSuccess ? (this.Data != null ? this.Data.ToString() : string.Empty) :
                 $"执行失败\n失败详情：{this.ErrorMessage}";
-
-            return result;
         }
 
         #endregion
@@ -138,23 +130,15 @@ namespace Mercurius.EntityBase
         /// <returns></returns>
         public override string ToString()
         {
-            var result = string.Empty;
-
-            if (this.IsSuccess)
-            {
-                result = $"返回{this.Datas.Count}条记录！";
-            }
-            else
-            {
-                result = $"执行失败\n失败详情：{this.ErrorMessage}";
-            }
-
-            return result;
+            return this.IsSuccess ? $"返回{this.Datas.Count}条记录！" : $"执行失败\n失败详情：{this.ErrorMessage}";
         }
 
         #endregion
     }
 
+    /// <summary>
+    /// 返回信息扩展方法。
+    /// </summary>
     public static class ResponseExtensions
     {
         #region 公开方法
