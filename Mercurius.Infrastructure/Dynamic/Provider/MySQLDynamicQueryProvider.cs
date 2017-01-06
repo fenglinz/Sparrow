@@ -33,7 +33,7 @@ namespace Mercurius.Infrastructure.Dynamic
         public PostgreSQLDynamicQueryProvider(string connectionStringName = "Default")
             : base(connectionStringName)
         {
-            this._dbHelper.DbMetadata = new PostgreSQLMetadata();
+            this._dbHelper.DbMetadata = new MySQLMetadata();
             this._dbTypeResolve = new DbTypeResolve(DatabaseType.PostgreSQL);
         }
 
@@ -45,7 +45,7 @@ namespace Mercurius.Infrastructure.Dynamic
         public PostgreSQLDynamicQueryProvider(string providerName, string connectionString)
             : base(providerName, connectionString)
         {
-            this._dbHelper.DbMetadata = new PostgreSQLMetadata();
+            this._dbHelper.DbMetadata = new MySQLMetadata();
             this._dbTypeResolve = new DbTypeResolve(DatabaseType.PostgreSQL);
         }
 

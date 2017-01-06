@@ -26,10 +26,10 @@ namespace Mercurius.CodeBuilder.UI
 
             m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", "Bin;Castle;Core;Module;UI;Misc;" });
             
-            // 设置固定程序配置文件名称。
-            var configFile = "app.config";
+            //// 设置固定程序配置文件名称。
+            //var configFile = "app.config";
             
-            m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "APP_CONFIG_FILE", configFile });
+            //m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "APP_CONFIG_FILE", configFile });
         }
 
         protected override void OnStartup(StartupEventArgs e)

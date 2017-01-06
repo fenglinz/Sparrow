@@ -12,6 +12,7 @@ using Mercurius.CodeBuilder.DbMetadata.Oracle;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Unity;
+using Mercurius.CodeBuilder.DbMetadata.MySQL;
 
 namespace Mercurius.CodeBuilder.UI
 {
@@ -40,8 +41,10 @@ namespace Mercurius.CodeBuilder.UI
             base.ConfigureContainer();
 
             this.Container.RegisterType<Metadata, MSSQLMetadata>("MSSQL");
+            this.Container.RegisterType<Metadata, MySQLMetadata>("MySQL");
             this.Container.RegisterType<Metadata, OracleMetadata>("Oracle");
             this.Container.RegisterType<DbTypeMapping, MSSQLDbTypeMapping>("MSSQL");
+            this.Container.RegisterType<DbTypeMapping, MySQLDbTypeMapping>("MySQL");
             this.Container.RegisterType<DbTypeMapping, OracleDbTypeMapping>("Oracle");
             this.Container.RegisterType<AbstractCodeCreator, CSharpCodeCreator>("C#");
         }

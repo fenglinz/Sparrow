@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mercurius.Infrastructure.Ado;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,11 @@ namespace Mercurius.Infrastructure.Ado
                     break;
                 case DatabaseType.Oracle:
                     dbHelper.DbMetadata = new OracleMetadata();
+
+                    break;
+
+                case DatabaseType.MySQL:
+                    dbHelper.DbMetadata = new MySQLMetadata();
 
                     break;
             }

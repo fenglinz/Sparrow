@@ -30,6 +30,7 @@
                                   HorizontalAlignment="Stretch"
                                   Text="{Binding Database}">
                             <ComboBoxItem Content="MSSQL" IsSelected="True" />
+                            <ComboBoxItem Content="MySQL" />
                             <ComboBoxItem Content="Oracle" />
                         </ComboBox>
 

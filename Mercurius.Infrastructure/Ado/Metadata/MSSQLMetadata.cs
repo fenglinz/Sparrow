@@ -29,8 +29,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <returns>表信息集合</returns>
         public override IList<Table> GetTables()
         {
-            return this.DbHelper.CreateCommand<Table>("GetTables")
-                .GetDatas<Table>();
+            return this.DbHelper.CreateCommand<Table>("GetTables").GetDatas<Table>();
         }
 
         /// <summary>

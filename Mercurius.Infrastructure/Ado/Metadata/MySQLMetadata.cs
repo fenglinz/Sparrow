@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mercurius.Infrastructure.Ado
 {
-    public class PostgreSQLMetadata : DbMetadata
+    public class MySQLMetadata : DbMetadata
     {
         #region 重写
 

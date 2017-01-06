@@ -478,8 +478,8 @@ namespace Mercurius.Infrastructure.Ado
         /// <returns>数据</returns>
         internal static T ReflectionDataMapping<T>(DbDataReader dataReader)
         {
-            var data=default(T);
             var type = typeof(T);
+            var data = Activator.CreateInstance<T>();
 
             if (!PropertiesDictionary.ContainsKey(type))
             {
