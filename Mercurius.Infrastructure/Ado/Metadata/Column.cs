@@ -29,7 +29,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <summary>
         /// 字段长度。
         /// </summary>
-        public int DataLength { get; set; }
+        public long DataLength { get; set; }
 
         /// <summary>
         /// 字段描述信息。

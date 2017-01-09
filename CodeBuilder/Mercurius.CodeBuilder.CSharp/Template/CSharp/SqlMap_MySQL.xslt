@@ -89,38 +89,21 @@
     <xsl:text>
     </xsl:text>
     <insert id="Create">
-      <xsl:attribute name="parameterClass">
-        <xsl:value-of select="./table/@className"/>
-      </xsl:attribute>
-        INSERT INTO <xsl:value-of select="./table/@name" />
+      <xsl:attribute name="parameterClass"><xsl:value-of select="./table/@className"/></xsl:attribute>
+        <xsl:attribute name="parameterClass"><xsl:value-of select="./table/@className"/></xsl:attribute>
+        INSERT INTO `<xsl:value-of select="./table/@name" />`
         (
-      <xsl:for-each select="./table/column[@isIdentity='false']">
-        <xsl:if test="position()=1">
-          <xsl:text>    </xsl:text>
-        </xsl:if>
-        <xsl:text>[</xsl:text>
-        <xsl:value-of select="@name" />
-        <xsl:text>]</xsl:text>
-        <xsl:if test="position()!=last()">
-          <xsl:text>,
+          <xsl:for-each select="./table/column[@isIdentity='false']"><xsl:text> </xsl:text>`<xsl:value-of select="@name"/>`<xsl:if test="position()!=last()"><xsl:text>,
           </xsl:text>
-        </xsl:if>
-      </xsl:for-each>
+          </xsl:if>
+          </xsl:for-each>
         )
         VALUES
         (
-      <xsl:for-each select="./table/column[@isIdentity='false']">
-        <xsl:if test="position()=1">
-          <xsl:text>    </xsl:text>
-        </xsl:if>
-        <xsl:text>#</xsl:text>
-        <xsl:value-of select="@propertyName" />
-        <xsl:text>#</xsl:text>
-        <xsl:if test="position()!=last()">
-          <xsl:text>,
+          <xsl:for-each select="./table/column[@isIdentity='false']"><xsl:text> </xsl:text>#<xsl:value-of select="@propertyName" />#<xsl:if test="position()!=last()"><xsl:text>,
           </xsl:text>
-        </xsl:if>
-      </xsl:for-each>
+          </xsl:if>
+          </xsl:for-each>
         )
     </insert>
     <xsl:text>
@@ -139,15 +122,15 @@
       <xsl:attribute name="parameterClass">
         <xsl:value-of select="./table/@className"/>
       </xsl:attribute>
-        UPDATE <xsl:value-of select="./table/@name" />
+        UPDATE `<xsl:value-of select="./table/@name" />`
         SET
       <xsl:for-each select="./table/column[@isPrimaryKey='false']">
         <xsl:if test="position()=1">
           <xsl:text>    </xsl:text>
         </xsl:if>
-        <xsl:text>[</xsl:text>
+        <xsl:text>`</xsl:text>
         <xsl:value-of select="@name"/>
-        <xsl:text>]=#</xsl:text>
+        <xsl:text>`=#</xsl:text>
         <xsl:value-of select="@propertyName"/>
         <xsl:text>#</xsl:text>
         <xsl:if test="position()!=last()">
@@ -156,9 +139,9 @@
         </xsl:if>
       </xsl:for-each>
         WHERE <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-        <xsl:text>[</xsl:text>
+        <xsl:text>`</xsl:text>
         <xsl:value-of select="@name"/>
-        <xsl:text>]=#</xsl:text>
+        <xsl:text>`=#</xsl:text>
         <xsl:value-of select="@propertyName"/>
         <xsl:text>#</xsl:text>
         <xsl:if test="position()!=last()">
@@ -177,76 +160,27 @@
     <xsl:text>
     </xsl:text>
     <update id="CreateOrUpdate">
-      <xsl:attribute name="parameterClass">
-        <xsl:value-of select="./table/@className"/>
-      </xsl:attribute>
-        IF EXISTS(SELECT * FROM <xsl:value-of select="./table/@name" /> WHERE <xsl:choose><xsl:when test="count(./table/column[@isPrimaryKey='true'])=1"><xsl:text>[</xsl:text><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@name"/>]=#<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@propertyName" />#</xsl:when><xsl:otherwise><xsl:for-each select="./table/column[@isPrimaryKey='true']">
-          <xsl:text>[</xsl:text>
-          <xsl:value-of select="@name"/>
-          <xsl:text>]=#</xsl:text>
-          <xsl:value-of select="@propertyName"/>
-          <xsl:text>#</xsl:text>
-          <xsl:if test="position()!=last()">
-            <xsl:text> AND </xsl:text>
-          </xsl:if>
-        </xsl:for-each></xsl:otherwise></xsl:choose>)
-          UPDATE <xsl:value-of select="./table/@name" />
-          SET
-          <xsl:for-each select="./table/column[@isPrimaryKey='false']">
-          <xsl:if test="position()=1">
-            <xsl:text>  </xsl:text>
-          </xsl:if>
-          <xsl:text>[</xsl:text>
-          <xsl:value-of select="@name"/>
-          <xsl:text>]=#</xsl:text>
-          <xsl:value-of select="@propertyName"/>
-          <xsl:text>#</xsl:text>
-          <xsl:if test="position()!=last()">
-            <xsl:text>,
-            </xsl:text>
+      <xsl:attribute name="parameterClass"><xsl:value-of select="./table/@className"/></xsl:attribute>
+        INSERT INTO `<xsl:value-of select="./table/@name" />`
+        (
+          <xsl:for-each select="./table/column[@isIdentity='false']"><xsl:text> </xsl:text>`<xsl:value-of select="@name"/>`<xsl:if test="position()!=last()"><xsl:text>,
+          </xsl:text>
           </xsl:if>
           </xsl:for-each>
-          WHERE <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-            <xsl:text>[</xsl:text>
-            <xsl:value-of select="@name"/>
-            <xsl:text>]=#</xsl:text>
-            <xsl:value-of select="@propertyName"/>
-            <xsl:text>#</xsl:text>
-            <xsl:if test="position()!=last()">
-              <xsl:text> AND </xsl:text>
-            </xsl:if>
-          </xsl:for-each>
-        ELSE
-          INSERT INTO <xsl:value-of select="./table/@name" />
-          (
-          <xsl:for-each select="./table/column[@isIdentity='false']">
-          <xsl:if test="position()=1">
-            <xsl:text>  </xsl:text>
-          </xsl:if>
-          <xsl:text>[</xsl:text>
-          <xsl:value-of select="@name" />
-          <xsl:text>]</xsl:text>
-          <xsl:if test="position()!=last()">
-            <xsl:text>,
-            </xsl:text>
+        )
+        VALUES
+        (
+          <xsl:for-each select="./table/column[@isIdentity='false']"><xsl:text> </xsl:text>#<xsl:value-of select="@propertyName" />#<xsl:if test="position()!=last()"><xsl:text>,
+          </xsl:text>
           </xsl:if>
           </xsl:for-each>
-          )
-          VALUES
-          (
-          <xsl:for-each select="./table/column[@isIdentity='false']">
-          <xsl:if test="position()=1">
-            <xsl:text>  </xsl:text>
-          </xsl:if>
-          <xsl:text>#</xsl:text>
-          <xsl:value-of select="@propertyName" />
-          <xsl:text>#</xsl:text>
-          <xsl:if test="position()!=last()">
-            <xsl:text>,
-            </xsl:text>
+        )
+        ON DUPLICATE KEY
+        UPDATE
+          <xsl:for-each select="./table/column[@isIdentity='false']"><xsl:text></xsl:text>`<xsl:value-of select="@name"/>`=#<xsl:value-of select="@propertyName" />#<xsl:if test="position()!=last()"><xsl:text>,
+          </xsl:text>
           </xsl:if>
           </xsl:for-each>
-          )
     </update>
     <xsl:text>
     </xsl:text>
@@ -271,17 +205,17 @@
           </xsl:otherwise>
         </xsl:choose>
       </xsl:attribute>
-        DELETE FROM <xsl:value-of select="./table/@name" /> WHERE <xsl:choose>
+        DELETE FROM `<xsl:value-of select="./table/@name" />` WHERE <xsl:choose>
         <xsl:when test="count(./table/column[@isPrimaryKey='true'])=1">
-          <xsl:text>[</xsl:text>
+          <xsl:text>`</xsl:text>
           <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@name"/>
-          <xsl:text>]=#value#</xsl:text>
+          <xsl:text>`=#value#</xsl:text>
         </xsl:when>
         <xsl:otherwise>
           <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-            <xsl:text>[</xsl:text>
+            <xsl:text>`</xsl:text>
             <xsl:value-of select="@name"/>
-            <xsl:text>]=#</xsl:text>
+            <xsl:text>`=#</xsl:text>
             <xsl:value-of select="@propertyName"/>
             <xsl:text>#</xsl:text>
             <xsl:if test="position()!=last()">
@@ -320,35 +254,25 @@
         <xsl:value-of select="./table/@className"/>
       </xsl:attribute>
       <xsl:text>
-        SELECT TOP 1 
+        SELECT
       </xsl:text>
-      <xsl:for-each select="./table/column">
-        <xsl:if test="position()=1">
-          <xsl:text>    </xsl:text>
-        </xsl:if>
-        <xsl:text>[</xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>] AS </xsl:text>
-        <xsl:value-of select="@propertyName"/>
-        <xsl:if test="position()!=last()">
-          <xsl:text>,
-          </xsl:text>
-        </xsl:if>
+      <xsl:for-each select="./table/column"><xsl:text>    </xsl:text>`<xsl:value-of select="@name"/>` AS `<xsl:value-of select="@propertyName"/>`<xsl:if test="position()!=last()"><xsl:text>,
+      </xsl:text>
+      </xsl:if>
       </xsl:for-each>
-        FROM <xsl:value-of select="./table/@name" />
-      <xsl:text>
-        WHERE </xsl:text>
+        FROM `<xsl:value-of select="./table/@name" />`
+      <xsl:text>  WHERE </xsl:text>
       <xsl:choose>
         <xsl:when test="count(./table/column[@isPrimaryKey='true'])=1">
           <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-            <xsl:text>[</xsl:text><xsl:value-of select="@name"/>
-            <xsl:text>]=#value#</xsl:text>
+            <xsl:text>`</xsl:text><xsl:value-of select="@name"/>
+            <xsl:text>`=#value#</xsl:text>
           </xsl:for-each>
         </xsl:when>
         <xsl:when test="count(./table/column[@isPrimaryKey='true'])>1">
           <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-            <xsl:text>[</xsl:text><xsl:value-of select="@name"/>
-            <xsl:text>]=#</xsl:text><xsl:value-of select="@fieldName"/><xsl:text>#</xsl:text>
+            <xsl:text>`</xsl:text><xsl:value-of select="@name"/>
+            <xsl:text>`=#</xsl:text><xsl:value-of select="@fieldName"/><xsl:text>#</xsl:text>
             <xsl:if test="position()!=last()">
               <xsl:text> AND </xsl:text>
             </xsl:if>
@@ -356,6 +280,7 @@
         </xsl:when>
       </xsl:choose>
       <xsl:text>
+        LIMIT 1
       </xsl:text>
     </select>
     <xsl:text>
@@ -372,9 +297,8 @@
       <xsl:attribute name="id">Search<xsl:value-of select="./table/@pluralClassName" />Count</xsl:attribute>
       <xsl:attribute name="parameterClass"><xsl:value-of select="./table/@className"/>SO</xsl:attribute>
       <xsl:attribute name="resultClass">int</xsl:attribute>
-        SELECT COUNT(*) FROM <xsl:value-of select="./table/@name" />
-      <xsl:text>
-      </xsl:text>
+        SELECT COUNT(*) FROM `<xsl:value-of select="./table/@name" />`
+      <xsl:text></xsl:text>
       <include refid="searchConditions" />
     </select>
     <xsl:text>
@@ -394,23 +318,27 @@
       <xsl:attribute name="parameterClass"><xsl:value-of select="./table/@className"/>SO</xsl:attribute>
       <xsl:attribute name="resultClass"><xsl:value-of select="./table/@className"/></xsl:attribute>
       <xsl:text>
-        WITH CTE AS(
-          SELECT
+        SELECT
       </xsl:text>
-          <xsl:text>    </xsl:text><xsl:for-each select="./table/column"><xsl:text>  </xsl:text>[<xsl:value-of select="@name"/>] AS <xsl:value-of select="@propertyName"/>,
-          </xsl:for-each>
-                <xsl:text>  ROW_NUMBER() OVER(ORDER BY </xsl:text><xsl:choose><xsl:when test="count(./table/column[@isPrimaryKey='true'])=1"><xsl:for-each select="./table/column[@isPrimaryKey='true']">[<xsl:value-of select="@name"/>] DESC</xsl:for-each></xsl:when><xsl:when test="count(./table/column[@isPrimaryKey='true'])>1"><xsl:for-each select="./table/column[@isPrimaryKey='true']">[<xsl:value-of select="@name"/>] DESC<xsl:if test="position()!=last()">,</xsl:if></xsl:for-each></xsl:when></xsl:choose>) AS RowIndex
-          FROM <xsl:value-of select="./table/@name" />
-      <xsl:text>
+      <xsl:for-each select="./table/column"><xsl:text>    </xsl:text>`<xsl:value-of select="@name"/>` AS `<xsl:value-of select="@propertyName"/>`<xsl:if test="position()!=last()"><xsl:text>,
       </xsl:text>
+      </xsl:if>
+      </xsl:for-each>
+        FROM `<xsl:value-of select="./table/@name" />`
       <include refid="searchConditions" />
-        )
-        SELECT * FROM CTE
-        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
-        ORDER BY RowIndex ASC
+      <xsl:text>
+        ORDER BY </xsl:text><xsl:choose>
+        <xsl:when test="count(./table/column[@isPrimaryKey='true'])=1">
+          <xsl:for-each select="./table/column[@isPrimaryKey='true']">`<xsl:value-of select="@name"/>` DESC</xsl:for-each>
+        </xsl:when>
+        <xsl:when test="count(./table/column[@isPrimaryKey='true'])>1">
+          <xsl:for-each select="./table/column[@isPrimaryKey='true']">
+            `<xsl:value-of select="@name"/>` DESC<xsl:if test="position()!=last()">,</xsl:if>
+          </xsl:for-each>
+        </xsl:when>
+      </xsl:choose>
+        LIMIT #OffsetRows#, #PageSize#
     </select>
-    <xsl:text>
-    </xsl:text>
   </xsl:template>
 
   <xsl:template name="searchConditions">
@@ -424,15 +352,13 @@
         <isNotNull property=".">
           <xsl:for-each select="./table/column[@isSearchCriteria='true']">
             <isNotNull>
-              <xsl:attribute name="property">
-                <xsl:value-of select="@propertyName"/>
-              </xsl:attribute>
+              <xsl:attribute name="property"><xsl:value-of select="@propertyName"/></xsl:attribute>
               <xsl:if test="position()!=1">
                 <xsl:attribute name="prepend">
                   <xsl:text>AND</xsl:text>
                 </xsl:attribute>
               </xsl:if>
-              [<xsl:value-of select="@name"/>]=#<xsl:value-of select="@propertyName"/>#
+              `<xsl:value-of select="@name"/>`=#<xsl:value-of select="@propertyName"/>#
             </isNotNull>
           </xsl:for-each>
         </isNotNull>

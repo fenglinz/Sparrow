@@ -45,8 +45,8 @@ namespace Mercurius.Infrastructure.Ado
             var database = this.GetCurrentDatabase();
 
             return this.DbHelper.CreateCommand<Table>("GetTable")
-                .AddParameter("@database", database)
-                .AddParameter("@table", $"{rs.Item1}_{rs.Item2}")
+                .AddParameter(":database", database)
+                .AddParameter(":table", $"{rs.Item1}_{rs.Item2}")
                 .GetData<Table>();
         }
 
@@ -58,9 +58,11 @@ namespace Mercurius.Infrastructure.Ado
         public override IList<Column> GetColumns(string tableName)
         {
             var rs = this.ResolveTable(tableName);
+            var database = this.GetCurrentDatabase();
 
             return this.DbHelper.CreateCommand<Column>("GetColumns")
-                .AddParameter(":table", rs.Item2)
+                .AddParameter("@database", database)
+                .AddParameter("@table", rs.Item2)
                 .GetDatas<Column>();
         }
 

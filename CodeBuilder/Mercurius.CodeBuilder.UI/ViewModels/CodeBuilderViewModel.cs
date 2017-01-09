@@ -330,7 +330,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         {
                             if (table.Type != CustomObjectType.Procedure)
                             {
-                                var detail = metadata.GetTableOrViewDetails(this.Configuration.CurrentDatabase.Name, this.Configuration.CurrentDatabase.Type == DatabaseType.Oracle ? table.Name : $"{table.Schema}.{table.Name}", table.Type == CustomObjectType.View);
+                                var currentDatabaseType = this.Configuration.CurrentDatabase.Type;
+                                var detail = metadata.GetTableOrViewDetails(this.Configuration.CurrentDatabase.Name, (currentDatabaseType == DatabaseType.MySQL || currentDatabaseType == DatabaseType.Oracle) ? table.Name : $"{table.Schema}.{table.Name}", table.Type == CustomObjectType.View);
 
                                 detail.Description = table.Description;
 

@@ -3,44 +3,18 @@
   <!-- 获取数据库字段信息。 -->
   <CommandText name="GetColumns" commandType="Text">
     <![CDATA[
-      select
-        b.column_name AS "Name",
-	      b.column_name AS "PropertyName",
-        b.udt_name AS "DataType",
-        CASE
-          when b.udt_name='text' then 1073741824
-					when b.udt_name LIKE 'timestamp%' then 30
-					when b.udt_name='date' then 14
-          when b.udt_name='time' then 10
-					when b.numeric_precision is null THEN b.character_maximum_length
-					ELSE b.numeric_precision
-				END	AS "DataLength",
-        case
-          when d.column_name is not null then 1
-          else 0
-        end AS "IsPrimaryKey",
-        CASE
-          when b.is_nullable='NO' then 0
-          else 1
-        END AS "IsNullable",
-        CASE
-          when b.column_default like 'nextval(%::regclass)' then 1
-          else 0
-        END AS "IsIdentity",
-        b.column_default AS "DataDefault",
-        case
-          when (c.description is null) or c.description='' then b.column_name
-          else c.description
-        end AS "Description",
-        b.ordinal_position AS "Sort"
-      from pg_stat_user_tables a 
-      INNER JOIN information_schema.columns b
-        on a.schemaname=b.table_schema and a.relname=b.table_name
-      left JOIN pg_description c
-        on a.relid=c.objoid and b.ordinal_position=c.objsubid
-      LEFT JOIN information_schema.key_column_usage d
-        ON b.table_schema=d.constraint_schema and b.table_name=d.table_name and b.column_name=d.column_name
-      where b.table_schema=:schema and b.table_name=:table
+      SELECT 
+        COLUMN_NAME as `Name`,
+        COLUMN_NAME AS `PropertyName`,
+        CASE IS_NULLABLE WHEN 'NO' then 1 else 0 end AS `IsNullable`,
+        DATA_TYPE AS `DataType`,
+        CHARACTER_MAXIMUM_LENGTH AS `DataLength`, 
+        CASE COLUMN_KEY WHEN 'PRI' THEN 1 else 0 END AS `IsPrimaryKey`,
+        CASE when LOCATE('auto_increment',EXTRA)<>0 then 1 else 0 END AS `IsIdentity`,
+        COLUMN_COMMENT AS `Description`,
+        ORDINAL_POSITION AS `Sort`
+      FROM information_schema.`COLUMNS` 
+      WHERE TABLE_SCHEMA=@database AND TABLE_NAME=@table
     ]]>
   </CommandText>
 

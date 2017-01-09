@@ -32,7 +32,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
         {
             var result = new List<string>();
             var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, "mysql", this.Account, this.Password);
-            
+
             var reader = dbHelper.ExecuteReader("show DATABASES");
 
             while (reader.Read())
@@ -51,7 +51,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
         public override IList<CustomObject> GetCustomObjects(string databaseName)
         {
             var result = new List<CustomObject>();
-            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, "mysql", this.Account, this.Password);
+            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, databaseName, this.Account, this.Password);
 
             var reader = dbHelper.ExecuteReader("show TABLES");
 
@@ -73,7 +73,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
         public override DbTable GetTableOrViewDetails(string databaseName, string tableName, bool isView = false)
         {
             var result = new DbTable();
-            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, "mysql", this.Account, this.Password);
+            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, databaseName, this.Account, this.Password);
 
             result.Name = tableName;
             result.ClassName = tableName.AsClassName();
@@ -81,32 +81,22 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
 
             try
             {
-                using (var reader = dbHelper.ExecuteReader(string.Format("DESC {0}", tableName)))
+                var columns = dbHelper.DbMetadata.GetColumns(tableName);
+
+                foreach (var item in columns)
                 {
-                    while (reader.Read())
-                    {
-                        var field = new DbColumn
-                        {
-                            Name = reader.GetString(0),
-                            PropertyName = reader.GetString(0).PascalNaming(),
-                            IsIdentity = !Convert.IsDBNull(reader[5]) && reader.GetString(5).Contains("auto_increment"),
-                            IsPrimaryKey = !Convert.IsDBNull(reader[3]) && reader.GetString(3).ToUpper().Contains("PRI"),
-                            Nullable = reader.GetString(2) == "YES",
-                            Description = reader.GetString(0),
-                        };
+                    var dbColumn = new DbColumn { Name = item.Name };
 
-                        var sqlType = reader.GetString(1).Split(' ')[0];
+                    dbColumn.PropertyName = dbColumn.Name.PascalNaming();
+                    dbColumn.IsIdentity = item.IsIdentity;
+                    dbColumn.IsPrimaryKey = item.IsPrimaryKey;
+                    dbColumn.Nullable = item.IsNullable;
+                    dbColumn.Description = item.Description;
+                    dbColumn.SqlType = item.DataType;
+                    dbColumn.Length = item.DataLength;
+                    dbColumn.BasicType = dbColumn.SqlType;
 
-                        if (sqlType.Contains('('))
-                        {
-                            sqlType = sqlType.Substring(0, sqlType.IndexOf('('));
-                        }
-
-                        field.SqlType = sqlType;
-                        field.BasicType = sqlType;
-
-                        result.Columns.Add(field);
-                    }
+                    result.Columns.Add(dbColumn);
                 }
             }
             catch { }
