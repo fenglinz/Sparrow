@@ -163,7 +163,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <Grid Height="160">
+                        <Grid Height="120">
                             <Label Margin="52,5,0,0" Content="模块：" />
                             <TextBox Width="260" Margin="105,6,0,0" Text="{Binding ModuleName, UpdateSourceTrigger=PropertyChanged}" />
 
