@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercurius.Plugins.NewsCenter</RootNamespace>
-    <AssemblyName>Mercurius.Plugins.NewsCenter</AssemblyName>
+    <RootNamespace>Mercurius.Plugins.News</RootNamespace>
+    <AssemblyName>Mercurius.Plugins.News</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -152,13 +152,13 @@
       <Project>{1002e71d-798e-4180-a838-582d93c5a3fb}</Project>
       <Name>Mercurius.ServiceBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercurius.News.Implements\Mercurius.NewsCenter.Implements.csproj">
+    <ProjectReference Include="..\Mercurius.News.Implements\Mercurius.News.Implements.csproj">
       <Project>{afd86f60-c751-45a9-9798-7a0c4579d9d5}</Project>
-      <Name>Mercurius.NewsCenter.Implements</Name>
+      <Name>Mercurius.News.Implements</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercurius.News.Interfaces\Mercurius.NewsCenter.Interfaces.csproj">
+    <ProjectReference Include="..\Mercurius.News.Interfaces\Mercurius.News.Interfaces.csproj">
       <Project>{1eda83c9-e710-41e8-a31e-d5bf59ee86a9}</Project>
-      <Name>Mercurius.NewsCenter.Interfaces</Name>
+      <Name>Mercurius.News.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -198,9 +198,9 @@
   </Target>
   <PropertyGroup>
     <PostBuildEvent>iisreset /stop
-xcopy /s /y "$(ProjectDir)App_Data\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\NewsCenter\App_Data\" 
-xcopy /s /y "$(ProjectDir)Views\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\NewsCenter\Views\" 
-xcopy /y "$(TargetDir)*.dll" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\NewsCenter\bin\" 
+xcopy /s /y "$(ProjectDir)App_Data\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\News\App_Data\" 
+xcopy /s /y "$(ProjectDir)Views\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\News\Views\" 
+xcopy /y "$(TargetDir)*.dll" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\News\bin\" 
 iisreset /start</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -47,7 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "动态页", "动态页", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.Dynamic", "插件\动态页\Mercurius.Plugins.Dynamic\Mercurius.Plugins.Dynamic.csproj", "{0665DD54-B960-48F8-B1F8-71082152D93E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.NewsCenter", "插件\新闻\Mercurius.Plugins.News\Mercurius.Plugins.NewsCenter.csproj", "{0032D18B-9108-4774-BC4E-F72C64EAFEF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.News", "插件\新闻\Mercurius.Plugins.News\Mercurius.Plugins.News.csproj", "{0032D18B-9108-4774-BC4E-F72C64EAFEF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.EntityBase", "Mercurius.EntityBase\Mercurius.EntityBase.csproj", "{5B236DA6-7A5A-48E8-813E-5745B0E50D65}"
 EndProject
@@ -57,9 +57,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.ServiceBase", "Me
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.RepositoryBase", "Mercurius.RepositoryBase\Mercurius.RepositoryBase.csproj", "{784654C8-CC89-4ADF-BB00-1E0085C768DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.NewsCenter.Interfaces", "插件\新闻\Mercurius.News.Interfaces\Mercurius.NewsCenter.Interfaces.csproj", "{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.News.Interfaces", "插件\新闻\Mercurius.News.Interfaces\Mercurius.News.Interfaces.csproj", "{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.NewsCenter.Implements", "插件\新闻\Mercurius.News.Implements\Mercurius.NewsCenter.Implements.csproj", "{AFD86F60-C751-45A9-9798-7A0C4579D9D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.News.Implements", "插件\新闻\Mercurius.News.Implements\Mercurius.News.Implements.csproj", "{AFD86F60-C751-45A9-9798-7A0C4579D9D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,7 +152,7 @@ Global
 		{AFD86F60-C751-45A9-9798-7A0C4579D9D5} = {51384A29-CFCC-41B6-A0FB-5A9DF21719C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 	EndGlobalSection
 EndGlobal

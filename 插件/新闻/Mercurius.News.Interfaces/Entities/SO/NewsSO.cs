@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Mercurius.EntityBase;
 
-namespace Mercurius.NewsCenter.Interfaces.Entities.SO
+namespace Mercurius.News.Interfaces.Entities.SO
 {
     /// <summary>
     /// 新闻查询条件。

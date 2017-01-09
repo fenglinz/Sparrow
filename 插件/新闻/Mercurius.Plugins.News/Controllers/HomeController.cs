@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.NewsCenter.Interfaces.Entities.SO;
-using Mercurius.NewsCenter.Interfaces.Services;
+using Mercurius.News.Interfaces.Entities.SO;
+using Mercurius.News.Interfaces.Services;
 
 namespace Mercurius.Plugins.NewsCenter.Controllers
 {

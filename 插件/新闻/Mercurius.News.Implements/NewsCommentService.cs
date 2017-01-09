@@ -4,11 +4,11 @@ using System.Data;
 using Mercurius.EntityBase;
 using Mercurius.RepositoryBase;
 using Mercurius.ServiceBase;
-using Mercurius.NewsCenter.Interfaces.Entities;
-using Mercurius.NewsCenter.Interfaces.Entities.SO;
-using Mercurius.NewsCenter.Interfaces.Services;
+using Mercurius.News.Interfaces.Entities;
+using Mercurius.News.Interfaces.Entities.SO;
+using Mercurius.News.Interfaces.Services;
 
-namespace Mercurius.NewsCenter.Implements
+namespace Mercurius.News.Implements
 {
     /// <summary>
     /// 新闻评论业务逻辑接口实现。 

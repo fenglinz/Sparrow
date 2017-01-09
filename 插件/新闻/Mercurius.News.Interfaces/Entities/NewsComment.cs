@@ -6,7 +6,7 @@ using System.Text;
 using Mercurius.EntityBase;
 using Mercurius.Infrastructure.Ado;
 
-namespace Mercurius.NewsCenter.Interfaces.Entities
+namespace Mercurius.News.Interfaces.Entities
 {
     /// <summary>
     /// 新闻评论。

@@ -4,9 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Mercurius.EntityBase;
-using Mercurius.NewsCenter.Interfaces.Entities.SO;
+using Mercurius.News.Interfaces.Entities.SO;
 
-namespace Mercurius.NewsCenter.Interfaces.Services
+namespace Mercurius.News.Interfaces.Services
 {
     /// <summary>
     /// 新闻业务逻辑接口。

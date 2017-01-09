@@ -47,7 +47,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
         /// <summary>
         /// 列长度。
         /// </summary>
-        public int DataLength { get; set; }
+        public long DataLength { get; set; }
 
         #endregion
     }

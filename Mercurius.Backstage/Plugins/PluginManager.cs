@@ -48,7 +48,7 @@ namespace Mercurius.Backstage.Plugins
             var paths = Directory.GetDirectories(pluginsPath);
 
             // 加载插件的程序集&注册插件为区域。
-            if (paths != null && paths.Length > 0)
+            if (paths.Length > 0)
             {
                 Plugins = new List<Plugin>();
 
@@ -56,13 +56,17 @@ namespace Mercurius.Backstage.Plugins
                 {
                     var plugin = new Plugin();
                     var binPath = Path.Combine(item, "bin");
+
+                    if (!Directory.Exists(binPath))
+                    {
+                        continue;
+                    }
+
                     var bins = Directory.GetFiles(binPath, "*.dll");
 
-                    var pluginName = item.Split('\\').Last();
+                    plugin.PluginName = item.Split('\\').Last();
 
-                    plugin.PluginName = pluginName;
-
-                    if (bins != null && bins.Length > 0)
+                    if (bins.Length > 0)
                     {
                         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
