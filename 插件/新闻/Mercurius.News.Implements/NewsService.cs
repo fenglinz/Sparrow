@@ -17,7 +17,7 @@ namespace Mercurius.News.Implements
     {
         #region 常量
 
-        private static readonly StatementNamespace NS = "Mercurius.NewsCenter.Interfaces.News";
+        private static readonly StatementNamespace NS = "Mercurius.News.Repository.News";
 
         #endregion
 

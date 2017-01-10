@@ -52,9 +52,10 @@ namespace Mercurius.Backstage.Plugins
             {
                 Plugins = new List<Plugin>();
 
+                var binPaths = "";
+
                 foreach (var item in paths)
                 {
-                    var plugin = new Plugin();
                     var binPath = Path.Combine(item, "bin");
 
                     if (!Directory.Exists(binPath))
@@ -62,6 +63,9 @@ namespace Mercurius.Backstage.Plugins
                         continue;
                     }
 
+                    binPaths += binPath + ";";
+
+                    var plugin = new Plugin();
                     var bins = Directory.GetFiles(binPath, "*.dll");
 
                     plugin.PluginName = item.Split('\\').Last();
@@ -80,7 +84,10 @@ namespace Mercurius.Backstage.Plugins
                             }
 
                             // 加载程序集。
-                            var assembly = Assembly.LoadFile(bin);
+                            // 将程序集加载到当前应用程序域。
+                            var assembly = Assembly.Load(AssemblyName.GetAssemblyName(bin));
+
+                            BuildManager.AddReferencedAssembly(assembly);
 
                             plugin.Assembly = assembly;
 
@@ -98,10 +105,6 @@ namespace Mercurius.Backstage.Plugins
                                 }
                             }
 
-                            // 将程序集加载到当前应用程序域。
-                            AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(bin));
-                            // BuildManager.AddReferencedAssembly(assembly);
-
                             // 扫描插件中的IBatisNet配置。
                             var sqlMapPath = Path.Combine(item, "App_Data\\SqlMaps.xml");
 
@@ -114,6 +117,15 @@ namespace Mercurius.Backstage.Plugins
 
                     Plugins.Add(plugin);
                 }
+
+                // 设置私有程序集加载位置。
+                AppDomain.CurrentDomain.SetData("PRIVATE_BINPATH", binPaths);
+                AppDomain.CurrentDomain.SetData("BINPATH_PROBE_ONLY", binPaths);
+
+                var m = typeof(AppDomainSetup).GetMethod("UpdateContextProperty", BindingFlags.NonPublic | BindingFlags.Static);
+                var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
+
+                m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", binPaths });
             }
         }
 

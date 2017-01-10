@@ -23,9 +23,9 @@ namespace Mercurius.Backstage.Plugins
         {
             Type controllerType = null;
 
-            if (requestContext.RouteData.DataTokens.ContainsKey("Namespaces"))
+            if (requestContext.RouteData.Values.ContainsKey("namespaces"))
             {
-                var namespaces = requestContext.RouteData.DataTokens["Namespaces"] as string[];
+                var namespaces = requestContext.RouteData.Values["namespaces"] as string[];
 
                 controllerType = this.GetControllerType(namespaces, controllerName);
             }
@@ -45,7 +45,8 @@ namespace Mercurius.Backstage.Plugins
         {
             var plugin = PluginManager.Plugins.FirstOrDefault(p => p.InNamespaces(namespaces));
 
-            return plugin?.Items.FirstOrDefault(i => i.Controller.Name == controllerName + "Controller")?.Controller;
+            return plugin?.Items.FirstOrDefault(i => i.Controller.Name == controllerName + "Controller")?.Controller ??
+                       Type.GetType($"{namespaces[0]}.{controllerName}Controller");
         }
 
         #endregion
