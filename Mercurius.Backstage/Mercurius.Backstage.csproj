@@ -214,6 +214,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HelperController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomeShortcutController.cs" />
     <Compile Include="Filters\ConsoleAuthorizeAttribute.cs" />
     <Compile Include="Filters\MercuriusAuthorizeAttribute.cs" />
     <Compile Include="Plugins\Plugin.cs" />
@@ -1097,6 +1098,8 @@
     <Content Include="Views\Home\Workstation.cshtml" />
     <Content Include="Views\Shared\_BaseLayout.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\HomeShortcut\CreateOrUpdate.cshtml" />
+    <Content Include="Views\HomeShortcut\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Plugins\" />

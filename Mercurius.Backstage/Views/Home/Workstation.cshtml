@@ -1,6 +1,4 @@
-﻿@using Mercurius.Sparrow.Entities.RBAC
-
-@{
+﻿@{
     var homeShortcuts = this.ViewBag.HomeShortcuts as ICollection<HomeShortcut>;
 }
 
@@ -26,7 +24,7 @@
 
         @*新增快捷功能*@
         function add_HomeShortcut() {
-            var url = "@Url.Action("CreateOrUpdate", "HomeShortcut", new {@Area = "Admin"})";
+            var url = "@Url.Action("CreateOrUpdate", "HomeShortcut", new {@Area = ""})";
 
             mercurius.OpenDialog(url, 'ChooseImageContainer', '添加首页快捷菜单', 520, 265);
         }
