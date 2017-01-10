@@ -1,6 +1,6 @@
 ﻿using Mercurius.EntityBase;
 
-namespace Mercurius.Core.Interfaces.Entities.SO
+namespace Mercurius.Core.Interfaces.SearchObjects
 {
     /// <summary>
     /// 本地化信息查询对象。

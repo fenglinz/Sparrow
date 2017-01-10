@@ -2,7 +2,7 @@
 <sqlMap namespace="Mercurius.Repositories.Core.OperationRecord" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="OperationRecord" type="Mercurius.Core.Interfaces.Entities.OperationRecord, Mercurius.Core.Interfaces"/>
-    <typeAlias alias="OperationRecordSO" type="Mercurius.Core.Interfaces.Entities.SO.OperationRecordSO, Mercurius.Core.Interfaces"/>
+    <typeAlias alias="OperationRecordSO" type="Mercurius.Core.Interfaces.SearchObjects.OperationRecordSO, Mercurius.Core.Interfaces"/>
   </alias>
 
   <statements>

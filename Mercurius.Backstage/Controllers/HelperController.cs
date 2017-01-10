@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Core.Implements.Services;
 using Mercurius.Core.Interfaces.Entities;
-using Mercurius.Core.Interfaces.Entities.SO;
+using Mercurius.Core.Interfaces.SearchObjects;
 using Mercurius.Core.Interfaces.Services;
 using Mercurius.Infrastructure;
 using Mercurius.WebCore.Filters;

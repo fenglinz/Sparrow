@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercurius.Core.Interfaces.Entities;
-using Mercurius.Core.Interfaces.Entities.SO;
+using Mercurius.Core.Interfaces.SearchObjects;
 using Mercurius.Core.Interfaces.Services;
 using Mercurius.EntityBase;
 using Mercurius.ServiceBase;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Mercurius.Infrastructure.Ado;
 using Mercurius.EntityBase;
 using Mercurius.Core.Interfaces.Entities;
-using Mercurius.Core.Interfaces.Entities.SO;
+using Mercurius.Core.Interfaces.SearchObjects;
 
 namespace Mercurius.Core.Interfaces.Services
 {

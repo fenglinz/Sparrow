@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Mercurius.EntityBase;
 
-namespace Mercurius.Core.Interfaces.Entities.SO
+namespace Mercurius.Core.Interfaces.SearchObjects
 {
     /// <summary>
     /// 上传文件查询条件。

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercurius.EntityBase;
 
-namespace Mercurius.Core.Interfaces.Entities.SO
+namespace Mercurius.Core.Interfaces.SearchObjects
 {
     /// <summary>
     /// 操作记录查询信息。

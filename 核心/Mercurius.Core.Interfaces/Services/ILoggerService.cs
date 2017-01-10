@@ -1,6 +1,6 @@
-﻿using Mercurius.EntityBase;
-using Mercurius.Core.Interfaces.Entities;
-using Mercurius.Core.Interfaces.Entities.SO;
+﻿using Mercurius.Core.Interfaces.Entities;
+using Mercurius.Core.Interfaces.SearchObjects;
+using Mercurius.EntityBase;
 
 namespace Mercurius.Core.Interfaces.Services
 {

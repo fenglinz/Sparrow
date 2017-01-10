@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Mercurius.EntityBase;
 
-namespace Mercurius.Core.Interfaces.Entities.SO
+namespace Mercurius.Core.Interfaces.SearchObjects
 {
 	/// <summary>
 	/// 日志信息查询对象。

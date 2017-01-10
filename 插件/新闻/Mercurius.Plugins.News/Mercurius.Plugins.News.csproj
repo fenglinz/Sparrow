@@ -152,6 +152,10 @@
       <Project>{1002e71d-798e-4180-a838-582d93c5a3fb}</Project>
       <Name>Mercurius.ServiceBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\基础\Mercurius.WebCore\Mercurius.WebCore.csproj">
+      <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
+      <Name>Mercurius.WebCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mercurius.News.Implements\Mercurius.News.Implements.csproj">
       <Project>{afd86f60-c751-45a9-9798-7a0c4579d9d5}</Project>
       <Name>Mercurius.News.Implements</Name>

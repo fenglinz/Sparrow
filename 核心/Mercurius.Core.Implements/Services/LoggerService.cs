@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Mercurius.Core.Interfaces.Entities;
-using Mercurius.Core.Interfaces.Entities.SO;
+using Mercurius.Core.Interfaces.SearchObjects;
 using Mercurius.Core.Interfaces.Services;
 using Mercurius.EntityBase;
 using Mercurius.Infrastructure.Ado;

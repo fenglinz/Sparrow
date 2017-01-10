@@ -2,7 +2,7 @@
 <sqlMap namespace="Mercurius.Repositories.Core.Logger" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="Log" type="Mercurius.EntityBase.Log, Mercurius.EntityBase" />
-    <typeAlias alias="LogSO" type="Mercurius.Core.Interfaces.Entities.SO.LogSO, Mercurius.Core.Interfaces" />
+    <typeAlias alias="LogSO" type="Mercurius.Core.Interfaces.SearchObjects.LogSO, Mercurius.Core.Interfaces" />
   </alias>
 
   <statements>

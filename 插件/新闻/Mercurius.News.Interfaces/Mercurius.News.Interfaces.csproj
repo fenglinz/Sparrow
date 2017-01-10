@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="Entities\News.cs" />
     <Compile Include="Entities\NewsComment.cs" />
-    <Compile Include="Entities\SO\NewsCommentSO.cs" />
-    <Compile Include="Entities\SO\NewsSO.cs" />
+    <Compile Include="SeachObjects\NewsCommentSO.cs" />
+    <Compile Include="SeachObjects\NewsSO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\INewsCommentService.cs" />
     <Compile Include="Services\INewsService.cs" />

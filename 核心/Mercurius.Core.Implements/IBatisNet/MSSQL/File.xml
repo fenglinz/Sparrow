@@ -2,7 +2,7 @@
 <sqlMap namespace="Mercurius.Repositories.Core.File" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="File" type="Mercurius.Core.Interfaces.Entities.File, Mercurius.Core.Interfaces" />
-    <typeAlias alias="FileSO" type="Mercurius.Core.Interfaces.Entities.SO.FileSO, Mercurius.Core.Interfaces" />
+    <typeAlias alias="FileSO" type="Mercurius.Core.Interfaces.SearchObjects.FileSO, Mercurius.Core.Interfaces" />
     <typeAlias alias="BusinessFile" type="Mercurius.Core.Interfaces.Entities.BusinessFile, Mercurius.Core.Interfaces" />
   </alias>
 

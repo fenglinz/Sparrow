@@ -2,7 +2,7 @@
 <sqlMap namespace="Mercurius.Repositories.Core.User" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="User" type="Mercurius.Core.Interfaces.Entities.User, Mercurius.Core.Interfaces" />
-    <typeAlias alias="UserSO" type="Mercurius.Core.Interfaces.Entities.SO.UserSO, Mercurius.Core.Interfaces" />
+    <typeAlias alias="UserSO" type="Mercurius.Core.Interfaces.SearchObjects.UserSO, Mercurius.Core.Interfaces" />
   </alias>
 
   <resultMaps>

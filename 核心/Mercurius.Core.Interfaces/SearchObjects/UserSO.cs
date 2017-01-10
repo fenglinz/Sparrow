@@ -1,7 +1,7 @@
 ﻿using System;
 using Mercurius.EntityBase;
 
-namespace Mercurius.Core.Interfaces.Entities.SO
+namespace Mercurius.Core.Interfaces.SearchObjects
 {
     /// <summary>
     /// 用户信息搜索条件。

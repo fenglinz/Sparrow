@@ -2,7 +2,7 @@
 <sqlMap namespace="Mercurius.Repositories.Core.Globalization" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="Globalization" type="Mercurius.Core.Interfaces.Entities.Globalization, Mercurius.Core.Interfaces"/>
-    <typeAlias alias="GlobalizationSO" type="Mercurius.Core.Interfaces.Entities.SO.GlobalizationSO, Mercurius.Core.Interfaces"/>
+    <typeAlias alias="GlobalizationSO" type="Mercurius.Core.Interfaces.SearchObjects.GlobalizationSO, Mercurius.Core.Interfaces"/>
   </alias>
 
   <statements>
