@@ -1,0 +1,36 @@
+﻿@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            AutoCenter();
+
+            $(window).resize(function () {
+                AutoCenter();
+            });
+
+            function AutoCenter() {
+                $('#container').css('margin-top', ($(window).height() - 250) / 2);
+            }
+        });
+    </script>
+}
+
+<div id="container" class="row">
+    <div class="col-sm-offset-3 col-sm-1 text-danger">
+        <i class="glyphicon glyphicon-remove-circle" style="font-size: 140px;"></i>
+    </div>
+    <div class="col-sm-4" style="margin-top: 28px;">
+        <p>
+            <strong>404.抱歉! 您访问的资源不存在!</strong>
+        </p>
+        <p>
+            请确认您输入的网址是否正确，如果问题持续存在，请联系网站管理员。
+        </p>
+        <p>
+            <a href="@Url.Action("Workstation", "Home", new {@Area = ""})">
+                <strong style="font-size: 16px;">
+                    <i class="fa fa-tachometer" style="font-size: 20px;"></i> 返回工作台
+                </strong>
+            </a>
+        </p>
+    </div>
+</div>

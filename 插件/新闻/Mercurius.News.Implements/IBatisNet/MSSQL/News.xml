@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.News.Repository.News" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Repositories.News.News" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="News" type="Mercurius.News.Interfaces.Entities.News, Mercurius.News.Interfaces" />
     <typeAlias alias="NewsSO" type="Mercurius.News.Interfaces.Entities.SO.NewsSO, Mercurius.News.Interfaces" />

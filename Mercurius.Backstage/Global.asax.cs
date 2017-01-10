@@ -9,6 +9,7 @@ using System.Web.Routing;
 using Autofac.Integration.Mvc;
 using Mercurius.Backstage.Autofac;
 using Mercurius.Backstage.Plugins;
+using Mercurius.WebCore;
 
 namespace Mercurius.Backstage
 {

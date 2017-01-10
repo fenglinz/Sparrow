@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Repositories.Core.OperationRecord" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="OperationRecord" type="Mercurius.Core.Interfaces.Entities.OperationRecord, Mercurius.Core.Interfaces"/>
+    <typeAlias alias="OperationRecordSO" type="Mercurius.Core.Interfaces.SO.OperationRecordSO, Mercurius.Core.Interfaces"/>
+  </alias>
+
+  <statements>
+    <!-- 添加操作记录 -->
+    <insert id="Create" parameterClass="OperationRecord">
+      <![CDATA[
+        INSERT INTO dbo.OperationRecord
+        (
+          BusinessCategory,
+          BusinessSerialNumber,
+          [Content],
+          LogOnIPAddress,
+          AddedUserId,
+          AddedDateTime
+        )
+        VALUES
+        (
+          #BusinessCategory#,
+          #BusinessSerialNumber#,
+          #Content#,
+          #LogOnIPAddress#,
+          #AddedUserId#,
+          GETDATE()
+        )
+      ]]>
+    </insert>
+
+    <!-- 查询操作记录 -->
+    <select id="SearchOperationRecords" parameterClass="OperationRecordSO" resultClass="OperationRecord">
+      <![CDATA[
+        WITH cte AS(
+	        SELECT
+	          Id,
+	          BusinessCategory,
+            BusinessSerialNumber,
+            [Content],
+            LogOnIPAddress,
+            AddedUserId,
+            AddedDateTime,
+	          ROW_NUMBER() OVER(ORDER BY AddedDateTime DESC) AS RowIndex
+	        FROM OperationRecord
+      ]]>
+      <include refid="SearchOperationRecordsConditions" />
+      <![CDATA[
+        )
+        SELECT * FROM cte
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize# AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 查询操作记录的总条数 -->
+    <select id="SearchOperationRecordsCount" parameterClass="OperationRecordSO">
+      <![CDATA[
+        SELECT COUNT(*) FROM OperationRecord
+      ]]>
+      <include refid="SearchOperationRecordsConditions" />
+    </select>
+
+    <!-- 查询条件 -->
+    <sql id="SearchOperationRecordsConditions">
+      <isNotNull property="." prepend="WHERE">
+        <isNotEmpty property="BusinessCategory">
+          <![CDATA[BusinessCategory=#BusinessCategory#]]>
+        </isNotEmpty>
+        <isNotEmpty property="BusinessSerialNumber" prepend="AND">
+          <![CDATA[BusinessSerialNumber=#BusinessSerialNumber#]]>
+        </isNotEmpty>
+      </isNotNull>
+    </sql>
+  </statements>
+</sqlMap>

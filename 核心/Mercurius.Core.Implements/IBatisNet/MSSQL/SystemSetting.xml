@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Repositories.Core.SystemSetting" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="SystemSetting" type="Mercurius.Core.Interfaces.Entities.SystemSetting, Mercurius.Core.Interfaces" />
+  </alias>
+
+  <statements>
+
+    <!-- 获取系统配置信息 -->
+    <select id="GetSetting" parameterClass="string" resultClass="SystemSetting">
+      <![CDATA[
+        SELECT
+          Id,
+          ParentId,
+          Name,
+          Value,
+          Remark
+        FROM SystemSetting
+        WHERE Name=#value#        
+      ]]>
+    </select>
+
+    <!-- 获取系统设置信息 -->
+    <select id="GetSettings" parameterClass="string" resultClass="SystemSetting">
+      <![CDATA[
+        SELECT
+          a.Id,
+          a.ParentId,
+          a.Name,
+          a.Value,
+          a.Remark
+        FROM SystemSetting a
+        WHERE Name=#value# OR ParentId IN (
+	        SELECT Id FROM SystemSetting WHERE Name=#value#
+        )
+      ]]>
+    </select>
+
+    <!-- 保存系统设置 -->
+    <insert id="SaveSetting" parameterClass="SystemSetting">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM SystemSetting WHERE (Name=#Name# AND ParentId IS NULL) OR (Name=#Name# AND ParentId=#ParentId#))
+          UPDATE SystemSetting
+          SET
+            [Value]=#Value#
+          WHERE Name=#Name#
+        ELSE
+          INSERT INTO SystemSetting
+          (
+            Id,
+            ParentId,
+            Name,
+            [Value]
+          )
+          VALUES
+          (
+            NEWID(),
+            #ParentId#,
+            #Name#,
+            #Value#
+          )
+      ]]>
+    </insert>
+  </statements>
+</sqlMap>

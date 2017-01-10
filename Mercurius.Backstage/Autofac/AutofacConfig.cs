@@ -9,6 +9,7 @@ using Autofac.Integration.WebApi;
 using Mercurius.Infrastructure.Cache;
 using Mercurius.Infrastructure.Log;
 using Mercurius.ServiceBase;
+using Mercurius.WebCore;
 
 namespace Mercurius.Backstage.Autofac
 {
@@ -63,20 +64,20 @@ namespace Mercurius.Backstage.Autofac
                     //    .InstancePerLifetimeScope();
 
                     // 当前执行代码的程序集。
-                    var appDomainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+                    var appDomainAssemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToArray();
 
-                    // Web Api客户端对象。
                     _builder.RegisterAssemblyTypes(appDomainAssemblies)
-                             .Where(p => p.IsSubclassOf(typeof(WebApiClientSupport)))
-                             .PropertiesAutowired()  // 启用属性注入
-                             .SingleInstance();
+                            .Where(p => p.IsSubclassOf(typeof(WebApiClientSupport)))
+                            .PropertiesAutowired()  // 启用属性注入
+                            .AsImplementedInterfaces()
+                            .InstancePerLifetimeScope();
 
                     // 注册服务。
                     _builder.RegisterAssemblyTypes(appDomainAssemblies)
-                             .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
-                             .PropertiesAutowired()  // 启用属性注入
-                             .AsImplementedInterfaces()
-                             .InstancePerLifetimeScope();
+                            .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
+                            .PropertiesAutowired()  // 启用属性注入
+                            .AsImplementedInterfaces()
+                            .InstancePerLifetimeScope();
 
                     // 注册MVC控制器。
                     _builder.RegisterControllers(appDomainAssemblies)
@@ -102,6 +103,7 @@ namespace Mercurius.Backstage.Autofac
                         .InstancePerRequest();
 
                     Container = _builder.Build();
+                    AutofacServiceLocator.Container = Container;
                 }
             }
         }

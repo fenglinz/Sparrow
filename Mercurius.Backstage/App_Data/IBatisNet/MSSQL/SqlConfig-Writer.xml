@@ -21,6 +21,16 @@
     <typeAlias alias="SearchObject" type="Mercurius.Sparrow.Entities.SearchObject, Mercurius.Sparrow.Entities" />
   </alias>
   <sqlMaps>
-    
+        <sqlMap embedded="IBatisNet.MSSQL.Dictionary.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.File.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.Globalization.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.Logger.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.OperationRecord.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.RepositoryUtils.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.SystemSetting.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.User.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.Permission.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.HomeShortcut.xml, Mercurius.Core.Implements" />
+    <sqlMap embedded="IBatisNet.MSSQL.Organization.xml, Mercurius.Core.Implements" />
   </sqlMaps>
 </sqlMapConfig>

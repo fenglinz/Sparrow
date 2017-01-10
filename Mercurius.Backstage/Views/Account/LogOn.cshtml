@@ -1,0 +1,168 @@
+﻿@{
+    this.Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+@section Head
+{
+    <title>@Html.GetProductName()</title>
+    @Styles.Render("~/Content/logon/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/Common")
+    <!--[if lt IE 8]>
+    <script src="@Url.Content("~/Scripts/html5shiv.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
+    <![endif]-->
+}
+<div class="container-fluid" style="padding:0;">
+    <div class="top-header">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="logo">
+                    <h1>
+                        @Html.GetProductName() @Html.GetProductVersion()
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="row required">
+            最佳浏览环境：IE10+、Chrome 25+、Firefox 20+。
+        </div>
+    </div>
+    <div id="loginbox" class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <i class="glyphicon glyphicon-log-in" style="top: 3px;"></i> 系统登录
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group form-group-lg has-feedback">
+                <input type="text" id="txtUserName" class="form-control" placeholder="请输入账户" autofocus />
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group form-group-lg has-feedback">
+                <input type="password" onpaste="return false;" id="txtPassword" class="form-control" placeholder="请输入密码" />
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group form-group-lg">
+                <div class="input-group">
+                    <input id="txtVerifyCode" maxlength="4" class="form-control" placeholder="请输入验证码" />
+                    <span class="input-group-btn">
+                        <img src="@Url.Action("GetVerifyCode", "Account")" class="verifyCode" id="imgVerifyCode" alt="点击切换验证码" onclick="GetNewVerifyCode()" />
+                    </span>
+                </div>
+            </div>
+            <div class="form-group form-group-lg" style="margin-bottom:0;">
+                <button id="btnLogOn" class="btn btn-lg btn-primary" onclick="return OnLogOn();">
+                    <i id="btnLogOnIcon" class="fa fa-spinner"></i> 登录
+                </button>
+                <span id="errorMsg" style="line-height: 42px;" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy; @DateTime.Now.Year 版权所有
+    </footer>
+</div>
+<script type="text/javascript">
+    var dlgOpend = false;
+
+    if (top.location != self.location) top.location = self.location;
+
+    $(document).ready(function () {
+        ResetPanelMiddle();
+        $(window).resize(ResetPanelMiddle);
+    });
+
+    document.onkeydown = function (e) {
+        if (!e) e = window.event;
+
+        if ((e.keyCode || e.which) == 13) {
+            if (dlgOpend) {
+                dlgOpend = false;
+                mercurius.CloseDialog();
+            } else {
+                var obtnSearch = document.getElementById("btnLogOn");
+
+                obtnSearch.click();
+            }
+        }
+    };
+
+    function ResetPanelMiddle() {
+        if ($(window).height() > 500) {
+            $('#loginbox').css({
+                'margin-top': ($(window).height() - 500) / 2
+            });
+        }
+    }
+
+    function GetNewVerifyCode() {
+        $('#txtVerifyCode').val('');
+        $('#imgVerifyCode').attr('src', '@Url.Action("GetVerifyCode", "Account", new {@Area = ""})/?time=' + Math.random());
+    }
+
+    function LogOnValid() {
+        var name = $('#txtUserName').val();
+        var password = $('#txtPassword').val();
+        var verifyCode = $('#txtVerifyCode').val();
+
+        if (name == '') {
+            $('#txtUserName').focus();
+            $('#errorMsg').html('账户不能为空！');
+
+            return false;
+        } else if (password == '') {
+            $('#txtPassword').focus();
+            $('#errorMsg').html('密码不能为空！');
+
+            return false;
+        } else if (verifyCode == '') {
+            $('#txtVerifyCode').focus();
+            $('#errorMsg').html('验证码不能为空！');
+
+            return false;
+        } else {
+            $('#errorMsg').html('');
+
+            return true;
+        }
+    }
+
+    function OnLogOn() {
+        if (LogOnValid()) {
+            ToggleLogOnState(true);
+
+            var name = $('#txtUserName').val();
+            var password = $('#txtPassword').val();
+            var verifyCode = $('#txtVerifyCode').val();
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '@Url.Action("LogOn", "Account")',
+                data: { name: name, password: password, verifyCode: verifyCode },
+                dataType: "JSON",
+                success: function (rs) {
+                    if (rs != '') {
+                        GetNewVerifyCode();
+                        ToggleLogOnState(false);
+
+                        alert(rs);
+                        dlgOpend = true;
+                    } else {
+                        window.location.href = '@Url.Action("Index", "Home")';
+                    }
+                }
+            });
+        }
+    }
+
+    function ToggleLogOnState(state) {
+        $('#btnLogOn').prop('disabled', state);
+
+        if (state) {
+            $('#btnLogOnIcon').addClass('fa-spin');
+        } else {
+            $('#btnLogOnIcon').removeClass('fa-spin');
+        }
+    }
+</script>

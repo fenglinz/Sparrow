@@ -52,7 +52,7 @@ namespace Mercurius.Backstage.Plugins
             {
                 Plugins = new List<Plugin>();
 
-                var binPaths = "";
+                var binPaths = "bin;";
 
                 foreach (var item in paths)
                 {

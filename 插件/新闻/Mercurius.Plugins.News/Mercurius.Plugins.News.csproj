@@ -136,7 +136,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Mercurius.EntityBase\Mercurius.EntityBase.csproj">
+    <ProjectReference Include="..\..\..\基础\Mercurius.EntityBase\Mercurius.EntityBase.csproj">
       <Project>{5B236DA6-7A5A-48E8-813E-5745B0E50D65}</Project>
       <Name>Mercurius.EntityBase</Name>
     </ProjectReference>
@@ -144,11 +144,11 @@
       <Project>{b0732ad6-ac7a-4980-817e-432631963939}</Project>
       <Name>Mercurius.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Mercurius.RepositoryBase\Mercurius.RepositoryBase.csproj">
+    <ProjectReference Include="..\..\..\基础\Mercurius.RepositoryBase\Mercurius.RepositoryBase.csproj">
       <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
       <Name>Mercurius.RepositoryBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Mercurius.ServiceBase\Mercurius.ServiceBase.csproj">
+    <ProjectReference Include="..\..\..\基础\Mercurius.ServiceBase\Mercurius.ServiceBase.csproj">
       <Project>{1002e71d-798e-4180-a838-582d93c5a3fb}</Project>
       <Name>Mercurius.ServiceBase</Name>
     </ProjectReference>
@@ -160,6 +160,17 @@
       <Project>{1eda83c9-e710-41e8-a31e-d5bf59ee86a9}</Project>
       <Name>Mercurius.News.Interfaces</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

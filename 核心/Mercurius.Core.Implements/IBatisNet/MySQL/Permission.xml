@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Repositories.Core.Permission" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="SystemMenu" type="Mercurius.Core.Interfaces.Entities.SystemMenu, Mercurius.Core.Interfaces" />
+  </alias>
+
+  <statements>
+
+    <!-- 添加或编辑系统菜单信息 -->
+    <insert id="CreateOrUpdate" parameterClass="SystemMenu">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.SystemMenu WHERE Id=#Id#)
+          UPDATE RBAC.SystemMenu
+          SET
+            ParentId=#ParentId#,
+            Name=#Name#,
+            Title=#Title#,
+            Image=#Image#,
+            Category=#Category#,
+            NavigateUrl=#NavigateUrl#,
+            Target=#Target#,
+            Sort=#Sort#,
+            ModifyUserId=#ModifyUserId#,
+            ModifyDateTime=GETDATE()
+          WHERE Id=#Id#
+        ELSE
+          INSERT INTO RBAC.SystemMenu
+          ( 
+            Id,
+            ParentId,
+            Name,
+            Title,
+            Image,
+            Category,
+            NavigateUrl,
+            Target,
+            Sort,
+            Status,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+          (
+            NEWID(),
+            #ParentId#,
+            #Name#,
+            #Title#,
+            #Image#,
+            #Category#,
+            #NavigateUrl#,
+            #Target#,
+            #Sort#,
+            1,
+            #CreateUserId#,
+            GETDATE()
+          )
+      ]]>
+    </insert>
+
+    <!-- 分配按钮 -->
+    <insert id="AllotButtons" parameterClass="Params">
+      <![CDATA[
+        EXEC RBAC.AllotButtons #SystemMenuId#, #ButtonIds#, #OpUserId#
+      ]]>
+    </insert>
+    
+    <!-- 删除系统菜单信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.SystemMenu WHERE ParentId=#value# AND Category<>3)
+          RAISERROR('不能直接删除包含子菜单的菜单项！',16,1);
+        ELSE
+        BEGIN
+          DELETE FROM RBAC.SystemMenu WHERE Id=#value#;
+          DELETE FROM RBAC.SystemMenu WHERE ParentId=#value# AND Category=3;
+          DELETE FROM RBAC.UserPermission WHERE SystemMenuId=#value#;
+          DELETE FROM RBAC.RolePermission WHERE SystemMenuId=#value#;
+        END
+      ]]>
+    </delete>
+
+    <!-- 分配角色权限 -->
+    <insert id="AllotPermissionByRole" parameterClass="Params">
+      <![CDATA[
+        BEGIN
+          DELETE FROM RBAC.RolePermission WHERE RoleId=#RoleId#;
+      ]]>
+      <isNotNull property="SystemMenuIds">
+        <![CDATA[
+          INSERT INTO RBAC.RolePermission
+          (
+            Id,
+            RoleId,
+            SystemMenuId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="SystemMenuIds" open="" close=";" conjunction=",">
+          <![CDATA[
+            (
+              NEWID(),
+              #RoleId#,
+              #SystemMenuIds[]#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+      <![CDATA[
+        END
+      ]]>
+    </insert>
+
+    <!-- 获取系统菜单 -->
+    <select id="GetSystemMenus" parameterClass="string" resultClass="SystemMenu">
+      <![CDATA[
+        WITH cte AS(
+          SELECT
+            Id
+            ,Name
+            ,Title
+            ,Image
+            ,Category
+            ,Target
+            ,ParentId
+            ,CAST(Sort AS VARCHAR) AS FullSort
+            ,NavigateUrl
+            ,CreateUserId
+            ,CreateDateTime
+            ,ModifyUserId
+            ,ModifyDateTime
+            ,Status
+            ,Sort
+          FROM RBAC.SystemMenu a
+          WHERE ParentId='0' AND Status=1 AND Category!=3
+          UNION ALL
+          SELECT 
+            a.Id
+            ,a.Name
+            ,a.Title
+            ,a.Image
+            ,a.Category
+            ,a.Target
+            ,a.ParentId
+            ,CAST(cte.FullSort + '-' + CAST(a.Sort AS VARCHAR) AS VARCHAR) AS FullSort
+            ,a.NavigateUrl
+            ,a.CreateUserId
+            ,a.CreateDateTime
+            ,a.ModifyUserId
+            ,a.ModifyDateTime
+            ,a.Status
+            ,a.Sort
+          FROM RBAC.SystemMenu a
+          INNER JOIN cte 
+            ON a.ParentId=cte.Id
+        )
+        SELECT
+          cte.Id
+          ,cte.Name
+          ,b.Title
+          ,CASE WHEN cte.Category=3 THEN b.Image ELSE cte.Image END Image
+          ,cte.Category
+          ,cte.Target
+          ,cte.ParentId
+          ,cte.FullSort
+          ,CASE WHEN cte.Category=3 THEN b.Code ELSE cte.NavigateUrl END NavigateUrl
+          ,u1.Name AS CreateUserName
+          ,cte.CreateDateTime
+          ,u2.Name AS ModifyUserName
+          ,cte.ModifyDateTime
+          ,cte.Status
+          ,cte.Sort
+        FROM cte
+        LEFT JOIN RBAC.Button b
+          ON cte.Name=b.Name
+        LEFT JOIN RBAC.[User] u1
+          ON cte.CreateUserId=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON cte.ModifyUserId=u2.Id
+        WHERE cte.Status=1
+      ]]>
+    </select>
+
+    <!-- 获取新增按钮菜单的排序号 -->
+    <select id="NewSystemMenuButtonSort" parameterClass="string" resultClass="int">
+      <![CDATA[
+        SELECT 
+          CASE
+            WHEN MAX(SORT) IS NULL THEN 1
+            ELSE MAX(SORT)+1 
+          END
+        FROM RBAC.SystemMenu
+        WHERE ParentId=#value# AND Category=3 AND Status=1
+      ]]>
+    </select>
+
+    <!-- 检查菜单相关联的按钮是否已经添加 -->
+    <select id="CheckSystemButtonExists" parameterClass="Params" resultClass="int">
+      <![CDATA[
+        SELECT 
+          COUNT(1) AS COUNT
+        WHERE EXISTS (
+          SELECT * FROM RBAC.SystemMenu
+          WHERE ParentId=#ParentId# AND Name=#ButtonName# AND Category=3 AND Status=1
+        )
+      ]]>
+    </select>
+
+    <!-- 获取标有用户拥有访问权限的菜单列表 -->
+    <select id="GetSystemMenusWithAllotedByUser" parameterClass="string" resultClass="SystemMenu">
+      <![CDATA[
+        WITH cte AS(
+          SELECT
+            Id
+            ,Name
+            ,Title
+            ,Image
+            ,Category
+            ,Target
+            ,ParentId
+            ,CAST(Sort AS VARCHAR) AS FullSort
+            ,NavigateUrl
+            ,CreateUserId
+            ,CreateDateTime
+            ,ModifyUserId
+            ,ModifyDateTime
+            ,Status
+            ,Sort
+          FROM RBAC.SystemMenu a
+          WHERE ParentId='0' AND Status=1 AND Category!=3
+          UNION ALL
+          SELECT 
+            a.Id
+            ,a.Name
+            ,a.Title
+            ,a.Image
+            ,a.Category
+            ,a.Target
+            ,a.ParentId
+            ,CAST(cte.FullSort + '-' + CAST(a.Sort AS VARCHAR) AS VARCHAR) AS FullSort
+            ,a.NavigateUrl
+            ,a.CreateUserId
+            ,a.CreateDateTime
+            ,a.ModifyUserId
+            ,a.ModifyDateTime
+            ,a.Status
+            ,a.Sort
+          FROM RBAC.SystemMenu a
+          INNER JOIN cte ON a.ParentId=cte.Id
+        ),
+        canAccess as(
+          SELECT
+            Distinct M.Id
+          FROM RBAC.SystemMenu M
+          LEFT JOIN RBAC.UserPermission U_P 
+            ON U_P.SystemMenuId = M.Id
+          WHERE U_P.UserId=#value#
+        )
+        SELECT
+          cte.*,
+          u1.Name AS CreateUserName,
+          u2.Name AS ModifyUserName,
+          CASE WHEN canAccess.Id IS NULL THEN 0 ELSE 1 END AS CanAccess
+        FROM cte
+        LEFT JOIN canAccess
+          ON cte.Id=canAccess.Id
+        LEFT JOIN RBAC.[User] u1
+          ON cte.CreateUserId=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON cte.ModifyUserId=u2.Id
+        WHERE cte.Status=1
+      ]]>
+    </select>
+
+    <!-- 获取标有角色拥有访问权限的菜单列表 -->
+    <select id="GetSystemMenusWithAllotedByRole" parameterClass="string" resultClass="SystemMenu">
+      <![CDATA[
+        WITH cte AS(
+          SELECT
+            Id
+            ,Name
+            ,Title
+            ,Image
+            ,Category
+            ,Target
+            ,ParentId
+            ,CAST(Sort AS VARCHAR) AS FullSort
+            ,NavigateUrl
+            ,CreateUserId
+            ,CreateDateTime
+            ,ModifyUserId
+            ,ModifyDateTime
+            ,Status
+            ,Sort
+          FROM RBAC.SystemMenu a
+          WHERE ParentId='0' AND Status=1 AND Category!=3
+          UNION ALL
+          SELECT 
+            a.Id
+            ,a.Name
+            ,a.Title
+            ,a.Image
+            ,a.Category
+            ,a.Target
+            ,a.ParentId
+            ,CAST(cte.FullSort + '-' + CAST(a.Sort AS VARCHAR) AS VARCHAR) AS FullSort
+            ,a.NavigateUrl
+            ,a.CreateUserId
+            ,a.CreateDateTime
+            ,a.ModifyUserId
+            ,a.ModifyDateTime
+            ,a.Status
+            ,a.Sort
+          FROM RBAC.SystemMenu a
+          INNER JOIN cte ON a.ParentId=cte.Id
+        ),
+        canAccess as(
+          SELECT
+            Distinct M.Id
+          FROM RBAC.SystemMenu M
+          LEFT JOIN RBAC.RolePermission R_R 
+            ON R_R.SystemMenuId = M.Id
+          WHERE R_R.RoleId=#value#
+        )
+        SELECT
+          cte.*,
+          u1.Name AS CreateUserName,
+          u2.Name AS ModifyUserName,
+          CASE WHEN canAccess.Id IS NULL THEN 0 ELSE 1 END AS CanAccess
+        FROM cte
+        LEFT JOIN canAccess
+          ON cte.Id=canAccess.Id
+        LEFT JOIN RBAC.[User] u1
+          ON cte.CreateUserId=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON cte.ModifyUserId=u2.Id
+        WHERE cte.Status=1
+      ]]>
+    </select>
+
+    <!-- 获取用户可访问的菜单 -->
+    <select id="GetAccessibleMenusByUser" parameterClass="string" resultClass="SystemMenu">
+      <![CDATA[
+        SELECT
+          M.Id,
+          M.Name,
+          M.Category,
+          M.Title,
+          M.Image,
+          M.Target,
+          M.ParentId,
+          M.NavigateUrl,
+          M.Sort
+        FROM RBAC.SystemMenu M
+        LEFT JOIN RBAC.RolePermission R_R 
+          ON R_R.SystemMenuId=M.Id
+        LEFT JOIN RBAC.UserRole U_R 
+          ON U_R.RoleId=R_R.RoleId
+        WHERE M.Category<>3 AND U_R.UserId=#value# AND M.Status=1
+        UNION ALL
+        SELECT
+          M.Id,
+          M.Name,
+          M.Category,
+          M.Title,
+          M.Image,
+          M.Target,
+          M.ParentId,
+          M.NavigateUrl,
+          M.Sort
+        FROM RBAC.SystemMenu M
+        LEFT JOIN RBAC.UserPermission U_R 
+          ON U_R.SystemMenuId=M.Id
+        WHERE M.Category<>3 AND U_R.UserId=#value# AND M.Status=1
+        ORDER BY M.Sort
+      ]]>
+    </select>
+
+    <!-- 获取用户当前可以使用的按钮 -->
+    <select id="GetAccessibleButtons" parameterClass="Params" resultClass="SystemMenu">
+      <![CDATA[
+        WITH cte AS(
+          SELECT
+            M.Name,
+            B.Title,
+            B.Image,
+            M.Target,
+            M.ParentId,
+            M.Id,
+            M.NavigateUrl AS Url,
+            B.Code AS NavigateUrl,
+            M.Sort,
+            M.Category
+          FROM RBAC.SystemMenu M
+          LEFT JOIN RBAC.RolePermission R_R 
+            ON R_R.SystemMenuId=M.Id
+          LEFT JOIN RBAC.UserRole U_R 
+            ON U_R.RoleId=R_R.RoleId
+          LEFT JOIN RBAC.Button B
+            ON M.Name=B.Name
+          WHERE U_R.UserId=#UserId# AND M.Status=1
+          UNION
+          SELECT
+            M.Name,
+            B.Title,
+            B.Image,
+            M.Target,
+            M.ParentId,
+            M.Id,
+            M.NavigateUrl AS Url,
+            B.Code AS NavigateUrl,
+            M.Sort,
+            M.Category
+          FROM RBAC.SystemMenu M
+          LEFT JOIN RBAC.UserPermission U_R 
+            ON U_R.SystemMenuId=M.Id
+          LEFT JOIN RBAC.Button B
+            ON M.Name=B.Name
+          WHERE U_R.UserId=#UserId# AND M.Status=1
+        )
+        SELECT * FROM cte
+        WHERE ParentId IN (SELECT Id FROM cte WHERE Url=#NavigateUrl#) AND cte.Category=3
+        ORDER BY Sort
+      ]]>
+    </select>
+
+    <!-- 获取菜单项 -->
+    <select id="GetSystemMenu" parameterClass="string" resultClass="SystemMenu">
+      <![CDATA[
+        SELECT
+          a.Id
+          ,a.Name
+          ,a.Title
+          ,a.Image
+          ,a.Category
+          ,a.Target
+          ,a.ParentId
+          ,a.Sort
+          ,a.NavigateUrl
+          ,u1.Name AS CreateUserName
+          ,a.CreateDateTime
+          ,u2.Name AS ModifyUserName
+          ,a.ModifyDateTime
+        FROM RBAC.SystemMenu a
+        LEFT JOIN RBAC.[User] u1
+          ON a.CreateUserId=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON a.ModifyUserId=u2.Id
+        WHERE a.Id=#value#
+      ]]>
+    </select>
+  </statements>
+</sqlMap>
