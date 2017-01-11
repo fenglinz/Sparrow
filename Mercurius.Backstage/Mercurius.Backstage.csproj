@@ -1161,7 +1161,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1198</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://127.0.0.1:8000/Sparrow</IISUrl>
+          <IISUrl>http://127.0.0.1/Backstage</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
