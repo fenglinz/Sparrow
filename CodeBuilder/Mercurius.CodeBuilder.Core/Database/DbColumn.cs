@@ -25,7 +25,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         private string _propertyName;
         private string _sqlType;
         private string _basicType;
-        private long _length;
+        private long? _length;
         private string _description;
         private bool _editable;
         private bool _visible;
@@ -107,7 +107,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// <summary>
         /// 获取或者设置字段长度。
         /// </summary>
-        public long Length
+        public long? Length
         {
             get { return this._length; }
             set

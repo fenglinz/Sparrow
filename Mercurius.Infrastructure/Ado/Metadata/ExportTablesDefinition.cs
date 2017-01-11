@@ -148,10 +148,18 @@ namespace Mercurius.Infrastructure.Ado
                         row.CreateCell(0, centerCellStyle).SetCellValue(columnIndex++);
                         row.CreateCell(1, leftCellStyle).SetCellValue(column.Name);
                         row.CreateCell(2, leftCellStyle).SetCellValue(column.DataType);
-                        row.CreateCell(3, leftCellStyle).SetCellValue(column.DataLength);
-                        row.CreateCell(4, leftCellStyle).SetCellValue(column.IsIdentity ? "主键" : column.IsNullable ? "可空" : "非空");
+                        row.CreateCell(3, leftCellStyle).SetCellValue(column.DataLength.HasValue ? column.DataLength.Value.ToString() : "");
+                        row.CreateCell(4, leftCellStyle).SetCellValue(column.IsNullable ? "NULL" : "NOT NULL");
                         row.CreateCell(5, leftCellStyle).SetCellValue(column.Description);
-                        row.CreateCell(6, centerCellStyle).SetCellValue("");
+
+                        var temp = column.IsPrimaryKey ? "PK" : "";
+
+                        if (column.IsIdentity)
+                        {
+                            temp = string.IsNullOrEmpty(temp) ? "Auto Increment" : "PK, Auto Increment";
+                        }
+
+                        row.CreateCell(6, centerCellStyle).SetCellValue(temp);
                     }
 
                     // 设置列宽。

@@ -148,6 +148,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                                                          DataType = c.SqlType,
                                                          DataLength = c.Length,
                                                          Description = c.Description,
+                                                         IsPrimaryKey = c.IsPrimaryKey,
                                                          IsIdentity = c.IsIdentity,
                                                          IsNullable = c.Nullable
                                                      }).ToList()

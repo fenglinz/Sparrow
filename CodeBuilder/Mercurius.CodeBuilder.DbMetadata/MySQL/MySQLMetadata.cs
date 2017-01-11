@@ -57,7 +57,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
 
             while (reader.Read())
             {
-                result.Add(new CustomObject { Name = reader.GetString(0) });
+                result.Add(new CustomObject { Name = reader.GetString(0), Type = CustomObjectType.Table });
             }
 
             return result;

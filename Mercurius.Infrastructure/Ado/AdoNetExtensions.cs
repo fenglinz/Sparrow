@@ -5,7 +5,6 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace Mercurius.Infrastructure.Ado
 {
@@ -182,7 +181,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="command">数据库命令对象</param>
         /// <returns>数据信息</returns>
-        public static T GetData<T>(this DbCommand command)
+        public static T GetData<T>(this DbCommand command) where T : new()
         {
             if (command == null)
             {
@@ -288,7 +287,7 @@ namespace Mercurius.Infrastructure.Ado
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="dataReader">DataReader对象</param>
         /// <returns>数据对象</returns>
-        public static T GetData<T>(this DbDataReader dataReader)
+        public static T GetData<T>(this DbDataReader dataReader) where T : new()
         {
             if (dataReader == null)
             {
@@ -476,10 +475,10 @@ namespace Mercurius.Infrastructure.Ado
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="dataReader">DataReader对象</param>
         /// <returns>数据</returns>
-        internal static T ReflectionDataMapping<T>(DbDataReader dataReader)
+        internal static T ReflectionDataMapping<T>(DbDataReader dataReader) where T : new()
         {
+            var data = new T();
             var type = typeof(T);
-            var data = Activator.CreateInstance<T>();
 
             if (!PropertiesDictionary.ContainsKey(type))
             {
