@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
-using Mercurius.Infrastructure.Log;
+using Mercurius.Infrastructure.Logger;
 
 namespace Mercurius.Sparrow.Entities.Core
 {

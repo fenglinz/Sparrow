@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Log;
+using Mercurius.Infrastructure.Logger;
 using Mercurius.Sparrow.Entities;
 using Mercurius.Sparrow.Entities.Core;
 

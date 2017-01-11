@@ -129,7 +129,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logger.cs" />
     <Compile Include="Providers\IBatisNetMSSQLDynamicQueryProvider.cs" />
     <Compile Include="Providers\IBatisNetPostSQLDynamicQueryProvider.cs" />
     <Compile Include="Persistence.cs" />

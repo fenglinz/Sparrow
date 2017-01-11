@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using Mercurius.Infrastructure.Ado;
 using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Log;
+using Mercurius.Infrastructure.Logger;
 
 namespace Mercurius.Infrastructure.Dynamic
 {

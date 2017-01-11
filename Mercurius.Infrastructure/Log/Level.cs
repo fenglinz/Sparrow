@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Mercurius.Infrastructure;
 
-namespace Mercurius.Infrastructure.Log
+namespace Mercurius.Infrastructure.Logger
 {
     /// <summary>
     /// 日志级别。

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Log;
+using Mercurius.Infrastructure.Logger;
 using Mercurius.Sparrow.Contracts;
 using Mercurius.Sparrow.Entities.Core;
 using Mercurius.Sparrow.Repositories;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercurius.Infrastructure.Log
+namespace Mercurius.Infrastructure.Logger
 {
     /// <summary>
     /// 记录日志的接口。

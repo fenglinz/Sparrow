@@ -4,19 +4,19 @@ using System.Text;
 using Mercurius.EntityBase;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Log;
+using Mercurius.Infrastructure.Logger;
+using Mercurius.RepositoryBase;
 
-namespace Mercurius.RepositoryBase
+namespace Mercurius.Core.Implements.Logger
 {
     /// <summary>
     /// 日志数据访问仓储接口实现。
     /// </summary>
-    public class Logger : ILogger
+    public class IBatisNetLogger : ILogger
     {
         #region 静态变量
 
-        private const string RepositorySuffix = "Repository";
-        private const string StatementFormatter = "{0}.{1}";
+        private static readonly StatementNamespace NS = "Mercurius.Repositories.Core.Logger";
 
         #endregion
 
@@ -41,29 +41,9 @@ namespace Mercurius.RepositoryBase
         public CacheProvider Cache { get; set; }
 
         /// <summary>
-        /// SqlMap的命名空间。
-        /// </summary>
-        public string SqlMapNamespace { get; set; }
-
-        /// <summary>
         /// SqlMapper管理器。
         /// </summary>
-        public SqlMapperManager SqlMapperManager { get; set; }
-
-        #endregion
-
-        #region 构造方法
-
-        /// <summary>
-        /// 默认构造方法。
-        /// </summary>
-        public Logger()
-        {
-            var type = this.GetType();
-            var nsSuffix = type.Name.Replace(RepositorySuffix, string.Empty);
-
-            this.SqlMapNamespace = string.Format(StatementFormatter, type.Namespace, nsSuffix);
-        }
+        public Persistence Persistence { get; set; }
 
         #endregion
 
@@ -82,7 +62,7 @@ namespace Mercurius.RepositoryBase
             {
                 try
                 {
-                    cacheValue = this.SqlMapperManager[RW.Read].QueryForObject<string>(string.Format(StatementFormatter, this.SqlMapNamespace, "GetLoggerLevel"), null);
+                    cacheValue = this.Persistence.QueryForObject<string>(NS, "GetLoggerLevel");
 
                     if (string.IsNullOrWhiteSpace(cacheValue))
                     {
@@ -282,16 +262,6 @@ namespace Mercurius.RepositoryBase
         #region 私有方法
 
         /// <summary>
-        /// 获取完整的命令编号。
-        /// </summary>
-        /// <param name="statementId">命令编号</param>
-        /// <returns>完整的命令编号</returns>
-        private string GetFullStatementId(string statementId)
-        {
-            return string.Format(StatementFormatter, this.SqlMapNamespace, statementId);
-        }
-
-        /// <summary>
         /// 将日志记录写入数据库。
         /// </summary>
         /// <param name="level">日志级别</param>
@@ -309,7 +279,7 @@ namespace Mercurius.RepositoryBase
                     log.LogOnIP = logOnIp;
                     log.LogOnId = logOnId;
 
-                    this.SqlMapperManager[RW.Write].Insert(this.GetFullStatementId("Write"), log);
+                    this.Persistence.Create(NS, "Write", log);
                 }
             }
             catch

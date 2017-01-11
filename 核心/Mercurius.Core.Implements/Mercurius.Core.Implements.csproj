@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logger\IBatisNetLogger.cs" />
     <Compile Include="Services\DictionaryService.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\FileStorageClient.cs" />

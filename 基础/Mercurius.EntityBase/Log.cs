@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Mercurius.Infrastructure.Ado;
-using Mercurius.Infrastructure.Log;
+using Mercurius.Infrastructure.Logger;
 
 namespace Mercurius.EntityBase
 {

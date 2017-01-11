@@ -79,6 +79,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Agency.Interfaces
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Agency.Implements", "插件\组织机构\Mercurius.Agency.Implements\Mercurius.Agency.Implements.csproj", "{3E466EA9-B0E0-4576-9C57-386A812FE5F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.Agency", "插件\组织机构\Mercurius.Plugins.Agency\Mercurius.Plugins.Agency.csproj", "{6CC60119-C849-44A2-BA52-3B359AEBC33C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -169,6 +171,10 @@ Global
 		{3E466EA9-B0E0-4576-9C57-386A812FE5F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E466EA9-B0E0-4576-9C57-386A812FE5F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E466EA9-B0E0-4576-9C57-386A812FE5F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CC60119-C849-44A2-BA52-3B359AEBC33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CC60119-C849-44A2-BA52-3B359AEBC33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CC60119-C849-44A2-BA52-3B359AEBC33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CC60119-C849-44A2-BA52-3B359AEBC33C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -196,9 +202,10 @@ Global
 		{F81DB796-C2B2-414B-B1FF-10AC8BAEB124} = {47209CF1-9216-4784-847E-624A0D066EE6}
 		{6823DACF-B54F-412B-9F47-F7AB8BCD8DAB} = {511A5ED0-C38C-4A48-B5CB-C79154A8C55F}
 		{3E466EA9-B0E0-4576-9C57-386A812FE5F5} = {511A5ED0-C38C-4A48-B5CB-C79154A8C55F}
+		{6CC60119-C849-44A2-BA52-3B359AEBC33C} = {511A5ED0-C38C-4A48-B5CB-C79154A8C55F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 	EndGlobalSection
 EndGlobal

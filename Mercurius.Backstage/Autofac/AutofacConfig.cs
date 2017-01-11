@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Reflection;
 using System.Web.Compilation;
-using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using Mercurius.Core.Implements.Logger;
 using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Log;
+using Mercurius.Infrastructure.Logger;
+using Mercurius.RepositoryBase;
 using Mercurius.ServiceBase;
 using Mercurius.WebCore;
 
@@ -59,9 +60,9 @@ namespace Mercurius.Backstage.Autofac
                     //    .InstancePerLifetimeScope();
 
                     // 注册Logger。
-                    //_builder.Register(c => new Logger { Cache = c.Resolve<CacheProvider>(), SqlMapperManager = c.Resolve<SqlMapperManager>() })
-                    //    .As<ILogger>()
-                    //    .InstancePerLifetimeScope();
+                    _builder.Register(c => new IBatisNetLogger { Cache = c.Resolve<CacheProvider>(), Persistence = c.Resolve<Persistence>() })
+                        .As<ILogger>()
+                        .InstancePerLifetimeScope();
 
                     // 当前执行代码的程序集。
                     var appDomainAssemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToArray();

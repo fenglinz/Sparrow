@@ -4,7 +4,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Log;
+using Mercurius.Infrastructure.Logger;
 using Mercurius.Sparrow.Repositories;
 using Mercurius.Sparrow.Repositories.Core;
 using Mercurius.Sparrow.Services;
