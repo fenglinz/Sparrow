@@ -71,9 +71,9 @@ namespace Mercurius.Infrastructure
             var style = workbook.CreateCellStyle();
 
             font.FontName = "Courier New";
-            font.FontHeightInPoints = 12;
+            font.FontHeightInPoints = 14;
 
-            style.WrapText = false;
+            style.WrapText = true;
             style.Alignment = HorizontalAlignment.Center;
             style.VerticalAlignment = VerticalAlignment.Center;
 

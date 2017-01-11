@@ -47,7 +47,7 @@ namespace Mercurius.Infrastructure.Ado
                 }, font =>
                 {
                     font.Boldweight = 700;
-                    font.FontHeightInPoints = 14;
+                    font.FontHeightInPoints = 16;
                     font.Color = IndexedColors.White.Index;
                 });
 
@@ -75,14 +75,14 @@ namespace Mercurius.Infrastructure.Ado
             var bookmarkSheet = workbook.CreateSheet("目录");
             var titleRow = bookmarkSheet.CreateRow(0);
 
-            titleRow.HeightInPoints = 32;
+            titleRow.HeightInPoints = 36;
             titleRow.CreateCell(0, titleCellStyle).SetCellValue("序号");
             titleRow.CreateCell(1, titleCellStyle).SetCellValue("表名称");
             titleRow.CreateCell(2, titleCellStyle).SetCellValue("描述");
             titleRow.CreateCell(3, titleCellStyle).SetCellValue("备注");
 
             bookmarkSheet.SetColumnWidth(0, 10 * 256);
-            bookmarkSheet.SetColumnWidth(1, 60 * 256);
+            bookmarkSheet.SetColumnWidth(1, 75 * 256);
             bookmarkSheet.SetColumnWidth(2, 45 * 256);
             bookmarkSheet.SetColumnWidth(3, 45 * 256);
 
@@ -103,7 +103,7 @@ namespace Mercurius.Infrastructure.Ado
                     // 在目录Sheet中添加表的目录信息。
                     var bookmarkRow = bookmarkSheet.CreateRow(bookmarkIndex);
 
-                    bookmarkRow.HeightInPoints = 22;
+                    bookmarkRow.HeightInPoints = 24;
                     bookmarkRow.CreateCell(0, centerCellStyle).SetCellValue(bookmarkIndex++);
                     bookmarkRow.CreateCell(1, hyperlinkCellStyle).SetCellValue($"{table.Name}");
                     bookmarkRow.CreateCell(2, leftCellStyle).SetCellValue(table.Comments);
@@ -120,7 +120,7 @@ namespace Mercurius.Infrastructure.Ado
 
                     // 合并单元格。
                     var reginIndex = sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, 6));
-                    tableRow.Height = 38 * 20;
+                    tableRow.Height = 40 * 20;
                     tableRow.CreateCell(0, tableCellStyle).SetCellValue($"{table.Comments}表({table.Name})");
 
                     rowIndex++;
@@ -128,7 +128,7 @@ namespace Mercurius.Infrastructure.Ado
                     // 添加标题。
                     titleRow = sheet.CreateRow(rowIndex++);
 
-                    titleRow.Height = 28 * 20;
+                    titleRow.Height = 30 * 20;
                     titleRow.CreateCell(0, titleCellStyle).SetCellValue("序号");
                     titleRow.CreateCell(1, titleCellStyle).SetCellValue("名称");
                     titleRow.CreateCell(2, titleCellStyle).SetCellValue("类型");
@@ -144,7 +144,7 @@ namespace Mercurius.Infrastructure.Ado
                     {
                         var row = sheet.CreateRow(rowIndex++);
 
-                        row.Height = 22 * 20;
+                        row.Height = 24 * 20;
                         row.CreateCell(0, centerCellStyle).SetCellValue(columnIndex++);
                         row.CreateCell(1, leftCellStyle).SetCellValue(column.Name);
                         row.CreateCell(2, leftCellStyle).SetCellValue(column.DataType);
@@ -159,17 +159,17 @@ namespace Mercurius.Infrastructure.Ado
                             temp = string.IsNullOrEmpty(temp) ? "Auto Increment" : "PK, Auto Increment";
                         }
 
-                        row.CreateCell(6, centerCellStyle).SetCellValue(temp);
+                        row.CreateCell(6, leftCellStyle).SetCellValue(temp);
                     }
 
                     // 设置列宽。
-                    sheet.SetColumnWidth(0, 8 * 256);
-                    sheet.SetColumnWidth(1, 40 * 256);
-                    sheet.SetColumnWidth(2, 18 * 256);
-                    sheet.SetColumnWidth(3, 12 * 256);
-                    sheet.SetColumnWidth(4, 12 * 256);
-                    sheet.SetColumnWidth(5, 45 * 256);
-                    sheet.SetColumnWidth(6, 45 * 256);
+                    sheet.SetColumnWidth(0, 10 * 256);
+                    sheet.SetColumnWidth(1, 50 * 256);
+                    sheet.SetColumnWidth(2, 22 * 256);
+                    sheet.SetColumnWidth(3, 22 * 256);
+                    sheet.SetColumnWidth(4, 16 * 256);
+                    sheet.SetColumnWidth(5, 50 * 256);
+                    sheet.SetColumnWidth(6, 50 * 256);
 
                     rowIndex += 3;
                 }

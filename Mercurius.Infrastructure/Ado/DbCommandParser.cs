@@ -150,7 +150,7 @@ namespace Mercurius.Infrastructure.Ado
         {
             XCommand xcommand;
 
-            var documentKey = $"{ns}.{file}";
+            var documentKey = $"{ns}.{database}.{file}";
             var commandTextKey = $"{documentKey}.{name}";
 
             embeddedAssembly = embeddedAssembly ?? typeof(DbCommandParser).Assembly;

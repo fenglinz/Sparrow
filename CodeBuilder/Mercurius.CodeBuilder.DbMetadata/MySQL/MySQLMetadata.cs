@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Mercurius.CodeBuilder.Core;
@@ -85,7 +86,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
 
                 foreach (var item in columns)
                 {
-                    var dbColumn = new DbColumn { Name = item.Name };
+                    var dbColumn = new DbColumn {Name = item.Name};
 
                     dbColumn.PropertyName = dbColumn.Name.PascalNaming();
                     dbColumn.IsIdentity = item.IsIdentity;
@@ -99,7 +100,10 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
                     result.Columns.Add(dbColumn);
                 }
             }
-            catch { }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
 
             return result;
         }

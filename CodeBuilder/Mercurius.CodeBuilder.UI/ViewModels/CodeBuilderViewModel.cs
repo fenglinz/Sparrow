@@ -119,6 +119,9 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// 生成表定义文档命令。
+        /// </summary>
         public ICommand CreateTableDefinitionCommand
         {
             get
@@ -211,6 +214,9 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// 生成数据库脚本命令。
+        /// </summary>
         public ICommand BuildingDatabaseScriptsCommand
         {
             get
