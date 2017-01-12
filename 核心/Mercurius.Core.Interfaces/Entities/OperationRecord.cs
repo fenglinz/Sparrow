@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Core.Interfaces.Entities
 {
@@ -12,7 +12,7 @@ namespace Mercurius.Core.Interfaces.Entities
     /// 操作记录实体信息。
     /// </summary>
     [Table("OperationRecord")]
-    public class OperationRecord : Domain
+    public class OperationRecord : Entity
     {
         #region 属性
 

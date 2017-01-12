@@ -3,10 +3,11 @@ using System.Linq;
 using Mercurius.Core.Interfaces.Entities;
 using Mercurius.Core.Interfaces.SearchObjects;
 using Mercurius.Core.Interfaces.Services;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure.Ado;
-using Mercurius.ServiceBase;
-using Mercurius.RepositoryBase;
+using Mercurius.Prime.Core.Ado;
+using Mercurius.Prime.Core.Logger;
+using Mercurius.Prime.Core.Services;
+using Mercurius.Prime.Data.IBatisNet;
+using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.Core.Implements.Services
 {

@@ -51,17 +51,13 @@
     <EmbeddedResource Include="IBatisNet\MSSQL\NewsComment.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\基础\Mercurius.EntityBase\Mercurius.EntityBase.csproj">
+    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
-      <Name>Mercurius.EntityBase</Name>
+      <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\基础\Mercurius.RepositoryBase\Mercurius.RepositoryBase.csproj">
+    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
       <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
-      <Name>Mercurius.RepositoryBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\基础\Mercurius.ServiceBase\Mercurius.ServiceBase.csproj">
-      <Project>{1002e71d-798e-4180-a838-582d93c5a3fb}</Project>
-      <Name>Mercurius.ServiceBase</Name>
+      <Name>Mercurius.Prime.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mercurius.News.Interfaces\Mercurius.News.Interfaces.csproj">
       <Project>{1eda83c9-e710-41e8-a31e-d5bf59ee86a9}</Project>

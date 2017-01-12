@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using Mercurius.EntityBase;
 using Mercurius.News.Interfaces.SearchObjects;
+using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.News.Interfaces.Services
 {

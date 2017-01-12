@@ -1,5 +1,6 @@
-﻿using Mercurius.EntityBase;
+﻿using Mercurius.Prime;
 using Mercurius.Core.Interfaces.Entities;
+using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Core.Interfaces.Services
 {

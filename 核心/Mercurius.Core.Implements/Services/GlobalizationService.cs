@@ -4,9 +4,9 @@ using System.Data;
 using Mercurius.Core.Interfaces.Entities;
 using Mercurius.Core.Interfaces.SearchObjects;
 using Mercurius.Core.Interfaces.Services;
-using Mercurius.EntityBase;
-using Mercurius.RepositoryBase;
-using Mercurius.ServiceBase;
+using Mercurius.Prime.Core.Services;
+using Mercurius.Prime.Data.IBatisNet;
+using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.Core.Implements.Services
 {

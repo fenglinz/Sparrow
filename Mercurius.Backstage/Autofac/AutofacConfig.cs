@@ -6,11 +6,12 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Mercurius.Core.Implements.Logger;
-using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Logger;
-using Mercurius.RepositoryBase;
-using Mercurius.ServiceBase;
-using Mercurius.WebCore;
+using Mercurius.Prime.Core.Cache;
+using Mercurius.Prime.Core.Logger;
+using Mercurius.Prime.Data.IBatisNet;
+using Mercurius.Prime.Data.Support;
+using Mercurius.Prime.Web;
+
 
 namespace Mercurius.Backstage.Autofac
 {

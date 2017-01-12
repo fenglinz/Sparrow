@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Logger;
-using Mercurius.RepositoryBase;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Cache;
+using Mercurius.Prime.Core.Logger;
+using Mercurius.Prime.Data.IBatisNet;
 
 namespace Mercurius.Core.Implements.Logger
 {

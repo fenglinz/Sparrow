@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Core.Interfaces.Entities
 {
@@ -12,7 +11,7 @@ namespace Mercurius.Core.Interfaces.Entities
     /// 上传文件。
     /// </summary>
     [Table("Storage.File")]
-    public class File : Domain
+    public class File : Entity
     {
         #region 常量
 

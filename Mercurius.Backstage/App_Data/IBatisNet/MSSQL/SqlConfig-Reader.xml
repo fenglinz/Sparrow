@@ -16,7 +16,7 @@
   <alias>
     <typeAlias alias="DataTable" type="System.Data.DataTable" />
     <typeAlias alias="Params" type="System.Collections.IDictionary" />
-    <typeAlias alias="SearchObject" type="Mercurius.EntityBase.SearchObject, Mercurius.EntityBase" />
+    <typeAlias alias="SearchObject" type="Mercurius.Prime.Core.Services.SearchObject, Mercurius.Prime.Core" />
   </alias>
   <sqlMaps>
     <sqlMap embedded="IBatisNet.MSSQL.Dictionary.xml, Mercurius.Core.Implements" />

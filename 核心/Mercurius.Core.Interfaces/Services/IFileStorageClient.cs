@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Mercurius.Core.Interfaces.Entities;
-using Mercurius.EntityBase;
+using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Core.Interfaces.Services
 {

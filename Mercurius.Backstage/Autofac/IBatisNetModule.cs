@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Xml;
 using Autofac;
-using Mercurius.RepositoryBase;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
 using Mercurius.Backstage.Plugins;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Dynamic;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Dynamic;
+using Mercurius.Prime.Data.IBatisNet;
 
 namespace Mercurius.Backstage.Autofac
 {

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CommandTexts xmlns="http://www.mercurius.com/CommandText.xsd">
+
+  <!-- 获取数据库信息 -->
+  <CommandText name="GetDatabases" commandType="Text">
+    <![CDATA[
+      select SCHEMA_NAME from information_schema.SCHEMATA
+    ]]>
+  </CommandText>
+
+  <!-- 获取当前数据库名称 -->
+  <CommandText name="GetCurrentDatabase" commandType="Text">
+    <![CDATA[
+      SELECT DATABASE();
+    ]]>
+  </CommandText>
+  
+  <!-- 获取表的信息 -->
+  <CommandText name="GetTable" commandType="Text">
+    <![CDATA[
+      SELECT
+        TABLE_NAME as `Name`,
+        case TABLE_TYPE when 'BASE TABLE' then 0 else 1 END as IsView,
+        case WHEN TABLE_COMMENT is null then TABLE_NAME else TABLE_COMMENT END `Comments`
+      from information_schema.`TABLES`
+      where TABLE_SCHEMA=@database and TABLE_NAME=@table
+    ]]>
+  </CommandText>
+
+  <!-- 修改表的注释信息 -->
+  <CommandText name="Comment" commandType="Text">
+    <![CDATA[
+      ALTER TABLE @table COMMENT @comment
+    ]]>
+  </CommandText>
+
+  <!-- 获取所有表的信息 -->
+  <CommandText name="GetTables" commandType="Text">
+    <![CDATA[
+      SELECT
+        TABLE_NAME as `Name`,
+        case TABLE_TYPE when 'BASE TABLE' then 0 else 1 END as IsView,
+        case WHEN TABLE_COMMENT is null then TABLE_NAME else TABLE_COMMENT END `Comments`
+      from information_schema.`TABLES`
+      where TABLE_SCHEMA=@database
+    ]]>
+  </CommandText>
+</CommandTexts>

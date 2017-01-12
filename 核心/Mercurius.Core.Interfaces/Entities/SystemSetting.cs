@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Core.Interfaces.Entities
 {
@@ -9,7 +9,7 @@ namespace Mercurius.Core.Interfaces.Entities
     /// 系统设置信息。
     /// </summary>
     [Table("SystemSetting")]
-    public class SystemSetting : Domain
+    public class SystemSetting : Entity
     {
         #region 属性
 

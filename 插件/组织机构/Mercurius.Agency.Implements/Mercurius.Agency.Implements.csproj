@@ -43,27 +43,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj">
-      <Project>{b0732ad6-ac7a-4980-817e-432631963939}</Project>
-      <Name>Mercurius.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\基础\Mercurius.EntityBase\Mercurius.EntityBase.csproj">
+    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
-      <Name>Mercurius.EntityBase</Name>
+      <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\基础\Mercurius.RepositoryBase\Mercurius.RepositoryBase.csproj">
+    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
       <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
-      <Name>Mercurius.RepositoryBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\基础\Mercurius.ServiceBase\Mercurius.ServiceBase.csproj">
-      <Project>{1002e71d-798e-4180-a838-582d93c5a3fb}</Project>
-      <Name>Mercurius.ServiceBase</Name>
+      <Name>Mercurius.Prime.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="IBatisNet\MSSQL\" />
     <Folder Include="IBatisNet\MySQL\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

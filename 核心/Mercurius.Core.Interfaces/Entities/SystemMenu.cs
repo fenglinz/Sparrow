@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Core.Interfaces.Entities
 {
@@ -10,7 +8,7 @@ namespace Mercurius.Core.Interfaces.Entities
     /// 系统菜单信息。
     /// </summary>
 	[Table("RBAC.SystemMenu")]
-    public partial class SystemMenu : ModificationDomain, IHierarchy<string>
+    public partial class SystemMenu : WithModification, IHierarchy<string>
     {
         #region 属性
 

@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercurius.Core.Interfaces.Entities;
 using Mercurius.Core.Interfaces.Services;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure;
-using Mercurius.RepositoryBase;
-using Mercurius.ServiceBase;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Services;
+using Mercurius.Prime.Data.IBatisNet;
+using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.Core.Implements.Services
 {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Mercurius.EntityBase;
 using Mercurius.News.Interfaces.SearchObjects;
 using Mercurius.News.Interfaces.Services;
-using Mercurius.RepositoryBase;
-using Mercurius.ServiceBase;
+using Mercurius.Prime.Core.Services;
+using Mercurius.Prime.Data.IBatisNet;
+using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.News.Implements.Services
 {

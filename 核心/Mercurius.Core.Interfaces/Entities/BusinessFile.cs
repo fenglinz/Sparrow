@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Core.Interfaces.Entities
 {

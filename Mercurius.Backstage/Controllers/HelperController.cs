@@ -7,9 +7,9 @@ using Mercurius.Core.Implements.Services;
 using Mercurius.Core.Interfaces.Entities;
 using Mercurius.Core.Interfaces.SearchObjects;
 using Mercurius.Core.Interfaces.Services;
-using Mercurius.Infrastructure;
-using Mercurius.WebCore.Filters;
-using Mercurius.WebCore.Helpers;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Web.Filters;
+using Mercurius.Prime.Web.Helpers;
 
 namespace Mercurius.Backstage.Controllers
 {

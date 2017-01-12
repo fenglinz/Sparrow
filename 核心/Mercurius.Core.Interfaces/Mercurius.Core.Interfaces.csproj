@@ -78,16 +78,11 @@
     <Compile Include="Services\IUtilityService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj">
-      <Project>{b0732ad6-ac7a-4980-817e-432631963939}</Project>
-      <Name>Mercurius.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\基础\Mercurius.EntityBase\Mercurius.EntityBase.csproj">
+    <ProjectReference Include="..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
-      <Name>Mercurius.EntityBase</Name>
+      <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

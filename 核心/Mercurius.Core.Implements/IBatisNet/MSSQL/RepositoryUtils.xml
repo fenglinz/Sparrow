@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <sqlMap namespace="Mercurius.Repositories.Core.RepositoryUtils" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Table" type="Mercurius.Infrastructure.Ado.Table, Mercurius.Infrastructure"/>
+    <typeAlias alias="Table" type="Mercurius.Prime.Core.Ado.Table, Mercurius.Prime.Core"/>
     <typeAlias alias="Partition" type="Mercurius.Core.Interfaces.Entities.Partition, Mercurius.Core.Interfaces" />
   </alias>
 

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Core.Interfaces.Entities
 {
@@ -11,7 +9,7 @@ namespace Mercurius.Core.Interfaces.Entities
     /// 组织机构/部门信息。
     /// </summary>
 	[Table("RBAC.Organization")]
-    public class Organization : ModificationDomain, IHierarchy<string>
+    public class Organization : WithModification, IHierarchy<string>
     {
         #region 属性
 

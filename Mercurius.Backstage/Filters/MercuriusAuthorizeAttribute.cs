@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Security.Principal;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Autofac;
 using Castle.Core.Internal;
-using Mercurius.Infrastructure;
 using Mercurius.Backstage.Autofac;
 using Mercurius.Core.Interfaces.Services;
-using Mercurius.EntityBase;
-using Mercurius.WebCore.Filters;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Services;
+using Mercurius.Prime.Web.Filters;
 
 namespace Mercurius.Backstage.Filters
 {

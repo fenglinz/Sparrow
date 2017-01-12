@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5B236DA6-7A5A-48E8-813E-5745B0E50D65}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mercurius.Prime.Core</RootNamespace>
+    <AssemblyName>Mercurius.Prime.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ado\AdoNetExtensions.cs" />
+    <Compile Include="Cache\CacheProvider.cs" />
+    <Compile Include="Cache\DefaultCacheProvider.cs" />
+    <Compile Include="Data\ColumnMappingAttribute.cs" />
+    <Compile Include="Data\Excel\Configuration.cs" />
+    <Compile Include="Data\DataType.cs" />
+    <Compile Include="Data\Excel\IExporter.cs" />
+    <Compile Include="Data\Excel\IImporter.cs" />
+    <Compile Include="Data\ImportExportAttribute.cs" />
+    <Compile Include="Data\OptionItem.cs" />
+    <Compile Include="Dynamic\Condition.cs" />
+    <Compile Include="Dynamic\ConditionExtension.cs" />
+    <Compile Include="Dynamic\Criteria.cs" />
+    <Compile Include="Dynamic\DynamicQuery.cs" />
+    <Compile Include="Dynamic\DynamicQueryExtension.cs" />
+    <Compile Include="Dynamic\IDataAccess.cs" />
+    <Compile Include="Dynamic\Op.cs" />
+    <Compile Include="Dynamic\Order.cs" />
+    <Compile Include="Dynamic\OrderBy.cs" />
+    <Compile Include="Dynamic\Provider\DynamicQueryProvider.cs" />
+    <Compile Include="Dynamic\Provider\MSSQLDynamicQueryProvider.cs" />
+    <Compile Include="Dynamic\Provider\MySQLDynamicQueryProvider.cs" />
+    <Compile Include="Entities\ColumnAttribute.cs" />
+    <Compile Include="Ado\Columns.cs" />
+    <Compile Include="Ado\DatabaseType.cs" />
+    <Compile Include="Ado\DbCommandParser.cs" />
+    <Compile Include="Ado\DbHelper.cs" />
+    <Compile Include="Ado\DbHelperCreator.cs" />
+    <Compile Include="Ado\DbTypeMapping\DbTypeResolve.cs" />
+    <Compile Include="Ado\Column.cs" />
+    <Compile Include="Ado\DbMetadata.cs" />
+    <Compile Include="Ado\Metadata\MSSQLMetadata.cs" />
+    <Compile Include="Ado\Metadata\MySQLMetadata.cs" />
+    <Compile Include="Ado\Metadata\OracleMetadata.cs" />
+    <Compile Include="Ado\Table.cs" />
+    <Compile Include="Entities\NameValue.cs" />
+    <Compile Include="Entities\TableAttribute.cs" />
+    <Compile Include="Constants.Designer.cs">
+      <DependentUpon>Constants.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Extensions\ResponseExtensions.cs" />
+    <Compile Include="Logger\ILogger.cs" />
+    <Compile Include="Logger\Level.cs" />
+    <Compile Include="Entities\WithCreation.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\CrossSiteScriptingValidation.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
+    <Compile Include="Entities\IHierarchy.cs" />
+    <Compile Include="Extensions\IOExtensions.cs" />
+    <Compile Include="Extensions\JsonExtensions.cs" />
+    <Compile Include="Utils\KeyCreator.cs" />
+    <Compile Include="Utils\ParameterHelper.cs" />
+    <Compile Include="Utils\PropertyHelper.cs" />
+    <Compile Include="Extensions\SecurityExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Entities\TreeNode.cs" />
+    <Compile Include="Utils\WebHelper.cs" />
+    <Compile Include="Logger\Log.cs" />
+    <Compile Include="Entities\WithModification.cs" />
+    <Compile Include="Mail\MailBodyParser.cs" />
+    <Compile Include="Mail\MailSender.cs" />
+    <Compile Include="Mail\MailSettingCollection.cs" />
+    <Compile Include="Mail\MailSettingElement.cs" />
+    <Compile Include="Mail\MailSettingSection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Response.cs" />
+    <Compile Include="Services\SearchObject.cs" />
+    <Compile Include="Entities\Token.cs" />
+    <Compile Include="SystemConfiguration.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Constants.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Constants.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText\MSSQL.Column.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText\MSSQL.Table.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText\MySQL.Column.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText\MySQL.Table.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText\Oracle\Column.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\CommandText\Oracle\Table.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado\DbTypeMapping\DbTypeMapping.MySQL.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

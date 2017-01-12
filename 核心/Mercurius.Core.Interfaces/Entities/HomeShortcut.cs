@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Core.Interfaces.Entities
 {
@@ -9,7 +9,7 @@ namespace Mercurius.Core.Interfaces.Entities
     /// 首页快捷方式信息。
     /// </summary>
 	[Table("RBAC.HomeShortcut")]
-    public class HomeShortcut : Domain
+    public class HomeShortcut : Entity
     {
         #region 属性
 

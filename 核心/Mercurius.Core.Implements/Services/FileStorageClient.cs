@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using System.Web;
 using Mercurius.Core.Interfaces.Entities;
 using Mercurius.Core.Interfaces.Services;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure;
-using Mercurius.ServiceBase;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Services;
+using Mercurius.Prime.Data.Support;
 using static Mercurius.Core.Interfaces.Entities.File;
-using static Mercurius.Infrastructure.SystemConfiguration;
+using static Mercurius.Prime.Core.SystemConfiguration;
 
 namespace Mercurius.Core.Implements.Services
 {

@@ -50,13 +50,9 @@
     <Compile Include="Services\INewsService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\基础\Mercurius.EntityBase\Mercurius.EntityBase.csproj">
+    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
-      <Name>Mercurius.EntityBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj">
-      <Project>{b0732ad6-ac7a-4980-817e-432631963939}</Project>
-      <Name>Mercurius.Infrastructure</Name>
+      <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

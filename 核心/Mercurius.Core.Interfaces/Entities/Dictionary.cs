@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Core.Interfaces.Entities
 {
@@ -10,7 +9,7 @@ namespace Mercurius.Core.Interfaces.Entities
     /// 字典信息
     /// </summary>
     [Table("Dictionary")]
-    public class Dictionary : Domain, IHierarchy<string>
+    public class Dictionary : Entity, IHierarchy<string>
     {
         #region 属性
 

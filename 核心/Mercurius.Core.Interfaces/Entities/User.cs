@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Core.Interfaces.Entities
 {
@@ -11,7 +10,7 @@ namespace Mercurius.Core.Interfaces.Entities
     /// </summary>
     [Serializable]
 	[Table("RBAC.User")]
-    public class User : ModificationDomain
+    public class User : WithModification
     {
         #region 属性
 

@@ -4,13 +4,11 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
-using System.Web.WebPages;
 using Mercurius.Core.Interfaces.Services;
-using Mercurius.Infrastructure;
-using Mercurius.ServiceBase;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.Backstage.Controllers
 {

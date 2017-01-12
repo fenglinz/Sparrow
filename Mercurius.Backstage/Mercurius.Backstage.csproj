@@ -1110,25 +1110,17 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\基础\Mercurius.EntityBase\Mercurius.EntityBase.csproj">
+    <ProjectReference Include="..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
-      <Name>Mercurius.EntityBase</Name>
+      <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj">
-      <Project>{b0732ad6-ac7a-4980-817e-432631963939}</Project>
-      <Name>Mercurius.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\基础\Mercurius.RepositoryBase\Mercurius.RepositoryBase.csproj">
+    <ProjectReference Include="..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
       <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
-      <Name>Mercurius.RepositoryBase</Name>
+      <Name>Mercurius.Prime.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\基础\Mercurius.ServiceBase\Mercurius.ServiceBase.csproj">
-      <Project>{1002e71d-798e-4180-a838-582d93c5a3fb}</Project>
-      <Name>Mercurius.ServiceBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\基础\Mercurius.WebCore\Mercurius.WebCore.csproj">
+    <ProjectReference Include="..\基础\Mercurius.Prime.Web\Mercurius.Prime.Web.csproj">
       <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
-      <Name>Mercurius.WebCore</Name>
+      <Name>Mercurius.Prime.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\数据访问层\Mercurius.Sparrow.Repositories\Mercurius.Sparrow.Repositories.csproj">
       <Project>{05fcde91-e15a-4867-aa0e-fc7e8414b2d2}</Project>

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Xml;
 using Mercurius.Backstage.Plugins;
-using Mercurius.Infrastructure;
+using Mercurius.Prime.Core;
 
 // 初始化插件。
 [assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
@@ -125,7 +125,7 @@ namespace Mercurius.Backstage.Plugins
                 var m = typeof(AppDomainSetup).GetMethod("UpdateContextProperty", BindingFlags.NonPublic | BindingFlags.Static);
                 var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
 
-                m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", binPaths });
+                m.Invoke(null, new[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", binPaths });
             }
         }
 

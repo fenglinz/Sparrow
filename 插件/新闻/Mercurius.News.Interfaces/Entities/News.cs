@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using Mercurius.EntityBase;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.News.Interfaces.Entities
 {
@@ -13,7 +12,7 @@ namespace Mercurius.News.Interfaces.Entities
     /// </summary>
     [Serializable]
     [Table("News")]
-    public class News : Domain
+    public class News : Entity
     {
         #region 属性
 

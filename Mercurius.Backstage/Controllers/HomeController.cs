@@ -5,8 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Core.Interfaces.SearchObjects;
 using Mercurius.Core.Interfaces.Services;
-using Mercurius.Infrastructure;
-using Mercurius.WebCore.Filters;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Web.Filters;
 
 namespace Mercurius.Backstage.Controllers
 {
