@@ -81,6 +81,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.Agency", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.DataProcess", "基础\Mercurius.Prime.DataProcess\Mercurius.Prime.DataProcess.csproj", "{D9A831D4-D63C-48F2-B741-AA8FA2956158}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Security.Interfaces", "插件\权限管理\Mercurius.Security.Interfaces\Mercurius.Security.Interfaces.csproj", "{0B125D72-A81F-45A1-9EF8-5CA94EA8E28C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Security.Implements", "插件\权限管理\Mercurius.Security.Implements\Mercurius.Security.Implements.csproj", "{83D394E7-32B8-4FE0-A1FA-F73A7B8E9A9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.Security", "插件\权限管理\Mercurius.Plugins.Security\Mercurius.Plugins.Security.csproj", "{7120AD04-CC99-47A8-85D6-5AC696068745}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -175,6 +181,18 @@ Global
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B125D72-A81F-45A1-9EF8-5CA94EA8E28C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B125D72-A81F-45A1-9EF8-5CA94EA8E28C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B125D72-A81F-45A1-9EF8-5CA94EA8E28C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B125D72-A81F-45A1-9EF8-5CA94EA8E28C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83D394E7-32B8-4FE0-A1FA-F73A7B8E9A9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83D394E7-32B8-4FE0-A1FA-F73A7B8E9A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83D394E7-32B8-4FE0-A1FA-F73A7B8E9A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83D394E7-32B8-4FE0-A1FA-F73A7B8E9A9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7120AD04-CC99-47A8-85D6-5AC696068745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7120AD04-CC99-47A8-85D6-5AC696068745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7120AD04-CC99-47A8-85D6-5AC696068745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7120AD04-CC99-47A8-85D6-5AC696068745}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -203,9 +221,12 @@ Global
 		{3E466EA9-B0E0-4576-9C57-386A812FE5F5} = {511A5ED0-C38C-4A48-B5CB-C79154A8C55F}
 		{6CC60119-C849-44A2-BA52-3B359AEBC33C} = {511A5ED0-C38C-4A48-B5CB-C79154A8C55F}
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158} = {E4956A8B-6792-47B0-A3CD-713684E7848D}
+		{0B125D72-A81F-45A1-9EF8-5CA94EA8E28C} = {3BE96106-84D1-4204-9F6F-E606EAB391B1}
+		{83D394E7-32B8-4FE0-A1FA-F73A7B8E9A9D} = {3BE96106-84D1-4204-9F6F-E606EAB391B1}
+		{7120AD04-CC99-47A8-85D6-5AC696068745} = {3BE96106-84D1-4204-9F6F-E606EAB391B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal
