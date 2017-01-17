@@ -339,6 +339,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             this.Configuration = new Configuration
             {
                 Language = "C#",
+                OrmMiddleware = "Dapper",
                 CopyrightOwner = AppSettings["copyright"]
             };
 

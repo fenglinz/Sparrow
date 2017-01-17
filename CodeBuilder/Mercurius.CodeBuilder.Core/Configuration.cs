@@ -274,6 +274,7 @@ namespace Mercurius.CodeBuilder.Core
                 xdocument.Root.Add(database);
             }
 
+            database.SetAttributeValue("ormMiddleware", this.OrmMiddleware);
             database.SetAttributeValue("author", this.Author);
             database.SetAttributeValue("baseNamespace", this.BaseNamespace);
             database.SetAttributeValue("outputFolder", this.OutputFolder);
@@ -355,6 +356,7 @@ namespace Mercurius.CodeBuilder.Core
             this.Author = database.Attribute("author")?.Value;
             this.OutputFolder = database.Attribute("outputFolder")?.Value;
             this.BaseNamespace = database.Attribute("baseNamespace")?.Value;
+            this.OrmMiddleware = database.Attribute("ormMiddleware")?.Value;
             this.CopyrightOwner = database.Attribute("copyright")?.Value;
 
             this.EntityProjectFile = database.Attribute("entityProjectFile")?.Value;

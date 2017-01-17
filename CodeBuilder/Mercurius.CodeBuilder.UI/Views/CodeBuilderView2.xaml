@@ -57,7 +57,7 @@
         </StackPanel>
 
         <Grid>
-            <GroupBox Height="240" Margin="5,5,5,5" Padding="0,5,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Header="基本信息">
+            <GroupBox Height="245" Margin="5,5,5,5" Padding="0,5,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Header="基本信息">
                 <GroupBox.Content>
                     <Grid>
                         <Label Margin="89,0,0,0" Content="作者：" RenderTransformOrigin="-0.385,0.5" />
@@ -82,8 +82,8 @@
 
                         <Label Margin="370,59,0,0" Content="数据访问中间件：" />
                         <ComboBox Margin="495,58,0,0" Width="150" Text="{Binding Configuration.OrmMiddleware}">
-                            <ComboBoxItem Content="基于Dapper" IsSelected="True" />
-                            <ComboBoxItem Content="基于IBatisNet" />
+                            <ComboBoxItem Content="Dapper" IsSelected="True" />
+                            <ComboBoxItem Content="IBatisNet" />
                         </ComboBox>
 
                         <Label Margin="61,99,0,0" Content="实体项目：" />

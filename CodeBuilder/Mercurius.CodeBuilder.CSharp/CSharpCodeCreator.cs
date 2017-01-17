@@ -105,8 +105,9 @@ namespace Mercurius.CodeBuilder.CSharp
             if (configuration?.Tables != null)
             {
                 var tables = configuration.Tables.Where(t => t.IsEnabled);
+                var ormMiddleware = (OrmMiddleware)Enum.Parse(typeof(OrmMiddleware), configuration.OrmMiddleware);
 
-                foreach (var sectionItem in ConfigManager.GetItems(OrmMiddleware.Dapper))
+                foreach (var sectionItem in ConfigManager.GetItems(ormMiddleware))
                 {
                     if (configuration.CurrentDatabase.Type != DatabaseType.MSSQL && sectionItem.Name == "SqlMap")
                     {
@@ -171,6 +172,7 @@ namespace Mercurius.CodeBuilder.CSharp
             table.FullClassNameFormat = $"{table.Namespace}.{table.ClassName}{"{0}"}, {configuration.EntityBaseNamespace}";
 
             var xml = table.ToXml(configuration);
+            var ormMiddleware = (OrmMiddleware)Enum.Parse(typeof(OrmMiddleware), configuration.OrmMiddleware);
 
             if (item.Dependencys != null)
             {
@@ -178,7 +180,7 @@ namespace Mercurius.CodeBuilder.CSharp
 
                 foreach (var dependency in item.Dependencys)
                 {
-                    var dependencyItem = ConfigManager.GetItems(OrmMiddleware.Dapper)[dependency];
+                    var dependencyItem = ConfigManager.GetItems(ormMiddleware)[dependency];
 
                     if (dependencyItem == null || (dependencyItem.Name == "SearchResponse" && !table.HasSearchData))
                     {
