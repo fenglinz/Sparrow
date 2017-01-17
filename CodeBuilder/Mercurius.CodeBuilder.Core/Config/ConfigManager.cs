@@ -2,56 +2,78 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml.Linq;
 
 namespace Mercurius.CodeBuilder.Core.Config
 {
+    /// <summary>
+    /// Orm中间件。
+    /// </summary>
+    public enum OrmMiddleware
+    {
+        Dapper,
+
+        IBatisNet
+    }
+
     public static class ConfigManager
     {
         #region 字段
+
+        private static readonly Dictionary<OrmMiddleware, ItemCollection> dictItems;
 
         private static ItemCollection _sections = null;
 
         #endregion
 
-        #region 属性
+        #region 构造方法
 
         /// <summary>
-        /// 获取所有配置项。
+        /// 静态构造方法。
         /// </summary>
-        public static ItemCollection Items
+        static ConfigManager()
         {
-            get
+            dictItems = new Dictionary<OrmMiddleware, ItemCollection>();
+        }
+
+        #endregion
+
+        #region 属性
+
+        public static ItemCollection GetItems(OrmMiddleware orm)
+        {
+            if (dictItems.ContainsKey(orm))
             {
-                if (_sections != null)
-                {
-                    return _sections;
-                }
-
-                var configFile = $@"{Environment.CurrentDirectory}\Template\CSharp\init.xml";
-
-                if (File.Exists(configFile))
-                {
-                    _sections = (ItemCollection)
-                        (from s in XDocument.Load(configFile).Descendants("item")
-                         select new Item
-                         {
-                             Name = s.Attribute("name").Value,
-                             Dependencys = s.Attribute("dependency") != null ? s.Attribute("dependency").Value.Split(',') : null,
-                             TemplateFile = $@"{Environment.CurrentDirectory}\Template\CSharp\{s.Attribute("template").Value}",
-                             FileFormat = s.Attribute("fileFormat").Value,
-                             Extension = s.Attribute("extension").Value,
-                             Project = s.Attribute("project").Value,
-                             IgnoreView = s.Attribute("ignoreView") != null && Convert.ToBoolean(s.Attribute("ignoreView").Value),
-                             SubFolder = s.Attribute("subFolder") != null ? s.Attribute("subFolder").Value : null,
-                             Handler = s.Attribute("handler") != null ? s.Attribute("handler").Value : null,
-                             Parameters = s.Attribute("parameter") != null ? s.Attribute("parameter").Value.AsDictionary() : null
-                         }).ToList();
-                }
-
-                return _sections;
+                return dictItems[orm];
             }
+
+            var configFile = $@"{Environment.CurrentDirectory}\Template\CSharp\{orm}\init.xml";
+
+            if (File.Exists(configFile))
+            {
+                _sections = (ItemCollection)
+                    (from s in XDocument.Load(configFile).Descendants("item")
+                     select new Item
+                     {
+                         Name = s.Attribute("name").Value,
+                         Dependencys = s.Attribute("dependency")?.Value.Split(','),
+                         TemplateFile = $@"{Environment.CurrentDirectory}\Template\CSharp\{s.Attribute("template").Value}",
+                         Module = s.Attribute("module")?.Value,
+                         FileFormat = s.Attribute("fileFormat").Value,
+                         Extension = s.Attribute("extension").Value,
+                         Project = s.Attribute("project").Value,
+                         IgnoreView = s.Attribute("ignoreView") != null && Convert.ToBoolean(s.Attribute("ignoreView").Value),
+                         SubFolder = s.Attribute("subFolder")?.Value,
+                         Handler = s.Attribute("handler")?.Value,
+                         Parameters = s.Attribute("parameter")?.Value.AsDictionary()
+                     }).ToList();
+
+                dictItems.Add(orm, _sections);
+            }
+
+            return _sections;
         }
 
         #endregion
@@ -63,9 +85,9 @@ namespace Mercurius.CodeBuilder.Core.Config
         /// </summary>
         /// <param name="name">配置项名称</param>
         /// <returns>配置项信息</returns>
-        public static Item GetItem(string name)
+        public static Item GetItem(this ItemCollection items, string name)
         {
-            return (from s in Items where s.Name == name select s).FirstOrDefault();
+            return (from s in items where s.Name == name select s).FirstOrDefault();
         }
 
         #endregion

@@ -41,11 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ButtonService.cs" />
+    <Compile Include="Services\RoleService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="IBatisNet\MSSQL\" />
     <Folder Include="IBatisNet\MySQL\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
@@ -60,10 +60,24 @@
       <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
       <Name>Mercurius.Prime.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\核心\Mercurius.Core.Interfaces\Mercurius.Core.Interfaces.csproj">
+      <Project>{8524BB1B-EB10-44FF-89A9-0470DBB97094}</Project>
+      <Name>Mercurius.Core.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mercurius.Security.Interfaces\Mercurius.Security.Interfaces.csproj">
       <Project>{0b125d72-a81f-45a1-9ef8-5ca94ea8e28c}</Project>
       <Name>Mercurius.Security.Interfaces</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IBatisNet\MSSQL\Button.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IBatisNet\MSSQL\Role.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

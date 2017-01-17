@@ -41,9 +41,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Backstage", "Merc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04-插件", "04-插件", "{47209CF1-9216-4784-847E-624A0D066EE6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "新闻", "新闻", "{51384A29-CFCC-41B6-A0FB-5A9DF21719C8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05-新闻", "05-新闻", "{51384A29-CFCC-41B6-A0FB-5A9DF21719C8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "动态页", "动态页", "{0EB98E44-EE27-4F04-95F9-5C39FB4B3227}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04-动态页", "04-动态页", "{0EB98E44-EE27-4F04-95F9-5C39FB4B3227}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.Dynamic", "插件\动态页\Mercurius.Plugins.Dynamic\Mercurius.Plugins.Dynamic.csproj", "{0665DD54-B960-48F8-B1F8-71082152D93E}"
 EndProject
@@ -61,7 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.News.Implements",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Web", "基础\Mercurius.Prime.Web\Mercurius.Prime.Web.csproj", "{59602E24-8D22-4EB9-8F73-2C76FB60DD99}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "权限管理", "权限管理", "{3BE96106-84D1-4204-9F6F-E606EAB391B1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-权限管理", "02-权限管理", "{3BE96106-84D1-4204-9F6F-E606EAB391B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-核心", "03-核心", "{DE2475B6-39AE-4B52-A611-EA9E79D82A81}"
 EndProject
@@ -69,9 +69,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Core.Interfaces",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Core.Implements", "核心\Mercurius.Core.Implements\Mercurius.Core.Implements.csproj", "{3276B23C-921A-48E0-B595-D368704A32A7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "组织机构", "组织机构", "{511A5ED0-C38C-4A48-B5CB-C79154A8C55F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-组织机构", "01-组织机构", "{511A5ED0-C38C-4A48-B5CB-C79154A8C55F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "控制台", "控制台", "{F81DB796-C2B2-414B-B1FF-10AC8BAEB124}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-控制台", "03-控制台", "{F81DB796-C2B2-414B-B1FF-10AC8BAEB124}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Agency.Interfaces", "插件\组织机构\Mercurius.Agency.Interfaces\Mercurius.Agency.Interfaces.csproj", "{6823DACF-B54F-412B-9F47-F7AB8BCD8DAB}"
 EndProject
@@ -226,7 +226,7 @@ Global
 		{7120AD04-CC99-47A8-85D6-5AC696068745} = {3BE96106-84D1-4204-9F6F-E606EAB391B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 	EndGlobalSection
 EndGlobal

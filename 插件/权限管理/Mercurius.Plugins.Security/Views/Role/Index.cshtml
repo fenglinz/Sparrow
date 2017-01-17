@@ -1,0 +1,140 @@
+﻿@{
+    var roles = this.ViewBag.Roles as ResponseSet<Role>;
+}
+
+@section Styles{
+    @Styles.Render("~/Content/treetable/css")
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/treetable")
+    <script type="text/javascript">
+        $(function() {
+            mercurius.FixedTableHeader("#dnd-example", 110);
+
+            $("#dnd-example").treetable({
+                expandable: true,
+                //collapsed 收缩 expanded展开的
+                initialState: "expanded"
+            });
+        });
+
+        function GetSelectedValue() {
+            return $('#dnd-example tr.selected').prop('id');
+        }
+
+        @Html.RenderButtonScript("添加", @<text>
+        function @(item.NavigateUrl)() {
+            var url = '@Url.Action("CreateOrUpdate")/?parentId=' + GetSelectedValue();
+
+            mercurius.OpenDialog(url, 'CreateOrUpdateForm', '添加角色信息', 560, 250);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)() {
+            var roleId = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(roleId)) {
+                var url = '@Url.Action("CreateOrUpdate")/?id=' + roleId;
+
+                mercurius.OpenDialog(url, 'CreateOrUpdateForm', '编辑角色信息', 560, 250);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除",@<text>
+        function @(item.NavigateUrl)() {
+            var roleId = GetSelectedValue();
+
+            if (mercurius.HasSingleRowSelected(roleId)) {
+                mercurius.RemoveData('@Url.Action("Remove")', { id: roleId });
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("成员管理", @<text>
+        function @(item.NavigateUrl)() {
+            var roleId = GetSelectedValue();
+            var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
+
+            if (mercurius.HasSingleRowSelected(roleId)) {
+                mercurius.OpenDialog('@Url.Action("AllotMembers")/'+roleId+'?roleName='+escape(roleName), 'UserGroupSet', '角色成员信息-设置', 800, 450, {statusbar:false});
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("权限管理",@<text>
+        function @(item.NavigateUrl)() {
+            var roleId = GetSelectedValue();
+            var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
+
+            if (mercurius.HasSingleRowSelected(roleId)) {
+                var url = '@Url.Action("AllotPermissions", "Role", new {@Area = "Admin"})/' + roleId + '?role=' + escape(roleName);
+
+                mercurius.NavigateUrl(url);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("详细",@<text>
+        function @(item.NavigateUrl)() {
+            var roleId = GetSelectedValue();
+            var roleName = $('#dnd-example tr.selected').find('td:eq(0)').text().trim();
+
+            if (mercurius.HasSingleRowSelected(roleId)) {
+                var url = '@Url.Action("ViewPermissions")/?roleId=' + roleId + '&roleName=' + escape(roleName);
+
+                mercurius.NavigateUrl(url);
+            }
+        }
+        </text>)
+    </script>
+}
+<div class="header">系统角色信息</div>
+@Html.RenderAccessibleButtons()
+<table class="treetable" id="dnd-example">
+    <thead>
+        <tr>
+            <td style="width: 180px; padding-left: 20px;">角色名称 </td>
+            <td style="width: 80px;">显示顺序 </td>
+            <td style="width: 120px;">创建用户 </td>
+            <td style="width: 150px;">创建时间 </td>
+            <td style="width: 120px;">修改用户 </td>
+            <td style="width: 150px;">修改时间 </td>
+            <td>角色描述 </td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (roles.HasData())
+        {
+            foreach (var role in roles.Datas)
+            {
+                <tr id="@role.Id" data-tt-id="@role.Id" data-tt-parent-id="@role.ParentId">
+                    <td style="padding-left: 20px;">
+                        <span class="@(roles.Datas.IsParent(role.Id)?"folder":"file")"></span> @role.Name
+                    </td>
+                    <td style="text-align: center;">@role.Sort</td>
+                    <td style="text-align: center;">@role.CreateUserName </td>
+                    <td style="text-align: center;">@role.CreateDateTime </td>
+                    <td style="text-align: center;">@role.ModifyUserName</td>
+                    <td style="text-align: center;">@role.ModifyDateTime</td>
+                    <td>@role.Remark </td>
+                </tr>
+            }
+        }
+        else if (roles.HasError())
+        {
+            <tr>
+                <td colspan="8" class="text-danger">@roles.GetErrorMessage()</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+    </tbody>
+</table>

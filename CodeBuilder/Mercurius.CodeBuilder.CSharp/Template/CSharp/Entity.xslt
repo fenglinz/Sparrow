@@ -14,13 +14,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using Mercurius.Infrastructure.Ado;
+using <xsl:value-of select="./rootNamespace"/>.Prime.Core.Entities;
 <xsl:call-template name="namespace" />
 {
     <xsl:call-template name="classDescription" />
     [Serializable]
     [Table("<xsl:value-of select="./table/@table" />")]
-    public class <xsl:value-of select="./table/@className" /> : Domain
+    public class <xsl:value-of select="./table/@className" /> : Entity
     {
         #region 属性
     <xsl:call-template name="properties" />

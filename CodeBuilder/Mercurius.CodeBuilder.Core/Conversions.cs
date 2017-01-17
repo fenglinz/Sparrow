@@ -15,14 +15,19 @@ namespace Mercurius.CodeBuilder.Core
 {
     public static class Conversions
     {
-        public static XDocument ToXml(this DbTable table, ConnectedDatabase database, string rootNamespace, string author, DateTime buildDate, string copyrightOwner)
+        public static XDocument ToXml(this DbTable table, Configuration config)
         {
             var xdocument = new XDocument(new XElement("root"));
+            var database = config.CurrentDatabase;
 
-            xdocument.Root.Add(new XElement("author", author));
-            xdocument.Root.Add(new XElement("rootNamespace", rootNamespace));
-            xdocument.Root.Add(new XElement("buildDate", buildDate.ToString("yyyy-MM-dd")));
-            xdocument.Root.Add(new XElement("copyright", copyrightOwner));
+            xdocument.Root.Add(new XElement("author", config.Author));
+            xdocument.Root.Add(new XElement("buildDate", config.BuildDate.ToString("yyyy-MM-dd")));
+            xdocument.Root.Add(new XElement("copyright", config.CopyrightOwner));
+
+            xdocument.Root.Add(new XElement("rootNamespace", config.BaseNamespace));
+            xdocument.Root.Add(new XElement("entityNamespace", config.EntityBaseNamespace));
+            xdocument.Root.Add(new XElement("contactNamespace", config.ContractBaseNamespace));
+            xdocument.Root.Add(new XElement("serviceNamespace", config.ServiceBaseNamespace));
 
             if (table != null && database != null)
             {
@@ -65,7 +70,10 @@ namespace Mercurius.CodeBuilder.Core
                     columnElement.SetAttributeValue("sqlType", column.SqlType);
                     columnElement.SetAttributeValue("length", column.Length);
                     columnElement.SetAttributeValue("nullable", column.Nullable);
-                    columnElement.SetAttributeValue("basicType", dbTypeMapping.GetBasicType("C#", column.SqlType));
+
+                    var type = dbTypeMapping.GetBasicType("C#", column.SqlType);
+
+                    columnElement.SetAttributeValue("basicType", (type == "string" && column.Length == 36) ? "Guid" : type);
                     columnElement.SetAttributeValue("isPrimaryKey", column.IsPrimaryKey);
                     columnElement.SetAttributeValue("isIdentity", column.IsIdentity);
                     columnElement.SetAttributeValue("description", column.Description);

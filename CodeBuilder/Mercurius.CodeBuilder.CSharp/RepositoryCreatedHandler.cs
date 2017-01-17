@@ -38,12 +38,12 @@ namespace Mercurius.CodeBuilder.CSharp
 
                     if (File.Exists(writerSqlMapFilePath))
                     {
-                        this.ConfigSqlConfig(configuration, table, writerSqlMapFilePath, item.GetProjectName(configuration.BaseNamespace));
+                        this.ConfigSqlConfig(configuration, table, writerSqlMapFilePath, configuration.ServiceBaseNamespace);
                     }
 
                     if (File.Exists(readerSqlMapFilePath))
                     {
-                        this.ConfigSqlConfig(configuration, table, readerSqlMapFilePath, item.GetProjectName(configuration.BaseNamespace));
+                        this.ConfigSqlConfig(configuration, table, readerSqlMapFilePath, configuration.ServiceBaseNamespace);
                     }
                 }
             }

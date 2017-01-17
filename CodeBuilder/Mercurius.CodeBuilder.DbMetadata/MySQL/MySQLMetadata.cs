@@ -7,7 +7,6 @@ using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.Infrastructure;
 using Mercurius.Infrastructure.Ado;
-using Mercurius.Infrastructure.Data;
 
 namespace Mercurius.CodeBuilder.DbMetadata.MySQL
 {

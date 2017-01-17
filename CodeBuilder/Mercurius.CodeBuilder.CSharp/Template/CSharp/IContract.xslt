@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using <xsl:value-of select="./rootNamespace"/>.Prime.Core.Services;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <item
+    name="Entity"
+    template="Entity.xslt"
+    module="entity"
+    fileFormat="{0}"
+    extension="cs"
+    handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
+    project="数据访问层\Entities" />
+  
+  <item
+    name="SearchResponse"
+    template="SearchResponse.xslt"
+    module="contract"
+    fileFormat="{0}SO"
+    extension="cs"
+    subFolder="SearchObjects"
+    handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
+    project="数据访问层\Entities" />
+
+  <item
+    name="SqlMap"
+    dependency="Entity,SearchResponse"
+    template="IBatisNet\SqlMap.xslt"
+    module="service"
+    fileFormat="{0}"
+    extension="xml"
+    ignoreView="true"
+    subFolder="{dbType}"
+    handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp;Mercurius.CodeBuilder.CSharp.RepositoryCreatedHandler,Mercurius.CodeBuilder.CSharp"
+    project="数据访问层\Repositories"
+    parameter="project:{0}.Backstage\App_Data\IBatisNet\{1}\SqlConfig-{2}.xml&amp;{0}.Portal\App_Data\IBatisNet\{1}\SqlConfig-{2}.xml"/>
+
+  <item
+    name="Contract"
+    dependency="Entity,Response,SearchResponse"
+    template="IContract.xslt"
+    module="contract"
+    fileFormat="I{0}Service"
+    extension="cs"
+    ignoreView="true"
+    handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
+    project="服务层\Contracts" />
+
+  <item
+    name="Service"
+    dependency="Entity,SearchResponse,Contract"
+    template="IBatisNet\Service.xslt"
+    module="service"
+    fileFormat="{0}Service"
+    extension="cs"
+    ignoreView="true"
+    handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
+    project="服务层\Services" />
+</config>

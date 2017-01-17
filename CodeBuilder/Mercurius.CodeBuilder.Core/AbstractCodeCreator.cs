@@ -88,7 +88,7 @@ namespace Mercurius.CodeBuilder.Core
 
         private bool IsFirstCreate(Configuration configuration)
         {
-            if ("Mercurius.Siskin".Equals(configuration.BaseNamespace, StringComparison.InvariantCultureIgnoreCase))
+            if ("Mercurius".Equals(configuration.BaseNamespace, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }

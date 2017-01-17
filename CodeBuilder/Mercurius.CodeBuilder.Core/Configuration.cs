@@ -24,9 +24,19 @@ namespace Mercurius.CodeBuilder.Core
         private DateTime _buildDate;
         private string _author = null;
         private string _language = null;
-        private string _outputFolder = null;
-        private string _baseNamespace = null;
         private string _copyrightOwner = null;
+
+        private string _ormMiddleware = null;
+
+        private string _outputFolder = null;
+        private string _entityProjectFile = null;
+        private string _contactProjectFile = null;
+        private string _serviceProjectFile = null;
+
+        private string _baseNamespace = null;
+        private string _entityBaseNamespace = null;
+        private string _contractBaseNamespace = null;
+        private string _serviceBaseNamespace = null;
 
         #endregion
 
@@ -82,6 +92,35 @@ namespace Mercurius.CodeBuilder.Core
             }
         }
 
+        /// <summary>
+        /// 版权拥有者。
+        /// </summary>
+        public string CopyrightOwner
+        {
+            get { return this._copyrightOwner; }
+            set
+            {
+                if (this._copyrightOwner != value)
+                {
+                    this._copyrightOwner = value;
+                    this.OnPropertyChanged(() => this.CopyrightOwner);
+                }
+            }
+        }
+
+        public string OrmMiddleware
+        {
+            get { return this._ormMiddleware; }
+            set
+            {
+                if (this._ormMiddleware != value)
+                {
+                    this._ormMiddleware = value;
+                    this.OnPropertyChanged(() => this.OrmMiddleware);
+                }
+            }
+        }
+
         public string OutputFolder
         {
             get { return this._outputFolder; }
@@ -91,6 +130,45 @@ namespace Mercurius.CodeBuilder.Core
                 {
                     this._outputFolder = value;
                     this.OnPropertyChanged(() => this.OutputFolder);
+                }
+            }
+        }
+
+        public string EntityProjectFile
+        {
+            get { return this._entityProjectFile; }
+            set
+            {
+                if (this._entityProjectFile != value)
+                {
+                    this._entityProjectFile = value;
+                    this.OnPropertyChanged(() => this.EntityProjectFile);
+                }
+            }
+        }
+
+        public string ContractProjectFile
+        {
+            get { return this._contactProjectFile; }
+            set
+            {
+                if (this._contactProjectFile != value)
+                {
+                    this._contactProjectFile = value;
+                    this.OnPropertyChanged(() => this.ContractProjectFile);
+                }
+            }
+        }
+
+        public string ServiceProjectFile
+        {
+            get { return this._serviceProjectFile; }
+            set
+            {
+                if (this._serviceProjectFile != value)
+                {
+                    this._serviceProjectFile = value;
+                    this.OnPropertyChanged(() => this.ServiceProjectFile);
                 }
             }
         }
@@ -108,18 +186,41 @@ namespace Mercurius.CodeBuilder.Core
             }
         }
 
-        /// <summary>
-        /// 版权拥有者。
-        /// </summary>
-        public string CopyrightOwner
+        public string EntityBaseNamespace
         {
-            get { return this._copyrightOwner; }
+            get { return this._entityBaseNamespace; }
             set
             {
-                if (this._copyrightOwner != value)
+                if (this._entityBaseNamespace != value)
                 {
-                    this._copyrightOwner = value;
-                    this.OnPropertyChanged(() => this.CopyrightOwner);
+                    this._entityBaseNamespace = value;
+                    this.OnPropertyChanged(() => this.EntityBaseNamespace);
+                }
+            }
+        }
+
+        public string ContractBaseNamespace
+        {
+            get { return this._contractBaseNamespace; }
+            set
+            {
+                if (this._contractBaseNamespace != value)
+                {
+                    this._contractBaseNamespace = value;
+                    this.OnPropertyChanged(() => this.ContractBaseNamespace);
+                }
+            }
+        }
+
+        public string ServiceBaseNamespace
+        {
+            get { return this._serviceBaseNamespace; }
+            set
+            {
+                if (this._serviceBaseNamespace != value)
+                {
+                    this._serviceBaseNamespace = value;
+                    this.OnPropertyChanged(() => this.ServiceBaseNamespace);
                 }
             }
         }
@@ -177,6 +278,14 @@ namespace Mercurius.CodeBuilder.Core
             database.SetAttributeValue("baseNamespace", this.BaseNamespace);
             database.SetAttributeValue("outputFolder", this.OutputFolder);
             database.SetAttributeValue("copyright", this.CopyrightOwner);
+
+            database.SetAttributeValue("entityProjectFile", this.EntityProjectFile);
+            database.SetAttributeValue("contractProjectFile", this.ContractProjectFile);
+            database.SetAttributeValue("serviceProjectFile", this.ServiceProjectFile);
+
+            database.SetAttributeValue("entityBaseNamespace", this.EntityBaseNamespace);
+            database.SetAttributeValue("contractBaseNamespace", this.ContractBaseNamespace);
+            database.SetAttributeValue("serviceBaseNamespace", this.ServiceBaseNamespace);
 
             // 移除所有子节点。
             database.RemoveNodes();
@@ -243,20 +352,24 @@ namespace Mercurius.CodeBuilder.Core
                 return null;
             }
 
-            if (database.Attribute("author") != null)
-            {
-                this.Author = database.Attribute("author").Value;
-            }
+            this.Author = database.Attribute("author")?.Value;
+            this.OutputFolder = database.Attribute("outputFolder")?.Value;
+            this.BaseNamespace = database.Attribute("baseNamespace")?.Value;
+            this.CopyrightOwner = database.Attribute("copyright")?.Value;
 
-            this.OutputFolder = database.Attribute("outputFolder") != null ? database.Attribute("outputFolder").Value : string.Empty;
-            this.BaseNamespace = database.Attribute("baseNamespace") != null ? database.Attribute("baseNamespace").Value : string.Empty;
-            this.CopyrightOwner = database.Attribute("copyright") != null ? database.Attribute("copyright").Value : string.Empty;
+            this.EntityProjectFile = database.Attribute("entityProjectFile")?.Value;
+            this.ContractProjectFile = database.Attribute("contractProjectFile")?.Value;
+            this.ServiceProjectFile = database.Attribute("serviceProjectFile")?.Value;
+
+            this.EntityBaseNamespace = database.Attribute("entityBaseNamespace")?.Value;
+            this.ContractBaseNamespace = database.Attribute("contractBaseNamespace")?.Value;
+            this.ServiceBaseNamespace = database.Attribute("serviceBaseNamespace")?.Value;
 
             var tables = new List<DbTable>();
 
             foreach (var xNode in database.Nodes())
             {
-                var item = (XElement) xNode;
+                var item = (XElement)xNode;
                 var table = JsonConvert.DeserializeObject<DbTable>(item.Value);
 
                 if (table != null)

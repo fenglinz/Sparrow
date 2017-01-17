@@ -116,23 +116,81 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ButtonController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\SystemMenuController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\SqlMaps.xml" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Button\CreateOrUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Button\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Role\_Members.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Role\_UnAllotUsers.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Role\AllotMembers.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Role\AllotPermissions.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Role\CreateOrUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Role\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Role\ViewPermissions.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SystemMenu\AllotButtons.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SystemMenu\CreateOrUpdate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SystemMenu\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
+      <Project>{5B236DA6-7A5A-48E8-813E-5745B0E50D65}</Project>
+      <Name>Mercurius.Prime.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Web\Mercurius.Prime.Web.csproj">
+      <Project>{59602E24-8D22-4EB9-8F73-2C76FB60DD99}</Project>
+      <Name>Mercurius.Prime.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\核心\Mercurius.Core.Interfaces\Mercurius.Core.Interfaces.csproj">
+      <Project>{8524BB1B-EB10-44FF-89A9-0470DBB97094}</Project>
+      <Name>Mercurius.Core.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mercurius.Security.Implements\Mercurius.Security.Implements.csproj">
+      <Project>{83d394e7-32b8-4fe0-a1fa-f73a7b8e9a9d}</Project>
+      <Name>Mercurius.Security.Implements</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mercurius.Security.Interfaces\Mercurius.Security.Interfaces.csproj">
+      <Project>{0B125D72-A81F-45A1-9EF8-5CA94EA8E28C}</Project>
+      <Name>Mercurius.Security.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -171,9 +229,9 @@
   </Target>
   <PropertyGroup>
     <PostBuildEvent>iisreset /stop
-xcopy /s /y "$(ProjectDir)App_Data\*.*" "$(SolutionDir)Mercurius.Backstage\Plugins\Security\App_Data\"
-xcopy /s /y "$(ProjectDir)Views\*.*" "$(SolutionDir)Mercurius.Backstage\Plugins\Security\Views\" 
-xcopy /s /y "$(TargetDir)*.dll" "$(SolutionDir)Mercurius.Backstage\Plugins\Security\bin\" 
+xcopy /s /y "$(ProjectDir)App_Data\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\Security\App_Data\"
+xcopy /s /y "$(ProjectDir)Views\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\Security\Views\" 
+xcopy /y "$(TargetDir)*.dll" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\Security\bin\" 
 iisreset /start</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

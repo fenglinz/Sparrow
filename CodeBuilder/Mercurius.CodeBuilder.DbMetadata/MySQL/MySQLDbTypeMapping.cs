@@ -37,7 +37,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
         {
             var assembly = typeof(MySQLMetadata).Assembly;
 
-            this.LoadMappingFile("C#", assembly.GetManifestResourceStream(string.Format(MAPPING_FORMAT, "C#")));
+            this.LoadMappingFile("C#", assembly.GetManifestResourceStream(string.Format(MAPPING_FORMAT, "CSharp")));
             this.LoadMappingFile("Java", assembly.GetManifestResourceStream(string.Format(MAPPING_FORMAT, "Java")));
         }
 

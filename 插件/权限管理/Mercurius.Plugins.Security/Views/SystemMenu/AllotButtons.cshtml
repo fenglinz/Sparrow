@@ -1,0 +1,118 @@
+﻿@{
+    var buttons = this.ViewBag.Buttons as ResponseSet<Button>;
+}
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/base/all.css" />
+    <style type="text/css">
+        .btn {
+            float: left;
+            width: 75px;
+            height: 65px;
+            margin: 0 5px 5px 0;
+            font-size: 12px;
+            position: relative;
+        }
+
+            .btn > i {
+                display: block;
+                margin-top: 3px;
+                margin-bottom: 5px;
+            }
+
+            .btn.checked {
+                color: #fff;
+                background: #5cb85c;
+                border-color: #4cae4c;
+            }
+    </style>
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jquery-ui")
+    <script type="text/javascript">
+        var needRefresh = false;
+
+        $(function () {
+            $('#allButton').sortable({
+                scroll: false,
+                cursor: "move",
+                items: ' > div'
+            });
+
+            $("#allButton").on('click', '.btn', function () {
+                if ($(this).hasClass('checked')) {
+                    $(this).removeClass('checked');
+
+                    var t1 = $(this).clone();
+
+                    $(this).remove();
+
+                    if ($('#allButton div.checked').length > 0) {
+                        $('#allButton div.checked').last().after(t1);
+                    } else {
+                        $('#allButton div.btn-default').first().before(t1);
+                    }
+                } else {
+                    $(this).addClass('checked');
+                    var t2 = $(this).clone();
+
+                    $(this).remove();
+
+                    if ($('#allButton div.checked').length > 0) {
+                        $('#allButton div.checked').last().after(t2);
+                    } else {
+                        $('#allButton div.btn-default').first().before(t2);
+                    }
+                }
+
+                needRefresh = true;
+
+                return false;
+            });
+        });
+
+        function OnSave() {
+            var buttonIds = '';
+
+            $('#allButton > div.checked').each(function () {
+                buttonIds += $(this).attr('id') + ',';
+            });
+
+            mercurius.Ajax('@Url.Action("AllotButtons")', { id: '@this.ViewBag.Id', buttonIds: buttonIds }, function (rs) {
+                if (rs.IsSuccess) {
+                    mercurius.ShowTipsMessage('保存成功！', 5000, 4);
+                    top.main.mercurius.Reloading();
+                } else {
+                    mercurius.ShowTipsMessage('保存失败，失败原因：' + rs.ErrorMessage, 5000, 5);
+                }
+            });
+        }
+
+        function OnClose() {
+            if (needRefresh === true) {
+                top.main.mercurius.Reloading();
+            }
+        }
+    </script>
+}
+<div id="allButton">
+    @if (buttons.HasData())
+    {
+        foreach (var item in buttons.Datas)
+        {
+            <div id="@item.Id" title="@item.Name" class="btn btn-default @(item.IsAllotToSystemMenu?"checked":"")">
+                <i class="@item.Image fa-2x"></i>
+                @item.Name
+            </div>
+        }
+    }
+    else if (buttons.HasError())
+    {
+        <div class="text-danger">@buttons.GetErrorMessage()</div>
+    }
+    else
+    {
+        <div class="empty-data" style="padding: 10px;">没有配置按钮！</div>
+    }
+</div>

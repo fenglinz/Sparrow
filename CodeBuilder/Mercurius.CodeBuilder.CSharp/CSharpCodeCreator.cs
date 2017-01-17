@@ -58,7 +58,7 @@ namespace Mercurius.CodeBuilder.CSharp
                 {
                     this._buildEvent.Publish(new BuildEventArg(Status.Building, $"解压{t.FileName}..."));
 
-                    t.FileName = t.FileName.Replace("Mercurius.Sparrow", configuration.BaseNamespace);
+                    t.FileName = t.FileName.Replace("Mercurius", configuration.BaseNamespace);
                     t.Extract(configuration.OutputFolder, ExtractExistingFileAction.OverwriteSilently);
                 }
 
@@ -83,9 +83,9 @@ namespace Mercurius.CodeBuilder.CSharp
                     var texts = reader.ReadToEnd();
                     reader.Dispose();
 
-                    if (texts.Contains("Mercurius.Sparrow"))
+                    if (texts.Contains("Mercurius"))
                     {
-                        texts = texts.Replace("Mercurius.Sparrow", configuration.BaseNamespace);
+                        texts = texts.Replace("Mercurius", configuration.BaseNamespace);
 
                         var writer = new StreamWriter(fileName, false, Encoding.UTF8);
 
@@ -106,7 +106,7 @@ namespace Mercurius.CodeBuilder.CSharp
             {
                 var tables = configuration.Tables.Where(t => t.IsEnabled);
 
-                foreach (var sectionItem in ConfigManager.Items)
+                foreach (var sectionItem in ConfigManager.GetItems(OrmMiddleware.Dapper))
                 {
                     if (configuration.CurrentDatabase.Type != DatabaseType.MSSQL && sectionItem.Name == "SqlMap")
                     {
@@ -150,15 +150,27 @@ namespace Mercurius.CodeBuilder.CSharp
         /// <param name="table"></param>
         private void CreateByXslt(Configuration configuration, Item item, DbTable table)
         {
-            table.Namespace = item.GetNamespace(configuration.BaseNamespace, table.ModuleName);
-            table.FullClassNameFormat = $"{table.Namespace}.{table.ClassName}{"{0}"}, {item.GetProjectName(configuration.BaseNamespace)}";
+            switch (item.Module)
+            {
+                case "entity":
+                    table.Namespace = item.GetNamespace(configuration.EntityBaseNamespace, table.ModuleName);
 
-            var xml = table.ToXml(
-                configuration.CurrentDatabase,
-                configuration.BaseNamespace,
-                configuration.Author,
-                configuration.BuildDate,
-                configuration.CopyrightOwner);
+                    break;
+
+                case "contract":
+                    table.Namespace = item.GetNamespace(configuration.ContractBaseNamespace, table.ModuleName);
+
+                    break;
+
+                case "service":
+                    table.Namespace = item.GetNamespace(configuration.ServiceBaseNamespace, table.ModuleName);
+
+                    break;
+            }
+
+            table.FullClassNameFormat = $"{table.Namespace}.{table.ClassName}{"{0}"}, {configuration.EntityBaseNamespace}";
+
+            var xml = table.ToXml(configuration);
 
             if (item.Dependencys != null)
             {
@@ -166,19 +178,38 @@ namespace Mercurius.CodeBuilder.CSharp
 
                 foreach (var dependency in item.Dependencys)
                 {
-                    var dependencyItem = ConfigManager.Items[dependency];
+                    var dependencyItem = ConfigManager.GetItems(OrmMiddleware.Dapper)[dependency];
 
                     if (dependencyItem == null || (dependencyItem.Name == "SearchResponse" && !table.HasSearchData))
                     {
                         continue;
                     }
 
-                    var dependencyNs = dependencyItem.GetNamespace(configuration.BaseNamespace, table.ModuleName);
+                    var dependencyNs = string.Empty;
+
+                    switch (dependencyItem.Module)
+                    {
+                        case "entity":
+                            dependencyNs = dependencyItem.GetNamespace(configuration.EntityBaseNamespace, table.ModuleName);
+
+                            break;
+
+                        case "contract":
+                            dependencyNs = dependencyItem.GetNamespace(configuration.ContractBaseNamespace, table.ModuleName);
+
+                            break;
+
+                        case "service":
+                            dependencyNs = dependencyItem.GetNamespace(configuration.ServiceBaseNamespace, table.ModuleName);
+
+                            break;
+                    }
+
                     var element = new XElement("dependency", dependencyNs);
 
                     element.SetAttributeValue("name", dependencyItem.Name);
                     element.SetAttributeValue("className", string.IsNullOrWhiteSpace(dependencyItem.FileFormat) ? table.ClassName : string.Format(dependencyItem.FileFormat, table.ClassName));
-                    element.SetAttributeValue("assembly", dependencyItem.GetProjectName(configuration.BaseNamespace));
+                    element.SetAttributeValue("assembly", configuration.EntityBaseNamespace);
 
                     var exists = (from d in dependencys.Descendants("dependency") where d.Value == dependencyNs select d).Any();
 

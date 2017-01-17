@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacServiceLocator.cs" />
+    <Compile Include="BaseController.cs" />
     <Compile Include="Filters\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Helpers\Bootstrap\BootstrapHtmlHelper.cs" />
     <Compile Include="Helpers\Bootstrap\FormBaseExtensions.cs" />

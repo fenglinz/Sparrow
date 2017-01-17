@@ -15,11 +15,11 @@ namespace Mercurius.CodeBuilder.CSharp
                 return;
             }
 
-            var file = new FileInfo(projectFile);
+            var file = new FileInfo(fileName);
             file.Attributes = FileAttributes.Normal;
 
             var xdocument = XDocument.Load(projectFile);
-            var relativePath = fileName.Replace(file.DirectoryName, string.Empty).TrimStart('\\');
+            var relativePath = fileName.Replace(Path.GetDirectoryName(projectFile), string.Empty).TrimStart('\\');
 
             XNamespace xmlns = "http://schemas.microsoft.com/developer/msbuild/2003";
 

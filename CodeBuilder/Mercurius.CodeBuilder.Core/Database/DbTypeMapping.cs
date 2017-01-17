@@ -92,7 +92,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                     while (!string.IsNullOrWhiteSpace(temp = reader.ReadLine()))
                     {
                         var arrays = temp.Split(',');
-
+                        
                         dict.Add(arrays[0].ToLower(), arrays[1]);
                     }
                 }

@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,17 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Button.cs" />
+    <Compile Include="Entities\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IButtonService.cs" />
+    <Compile Include="Services\IRoleService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
     <Folder Include="SearchObjects\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
       <Name>Mercurius.Prime.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\核心\Mercurius.Core.Interfaces\Mercurius.Core.Interfaces.csproj">
+      <Project>{8524BB1B-EB10-44FF-89A9-0470DBB97094}</Project>
+      <Name>Mercurius.Core.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

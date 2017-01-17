@@ -30,6 +30,11 @@ namespace Mercurius.CodeBuilder.Core.Config
         public string TemplateFile { get; set; }
 
         /// <summary>
+        /// 所属模块(entity,contract,service)
+        /// </summary>
+        public string Module { get; set; }
+
+        /// <summary>
         /// 获取或者设置生成的文件名格式。
         /// </summary>
         public string FileFormat { get; set; }
@@ -69,35 +74,32 @@ namespace Mercurius.CodeBuilder.Core.Config
         #region 公开方法
 
         /// <summary>
-        /// 获取生成项所在项目的名称。
-        /// </summary>
-        /// <param name="baseNamespace">基命名空间</param>
-        /// <returns>项目名称</returns>
-        public string GetProjectName(string baseNamespace)
-        {
-            var projectName = this.Project.Split('\\').LastOrDefault();
-
-            return string.IsNullOrWhiteSpace(baseNamespace) ? projectName : string.Format("{0}.{1}", baseNamespace, projectName);
-        }
-
-        /// <summary>
         /// 获取生成项所在项目的路径。
         /// </summary>
-        /// <param name="outputFolder">文件输出路径</param>
-        /// <param name="baseNamespace">基命名空间</param>
         /// <returns>项目所在路径</returns>
-        public string GetProjectFolder(string outputFolder, string baseNamespace)
+        public string GetProjectFolder(Configuration config)
         {
-            var folder = outputFolder;
+            var folder = string.Empty;
 
-            if (this.Project.Split('\\').Count() > 1)
+            switch (this.Module)
             {
-                var removeLength = this.Project.Split('\\').LastOrDefault().Length;
+                case "entity":
+                    folder = Path.GetDirectoryName(config.EntityProjectFile);
 
-                folder = string.Format(@"{0}\{1}", folder, this.Project.Substring(0, this.Project.Length - removeLength - 1));
+                    break;
+
+                case "contract":
+                    folder = Path.GetDirectoryName(config.ContractProjectFile);
+
+                    break;
+
+                case "service":
+                    folder = Path.GetDirectoryName(config.ServiceProjectFile);
+
+                    break;
             }
 
-            return string.Format(@"{0}\{1}", folder, this.GetProjectName(baseNamespace));
+            return folder;
         }
 
         /// <summary>
@@ -108,7 +110,7 @@ namespace Mercurius.CodeBuilder.Core.Config
         /// <returns>生成项的命名空间</returns>
         public string GetNamespace(string baseNamespace, string moduleName)
         {
-            var result = this.GetProjectName(baseNamespace);
+            var result = baseNamespace;
 
             if (!string.IsNullOrWhiteSpace(moduleName))
             {
@@ -131,7 +133,7 @@ namespace Mercurius.CodeBuilder.Core.Config
         /// <returns>生成项的输出文件</returns>
         public string GetOutputFile(Configuration config, DbTable table)
         {
-            var folder = this.GetProjectFolder(config.OutputFolder, config.BaseNamespace);
+            var folder = this.GetProjectFolder(config);
 
             if (!string.IsNullOrWhiteSpace(table.ModuleName))
             {

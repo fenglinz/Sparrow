@@ -1,0 +1,117 @@
+﻿@{
+    var buttons = ViewBag.Buttons as ResponseSet<Button>;
+}
+
+@section Styles
+{
+    <style type="text/css">
+        .fa-2x {
+            font-size: 1.6em;
+        }
+
+        .grid tbody tr > td {
+            text-align: center;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            mercurius.FixedTableHeader("#dnd-example", 113);
+        });
+
+        function GetSelectedButtonId() {
+            return $('#dnd-example tbody tr :checked').val();
+        }
+
+        @Html.RenderButtonScript("添加",
+		@<text>
+        function @(item.NavigateUrl)() {
+            var url = '@Url.Action("CreateOrUpdate")';
+
+            mercurius.OpenDialog(url, 'ChooseImageContainer', '菜单按钮信息-添加', 450, 320);
+        }
+        </text>)
+
+        @Html.RenderButtonScript("编辑",@<text>
+        function @(item.NavigateUrl)() {
+            var key = GetSelectedButtonId();
+            if (mercurius.HasSingleRowSelected(key)) {
+                var url = '@Url.Action("CreateOrUpdate")/?id=' + key;
+
+                mercurius.OpenDialog(url, 'ChooseImageContainer', '菜单按钮信息-编辑', 450, 320);
+            }
+        }
+        </text>)
+
+        @Html.RenderButtonScript("删除",@<text>
+        function @(item.NavigateUrl)() {
+            var id = GetSelectedButtonId();
+
+            if (mercurius.HasSingleRowSelected(id)) {
+                mercurius.RemoveData('@Url.Action("Remove")',{id:id});
+            }
+        }
+        </text>)
+    </script>
+}
+<div class="header">按钮信息列表</div>
+@Html.RenderAccessibleButtons()
+<table class="grid" id="dnd-example">
+    <thead>
+        <tr>
+            <td style="width: 40px; text-align: center;">
+                <label class="check-all" title="全选"></label>
+            </td>
+            <td style="width: 50px;">图标</td>
+            <td style="width: 80px">名称</td>
+            <td style="width:100px;">显示名</td>
+            <td style="width: 80px;">位置</td>
+            <td style="width: 120px;">事件</td>
+            <td class="hidden-xs hidden-sm" style="width: 80px;">显示顺序</td>
+            <td class="hidden-xs hidden-sm" style="width: 120px;">创建用户</td>
+            <td class="hidden-xs hidden-sm" style="width: 150px;">创建时间</td>
+            <td class="hidden-xs hidden-sm" style="width: 120px;">修改用户</td>
+            <td class="hidden-xs hidden-sm" style="width: 150px;">修改时间</td>
+            <td class="hidden-xs hidden-sm">说明</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (buttons.HasData())
+        {
+            foreach (var item in buttons.Datas)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" value="@item.Id" id="@item.Id" name="checkbox" />
+                    </td>
+                    <td><i class="@item.Image fa-2x"></i></td>
+                    <td>@item.Name</td>
+                    <td>@item.Title</td>
+                    <td>@item.Category</td>
+                    <td style="text-align:left;">@item.Code</td>
+                    <td class="hidden-xs hidden-sm">@item.Sort</td>
+                    <td class="hidden-xs hidden-sm">@item.CreateUserName</td>
+                    <td class="hidden-xs hidden-sm">@item.CreateDateTime</td>
+                    <td class="hidden-xs hidden-sm">@item.ModifyUserName</td>
+                    <td class="hidden-xs hidden-sm">@item.ModifyDateTime</td>
+                    <td class="hidden-xs hidden-sm">@item.Remark</td>
+                </tr>
+            }
+        }
+        else if (buttons.HasError())
+        {
+            <tr>
+                <td colspan="12" class="text-danger">@buttons.GetErrorMessage()</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="12" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,163 @@
+﻿@{
+    var systemMenus = this.ViewBag.SystemMenus as ResponseSet<SystemMenu>;
+}
+
+@section Styles{
+    @Styles.Render("~/Content/treetable/css")
+
+    <style type="text/css">
+        .fa-2x {
+            font-size: 1.5em;
+        }
+
+        label:not(:empty) {
+            font-weight: normal;
+            margin-right: 15px;
+            vertical-align: middle;
+            margin-bottom: 1px;
+        }
+
+        label > input[type=checkbox] {
+            margin-top: -2px;
+            margin-right: 2px;
+            position: relative;
+            vertical-align: middle;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/treetable")
+    <script type="text/javascript">
+        $(function () {
+            mercurius.FixedTableHeader("#dnd-example", 112, { multiple:true ,triggerRowChecked: false });
+            $("#dnd-example").treetable({
+                expandable: true,
+                // collapsed收缩；expanded展开。
+                initialState: "expanded"
+            });
+
+            $('#dnd-example > tbody > tr > td.text-center :checkbox').click(function () {
+                $(this).parent().next().find(':checkbox').prop('checked', $(this).prop('checked'));
+
+                if ($(this).prop('checked')) {
+                    CheckedParents($(this).parent().parent().attr('data-tt-parent-id'));
+                } else {
+                    UnCheckedChildren($(this).parent().parent().attr('data-tt-id'));
+                }
+            });
+
+            $('#dnd-example > tbody > tr > td > label :checkbox').click(function () {
+                if ($(this).prop('checked')) {
+                    $(this).parent().parent().prev().find(':checkbox').prop('checked', true);
+                }
+            });
+
+            function CheckedParents(id) {
+                $('[id=' + id + '] td:eq(2) :checkbox').prop('checked', true);
+
+                if ($('[id=' + $('[id=' + id + ']').attr('data-tt-parent-id') + ']').length > 0) {
+                    CheckedParents($('[id=' + id + ']').attr('data-tt-parent-id'));
+                }
+            }
+
+            function UnCheckedChildren(parentId) {
+                $('[data-tt-parent-id=' + parentId + '] :checkbox').prop('checked', false);
+
+                if ($('[data-tt-parent-id=' + parentId + ']').length > 0) {
+                    $('[data-tt-parent-id=' + parentId + ']').each(function() {
+                        UnCheckedChildren($(this).attr('data-tt-id'));
+                    });
+                }
+            }
+        });
+
+        @Html.RenderButtonScript("返回",@<text>
+        function @item.NavigateUrl () {
+            mercurius.NavigateUrl('@Url.Action("Index")');
+        }
+        </text>)
+
+        @Html.RenderButtonScript("保存",@<text>
+        function @item.NavigateUrl () {
+            mercurius.ShowConfirmMessage('注您确认要保存此操作吗？', function () {
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    url: '@Url.Action("SaveAllotPermissions")',
+                    data: { roleId: $('#roleId').val(), selecteds: mercurius.GetCheckboxValue() },
+                    dataType: 'JSON',
+                    complete: function (xhr) {
+                        if (xhr.status == 200) {
+                            mercurius.ShowTipsMessage(xhr.responseJSON.Data, '4000', 4);
+                        } else {
+                            mercurius.ShowWarningMessage(xhr.statusText);
+                        }
+                    }
+                });
+            });
+        }
+        </text>)
+    </script>
+}
+<input id="roleId" type="hidden" value="@this.ViewBag.Id" />
+<div class="header">所属角色【@this.ViewBag.Role】 &nbsp;&nbsp;<span style="color: Red;">注：分配权限 - 该功能谨慎使用！</span></div>
+@Html.RenderAccessibleButtons()
+<table class="treetable" id="dnd-example">
+    <thead>
+        <tr>
+            <td style="width: 300px; padding-left: 20px;">URL菜单权限 </td>
+            <td style="width: 40px;">图标 </td>
+            <td style="width: 30px;">
+                <label class="check-all" title="全选"></label>
+            </td>
+            <td>操作按钮权限 </td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (systemMenus.HasData())
+        {
+            var menus = systemMenus.Datas.Where(s => s.Category != 3);
+            var buttons = systemMenus.Datas.Where(s => s.Category == 3);
+
+            foreach (var systemMenu in menus)
+            {
+                var btns = buttons.Where(b => b.ParentId == systemMenu.Id);
+
+                <tr id="@systemMenu.Id" data-tt-id="@systemMenu.Id" data-tt-parent-id="@systemMenu.ParentId">
+                    <td style="padding-left: 20px;">
+                        <span class="@(menus.IsParent(systemMenu.Id)?"folder":"file")"></span>@systemMenu.Name
+                    </td>
+                    <td style="text-align: center">
+                        <i class="@systemMenu.Image fa-2x"></i>
+                    </td>
+                    <td class="text-center">
+                        <input id="@string.Format("ckb{0}", systemMenu.Id)" @(systemMenu.CanAccess ? "checked" : string.Empty) type="checkbox" value="@systemMenu.Id" name="checkBox" />
+                    </td>
+                    <td>
+                        @foreach (var btn in btns)
+                        {
+                            <label>
+                                <input id="@string.Format("ckb{0}", btn.Id)" @(btn.CanAccess ? "checked" : string.Empty) type="checkbox" value="@btn.Id" name="checkbox" />
+                                @btn.Name
+                            </label>
+                        }
+                    </td>
+                    <td style="display: none;">@systemMenu.Id</td>
+                </tr>}
+        }
+        else if (systemMenus.HasError())
+        {
+            <tr>
+                <td colspan="4" class="text-danger">@systemMenus.GetErrorMessage()</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="empty-data">@Html.GetGlobalValue("empty-data")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,83 @@
+﻿@model Button
+
+@section Styles{
+    <style type="text/css">
+        .icon-container {
+            width: 36px;
+            height: 30px;
+            border: 1px solid #ccc;
+            float: left;
+            text-align: center;
+            margin-right: 4px;
+            -ms-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+            .icon-container #icon {
+                font-size: 1.6em;
+                padding-top: 1px;
+                padding-bottom: 1px;
+                line-height: 23px;
+            }
+    </style>
+}
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/validate")
+    <script type="text/javascript">
+        $(function () {
+            if ($('#Name').val() != '') {
+                $('#Name').prop('readonly', true);
+            }
+        });
+
+        function OnSave() {
+            if (JudgeValidate('#frmSave')) {
+                $('#frmSave').submit();
+            }
+        }
+
+        //选择图标
+        function SelectOpenImg() {
+            var url = '@Url.Action("ChooseImage", "Helper", new {@Area=""})';
+
+            mercurius.OpenDialog(url, 'ChooseImage', '菜单图标', 615, 400, { x: 'right', y: 'bottom', statusbar: false });
+        }
+
+        //根据选择图标，修改当前页面显示，并赋值
+        function SetImage(img) {
+            $("#icon").prop('class', img);
+
+            $("#imageName").val(img);
+        }
+
+        //标记和名称一致
+        function onkeyButton_Name(value) {
+            $("#Title").val(value);
+        }
+    </script>
+}
+
+@using (Ajax.BeginForm("CreateOrUpdate", "Button", null, new AjaxOptions { HttpMethod = "POST" }, new { @id = "frmSave", @class = "form-horizontal form", @role = "form" }))
+{
+    var imgUrl = Model != null && Model.Image != null ? Model.Image : string.Empty;
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Image, new { @id = "imageName" })
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Name, 2, 9, form => form.Form(new { onkeyup = "onkeyButton_Name(this.value)" }))
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Title, 2, 9)
+    @Html.FormGroupFor(Screen.SM).MultipleListFor(m => m.Category, 2, 9, f => f.Datas("工具栏"))
+    @Html.FormGroupFor(Screen.SM).FormPartFor(m => m.Image, 2, 9, @<text>
+        <div class="icon-container">
+            <i id="icon" class="@imgUrl"></i>
+        </div>
+        <a href="#" class="btn btn-sm btn-primary" onclick="SelectOpenImg()">
+            <i class="glyphicon glyphicon-picture" style="top: 1.5px;"></i> 选择图标
+        </a>
+    </text>)
+    @Html.FormGroupFor(Screen.SM).TextBoxFor(m => m.Sort, 2, 9)
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Code, 2, 9, 3)
+    @Html.FormGroupFor(Screen.SM).TextAreaFor(m => m.Remark, 2, 9, 3)
+}

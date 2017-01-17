@@ -93,8 +93,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     {
                         try
                         {
-                            var viewModel = ServiceLocator.Current.GetInstance<CodeBuilderViewModel>();
-                            var view = ServiceLocator.Current.GetInstance<Views.CodeBuilderView>();
+                            var viewModel = ServiceLocator.Current.GetInstance<CodeBuilderViewModel2>();
+                            var view = ServiceLocator.Current.GetInstance<Views.CodeBuilderView2>();
 
                             viewModel.Configuration.CurrentDatabase = arg;
                             view.DataContext = viewModel;
