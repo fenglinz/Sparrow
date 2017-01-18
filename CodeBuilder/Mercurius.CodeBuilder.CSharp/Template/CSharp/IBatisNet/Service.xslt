@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
     <xsl:output method="text" indent="yes"/>
-    <xsl:include href="Common.xslt"/>
+    <xsl:include href="../Common.xslt"/>
   <xsl:template match="root"><![CDATA[// <copyright ]]>file="<xsl:value-of select="./table/@className" />Service.cs" company="<xsl:value-of select="./copyright"/>"<![CDATA[>
 // 版权所有 © ]]><xsl:value-of select="./copyright"/><![CDATA[. 保留所有权利.
 // </copyright>]]>
@@ -12,9 +12,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using <xsl:value-of select="./rootNamespace" />.Contracts;
-<xsl:call-template name="dependencys" />using <xsl:value-of select="./rootNamespace" />.Repositories;
-using <xsl:value-of select="./rootNamespace" />.Services.Support;
+using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
+<xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {
     /// <![CDATA[<summary>]]>

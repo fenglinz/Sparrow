@@ -187,21 +187,25 @@ namespace Mercurius.CodeBuilder.CSharp
                         continue;
                     }
 
+                    var assembly = string.Empty;
                     var dependencyNs = string.Empty;
 
                     switch (dependencyItem.Module)
                     {
                         case "entity":
+                            assembly = configuration.EntityBaseNamespace;
                             dependencyNs = dependencyItem.GetNamespace(configuration.EntityBaseNamespace, table.ModuleName);
 
                             break;
 
                         case "contract":
+                            assembly = configuration.ContractBaseNamespace;
                             dependencyNs = dependencyItem.GetNamespace(configuration.ContractBaseNamespace, table.ModuleName);
 
                             break;
 
                         case "service":
+                            assembly = configuration.ServiceBaseNamespace;
                             dependencyNs = dependencyItem.GetNamespace(configuration.ServiceBaseNamespace, table.ModuleName);
 
                             break;
@@ -211,7 +215,7 @@ namespace Mercurius.CodeBuilder.CSharp
 
                     element.SetAttributeValue("name", dependencyItem.Name);
                     element.SetAttributeValue("className", string.IsNullOrWhiteSpace(dependencyItem.FileFormat) ? table.ClassName : string.Format(dependencyItem.FileFormat, table.ClassName));
-                    element.SetAttributeValue("assembly", configuration.EntityBaseNamespace);
+                    element.SetAttributeValue("assembly", assembly);
 
                     var exists = (from d in dependencys.Descendants("dependency") where d.Value == dependencyNs select d).Any();
 

@@ -8,8 +8,9 @@
   <xsl:template match="root">
     <sqlMap xmlns="http://ibatis.apache.org/mapping">
       <xsl:attribute name="namespace">
-        <xsl:value-of select="./table/@namespace"/>
-        <xsl:text>.</xsl:text>
+        <xsl:value-of select="./rootNamespace"/>
+        <xsl:text>.Repositories.</xsl:text>
+        <xsl:if test="./table/@moduleName!=''"><xsl:value-of select="./table/@moduleName"/>.</xsl:if>
         <xsl:value-of select="./table/@className"/>
       </xsl:attribute>
       <alias>
@@ -73,7 +74,7 @@
           <xsl:value-of select="."/>
           <xsl:text>.</xsl:text>
           <xsl:value-of select="@className"/>
-          <xsl:text>,</xsl:text>
+          <xsl:text>, </xsl:text>
           <xsl:value-of select="@assembly"/>
         </xsl:attribute>
       </typeAlias>
