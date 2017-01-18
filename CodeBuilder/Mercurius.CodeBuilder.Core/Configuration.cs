@@ -357,6 +357,12 @@ namespace Mercurius.CodeBuilder.Core
             this.OutputFolder = database.Attribute("outputFolder")?.Value;
             this.BaseNamespace = database.Attribute("baseNamespace")?.Value;
             this.OrmMiddleware = database.Attribute("ormMiddleware")?.Value;
+
+            if (string.IsNullOrWhiteSpace(this.OrmMiddleware))
+            {
+                this.OrmMiddleware = Config.OrmMiddleware.Dapper.ToString();
+            }
+
             this.CopyrightOwner = database.Attribute("copyright")?.Value;
 
             this.EntityProjectFile = database.Attribute("entityProjectFile")?.Value;
