@@ -1,0 +1,20 @@
+﻿<local:MercuriusDialog x:Class="Mercurius.CodeBuilder.UI.Dialogs.TemplateSettingDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mercurius.CodeBuilder.UI.Themes"
+        xmlns:controls ="clr-namespace:Mercurius.CodeBuilder.UI.Themes.Controls"
+        mc:Ignorable="d" Icon="../Images/Settings.png"
+        Title="设置代码生产模板" Height="600" Width="800">
+    <Grid>
+        <controls:AnimatedTabControl>
+            <TabItem Header="基于Dapper">
+                <Button />
+            </TabItem>
+            <TabItem Header="基于IBatisNet">
+                
+            </TabItem>
+        </controls:AnimatedTabControl>
+    </Grid>
+</local:MercuriusDialog>

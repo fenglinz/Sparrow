@@ -60,6 +60,10 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Unofficial.Blend.Interactivity.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
@@ -132,8 +136,16 @@
     <Compile Include="Dialogs\LogOnServerDialog.xaml.cs">
       <DependentUpon>LogOnServerDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\TemplateSettingDialog.xaml.cs">
+      <DependentUpon>TemplateSettingDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Module.cs" />
+    <Compile Include="Themes\Controls\AnimatedTabControl.cs" />
+    <Compile Include="Themes\Controls\RoundedBox.xaml.cs">
+      <DependentUpon>RoundedBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Themes\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Themes\Converters\MinusConverter.cs" />
     <Compile Include="Themes\MercuriusDialog.cs" />
     <Compile Include="Themes\MercuriusWindow.cs" />
     <Compile Include="ViewModels\CodeBuilderViewModel2.cs" />
@@ -141,6 +153,7 @@
     <Compile Include="ViewModels\DatabaseExplorerViewModel.cs" />
     <Compile Include="ViewModels\LogOnServerViewModel.cs" />
     <Compile Include="ViewModels\OutputViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\CodeBuilderView2.xaml.cs">
       <DependentUpon>CodeBuilderView2.xaml</DependentUpon>
     </Compile>
@@ -157,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Dialogs\TemplateSettingDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -169,6 +186,10 @@
       <DependentUpon>Shell.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Themes\Controls\RoundedBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Default.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -234,6 +255,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Default\Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Resources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -346,6 +375,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\background.png" />
+    <Resource Include="Images\shadow_b.png" />
+    <Resource Include="Images\shadow_bl.png" />
+    <Resource Include="Images\shadow_br.png" />
+    <Resource Include="Images\shadow_l.png" />
+    <Resource Include="Images\shadow_r.png" />
+    <Resource Include="Images\shadow_t.png" />
+    <Resource Include="Images\shadow_tl.png" />
+    <Resource Include="Images\shadow_tr.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

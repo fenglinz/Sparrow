@@ -15,16 +15,29 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="36" />
+            <RowDefinition Height="48" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <ContentControl prism:RegionManager.RegionName="NavigationRegion" />
-            <ContentControl Grid.Column="1" prism:RegionManager.RegionName="DisplayRegion" Margin="5,0,-5,0" />
+
+            <Border Grid.Column="0" Width="250" BorderThickness="0,0,2,0" BorderBrush="#454545">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="42" />
+                    </Grid.RowDefinitions>
+                    <ContentControl prism:RegionManager.RegionName="NavigationRegion" />
+                    
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#FFF09609">
+                        <Button Command="{Binding TemplateSettingCommand}" Style="{StaticResource SettingImageButtonStyle}" Margin="3,0" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <ContentControl Grid.Column="1" prism:RegionManager.RegionName="DisplayRegion" Margin="5,0,0,0" />
         </Grid>
 
         <StatusBar Grid.Row="1">

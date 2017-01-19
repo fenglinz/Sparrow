@@ -11,8 +11,7 @@ namespace Mercurius.CodeBuilder.UI.Themes.Converters
     /// <summary>
     /// Converts boolean to visibility values.
     /// </summary>
-    public class BooleanToVisibilityConverter
-        : IValueConverter
+    public class BooleanToVisibilityConverter : IValueConverter
     {
         /// <summary>
         /// Converts a value.
@@ -26,21 +25,26 @@ namespace Mercurius.CodeBuilder.UI.Themes.Converters
         /// </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool flag = false;
-            if (value is bool) {
+            var flag = false;
+
+            if (value is bool)
+            {
                 flag = (bool)value;
             }
-            else if (value is bool?) {
-                bool? nullable = (bool?)value;
-                flag = nullable.HasValue ? nullable.Value : false;
+            else if (value is bool?)
+            {
+                var nullable = (bool?)value;
+                flag = nullable.HasValue && nullable.Value;
             }
 
-            bool inverse = (parameter as string) == "inverse";
+            var inverse = (parameter as string) == "inverse";
 
-            if (inverse) {
+            if (inverse)
+            {
                 return (flag ? Visibility.Collapsed : Visibility.Visible);
             }
-            else {
+            else
+            {
                 return (flag ? Visibility.Visible : Visibility.Collapsed);
             }
         }

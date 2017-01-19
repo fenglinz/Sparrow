@@ -43,8 +43,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MercuriusDialog">
                     <Border x:Name="WindowBorder"
-                            Margin="{Binding Source={x:Static shellex:SystemParameters2.Current},
-                                             Path=WindowNonClientFrameThickness}"
+                            Margin="{Binding Source={x:Static shellex:SystemParameters2.Current}, Path=WindowNonClientFrameThickness}"
                             Background="#353535"
                             BorderBrush="#353535"
                             CornerRadius="0">
@@ -68,23 +67,30 @@
                                     <!--  title bar  -->
                                     <Grid Background="Transparent">
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <!--  title  -->
-                                        <TextBlock Grid.ColumnSpan="2"
+                                        <Image x:Name="icon" Width="28"
+                                               Height="28"
+                                               Margin="5,5,0,5"
+                                               Stretch="UniformToFill"
+                                               Source="{TemplateBinding Icon}"
+                                               HorizontalAlignment="Left" />
+                                        <TextBlock Grid.Column="1"
                                                    HorizontalAlignment="Stretch"
                                                    VerticalAlignment="Center"
-                                                   FontSize="15"
+                                                   FontSize="16"
                                                    FontStretch="Medium"
-                                                   FontWeight="Medium"
+                                                   FontWeight="Bold"
                                                    Foreground="White"
-                                                   Padding="8,0"
+                                                   Margin="10,0,0,0"
                                                    Text="{TemplateBinding Title}" />
 
                                         <!--  window system buttons  -->
-                                        <StackPanel Grid.Column="1"
+                                        <StackPanel Grid.Column="2"
                                                     Margin="0,0,0,0"
                                                     HorizontalAlignment="Right"
                                                     VerticalAlignment="Top"
@@ -122,13 +128,18 @@
                                         </StackPanel>
                                     </Grid>
 
-                                    <Grid Grid.Row="1" Background="#353535">
+                                    <Grid Grid.Row="1" Background="WhiteSmoke">
                                         <ContentPresenter />
                                     </Grid>
                                 </Grid>
                             </AdornerDecorator>
                         </Border>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="icon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

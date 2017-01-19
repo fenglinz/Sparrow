@@ -9,6 +9,19 @@
              d:DesignWidth="300"
              mc:Ignorable="d">
     <UserControl.Resources>
+        <Style TargetType="TreeView">
+            <Style.Resources>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" x:Key="{x:Static SystemColors.HighlightBrushKey}">
+                    <GradientStop Offset="0" Color="#FFFF8F26" />
+                    <GradientStop Offset="1" Color="#FFCC6D1D" />
+                </LinearGradientBrush>
+
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" x:Key="{x:Static SystemColors.ControlBrushKey}">
+                    <GradientStop Offset="0" Color="#FFFF8F26" />
+                    <GradientStop Offset="1" Color="#FFCC6D1D" />
+                </LinearGradientBrush>
+            </Style.Resources>
+        </Style>
         <Style x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
             <Style.Resources>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" x:Key="{x:Static SystemColors.HighlightBrushKey}">
@@ -21,7 +34,9 @@
                     <GradientStop Offset="1" Color="#FFCC6D1D" />
                 </LinearGradientBrush>
             </Style.Resources>
-            <Setter Property="Padding" Value="15,6,60,6" />
+            <Setter Property="Padding" Value="8,5,0,5" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
             <EventSetter Event="MouseDoubleClick" Handler="OnOpenConnectedDatabase" />
         </Style>
 
@@ -69,10 +84,10 @@
         </ContextMenu>
     </UserControl.Resources>
     <Grid>
-        <TreeView Style="{x:Null}" BorderThickness="0,0,2,0" BorderBrush="#454545">
+        <TreeView HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
             <TreeViewItem IsExpanded="True" ItemsSource="{Binding ConnectedDatabases.Items}">
                 <TreeViewItem.Header>
-                    <ContentControl HorizontalAlignment="Stretch" ContextMenu="{StaticResource dbExplorerContextMenu}">
+                    <ContentControl HorizontalAlignment="Stretch" ContextMenu="{StaticResource dbExplorerContextMenu}" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=33}">
                         <ContentControl.Template>
                             <ControlTemplate>
                                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
@@ -80,8 +95,8 @@
                                            Height="32"
                                            Source="../Images/Server.png" />
                                     <Label VerticalAlignment="Center"
-                                           Content="数据库连接"
-                                           FontSize="14"
+                                           Content="数据库管理"
+                                           FontSize="16"
                                            Padding="5,5" />
                                 </StackPanel>
                             </ControlTemplate>
@@ -95,7 +110,7 @@
                             <Image Width="24"
                                    Height="24"
                                    Source="../Images/Database.png" />
-                            <TextBlock VerticalAlignment="Center" FontSize="12">
+                            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="14" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=75}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0}.{1}">
                                         <Binding Path="Type" />

@@ -11,10 +11,10 @@
 
     <!--  主窗体样式  -->
     <Style x:Key="{x:Type controls:MercuriusWindow}" TargetType="controls:MercuriusWindow">
-        <Setter Property="Width" Value="800" />
-        <Setter Property="Height" Value="640" />
-        <Setter Property="MinWidth" Value="320" />
-        <Setter Property="MinHeight" Value="320" />
+        <Setter Property="Width" Value="1024" />
+        <Setter Property="Height" Value="768" />
+        <Setter Property="MinWidth" Value="800" />
+        <Setter Property="MinHeight" Value="640" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
@@ -23,8 +23,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MercuriusWindow">
                     <Border x:Name="WindowBorder"
-                            Margin="{Binding Source={x:Static shellex:SystemParameters2.Current},
-                                             Path=WindowNonClientFrameThickness}"
+                            Margin="{Binding Source={x:Static shellex:SystemParameters2.Current}, Path=WindowNonClientFrameThickness}"
                             Background="#353535"
                             BorderBrush="#353535"
                             BorderThickness="1"
@@ -51,21 +50,21 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!--  Icon图标  -->
-                                    <Border Width="48"
+                                    <Border x:Name="icon" Width="48"
                                             Height="48"
-                                            Margin="6,0,0,0">
+                                            Margin="5,0,0,0">
                                         <Image Source="{TemplateBinding Icon}" Stretch="Uniform" />
                                     </Border>
 
                                     <!--  标题  -->
-                                    <TextBlock Grid.Column="1"
+                                    <TextBlock x:Name="title" Grid.Column="1"
                                                Margin="5,0"
                                                HorizontalAlignment="Stretch"
                                                VerticalAlignment="Center"
                                                FontSize="18"
                                                FontStretch="Medium"
                                                FontStyle="Italic"
-                                               FontWeight="Medium"
+                                               FontWeight="Bold"
                                                Foreground="White"
                                                Text="{TemplateBinding Title}" />
 
@@ -225,6 +224,9 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="icon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="Maximize" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="Restore" Property="Visibility" Value="Visible" />

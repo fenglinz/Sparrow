@@ -42,7 +42,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
+    
     <Style x:Key="SystemCloseButtonStyle"
            BasedOn="{StaticResource ButtonBase}"
            TargetType="Button">
