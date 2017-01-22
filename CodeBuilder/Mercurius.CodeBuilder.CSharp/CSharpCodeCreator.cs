@@ -154,11 +154,13 @@ namespace Mercurius.CodeBuilder.CSharp
             switch (item.Module)
             {
                 case "entity":
+                case "interface":
                     table.Namespace = item.GetNamespace(configuration.EntityBaseNamespace, table.ModuleName);
 
                     break;
 
                 case "contract":
+                case "implement":
                     table.Namespace = item.GetNamespace(configuration.ContractBaseNamespace, table.ModuleName);
 
                     break;
@@ -193,12 +195,14 @@ namespace Mercurius.CodeBuilder.CSharp
                     switch (dependencyItem.Module)
                     {
                         case "entity":
+                        case "interface":
                             assembly = configuration.EntityBaseNamespace;
                             dependencyNs = dependencyItem.GetNamespace(configuration.EntityBaseNamespace, table.ModuleName);
 
                             break;
 
                         case "contract":
+                        case "implement":
                             assembly = configuration.ContractBaseNamespace;
                             dependencyNs = dependencyItem.GetNamespace(configuration.ContractBaseNamespace, table.ModuleName);
 

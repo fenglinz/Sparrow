@@ -1,6 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 新闻中心模块 -->
-  <sqlMap embedded="IBatisNet.MSSQL.News.xml, Mercurius.News.Implements" />
+  <sqlMap embedded="IBatisNet.MSSQL.Tidings.xml, Mercurius.News.Implements" />
   <sqlMap embedded="IBatisNet.MSSQL.NewsComment.xml, Mercurius.News.Implements" />
 </root>

@@ -117,6 +117,15 @@ namespace Mercurius.CodeBuilder.Core
                 {
                     this._ormMiddleware = value;
                     this.OnPropertyChanged(() => this.OrmMiddleware);
+
+                    this.EntityProjectFile = string.Empty;
+                    this.EntityBaseNamespace = string.Empty;
+
+                    this.ContractProjectFile = string.Empty;
+                    this.ContractBaseNamespace = string.Empty;
+
+                    this.ServiceProjectFile = string.Empty;
+                    this.ServiceBaseNamespace = string.Empty;
                 }
             }
         }

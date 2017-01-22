@@ -3,7 +3,7 @@
   <item
     name="Entity"
     template="Entity.xslt"
-    module="entity"
+    module="interface"
     fileFormat="{0}"
     extension="cs"
     subFolder="Entities"
@@ -13,7 +13,7 @@
   <item
     name="SearchResponse"
     template="SearchResponse.xslt"
-    module="contract"
+    module="interface"
     fileFormat="{0}SO"
     extension="cs"
     subFolder="SearchObjects"
@@ -24,20 +24,20 @@
     name="SqlMap"
     dependency="Entity,SearchResponse"
     template="IBatisNet\SqlMap.xslt"
-    module="service"
+    module="implement"
     fileFormat="{0}"
     extension="xml"
     ignoreView="true"
     subFolder="IBatisNet\{dbType}"
     handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp;Mercurius.CodeBuilder.CSharp.RepositoryCreatedHandler,Mercurius.CodeBuilder.CSharp"
     project=""
-    parameter="project:{0}.Backstage\App_Data\IBatisNet\{1}\SqlConfig-{2}.xml&amp;{0}.Portal\App_Data\IBatisNet\{1}\SqlConfig-{2}.xml"/>
+    parameter="project:{0}\App_Data\SqlMaps.xml"/>
 
   <item
     name="Contract"
     dependency="Entity,SearchResponse"
     template="IContract.xslt"
-    module="contract"
+    module="interface"
     fileFormat="I{0}Service"
     extension="cs"
     subFolder="Services"
@@ -49,7 +49,7 @@
     name="Service"
     dependency="Entity,SearchResponse,Contract"
     template="IBatisNet\Service.xslt"
-    module="service"
+    module="implement"
     fileFormat="{0}Service"
     extension="cs"
     subFolder="Services"

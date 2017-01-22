@@ -40,15 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\NewsCommentService.cs" />
-    <Compile Include="Services\NewsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="IBatisNet\MSSQL\News.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="IBatisNet\MSSQL\NewsComment.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
@@ -66,6 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <EmbeddedResource Include="IBatisNet\MSSQL\Tidings.xml" />
+    <EmbeddedResource Include="IBatisNet\MSSQL\NewsComment.xml" />
+    <Compile Include="Services\TidingsService.cs" />
+    <Compile Include="Services\NewsCommentService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

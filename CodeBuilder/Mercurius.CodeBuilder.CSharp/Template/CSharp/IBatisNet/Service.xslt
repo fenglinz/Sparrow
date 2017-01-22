@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
+using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {

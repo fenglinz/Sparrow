@@ -1,6 +1,5 @@
 ﻿using Mercurius.Core.Interfaces.Entities;
 using Mercurius.Prime.Core.Services;
-using Mercurius.Prime.Data.IBatisNet;
 using Mercurius.Prime.Data.Support;
 using Mercurius.Security.Interfaces.Entities;
 using Mercurius.Security.Interfaces.Services;

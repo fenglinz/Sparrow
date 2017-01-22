@@ -1,46 +1,52 @@
-﻿using System;
+﻿// <copyright file="TidingsService.cs" company="武汉链享医药供应链管理有限公司">
+// 版权所有 © 武汉链享医药供应链管理有限公司. 保留所有权利.
+// </copyright>
+// <author>fengl</author>
+// <create>2017-01-22</create>
+
+using System;
 using System.Collections.Generic;
 using System.Data;
+using Mercurius.Prime.Core.Services;
+using Mercurius.Prime.Data.Support;
+using Mercurius.News.Interfaces.Entities;
 using Mercurius.News.Interfaces.SearchObjects;
 using Mercurius.News.Interfaces.Services;
-using Mercurius.Prime.Core.Services;
-using Mercurius.Prime.Data.IBatisNet;
-using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.News.Implements.Services
 {
     /// <summary>
     /// 新闻业务逻辑接口实现。 
     /// </summary>
-    [Module("新闻中心")]
-    public class NewsService : ServiceSupport, INewsService
+    [Module("")]
+    public class TidingsService : ServiceSupport, ITidingsService
     {
         #region 常量
-
-        private static readonly StatementNamespace NS = "Mercurius.Repositories.News.News";
-
+    
+        private static readonly StatementNamespace NS = "Mercurius.Repositories.Tidings";
+      
         #endregion
 
-        #region INewsService接口实现 
-
+        #region ITidingsService接口实现 
+        
         /// <summary>
         /// 添加或者编辑新闻
         /// </summary>
-        /// <param name="news">新闻</param>
+        /// <param name="tidings">新闻</param>
         /// <returns>返回添加或保存结果</returns>
-        public Response CreateOrUpdate(Interfaces.Entities.News news)
+        public Response CreateOrUpdate(Tidings tidings)
         {
             return this.InvokeService(
                 nameof(CreateOrUpdate),
                 () =>
                 {
-                    this.Persistence.Update(NS, "CreateOrUpdate", news);
-
-                    this.ClearCache<Interfaces.Entities.News>();
-                    // this.ClearCache<File>();
-                }, news);
+                    this.Persistence.Update(NS, "CreateOrUpdate", tidings);
+                    
+                    this.ClearCache<Tidings>();
+                },
+                tidings);
         }
-
+        
         /// <summary>
         /// 根据主键删除新闻信息。
         /// </summary>
@@ -52,37 +58,39 @@ namespace Mercurius.News.Implements.Services
             {
                 this.Persistence.Delete(NS, "Remove", id);
 
-                this.ClearCache<Interfaces.Entities.News>();
-                // this.ClearCache<File>();
+                this.ClearCache<Tidings>();
             }, id);
         }
-
+        
         /// <summary>
         /// 根据主键获取新闻信息。
         /// </summary>
         /// <param name="id">编号</param>
         /// <returns>返回新闻查询结果</returns>
-        public Response<Interfaces.Entities.News> GetNewsById(Guid id)
+        public Response<Tidings> GetTidingsById(Guid id)
         {
             return this.InvokeService(
-                nameof(GetNewsById),
-                () => this.Persistence.QueryForObject<Interfaces.Entities.News>(NS, "GetById", id), id);
+                nameof(GetTidingsById),
+                () => this.Persistence.QueryForObject<Tidings>(NS, "GetById", id),
+                id);
         }
-
+        
         /// <summary>
         /// 查询并分页获取新闻信息。
         /// </summary>
         /// <param name="so">查询条件</param>
         /// <returns>返回新闻的分页查询结果</returns>
-        public ResponseSet<Interfaces.Entities.News> SearchNews(NewsSO so)
+        public ResponseSet<Tidings> SearchTidinies(TidingsSO so)
         {
-            so = so ?? new NewsSO();
+            so = so ?? new TidingsSO();
 
             return this.InvokePagingService(
-                nameof(SearchNews),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<Interfaces.Entities.News>(NS, "SearchNews", out totalRecords, so), so);
+                nameof(SearchTidinies),
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList<Tidings>(NS, "SearchTidinies", out totalRecords, so),
+                so);
         }
-
+      
         #endregion
     }
 }
+    

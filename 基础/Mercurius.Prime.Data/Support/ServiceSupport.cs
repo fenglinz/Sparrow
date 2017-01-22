@@ -8,6 +8,7 @@ using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Logger;
 using Mercurius.Prime.Core.Services;
 using Mercurius.Prime.Data.IBatisNet;
+
 namespace Mercurius.Prime.Data.Support
 {
     /// <summary>

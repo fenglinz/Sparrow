@@ -211,7 +211,7 @@
         </xsl:when>
       </xsl:choose>
       <xsl:text>
-        LIMIT 1
+      LIMIT 1
       </xsl:text>
     </CommandText>
     <xsl:text>
@@ -252,8 +252,7 @@
       </xsl:text>
       </xsl:if>
       </xsl:for-each>
-      FROM `<xsl:value-of select="./table/@name" />`
-      <xsl:text>
+      FROM `<xsl:value-of select="./table/@name" />`<xsl:text>
       ORDER BY </xsl:text><xsl:choose>
         <xsl:when test="count(./table/column[@isPrimaryKey='true'])=1">
           <xsl:for-each select="./table/column[@isPrimaryKey='true']">`<xsl:value-of select="@name"/>` DESC</xsl:for-each>
@@ -265,6 +264,8 @@
         </xsl:when>
       </xsl:choose>
       LIMIT @OffsetRows, @PageSize
+      <xsl:text>
+      </xsl:text>
     </CommandText>
   </xsl:template>
 </xsl:stylesheet>

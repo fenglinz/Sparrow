@@ -10,11 +10,11 @@ namespace Mercurius.Plugins.NewsCenter.Controllers
 {
     public class HomeController : Controller
     {
-        public INewsService NewsService { get; set; }
+        public ITidingsService TidingsService { get; set; }
 
         public ActionResult Index()
         {
-            var news = this.NewsService.SearchNews(new NewsSO());
+            var news = this.TidingsService.SearchTidinies(new TidingsSO());
 
             return View(news);
         }

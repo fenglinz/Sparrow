@@ -28,11 +28,11 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="42" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <ContentControl prism:RegionManager.RegionName="NavigationRegion" />
                     
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Background="#FFF09609">
+                    <StackPanel Grid.Row="1" Visibility="Collapsed" Orientation="Horizontal" Background="#FFF09609">
                         <Button Command="{Binding TemplateSettingCommand}" Style="{StaticResource SettingImageButtonStyle}" Margin="3,0" />
                     </StackPanel>
                 </Grid>

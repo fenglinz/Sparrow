@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
@@ -54,6 +55,12 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         public Configuration Configuration { get; private set; }
 
+        public string ProjectFileLabel1 { get; set; } = "接口定义项目：";
+
+        public string ProjectFileLabel2 { get; set; } = "接口实现项目：";
+
+        public string ProjectFileLabel3 { get; set; } = "插件实现项目：";
+
         #endregion
 
         #region 命令
@@ -96,7 +103,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                             return;
                         }
-                        
+
                         var codeCreator = ServiceLocator.Current.GetInstance<AbstractCodeCreator>(this.Configuration.Language);
 
                         if (codeCreator != null)
@@ -184,7 +191,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                         return;
                     }
-                    
+
                     try
                     {
                         var codeCreator = ServiceLocator.Current.GetInstance<AbstractCodeCreator>(this.Configuration.Language);
@@ -266,7 +273,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     {
                         Filter = "工程文件|*.csproj",
                         CheckFileExists = true,
-                        Multiselect = false
+                        Multiselect = false,
+                        Title = $"选择{this.ProjectFileLabel1?.Replace("：", "")}"
                     };
 
                     if (dialog.ShowDialog() == DialogResult.OK)
@@ -291,7 +299,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     {
                         Filter = "工程文件|*.csproj",
                         CheckFileExists = true,
-                        Multiselect = false
+                        Multiselect = false,
+                        Title = $"选择{this.ProjectFileLabel2?.Replace("：", "")}"
                     };
 
                     if (dialog.ShowDialog() == DialogResult.OK)
@@ -316,7 +325,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     {
                         Filter = "工程文件|*.csproj",
                         CheckFileExists = true,
-                        Multiselect = false
+                        Multiselect = false,
+                        Title = $"选择{this.ProjectFileLabel3?.Replace("：", "")}"
                     };
 
                     if (dialog.ShowDialog() == DialogResult.OK)
@@ -340,7 +350,32 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             {
                 Language = "C#",
                 OrmMiddleware = "Dapper",
-                CopyrightOwner = AppSettings["copyright"]
+                CopyrightOwner = AppSettings["copyright"],
+            };
+
+            this.Configuration.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == "OrmMiddleware")
+                {
+                    var config = sender as Configuration;
+
+                    if (config?.OrmMiddleware == "Dapper")
+                    {
+                        this.ProjectFileLabel1 = "实体定义项目：";
+                        this.ProjectFileLabel2 = "业务接口项目：";
+                        this.ProjectFileLabel3 = "业务实现项目：";
+                    }
+                    else
+                    {
+                        this.ProjectFileLabel1 = "接口定义项目：";
+                        this.ProjectFileLabel2 = "接口实现项目：";
+                        this.ProjectFileLabel3 = "插件实现项目：";
+                    }
+
+                    this.OnPropertyChanged(() => this.ProjectFileLabel1);
+                    this.OnPropertyChanged(() => this.ProjectFileLabel2);
+                    this.OnPropertyChanged(() => this.ProjectFileLabel3);
+                }
             };
 
             var currentUserName = WindowsIdentity.GetCurrent().Name;

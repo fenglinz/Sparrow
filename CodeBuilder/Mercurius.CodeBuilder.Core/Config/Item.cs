@@ -84,11 +84,13 @@ namespace Mercurius.CodeBuilder.Core.Config
             switch (this.Module)
             {
                 case "entity":
+                case "interface":
                     folder = Path.GetDirectoryName(config.EntityProjectFile);
 
                     break;
 
                 case "contract":
+                case "implement":
                     folder = Path.GetDirectoryName(config.ContractProjectFile);
 
                     break;

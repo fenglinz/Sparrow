@@ -34,11 +34,13 @@ namespace Mercurius.CodeBuilder.CSharp
             switch (item.Module)
             {
                 case "entity":
+                case "interface":
                     projectFile = configuration.EntityProjectFile;
 
                     break;
 
                 case "contract":
+                case "implement":
                     projectFile = configuration.ContractProjectFile;
 
                     break;

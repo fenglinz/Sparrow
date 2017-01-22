@@ -32,18 +32,11 @@ namespace Mercurius.CodeBuilder.CSharp
 
                 foreach (var project in projects)
                 {
-                    var dbType = configuration.CurrentDatabase.Type;
-                    var writerSqlMapFilePath = configuration.OutputFolder + "\\" + string.Format(project, configuration.BaseNamespace, dbType, "Writer");
-                    var readerSqlMapFilePath = configuration.OutputFolder + "\\" + string.Format(project, configuration.BaseNamespace, dbType, "Reader");
+                    var outputPath = string.Format(project, Path.GetDirectoryName(configuration.ServiceProjectFile));
 
-                    if (File.Exists(writerSqlMapFilePath))
+                    if (File.Exists(outputPath))
                     {
-                        this.ConfigSqlConfig(configuration, table, writerSqlMapFilePath, configuration.ServiceBaseNamespace);
-                    }
-
-                    if (File.Exists(readerSqlMapFilePath))
-                    {
-                        this.ConfigSqlConfig(configuration, table, readerSqlMapFilePath, configuration.ServiceBaseNamespace);
+                        this.ConfigSqlConfig(configuration, table, outputPath, configuration.ContractBaseNamespace);
                     }
                 }
             }
@@ -55,8 +48,7 @@ namespace Mercurius.CodeBuilder.CSharp
 
         private void ConfigSqlConfig(Configuration configuration, DbTable table, string configFile, string projectName)
         {
-            XNamespace xmlns = "http://ibatis.apache.org/dataMapper";
-            var embedded = string.Format("{0}.{1}.xml, {2}",
+            var embedded = string.Format("IBatisNet.{0}.{1}.xml, {2}",
                 configuration.CurrentDatabase.Type, table.ClassName, projectName);
 
             if (!string.IsNullOrWhiteSpace(table.ModuleName))
@@ -65,23 +57,23 @@ namespace Mercurius.CodeBuilder.CSharp
             }
 
             var xdocument = XDocument.Load(configFile);
-            var exists = (from s in xdocument.Descendants(xmlns + "sqlMap")
+            var exists = (from s in xdocument.Descendants("sqlMap")
                           where
                               s.Attribute("embedded") != null && s.Attribute("embedded").Value == embedded
                           select s).Any();
 
             if (!exists)
             {
-                var sqlMapElement = new XElement(xmlns + "sqlMap");
+                var sqlMapElement = new XElement("sqlMap");
                 sqlMapElement.SetAttributeValue("embedded", embedded);
 
-                if (xdocument.Descendants(xmlns + "sqlMaps").Any())
+                if (xdocument.Descendants("root").Any())
                 {
-                    xdocument.Descendants(xmlns + "sqlMaps").FirstOrDefault().Add(sqlMapElement);
+                    xdocument.Descendants("root").FirstOrDefault().Add(sqlMapElement);
                 }
                 else
                 {
-                    var sqlMapsElement = new XElement(xmlns + "sqlMaps");
+                    var sqlMapsElement = new XElement("root");
 
                     sqlMapsElement.Add(sqlMapElement);
                     xdocument.Root.Add(sqlMapsElement);
