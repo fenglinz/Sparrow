@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
-using Mercurius.Core.Interfaces.Services;
+using Mercurius.Kernel.Contracts.Core.Services;
 using Mercurius.Prime.Core;
 
 namespace Mercurius.Prime.Web.Helpers.Bootstrap.Controls

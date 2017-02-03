@@ -35,6 +35,11 @@ namespace Mercurius.Prime.Core
         #region 属性
 
         /// <summary>
+        /// 数据库类型。
+        /// </summary>
+        public static string DatabaseType => Get("DatabaseType", "MSSQL");
+
+        /// <summary>
         /// 默认分页大小。
         /// </summary>
         public static int DefaultPageSize => Get("DefaultPageSize", 15);

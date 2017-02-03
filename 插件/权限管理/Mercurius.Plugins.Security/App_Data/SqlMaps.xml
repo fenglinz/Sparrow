@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<root>
-  <!-- 新闻中心模块 -->
-  <sqlMap embedded="IBatisNet.MSSQL.Button.xml, Mercurius.Security.Implements" />
-  <sqlMap embedded="IBatisNet.MSSQL.Role.xml, Mercurius.Security.Implements" />
-</root>

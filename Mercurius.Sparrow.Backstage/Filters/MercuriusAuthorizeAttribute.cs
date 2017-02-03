@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Security.Principal;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Reflection;
 using Autofac;
-using Castle.Core.Internal;
 using Mercurius.Infrastructure;
 using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Contracts;
@@ -45,7 +41,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
             {
                 filterContext.HttpContext.Response.Redirect(loginUrl, true);
             }
-            else if (filterContext.ActionDescriptor.GetAttribute<IgnorePermissionValidAttribute>() == null)
+            else if (filterContext.ActionDescriptor.GetType().GetCustomAttributes<IgnorePermissionValidAttribute>() == null)
             {
                 using (var context = AutofacConfig.Container.BeginLifetimeScope())
                 {

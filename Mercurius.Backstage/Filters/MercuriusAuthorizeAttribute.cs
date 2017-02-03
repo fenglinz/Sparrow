@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using Autofac;
-using Castle.Core.Internal;
+using System.Reflection;
 using Mercurius.Backstage.Autofac;
 using Mercurius.Core.Interfaces.Services;
 using Mercurius.Prime.Core;
@@ -64,7 +64,7 @@ namespace Mercurius.Backstage.Filters
             {
                 filterContext.HttpContext.Response.Redirect(loginUrl, true);
             }
-            else if (filterContext.ActionDescriptor.GetAttribute<IgnorePermissionValidAttribute>() == null)
+            else if (filterContext.ActionDescriptor.GetType().GetCustomAttribute<IgnorePermissionValidAttribute>() == null)
             {
                 var currentUrl = filterContext.HttpContext.Request.GetCurrentNavigateUrl();
                 var systemMenus = _permissionService.GetAccessibleMenus(WebHelper.GetLogOnUserId());

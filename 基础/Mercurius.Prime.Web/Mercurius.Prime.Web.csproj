@@ -102,13 +102,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\核心\Mercurius.Core.Implements\Mercurius.Core.Implements.csproj">
+    <ProjectReference Include="..\..\核心\Mercurius.Kernel.Implements\Mercurius.Kernel.Implements.csproj">
       <Project>{3276B23C-921A-48E0-B595-D368704A32A7}</Project>
-      <Name>Mercurius.Core.Implements</Name>
+      <Name>Mercurius.Kernel.Implements</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\核心\Mercurius.Core.Interfaces\Mercurius.Core.Interfaces.csproj">
+    <ProjectReference Include="..\..\核心\Mercurius.Kernel.Contracts\Mercurius.Kernel.Contracts.csproj">
       <Project>{8524BB1B-EB10-44FF-89A9-0470DBB97094}</Project>
-      <Name>Mercurius.Core.Interfaces</Name>
+      <Name>Mercurius.Kernel.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5B236DA6-7A5A-48E8-813E-5745B0E50D65}</Project>

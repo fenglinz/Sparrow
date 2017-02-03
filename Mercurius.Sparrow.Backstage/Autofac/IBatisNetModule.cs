@@ -5,8 +5,8 @@ using System.Web;
 using Autofac;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
-using Mercurius.Infrastructure.Dynamic;
 using Mercurius.Sparrow.Repositories;
+using static Mercurius.Prime.Core.SystemConfiguration;
 
 namespace Mercurius.Sparrow.Autofac
 {
@@ -26,7 +26,7 @@ namespace Mercurius.Sparrow.Autofac
                 {
                     var sqlMapBuilder = new DomSqlMapBuilder();
 
-                    return sqlMapBuilder.Configure(HttpContext.Current.Server.MapPath("~/App_Data/IBatisNet/MSSQL/SqlConfig-Reader.xml"));
+                    return sqlMapBuilder.Configure(HttpContext.Current.Server.MapPath($"~/App_Data/IBatisNet/{DatabaseType}/SqlConfig-Reader.xml"));
                 })
                 .As<ISqlMapper>()
                 .SingleInstance();

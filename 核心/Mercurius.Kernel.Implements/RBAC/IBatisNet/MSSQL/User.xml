@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Kernel.Repositories.RBAC.User" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="User" type="Mercurius.Kernel.Contracts.RBAC.Entities.User, Mercurius.Kernel.Contracts" />
+    <typeAlias alias="UserSO" type="Mercurius.Kernel.Contracts.RBAC.SearchObjects.UserSO, Mercurius.Kernel.Contracts" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="GetUserRM" class="User">
+      <result column="Id" property="Id" />
+      <result column="Code" property="Code" />
+      <result column="Account" property="Account" />
+      <result column="Password" property="Password" />
+      <result column="Name" property="Name" />
+      <result column="Sex" property="Sex" />
+      <result column="Title" property="Title" />
+      <result column="Email" property="Email" />
+      <result column="Reporter" property="Reporter" />
+      <result column="ReporterName" property="ReporterName" />
+      <result column="Remark" property="Remark" />
+      <result column="Status" property="Status"/>
+      <result column="CreateUserId" property="CreateUserId" />
+      <result column="CreateUserName" property="CreateUserName" />
+      <result column="CreateDateTime" property="CreateDateTime" />
+      <result column="ModifyUserId" property="ModifyUserId" />
+      <result column="ModifyUserName" property="ModifyUserName" />
+      <result column="ModifyDateTime" property="ModifyDateTime" />
+      <result column="DepartmentNames" property="DepartmentNames" />
+      <result column="Id" property="Roles" lazyLoad="false" select="Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser" />
+      <result column="Id" property="Departments" lazyLoad="false" select="Mercurius.Sparrow.Repositories.RBAC.User.GetDepartmentsByUser" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <!-- 添加或者编辑用户信息 -->
+    <update id="CreateOrUpdate" parameterClass="User">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.[User] WHERE Id=#Id#)
+          UPDATE RBAC.[User]
+          SET
+            Account=#Account#,
+            Password=#Password#,
+            Name=#Name#,
+            Sex=#Sex#,
+            Title=#Title#,
+            Email=#Email#,
+            Reporter=#Reporter#,
+            Remark=#Remark#,
+            ModifyUserId=#ModifyUserId#,
+            ModifyDateTime=GETDATE()
+          WHERE Id=#Id#
+        ELSE
+          INSERT INTO RBAC.[User]
+          ( 
+            Id,
+            Code,
+            Account,
+            Password,
+            Name,
+            Sex,
+            Title,
+            Email,
+            Reporter,
+            Remark,
+            Status,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+          (
+            #Id#,
+            RBAC.GetNewEmployeeCode(#DepartmentId#),
+            #Account#,
+            #Password#,
+            #Name#,
+            #Sex#,
+            #Title#,
+            #Email#,
+            #Reporter#,
+            #Remark#,
+            1,
+            #CreateUserId#,
+            GETDATE()
+          )
+      ]]>
+    </update>
+
+    <!-- 删除用户信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        DELETE FROM RBAC.[User] WHERE Id=#value#;
+        DELETE FROM RBAC.[UserRole] WHERE UserId=#value#;
+        DELETE FROM RBAC.[HomeShortcut] WHERE UserId=#value#;
+        DELETE FROM RBAC.[StaffOrganize] WHERE UserId=#value#;
+        DELETE FROM RBAC.[UserPermission] WHERE UserId=#value#;
+      ]]>
+    </delete>
+
+    <!-- 更新用户状态 -->
+    <update id="ChangeStatus" parameterClass="Params">
+      <![CDATA[
+        UPDATE RBAC.[User]
+        SET
+          Status=#Status#
+        WHERE Id=#UserId#
+      ]]>
+    </update>
+
+    <!-- 修改用户密码 -->
+    <update id="ChangePassword" parameterClass="User">
+      <![CDATA[
+        UPDATE RBAC.[User]
+        SET
+          Password=#Password#,
+          ModifyUserId=#ModifyUserId#,
+          ModifyDateTime=GETDATE()
+        WHERE ID=#Id#
+      ]]>
+    </update>
+
+    <!-- 验证用户登录信息 -->
+    <select id="ValidateUser" parameterClass="Params" resultClass="User">
+      <![CDATA[
+        SELECT
+          Id
+          ,Code
+          ,Name
+          ,Account
+          ,Password
+          ,Sex
+          ,Title
+          ,Status
+        FROM RBAC.[User]
+        WHERE Account=#Account# AND Password=#Password# AND Status!=0
+      ]]>
+    </select>
+
+    <!-- 获取用户信息 -->
+    <select id="GetUserById" parameterClass="string" resultMap="GetUserRM">
+      <![CDATA[
+        SELECT
+          a.Id,
+          a.Code,
+          a.Account,
+          a.Password,
+          a.Name,
+          a.Sex,
+          a.Title,
+          a.Email,
+          a.Reporter,
+          b.Name AS ReporterName,
+          a.Remark,
+          a.Status,
+          a.CreateUserId,
+          u1.Name AS CreateUserName,
+          a.CreateDatetime,
+          a.ModifyUserId,
+          u2.Name AS ModifyUserName,
+          a.ModifyDateTime,
+          CASE 
+            WHEN p.Name IS NULL THEN NULL
+            ELSE STUFF(p.Name,LEN(p.Name),1,'')
+          END DepartmentNames
+        FROM RBAC.[User] a
+        LEFT JOIN RBAC.[User] b
+          ON a.Reporter=b.Id
+        LEFT JOIN RBAC.[User] u1
+          ON a.CreateUserId=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON a.ModifyUserId=u2.Id
+        OUTER APPLY(
+         SELECT 
+          Name=REPLACE(
+            REPLACE(
+              (
+                SELECT Name FROM RBAC.Organization
+                WHERE Id IN (
+                  SELECT OrganizationId FROM RBAC.StaffOrganize
+                  WHERE UserId=a.Id) FOR XML PATH('')
+              ),'<Name>','')
+            ,'</Name>','，')
+        ) p
+        WHERE a.Id=#value#
+      ]]>
+    </select>
+
+    <!-- 根据账号获取用户信息 -->
+    <select id="GetUserByAccount" parameterClass="string" resultClass="User">
+      <![CDATA[
+        SELECT
+          a.Id,
+          a.Code,
+          a.Account,
+          a.Password,
+          a.Name,
+          a.Sex,
+          a.Title,
+          a.Email,
+          a.Reporter,
+          b.Name AS ReporterName,
+          a.Remark,
+          a.Status,
+          a.CreateUserId,
+          u1.Name AS CreateUserName,
+          a.CreateDatetime,
+          a.ModifyUserId,
+          u2.Name AS ModifyUserName,
+          a.ModifyDateTime
+        FROM RBAC.[User] a
+        LEFT JOIN RBAC.[User] b
+          ON a.Reporter=b.Id
+        LEFT JOIN RBAC.[User] u1
+          ON a.CreateUserId=u1.Id
+        LEFT JOIN RBAC.[User] u2
+          ON a.ModifyUserId=u2.Id
+        WHERE a.Account=#value#
+      ]]>
+    </select>
+
+    <!-- 获取报告人及直属下级信息 -->
+    <select id="GetRepoterAndSubordinates" parameterClass="string" resultClass="User">
+      <![CDATA[
+        SELECT a1.*, 1 AS IsReporter FROM RBAC.[User] a1 WHERE Id=(SELECT Reporter FROM RBAC.[User] WHERE Id=#value#)
+        UNION
+        SELECT a2.*, 0 AS IsReporter FROM RBAC.[User] a2 WHERE Reporter=#value#
+        ORDER BY Code ASC
+      ]]>
+    </select>
+
+    <select id="GetDepartmentsByUser" parameterClass="string" resultClass="string">
+      SELECT OrganizationId FROM RBAC.StaffOrganize WHERE UserId=#value#
+    </select>
+
+    <select id="GetRolesByUser" parameterClass="string" resultClass="string">
+      SELECT RoleId FROM RBAC.UserRole WHERE UserId=#value#
+    </select>
+
+    <!-- 查询用户信息 -->
+    <select id="SearchUsers" parameterClass="UserSO" resultClass="User">
+      <![CDATA[
+        WITH CTE AS (
+          SELECT
+            DISTINCT(U.Id),
+            U.Code,
+            U.Name,
+            U.Account,
+            U.Sex,
+            U.Title,
+            U.Status,
+            U.Reporter,
+            U1.Name AS ReporterName,
+            U.Remark,
+            U.CreateDateTime,
+            CASE 
+              WHEN p.Name IS NULL THEN NULL
+              ELSE STUFF(p.Name,LEN(p.Name),1,'')
+            END DepartmentNames,
+            p.ParentIds
+          FROM RBAC.[User] U
+          LEFT JOIN RBAC.[User] U1
+            ON U.Reporter=U1.Id
+          LEFT JOIN RBAC.StaffOrganize S
+            ON U.Id = S.UserId
+          OUTER APPLY(
+           SELECT 
+            Name=REPLACE(
+              REPLACE(
+                (
+                  SELECT Name FROM RBAC.Organization
+                  WHERE Id IN (
+                    SELECT OrganizationId FROM RBAC.StaffOrganize
+                    WHERE UserId=U.Id) FOR XML PATH('')
+                ),'<Name>','')
+              ,'</Name>','，'),
+              ParentIds=REPLACE(
+			        REPLACE(
+				        (
+						      SELECT
+                    b.ParentId+','+a.OrganizationId+',' 
+                  FROM RBAC.StaffOrganize a
+								  LEFT JOIN RBAC.Organization b
+									  on a.OrganizationId=b.Id
+						      WHERE UserId=U.Id FOR XML PATH('')
+				        ),'<ParentId>','')
+			        ,'</ParentId>',',')
+          ) p
+          WHERE U.Status!=0
+      ]]>
+      <include refid="SearchUsersCondition" />
+      <![CDATA[
+        ),
+        pg as(
+					SELECT
+						CTE.*,
+						ROW_NUMBER() OVER(ORDER BY cte.Code ASC) AS RowIndex
+					FROM CTE
+        )
+        SELECT * FROM pg
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 获取查询用户信息的总记录数 -->
+    <select id="SearchUsersCount" parameterClass="UserSO" resultClass="int">
+      <![CDATA[
+        SELECT
+          COUNT(DISTINCT(U.Id))
+        FROM RBAC.[User] U 
+        LEFT JOIN RBAC.StaffOrganize S
+          ON U.Id = S.UserId
+        OUTER APPLY(
+          SELECT
+           ParentIds=REPLACE(
+			      REPLACE(
+				    (
+					    SELECT
+                b.ParentId+','+a.OrganizationId+',' 
+              FROM RBAC.StaffOrganize a
+						  LEFT JOIN RBAC.Organization b ON a.OrganizationId=b.Id
+					    WHERE UserId=U.Id FOR XML PATH('')
+				    ),'<ParentId>','')
+			     ,'</ParentId>',',')
+        ) p
+        WHERE U.Status !=0
+      ]]>
+      <include refid="SearchUsersCondition" />
+    </select>
+
+    <!-- 添加用户所属的部门 -->
+    <insert id="AddToOrganizations" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM RBAC.StaffOrganize WHERE UserId=#UserId#;
+      ]]>
+      <isNotNull property="OrganizationIds">
+        <![CDATA[
+          INSERT INTO RBAC.StaffOrganize
+          (
+            Id,
+            UserId,
+            OrganizationId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="OrganizationIds" open="" close=";" conjunction=",">
+          <![CDATA[
+            (
+              NEWID(),
+              #UserId#,
+              #OrganizationIds[]#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+    </insert>
+
+    <!-- 添加用户拥有的角色 -->
+    <insert id="AddToRoles" parameterClass="Params">
+      <![CDATA[
+        DELETE FROM RBAC.UserRole WHERE UserId=#UserId#;
+      ]]>
+      <isNotNull property="RoleIds">
+        <![CDATA[
+          INSERT INTO RBAC.UserRole
+          (
+            Id,
+            UserId,
+            RoleId,
+            CreateUserId,
+            CreateDateTime
+          )
+          VALUES
+        ]]>
+        <iterate property="RoleIds" open="" conjunction="," close=";">
+          <![CDATA[
+            (
+              NEWID(),
+              #UserId#,
+              #RoleIds[]#,
+              #CreateUserId#,
+              GETDATE()
+            )
+          ]]>
+        </iterate>
+      </isNotNull>
+    </insert>
+
+    <!-- 查询用户信息查询条件 -->
+    <sql id="SearchUsersCondition">
+      <isNotNull property=".">
+        <isNotEmpty property="OrganizationId" prepend="AND">
+          CHARINDEX(#OrganizationId#+',', p.ParentIds)>0
+        </isNotEmpty>
+        <isNotEmpty property="SearchValue">
+          <isEqual property="SearchCategory" compareValue="Code" prepend="AND">
+            U.Code LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+          <isEqual property="SearchCategory" compareValue="Account" prepend="AND">
+            U.Account LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+          <isEqual property="SearchCategory" compareValue="Name" prepend="AND">
+            U.Name LIKE '%'+#SearchValue#+'%'
+          </isEqual>
+        </isNotEmpty>
+        <isNotNull property="ExcludeReporter" prepend="AND">
+          <![CDATA[U.Id<>#ExcludeReporter#]]>
+        </isNotNull>
+      </isNotNull>
+    </sql>
+  </statements>
+</sqlMap>

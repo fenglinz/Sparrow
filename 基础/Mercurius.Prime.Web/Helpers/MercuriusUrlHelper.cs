@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
-using Mercurius.Core.Interfaces.Entities;
-using Mercurius.Core.Interfaces.Services;
+using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Kernel.Contracts.Storage.Services;
 
 namespace Mercurius.Prime.Web.Helpers
 {

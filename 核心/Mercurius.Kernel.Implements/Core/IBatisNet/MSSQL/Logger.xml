@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Kernel.Repositories.Core.Logger" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Log" type="Mercurius.Kernel.Contracts.Core.Entities.Log, Mercurius.Kernel.Contracts" />
+    <typeAlias alias="LogSO" type="Mercurius.Kernel.Contracts.Core.SearchObjects.LogSO, Mercurius.Kernel.Contracts" />
+  </alias>
+
+  <statements>
+
+    <!-- 获取日志级别 -->
+    <select id="GetLoggerLevel" resultClass="string">
+      <![CDATA[
+				SELECT Value FROM SystemSetting t WHERE Name='LogLevel'
+			]]>
+    </select>
+
+    <!-- 获取日志信息 -->
+    <select id="GetLog" parameterClass="Params" resultClass="Log">
+      <![CDATA[
+        SELECT
+          TOP 1
+          a.Id
+          ,a.LogOnId
+          ,a.LogOnIP
+          ,u.Name AS LogOnName
+          ,a.ModelName
+          ,a.Summary
+          ,a.Details
+          ,a.LogLevel AS [Level]
+          ,a.OccurrenceDateTime
+        FROM SystemLog a
+        LEFT JOIN [RBAC].[User] u ON a.LogOnId=u.Id
+      ]]>
+      <dynamic>
+        <isNotNull property="Partition">
+          <isNotEmpty property="Partition">
+            PARTITION($Partition$)
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+        WHERE a.Id=#Id#
+      ]]>
+    </select>
+
+    <!-- 添加日志信息 -->
+    <insert id="Write" parameterClass="Log">
+      <![CDATA[
+        INSERT INTO SystemLog
+        (
+          Id
+          ,LogOnId
+          ,LogOnIP
+          ,ModelName
+          ,Summary
+          ,Details
+          ,OccurrenceDateTime
+          ,LogLevel
+        )
+        VALUES
+        (
+          #Id#
+          ,#LogOnId#
+          ,#LogOnIP#
+          ,#ModelName#
+          ,#Summary#
+          ,#Details#
+          ,#OccurrenceDateTime#
+          ,#Level#
+        )
+      ]]>
+    </insert>
+
+    <!-- 清空日志记录 -->
+    <delete id="ClearLogs">
+      <![CDATA[
+        TRUNCATE TABLE SystemLog
+      ]]>
+    </delete>
+
+    <!-- 获取日志信息 -->
+    <select id="SearchLogs" parameterClass="LogSO" resultClass="Log">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT 
+            a.Id,
+            a.LogOnId,
+            u.Name AS LogOnName,
+            a.LogOnIP,
+            a.ModelName,
+            a.Summary,
+            a.LogLevel AS [Level],
+            a.OccurrenceDateTime,
+            ROW_NUMBER() OVER(ORDER BY OccurrenceDateTime DESC) AS RowIndex
+          FROM SystemLog a
+          LEFT JOIN [RBAC].[User] u ON a.LogOnId=u.Id
+      ]]>
+      <include refid="Conditions" />
+      <![CDATA[
+        )
+        SELECT * FROM CTE 
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 获取日志信息查询记录数 -->
+    <select id="SearchLogsCount" parameterClass="Params" resultClass="int">
+      <![CDATA[
+        SELECT 
+          COUNT(*)
+        FROM SystemLog 
+      ]]>
+      <include refid="Conditions" />
+    </select>
+
+    <sql id="Conditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotEmpty property="Partition">
+            Partition($Partition$)
+          </isNotEmpty>
+          <isNotEmpty property="Level" prepend="AND">
+            LogLevel=#Level#
+          </isNotEmpty>
+          <isNotNull property="StartDate" prepend="AND">
+            OccurrenceDateTime>=#StartDate#
+          </isNotNull>
+          <isNotNull property="EndDate" prepend="AND">
+            <![CDATA[
+            OccurrenceDateTime<=#EndDate#
+          ]]>
+          </isNotNull>
+          <isNotEmpty property="LogOnIP" prepend="AND">
+            LogOnIP LIKE '%'+#LogOnIP#+'%'
+          </isNotEmpty>
+          <isNotEmpty property="ModelName" prepend="AND">
+            ModelName LIKE '%'+#ModelName#+'%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

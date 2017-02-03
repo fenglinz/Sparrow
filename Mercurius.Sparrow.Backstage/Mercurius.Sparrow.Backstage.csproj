@@ -68,9 +68,8 @@
       <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
@@ -264,8 +263,6 @@
     <Compile Include="Areas\DynamicPage\Models\Dynamic\SearchModel.cs" />
     <Compile Include="Areas\Console\SignalRHubs\ConfigurationSQLServer.cs" />
     <Compile Include="Areas\Console\Models\Install\Database.cs" />
-    <Compile Include="Areas\NewsCenter\Controllers\NewsController.cs" />
-    <Compile Include="Areas\NewsCenter\NewsCenterAreaRegistration.cs" />
     <Compile Include="Areas\WebApi\Controllers\RoleController.cs" />
     <Compile Include="Areas\WebApi\Controllers\RouteController.cs" />
     <Compile Include="Areas\WebApi\Controllers\UserController.cs" />
@@ -304,6 +301,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginControllerFactory.cs" />
+    <Compile Include="Plugins\PluginItem.cs" />
+    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="Plugins\PluginRazorViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\Startup.cs" />
   </ItemGroup>
@@ -470,8 +472,6 @@
     <Content Include="Areas\Admin\Views\Role\ViewPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\AllotButtons.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\CreateOrUpdate.cshtml" />
-    <Content Include="Areas\NewsCenter\Views\web.config" />
-    <Content Include="Areas\NewsCenter\Views\_ViewStart.cshtml" />
     <Content Include="App_Readme\Handlebarsjs_README.md" />
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
     <Content Include="Content\Documents\系统架构设计说明文档.pdf" />
@@ -489,10 +489,6 @@
     <Content Include="Areas\Console\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Console\Views\Script\Generate.cshtml" />
     <Content Include="Areas\Console\Views\Tools\_Result.cshtml" />
-    <None Include="Areas\NewsCenter\Views\News\CreateOrUpdate.cshtml" />
-    <None Include="Areas\NewsCenter\Views\News\Index.cshtml" />
-    <Content Include="Areas\NewsCenter\Views\News\_News.cshtml" />
-    <None Include="Areas\NewsCenter\Views\News\ShowPreview.cshtml" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\Bootstrap-FileInput\fileinput.js" />
@@ -1270,8 +1266,6 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\DynamicPage\Views\Shared\" />
-    <Folder Include="Areas\NewsCenter\Models\" />
-    <Folder Include="Areas\NewsCenter\Views\Shared\" />
     <Folder Include="Areas\WebApi\Models\" />
     <Folder Include="Areas\WebApi\Views\Shared\" />
     <Folder Include="Models\" />
@@ -1280,25 +1274,29 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj">
-      <Project>{b0732ad6-ac7a-4980-817e-432631963939}</Project>
-      <Name>Mercurius.Infrastructure</Name>
+    <ProjectReference Include="..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
+      <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
+      <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\数据访问层\Mercurius.Sparrow.Entities\Mercurius.Sparrow.Entities.csproj">
-      <Project>{166646d7-8172-4011-9cb0-385c6a6d7ffb}</Project>
-      <Name>Mercurius.Sparrow.Entities</Name>
+    <ProjectReference Include="..\基础\Mercurius.Prime.DataProcess\Mercurius.Prime.DataProcess.csproj">
+      <Project>{d9a831d4-d63c-48f2-b741-aa8fa2956158}</Project>
+      <Name>Mercurius.Prime.DataProcess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\数据访问层\Mercurius.Sparrow.Repositories\Mercurius.Sparrow.Repositories.csproj">
-      <Project>{05fcde91-e15a-4867-aa0e-fc7e8414b2d2}</Project>
-      <Name>Mercurius.Sparrow.Repositories</Name>
+    <ProjectReference Include="..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
+      <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
+      <Name>Mercurius.Prime.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\服务层\Mercurius.Sparrow.Contracts\Mercurius.Sparrow.Contracts.csproj">
-      <Project>{9164967b-b835-44b7-a6df-18d87cc98dae}</Project>
-      <Name>Mercurius.Sparrow.Contracts</Name>
+    <ProjectReference Include="..\基础\Mercurius.Prime.Web\Mercurius.Prime.Web.csproj">
+      <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
+      <Name>Mercurius.Prime.Web</Name>
     </ProjectReference>
-    <ProjectReference Include="..\服务层\Mercurius.Sparrow.Services\Mercurius.Sparrow.Services.csproj">
-      <Project>{0b830c09-ccd2-4cc3-a743-fc5f7fa46082}</Project>
-      <Name>Mercurius.Sparrow.Services</Name>
+    <ProjectReference Include="..\核心\Mercurius.Kernel.Contracts\Mercurius.Kernel.Contracts.csproj">
+      <Project>{8524bb1b-eb10-44ff-89a9-0470dbb97094}</Project>
+      <Name>Mercurius.Kernel.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\核心\Mercurius.Kernel.Implements\Mercurius.Kernel.Implements.csproj">
+      <Project>{3276b23c-921a-48e0-b595-d368704a32a7}</Project>
+      <Name>Mercurius.Kernel.Implements</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -1319,7 +1317,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53680</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://127.0.0.1:8000/Backstage</IISUrl>
+          <IISUrl>http://127.0.0.1/Backstage</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

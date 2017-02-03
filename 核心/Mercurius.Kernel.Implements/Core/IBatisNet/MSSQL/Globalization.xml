@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Mercurius.Kernel.Repositories.Core.Globalization" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Globalization" type="Mercurius.Kernel.Contracts.Core.Entities.Globalization, Mercurius.Kernel.Contracts"/>
+    <typeAlias alias="GlobalizationSO" type="Mercurius.Kernel.Contracts.Core.SearchObjects.GlobalizationSO, Mercurius.Kernel.Contracts"/>
+  </alias>
+
+  <statements>
+
+    <!-- 添加或者编辑全局资源 -->
+    <insert id="CreateOrUpdateGlobalResource" parameterClass="Params">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM Globalization WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL AND [KEY]=#Key#)
+          UPDATE Globalization
+          SET
+            Value=#Value#,
+            Remark=#Remark#
+          WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL AND [KEY]=#Key#
+        ELSE
+          INSERT INTO Globalization
+          (
+            Id,
+            [Key],
+            Value,
+            Remark
+          ) 
+          VALUES 
+          (
+            NEWID(),
+            #Key#,
+            #Value#,
+            #Remark#
+          )
+      ]]>
+    </insert>
+
+    <!-- 添加或者编辑资源信息 -->
+    <update id="CreateOrUpdateResource" parameterClass="Globalization">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM Globalization WHERE Id=#Id#)
+          UPDATE Globalization
+          SET
+            Area=#Area#,
+            Controller=#Controller#,
+            ViewName=#View#,
+            [key]=#Key#,
+            Value=#Value#,
+            Remark=#Remark#
+          WHERE Id=#Id#
+        ELSE
+          INSERT INTO Globalization
+          (
+            ID,
+            area,
+            controller,
+            ViewName,
+            [Key],
+            Value,
+            Remark
+          ) 
+          VALUES 
+          (
+            NEWID(),
+            #Area#,
+            #Controller#,
+            #View#,
+            #Key#,
+            #Value#,
+            #Remark#
+          )
+      ]]>
+    </update>
+
+    <!-- 删除资源信息 -->
+    <delete id="Remove" parameterClass="string">
+      <![CDATA[
+        DELETE FROM Globalization WHERE Id=#value#
+      ]]>
+    </delete>
+
+    <!-- 获取全局视图资源 -->
+    <select id="GetGlobalResource" parameterClass="string" resultClass="string">
+      <![CDATA[
+        SELECT
+          Value AS a
+        FROM Globalization 
+        WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL AND [Key]=#value#
+      ]]>
+    </select>
+
+    <!-- 获取视图资源信息 -->
+    <select id="GetResources" parameterClass="Params" resultClass="DataTable">
+      <![CDATA[
+        SELECT
+          [Key]
+          ,Value
+        FROM Globalization
+        WHERE Controller=#Controller# AND ViewName=#View#
+      ]]>
+      <isNotNull property="Area">
+        <isNotEmpty property="Area" prepend="AND">
+          Area=#Area#
+        </isNotEmpty>
+      </isNotNull>
+    </select>
+
+    <!-- 获取全局视图资源信息 -->
+    <select id="GetGlobalResources" parameterClass="SearchObject" resultClass="Globalization">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT 
+            Id,
+            Area,
+            Controller,
+            ViewName,
+            [Key],
+            Value,
+            Remark,
+            ROW_NUMBER() OVER(ORDER BY Area ASC) AS RowIndex
+         FROM Globalization 
+         WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL
+        )
+        SELECT * FROM CTE 
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 获取全局视图资源信息总记录数 -->
+    <select id="GetGlobalResourcesCount" resultClass="int">
+      <![CDATA[
+        SELECT COUNT(*) FROM Globalization WHERE Area IS NULL AND Controller IS NULL AND ViewName IS NULL
+      ]]>
+    </select>
+
+    <!-- 获取资源信息 -->
+    <select id="GetResource" parameterClass="string" resultClass="Globalization">
+      <![CDATA[
+        SELECT 
+          Id
+          ,Area
+          ,Controller
+          ,ViewName AS [View]
+          ,[Key]
+          ,Value
+          ,Remark
+        FROM Globalization
+        WHERE Id=#value#
+      ]]>
+    </select>
+
+    <!-- 获取本地视图资源信息 -->
+    <select id="GetLocalResources" parameterClass="GlobalizationSO" resultClass="Globalization">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT 
+            Id,
+            Area,
+            Controller,
+            ViewName,
+            [Key],
+            Value,
+            Remark,
+            ROW_NUMBER() OVER(ORDER BY Area ASC) AS RowIndex
+          FROM Globalization 
+          WHERE Controller IS NOT NULL AND ViewName IS NOT NULL
+      ]]>
+      <dynamic>
+        <isNotNull property="AreaName">
+          <isNotEmpty property="AreaName" prepend="AND">
+            Area LIKE '%'+#AreaName#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ControllerName">
+          <isNotEmpty property="ControllerName" prepend="AND">
+            Controller LIKE '%'+#ControllerName#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="View">
+          <isNotEmpty property="View" prepend="AND">
+            ViewName LIKE '%'+#View#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="Key">
+          <isNotEmpty property="Key" prepend="AND">
+            [Key] LIKE '%'+#Key#+'%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      <![CDATA[
+        )
+        SELECT * FROM CTE
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+        ORDER BY RowIndex ASC
+      ]]>
+    </select>
+
+    <!-- 获取本地视图资源信息总记录数 -->
+    <select id="GetLocalResourcesCount" parameterClass="GlobalizationSO" resultClass="int">
+      <![CDATA[
+        SELECT 
+          COUNT(*)
+        FROM Globalization 
+        WHERE Controller IS NOT NULL AND ViewName IS NOT NULL
+      ]]>
+      <dynamic>
+        <isNotNull property="AreaName">
+          <isNotEmpty property="AreaName" prepend="AND">
+            Area LIKE '%'+#AreaName#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ControllerName">
+          <isNotEmpty property="ControllerName" prepend="AND">
+            Controller LIKE '%'+#ControllerName#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="View">
+          <isNotEmpty property="View" prepend="AND">
+            ViewName LIKE '%'+#View#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="Key">
+          <isNotEmpty property="Key" prepend="AND">
+            [Key] LIKE '%'+#Key#+'%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+  </statements>
+</sqlMap>
