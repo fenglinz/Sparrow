@@ -8,11 +8,12 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.WebPages;
 using Autofac.Integration.Mvc;
-using Mercurius.Kernel.WebCores;
+using Mercurius.Kernel.WebCores.Plugins;
 using Mercurius.Sparrow.Autofac;
 
+// 初始化插件。
+[assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
 namespace Mercurius.Sparrow.Backstage
 {
     /// <summary>

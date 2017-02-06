@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Mercurius.Backstage.Plugins
+namespace Mercurius.Kernel.WebCores.Plugins
 {
     /// <summary>
     /// 基于插件开发的控制器创建工厂类。

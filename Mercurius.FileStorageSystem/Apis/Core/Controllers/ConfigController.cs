@@ -8,8 +8,8 @@ using System.Web;
 using System.Web.Http;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Entities.Storage;
+using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Prime.Core.Services;
 using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
 
 namespace Mercurius.FileStorageSystem.Apis.Core.Controllers

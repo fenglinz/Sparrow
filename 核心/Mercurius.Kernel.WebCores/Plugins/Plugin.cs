@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Mercurius.Prime.Core;
 
-namespace Mercurius.Backstage.Plugins
+namespace Mercurius.Kernel.WebCores.Plugins
 {
     /// <summary>
     /// 插件信息。

@@ -5,9 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Autofac;
+using Mercurius.Kernel.Contracts.RBAC.Entities;
+using Mercurius.Kernel.Contracts.RBAC.Services;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities.RBAC;
 
 namespace Mercurius.FileStorageSystem.Apis
 {

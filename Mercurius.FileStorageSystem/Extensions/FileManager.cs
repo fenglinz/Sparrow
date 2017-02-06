@@ -5,10 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using Autofac;
-using Mercurius.Infrastructure;
+using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Kernel.Contracts.Storage.Services;
+using Mercurius.Prime.Core;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Contracts.Storage;
-using Mercurius.Sparrow.Entities.Storage;
 using IOFile = System.IO.File;
 
 namespace Mercurius.FileStorageSystem.Extensions

@@ -5,11 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Infrastructure;
-using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Contracts.Storage;
-using Mercurius.Sparrow.Entities.Storage;
-using Mercurius.Sparrow.Entities.Storage.SO;
+using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Kernel.Contracts.Storage.SearchObjects;
+using Mercurius.Kernel.Contracts.Storage.Services;
 
 namespace Mercurius.FileStorageSystem.Controllers
 {

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Web;
 using Autofac;
 using Mercurius.FileStorageSystem.Extensions;
-using Mercurius.Infrastructure;
+using Mercurius.Kernel.Contracts.Storage.Services;
+using Mercurius.Prime.Core;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Contracts.Storage;
 using Microsoft.AspNet.SignalR;
 
 namespace Mercurius.FileStorageSystem.SignalRHubs

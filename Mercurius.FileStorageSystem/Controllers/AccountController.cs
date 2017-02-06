@@ -7,8 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.WebPages;
-using Mercurius.Infrastructure;
-using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Kernel.Contracts.RBAC.Services;
+using Mercurius.Prime.Core;
 
 namespace Mercurius.FileStorageSystem.Controllers
 {

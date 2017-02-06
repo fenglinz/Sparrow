@@ -8,13 +8,9 @@ using System.Web.Compilation;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Xml;
-using Mercurius.Backstage.Plugins;
 using Mercurius.Prime.Core;
 
-// 初始化插件。
-[assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
-
-namespace Mercurius.Backstage.Plugins
+namespace Mercurius.Kernel.WebCores.Plugins
 {
     /// <summary>
     /// 插件管理类。

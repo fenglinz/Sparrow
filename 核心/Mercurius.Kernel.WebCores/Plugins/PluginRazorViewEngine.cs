@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages.Razor;
 
-namespace Mercurius.Backstage.Plugins
+namespace Mercurius.Kernel.WebCores.Plugins
 {
     /// <summary>
     /// Razar视图引擎扩展类。

@@ -95,6 +95,11 @@
     <Compile Include="Helpers\ModelExtensions.cs" />
     <Compile Include="Helpers\PagingExtensions.cs" />
     <Compile Include="Helpers\ValidationExtensions.cs" />
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginControllerFactory.cs" />
+    <Compile Include="Plugins\PluginItem.cs" />
+    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="Plugins\PluginRazorViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

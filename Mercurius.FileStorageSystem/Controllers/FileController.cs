@@ -9,13 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.FileStorageSystem.Extensions;
-using Mercurius.Infrastructure;
-using Mercurius.Sparrow.Contracts.Storage;
-using Mercurius.Sparrow.Entities.Storage;
-using Mercurius.Sparrow.Services.Storage;
+using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Kernel.Contracts.Storage.Services;
+using Mercurius.Kernel.Implementations.Storage.WebApi;
+using Mercurius.Prime.Core;
 using Encoder = System.Drawing.Imaging.Encoder;
-using SFile = Mercurius.Sparrow.Entities.Storage.File;
+using SFile = Mercurius.Kernel.Contracts.Storage.Entities.File;
 
 namespace Mercurius.FileStorageSystem.Controllers
 {
