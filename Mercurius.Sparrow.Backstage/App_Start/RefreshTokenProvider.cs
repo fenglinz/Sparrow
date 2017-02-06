@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Mercurius.Sparrow.Autofac;
-using Microsoft.Owin.Security.Infrastructure;
 using Autofac;
 using Mercurius.Prime.Core.Cache;
+using Mercurius.Sparrow.Autofac;
+using Microsoft.Owin.Security.Infrastructure;
 
-namespace Mercurius.Sparrow.Mvc.Extensions
+namespace Mercurius.Sparrow.Backstage
 {
     /// <summary>
     /// 刷新OAuth令牌的提供者。

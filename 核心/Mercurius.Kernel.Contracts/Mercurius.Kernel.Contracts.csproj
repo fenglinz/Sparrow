@@ -92,7 +92,6 @@
     <Compile Include="Storage\Entities\MachineKey.cs" />
     <Compile Include="Storage\SearchObjects\FileSO.cs" />
     <Compile Include="Storage\Services\IFileService.cs" />
-    <Compile Include="Storage\Services\IFileStorageClient.cs" />
     <Compile Include="Swagger\Entities\Contact.cs" />
     <Compile Include="Swagger\Entities\ExternalDocs.cs" />
     <Compile Include="Swagger\Entities\Info.cs" />

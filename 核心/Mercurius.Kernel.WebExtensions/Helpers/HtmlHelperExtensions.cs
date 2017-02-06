@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using Mercurius.Kernel.Contracts.Core.Services;
-using Mercurius.Prime.Core;
 using Autofac;
+using Mercurius.Kernel.Contracts.Core.Services;
+using Mercurius.Kernel.Contracts.RBAC.Entities;
+using Mercurius.Kernel.Contracts.RBAC.Services;
 using Mercurius.Kernel.Contracts.Storage.Entities;
 using Mercurius.Kernel.Contracts.Storage.Services;
-using Mercurius.Kernel.Contracts.RBAC.Services;
-using Mercurius.Kernel.Contracts.RBAC.Entities;
+using Mercurius.Prime.Core;
+using static Mercurius.Prime.Core.SystemConfiguration;
 
 namespace Mercurius.Kernel.WebExtensions.Helpers
 {
@@ -132,33 +134,6 @@ namespace Mercurius.Kernel.WebExtensions.Helpers
         #endregion
 
         #region 权限
-
-        ///// <summary>
-        ///// 判断是否拥有控制台管理权限。
-        ///// </summary>
-        ///// <param name="request">Http请求对象</param>
-        ///// <returns>是否拥有权限</returns>
-        //public static bool HasConsoleRight(this HttpRequestBase request)
-        //{
-        //    var token = request.Cookies[ConsoleManagerToken]?.Value;
-
-        //    if (string.IsNullOrWhiteSpace(token))
-        //    {
-        //        return false;
-        //    }
-
-        //    if (!System.IO.File.Exists(ConsoleManagerStoragePath))
-        //    {
-        //        return false;
-        //    }
-
-        //    using (var reader = new StreamReader(ConsoleManagerStoragePath))
-        //    {
-        //        var accountToken = reader.ReadLine();
-
-        //        return accountToken == token;
-        //    }
-        //}
 
         /// <summary>
         /// 显示可访问的按钮脚本。

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Mercurius.Kernel.Contracts.Storage.Entities;
-using Mercurius.Sparrow.Services.Storage;
+using Mercurius.Kernel.Implementations.Storage.WebApi;
 
 namespace Mercurius.Kernel.WebExtensions.Helpers
 {
@@ -16,7 +16,7 @@ namespace Mercurius.Kernel.WebExtensions.Helpers
     {
         #region 静态变量
 
-        private static readonly FileStorageClient _FileStorageClient;
+        private static readonly FileStorageClient _fileStorageClient;
 
         #endregion
 
@@ -27,10 +27,7 @@ namespace Mercurius.Kernel.WebExtensions.Helpers
         /// </summary>
         static MercuriusUrlHelper()
         {
-            using (var context = AutofacServiceLocator.Container.BeginLifetimeScope())
-            {
-                _FileStorageClient = context.Resolve<FileStorageClient>();
-            }
+            _fileStorageClient = new FileStorageClient();
         }
 
         #endregion
@@ -48,7 +45,7 @@ namespace Mercurius.Kernel.WebExtensions.Helpers
         {
             return string.IsNullOrEmpty(filePath)
                 ? string.Empty
-                : url.Content(_FileStorageClient.GetFile(filePath, mode));
+                : url.Content(_fileStorageClient.GetFile(filePath, mode));
         }
 
         /// <summary>
@@ -59,7 +56,7 @@ namespace Mercurius.Kernel.WebExtensions.Helpers
         /// <returns></returns>
         public static string GetFileUrl(string filePath, CompressMode mode = CompressMode.Small)
         {
-            return string.IsNullOrEmpty(filePath) ? string.Empty : _FileStorageClient.GetFile(filePath, mode);
+            return string.IsNullOrEmpty(filePath) ? string.Empty : _fileStorageClient.GetFile(filePath, mode);
         }
 
         #endregion

@@ -13,7 +13,7 @@ using Mercurius.Prime.Core;
 using static Mercurius.Prime.Core.SystemConfiguration;
 using static Mercurius.Kernel.Contracts.Storage.Entities.File;
 
-namespace Mercurius.Sparrow.Services.Storage
+namespace Mercurius.Kernel.Implementations.Storage.WebApi
 {
     /// <summary>
     /// 文件上传Web Api客户端。

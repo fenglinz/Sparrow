@@ -5,6 +5,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Mercurius.Kernel.Implementations.Core;
+using Mercurius.Kernel.Implementations.Storage.WebApi;
 using Mercurius.Kernel.WebExtensions;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Logger;
@@ -63,6 +64,8 @@ namespace Mercurius.Sparrow.Autofac
                     _builder.Register(c => new Logger { Cache = c.Resolve<CacheProvider>(), Persistence = c.Resolve<Persistence>() })
                         .As<ILogger>()
                         .InstancePerLifetimeScope();
+
+                    _builder.Register(c => new FileStorageClient()).InstancePerLifetimeScope();
 
                     // 当前执行代码的程序集。
                     var appDomainAssemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToArray();

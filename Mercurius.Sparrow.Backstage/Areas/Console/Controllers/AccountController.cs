@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Sparrow.Mvc.Extensions;
 using static Mercurius.Sparrow.Backstage.Constants;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers

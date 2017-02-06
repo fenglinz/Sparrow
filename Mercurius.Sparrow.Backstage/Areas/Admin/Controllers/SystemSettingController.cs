@@ -14,10 +14,10 @@ using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Kernel.Contracts.Core.Services;
 using Mercurius.Kernel.Contracts.RBAC.Entities;
 using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Kernel.Implementations.Storage.WebApi;
 using Mercurius.Kernel.WebExtensions.Filters;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Utils;
-using Mercurius.Sparrow.Services.Storage;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
