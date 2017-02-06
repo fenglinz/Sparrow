@@ -1276,7 +1276,7 @@
       <Project>{3276b23c-921a-48e0-b595-d368704a32a7}</Project>
       <Name>Mercurius.Kernel.Implementations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\核心\Mercurius.Kernel.WebExtensions\Mercurius.Kernel.WebCores.csproj">
+    <ProjectReference Include="..\核心\Mercurius.Kernel.WebCores\Mercurius.Kernel.WebCores.csproj">
       <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
       <Name>Mercurius.Kernel.WebCores</Name>
     </ProjectReference>
