@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Kernel.Contracts.Core.SearchObjects;
 using Mercurius.Kernel.Contracts.Core.Services;
-using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers

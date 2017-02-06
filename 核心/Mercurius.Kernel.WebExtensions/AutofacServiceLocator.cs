@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 
-namespace Mercurius.Kernel.WebExtensions
+namespace Mercurius.Kernel.WebCores
 {
     /// <summary>
     /// Autofac配置信息。

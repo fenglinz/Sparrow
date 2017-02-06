@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers
+namespace Mercurius.Kernel.WebCores.Helpers
 {
     #region 验证规则枚举
 

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Mercurius.Kernel.Contracts.Dynamic.Entities;
 using Mercurius.Kernel.Contracts.Dynamic.SearchObjects;
 using Mercurius.Kernel.Contracts.Dynamic.Services;
-using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Prime.Core;
 
 namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers

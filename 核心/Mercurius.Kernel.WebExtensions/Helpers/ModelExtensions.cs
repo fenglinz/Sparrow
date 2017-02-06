@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using Mercurius.Prime.Core;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers
+namespace Mercurius.Kernel.WebCores.Helpers
 {
     /// <summary>
     /// 数据处理扩展。

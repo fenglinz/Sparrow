@@ -6,7 +6,7 @@ using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Mercurius.Kernel.Implementations.Core;
 using Mercurius.Kernel.Implementations.Storage.WebApi;
-using Mercurius.Kernel.WebExtensions;
+using Mercurius.Kernel.WebCores;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Logger;
 using Mercurius.Prime.Core.WebApi;

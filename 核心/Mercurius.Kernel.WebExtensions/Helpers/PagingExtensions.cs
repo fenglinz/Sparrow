@@ -11,7 +11,7 @@ using System.Web.Routing;
 using System.Web.WebPages;
 using static Mercurius.Prime.Core.SystemConfiguration;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers
+namespace Mercurius.Kernel.WebCores.Helpers
 {
     /// <summary>
     /// 分页扩展。

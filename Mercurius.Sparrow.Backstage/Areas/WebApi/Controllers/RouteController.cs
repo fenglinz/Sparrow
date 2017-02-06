@@ -8,7 +8,7 @@ using Mercurius.Kernel.Contracts.Swagger.Entities;
 using Mercurius.Kernel.Contracts.WebApi.Entities;
 using Mercurius.Kernel.Contracts.WebApi.SearchObjects;
 using Mercurius.Kernel.Contracts.WebApi.Services;
-using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Services;
 using Newtonsoft.Json;

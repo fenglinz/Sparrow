@@ -8,7 +8,7 @@ using System.Web.WebPages;
 using Mercurius.Kernel.Contracts.RBAC.Entities;
 using Mercurius.Kernel.Contracts.RBAC.SearchObjects;
 using Mercurius.Kernel.Contracts.RBAC.Services;
-using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers

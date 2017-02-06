@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
-using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Kernel.Contracts.Dynamic.Entities;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;

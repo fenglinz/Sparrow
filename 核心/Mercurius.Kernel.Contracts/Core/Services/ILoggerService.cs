@@ -1,5 +1,6 @@
 ﻿using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Kernel.Contracts.Core.SearchObjects;
+using Mercurius.Prime.Core.Logger;
 using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Kernel.Contracts.Core.Services

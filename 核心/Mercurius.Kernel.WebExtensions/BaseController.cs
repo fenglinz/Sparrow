@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using Autofac;
 using Mercurius.Prime.Core.Dynamic;
 
-namespace Mercurius.Kernel.WebExtensions
+namespace Mercurius.Kernel.WebCores
 {
     /// <summary>
     /// 基本系统控制器。

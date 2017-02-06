@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers.Bootstrap
+namespace Mercurius.Kernel.WebCores.Helpers.Bootstrap
 {
     /// <summary>
     /// 屏幕枚举。

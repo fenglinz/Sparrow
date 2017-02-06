@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers.Bootstrap.Controls
+namespace Mercurius.Kernel.WebCores.Helpers.Bootstrap.Controls
 {
     /// <summary>
     /// 自定义表单控件。

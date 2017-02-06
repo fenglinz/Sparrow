@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers.Bootstrap.Controls
+namespace Mercurius.Kernel.WebCores.Helpers.Bootstrap.Controls
 {
     /// <summary>
     /// 文本域表单控件。

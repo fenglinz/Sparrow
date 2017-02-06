@@ -15,7 +15,7 @@ using Mercurius.Kernel.Contracts.Core.Services;
 using Mercurius.Kernel.Contracts.RBAC.Entities;
 using Mercurius.Kernel.Contracts.Storage.Entities;
 using Mercurius.Kernel.Implementations.Storage.WebApi;
-using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Utils;
 

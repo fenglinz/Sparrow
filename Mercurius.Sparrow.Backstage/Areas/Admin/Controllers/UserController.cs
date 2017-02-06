@@ -3,7 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Mercurius.Kernel.Contracts.RBAC.SearchObjects;
 using Mercurius.Kernel.Contracts.RBAC.Services;
-using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Prime.Core;
 using Mercurius.Sparrow.Backstage.Areas.Admin.Models.User;
 

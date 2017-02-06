@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers
+namespace Mercurius.Kernel.WebCores.Helpers
 {
     /// <summary>
     /// 选项信息。

@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using static Mercurius.Kernel.WebExtensions.Helpers.ValidationExtensions;
+using static Mercurius.Kernel.WebCores.Helpers.ValidationExtensions;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers.Bootstrap.Controls
+namespace Mercurius.Kernel.WebCores.Helpers.Bootstrap.Controls
 {
     /// <summary>
     /// 表单基类。

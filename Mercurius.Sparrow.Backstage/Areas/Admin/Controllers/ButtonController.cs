@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Mercurius.Kernel.Contracts.RBAC.Entities;
 using Mercurius.Kernel.Contracts.RBAC.Services;
-using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.WebCores.Filters;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {

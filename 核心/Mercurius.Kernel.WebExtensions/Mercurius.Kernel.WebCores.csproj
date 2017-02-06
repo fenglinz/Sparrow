@@ -7,8 +7,8 @@
     <ProjectGuid>{59602E24-8D22-4EB9-8F73-2C76FB60DD99}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercurius.Kernel.WebExtensions</RootNamespace>
-    <AssemblyName>Mercurius.Kernel.WebExtensions</AssemblyName>
+    <RootNamespace>Mercurius.Kernel.WebCores</RootNamespace>
+    <AssemblyName>Mercurius.Kernel.WebCores</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

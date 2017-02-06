@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Mercurius.Kernel.WebExtensions.Filters
+namespace Mercurius.Kernel.WebCores.Filters
 {
     /// <summary>
     /// 忽略权限认证的标记。

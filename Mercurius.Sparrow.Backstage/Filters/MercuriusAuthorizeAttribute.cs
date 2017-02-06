@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Reflection;
 using Autofac;
-using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Sparrow.Autofac;
 using Mercurius.Kernel.Contracts.RBAC.Services;
 using Mercurius.Prime.Core;

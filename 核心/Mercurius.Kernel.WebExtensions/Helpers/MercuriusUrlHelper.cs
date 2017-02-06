@@ -7,7 +7,7 @@ using Autofac;
 using Mercurius.Kernel.Contracts.Storage.Entities;
 using Mercurius.Kernel.Implementations.Storage.WebApi;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers
+namespace Mercurius.Kernel.WebCores.Helpers
 {
     /// <summary>
     /// Url帮助器。

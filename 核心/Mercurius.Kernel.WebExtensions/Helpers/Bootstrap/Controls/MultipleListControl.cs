@@ -8,7 +8,7 @@ using Autofac;
 using Mercurius.Kernel.Contracts.Core.Services;
 using Mercurius.Prime.Core;
 
-namespace Mercurius.Kernel.WebExtensions.Helpers.Bootstrap.Controls
+namespace Mercurius.Kernel.WebCores.Helpers.Bootstrap.Controls
 {
     /// <summary>
     /// 多选项的列表控件。
