@@ -5,11 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities.RBAC;
-using Mercurius.Sparrow.Entities.RBAC.SO;
-using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Kernel.Contracts.RBAC.Entities;
+using Mercurius.Kernel.Contracts.RBAC.SearchObjects;
+using Mercurius.Kernel.Contracts.RBAC.Services;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {

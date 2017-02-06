@@ -5,7 +5,7 @@ using System.Web;
 using Mercurius.Sparrow.Autofac;
 using Microsoft.Owin.Security.Infrastructure;
 using Autofac;
-using Mercurius.Infrastructure.Cache;
+using Mercurius.Prime.Core.Cache;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {

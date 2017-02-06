@@ -43,25 +43,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-新闻", "01-新闻", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Plugins.News", "插件\新闻\Mercurius.Plugins.News\Mercurius.Plugins.News.csproj", "{0032D18B-9108-4774-BC4E-F72C64EAFEF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Core", "基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj", "{5B236DA6-7A5A-48E8-813E-5745B0E50D65}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-基础", "02-基础", "{E4956A8B-6792-47B0-A3CD-713684E7848D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Core", "基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj", "{5B236DA6-7A5A-48E8-813E-5745B0E50D65}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Data", "基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj", "{784654C8-CC89-4ADF-BB00-1E0085C768DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.DataProcess", "基础\Mercurius.Prime.DataProcess\Mercurius.Prime.DataProcess.csproj", "{D9A831D4-D63C-48F2-B741-AA8FA2956158}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.News.Interfaces", "插件\新闻\Mercurius.News.Interfaces\Mercurius.News.Interfaces.csproj", "{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.News.Implements", "插件\新闻\Mercurius.News.Implements\Mercurius.News.Implements.csproj", "{AFD86F60-C751-45A9-9798-7A0C4579D9D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Web", "基础\Mercurius.Prime.Web\Mercurius.Prime.Web.csproj", "{59602E24-8D22-4EB9-8F73-2C76FB60DD99}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-核心", "03-核心", "{DE2475B6-39AE-4B52-A611-EA9E79D82A81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Kernel.Contracts", "核心\Mercurius.Kernel.Contracts\Mercurius.Kernel.Contracts.csproj", "{8524BB1B-EB10-44FF-89A9-0470DBB97094}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Kernel.Implements", "核心\Mercurius.Kernel.Implements\Mercurius.Kernel.Implements.csproj", "{3276B23C-921A-48E0-B595-D368704A32A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Kernel.Implementations", "核心\Mercurius.Kernel.Implementations\Mercurius.Kernel.Implementations.csproj", "{3276B23C-921A-48E0-B595-D368704A32A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.DataProcess", "基础\Mercurius.Prime.DataProcess\Mercurius.Prime.DataProcess.csproj", "{D9A831D4-D63C-48F2-B741-AA8FA2956158}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Kernel.WebExtensions", "核心\Mercurius.Kernel.WebExtensions\Mercurius.Kernel.WebExtensions.csproj", "{59602E24-8D22-4EB9-8F73-2C76FB60DD99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,7 +153,7 @@ Global
 		{784654C8-CC89-4ADF-BB00-1E0085C768DD} = {E4956A8B-6792-47B0-A3CD-713684E7848D}
 		{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9} = {51384A29-CFCC-41B6-A0FB-5A9DF21719C8}
 		{AFD86F60-C751-45A9-9798-7A0C4579D9D5} = {51384A29-CFCC-41B6-A0FB-5A9DF21719C8}
-		{59602E24-8D22-4EB9-8F73-2C76FB60DD99} = {E4956A8B-6792-47B0-A3CD-713684E7848D}
+		{59602E24-8D22-4EB9-8F73-2C76FB60DD99} = {DE2475B6-39AE-4B52-A611-EA9E79D82A81}
 		{8524BB1B-EB10-44FF-89A9-0470DBB97094} = {DE2475B6-39AE-4B52-A611-EA9E79D82A81}
 		{3276B23C-921A-48E0-B595-D368704A32A7} = {DE2475B6-39AE-4B52-A611-EA9E79D82A81}
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158} = {E4956A8B-6792-47B0-A3CD-713684E7848D}

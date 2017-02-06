@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
-using Mercurius.Infrastructure.Dynamic;
-using Mercurius.Sparrow.Entities.Core;
-using Mercurius.Sparrow.Entities.Dynamic;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
-using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Kernel.Contracts.Dynamic.Entities;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Ado;
+using Mercurius.Kernel.Contracts.Core.Entities;
+using Mercurius.Prime.Core.Dynamic;
+using System.Collections.Generic;
 
 namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 {

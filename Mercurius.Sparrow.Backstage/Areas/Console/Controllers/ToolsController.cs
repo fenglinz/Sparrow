@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Infrastructure;
-using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Prime.Core;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers
 {

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Dynamic;
-using Mercurius.Sparrow.Entities.Dynamic;
+using Mercurius.Kernel.Contracts.Dynamic.Entities;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Dynamic;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic;
-using Mercurius.Sparrow.Mvc.Extensions;
-using static Mercurius.Infrastructure.SystemConfiguration;
+using static Mercurius.Prime.Core.SystemConfiguration;
 
 namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 {

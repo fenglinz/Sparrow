@@ -6,9 +6,9 @@ using System.IO;
 using System.Text;
 using Autofac;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Contracts.Core;
 using Microsoft.AspNet.SignalR;
+using Mercurius.Kernel.Contracts.Core.Services;
+using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Console.SignalRHubs
 {

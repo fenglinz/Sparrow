@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
-using Mercurius.Infrastructure.Dynamic;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Ado;
+using Mercurius.Prime.Core.Dynamic;
 using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
 
 namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic

@@ -130,6 +130,7 @@
     <Compile Include="Services\SearchObject.cs" />
     <Compile Include="Entities\Token.cs" />
     <Compile Include="SystemConfiguration.cs" />
+    <Compile Include="WebApi\WebApiClientSupport.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ado\CommandText.xsd">

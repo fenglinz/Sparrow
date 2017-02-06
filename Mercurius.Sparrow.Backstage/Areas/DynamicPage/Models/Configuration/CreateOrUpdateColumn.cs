@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Mercurius.Sparrow.Entities.Dynamic;
+using Mercurius.Kernel.Contracts.Dynamic.Entities;
 
 namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
 {

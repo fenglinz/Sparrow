@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
+using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Kernel.Contracts.Storage.Services;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Entities.Storage;
-using Mercurius.Sparrow.Services.Storage;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {
@@ -17,7 +17,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
     {
         #region 静态变量
 
-        private static readonly FileStorageClient _FileStorageClient;
+        private static readonly IFileStorageClient _FileStorageClient;
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         {
             using (var context = AutofacConfig.Container.BeginLifetimeScope())
             {
-                _FileStorageClient = context.Resolve<FileStorageClient>();
+                _FileStorageClient = context.Resolve<IFileStorageClient>();
             }
         }
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities.RBAC;
-using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Kernel.Contracts.RBAC.Entities;
+using Mercurius.Kernel.Contracts.RBAC.Services;
+using Mercurius.Kernel.WebExtensions.Filters;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {

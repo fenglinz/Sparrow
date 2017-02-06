@@ -276,28 +276,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoggerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemSettingController.cs" />
-    <Compile Include="Extensions\Bootstrap\BootstrapHtmlHelper.cs" />
-    <Compile Include="Extensions\Bootstrap\Controls\CustomControl.cs" />
-    <Compile Include="Extensions\Bootstrap\Controls\FormBase.cs" />
-    <Compile Include="Extensions\Bootstrap\Controls\PasswordControl.cs" />
-    <Compile Include="Extensions\Bootstrap\FormBaseExtensions.cs" />
-    <Compile Include="Extensions\Bootstrap\Controls\TextAreaControl.cs" />
-    <Compile Include="Extensions\Bootstrap\Controls\TextBoxControl.cs" />
-    <Compile Include="Extensions\Bootstrap\Controls\MultipleListControl.cs" />
-    <Compile Include="Extensions\Bootstrap\FormGroup.cs" />
-    <Compile Include="Extensions\Bootstrap\PropertyMetadata.cs" />
-    <Compile Include="Extensions\Bootstrap\Controls\RadioButtonControl.cs" />
-    <Compile Include="Extensions\Bootstrap\Screen.cs" />
-    <Compile Include="Extensions\Bootstrap\Option.cs" />
     <Compile Include="Extensions\RefreshTokenProvider.cs" />
     <Compile Include="Filters\ConsoleAuthorizeAttribute.cs" />
-    <Compile Include="Filters\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Extensions\MercuriusUrlHelper.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Filters\MercuriusAuthorizeAttribute.cs" />
-    <Compile Include="Extensions\ModelExtensions.cs" />
-    <Compile Include="Extensions\PagingExtensions.cs" />
-    <Compile Include="Extensions\ValidationExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1286,17 +1269,17 @@
       <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
       <Name>Mercurius.Prime.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\基础\Mercurius.Prime.Web\Mercurius.Prime.Web.csproj">
-      <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
-      <Name>Mercurius.Prime.Web</Name>
-    </ProjectReference>
     <ProjectReference Include="..\核心\Mercurius.Kernel.Contracts\Mercurius.Kernel.Contracts.csproj">
       <Project>{8524bb1b-eb10-44ff-89a9-0470dbb97094}</Project>
       <Name>Mercurius.Kernel.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\核心\Mercurius.Kernel.Implements\Mercurius.Kernel.Implements.csproj">
+    <ProjectReference Include="..\核心\Mercurius.Kernel.Implementations\Mercurius.Kernel.Implementations.csproj">
       <Project>{3276b23c-921a-48e0-b595-d368704a32a7}</Project>
-      <Name>Mercurius.Kernel.Implements</Name>
+      <Name>Mercurius.Kernel.Implementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\核心\Mercurius.Kernel.WebExtensions\Mercurius.Kernel.WebExtensions.csproj">
+      <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
+      <Name>Mercurius.Kernel.WebExtensions</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

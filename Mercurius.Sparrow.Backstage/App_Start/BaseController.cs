@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Infrastructure.Dynamic;
 using Autofac;
 using static Mercurius.Sparrow.Autofac.AutofacConfig;
+using Mercurius.Prime.Core.Dynamic;
 
 namespace Mercurius.Sparrow.Backstage
 {

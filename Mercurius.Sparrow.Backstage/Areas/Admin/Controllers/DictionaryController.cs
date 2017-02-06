@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Sparrow.Contracts.Core;
-using Mercurius.Sparrow.Entities;
-using Mercurius.Sparrow.Entities.Core;
-using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Kernel.Contracts.Core.Entities;
+using Mercurius.Kernel.Contracts.Core.Services;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Prime.Core;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {

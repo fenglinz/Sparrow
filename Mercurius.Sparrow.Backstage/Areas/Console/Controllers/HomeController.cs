@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Cache;
+using Mercurius.Kernel.Contracts.RBAC.Entities;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Cache;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Entities.RBAC;
-using Mercurius.Sparrow.Mvc.Extensions;
 using Newtonsoft.Json;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Console.Controllers

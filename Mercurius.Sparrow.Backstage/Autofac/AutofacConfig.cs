@@ -3,12 +3,12 @@ using System.Reflection;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
-using Mercurius.Infrastructure.Cache;
-using Mercurius.Infrastructure.Logger;
-using Mercurius.Sparrow.Repositories;
-using Mercurius.Sparrow.Repositories.Core;
-using Mercurius.Sparrow.Services;
-using Mercurius.Sparrow.Services.Support;
+using Mercurius.Kernel.Implementations.Core;
+using Mercurius.Prime.Core.Cache;
+using Mercurius.Prime.Core.Logger;
+using Mercurius.Prime.Core.WebApi;
+using Mercurius.Prime.Data.IBatisNet;
+using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.Sparrow.Autofac
 {
@@ -58,7 +58,7 @@ namespace Mercurius.Sparrow.Autofac
                     //    .InstancePerLifetimeScope();
 
                     // 注册Logger。
-                    _builder.Register(c => new Logger { Cache = c.Resolve<CacheProvider>(), SqlMapperManager = c.Resolve<SqlMapperManager>() })
+                    _builder.Register(c => new Logger { Cache = c.Resolve<CacheProvider>(), Persistence = c.Resolve<Persistence>() })
                         .As<ILogger>()
                         .InstancePerLifetimeScope();
 

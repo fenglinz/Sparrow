@@ -4,10 +4,11 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Reflection;
 using Autofac;
-using Mercurius.Infrastructure;
+using Mercurius.Kernel.WebExtensions.Filters;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Contracts.RBAC;
+using Mercurius.Kernel.Contracts.RBAC.Services;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Sparrow.Mvc.Extensions
 {

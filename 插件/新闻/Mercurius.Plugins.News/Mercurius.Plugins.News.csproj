@@ -148,7 +148,7 @@
       <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
       <Name>Mercurius.Prime.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Web\Mercurius.Prime.Web.csproj">
+    <ProjectReference Include="..\..\..\核心\Mercurius.Kernel.WebExtensions\Mercurius.Kernel.WebExtensions.csproj">
       <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
       <Name>Mercurius.Prime.Web</Name>
     </ProjectReference>

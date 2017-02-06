@@ -2,15 +2,15 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Mvc;
-using Mercurius.Infrastructure;
-using Mercurius.Sparrow.Contracts;
-using Mercurius.Sparrow.Contracts.Core;
-using Mercurius.Sparrow.Contracts.WebApi;
-using Mercurius.Sparrow.Entities.Core;
-using Mercurius.Sparrow.Entities.Swagger;
-using Mercurius.Sparrow.Entities.WebApi;
-using Mercurius.Sparrow.Entities.WebApi.SO;
-using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Kernel.Contracts.Core.Entities;
+using Mercurius.Kernel.Contracts.Core.Services;
+using Mercurius.Kernel.Contracts.Swagger.Entities;
+using Mercurius.Kernel.Contracts.WebApi.Entities;
+using Mercurius.Kernel.Contracts.WebApi.SearchObjects;
+using Mercurius.Kernel.Contracts.WebApi.Services;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Services;
 using Newtonsoft.Json;
 
 namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers

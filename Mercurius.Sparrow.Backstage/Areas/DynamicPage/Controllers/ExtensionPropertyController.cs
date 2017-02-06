@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Infrastructure;
-using Mercurius.Sparrow.Contracts.Dynamic;
-using Mercurius.Sparrow.Entities.Dynamic;
-using Mercurius.Sparrow.Entities.Dynamic.SO;
-using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Kernel.Contracts.Dynamic.Entities;
+using Mercurius.Kernel.Contracts.Dynamic.SearchObjects;
+using Mercurius.Kernel.Contracts.Dynamic.Services;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Prime.Core;
 
 namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
 {

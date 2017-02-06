@@ -5,7 +5,8 @@ using System.Web;
 using Autofac;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
-using Mercurius.Sparrow.Repositories;
+using Mercurius.Prime.Core.Dynamic;
+using Mercurius.Prime.Data.IBatisNet;
 using static Mercurius.Prime.Core.SystemConfiguration;
 
 namespace Mercurius.Sparrow.Autofac

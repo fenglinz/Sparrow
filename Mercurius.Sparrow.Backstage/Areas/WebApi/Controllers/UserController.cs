@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Infrastructure;
-using Mercurius.Sparrow.Contracts.WebApi;
-using Mercurius.Sparrow.Entities;
-using Mercurius.Sparrow.Entities.WebApi;
-using Mercurius.Sparrow.Entities.WebApi.SO;
-using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Kernel.Contracts.WebApi.Entities;
+using Mercurius.Kernel.Contracts.WebApi.SearchObjects;
+using Mercurius.Kernel.Contracts.WebApi.Services;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Prime.Core;
 
 namespace Mercurius.Sparrow.Backstage.Areas.WebApi.Controllers
 {

@@ -6,13 +6,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using Autofac;
-using Mercurius.Infrastructure;
+using Mercurius.Kernel.Contracts.Core.Services;
+using Mercurius.Kernel.Contracts.RBAC.Entities;
+using Mercurius.Kernel.Contracts.RBAC.Services;
+using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Kernel.Contracts.Storage.Services;
+using Mercurius.Prime.Core;
 using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Contracts.Core;
-using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Contracts.Storage;
-using Mercurius.Sparrow.Entities.RBAC;
-using Mercurius.Sparrow.Entities.Storage;
 using static Mercurius.Sparrow.Backstage.Constants;
 
 namespace Mercurius.Sparrow.Mvc.Extensions

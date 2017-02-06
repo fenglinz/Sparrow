@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Infrastructure;
-using Mercurius.Sparrow.Contracts.RBAC;
-using Mercurius.Sparrow.Entities.RBAC.SO;
+using Mercurius.Kernel.Contracts.RBAC.SearchObjects;
+using Mercurius.Kernel.Contracts.RBAC.Services;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Prime.Core;
 using Mercurius.Sparrow.Backstage.Areas.Admin.Models.User;
-using Mercurius.Sparrow.Mvc.Extensions;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {

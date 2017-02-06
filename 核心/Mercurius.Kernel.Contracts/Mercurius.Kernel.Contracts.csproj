@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -57,6 +60,14 @@
     <Compile Include="Core\SearchObjects\GlobalizationSO.cs" />
     <Compile Include="Core\SearchObjects\LogSO.cs" />
     <Compile Include="Core\SearchObjects\OperationRecordSO.cs" />
+    <Compile Include="Dynamic\Entities\ConditionInfo.cs" />
+    <Compile Include="Dynamic\Entities\CreateOrUpdateInfo.cs" />
+    <Compile Include="Dynamic\Entities\ExtensionProperty.cs" />
+    <Compile Include="Dynamic\Entities\ExtensionPropertyInstance.cs" />
+    <Compile Include="Dynamic\Entities\OrderInfo.cs" />
+    <Compile Include="Dynamic\Entities\SearchInfo.cs" />
+    <Compile Include="Dynamic\SearchObjects\ExtensionPropertySO.cs" />
+    <Compile Include="Dynamic\Services\IExtensionPropertyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RBAC\Entities\Button.cs" />
     <Compile Include="RBAC\Entities\HomeShortcut.cs" />
@@ -82,12 +93,38 @@
     <Compile Include="Storage\SearchObjects\FileSO.cs" />
     <Compile Include="Storage\Services\IFileService.cs" />
     <Compile Include="Storage\Services\IFileStorageClient.cs" />
+    <Compile Include="Swagger\Entities\Contact.cs" />
+    <Compile Include="Swagger\Entities\ExternalDocs.cs" />
+    <Compile Include="Swagger\Entities\Info.cs" />
+    <Compile Include="Swagger\Entities\License.cs" />
+    <Compile Include="Swagger\Entities\Operation.cs" />
+    <Compile Include="Swagger\Entities\Parameter.cs" />
+    <Compile Include="Swagger\Entities\PartialSchema.cs" />
+    <Compile Include="Swagger\Entities\PathItem.cs" />
+    <Compile Include="Swagger\Entities\Schema.cs" />
+    <Compile Include="Swagger\Entities\SwaggerDocument.cs" />
+    <Compile Include="Swagger\Entities\Tag.cs" />
+    <Compile Include="Swagger\Entities\Xml.cs" />
+    <Compile Include="WebApi\Entities\Api.cs" />
+    <Compile Include="WebApi\Entities\Role.cs" />
+    <Compile Include="WebApi\SearchObjects\ApiSO.cs" />
+    <Compile Include="WebApi\SearchObjects\RoleSO.cs" />
+    <Compile Include="WebApi\SearchObjects\UserSO.cs" />
+    <Compile Include="WebApi\Entities\Token.cs" />
+    <Compile Include="WebApi\Entities\User.cs" />
+    <Compile Include="WebApi\Services\IApiService.cs" />
+    <Compile Include="WebApi\Services\IRoleService.cs" />
+    <Compile Include="WebApi\Services\IUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
       <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

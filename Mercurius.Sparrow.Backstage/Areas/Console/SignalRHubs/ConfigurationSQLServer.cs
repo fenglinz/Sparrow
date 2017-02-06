@@ -12,8 +12,8 @@ using System.Web.WebPages;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Autofac;
-using Mercurius.Infrastructure.Ado;
-using Mercurius.Infrastructure.Cache;
+using Mercurius.Prime.Core.Ado;
+using Mercurius.Prime.Core.Cache;
 using Mercurius.Sparrow.Autofac;
 using Microsoft.AspNet.SignalR;
 

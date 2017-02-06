@@ -10,14 +10,13 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using Autofac;
 using IBatisNet.Common.Transaction;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Cache;
-using Mercurius.Sparrow.Autofac;
-using Mercurius.Sparrow.Contracts.Core;
-using Mercurius.Sparrow.Entities.Core;
-using Mercurius.Sparrow.Entities.RBAC;
-using Mercurius.Sparrow.Entities.Storage;
-using Mercurius.Sparrow.Mvc.Extensions;
+using Mercurius.Kernel.Contracts.Core.Entities;
+using Mercurius.Kernel.Contracts.Core.Services;
+using Mercurius.Kernel.Contracts.RBAC.Entities;
+using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Kernel.WebExtensions.Filters;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Utils;
 using Mercurius.Sparrow.Services.Storage;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
