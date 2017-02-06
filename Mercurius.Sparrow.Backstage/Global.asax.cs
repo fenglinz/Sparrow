@@ -10,6 +10,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.WebPages;
 using Autofac.Integration.Mvc;
+using Mercurius.Kernel.WebExtensions;
 using Mercurius.Sparrow.Autofac;
 
 namespace Mercurius.Sparrow.Backstage

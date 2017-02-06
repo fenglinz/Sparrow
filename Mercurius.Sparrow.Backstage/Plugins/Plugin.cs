@@ -77,6 +77,11 @@ namespace Mercurius.Backstage.Plugins
             }
         }
 
+        /// <summary>
+        /// 命名空间是否已存在。
+        /// </summary>
+        /// <param name="items">命名空间</param>
+        /// <returns>是否已存在</returns>
         public bool InNamespaces(IEnumerable<string> items)
         {
             if (this.Namespaces.IsEmpty())

@@ -49,6 +49,7 @@
     <Compile Include="Core\Services\OperationRecordService.cs" />
     <Compile Include="Core\Services\SystemSettingService.cs" />
     <Compile Include="Core\Services\UtilityService.cs" />
+    <Compile Include="Dynamic\Services\ExtensionPropertyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RBAC\Services\ButtonService.cs" />
     <Compile Include="RBAC\Services\HomeShortcutService.cs" />
@@ -56,7 +57,11 @@
     <Compile Include="RBAC\Services\PermissionService.cs" />
     <Compile Include="RBAC\Services\RoleService.cs" />
     <Compile Include="RBAC\Services\UserService.cs" />
+    <Compile Include="Storage\Services\FileService.cs" />
     <Compile Include="Storage\WebApi\FileStorageClient.cs" />
+    <Compile Include="WebApi\Services\ApiService.cs" />
+    <Compile Include="WebApi\Services\RoleService.cs" />
+    <Compile Include="WebApi\Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
@@ -182,8 +187,42 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Storage\IBatisNet\" />
-    <Folder Include="Storage\Services\" />
+    <EmbeddedResource Include="Dynamic\IBatisNet\MSSQL\ExtensionProperty.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Storage\IBatisNet\MSSQL\File.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Storage\IBatisNet\MySQL\File.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebApi\IBatisNet\MSSQL\Api.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebApi\IBatisNet\MSSQL\Role.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebApi\IBatisNet\MSSQL\User.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebApi\IBatisNet\MySQL\Api.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebApi\IBatisNet\MySQL\Role.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebApi\IBatisNet\MySQL\User.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dynamic\IBatisNet\MySQL\ExtensionProperty.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

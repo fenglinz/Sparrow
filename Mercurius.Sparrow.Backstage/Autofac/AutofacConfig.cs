@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using System.Reflection;
+using System.Web.Compilation;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Mercurius.Kernel.Implementations.Core;
+using Mercurius.Kernel.WebExtensions;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Logger;
 using Mercurius.Prime.Core.WebApi;
@@ -62,29 +64,29 @@ namespace Mercurius.Sparrow.Autofac
                         .As<ILogger>()
                         .InstancePerLifetimeScope();
 
+                    // 当前执行代码的程序集。
+                    var appDomainAssemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToArray();
+
                     // Web Api客户端对象。
-                    _builder.RegisterAssemblyTypes(typeof(WebApiClientSupport).Assembly)
+                    _builder.RegisterAssemblyTypes(appDomainAssemblies)
                              .Where(p => p.IsSubclassOf(typeof(WebApiClientSupport)))
                              .PropertiesAutowired()  // 启用属性注入
                              .SingleInstance();
 
                     // 注册服务。
-                    _builder.RegisterAssemblyTypes(typeof(ServiceSupport).Assembly)
+                    _builder.RegisterAssemblyTypes(appDomainAssemblies)
                              .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
                              .PropertiesAutowired()  // 启用属性注入
                              .AsImplementedInterfaces()
                              .InstancePerLifetimeScope();
 
-                    // 当前执行代码的程序集。
-                    var executingAssembly = Assembly.GetExecutingAssembly();
-
                     // 注册MVC控制器。
-                    _builder.RegisterControllers(executingAssembly)
+                    _builder.RegisterControllers(appDomainAssemblies)
                         .PropertiesAutowired()
                         .InstancePerRequest();
 
                     // 注册Model Binder。
-                    _builder.RegisterModelBinders(executingAssembly);
+                    _builder.RegisterModelBinders(appDomainAssemblies);
                     _builder.RegisterModelBinderProvider();
 
                     // 注册Web抽象模块。
@@ -97,11 +99,12 @@ namespace Mercurius.Sparrow.Autofac
                     _builder.RegisterFilterProvider();
 
                     // WebApi注册。
-                    _builder.RegisterApiControllers(executingAssembly)
+                    _builder.RegisterApiControllers(appDomainAssemblies)
                         .PropertiesAutowired()
                         .InstancePerRequest();
 
                     Container = _builder.Build();
+                    AutofacServiceLocator.Container = Container;
                 }
             }
         }

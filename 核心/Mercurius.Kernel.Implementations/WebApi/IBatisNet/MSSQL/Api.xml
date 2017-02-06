@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sqlMap namespace="Mercurius.Kernel.Repositories.WebApi.Api" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Api" type="Mercurius.Kernel.Contracts.WebApi.Entities.Api, Mercurius.Kernel.Contracts" />
+    <typeAlias alias="ApiSO" type="Mercurius.Kernel.Contracts.WebApi.SearchObjects.ApiSO, Mercurius.Kernel.Contracts" />
+  </alias>
+  <statements>
+    <!-- 添加Web API信息信息。 -->
+    <insert id="Create" parameterClass="Params">
+      <isNotNull property=".">
+        <iterate property="Apis" open="" conjunction=";" close="">
+          <![CDATA[
+            IF EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Route]=#Apis[].Route# AND [HttpVerb]=#Apis[].HttpVerb#)
+            BEGIN
+              UPDATE [WebApi].[Api]
+              SET
+                [Description]=#Apis[].Description#,
+                [ModifyUserId]=#ModifyUserId#,
+                [ModifyDateTime]=GETDATE()
+              WHERE [Route]=#Apis[].Route# AND [HttpVerb]=#Apis[].HttpVerb#
+            END
+            ELSE
+            BEGIN
+              INSERT INTO [WebApi].[Api]
+              (
+                [Route],
+                [HttpVerb],
+                [Description],
+                [CreateUserId],
+                [CreateDateTime]
+              )
+              VALUES
+              (
+                #Apis[].Route#,
+                #Apis[].HttpVerb#,
+                #Apis[].Description#,
+                #CreateUserId#,
+                GETDATE()
+              )
+            END
+          ]]>
+        </iterate>
+      </isNotNull>
+    </insert>
+
+    <!-- 添加或者更新Web API信息信息。 -->
+    <update id="CreateOrUpdate" parameterClass="Api">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Id]=#Id#)
+          UPDATE [WebApi].[Api]
+          SET
+            [Route]=#Route#,
+            [HttpVerb]=#HttpVerb#,
+            [Description]=#Description#,
+            [ModifyUserId]=#ModifyUserId#,
+            [ModifyDateTime]=GETDATE()
+          WHERE [Id]=#Id#
+        ELSE
+          INSERT INTO [WebApi].[Api]
+          (
+            [Route],
+            [HttpVerb],
+            [Description],
+            [CreateUserId],
+            [CreateDateTime]
+          )
+          VALUES
+          (
+            #Route#,
+            #HttpVerb#,
+            #Description#,
+            #CreateUserId#,
+            GETDATE()
+          )
+      ]]>
+    </update>
+
+    <!-- 删除Web API信息信息。 -->
+    <delete id="Remove" parameterClass="int">
+      <![CDATA[
+        IF NOT EXISTS(SELECT * FROM [WebApi].[Api] WHERE [Id]=#value#)
+        BEGIN
+          RAISERROR('该路由项不存在,请核对',16,1)
+          RETURN;
+        END
+        DELETE FROM [WebApi].[Api] WHERE [Id]=#value#
+      ]]>
+    </delete>
+
+    <!--清空路由表信息-->
+    <delete id="Truncate">
+      <![CDATA[
+        BEGIN
+          TRUNCATE TABLE WebApi.[Api];
+          TRUNCATE TABLE WebApi.[RolePermission];
+        END
+      ]]>
+    </delete>
+
+    <!-- 根据主键获取Web API信息信息。 -->
+    <select id="GetById" parameterClass="int" resultClass="Api">
+      <![CDATA[
+        SELECT TOP 1 
+          [Id] AS Id,
+          [Route] AS Route,
+          [HttpVerb] AS HttpVerb,
+          [Description] AS Description,
+          [CreateUserId] AS CreateUserId,
+          [CreateDateTime] AS CreateDateTime,
+          [ModifyUserId] AS ModifyUserId,
+          [ModifyDateTime] AS ModifyDateTime
+        FROM [WebApi].[Api]
+        WHERE [Id]=#value#
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的Web API信息信息。 -->
+    <select id="SearchApis" parameterClass="ApiSO" resultClass="Api">
+      <![CDATA[
+        WITH CTE AS(
+          SELECT
+            a.[Id] AS Id,
+            a.[Route] AS Route,
+            a.[HttpVerb] AS HttpVerb,
+            a.[Description] AS Description,
+            a.[CreateUserId] AS CreateUserId,
+            u1.[Name] AS CreateUserName,
+            a.[CreateDateTime] AS CreateDateTime,
+            a.[ModifyUserId] AS ModifyUserId,
+            u2.[Name] AS ModifyUserName,
+            a.[ModifyDateTime] AS ModifyDateTime
+          FROM [WebApi].[Api] a
+          LEFT JOIN [RBAC].[User] u1
+            ON a.CreateUserId=u1.Id
+          LEFT JOIN [RBAC].[User] u2
+            ON a.ModifyUserId=u2.Id
+      ]]>
+      <include refid="searchConditions" />
+      <![CDATA[
+        ),
+        PAGING AS (
+          SELECT 
+            ROW_NUMBER() OVER(ORDER BY [Id] DESC) AS RowIndex,
+            CTE.*
+          FROM CTE
+        )
+        SELECT * FROM PAGING
+        WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
+      ]]>
+    </select>
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select resultClass="int" id="SearchApisCount" parameterClass="ApiSO">
+      <![CDATA[
+        SELECT COUNT(*) FROM [WebApi].[Api]
+      ]]>
+      <include refid="searchConditions" />
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotNull property="Route">
+            [Route]=#Route#
+          </isNotNull>
+          <isNotNull property="HttpVerb" prepend="AND">
+            [HttpVerb]=#HttpVerb#
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

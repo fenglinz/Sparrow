@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Mercurius.Prime.Core.Services;
 
-namespace Mercurius.Sparrow.Entities.Storage.SO
+namespace Mercurius.Kernel.Contracts.Storage.SearchObjects
 {
     /// <summary>
     /// 上传文件查询条件。

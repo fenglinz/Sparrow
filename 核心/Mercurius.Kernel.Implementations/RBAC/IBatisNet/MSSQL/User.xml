@@ -26,8 +26,8 @@
       <result column="ModifyUserName" property="ModifyUserName" />
       <result column="ModifyDateTime" property="ModifyDateTime" />
       <result column="DepartmentNames" property="DepartmentNames" />
-      <result column="Id" property="Roles" lazyLoad="false" select="Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser" />
-      <result column="Id" property="Departments" lazyLoad="false" select="Mercurius.Sparrow.Repositories.RBAC.User.GetDepartmentsByUser" />
+      <result column="Id" property="Roles" lazyLoad="false" select="Mercurius.Kernel.Repositories.RBAC.User.GetRolesByUser" />
+      <result column="Id" property="Departments" lazyLoad="false" select="Mercurius.Kernel.Repositories.RBAC.User.GetDepartmentsByUser" />
     </resultMap>
   </resultMaps>
 

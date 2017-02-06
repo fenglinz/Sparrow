@@ -4,8 +4,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Mercurius.Kernel.Contracts.Storage.Entities;
+using Mercurius.Kernel.Contracts.Storage.SearchObjects;
 using Mercurius.Prime.Core.Services;
-using Mercurius.Sparrow.Entities.Storage.SO;
 
 namespace Mercurius.Kernel.Contracts.Storage.Services
 {
