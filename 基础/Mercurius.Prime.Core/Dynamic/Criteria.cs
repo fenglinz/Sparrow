@@ -15,12 +15,6 @@ namespace Mercurius.Prime.Core.Dynamic
     /// </summary>
     public class Criteria
     {
-        #region 字段
-
-        protected readonly DynamicQuery _queryObject;
-
-        #endregion
-
         #region 属性
 
         /// <summary>
@@ -40,20 +34,25 @@ namespace Mercurius.Prime.Core.Dynamic
         /// </summary>
         internal IList<Condition> EffectiveConditions => this.Conditions?.Where(c => (int)c.Op >= 6 || !string.IsNullOrWhiteSpace(c.Value?.ToString())).ToList();
 
+        public DynamicQuery DynamicQuery { get; set; }
+
         #endregion
 
         #region 构造方法
+
+        public Criteria()
+        {
+            this.Orders = new List<Order>();
+            this.Conditions = new List<Condition>();
+        }
 
         /// <summary>
         /// 构造方法。
         /// </summary>
         /// <param name="dynamicQuery">SQL命令构建器</param>
-        internal Criteria(DynamicQuery dynamicQuery)
+        public Criteria(DynamicQuery dynamicQuery) : this()
         {
-            this._queryObject = dynamicQuery;
-
-            this.Orders = new List<Order>();
-            this.Conditions = new List<Condition>();
+            this.DynamicQuery = dynamicQuery;
         }
 
         #endregion
@@ -104,7 +103,7 @@ namespace Mercurius.Prime.Core.Dynamic
         {
             if (!orders.IsEmpty())
             {
-                orders.ForEach(o=>this.Orders.Add(o));
+                orders.ForEach(o => this.Orders.Add(o));
             }
 
             return this;
@@ -131,7 +130,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="cacheable">是否启用缓存</param>
         public Criteria Cacheable(bool cacheable)
         {
-            this._queryObject.Cacheable(cacheable);
+            this.DynamicQuery.Cacheable(cacheable);
 
             return this;
         }
@@ -146,7 +145,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>自动增长列或受影响的记录数</returns>
         public decimal Create<T>(T entity) where T : class, new()
         {
-            return this._queryObject.Create(entity);
+            return this.DynamicQuery.Create(entity);
         }
 
         /// <summary>
@@ -157,7 +156,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>自动增长列值或受影响的条数</returns>
         public decimal Create(string tableName, NameValueCollection columnValues)
         {
-            return this._queryObject.Create(tableName, columnValues);
+            return this.DynamicQuery.Create(tableName, columnValues);
         }
 
         #endregion
@@ -172,7 +171,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>受影响的行数</returns>
         public int Update(string tableName, object fields)
         {
-            return this._queryObject.Update(tableName, fields, this);
+            return this.DynamicQuery.Update(tableName, fields, this);
         }
 
         /// <summary>
@@ -183,7 +182,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>受影响的记录数</returns>
         public int Update<T>(object fields) where T : class, new()
         {
-            return this._queryObject.Update<T>(fields, this);
+            return this.DynamicQuery.Update<T>(fields, this);
         }
 
         #endregion
@@ -198,7 +197,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>受影响的行数</returns>
         public int CreateOrUpdate(string tableName, NameValueCollection columnValues)
         {
-            return this._queryObject.CreateOrUpdate(tableName, columnValues);
+            return this.DynamicQuery.CreateOrUpdate(tableName, columnValues);
         }
 
         /// <summary>
@@ -209,7 +208,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>受影响的记录数</returns>
         public int CreateOrUpdate<T>(T entity) where T : class, new()
         {
-            return this._queryObject.CreateOrUpdate(entity);
+            return this.DynamicQuery.CreateOrUpdate(entity);
         }
 
         #endregion
@@ -223,7 +222,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>受影响的行数</returns>
         public int Remove(string tableName)
         {
-            return this._queryObject.Remove(tableName, this);
+            return this.DynamicQuery.Remove(tableName, this);
         }
 
         /// <summary>
@@ -233,7 +232,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>受影响的记录数</returns>
         public int Remove<T>() where T : class, new()
         {
-            return this._queryObject.Remove<T>(this);
+            return this.DynamicQuery.Remove<T>(this);
         }
 
         #endregion
@@ -248,7 +247,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>数据行对象</returns>
         public DataRow Single(string tableName, string[] columns = null)
         {
-            return this._queryObject.Single(tableName, this, columns);
+            return this.DynamicQuery.Single(tableName, this, columns);
         }
 
         /// <summary>
@@ -259,7 +258,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>实体对象</returns>
         public T Single<T>(string[] columns = null) where T : class, new()
         {
-            return this._queryObject.Single<T>(this, columns);
+            return this.DynamicQuery.Single<T>(this, columns);
         }
 
         #endregion
@@ -274,7 +273,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>数据表对象</returns>
         public DataTable List(string tableName, string[] columns = null)
         {
-            return this._queryObject.List(tableName, this, columns);
+            return this.DynamicQuery.List(tableName, this, columns);
         }
 
         /// <summary>
@@ -285,7 +284,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>数据集合</returns>
         public IList<T> List<T>(string[] columns = null) where T : class, new()
         {
-            return this._queryObject.List<T>(this, columns);
+            return this.DynamicQuery.List<T>(this, columns);
         }
 
         #endregion
@@ -303,7 +302,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>数据表对象</returns>
         public DataTable PagedList(string tableName, int pageIndex, int pageSize, out int totalRecords, string[] columns = null)
         {
-            return this._queryObject.PagedList(tableName, pageIndex, pageSize, out totalRecords, this, columns);
+            return this.DynamicQuery.PagedList(tableName, pageIndex, pageSize, out totalRecords, this, columns);
         }
 
         /// <summary>
@@ -317,7 +316,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>实体集合</returns>
         public IList<T> PagedList<T>(int pageIndex, int pageSize, out int totalRecords, string[] columns = null) where T : class, new()
         {
-            return this._queryObject.PagedList<T>(pageIndex, pageSize, out totalRecords, this, columns);
+            return this.DynamicQuery.PagedList<T>(pageIndex, pageSize, out totalRecords, this, columns);
         }
 
         #endregion
@@ -402,7 +401,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="cacheable">是否启用缓存</param>
         public new Criteria<T> Cacheable(bool cacheable)
         {
-            this._queryObject.Cacheable(cacheable);
+            this.DynamicQuery.Cacheable(cacheable);
 
             return this;
         }
@@ -414,7 +413,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>自动增长列或受影响的记录数</returns>
         public decimal Create(T entity)
         {
-            return this._queryObject.Create(entity);
+            return this.DynamicQuery.Create(entity);
         }
 
         /// <summary>
@@ -424,7 +423,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>受影响的记录数</returns>
         public int Update(object fields)
         {
-            return this._queryObject.Update<T>(fields, this);
+            return this.DynamicQuery.Update<T>(fields, this);
         }
 
         /// <summary>
@@ -434,7 +433,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>受影响的记录数</returns>
         public int CreateOrUpdate(T entity)
         {
-            return this._queryObject.CreateOrUpdate(entity);
+            return this.DynamicQuery.CreateOrUpdate(entity);
         }
 
         /// <summary>
@@ -443,7 +442,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>受影响的记录数</returns>
         public int Remove()
         {
-            return this._queryObject.Remove<T>(this);
+            return this.DynamicQuery.Remove<T>(this);
         }
 
         /// <summary>
@@ -453,7 +452,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>实体对象</returns>
         public T Single(string[] columns = null)
         {
-            return this._queryObject.Single<T>(this, columns);
+            return this.DynamicQuery.Single<T>(this, columns);
         }
 
         /// <summary>
@@ -463,7 +462,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>实体对象集合</returns>
         public IList<T> List(string[] columns = null)
         {
-            return this._queryObject.List<T>(this, columns);
+            return this.DynamicQuery.List<T>(this, columns);
         }
 
         /// <summary>
@@ -476,7 +475,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>实体对象集合</returns>
         public IList<T> PagedList(int pageIndex, int pageSize, out int totalRecords, string[] columns = null)
         {
-            return this._queryObject.PagedList<T>(pageIndex, pageSize, out totalRecords, this, columns);
+            return this.DynamicQuery.PagedList<T>(pageIndex, pageSize, out totalRecords, this, columns);
         }
     }
 }
