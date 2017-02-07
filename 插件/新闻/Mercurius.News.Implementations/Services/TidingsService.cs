@@ -7,11 +7,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Mercurius.Prime.Core.Services;
-using Mercurius.Prime.Data.Support;
 using Mercurius.News.Contracts.Entities;
 using Mercurius.News.Contracts.SearchObjects;
 using Mercurius.News.Contracts.Services;
+using Mercurius.Prime.Core.Services;
+using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.News.Implementations.Services
 {

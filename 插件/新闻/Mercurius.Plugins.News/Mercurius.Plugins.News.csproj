@@ -148,11 +148,11 @@
       <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
       <Name>Mercurius.Kernel.WebCores</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercurius.News.Implements\Mercurius.News.Implementations.csproj">
+    <ProjectReference Include="..\Mercurius.News.Implementations\Mercurius.News.Implementations.csproj">
       <Project>{afd86f60-c751-45a9-9798-7a0c4579d9d5}</Project>
       <Name>Mercurius.News.Implements</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercurius.News.Interfaces\Mercurius.News.Contracts.csproj">
+    <ProjectReference Include="..\Mercurius.News.Contracts\Mercurius.News.Contracts.csproj">
       <Project>{1eda83c9-e710-41e8-a31e-d5bf59ee86a9}</Project>
       <Name>Mercurius.News.Interfaces</Name>
     </ProjectReference>

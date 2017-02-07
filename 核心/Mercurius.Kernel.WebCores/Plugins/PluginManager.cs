@@ -53,11 +53,11 @@ namespace Mercurius.Kernel.WebCores.Plugins
         /// </summary>
         static PluginManager()
         {
-            var pluginBins = ConfigurationManager.AppSettings["PluginBins"]?.Replace("/", "\\") ?? "plugins";
             var plugins = ConfigurationManager.AppSettings["Plugins"]?.Replace("/", "\\") ?? "App_Data\\Plugins";
+            var pluginBins = ConfigurationManager.AppSettings["PluginBins"]?.Replace("/", "\\") ?? "plugins";
 
-            PluginBinsTemporaryDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{pluginBins}";
             PluginsDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{plugins}";
+            PluginBinsTemporaryDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{pluginBins}";
 
             if (!Directory.Exists(PluginBinsTemporaryDirectory))
             {
@@ -75,17 +75,20 @@ namespace Mercurius.Kernel.WebCores.Plugins
 
             m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", privateBinPath });
 
-            _fileSystemWatcher = new FileSystemWatcher(PluginsDirectory, "*.dll")
+            if (File.Exists(PluginsDirectory))
             {
-                IncludeSubdirectories = true,
-                NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.Security | NotifyFilters.Size | NotifyFilters.CreationTime | NotifyFilters.Attributes,
-                EnableRaisingEvents = true,
-            };
+                _fileSystemWatcher = new FileSystemWatcher(PluginsDirectory, "*.dll")
+                {
+                    IncludeSubdirectories = true,
+                    NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.Security | NotifyFilters.Size | NotifyFilters.CreationTime | NotifyFilters.Attributes,
+                    EnableRaisingEvents = true,
+                };
 
-            _fileSystemWatcher.Created += (sender, e) => Initialize();
-            _fileSystemWatcher.Changed += (sender, e) => Initialize();
-            _fileSystemWatcher.Changed += (sender, e) => Initialize();
-            _fileSystemWatcher.Deleted += (sender, e) => Initialize();
+                _fileSystemWatcher.Created += (sender, e) => Initialize();
+                _fileSystemWatcher.Changed += (sender, e) => Initialize();
+                _fileSystemWatcher.Changed += (sender, e) => Initialize();
+                _fileSystemWatcher.Deleted += (sender, e) => Initialize();
+            }
         }
 
         #endregion
