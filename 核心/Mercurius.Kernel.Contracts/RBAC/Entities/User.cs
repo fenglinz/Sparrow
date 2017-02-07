@@ -8,7 +8,6 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
     /// <summary>
     /// 用户信息。
     /// </summary>
-    [Serializable]
 	[Table("RBAC.User")]
     public class User : WithModification
     {

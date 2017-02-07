@@ -12,7 +12,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Core
     /// <summary>
     /// 动态查询页面数据模型。
     /// </summary>
-    [Serializable]
     public class SearchModel
     {
         #region 属性

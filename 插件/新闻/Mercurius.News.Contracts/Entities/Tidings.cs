@@ -16,7 +16,6 @@ namespace Mercurius.News.Contracts.Entities
     /// <summary>
     /// 新闻。
     /// </summary>
-    [Serializable]
     [Table("News")]
     public class Tidings : Entity
     {

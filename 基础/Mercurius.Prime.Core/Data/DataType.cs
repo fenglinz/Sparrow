@@ -5,7 +5,6 @@ namespace Mercurius.Prime.Core.Data
     /// <summary>
     /// 数据类型枚举。
     /// </summary>
-    [Serializable]
     public enum DataType
     {
         /// <summary>

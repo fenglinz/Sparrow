@@ -9,7 +9,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Admin.Models.User
     /// <summary>
     /// 添加或者编辑用户信息视图模型。
     /// </summary>
-    [Serializable]
     public class CreateOrUpdateVM
     {
         #region 字段

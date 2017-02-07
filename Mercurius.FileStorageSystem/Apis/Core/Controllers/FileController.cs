@@ -11,7 +11,7 @@ using Mercurius.Kernel.Contracts.Storage.Entities;
 using Mercurius.Kernel.Contracts.Storage.Services;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Services;
-using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
+using static Mercurius.WebApi.Extensions.WebApiExtrnsions;
 using static Mercurius.FileStorageSystem.Extensions.FileManager;
 using File = System.IO.File;
 

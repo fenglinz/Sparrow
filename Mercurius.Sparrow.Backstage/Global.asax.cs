@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac.Integration.Mvc;
-using Mercurius.Kernel.WebCores.Plugins;
 using Mercurius.Sparrow.Autofac;
 
 namespace Mercurius.Sparrow.Backstage
@@ -59,6 +58,12 @@ namespace Mercurius.Sparrow.Backstage
 
             // Asp.Net MVC区域注册.
             AreaRegistration.RegisterAllAreas();
+
+            // Web API Help 配置
+            SwaggerConfig.Register(GlobalConfiguration.Configuration);
+
+            // Web API配置
+            GlobalConfiguration.Configure(WebApiConfig.Register);
 
             // 过滤器配置.
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

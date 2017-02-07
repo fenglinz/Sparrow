@@ -25,7 +25,6 @@ namespace Mercurius.Prime.Core.Dynamic
         /// 分页数据信息。
         /// </summary>
         /// <typeparam name="TList">实体类型</typeparam>
-        [Serializable]
         internal class PagedData<TList>
         {
             #region 属性

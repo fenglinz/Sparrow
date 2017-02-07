@@ -9,12 +9,12 @@ using Mercurius.Kernel.Contracts.RBAC.Entities;
 using Mercurius.Kernel.Contracts.RBAC.Services;
 using Mercurius.Sparrow.Autofac;
 
-namespace Mercurius.FileStorageSystem.Apis
+namespace Mercurius.WebApi.Extensions
 {
     /// <summary>
     /// Web API基类。
     /// </summary>
-    public static class WebApiUtil
+    public static class WebApiExtrnsions
     {
         #region 静态字段
 
@@ -36,7 +36,7 @@ namespace Mercurius.FileStorageSystem.Apis
         /// <summary>
         /// 构造方法。
         /// </summary>
-        static WebApiUtil()
+        static WebApiExtrnsions()
         {
             _userService = AutofacConfig.Container.Resolve<IUserService>();
         }

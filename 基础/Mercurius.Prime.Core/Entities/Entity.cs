@@ -8,7 +8,6 @@ namespace Mercurius.Prime.Core.Entities
     /// <summary>
     /// 领域信息基类。
     /// </summary>
-    [Serializable]
     public abstract class Entity
     {
         #region 属性

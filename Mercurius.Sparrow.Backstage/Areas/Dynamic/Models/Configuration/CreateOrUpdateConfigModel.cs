@@ -12,7 +12,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Configuration
     /// <summary>
     /// 添加或编辑动态页面配置模型。
     /// </summary>
-    [Serializable]
     public class CreateOrUpdateConfigModel
     {
         #region 字段

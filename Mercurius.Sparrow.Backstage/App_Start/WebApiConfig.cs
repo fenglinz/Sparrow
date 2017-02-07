@@ -16,6 +16,12 @@ namespace Mercurius.Sparrow.Backstage
         /// <param name="config">配置对象</param>
         public static void Register(HttpConfiguration config)
         {
+            // 启用路由特性。
+            config.MapHttpAttributeRoutes();
+
+            // 允许跨域访问。
+            config.EnableCors();
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

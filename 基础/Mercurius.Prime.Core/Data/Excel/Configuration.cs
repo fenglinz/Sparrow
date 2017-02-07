@@ -7,7 +7,6 @@ namespace Mercurius.Prime.Core.Data.Excel
     /// <summary>
     /// Excel导入导出配置。
     /// </summary>
-    [Serializable]
     public class Configuration
     {
         #region 属性

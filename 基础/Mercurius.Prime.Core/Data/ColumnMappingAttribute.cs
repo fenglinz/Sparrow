@@ -5,7 +5,6 @@ namespace Mercurius.Prime.Core.Data
     /// <summary>
     /// 导入导出数据映射特性。
     /// </summary>
-    [Serializable]
     [AttributeUsage(AttributeTargets.Property,
         AllowMultiple = false,
         Inherited = true)]

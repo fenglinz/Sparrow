@@ -6,7 +6,6 @@ namespace Mercurius.Prime.Core.Ado
     /// <summary>
     /// 数据库表或视图元数据信息。
     /// </summary>
-    [Serializable]
     public class Table
     {
         #region 属性

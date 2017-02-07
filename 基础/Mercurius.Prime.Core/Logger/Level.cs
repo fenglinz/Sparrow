@@ -6,7 +6,6 @@ namespace Mercurius.Prime.Core.Logger
     /// <summary>
     /// 日志级别。
     /// </summary>
-    [Serializable]
     public enum Level
     {
         /// <summary>

@@ -10,7 +10,6 @@ namespace Mercurius.Prime.Core.Ado
     /// <summary>
     /// 字段元数据集合。
     /// </summary>
-    [Serializable]
     public class Columns : IEnumerable<Column>
     {
         #region 字段

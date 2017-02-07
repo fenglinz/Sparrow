@@ -5,7 +5,6 @@ namespace Mercurius.Prime.Core.Data
     /// <summary>
     /// 导入导出配置项。
     /// </summary>
-    [Serializable]
     public class OptionItem
     {
         #region 属性

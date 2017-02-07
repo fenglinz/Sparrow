@@ -11,7 +11,6 @@ namespace Mercurius.Prime.Core.Entities
     /// <summary>
     /// 具有修改者信息的实体。
     /// </summary>
-    [Serializable]
     public abstract class WithModification : WithCreation
     {
         #region 属性

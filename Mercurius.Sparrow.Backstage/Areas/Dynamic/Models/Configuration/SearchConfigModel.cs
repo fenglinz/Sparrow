@@ -13,7 +13,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Configuration
     /// <summary>
     /// 查询配置页面模板。
     /// </summary>
-    [Serializable]
     public class SearchConfigModel
     {
         #region 常量

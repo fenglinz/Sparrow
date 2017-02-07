@@ -10,7 +10,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using Mercurius.Kernel.Contracts.Storage.Entities;
 using Mercurius.Prime.Core.Services;
-using static Mercurius.FileStorageSystem.Apis.WebApiUtil;
+using static Mercurius.WebApi.Extensions.WebApiExtrnsions;
 
 namespace Mercurius.FileStorageSystem.Apis.Core.Controllers
 {

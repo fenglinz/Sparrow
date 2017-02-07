@@ -8,7 +8,6 @@ namespace Mercurius.Prime.Core.Services
     /// <summary>
     /// 查询对象信息。
     /// </summary>
-    [Serializable]
     public class SearchObject
     {
         #region 属性

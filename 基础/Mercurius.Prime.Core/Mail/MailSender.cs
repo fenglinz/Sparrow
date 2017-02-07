@@ -10,7 +10,6 @@ namespace Mercurius.Prime.Core.Mail
     /// <summary>
     /// 电子邮件发送器。
     /// </summary>
-    [Serializable]
     public class MailSender
     {
         #region 字段

@@ -9,7 +9,6 @@ namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Configuration
     /// <summary>
     /// 添加/编辑列配置信息。
     /// </summary>
-    [Serializable]
     public class CreateOrUpdateColumn : CreateOrUpdateInfo
     {
         #region 属性

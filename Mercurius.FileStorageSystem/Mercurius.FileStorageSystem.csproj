@@ -142,9 +142,8 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StackExchange.Redis.StrongName, Version=1.1.608.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
-      <HintPath>..\packages\StackExchange.Redis.StrongName.1.1.608\lib\net46\StackExchange.Redis.StrongName.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="StackExchange.Redis.StrongName, Version=1.2.0.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.StrongName.1.2.0\lib\net46\StackExchange.Redis.StrongName.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.Net45.5.2.1\lib\net45\Swashbuckle.Core.dll</HintPath>
@@ -248,6 +247,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Mercurius.Sparrow.Backstage\Apis\Extensions\WebApiExtensions.cs">
+      <Link>Apis\Extensions\WebApiExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Mercurius.Sparrow.Backstage\Autofac\AutofacConfig.cs">
       <Link>Autofac\AutofacConfig.cs</Link>
     </Compile>
@@ -255,7 +257,6 @@
       <Link>Autofac\IBatisNetModule.cs</Link>
     </Compile>
     <Compile Include="Apis\Core\Controllers\ConfigController.cs" />
-    <Compile Include="Apis\WebApiUtil.cs" />
     <Compile Include="Apis\Core\Controllers\FileController.cs" />
     <Compile Include="Apis\Extensions\CustomMultipartFormDataStreamProvider.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

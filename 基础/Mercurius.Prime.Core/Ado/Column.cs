@@ -6,7 +6,6 @@ namespace Mercurius.Prime.Core.Ado
     /// <summary>
     /// 数据库字段元数据信息。
     /// </summary>
-    [Serializable]
     public class Column
     {
         #region 属性
