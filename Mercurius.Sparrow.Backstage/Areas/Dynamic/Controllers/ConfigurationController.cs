@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
+using Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Configuration;
 using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Kernel.Contracts.Dynamic.Entities;
 using Mercurius.Prime.Core;
@@ -12,7 +12,7 @@ using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Prime.Core.Dynamic;
 using System.Collections.Generic;
 
-namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Controllers
 {
     /// <summary>
     /// 动态查询配置控制器。

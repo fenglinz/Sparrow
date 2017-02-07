@@ -251,16 +251,16 @@
     <Compile Include="Areas\Console\ConsoleAreaRegistration.cs" />
     <Compile Include="Areas\Console\Controllers\ToolsController.cs" />
     <Compile Include="Areas\Console\SignalRHubs\GenerateDatabaseScript.cs" />
-    <Compile Include="Areas\DynamicPage\Controllers\ConfigurationController.cs" />
-    <Compile Include="Areas\DynamicPage\Controllers\DynamicController.cs" />
-    <Compile Include="Areas\DynamicPage\Controllers\ExtensionPropertyController.cs" />
-    <Compile Include="Areas\DynamicPage\DynamicPageAreaRegistration.cs" />
-    <Compile Include="Areas\DynamicPage\Extensions\ConfigurationHtmlExtensions.cs" />
-    <Compile Include="Areas\DynamicPage\Models\Configuration\CreateOrUpdateColumn.cs" />
-    <Compile Include="Areas\DynamicPage\Models\Configuration\CreateOrUpdateConfigModel.cs" />
-    <Compile Include="Areas\DynamicPage\Models\Configuration\SearchConfigModel.cs" />
-    <Compile Include="Areas\DynamicPage\Models\Dynamic\CreateOrUpdateModel.cs" />
-    <Compile Include="Areas\DynamicPage\Models\Dynamic\SearchModel.cs" />
+    <Compile Include="Areas\Dynamic\Controllers\ConfigurationController.cs" />
+    <Compile Include="Areas\Dynamic\Controllers\CoreController.cs" />
+    <Compile Include="Areas\Dynamic\Controllers\ExtensionPropertyController.cs" />
+    <Compile Include="Areas\Dynamic\DynamicAreaRegistration.cs" />
+    <Compile Include="Areas\Dynamic\Extensions\ConfigurationHtmlExtensions.cs" />
+    <Compile Include="Areas\Dynamic\Models\Configuration\CreateOrUpdateColumn.cs" />
+    <Compile Include="Areas\Dynamic\Models\Configuration\CreateOrUpdateConfigModel.cs" />
+    <Compile Include="Areas\Dynamic\Models\Configuration\SearchConfigModel.cs" />
+    <Compile Include="Areas\Dynamic\Models\Core\CreateOrUpdateModel.cs" />
+    <Compile Include="Areas\Dynamic\Models\Core\SearchModel.cs" />
     <Compile Include="Areas\Console\SignalRHubs\ConfigurationSQLServer.cs" />
     <Compile Include="Areas\Console\Models\Install\Database.cs" />
     <Compile Include="Areas\WebApi\Controllers\RoleController.cs" />
@@ -449,14 +449,11 @@
     <Content Include="Areas\Admin\Views\Role\ViewPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\AllotButtons.cshtml" />
     <Content Include="Areas\Admin\Views\SystemMenu\CreateOrUpdate.cshtml" />
-    <Content Include="App_Readme\Handlebarsjs_README.md" />
-    <Content Include="App_Readme\Handlebarsjs_LICENSE" />
     <Content Include="Content\Documents\系统架构设计说明文档.pdf" />
     <Content Include="Areas\Console\Views\Tools\Index.cshtml" />
     <Content Include="Areas\Console\Views\Account\LogOn.cshtml" />
     <Content Include="App_Data\console.dat" />
     <Content Include="Areas\Console\Views\Account\ChangePassword.cshtml" />
-    <Content Include="apiapp.json" />
     <Content Include="App_Data\IBatisNet\properties.config">
       <SubType>Designer</SubType>
     </Content>
@@ -785,19 +782,19 @@
     <Content Include="Areas\Admin\Views\User\Users.cshtml" />
     <Content Include="Areas\Admin\Views\Web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\Configuration\Index.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\Configuration\ShowColumns.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\Configuration\ShowCreateOrUpdateConfig.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\Configuration\ShowSearchConfig.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\Dynamic\CreateOrUpdate.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\Dynamic\Index.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\Web.config" />
-    <Content Include="Areas\DynamicPage\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Dynamic\Views\Configuration\Index.cshtml" />
+    <Content Include="Areas\Dynamic\Views\Configuration\ShowColumns.cshtml" />
+    <Content Include="Areas\Dynamic\Views\Configuration\ShowCreateOrUpdateConfig.cshtml" />
+    <Content Include="Areas\Dynamic\Views\Configuration\ShowSearchConfig.cshtml" />
+    <Content Include="Areas\Dynamic\Views\Core\CreateOrUpdate.cshtml" />
+    <Content Include="Areas\Dynamic\Views\Core\Index.cshtml" />
+    <Content Include="Areas\Dynamic\Views\Web.config" />
+    <Content Include="Areas\Dynamic\Views\_ViewStart.cshtml" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="Areas\DynamicPage\Views\Dynamic\ViewDetail.cshtml" />
+    <Content Include="Areas\Dynamic\Views\Core\ViewDetail.cshtml" />
     <Content Include="Views\Helper\ChooseUser.cshtml" />
     <Content Include="Views\Helper\_ChooseUsers.cshtml" />
     <Content Include="Areas\WebApi\Views\Web.config" />
@@ -812,7 +809,7 @@
     <Content Include="Areas\WebApi\Views\Role\AllotPermissions.cshtml" />
     <Content Include="Areas\WebApi\Views\Route\CreateOrUpdate.cshtml" />
     <Content Include="Areas\WebApi\Views\Route\Index.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\ExtensionProperty\CreateOrUpdate.cshtml" />
+    <Content Include="Areas\Dynamic\Views\ExtensionProperty\CreateOrUpdate.cshtml" />
     <Content Include="Areas\Admin\Views\Role\AllotMembers.cshtml" />
     <Content Include="Areas\Admin\Views\Role\_UnAllotUsers.cshtml" />
     <Content Include="Areas\Admin\Views\Role\_Members.cshtml" />
@@ -821,8 +818,8 @@
     <None Include="Areas\Console\Views\Home\ShowCaches.cshtml" />
     <Content Include="Areas\Admin\Views\User\AllotPermissions.cshtml" />
     <Content Include="Areas\Admin\Views\User\ViewDetails.cshtml" />
-    <None Include="Areas\DynamicPage\Views\ExtensionProperty\_Properties.cshtml" />
-    <Content Include="Areas\DynamicPage\Views\ExtensionProperty\Index.cshtml" />
+    <None Include="Areas\Dynamic\Views\ExtensionProperty\_Properties.cshtml" />
+    <Content Include="Areas\Dynamic\Views\ExtensionProperty\Index.cshtml" />
     <Content Include="Scripts\Dialog\dialog-plus.js" />
     <Content Include="Scripts\Dialog\dialog.js" />
     <Content Include="Scripts\Handlebars.txt" />
@@ -1242,7 +1239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\DynamicPage\Views\Shared\" />
+    <Folder Include="Areas\Dynamic\Views\Shared\" />
     <Folder Include="Areas\WebApi\Models\" />
     <Folder Include="Areas\WebApi\Views\Shared\" />
     <Folder Include="Models\" />

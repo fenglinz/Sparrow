@@ -7,7 +7,7 @@ using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;
 
-namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
+namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Configuration
 {
     /// <summary>
     /// 添加或编辑动态页面配置模型。

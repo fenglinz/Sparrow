@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Mercurius.Kernel.Contracts.Dynamic.Entities;
 
-namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
+namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Configuration
 {
     /// <summary>
     /// 添加/编辑列配置信息。

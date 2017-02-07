@@ -7,16 +7,16 @@ using Mercurius.Kernel.Contracts.Dynamic.Entities;
 using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Dynamic;
-using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
-using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic;
+using Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Configuration;
+using Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Core;
 using static Mercurius.Prime.Core.SystemConfiguration;
 
-namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Controllers
 {
     /// <summary>
     /// 动态页面处理控制器。
     /// </summary>
-    public class DynamicController : BaseController
+    public class CoreController : BaseController
     {
         /// <summary>
         /// 数据查询操作。

@@ -1,16 +1,16 @@
 ﻿using System.Web.Mvc;
 
-namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage
+namespace Mercurius.Sparrow.Backstage.Areas.Dynamic
 {
     /// <summary>
     /// 动态页面区域注册。
     /// </summary>
-    public class DynamicPageAreaRegistration : AreaRegistration
+    public class DynamicAreaRegistration : AreaRegistration
     {
         /// <summary>
         /// 获取区域名称。
         /// </summary>
-        public override string AreaName => "DynamicPage";
+        public override string AreaName => "Dynamic";
 
         /// <summary>
         /// 注册DynamicPage区域路由。
@@ -19,10 +19,10 @@ namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage
         public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
-                "DynamicPage_default",
-                "DynamicPage/{controller}/{action}/{id}",
-                new { controller = "Dynamic", action = "Index", id = UrlParameter.Optional },
-                new[] { "Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers" }
+                "Dynamic_default",
+                "Dynamic/{controller}/{action}/{id}",
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                new[] { "Mercurius.Sparrow.Backstage.Areas.Dynamic.Controllers" }
             );
         }
     }

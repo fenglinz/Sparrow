@@ -1,4 +1,4 @@
-﻿@using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
+﻿@using Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Core
 
 @{
     var searchModel = this.ViewBag.Model as SearchModel;
@@ -108,7 +108,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="form-horizontal" role="form">
-                    @using (Html.BeginForm("Index", "Dynamic", FormMethod.Post, new { @id = "frmSearch", @autocomplete = "off" }))
+                    @using (Html.BeginForm("Index", "Core", FormMethod.Post, new { @id = "frmSearch", @autocomplete = "off" }))
                     {
                         var index = 0;
                         var count = searchModel.Conditions.Count;

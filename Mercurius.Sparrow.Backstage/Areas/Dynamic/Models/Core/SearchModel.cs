@@ -7,7 +7,7 @@ using Mercurius.Kernel.Contracts.Dynamic.Entities;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;
 
-namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
+namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Core
 {
     /// <summary>
     /// 动态查询页面数据模型。

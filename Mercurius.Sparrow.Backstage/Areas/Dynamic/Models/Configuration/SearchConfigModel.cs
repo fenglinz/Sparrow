@@ -8,7 +8,7 @@ using Mercurius.Kernel.Contracts.Dynamic.Entities;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;
 
-namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration
+namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Configuration
 {
     /// <summary>
     /// 查询配置页面模板。

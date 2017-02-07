@@ -6,9 +6,9 @@ using System.Web;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.Core.Dynamic;
-using Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Configuration;
+using Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Configuration;
 
-namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic
+namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Core
 {
     /// <summary>
     /// 动态编辑或修改页面数据模型

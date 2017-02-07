@@ -1,4 +1,4 @@
-﻿@model Mercurius.Sparrow.Backstage.Areas.DynamicPage.Models.Dynamic.CreateOrUpdateModel
+﻿@model Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Core.CreateOrUpdateModel
 
 @section Scripts{
     @Scripts.Render("~/bundles/validate")
@@ -25,7 +25,7 @@
     <div class="header">
         添加或者编辑@(Model.Table.Comments)
     </div>
-    using (Html.BeginForm("Save", "Dynamic", FormMethod.Post, new { @id = "frmSave", @class = "form-horizontal", @autocomplete = "off", @style = "margin-top:10px;" }))
+    using (Html.BeginForm("Save", "Core", FormMethod.Post, new { @id = "frmSave", @class = "form-horizontal", @autocomplete = "off", @style = "margin-top:10px;" }))
     {
         @Html.AntiForgeryToken()
         <input type="hidden" name="table" value="@string.Format("{0}.{1}", Model.Table.Schema, Model.Table.Name)" />

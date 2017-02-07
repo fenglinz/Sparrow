@@ -9,7 +9,7 @@ using Mercurius.Kernel.Contracts.Dynamic.Services;
 using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Prime.Core;
 
-namespace Mercurius.Sparrow.Backstage.Areas.DynamicPage.Controllers
+namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Controllers
 {
     /// <summary>
     /// 扩展属性管理控制器。

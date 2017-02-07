@@ -4,6 +4,50 @@
 @using Mercurius.Kernel.Contracts.Dynamic.Entities
 @using Mercurius.Kernel.Contracts.Dynamic.Services
 
+@helper ShowProperties(string category, string businessSerialNumber) { 
+    using (var context = AutofacConfig.Container.BeginLifetimeScope())
+    {
+        var extensionPropertyService = context.Resolve<IExtensionPropertyService>();
+        var properties = extensionPropertyService.GetExtensionProperties(category, businessSerialNumber).Datas;
+    
+        if (!properties.IsEmpty())
+        {
+            var groupNames = (from p in properties where !string.IsNullOrWhiteSpace(p.GroupName) select p.GroupName).Distinct().ToList();
+
+            <div class="form-horizontal form">
+                @for (var i = 0; i < properties.Count; i++)
+                {
+                    var item = properties[i];
+
+                    if (!groupNames.IsEmpty() && groupNames.Contains(item.GroupName))
+                    {
+                        <div class="form-group">
+                            @while (i < properties.Count && properties[i].GroupName == item.GroupName)
+                            {
+                                <label class="control-label @properties[i].ControlLabelCssClass">@properties[i].Name</label>
+                                <div class="@properties[i].ControlContainerCssClass">
+                                    <span class="form-control" readonly>@properties[i].Value</span>
+                                </div>
+                                i++;
+                            }
+                        </div>
+                        i--;
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <label class="control-label @item.ControlLabelCssClass">@item.Name</label>
+                            <div class="@item.ControlContainerCssClass">
+                                <span class="form-control" readonly>@item.Value</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    }
+}
+
 @helper RenderProperties(string category, string businessSerialNumber)
 {
     using (var context = AutofacConfig.Container.BeginLifetimeScope())
@@ -13,20 +57,15 @@
 
         if (!properties.IsEmpty())
         {
+            var groupNames = (from p in properties where !string.IsNullOrWhiteSpace(p.GroupName) select p.GroupName).Distinct().ToList();
+
             <style type="text/css">
                 .form-horizontal .form-group {
                     margin-right: 0;
                 }
             </style>
-            <form id="frmDynamic" action="~/DynamicPage/ExtensionProperty/SaveProperties" class="form-horizontal form" method="post" data-ajax="true" data-ajax-method="post">
+            <form id="frmDynamic" action="~/Dynamic/ExtensionProperty/SaveProperties" class="form-horizontal form" method="post" data-ajax="true" data-ajax-method="post">
                 <input type="hidden" name="id" value="@businessSerialNumber"/>
-                @{
-                    var groupNames = (from p in properties
-                                      where
-                                      !string.IsNullOrWhiteSpace(p.GroupName)
-                                      select p.GroupName).Distinct().ToList();
-                }
-
                 @for (var i = 0; i < properties.Count; i++)
                 {
                     var item = properties[i];

@@ -32,13 +32,6 @@
             margin-bottom: 1px;
         }
 
-        label > input[type=checkbox] {
-            margin-top: -2px;
-            margin-right: 2px;
-            position: relative;
-            vertical-align: middle;
-        }
-
         .hr {
             display: block;
             height: 0;
@@ -189,6 +182,12 @@ else
             </div>
         </div>
         <hr class="hr hr-dotted" />
+
+        <h4>扩展信息</h4>
+        <hr class="hr hr-double hr-dotted" />
+        @Dynamic.ShowProperties("个人信息", WebHelper.GetLogOnUserId())
+        <hr class="hr hr-dotted" />
+        
         <h4>直接上级信息</h4>
         <hr class="hr hr-double hr-dotted" />
         @{
