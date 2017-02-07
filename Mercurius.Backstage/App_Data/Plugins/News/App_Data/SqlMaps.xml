@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <sqlMap embedded="IBatisNet.MSSQL.Tidings.xml, Mercurius.News.Implements" />
-  <sqlMap embedded="IBatisNet.MSSQL.NewsComment.xml, Mercurius.News.Implements" />
-</root>

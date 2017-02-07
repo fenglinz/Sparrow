@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.DbMet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.UI", "CodeBuilder\Mercurius.CodeBuilder.UI\Mercurius.CodeBuilder.UI.csproj", "{8798F336-D1A2-489A-9182-4C31F8876D62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Infrastructure", "Mercurius.Infrastructure\Mercurius.Infrastructure.csproj", "{B0732AD6-AC7A-4980-817E-432631963939}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Infrastructure", "CodeBuilder\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj", "{B0732AD6-AC7A-4980-817E-432631963939}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
