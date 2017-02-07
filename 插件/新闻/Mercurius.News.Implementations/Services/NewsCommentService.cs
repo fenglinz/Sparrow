@@ -9,11 +9,11 @@ using System.Collections.Generic;
 using System.Data;
 using Mercurius.Prime.Core.Services;
 using Mercurius.Prime.Data.Support;
-using Mercurius.News.Interfaces.Entities;
-using Mercurius.News.Interfaces.SearchObjects;
-using Mercurius.News.Interfaces.Services;
+using Mercurius.News.Contracts.Entities;
+using Mercurius.News.Contracts.SearchObjects;
+using Mercurius.News.Contracts.Services;
 
-namespace Mercurius.News.Implements.Services
+namespace Mercurius.News.Implementations.Services
 {
     /// <summary>
     /// 新闻评论业务逻辑接口实现。 
@@ -23,7 +23,7 @@ namespace Mercurius.News.Implements.Services
     {
         #region 常量
     
-        private static readonly StatementNamespace NS = "Mercurius.Repositories.NewsComment";
+        private static readonly StatementNamespace NS = "Mercurius.Plugins.Repositories.News.NewsComment";
       
         #endregion
 

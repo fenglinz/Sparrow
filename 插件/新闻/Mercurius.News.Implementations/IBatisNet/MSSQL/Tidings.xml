@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.Repositories.Tidings" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Plugins.Repositories.News.Tidings" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Tidings" type="Mercurius.News.Interfaces.Entities.Tidings, Mercurius.News.Interfaces" />
-    <typeAlias alias="TidingsSO" type="Mercurius.News.Interfaces.SearchObjects.TidingsSO, Mercurius.News.Interfaces" />
+    <typeAlias alias="Tidings" type="Mercurius.News.Contracts.Entities.Tidings, Mercurius.News.Contracts" />
+    <typeAlias alias="TidingsSO" type="Mercurius.News.Contracts.SearchObjects.TidingsSO, Mercurius.News.Contracts" />
   </alias>
-      <statements>
-      
-      
-      <!-- 添加或者更新新闻信息。 -->
-    <update id="CreateOrUpdate" parameterClass="Tidings"><![CDATA[
+  <statements>
+
+    <!-- 添加或者更新新闻信息。 -->
+    <update id="CreateOrUpdate" parameterClass="Tidings">
+      <![CDATA[
         IF EXISTS(SELECT * FROM [News] WHERE [Id]=#Id#)
           UPDATE [News]
           SET
@@ -43,15 +43,19 @@
             #PublisherId#,
             #PublishDateTime#
           )
-    ]]></update>
-    
-      <!-- 删除新闻信息。 -->
-    <delete id="Remove" parameterClass="Guid"><![CDATA[
+    ]]>
+    </update>
+
+    <!-- 删除新闻信息。 -->
+    <delete id="Remove" parameterClass="Guid">
+      <![CDATA[
         DELETE FROM [News] WHERE [Id]=#value#
-      ]]></delete>
-    
-      <!-- 根据主键获取新闻信息。 -->
-    <select id="GetById" parameterClass="Guid" resultClass="Tidings"><![CDATA[
+      ]]>
+    </delete>
+
+    <!-- 根据主键获取新闻信息。 -->
+    <select id="GetById" parameterClass="Guid" resultClass="Tidings">
+      <![CDATA[
         SELECT TOP 1 
           [Id] AS Id,
           [Category] AS Category,
@@ -63,10 +67,12 @@
           [PublishDateTime] AS PublishDateTime
         FROM [News]
         WHERE [Id]=#value#
-      ]]></select>
-    
-      <!-- 分页返回满足查询条件的新闻信息。 -->
-    <select id="SearchTidinies" parameterClass="TidingsSO" resultClass="Tidings"><![CDATA[
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的新闻信息。 -->
+    <select id="SearchTidinies" parameterClass="TidingsSO" resultClass="Tidings">
+      <![CDATA[
         WITH CTE AS(
           SELECT
             [Id] AS Id,
@@ -84,21 +90,32 @@
         SELECT * FROM CTE
         WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
         ORDER BY RowIndex ASC
-    ]]></select>
-    
+    ]]>
+    </select>
 
-      <!-- 返回满足查询条件的记录数。 -->
-    <select id="SearchTidiniesCount" parameterClass="TidingsSO" resultClass="int"><![CDATA[
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select id="SearchTidiniesCount" parameterClass="TidingsSO" resultClass="int">
+      <![CDATA[
         SELECT COUNT(*) FROM [News]
-      ]]><include refid="searchConditions" /></select>
-    
-      <!-- 查询条件。 -->
-    <sql id="searchConditions"><dynamic prepend="WHERE"><isNotNull property="."><isNotNull property="Category">
-              [Category]=#Category#
-            </isNotNull><isNotNull property="Title" prepend="AND">
-              [Title]=#Title#
-            </isNotNull><isNotNull property="Status" prepend="AND">
-              [Status]=#Status#
-            </isNotNull></isNotNull></dynamic></sql>
-      </statements>
-    </sqlMap>
+      ]]><include refid="searchConditions" />
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotNull property="Category">
+            [Category]=#Category#
+          </isNotNull>
+          <isNotNull property="Title" prepend="AND">
+            [Title]=#Title#
+          </isNotNull>
+          <isNotNull property="Status" prepend="AND">
+            [Status]=#Status#
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

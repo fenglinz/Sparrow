@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1EDA83C9-E710-41E8-A31E-D5BF59EE86A9}</ProjectGuid>
+    <ProjectGuid>{AFD86F60-C751-45A9-9798-7A0C4579D9D5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercurius.News.Interfaces</RootNamespace>
-    <AssemblyName>Mercurius.News.Interfaces</AssemblyName>
+    <RootNamespace>Mercurius.News.Implementations</RootNamespace>
+    <AssemblyName>Mercurius.News.Implementations</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,12 +47,21 @@
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
       <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
-    <Compile Include="Entities\Tidings.cs" />
-    <Compile Include="Entities\NewsComment.cs" />
-    <Compile Include="SearchObjects\TidingsSO.cs" />
-    <Compile Include="SearchObjects\NewsCommentSO.cs" />
-    <Compile Include="Services\ITidingsService.cs" />
-    <Compile Include="Services\INewsCommentService.cs" />
+    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
+      <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
+      <Name>Mercurius.Prime.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mercurius.News.Interfaces\Mercurius.News.Contracts.csproj">
+      <Project>{1eda83c9-e710-41e8-a31e-d5bf59ee86a9}</Project>
+      <Name>Mercurius.News.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <EmbeddedResource Include="IBatisNet\MSSQL\Tidings.xml" />
+    <EmbeddedResource Include="IBatisNet\MSSQL\NewsComment.xml" />
+    <Compile Include="Services\TidingsService.cs" />
+    <Compile Include="Services\NewsCommentService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

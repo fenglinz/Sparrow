@@ -140,23 +140,19 @@
       <Project>{5B236DA6-7A5A-48E8-813E-5745B0E50D65}</Project>
       <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj">
-      <Project>{b0732ad6-ac7a-4980-817e-432631963939}</Project>
-      <Name>Mercurius.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
       <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
       <Name>Mercurius.Prime.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\核心\Mercurius.Kernel.WebExtensions\Mercurius.Kernel.WebExtensions.csproj">
+    <ProjectReference Include="..\..\..\核心\Mercurius.Kernel.WebCores\Mercurius.Kernel.WebCores.csproj">
       <Project>{59602e24-8d22-4eb9-8f73-2c76fb60dd99}</Project>
-      <Name>Mercurius.Prime.Web</Name>
+      <Name>Mercurius.Kernel.WebCores</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercurius.News.Implements\Mercurius.News.Implements.csproj">
+    <ProjectReference Include="..\Mercurius.News.Implements\Mercurius.News.Implementations.csproj">
       <Project>{afd86f60-c751-45a9-9798-7a0c4579d9d5}</Project>
       <Name>Mercurius.News.Implements</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mercurius.News.Interfaces\Mercurius.News.Interfaces.csproj">
+    <ProjectReference Include="..\Mercurius.News.Interfaces\Mercurius.News.Contracts.csproj">
       <Project>{1eda83c9-e710-41e8-a31e-d5bf59ee86a9}</Project>
       <Name>Mercurius.News.Interfaces</Name>
     </ProjectReference>
@@ -208,11 +204,9 @@
     <Error Condition="!Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>iisreset /stop
-xcopy /s /y "$(ProjectDir)App_Data\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\News\App_Data\" 
-xcopy /s /y "$(ProjectDir)Views\*.*" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\News\Views\" 
-xcopy /y "$(TargetDir)*.dll" "$(SolutionDir)Mercurius.Backstage\App_Data\Plugins\News\bin\" 
-iisreset /start</PostBuildEvent>
+    <PostBuildEvent>xcopy /s /y "$(ProjectDir)App_Data\*.*" "$(SolutionDir)Mercurius.Sparrow.Backstage\App_Data\Plugins\News\App_Data\" 
+xcopy /s /y "$(ProjectDir)Views\*.*" "$(SolutionDir)Mercurius.Sparrow.Backstage\App_Data\Plugins\News\Views\" 
+xcopy /y "$(TargetDir)*.dll" "$(SolutionDir)Mercurius.Sparrow.Backstage\App_Data\Plugins\News\bin\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

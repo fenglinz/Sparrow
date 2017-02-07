@@ -8,8 +8,12 @@ using System.Web.Compilation;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Xml;
+using Mercurius.Kernel.WebCores.Plugins;
 using Mercurius.Prime.Core;
+using System.Configuration;
 
+// 初始化插件。
+[assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
 namespace Mercurius.Kernel.WebCores.Plugins
 {
     /// <summary>
@@ -17,12 +21,72 @@ namespace Mercurius.Kernel.WebCores.Plugins
     /// </summary>
     public static class PluginManager
     {
+        #region 字段
+
+        private static readonly FileSystemWatcher _fileSystemWatcher;
+
+        #endregion
+
         #region 属性
+
+        /// <summary>
+        /// 插件存放目录。
+        /// </summary>
+        public static string PluginsDirectory { get; private set; }
+
+        /// <summary>
+        /// 插件dll临时存放目录。
+        /// </summary>
+        public static string PluginBinsTemporaryDirectory { get; private set; }
 
         /// <summary>
         /// 插件集合。
         /// </summary>
         public static IList<Plugin> Plugins { get; private set; }
+
+        #endregion
+
+        #region 构造方法
+
+        /// <summary>
+        /// 静态构造方法。
+        /// </summary>
+        static PluginManager()
+        {
+            var pluginBins = ConfigurationManager.AppSettings["PluginBins"]?.Replace("/", "\\") ?? "plugins";
+            var plugins = ConfigurationManager.AppSettings["Plugins"]?.Replace("/", "\\") ?? "App_Data\\Plugins";
+
+            PluginBinsTemporaryDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{pluginBins}";
+            PluginsDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{plugins}";
+
+            if (!Directory.Exists(PluginBinsTemporaryDirectory))
+            {
+                Directory.CreateDirectory(PluginBinsTemporaryDirectory);
+            }
+
+            var privateBinPath = $"bin;{pluginBins}";
+
+            // 设置私有程序集加载位置。
+            AppDomain.CurrentDomain.SetData("PRIVATE_BINPATH", privateBinPath);
+            AppDomain.CurrentDomain.SetData("BINPATH_PROBE_ONLY", privateBinPath);
+
+            var m = typeof(AppDomainSetup).GetMethod("UpdateContextProperty", BindingFlags.NonPublic | BindingFlags.Static);
+            var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", privateBinPath });
+
+            _fileSystemWatcher = new FileSystemWatcher(PluginsDirectory, "*.dll")
+            {
+                IncludeSubdirectories = true,
+                NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.Security | NotifyFilters.Size | NotifyFilters.CreationTime | NotifyFilters.Attributes,
+                EnableRaisingEvents = true,
+            };
+
+            _fileSystemWatcher.Created += (sender, e) => Initialize();
+            _fileSystemWatcher.Changed += (sender, e) => Initialize();
+            _fileSystemWatcher.Changed += (sender, e) => Initialize();
+            _fileSystemWatcher.Deleted += (sender, e) => Initialize();
+        }
 
         #endregion
 
@@ -33,22 +97,21 @@ namespace Mercurius.Kernel.WebCores.Plugins
         /// </summary>
         public static void Initialize()
         {
-            var pluginsPath = $"{AppDomain.CurrentDomain.BaseDirectory}App_Data\\Plugins";
-
-            if (!Directory.Exists(pluginsPath))
+            if (!Directory.Exists(PluginsDirectory))
             {
                 return;
             }
 
+            // 清理失效的插件。
+            ClearExpiredPlugins();
+
             // 查找插件。
-            var paths = Directory.GetDirectories(pluginsPath);
+            var paths = Directory.GetDirectories(PluginsDirectory);
 
             // 加载插件的程序集&注册插件为区域。
             if (paths.Length > 0)
             {
                 Plugins = new List<Plugin>();
-
-                var binPaths = "bin;";
 
                 foreach (var item in paths)
                 {
@@ -58,8 +121,6 @@ namespace Mercurius.Kernel.WebCores.Plugins
                     {
                         continue;
                     }
-
-                    binPaths += binPath + ";";
 
                     var plugin = new Plugin();
                     var bins = Directory.GetFiles(binPath, "*.dll");
@@ -79,9 +140,18 @@ namespace Mercurius.Kernel.WebCores.Plugins
                                 continue;
                             }
 
+                            var pluginDllPath = Path.Combine(PluginBinsTemporaryDirectory, Path.GetFileName(bin));
+
+                            if (File.Exists(pluginDllPath))
+                            {
+                                File.Delete(pluginDllPath);
+                            }
+
+                            File.Copy(bin, pluginDllPath, true);
+
                             // 加载程序集。
                             // 将程序集加载到当前应用程序域。
-                            var assembly = Assembly.Load(AssemblyName.GetAssemblyName(bin));
+                            var assembly = Assembly.Load(AssemblyName.GetAssemblyName(pluginDllPath));
 
                             BuildManager.AddReferencedAssembly(assembly);
 
@@ -113,15 +183,6 @@ namespace Mercurius.Kernel.WebCores.Plugins
 
                     Plugins.Add(plugin);
                 }
-
-                // 设置私有程序集加载位置。
-                AppDomain.CurrentDomain.SetData("PRIVATE_BINPATH", binPaths);
-                AppDomain.CurrentDomain.SetData("BINPATH_PROBE_ONLY", binPaths);
-
-                var m = typeof(AppDomainSetup).GetMethod("UpdateContextProperty", BindingFlags.NonPublic | BindingFlags.Static);
-                var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
-
-                m.Invoke(null, new[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", binPaths });
             }
         }
 
@@ -183,6 +244,32 @@ namespace Mercurius.Kernel.WebCores.Plugins
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        /// <summary>
+        /// 清理失效的插件dll。
+        /// </summary>
+        private static void ClearExpiredPlugins()
+        {
+            var sourceBins = from f in Directory.GetFiles(PluginsDirectory, "*.dll", SearchOption.AllDirectories) select Path.GetFileNameWithoutExtension(f);
+            var tempBins = from f in Directory.GetFiles(PluginBinsTemporaryDirectory, "*.dll", SearchOption.AllDirectories) select Path.GetFileNameWithoutExtension(f);
+
+            if (tempBins != null)
+            {
+                for (var i = 0; i < tempBins.Count(); i++)
+                {
+                    var bin = tempBins.ElementAt(i);
+
+                    if (!sourceBins.Contains(bin))
+                    {
+                        File.Delete(bin);
+                    }
+                }
+            }
         }
 
         #endregion

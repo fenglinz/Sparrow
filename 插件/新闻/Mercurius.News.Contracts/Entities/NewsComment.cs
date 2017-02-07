@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using Mercurius.Prime.Core.Entities;
 
-namespace Mercurius.News.Interfaces.Entities
+namespace Mercurius.News.Contracts.Entities
 {
     /// <summary>
     /// 新闻评论。

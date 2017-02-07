@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using Mercurius.Prime.Core.Services;
 
-namespace Mercurius.News.Interfaces.SearchObjects
+namespace Mercurius.News.Contracts.SearchObjects
 {
     /// <summary>
     /// 新闻评论查询条件。

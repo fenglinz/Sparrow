@@ -10,10 +10,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Mercurius.Prime.Core.Services;
-using Mercurius.News.Interfaces.Entities;
-using Mercurius.News.Interfaces.SearchObjects;
+using Mercurius.News.Contracts.Entities;
+using Mercurius.News.Contracts.SearchObjects;
 
-namespace Mercurius.News.Interfaces.Services
+namespace Mercurius.News.Contracts.Services
 {
     /// <summary>
     /// 新闻评论业务逻辑接口。

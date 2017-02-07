@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.Repositories.NewsComment" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Plugins.Repositories.News.NewsComment" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="NewsComment" type="Mercurius.News.Interfaces.Entities.NewsComment, Mercurius.News.Interfaces" />
     <typeAlias alias="NewsCommentSO" type="Mercurius.News.Interfaces.SearchObjects.NewsCommentSO, Mercurius.News.Interfaces" />
   </alias>
-      <statements>
-      
-      
-      <!-- 添加或者更新新闻评论信息。 -->
-    <update id="CreateOrUpdate" parameterClass="NewsComment"><![CDATA[
+  <statements>
+
+    <!-- 添加或者更新新闻评论信息。 -->
+    <update id="CreateOrUpdate" parameterClass="NewsComment">
+      <![CDATA[
         IF EXISTS(SELECT * FROM [NewsComment] WHERE [Id]=#Id#)
           UPDATE [NewsComment]
           SET
@@ -43,15 +43,19 @@
             #CommentUserId#,
             #CommentDateTime#
           )
-    ]]></update>
-    
-      <!-- 删除新闻评论信息。 -->
-    <delete id="Remove" parameterClass="Guid"><![CDATA[
+    ]]>
+    </update>
+
+    <!-- 删除新闻评论信息。 -->
+    <delete id="Remove" parameterClass="Guid">
+      <![CDATA[
         DELETE FROM [NewsComment] WHERE [Id]=#value#
-      ]]></delete>
-    
-      <!-- 根据主键获取新闻评论信息。 -->
-    <select id="GetById" parameterClass="Guid" resultClass="NewsComment"><![CDATA[
+      ]]>
+    </delete>
+
+    <!-- 根据主键获取新闻评论信息。 -->
+    <select id="GetById" parameterClass="Guid" resultClass="NewsComment">
+      <![CDATA[
         SELECT TOP 1 
           [Id] AS Id,
           [NewsId] AS NewsId,
@@ -63,10 +67,12 @@
           [CommentDateTime] AS CommentDateTime
         FROM [NewsComment]
         WHERE [Id]=#value#
-      ]]></select>
-    
-      <!-- 分页返回满足查询条件的新闻评论信息。 -->
-    <select id="SearchNewsCommenies" parameterClass="NewsCommentSO" resultClass="NewsComment"><![CDATA[
+      ]]>
+    </select>
+
+    <!-- 分页返回满足查询条件的新闻评论信息。 -->
+    <select id="SearchNewsCommenies" parameterClass="NewsCommentSO" resultClass="NewsComment">
+      <![CDATA[
         WITH CTE AS(
           SELECT
             [Id] AS Id,
@@ -84,19 +90,29 @@
         SELECT * FROM CTE
         WHERE RowIndex BETWEEN (#PageIndex#-1)*#PageSize#+1 AND #PageIndex#*#PageSize#
         ORDER BY RowIndex ASC
-    ]]></select>
-    
+    ]]>
+    </select>
 
-      <!-- 返回满足查询条件的记录数。 -->
-    <select id="SearchNewsCommeniesCount" parameterClass="NewsCommentSO" resultClass="int"><![CDATA[
+
+    <!-- 返回满足查询条件的记录数。 -->
+    <select id="SearchNewsCommeniesCount" parameterClass="NewsCommentSO" resultClass="int">
+      <![CDATA[
         SELECT COUNT(*) FROM [NewsComment]
-      ]]><include refid="searchConditions" /></select>
-    
-      <!-- 查询条件。 -->
-    <sql id="searchConditions"><dynamic prepend="WHERE"><isNotNull property="."><isNotNull property="NewsId">
-              [NewsId]=#NewsId#
-            </isNotNull><isNotNull property="Status" prepend="AND">
-              [Status]=#Status#
-            </isNotNull></isNotNull></dynamic></sql>
-      </statements>
-    </sqlMap>
+      ]]><include refid="searchConditions" />
+    </select>
+
+    <!-- 查询条件。 -->
+    <sql id="searchConditions">
+      <dynamic prepend="WHERE">
+        <isNotNull property=".">
+          <isNotNull property="NewsId">
+            [NewsId]=#NewsId#
+          </isNotNull>
+          <isNotNull property="Status" prepend="AND">
+            [Status]=#Status#
+          </isNotNull>
+        </isNotNull>
+      </dynamic>
+    </sql>
+  </statements>
+</sqlMap>

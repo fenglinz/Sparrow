@@ -12,8 +12,6 @@ using Autofac.Integration.Mvc;
 using Mercurius.Kernel.WebCores.Plugins;
 using Mercurius.Sparrow.Autofac;
 
-// 初始化插件。
-[assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
 namespace Mercurius.Sparrow.Backstage
 {
     /// <summary>
