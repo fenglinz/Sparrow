@@ -27,14 +27,14 @@ namespace Mercurius.FileStorageSystem
             // Asp.Net MVC区域注册.
             AreaRegistration.RegisterAllAreas();
 
-            // Web API Help 配置
-            SwaggerConfig.Register(GlobalConfiguration.Configuration);
+            // 过滤器配置.
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
             // Web API配置
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            // 过滤器配置.
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            // Web API文档工具配置。
+            GlobalConfiguration.Configure(SwaggerConfig.Register);
 
             // Asp.Net MVC路由配置.
             RouteConfig.RegisterRoutes(RouteTable.Routes);

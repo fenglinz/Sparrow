@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Mercurius.Kernel.WebCores.Filters;
 
 namespace Mercurius.Sparrow.Backstage
 {
@@ -26,6 +27,8 @@ namespace Mercurius.Sparrow.Backstage
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
+
+            config.Filters.Add(new WebApiAuthorizeAttribute());
         }
     }
 }

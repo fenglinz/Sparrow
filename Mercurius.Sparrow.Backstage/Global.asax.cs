@@ -59,14 +59,14 @@ namespace Mercurius.Sparrow.Backstage
             // Asp.Net MVC区域注册.
             AreaRegistration.RegisterAllAreas();
 
-            // Web API Help 配置
-            SwaggerConfig.Register(GlobalConfiguration.Configuration);
+            // 过滤器配置.
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
             // Web API配置
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            // 过滤器配置.
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            // Web API文档工具配置。
+            GlobalConfiguration.Configure(SwaggerConfig.Register);
 
             // Asp.Net MVC路由配置.
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -77,7 +77,7 @@ namespace Mercurius.Sparrow.Backstage
             // 设置Asp.Net MVC依赖解析。
             DependencyResolver.SetResolver(new AutofacDependencyResolver(AutofacConfig.Container));
         }
-        
+
         #region 私有方法
 
         /// <summary>

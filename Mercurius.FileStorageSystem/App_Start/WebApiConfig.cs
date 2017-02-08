@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using Mercurius.Kernel.WebCores.Filters;
 
 namespace Mercurius.FileStorageSystem
 {
@@ -29,6 +30,8 @@ namespace Mercurius.FileStorageSystem
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Filters.Add(new WebApiAuthorizeAttribute());
         }
     }
 }
