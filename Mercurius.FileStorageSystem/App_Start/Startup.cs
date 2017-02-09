@@ -99,18 +99,6 @@ namespace Mercurius.FileStorageSystem
 
             app.UseOAuthAuthorizationServer(oauthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
-            var config = new HttpConfiguration
-            {
-                DependencyResolver = new AutofacWebApiDependencyResolver(AutofacConfig.Container)
-            };
-
-            // Web Api配置。
-            WebApiConfig.Register(config);
-
-            app.UseWebApi(config);
-            app.UseAutofacWebApi(config);
-            app.UseCors(CorsOptions.AllowAll);
         }
     }
 }

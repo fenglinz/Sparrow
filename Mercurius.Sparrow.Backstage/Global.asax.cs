@@ -56,17 +56,17 @@ namespace Mercurius.Sparrow.Backstage
             // 移除Web Form视图引擎。
             RemoveWebFormEngines();
 
-            // Asp.Net MVC区域注册.
-            AreaRegistration.RegisterAllAreas();
-
-            // 过滤器配置.
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-
             // Web API配置
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             // Web API文档工具配置。
             GlobalConfiguration.Configure(SwaggerConfig.Register);
+
+            // Asp.Net MVC区域注册.
+            AreaRegistration.RegisterAllAreas();
+
+            // Asp.Net MVC过滤器配置.
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
             // Asp.Net MVC路由配置.
             RouteConfig.RegisterRoutes(RouteTable.Routes);

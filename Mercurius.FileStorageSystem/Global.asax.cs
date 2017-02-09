@@ -24,17 +24,17 @@ namespace Mercurius.FileStorageSystem
             // 移除Web Form视图引擎。
             RemoveWebFormEngines();
 
-            // Asp.Net MVC区域注册.
-            AreaRegistration.RegisterAllAreas();
-
-            // 过滤器配置.
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-
             // Web API配置
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             // Web API文档工具配置。
             GlobalConfiguration.Configure(SwaggerConfig.Register);
+
+            // Asp.Net MVC区域注册.
+            AreaRegistration.RegisterAllAreas();
+
+            // Asp.Net MVC过滤器配置.
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
             // Asp.Net MVC路由配置.
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -46,10 +46,12 @@ namespace Mercurius.FileStorageSystem
             DependencyResolver.SetResolver(new AutofacDependencyResolver(AutofacConfig.Container));
         }
 
+        #region 私有方法
+
         /// <summary>
         /// 移除Web Form视图引擎
         /// </summary>
-        protected void RemoveWebFormEngines()
+        private void RemoveWebFormEngines()
         {
             var viewEngines = ViewEngines.Engines;
             var webFormEngines = viewEngines.OfType<WebFormViewEngine>().FirstOrDefault();
@@ -59,5 +61,7 @@ namespace Mercurius.FileStorageSystem
                 viewEngines.Remove(webFormEngines);
             }
         }
+
+        #endregion
     }
 }

@@ -29,7 +29,7 @@ namespace Mercurius.Kernel.WebCores.Filters
         /// <param name="actionContext"></param>
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            //获取当前请求的路由地址
+            // 获取当前请求的路由地址
             var route = actionContext.ControllerContext.RouteData.Route.RouteTemplate;
 
             if (IsAuthorized(actionContext))
@@ -63,6 +63,8 @@ namespace Mercurius.Kernel.WebCores.Filters
             if (url != null && url.Contains("/Swagger/ui/index"))
             {
                 actionContext.Request.Headers.Authorization = new AuthenticationHeaderValue("bearer","T47pt4ZW8wpQnH26soZJmzhwLWJJHeKIx9SgvoN0OAeMinG32yX1uxxM3ditlR76z8t7ShiFmYSJA_OJqKlyvTs7-pObX6f7IhF3f7dZKL7yXR5XxOx1ZeyfzTTh6otrW-4o1qtmeGzuik2Mvo1onH1UGrk6h8gnUCU80eJQO-o6V9j4sC4K-oQJIrgsqv_-1S3g9HcE2pHrFdWlvvsW-ih5oLfWLNBm_RKXruWvmbB2AEKl");
+
+                //actionContext.Request.Context.Authentication.SignIn(identity);
 
                 return true;
             }

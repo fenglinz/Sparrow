@@ -1,19 +1,17 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Http;
 using Autofac;
-using Autofac.Integration.WebApi;
 using Mercurius.Kernel.Contracts.WebApi.Services;
 using Mercurius.Sparrow.Autofac;
 using Mercurius.Sparrow.Backstage;
 using Microsoft.Owin;
-using Microsoft.Owin.Cors;
 using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 
-[assembly: OwinStartup(typeof(Startup), "Configuration")]
+[assembly: OwinStartup(typeof(Startup))]
 namespace Mercurius.Sparrow.Backstage
 {
     /// <summary>
@@ -79,13 +77,6 @@ namespace Mercurius.Sparrow.Backstage
                     }
                 },
 
-                OnAuthorizeEndpoint = context =>
-                {
-                    
-
-                    return Task.FromResult(0);
-                },
-
                 // 验证客户端访问权限。
                 OnValidateClientAuthentication = context =>
                 {
@@ -100,6 +91,7 @@ namespace Mercurius.Sparrow.Backstage
                 Provider = oauthProvider,
                 AllowInsecureHttp = true,
                 SystemClock = new SystemClock(),
+                ApplicationCanDisplayErrors = true, // 显示错误信息。
                 TokenEndpointPath = new PathString("/api/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(365), // 默认Token过期时间为365天
                 AuthorizationCodeExpireTimeSpan = TimeSpan.FromDays(365)
@@ -107,18 +99,6 @@ namespace Mercurius.Sparrow.Backstage
 
             app.UseOAuthAuthorizationServer(oauthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
-            var config = new HttpConfiguration
-            {
-                DependencyResolver = new AutofacWebApiDependencyResolver(AutofacConfig.Container)
-            };
-
-            // Web Api配置。
-            WebApiConfig.Register(config);
-
-            app.UseWebApi(config);
-            app.UseAutofacWebApi(config);
-            app.UseCors(CorsOptions.AllowAll);
         }
     }
 }

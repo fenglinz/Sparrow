@@ -23,15 +23,6 @@ namespace Mercurius.Sparrow.Mvc.Extensions
         /// <param name="filterContext">过滤器上下文</param>
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
-            var urlReferrer = filterContext.HttpContext.Request.UrlReferrer;
-
-            if (urlReferrer != null && (urlReferrer.AbsolutePath.Contains("/api/")))
-            {
-                filterContext.HttpContext.Response.ContentType = "application/json";
-                filterContext.HttpContext.Response.Write("{ msg: 'Web Api Token验证无效或无访问权限！' }");
-                filterContext.HttpContext.Response.End();
-            }
-
             var area = filterContext.RouteData.DataTokens?["area"];
 
             if (Convert.ToString(area) == "Console")

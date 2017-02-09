@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using Autofac.Integration.WebApi;
 using Mercurius.Kernel.WebCores.Filters;
+using Mercurius.Sparrow.Autofac;
 
 namespace Mercurius.FileStorageSystem
 {
@@ -24,14 +26,19 @@ namespace Mercurius.FileStorageSystem
             // 允许跨域访问。
             config.EnableCors();
 
-            // 路由规则。
+            // Web Api路由。
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                defaults: new { id = RouteParameter.Optional });
 
-            config.Filters.Add(new WebApiAuthorizeAttribute());
+            // 依赖解析切换成基于Autofac。
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(AutofacConfig.Container);
+
+            AutofacConfig.Builder.RegisterWebApiFilterProvider(config);
+
+            // 添加过滤器。
+            config.Filters.Add(new AuthorizeAttribute());
         }
     }
 }
