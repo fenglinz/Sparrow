@@ -23,6 +23,7 @@ namespace Mercurius.Kernel.WebCores.Plugins
     {
         #region 字段
 
+        private static readonly string _pluginBins;
         private static readonly FileSystemWatcher _fileSystemWatcher;
 
         #endregion
@@ -54,26 +55,16 @@ namespace Mercurius.Kernel.WebCores.Plugins
         static PluginManager()
         {
             var plugins = ConfigurationManager.AppSettings["Plugins"]?.Replace("/", "\\") ?? "App_Data\\Plugins";
-            var pluginBins = ConfigurationManager.AppSettings["PluginBins"]?.Replace("/", "\\") ?? "plugins";
+
+            _pluginBins = ConfigurationManager.AppSettings["PluginBins"]?.Replace("/", "\\") ?? "plugins";
 
             PluginsDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{plugins}";
-            PluginBinsTemporaryDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{pluginBins}";
+            PluginBinsTemporaryDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{_pluginBins}";
 
             if (!Directory.Exists(PluginBinsTemporaryDirectory))
             {
                 Directory.CreateDirectory(PluginBinsTemporaryDirectory);
             }
-
-            var privateBinPath = $"bin;{pluginBins}";
-
-            // 设置私有程序集加载位置。
-            AppDomain.CurrentDomain.SetData("PRIVATE_BINPATH", privateBinPath);
-            AppDomain.CurrentDomain.SetData("BINPATH_PROBE_ONLY", privateBinPath);
-
-            var m = typeof(AppDomainSetup).GetMethod("UpdateContextProperty", BindingFlags.NonPublic | BindingFlags.Static);
-            var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", privateBinPath });
 
             if (File.Exists(PluginsDirectory))
             {
@@ -187,6 +178,17 @@ namespace Mercurius.Kernel.WebCores.Plugins
                     Plugins.Add(plugin);
                 }
             }
+
+            var privateBinPath = $"bin;{_pluginBins}";
+
+            // 设置私有程序集加载位置。
+            AppDomain.CurrentDomain.SetData("PRIVATE_BINPATH", privateBinPath);
+            AppDomain.CurrentDomain.SetData("BINPATH_PROBE_ONLY", privateBinPath);
+
+            var m = typeof(AppDomainSetup).GetMethod("UpdateContextProperty", BindingFlags.NonPublic | BindingFlags.Static);
+            var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", privateBinPath });
         }
 
         #endregion
