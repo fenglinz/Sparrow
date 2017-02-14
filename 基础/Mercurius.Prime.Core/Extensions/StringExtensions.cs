@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -142,6 +143,22 @@ namespace Mercurius.Prime.Core
             }
 
             return result.ToString();
+        }
+
+        /// <summary>
+        /// 获取字符串的SHA256哈希值。
+        /// </summary>
+        /// <param name="input">字符串</param>
+        /// <returns>哈希结果</returns>
+        public static string GetHash(this string input)
+        {
+            using (var hashAlgorithm = new SHA256CryptoServiceProvider())
+            {
+                var byteValue = Encoding.UTF8.GetBytes(input);
+                var byteHash = hashAlgorithm.ComputeHash(byteValue);
+
+                return Convert.ToBase64String(byteHash);
+            }
         }
 
         #region html文本处理

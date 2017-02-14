@@ -11,8 +11,16 @@ using Microsoft.Owin.Security.OAuth;
 
 namespace Mercurius.Kernel.WebCores.OAuth2
 {
+    /// <summary>
+    /// 基于OAuth2的用户认证服务器提供者。
+    /// </summary>
     public class AuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
+        /// <summary>
+        /// 分配资源拥有者凭证。
+        /// </summary>
+        /// <param name="context">分配资源拥有者凭证上下文对象</param>
+        /// <returns>异步任务</returns>
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             using (var container = AutofacServiceLocator.Container.BeginLifetimeScope())
@@ -58,6 +66,11 @@ namespace Mercurius.Kernel.WebCores.OAuth2
             }
         }
 
+        /// <summary>
+        /// 验证客户端凭证。
+        /// </summary>
+        /// <param name="context">验证客户端凭证上下文对象</param>
+        /// <returns></returns>
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             context.Validated();
@@ -65,6 +78,11 @@ namespace Mercurius.Kernel.WebCores.OAuth2
             return Task.FromResult(0);
         }
 
+        /// <summary>
+        /// 分配刷新令牌。
+        /// </summary>
+        /// <param name="context">分配刷新令牌的上下文对象</param>
+        /// <returns></returns>
         public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {
             var newIdentity = new ClaimsIdentity(context.Ticket.Identity);
