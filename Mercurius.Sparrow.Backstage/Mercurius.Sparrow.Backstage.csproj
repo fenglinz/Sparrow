@@ -297,7 +297,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoggerController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemSettingController.cs" />
-    <Compile Include="App_Start\RefreshTokenProvider.cs" />
     <Compile Include="Filters\ConsoleAuthorizeAttribute.cs" />
     <Compile Include="App_Start\WebExtensions.cs" />
     <Compile Include="Filters\MercuriusAuthorizeAttribute.cs" />

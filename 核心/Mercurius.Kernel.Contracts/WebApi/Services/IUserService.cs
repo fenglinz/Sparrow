@@ -37,6 +37,22 @@ namespace Mercurius.Kernel.Contracts.WebApi.Services
         Response Remove(int id);
 
         /// <summary>
+        /// 设置刷新令牌。
+        /// </summary>
+        /// <param name="account">账号</param>
+        /// <param name="refreshToken">刷新令牌</param>
+        /// <param name="token">token值</param>
+        /// <returns>操作结果</returns>
+        Response SetRefreshToken(string account, string refreshToken, string token);
+
+        /// <summary>
+        /// 获取令牌。
+        /// </summary>
+        /// <param name="refreshToken">刷新令牌</param>
+        /// <returns>操作结果</returns>
+        Response<string> GetToken(string refreshToken);
+
+        /// <summary>
         /// 验证用户信息。
         /// </summary>
         /// <param name="account">账号</param>

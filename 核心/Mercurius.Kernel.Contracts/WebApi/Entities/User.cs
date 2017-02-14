@@ -48,6 +48,17 @@ namespace Mercurius.Kernel.Contracts.WebApi.Entities
         [Display(Name = "状态")]
         public virtual int? Status { get; set; }
 
+        /// <summary>
+        /// 刷新令牌。
+        /// </summary>
+        [Display(Name = "刷新令牌")]
+        public virtual string RefreshToken { get; set; }
+
+        /// <summary>
+        /// 受保护的票证。
+        /// </summary>
+        public virtual string ProtectedTicket { get; set; }
+
         #endregion
 
         #region 业务属性

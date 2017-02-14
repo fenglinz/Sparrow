@@ -24,7 +24,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         #endregion
 
         #region IUserService接口实现 
-        
+
         /// <summary>
         /// 添加或者编辑WebApi用户
         /// </summary>
@@ -75,6 +75,34 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
 
                 this.ClearCache<User>();
             }, id);
+        }
+
+        /// <summary>
+        /// 设置刷新令牌。
+        /// </summary>
+        /// <param name="account">账号</param>
+        /// <param name="refreshToken">刷新令牌</param>
+        /// <param name="token">token值</param>
+        /// <returns>操作结果</returns>
+        public Response SetRefreshToken(string account, string refreshToken, string token)
+        {
+            var args = new { Account = account, RefreshToken = refreshToken, Token = token };
+
+            return this.InvokeService(nameof(SetRefreshToken),
+                () =>
+                {
+                    this.Persistence.Update(NS, "SetRefreshToken", args);
+                }, args);
+        }
+
+        /// <summary>
+        /// 清除刷新令牌。
+        /// </summary>
+        /// <param name="refreshToken">刷新令牌</param>
+        /// <returns>操作结果</returns>
+        public Response<string> GetToken(string refreshToken)
+        {
+            return this.InvokeService(nameof(GetToken), () => this.Persistence.QueryForObject<string>(NS, "GetToken", refreshToken), refreshToken, false);
         }
 
         /// <summary>
