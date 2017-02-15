@@ -573,7 +573,6 @@
     <Content Include="Scripts\handlebars.runtime.amd.min.js" />
     <Content Include="Scripts\handlebars.runtime.js" />
     <Content Include="Scripts\handlebars.runtime.min.js" />
-    <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
     <Content Include="Scripts\highcharts\4.2.0\adapters\standalone-framework.js" />
     <Content Include="Scripts\highcharts\4.2.0\adapters\standalone-framework.src.js" />
     <Content Include="Scripts\highcharts\4.2.0\highcharts-3d.js" />
@@ -622,6 +621,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />

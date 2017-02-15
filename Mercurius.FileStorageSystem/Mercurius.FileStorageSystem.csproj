@@ -315,7 +315,6 @@
     <Content Include="Scripts\Dialog\dialog.js" />
     <Content Include="Scripts\bootstrap-fileinput\fileinput.js" />
     <Content Include="Scripts\bootstrap-fileinput\fileinput.min.js" />
-    <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
     <Content Include="Content\layer.css" />
     <Content Include="Content\LogOn.css" />
     <Content Include="favicon.ico" />
@@ -347,6 +346,7 @@
       <Link>App_Data\IBatisNet\properties.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
     <None Include="Properties\PublishProfiles\dezo-dev.pubxml" />
     <Content Include="Scripts\html5shiv-printshiv.js" />
     <Content Include="Scripts\html5shiv-printshiv.min.js" />
@@ -395,35 +395,6 @@
     <Content Include="Scripts\bootstrap-fileinput\locales\uk.js" />
     <Content Include="Scripts\bootstrap-fileinput\locales\zh-TW.js" />
     <Content Include="Scripts\bootstrap-fileinput\locales\zh.js" />
-    <Content Include="Scripts\locales\ar.js" />
-    <Content Include="Scripts\locales\bg.js" />
-    <Content Include="Scripts\locales\ca.js" />
-    <Content Include="Scripts\locales\cr.js" />
-    <Content Include="Scripts\locales\cz.js" />
-    <Content Include="Scripts\locales\da.js" />
-    <Content Include="Scripts\locales\de.js" />
-    <Content Include="Scripts\locales\el.js" />
-    <Content Include="Scripts\locales\es.js" />
-    <Content Include="Scripts\locales\fa.js" />
-    <Content Include="Scripts\locales\fi.js" />
-    <Content Include="Scripts\locales\fr.js" />
-    <Content Include="Scripts\locales\hu.js" />
-    <Content Include="Scripts\locales\id.js" />
-    <Content Include="Scripts\locales\it.js" />
-    <Content Include="Scripts\locales\ja.js" />
-    <Content Include="Scripts\locales\LANG.js" />
-    <Content Include="Scripts\locales\nl.js" />
-    <Content Include="Scripts\locales\pl.js" />
-    <Content Include="Scripts\locales\pt-BR.js" />
-    <Content Include="Scripts\locales\pt.js" />
-    <Content Include="Scripts\locales\ro.js" />
-    <Content Include="Scripts\locales\ru.js" />
-    <Content Include="Scripts\locales\sk.js" />
-    <Content Include="Scripts\locales\th.js" />
-    <Content Include="Scripts\locales\tr.js" />
-    <Content Include="Scripts\locales\uk.js" />
-    <Content Include="Scripts\locales\zh-TW.js" />
-    <Content Include="Scripts\locales\zh.js" />
     <Content Include="Scripts\mercurius.common.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment-with-locales.js" />
