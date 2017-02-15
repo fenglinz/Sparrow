@@ -6,6 +6,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using static Mercurius.Prime.Core.SystemConfiguration;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace Mercurius.Sparrow.Backstage
@@ -33,8 +34,8 @@ namespace Mercurius.Sparrow.Backstage
                 ApplicationCanDisplayErrors = true, // 显示错误信息。
                 TokenEndpointPath = new PathString("/api/token"),
                 AuthorizeEndpointPath = new PathString("/OAuth/Authorize"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(365), // 默认Token过期时间为365天
-                AuthorizationCodeExpireTimeSpan = TimeSpan.FromDays(365)
+                AccessTokenExpireTimeSpan =  TimeSpan.FromHours(Get<double>("TokenExpireTime", 24)),
+                AuthorizationCodeExpireTimeSpan = TimeSpan.FromHours(Get<double>("TokenExpireTime", 24))
             };
 
             app.UseOAuthAuthorizationServer(oauthServerOptions);

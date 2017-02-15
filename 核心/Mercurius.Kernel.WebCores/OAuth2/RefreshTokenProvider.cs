@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using Mercurius.Kernel.Contracts.WebApi.Services;
 using Mercurius.Prime.Core;
 using Microsoft.Owin.Security.Infrastructure;
+using static Mercurius.Prime.Core.SystemConfiguration;
 
 namespace Mercurius.Kernel.WebCores.OAuth2
 {
@@ -37,11 +35,11 @@ namespace Mercurius.Kernel.WebCores.OAuth2
             using (var scope = AutofacServiceLocator.Container.BeginLifetimeScope())
             {
                 context.Ticket.Properties.IssuedUtc = DateTime.UtcNow;
-                context.Ticket.Properties.ExpiresUtc = DateTime.UtcNow.AddMinutes(30);
+                context.Ticket.Properties.ExpiresUtc = DateTime.UtcNow.AddDays(Get<double>("RefreshTokenExpireTime", 2));
 
                 var token = context.SerializeTicket();
                 var userService = scope.Resolve<IUserService>();
-                var webApiUserName = context.Ticket.Identity.Name.Split(',')?[1];
+                var webApiUserName = context.Ticket.Identity.Name.Split(',')[1];
 
                 // 将令牌保存到用户信息中。
                 var result = userService.SetRefreshToken(webApiUserName, refreshToken.GetHash(), token);

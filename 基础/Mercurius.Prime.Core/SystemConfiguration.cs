@@ -86,34 +86,36 @@ namespace Mercurius.Prime.Core
 
         #endregion
 
-        #region 私有方法
+        #region 公开方法
 
         /// <summary>
         /// 获取配置文件的值。
         /// </summary>
         /// <typeparam name="T">数据类型</typeparam>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        private static T Get<T>(string key, T defaultValue = default(T))
+        /// <param name="key">键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns>值</returns>
+        public static T Get<T>(string key, T defaultValue = default(T))
         {
-            if (!settingDictionary.ContainsKey(key))
+            if (settingDictionary.ContainsKey(key))
             {
-                try
-                {
-                    var attrValue = (
-                        from n in document.Root.Descendants("add")
-                        where
-                            n.Attribute("key").Value == key
-                        select n.Attribute("value").Value).FirstOrDefault();
-                    var value = attrValue == null ? defaultValue : Conversion.CTypeDynamic<T>(attrValue);
+                return (T)settingDictionary[key];
+            }
 
-                    settingDictionary.Add(key, value);
-                }
-                catch (Exception)
-                {
-                    settingDictionary.Add(key, defaultValue);
-                }
+            try
+            {
+                var attrValue = (
+                    from n in document.Root.Descendants("add")
+                    where
+                        n.Attribute("key").Value == key
+                    select n.Attribute("value").Value).FirstOrDefault();
+                var value = attrValue == null ? defaultValue : Conversion.CTypeDynamic<T>(attrValue);
+
+                settingDictionary.Add(key, value);
+            }
+            catch (Exception)
+            {
+                settingDictionary.Add(key, defaultValue);
             }
 
             return (T)settingDictionary[key];
