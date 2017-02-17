@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Autofac;
 using IBatisNet.Common.Transaction;
 using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Kernel.Contracts.Core.Services;
@@ -17,7 +10,6 @@ using Mercurius.Kernel.Contracts.Storage.Entities;
 using Mercurius.Kernel.Implementations.Storage.WebApi;
 using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Prime.Core;
-using Mercurius.Prime.Core.Utils;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {

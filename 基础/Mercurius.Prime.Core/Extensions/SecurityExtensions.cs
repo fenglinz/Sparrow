@@ -8,7 +8,6 @@ using System.Text;
 using System.Web.Configuration;
 using System.Web.Hosting;
 using System.Web.Security;
-using Mercurius.Prime.Core.Utils;
 
 namespace Mercurius.Prime.Core
 {

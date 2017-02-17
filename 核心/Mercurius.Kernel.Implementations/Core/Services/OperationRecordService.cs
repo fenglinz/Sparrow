@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mercurius.Kernel.Contracts.Core.Entities;
+﻿using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Kernel.Contracts.Core.SearchObjects;
 using Mercurius.Kernel.Contracts.Core.Services;
 using Mercurius.Prime.Core.Services;

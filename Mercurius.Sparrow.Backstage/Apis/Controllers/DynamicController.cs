@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Web.Http;
+﻿using System.Web.Http;
 using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.Core.Dynamic;
 using Mercurius.Prime.Core.Services;

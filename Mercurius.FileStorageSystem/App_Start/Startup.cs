@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Http;
 using Autofac;
-using Autofac.Integration.WebApi;
 using Mercurius.FileStorageSystem;
 using Mercurius.Kernel.Contracts.WebApi.Services;
 using Mercurius.Sparrow.Autofac;
 using Microsoft.Owin;
-using Microsoft.Owin.Cors;
 using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
 using Owin;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using Mercurius.Kernel.Contracts.WebApi.Entities;
+﻿using Mercurius.Kernel.Contracts.WebApi.Entities;
 using Mercurius.Kernel.Contracts.WebApi.SearchObjects;
 using Mercurius.Kernel.Contracts.WebApi.Services;
 using Mercurius.Prime.Core;

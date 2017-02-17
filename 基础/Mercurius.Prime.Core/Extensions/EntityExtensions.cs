@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using Mercurius.Prime.Core.Entities;
 using Microsoft.Practices.EnterpriseLibrary.Validation;
 

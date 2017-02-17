@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using Autofac.Integration.WebApi;
-using Mercurius.Kernel.WebCores.Filters;
 using Mercurius.Sparrow.Autofac;
 
 namespace Mercurius.FileStorageSystem

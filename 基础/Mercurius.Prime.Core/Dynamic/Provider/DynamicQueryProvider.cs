@@ -10,7 +10,6 @@ using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Entities;
 using Mercurius.Prime.Core.Logger;
-using Mercurius.Prime.Core.Utils;
 
 namespace Mercurius.Prime.Core.Dynamic
 {

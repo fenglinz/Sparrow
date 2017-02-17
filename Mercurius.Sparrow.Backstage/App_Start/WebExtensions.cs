@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Web;
-using System.Web.Mvc;
-using Autofac;
-using Mercurius.Kernel.Contracts.Storage.Entities;
-using Mercurius.Kernel.Implementations.Storage.WebApi;
-using Mercurius.Sparrow.Autofac;
 using static Mercurius.Sparrow.Backstage.Constants;
 
 namespace Mercurius.Sparrow.Backstage

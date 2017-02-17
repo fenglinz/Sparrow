@@ -1,5 +1,4 @@
-﻿using System;
-using Mercurius.Prime.Core.Services;
+﻿using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Kernel.Contracts.RBAC.SearchObjects
 {

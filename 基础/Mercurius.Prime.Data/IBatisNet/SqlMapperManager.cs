@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using IBatisNet.DataMapper;
+﻿using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.SessionStore;
 
 namespace Mercurius.Prime.Data.IBatisNet

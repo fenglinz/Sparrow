@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Kernel.Contracts.Dynamic.Entities

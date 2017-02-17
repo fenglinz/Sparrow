@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
-using System.Web;
-using System.Web.Configuration;
 using System.Web.Http;
 using Swashbuckle.Application;
 

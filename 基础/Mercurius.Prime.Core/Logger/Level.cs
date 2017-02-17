@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Mercurius.Prime.Core.Logger
+﻿namespace Mercurius.Prime.Core.Logger
 {
     /// <summary>
     /// 日志级别。

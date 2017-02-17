@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mercurius.Kernel.Contracts.Core.Entities
+﻿namespace Mercurius.Kernel.Contracts.Core.Entities
 {
     /// <summary>
     /// 分区信息实体。

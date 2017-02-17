@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
-using Mercurius.Prime.Core.Utils;
 using static Mercurius.Prime.Core.Dynamic.ConditionExtension;
 
 namespace Mercurius.Prime.Core.Dynamic

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mercurius.Prime.Core.Data
+﻿namespace Mercurius.Prime.Core.Data
 {
     /// <summary>
     /// 数据类型枚举。

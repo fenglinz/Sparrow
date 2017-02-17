@@ -5,8 +5,6 @@
 // <create>2017-01-22</create>
 
 using System;
-using System.Collections.Generic;
-using System.Data;
 using Mercurius.Prime.Core.Services;
 using Mercurius.Prime.Data.Support;
 using Mercurius.News.Contracts.Entities;

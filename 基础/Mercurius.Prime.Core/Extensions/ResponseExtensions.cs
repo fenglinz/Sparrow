@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mercurius.Prime.Core.Services
+﻿namespace Mercurius.Prime.Core.Services
 {
     /// <summary>
     /// 返回信息扩展方法。

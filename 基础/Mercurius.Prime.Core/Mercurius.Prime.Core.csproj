@@ -111,13 +111,13 @@
     <Compile Include="Entities\IHierarchy.cs" />
     <Compile Include="Extensions\IOExtensions.cs" />
     <Compile Include="Extensions\JsonExtensions.cs" />
-    <Compile Include="Utils\KeyCreator.cs" />
-    <Compile Include="Utils\ParameterHelper.cs" />
-    <Compile Include="Utils\PropertyHelper.cs" />
+    <Compile Include="Extensions\KeyCreator.cs" />
+    <Compile Include="Extensions\ParameterHelper.cs" />
+    <Compile Include="Extensions\PropertyHelper.cs" />
     <Compile Include="Extensions\SecurityExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Entities\TreeNode.cs" />
-    <Compile Include="Utils\WebHelper.cs" />
+    <Compile Include="Extensions\WebHelper.cs" />
     <Compile Include="Logger\Log.cs" />
     <Compile Include="Entities\WithModification.cs" />
     <Compile Include="Mail\MailBodyParser.cs" />

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mercurius.Prime.Core.Ado;
+﻿using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Kernel.Contracts.Core.Services

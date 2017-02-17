@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Mercurius.Prime.Core.Utils
+namespace Mercurius.Prime.Core
 {
-   /// <summary>
+    /// <summary>
     /// 密钥生成器。
     /// </summary>
     public static class KeyCreator

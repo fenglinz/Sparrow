@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-using Mercurius.Prime.Core.Ado;
+﻿using Mercurius.Prime.Core.Ado;
 
 namespace Mercurius.Prime.Core.Entities
 {

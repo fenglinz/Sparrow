@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Mercurius.Prime.Core.Dynamic
+﻿namespace Mercurius.Prime.Core.Dynamic
 {
     /// <summary>
     /// 数据库查询条件。

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mercurius.Prime.Core.Entities
+﻿namespace Mercurius.Prime.Core.Entities
 {
     /// <summary>
     /// 名称-值信息。

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Mercurius.Kernel.Contracts.Core.SearchObjects;
 using Mercurius.Kernel.Contracts.Core.Services;
@@ -9,10 +6,10 @@ using Mercurius.Kernel.WebCores.Filters;
 
 namespace Mercurius.Sparrow.Backstage.Areas.Admin.Controllers
 {
-	/// <summary>
-	/// 日志管理控制器。
-	/// </summary>
-	public class LoggerController : BaseController
+    /// <summary>
+    /// 日志管理控制器。
+    /// </summary>
+    public class LoggerController : BaseController
 	{
 		#region 属性
 

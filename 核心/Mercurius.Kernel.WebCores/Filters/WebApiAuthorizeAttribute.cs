@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web;
+﻿using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Autofac;

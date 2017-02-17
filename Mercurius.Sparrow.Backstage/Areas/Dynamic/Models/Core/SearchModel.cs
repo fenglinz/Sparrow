@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
 using Mercurius.Kernel.Contracts.Dynamic.Entities;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;

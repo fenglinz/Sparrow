@@ -386,6 +386,8 @@ INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a09785a3-6c2a-49af-94e2-e62775544507', NULL, '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:50:02.147')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a3d7092f-d40e-4dc0-97b4-94f44fda041d', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：不能直接删除包含子菜单的菜单项！', NULL, 'Error', '2017-02-17 15:36:42.997')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a5ac4e08-0b01-4a41-ae87-8ee878612717', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:18.003')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a62983fb-1304-4866-9183-4187f47532dd', NULL, '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:49:55.760')
@@ -816,8 +818,6 @@ INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUser
 GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('5040AB7F-8E6D-47D0-8AD2-E7DDF2F8F214', 'ecff6bc6-8024-43cf-810c-c58604403a76', '74a5586b-8ed6-4581-92d6-be1599147684', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-18 15:14:07.213')
 GO
-INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('50E06632-5A37-4EDE-9B6B-9D067B970DB6', 'd0533453-9cf8-459c-b28c-98cf397efaf1', 'B263E084-6FA7-4286-BB35-A9274B04BF2A', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
-GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('54CA9D9F-2949-46BE-9977-CA64FB4B1C0E', 'd0533453-9cf8-459c-b28c-98cf397efaf1', 'b1d87254-b0ef-4a50-b427-ca0484e4516b', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
 GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('564E5D5C-BCB7-4835-92CC-4D798F93B829', 'd0533453-9cf8-459c-b28c-98cf397efaf1', '4dca14cc-caf8-4b43-9900-c4cfa7ae4b19', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
@@ -847,8 +847,6 @@ GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('6618D01B-5B6B-43D9-9D84-E2EFF9F6FFB5', 'ecff6bc6-8024-43cf-810c-c58604403a76', '40178207-f2f2-44de-95bc-b5b4beb69e49', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-18 15:14:07.213')
 GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('66AB3416-1503-4E10-892D-0699CA785DC3', 'd0533453-9cf8-459c-b28c-98cf397efaf1', '5c5ce6bd-44dc-4903-b1f8-a510ce332c76', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
-GO
-INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('66B9750A-4219-49D5-A251-083B328A9E9D', 'd0533453-9cf8-459c-b28c-98cf397efaf1', '84F93314-C30D-4C2C-8665-06F0E232C186', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
 GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('6834feb1-ad02-4182-a110-3a3b5fa19231', '91cb3a48-87b0-41e5-b9b9-ed1af87a52c0', 'e620450b-6d17-4192-bee0-66fbd114e82a', '48f3889c-af8d-401f-ada2-c383031af92d', '2014-04-28 00:00:00.000')
 GO
@@ -905,8 +903,6 @@ GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('8C5E2CC0-A01E-4502-9DA4-1B7E234A13B1', 'ecff6bc6-8024-43cf-810c-c58604403a76', 'a63a0ca2-f2a7-4d27-bffa-67e548513df1', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-18 15:14:07.213')
 GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('8D3C3988-4E55-41E4-9CDF-12523F4F5014', 'd0533453-9cf8-459c-b28c-98cf397efaf1', '7c200187-5793-430b-9eeb-eced97f9798b', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
-GO
-INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('8F9F5109-8F08-4465-9641-75C3762EA5F1', 'd0533453-9cf8-459c-b28c-98cf397efaf1', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
 GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('930f5da0-4056-4043-992d-3a44d412a149', '6cc9a788-639a-4c16-940f-da7ee9c9faa6', 'a63a0ca2-f2a7-4d27-bffa-67e548513df1', '48f3889c-af8d-401f-ada2-c383031af92d', '2015-07-30 14:15:47.970')
 GO
@@ -1054,8 +1050,6 @@ INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUser
 GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('FAADCC0F-3945-4697-BA52-054D2CB166CC', 'ecff6bc6-8024-43cf-810c-c58604403a76', '1E2F7D4D-EBB4-40EB-9F8A-C1A0CEC5CA51', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-18 15:14:07.213')
 GO
-INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('FBB2552D-67CA-445F-975D-92937A4F4F6D', 'd0533453-9cf8-459c-b28c-98cf397efaf1', 'C7A90251-8133-49D3-8ABF-7B79E5AB7D23', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
-GO
 INSERT INTO [RBAC].[RolePermission] ([Id], [RoleId], [SystemMenuId], [CreateUserId], [CreateDateTime])  VALUES ('FC662A53-6706-4CC3-8183-1D0F8F5367E5', 'd0533453-9cf8-459c-b28c-98cf397efaf1', 'E304E93B-EBBA-4C06-A573-58F856F5E0B0', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:44.577')
 GO
 INSERT INTO [RBAC].[StaffOrganize] ([Id], [UserId], [OrganizationId], [CreateUserId], [CreateDateTime])  VALUES ('0C50DDDF-AE45-4198-B3C7-D052E5CD997E', '75e1f7a2-74ab-4d21-af74-a601f30f02ee', '6636AC3D-DCF1-49C5-849E-35FE17D0FDAB', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-05 16:57:30.270')
@@ -1138,8 +1132,6 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('55ef2c2f-0642-4448-b7f8-0351f4e00ea1', '0', '系统管理', '系统管理', 'glyphicon glyphicon-cog', 1, NULL, 'Iframe', 700, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-04-18 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-24 16:29:30.627')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('57FA8412-AC93-4E3B-B75C-D9A52EC71695', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '预览', '预览', 'glyphicon glyphicon-eye-open', 3, 'OnPreview', 'OnClick', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:01:49.983', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:05:26.287')
-GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('5894638F-82FD-42E1-97B9-E3F7320A8C5C', '8fcead5e-991a-4904-99ac-2c9d9269040b', '分配权限', '分配权限', NULL, 2, '/Admin/User/AllotPermissions', 'Iframe', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-25 12:45:17.560', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:41:46.210')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('58e86c4c-8022-4d30-95d5-b3d0eedcc878', '55ef2c2f-0642-4448-b7f8-0351f4e00ea1', '字典管理', '字典管理', '4999_credit.png', 1, '/Admin/Dictionary/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-02 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-24 12:55:30.773')
@@ -1177,8 +1169,6 @@ GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('805d0b61-ba00-4b77-b367-a0d309694258', '810a72f0-55d3-468f-8653-10d1b06a4234', '保存', '保存', 'disk.png', 3, 'SaveForm()', 'Onclick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-13 00:00:00.000', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('810a72f0-55d3-468f-8653-10d1b06a4234', '545d2450-4dac-4377-afbe-d9aa451f795f', '分配角色权限', '分配角色权限', NULL, 2, '/Admin/Role/AllotPermissions', 'href', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-12 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:47:49.667')
-GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('84F93314-C30D-4C2C-8665-06F0E232C186', '0', '新闻中心', '新闻中心', 'fa fa-yelp', 1, NULL, 'Iframe', 10, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 13:53:04.747', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 13:55:40.073')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('8520707c-d9bf-4595-a9eb-5ce24c9bc0ff', 'e620450b-6d17-4192-bee0-66fbd114e82a', '删除', '删除', 'glyphicon glyphicon-remove-sign', 3, 'OnDelete', 'OnClick', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-05-04 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-04 15:00:51.533')
 GO
@@ -1218,8 +1208,6 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('a63a0ca2-f2a7-4d27-bffa-67e548513df1', '0', '个人信息', '个人信息', 'glyphicon glyphicon-user', 1, NULL, 'Iframe', 300, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-04-29 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-11-15 17:43:44.810')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('A7C5B542-A71B-47C9-AF0D-8C76DE7EEB70', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '发布', '发布', 'glyphicon glyphicon-globe', 3, 'OnPublish', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:01:49.983', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:05:26.287')
-GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('AA6F85E5-E048-4841-AD0B-72AAFCB37524', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '查看数据详情', '查看数据详情', NULL, 2, '/Dynamic/Core/ViewDetail', 'Iframe', 6, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:34:22.630', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('AFB74C98-DDEA-496F-AF5D-BCC613AEB88D', '40178207-f2f2-44de-95bc-b5b4beb69e49', '添加或编辑信息', '添加或编辑信息', NULL, 2, '/Admin/HomeShortcut/CreateOrUpdate', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:38:33.647', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:43:15.147')
@@ -1227,8 +1215,6 @@ GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('b15995bc-5d91-4db1-b3ee-2be8fbf99f7e', '9606167a-fd94-4ad6-88b8-1b419dc3410e', '编辑', '编辑', 'glyphicon glyphicon-edit', 3, 'OnEdit', 'OnClick', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-15 10:22:36.630', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('b1d87254-b0ef-4a50-b427-ca0484e4516b', '58e86c4c-8022-4d30-95d5-b3d0eedcc878', '添加', '添加', 'glyphicon glyphicon-plus', 3, 'add', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2015-03-12 14:03:16.443', NULL, NULL)
-GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('B263E084-6FA7-4286-BB35-A9274B04BF2A', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '编辑修改', '编辑修改', NULL, 2, '/News/News/CreateOrUpdate', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:07:12.750', '48f3889c-af8d-401f-ada2-c383031af92d', '2017-02-07 17:07:05.133')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('B4A6E0B5-ACA5-4ECE-96F8-54164B02AE1D', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '查询配置', '查询配置', NULL, 2, '/Dynamic/Configuration/ShowSearchConfig', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:30:58.940', NULL, NULL)
 GO
@@ -1256,8 +1242,6 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('C6804680-1D26-4789-964E-4F0AE673B1F4', 'a5c7ffb2-c271-4b77-952b-a1d0f7f385c2', '添加或编辑全局资源', '添加或编辑全局资源', NULL, 2, '/Admin/Globalization/CreateOrUpdateGlobalResource', 'Iframe', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:34:33.783', NULL, NULL)
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('C7A90251-8133-49D3-8ABF-7B79E5AB7D23', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '删除', '删除', NULL, 2, '/NewsCenter/News/Remove', 'Iframe', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-07-13 16:17:27.310', NULL, NULL)
-GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('c8f3a73a-7b35-4d3a-916e-0d5992a670bc', '6a8044e3-d6ae-406c-a281-5e4d3ba44f67', '分配权限', '分配权限', NULL, 2, '/WebApi/Role/AllotPermissions', 'Iframe', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-13 09:29:28.603', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:55:09.747')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('cc91e8f6-b7ff-4c73-b934-302ad3398922', 'bbc045ff-7f04-4da9-b0db-e1dbd24cb3d9', '锁定', '锁定', 'glyphicon glyphicon-lock', 3, 'OnLock', 'Onclick', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-17 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:11:59.767')
@@ -1271,8 +1255,6 @@ GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('D6991F8E-677B-454F-9B33-E6696636773A', 'e620450b-6d17-4192-bee0-66fbd114e82a', '添加或修改信息', '添加或修改信息', NULL, 2, '/Admin/Organization/CreateOrUpdate', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:44:56.750', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:42:49.417')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('d6bbc0e4-a5bc-4bc8-af1f-186371c06228', '8fcead5e-991a-4904-99ac-2c9d9269040b', ' 所属部门', ' 所属部门', NULL, 2, '/Admin/User/Departments', 'href', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-16 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:40:18.190')
-GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('D710C465-73AD-4B45-881B-267B53CCC052', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '删除', '删除', 'glyphicon glyphicon-remove-sign', 3, 'OnDelete', 'OnClick', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:01:49.983', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:05:26.290')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('d84d5f23-9220-4ad5-ac66-fef7e303e819', '545d2450-4dac-4377-afbe-d9aa451f795f', '编辑', '编辑', 'glyphicon glyphicon-edit', 3, 'OnEdit', 'OnClick', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-05-04 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 17:17:31.513')
 GO
@@ -1306,8 +1288,6 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('f367dc71-5918-45fd-a4bf-84c0091f18e7', '6a8044e3-d6ae-406c-a281-5e4d3ba44f67', '权限管理', '权限管理', 'glyphicon glyphicon-tower', 3, 'OnAllotAuthority', 'OnClick', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2015-08-04 15:36:07.830', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:13:10.963')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '84F93314-C30D-4C2C-8665-06F0E232C186', '新闻管理', '新闻管理', NULL, 1, '/News/News/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 13:53:31.527', '48f3889c-af8d-401f-ada2-c383031af92d', '2017-02-07 17:06:46.157')
-GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('f4ca7d5c-63cf-471f-9226-d7ce5f298272', 'bd745be7-c7b5-43d2-84c0-8890d7dd5e92', '删除', '删除', 'glyphicon glyphicon-remove', 3, 'OnDelete', 'OnClick', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-13 09:28:35.240', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:13:28.647')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('F4FEFFFB-763C-46EC-AEF6-A9EB581EF148', '758429ec-3ae9-4a9e-a994-efe7c5395b4a', '查看缓存', '查看缓存', NULL, 2, '/Admin/SystemSetting/ShowCaches', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:41:11.800', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:41:22.213')
@@ -1319,8 +1299,6 @@ GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('fc08d048-2ff8-4948-b1b4-876c561bb8d7', '3885ba7f-c246-493f-9053-7aa70a642662', '添加', '添加', 'add.png', 3, 'add()', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-05-04 00:00:00.000', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('fc85f7df-b8d8-4e12-a2c1-00606d290a95', '40178207-f2f2-44de-95bc-b5b4beb69e49', '添加', '添加', 'glyphicon glyphicon-plus', 3, 'add()', 'OnClick', NULL, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-12-24 00:00:00.000', NULL, NULL)
-GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('FF20DE69-EB35-4DE8-AB05-6B731A4F19EF', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '编辑', '编辑', 'glyphicon glyphicon-edit', 3, 'OnEdit', 'OnClick', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 13:56:23.817', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:05:26.287')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('ffe5276f-d3af-4af9-b12d-3e969948e8a5', 'bbc045ff-7f04-4da9-b0db-e1dbd24cb3d9', '权限管理', '权限管理', 'glyphicon glyphicon-tower', 3, 'OnAllotAuthority', 'OnClick', 5, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-24 16:27:59.900', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:11:59.777')
 GO

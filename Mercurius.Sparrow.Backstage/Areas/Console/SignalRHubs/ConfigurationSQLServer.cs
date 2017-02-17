@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Common;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
-using System.Web.Configuration;
 using System.Web.WebPages;
 using System.Xml.Linq;
 using System.Xml.XPath;

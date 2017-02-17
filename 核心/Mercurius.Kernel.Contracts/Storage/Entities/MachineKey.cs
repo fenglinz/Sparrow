@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Mercurius.Kernel.Contracts.Storage.Entities
+﻿namespace Mercurius.Kernel.Contracts.Storage.Entities
 {
     /// <summary>
     /// 计算机密钥。

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mercurius.Prime.Core
+﻿namespace Mercurius.Prime.Core
 {
     /// <summary>
     /// 跨站脚本安全字符检测。

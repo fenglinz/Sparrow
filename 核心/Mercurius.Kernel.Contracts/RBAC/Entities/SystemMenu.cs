@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Kernel.Contracts.RBAC.Entities

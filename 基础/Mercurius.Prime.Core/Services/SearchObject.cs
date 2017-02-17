@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.Text;
+﻿using System.Text;
 using static Mercurius.Prime.Core.SystemConfiguration;
 
 namespace Mercurius.Prime.Core.Services

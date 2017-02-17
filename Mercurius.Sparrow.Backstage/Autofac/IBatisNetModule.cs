@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using Autofac;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
