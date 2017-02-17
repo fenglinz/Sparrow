@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap.Controls
+namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
 {
     /// <summary>
     /// 单选框控件。

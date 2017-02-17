@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using static Mercurius.Kernel.WebCores.HtmlHelpers.ValidationExtensions;
 
-namespace Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap.Controls
+namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
 {
     /// <summary>
     /// 表单基类。

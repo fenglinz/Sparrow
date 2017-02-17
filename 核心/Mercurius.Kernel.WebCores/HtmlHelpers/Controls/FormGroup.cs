@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap.Controls;
 
-namespace Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap
+namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
 {
     /// <summary>
     /// 表单组。

@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 
-namespace Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap.Controls
+namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
 {
     /// <summary>
     /// 文本框控件。

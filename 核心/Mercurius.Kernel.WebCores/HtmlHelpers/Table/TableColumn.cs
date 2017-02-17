@@ -13,14 +13,15 @@
         public string Caption { get; set; }
 
         /// <summary>
+        /// 样式。
+        /// </summary>
+        public string Style { get; set; }
+
+        /// <summary>
         /// 显示属性的名称。
         /// </summary>
         public string DisplayPropertyName { get; set; }
 
-        /// <summary>
-        /// 样式。
-        /// </summary>
-        public string Style { get; set; }
 
         #endregion
     }

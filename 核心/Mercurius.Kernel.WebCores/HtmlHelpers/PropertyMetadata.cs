@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap
+namespace Mercurius.Kernel.WebCores.HtmlHelpers
 {
     /// <summary>
     /// 视图模型的属性元数据信息。

@@ -6,7 +6,7 @@ using Autofac;
 using Mercurius.Kernel.Contracts.Core.Services;
 using Mercurius.Prime.Core;
 
-namespace Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap.Controls
+namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
 {
     /// <summary>
     /// 多选项的列表控件。
