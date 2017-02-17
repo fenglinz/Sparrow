@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using Mercurius.Prime.Core;
 
-namespace Mercurius.Kernel.WebCores.Helpers
+namespace Mercurius.Kernel.WebCores.HtmlHelpers
 {
     /// <summary>
     /// 数据处理扩展。
@@ -53,12 +53,14 @@ namespace Mercurius.Kernel.WebCores.Helpers
         /// <returns></returns>
         public static R GetValue<T, R>(this IEnumerable<T> sources, Expression<Func<T, R>> expression, int index = 0)
         {
-            if (sources.IsEmpty() || index < 0 || sources.Count() < index + 1)
+            var enumerable = sources as T[] ?? sources.ToArray();
+
+            if (enumerable.IsEmpty() || index < 0 || enumerable.Count() < index + 1)
             {
                 return default(R);
             }
 
-            var data = sources.ElementAt(index);
+            var data = enumerable[index];
             var propertyName = ExpressionHelper.GetExpressionText(expression);
 
             var typeInfo = typeof(T);

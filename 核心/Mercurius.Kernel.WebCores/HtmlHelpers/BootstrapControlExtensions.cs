@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Mercurius.Kernel.WebCores.Helpers.Bootstrap.Controls;
+using Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap.Controls;
 
-namespace Mercurius.Kernel.WebCores.Helpers.Bootstrap
+namespace Mercurius.Kernel.WebCores.HtmlHelpers
 {
     /// <summary>
     /// 控件扩展方法。
     /// </summary>
-    public static class FormBaseExtensions
+    public static class BootstrapControlExtensions
     {
         #region 控件基本设置扩展
 

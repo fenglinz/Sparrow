@@ -84,29 +84,143 @@ INSERT INTO [dbo].[OperationRecord] ([Id], [BusinessCategory], [BusinessSerialNu
 GO
 SET IDENTITY_INSERT [dbo].[OperationRecord] OFF;
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('02acf4ab-1e9a-42bb-8a6e-b8ae2dd7bbdf', NULL, '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:50:02.103')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('0300ca4f-f39d-4f7b-a1d5-4cb3779d4b63', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:56:24.383')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('05466b02-1142-4659-b101-88d9c288f646', NULL, '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-13 20:21:37.810')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('0698c24e-c830-4b5c-a616-75aacd2ba0c9', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-06 18:07:03.470')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('08a8e5bc-fd3f-4f05-b3c2-e8148d4e9a07', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser', NULL, 'Error', '2017-02-06 21:52:16.293')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('09a1ccaa-3ba3-44fc-b65e-cc876e7c0f36', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:06.597')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('0a711547-b94d-4d54-bb0a-7255c0a0a99d', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:06.597')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('0a9858d5-3b19-4b97-a2da-644f8286b3cc', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '新闻中心', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 11:12:33.523')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('0beccf1d-530f-408b-995d-67a9bacbb27f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:00.697')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1151f7f7-b141-49b4-ac6d-3349b292fe40', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:12.943')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1177b174-6081-4dc0-a0c1-ca7fbebd4442', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:00.707')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('121d9527-6a41-432b-bc2a-645cf3e1328e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:56:41.577')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1271ecff-7149-4f42-8343-cb671396d4f5', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:03.207')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1311d1f0-0d27-4341-8334-554ca7c4ee9b', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:37.617')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1381fff3-6c90-47ba-be96-ab4ebbdc41bd', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:46:56.927')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('14d69eff-64b3-435f-9b09-d198326d1c69', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:03.203')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('15ec39bc-5459-4eec-8e00-07393794404e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:25.367')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('163a8fbd-8159-477d-b223-199abc32fc03', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:25.987')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('17c2b714-12be-4d6a-b9da-054293fbc03a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:55:32.373')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('195f45fc-0f61-47d9-9eed-b9e3b59703dc', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser', NULL, 'Error', '2017-02-06 18:02:42.510')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1a6b53bd-a660-4f51-9494-84873a6b30a4', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:32.977')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1bc873a6-6611-4c7c-a29e-eb63985c5bc8', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:12.937')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1cd44bb2-0196-4783-b073-ce9b43d0440b', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:56:23.653')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1d829afc-5ab5-415f-9636-66ed8337f6da', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-07 14:26:56.027')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('1ea38e1c-ead1-4511-91b1-3449be542ae2', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:23.520')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('20ae706e-95e9-424c-be8b-64b2785abb58', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:37.617')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('20c362f2-de11-4cf6-ad3e-056d925d2838', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:50.877')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('247d90f1-196d-4d84-88ee-f24446635012', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:32.970')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('26c901ef-f646-4e3a-bffc-df5305e1e7cf', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:55:43.650')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('26e49a43-1f9e-428a-bcf3-929b2ff25778', NULL, '127.0.0.1', 'Web Api模块', '发生异常：列名 ''ProtectedToken'' 无效。', NULL, 'Error', '2017-02-13 20:34:23.967')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('27028ec8-5058-4dc0-9d5b-4b5576cb50d4', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:51:23.700')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('27fd7e17-705a-4a72-85f3-fb82cd098aa0', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:37.617')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('28659d2c-c2c7-4dfa-b520-e3a39b23bae8', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-07 14:26:41.033')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('292f6751-867c-4ee1-8b08-0e779ab50e73', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:23.747')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('299ffc30-8cbf-4c58-98fc-ad0c0333cd5a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:54.493')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('2cbf1b28-f774-4b4c-bdc5-effaa5423a62', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:37.610')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('2d339d75-ac59-460a-b7f5-8cb0bf5773b8', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:03.330')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('2d4b109b-8101-4886-891a-26966369f7a5', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:55:41.110')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('2fb38e80-f29b-409f-a360-c8503cc194b9', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:51:23.757')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('30054756-5e8c-4009-b6ff-20887c8de360', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-17 14:58:08.273')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('302902f6-b620-4ce2-81c6-1fde75ff5bc4', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:03.240')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3033334c-a8c1-47c5-b075-22fe2441926e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:56:23.653')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('33e9ce16-9528-4414-8a68-891e77edb112', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:25.367')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3673f636-2776-4cf2-9902-f64d0c07aa71', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:25.110')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3926bb95-b055-43bd-b958-d1fcaac030ea', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:27.873')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('39bd14d1-d86e-481b-93c6-1bdf59504a35', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:36.567')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3a3d74cd-e98a-489a-ab3e-60681352c0b1', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:25.987')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3b74ef53-aea4-40e4-a5fb-58b4b81db7be', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '发生异常：已添加了具有相同键的项。', NULL, 'Error', '2017-02-07 00:15:48.193')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3c4ab7fc-bea8-4e2f-9115-170ebdf44b32', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:24.487')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3ca56bf3-6f52-46c5-b5f5-0d3f5b449e25', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:32.937')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3da5a34c-b8a6-4c32-b1c4-61dcf3673adf', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:05.337')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3e52710e-cf5c-4882-a35b-b33e58eb3946', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:05.337')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3ec87e1b-840c-4d21-b414-7276d3ff4c02', NULL, '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:50:00.853')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('3ef87a0a-f338-4939-bd43-554a94442ce2', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:12.950')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('404c2f74-db12-40fc-b41d-c423e07b9b98', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-17 14:58:23.230')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('4269ddb0-998b-4926-883e-d13d1acffa74', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:24.480')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('462b20d3-8c38-4fba-abce-6d18d668cfb7', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:24.900')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('476031d8-2f9c-4807-b4bd-ad866ea80c6a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 11:13:01.037')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('48037308-fc88-4889-a0fa-68be0ee8f6d6', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:25.360')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('4891f1bf-aef3-4910-8e3e-0f34682cd70c', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:50.880')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('4936eee2-2cb7-4cfd-8c53-7cc5ab87c33a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:24.483')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('4a929881-28ba-4fa2-b52e-8fc6341603f6', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:06.597')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('4d0d76d2-dc47-4672-9095-9354745a3ab8', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:24.483')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('4db0ebf9-4f8c-4d00-80c2-a8c8d1c96d03', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:18.307')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('50d7a5f6-aebf-45f1-9fd1-f5288468fc24', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:25.367')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('510b8cf0-3182-49f4-a11e-0805558f7245', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:24.247')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('51a83e5e-8355-4fb5-ab06-ebd0c1c888fa', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:25.300')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('556826f1-0ebf-494e-bc81-dedd2314f460', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:55:34.007')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('558fa0cc-dbd8-4cf5-a0d5-f2dcb20d517f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:46.193')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('55a5038a-e232-4197-99b9-cf986025f717', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:23.517')
 GO
@@ -114,35 +228,171 @@ INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('57510444-7413-472e-ba18-13b2eae08ddf', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser', NULL, 'Error', '2017-02-06 22:05:31.467')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('579dadb3-4106-4659-956c-8fd3429370d7', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:06.600')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('57e18416-f3e6-4a6c-bbc7-e248640c2f83', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:51:24.333')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('57f28297-7746-4840-9ac5-5fdf11c03ad1', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:56:42.527')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('591a11a2-acdb-472b-a42c-11a67ec9635b', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:51:23.757')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('59bc0f62-ec56-4b59-afd3-e10315ad931a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:00.697')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('5aa438e0-82b3-41ca-855f-c65715c5bbce', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '新闻中心', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 11:12:23.207')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('5c958fe8-d6b7-4d75-b19d-e1abb298fc8e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:25.983')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('5d6eb8e2-c7ac-4579-9009-acca7ed63c22', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-06 18:06:18.460')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('5e83b273-c4d2-4366-8243-1b4d9fc1e1f4', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-06 18:06:03.463')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('5f983b99-1e81-4da1-9d79-f9b069a6a11f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-07 14:27:11.030')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6010e868-360e-4aa3-9438-8702e116e311', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:55:45.433')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('613a8ba8-8750-4ba4-aa69-5d70c6f9a07e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:50.880')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('62426f68-4b48-491a-a59a-13b683adf81b', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:25.487')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('62b19faa-2ac1-439b-807a-bba71caf9176', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:12.957')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('62c2da08-9002-4506-9340-3f97fb2c804e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:00.707')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('62cb2b55-4153-4dd5-a76b-881126f0c04a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:03.203')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('62d75a62-bf6d-4d4b-9146-bd9bc1f3ca35', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:31.327')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('63b0b89e-16dc-4aba-9ddd-e500808a42c5', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-06 18:06:48.467')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('63d3ee3b-b046-4423-af91-253cd02adfe3', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:50.880')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6443297b-63ee-47c2-9a98-e98e0859c962', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:06.583')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('65372506-db29-4d13-9a06-354dcf25ee40', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:03.203')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('67088aca-c1bb-4d90-882a-de32c447c595', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:23.757')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('688e3db1-7cdc-4146-9a0d-8e3b1297f37c', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:46:56.930')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6a2d4d15-2c94-481f-b472-bf97b6ce3c03', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:32.933')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6ae83091-a47b-4c5c-8739-d0ed863d7568', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:46:37.467')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6bb8e282-d3b7-4cd8-9146-6a532a619624', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:55.560')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('6f190998-a05a-4974-b77f-15c75a3745d6', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:20.513')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('704d8825-c634-4a1c-9723-4871282e9c8d', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:25.983')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('723caf4c-708a-48df-901e-a720ae09b0cf', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:46:27.857')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('72462f4b-b8d5-4f9b-98f8-37ae07507ebd', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:25.370')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7286ccec-f6df-43d6-93ff-7d503e7a881d', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:46:36.517')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('747367f6-067e-4961-808b-8bdeeabf137a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:03.330')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('76c6ca73-0aa0-448b-80b1-7aaa1626c02f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:55:49.297')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('796eafca-ec66-49c6-b978-354be81fcc05', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:03.237')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('79f896a1-c458-47dc-9ad3-edbb177a5422', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:24.900')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7a26a03d-56cb-463a-9e12-919771cdaa10', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:25.983')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7b013125-1955-4c20-8194-f9480891df52', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:46:27.857')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7c0142ec-f324-4f5c-a2fc-3a822779544f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:24.480')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7d593d3c-7b1c-401e-b35f-a40b22021430', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:12.957')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7d6426b5-d9aa-41ff-a06b-1727921ec270', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:55:34.013')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7e27c50b-72c3-443c-81c4-a82fc3a9a3bd', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:52.877')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7e44a5dd-59e5-4ba8-8e0c-5a329bf5744e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:55:32.363')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7e6aa7f0-c9ff-4835-894a-3cf0b81d11d4', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:54.007')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('7f775134-03ef-4590-9f76-ff04f0dd07fb', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:36.577')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('80b9ee99-39ac-4575-9567-5160215abe93', NULL, '127.0.0.1', 'Web Api模块', '发生异常：列名 ''ProtectedToken'' 无效。', NULL, 'Error', '2017-02-13 20:32:32.087')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('80f63b53-b4f4-4d9f-a306-238daf7a9348', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:56:32.523')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('8292a78c-4f2a-489c-a515-05f62d030ddc', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:51:24.907')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('84ba7c7d-4b8f-4ff1-bcfc-24a1acba4a18', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:23.757')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('84ceffd4-0062-4d84-81dd-29e97ff41231', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:06.600')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('84dc4222-a460-454f-90bc-a9791aa07f8a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-17 14:58:38.250')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('861f6825-a495-4d16-bc59-55560e7f81da', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:25.370')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('866e400e-21eb-4788-9c52-fd858988e171', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:51:23.760')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('893636b5-01e1-45c4-994f-e5b956f12777', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:03.233')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('893c3909-b139-4a6a-9322-5c8d2c45138e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:23.683')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('89428ee7-5cd1-4c73-a8e8-02880b02121e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:50.880')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('8ae97d0a-2e77-4ea7-bd0c-bbd8829052af', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:55:45.447')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('8af85a24-2dbf-49a4-ad53-da7ddd246fa0', NULL, '127.0.0.1', 'Web Api模块', '发生异常：列名 ''ProtectedToken'' 无效。', NULL, 'Error', '2017-02-13 20:36:55.533')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('8b3edaab-bb9c-41de-a9ee-a91fb990e5ab', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:55.563')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('8ca898db-779e-4857-a806-d6f6024eb670', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:25.370')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('8d0a9e38-544f-4560-8e27-e3000d8f2033', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-06 18:07:05.357')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('8e2a8dc5-5779-4e6f-8621-df92c2512ffc', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:55:30.173')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('8fe0ae52-fe62-49b2-9eec-ae028ded6f18', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:32.940')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('90c476f3-7d15-4bf3-b8f0-248b4ac174dc', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:00.697')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('9120848b-9d3f-4415-b44b-8ea30874eace', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:50.877')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('91784b0f-f799-4447-bac8-55552b5fda88', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:25.367')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('92ba5161-2a37-48c9-88f1-a9c802a4d9a1', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:06.600')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('92c3dba8-c726-40bb-bd0f-ce41524489e7', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:56.107')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('93859c5c-68eb-40be-b69d-f3ac40ea5a2b', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:27.877')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('94152a24-8f1d-4a85-bb1b-e0b2b01d1990', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:32.973')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('94c1b81c-cb6e-4c8e-875c-ba1d948adec7', NULL, '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:49:55.780')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('94f2c130-c9b9-47bf-ab75-789d6dd231bb', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:03.217')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('977305f6-325c-4c1c-b65d-7b9658234f7e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:24.480')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('9bc6e488-7b24-4722-8632-7064b5cbe180', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:37.613')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('9d3b1c65-9a99-46be-a25f-def1b2992221', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-06 18:06:33.463')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('9d7b4729-3ad7-4ce7-a0ee-9409d3647312', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 11:13:25.403')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('9dc5b9e0-9633-4269-ac84-1f042a91454c', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:46:57.890')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('9dcd85cf-7cc7-4de2-8bdd-90b52dc4aa7f', NULL, '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:50:00.850')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('9e403866-8317-4320-b327-a626b95a4d47', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:25.987')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a09785a3-6c2a-49af-94e2-e62775544507', NULL, '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:50:02.147')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a5ac4e08-0b01-4a41-ae87-8ee878612717', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:18.003')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a62983fb-1304-4866-9183-4187f47532dd', NULL, '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:49:55.760')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a6640d2e-ad98-4277-8697-6d11a1963b2d', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:55:41.113')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a786dced-c9e0-4410-a3cb-e03df366cefa', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:36.550')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a7ed07fc-08a1-48b7-9bee-3d60a59ddda0', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:52.877')
 GO
@@ -150,21 +400,87 @@ INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('a9627088-245d-4d0e-a56f-b8624df2d492', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser', NULL, 'Error', '2017-02-06 21:57:04.610')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('aab41997-8cb6-42d6-b76c-5aae420e3249', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:25.977')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('aad7165b-e8b3-429b-adce-6af3165532a9', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:03.233')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ad16679a-6e10-4fb6-8ef3-e5ff2517f689', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:03.233')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ad16855e-aa05-4a13-87a4-8475f983cec6', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:18.310')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ad60a144-9e60-4982-bc8f-e51a91c50500', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:24.350')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('adb07cfe-efcb-432b-ab7c-dd012de7d088', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:51:23.753')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b0074a2e-4341-4ff8-8f49-fcab913f4dc3', NULL, '127.0.0.1', 'Web Api模块', '发生异常：列名 ''ProtectedToken'' 无效。', NULL, 'Error', '2017-02-13 20:38:34.813')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b01ace94-e280-46b6-a407-6bfcd381e5fa', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:42.693')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b0605d81-a4d7-4dc8-a5f0-511b6a133ee9', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:24.473')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b06eefc1-d03d-4281-ad74-f8c0d76b97f3', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:06.600')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b3342651-1cad-41c0-8cc5-4a2719d4b90b', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:32.977')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b4878411-8ca5-478c-8e83-886c055753b5', NULL, '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:50:02.093')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b504e259-0080-4fdc-902a-a996ee7585f0', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:46:56.927')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b56a23cf-320e-490e-889d-4cc5bb3ff70c', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:37.617')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b56cb5db-0244-4c05-84d0-135502ca2498', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:50.860')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b57b1947-1108-4628-8820-18f85b598ab7', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:46:36.517')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b8991dd4-1ada-406c-819b-74d55b6f3590', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 11:12:56.593')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('b9e388bf-533f-404d-ad20-fcc2c4e6f398', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:56:41.593')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ba597c27-c7ec-4e06-8192-fc191cd25bf5', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:56:41.573')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ba6b8306-d400-4c34-9de0-2f4fa110bc66', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:36.557')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ba72fe78-cc24-41ad-8a58-94faabf42ed5', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser', NULL, 'Error', '2017-02-06 21:50:10.807')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('bbfd5261-51ba-4ccc-b677-65ee29b227a4', NULL, '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:50:00.657')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('bd96d8fd-8681-4e22-bac2-a3f144c71ae6', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:23.753')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('bf635c34-a590-49bf-b12e-9dd6ffceb6fd', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:55:49.333')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('bfbf38f3-cc6e-4342-a84d-d3c433fb6ad5', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:25.987')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('bff348fd-1e0a-45db-a77d-7ca3a86a3877', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:55:30.177')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('c3473adf-db3a-44db-8469-6b743108bf50', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 11:13:28.940')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('c440aae6-040d-4077-b704-9246e15d2bb9', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:37.617')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('c5da56ab-ba07-4587-8281-cb22180b69cc', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:25.483')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('c6faa51c-5da0-4a36-b99d-8c9a4af6c81e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:24.480')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('c73fb4e9-9d72-4dc6-babe-a7dedc8ca56e', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:12.943')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('c7b4b262-1bce-4de8-9595-7f1b660a5e20', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '发生异常：已添加了具有相同键的项。', NULL, 'Error', '2017-02-07 00:15:48.193')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('c820f288-5a9b-4594-93de-afb94a7fa089', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:46:57.890')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('c999d2b1-f7c1-4597-9177-3c2a3add95fe', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser', NULL, 'Error', '2017-02-06 21:55:21.447')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('cb71effc-3bab-4875-a529-04c2a776ee44', NULL, '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:50:02.273')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('cb90b5fb-8fc0-448c-bce6-40054975c511', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:46:27.857')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('cbfd6247-8477-4bf2-9517-1f1ce278b535', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：This SQL map does not contain a MappedStatement named Mercurius.Sparrow.Repositories.RBAC.User.GetRolesByUser', NULL, 'Error', '2017-02-06 21:50:19.077')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ce2fe79b-9b4f-457e-a89d-0ff572da2bf5', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:46:27.857')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('cf9b4700-2b84-4ee3-952e-a3963a81fd96', NULL, '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:50:00.947')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('cfe2eb81-2d73-4a3c-8e7b-72ea1a0ddf3a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:54.287')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d0b42d7c-69c2-44f1-b2fd-680e00f537f7', NULL, '127.0.0.1', 'Web Api模块', '发生异常：列名 ''ProtectedToken'' 无效。', NULL, 'Error', '2017-02-13 20:33:21.527')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d1ae2bee-4eee-4a57-b8a7-27e5586a7ee4', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:47.743')
 GO
@@ -172,19 +488,91 @@ INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d46e3aaf-56ff-4447-b94a-5e9552fb9ed2', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:25.297')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d54ecfb6-97b1-464a-bb1c-22f2daeb13ab', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:24.920')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d6eb0cd1-0a04-4374-a5e7-58ae7c219007', NULL, '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:50:02.157')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d70c3c5e-60a8-4f72-b0dc-e29f81469f33', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:55:43.660')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d77a5e13-c8d8-457b-996b-3a8f1007298f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:56:41.583')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d7d66f47-3325-4e57-94e8-ee6fe4c665dd', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:32.940')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d7f7a91f-c2f5-4b64-9dd1-72dc381d4679', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:47.743')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('d885b5d6-af33-4f94-90f5-b1e026c98ecd', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:37.617')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('de66789c-3c53-4603-8982-939d376951ba', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:44:46.193')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('deb69ad2-57b3-4a20-b97e-b1280886a0a1', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:32.973')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('df866170-7a18-4b01-b5fd-683e8882dc3b', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:32.970')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e009da52-ca55-4ea4-bd58-e7b4f74c53bc', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:32.937')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e09566a0-fc9f-421c-a49f-fac85a3f04a6', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:42.697')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e253a854-71af-4c6f-9a81-c483994e3336', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 11:13:30.357')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e2b48e83-7129-4766-8232-145c5ff711a4', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:31.327')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e31c965d-6c6a-476f-b658-cf60e5127c3c', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:25.110')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e46a72a0-f3c3-4b21-8f16-5f61e101b4de', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:00.703')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e5e9d5c1-e4ba-4b3c-9985-ef263cb2441f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:46:37.467')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e6b74d23-683b-4234-9a32-d3c6a6c032a0', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:45:32.977')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e901b9e3-898c-404b-bf5c-bfbb1c7563ad', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:44:21.340')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('e9c63ac1-111c-4815-99a9-9240ef425518', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:50:40.157')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ebbfa666-fd6f-4e9b-85e6-60ed14f871e8', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 11:13:51.543')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ebf67693-a9d2-42ac-bbb0-eb24a97e66cd', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:03.233')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('eca1e17e-7de1-416f-8725-1b70f5dc9807', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:32.973')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('eef067b6-2934-43f9-ba28-7b633fbf949c', NULL, '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:50:02.103')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ef08099e-7ef9-40b7-bedf-1c7103282d50', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:24.247')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ef5886eb-7bad-4a85-9c90-eaf9f1a7c0f1', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-17 14:58:53.253')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('ef60cf96-1c16-4900-a73a-26786e8c4e49', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:56:24.383')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f08d7ff2-400c-4001-ba07-4d87622fd60a', NULL, '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:50:02.093')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f332ee92-e01c-45a0-85a5-78c650d73e35', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:50:40.150')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f3c314d4-0747-40b1-86ab-2f5a424209af', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:47:50.877')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f44df9d7-5b0e-43b7-a9f4-751fcc9f6f05', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:51:23.677')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f483124b-0c0c-4ffd-bac5-cb2fc62bc89a', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:47:03.233')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f515ff77-99b1-43b8-8632-c3c3920bc527', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:51:23.760')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f61bf006-004f-415f-97ab-a1c6b0b8f874', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：执行超时已过期。完成操作之前已超时或服务器未响应。 ', NULL, 'Error', '2017-02-07 14:27:14.207')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f6d069fa-e78f-405a-97ef-8a2aedacbeca', NULL, '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:50:02.273')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f706bc42-f904-4ecf-8d2d-eef0d73ad1d3', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法开始执行', NULL, 'Debug', '2017-02-06 23:51:17.993')
 GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('f9c8b671-e888-4b5d-8bfd-c941c0cc34b9', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 10:39:54.010')
 GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('fa93c6b5-21fc-43a4-b34b-4f3ecd95a55f', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基于角色的访问控制模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:45:32.897')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('fa9a36dd-ec1c-4f01-9c7c-66b18eff62d9', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:56:42.527')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('fcc9d9c5-f67f-443a-9733-0c6c7537093d', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '日志管理', '方法执行完成', NULL, 'Debug', '2017-02-06 23:56:32.537')
+GO
 INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('fd2724df-1bc1-458d-b81a-e524dfdc7987', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', 'Core', '发生异常：Client sent AUTH, but no password is set, sPort: 0, LastCommand: ', NULL, 'Error', '2017-01-26 11:13:34.690')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('fd91917d-a448-42e9-9367-1a0bde09a0ff', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法开始执行', NULL, 'Debug', '2017-02-06 23:56:48.940')
+GO
+INSERT INTO [dbo].[SystemLog] ([Id], [LogOnId], [LogOnIP], [ModelName], [Summary], [Details], [LogLevel], [OccurrenceDateTime])  VALUES ('fe20be5e-b2b1-44b1-8d90-93bbaba0b4eb', '48f3889c-af8d-401f-ada2-c383031af92d', '127.0.0.1', '基础模块', '方法执行完成', NULL, 'Debug', '2017-02-06 23:46:56.937')
 GO
 INSERT INTO [dbo].[SystemSetting] ([Id], [ParentId], [Name], [Value], [Remark])  VALUES ('015B6ED3-B4FF-4A61-B200-59203A7DBC77', NULL, 'LogLevel', '2', '')
 GO
@@ -225,6 +613,18 @@ GO
 INSERT INTO [Dynamic].[ExtensionProperty] ([Id], [Category], [Name], [Unit], [GroupName], [ControlId], [ControlType], [Placeholder], [ControlDataSource], [ControlMaxLength], [ControlLabelCssClass], [ControlContainerCssClass], [ControlStyle], [ControlValidateRule], [Sort], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('DA841B99-012A-4EB5-B092-9A2385999F56', '个人信息', ' 院校类型', NULL, NULL, 'SchoolType', 3, ' 院校类型', '211学院;非211学院', NULL, 'col-sm-2', 'col-sm-8', NULL, NULL, 5, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-05 14:22:17.610', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-05 15:38:29.953')
 GO
 INSERT INTO [Dynamic].[ExtensionProperty] ([Id], [Category], [Name], [Unit], [GroupName], [ControlId], [ControlType], [Placeholder], [ControlDataSource], [ControlMaxLength], [ControlLabelCssClass], [ControlContainerCssClass], [ControlStyle], [ControlValidateRule], [Sort], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('24987B48-C87F-43CF-AD1B-F9A01E7EF54B', '个人信息', '毕业院校', NULL, 'grp1', 'School', 1, '毕业院校', NULL, NULL, 'col-sm-2', 'col-sm-3', NULL, 'notNull', 2, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-05 13:51:56.460', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-05 16:50:25.270')
+GO
+INSERT INTO [Dynamic].[ExtensionPropertyInstance] ([Id], [ExtensionPropertyId], [BusinessSerialNumber], [Value])  VALUES ('CED90D16-46E3-4D61-BAC0-2AAFEC43B58D', 'DA841B99-012A-4EB5-B092-9A2385999F56', '48f3889c-af8d-401f-ada2-c383031af92d', '非211学院')
+GO
+INSERT INTO [Dynamic].[ExtensionPropertyInstance] ([Id], [ExtensionPropertyId], [BusinessSerialNumber], [Value])  VALUES ('8A81B25E-0CD1-4EF9-9C51-2EDF15CF93DB', '13E764C8-EFE4-4BEC-BADC-6755F4BCCDFA', '48f3889c-af8d-401f-ada2-c383031af92d', '420922198303143415')
+GO
+INSERT INTO [Dynamic].[ExtensionPropertyInstance] ([Id], [ExtensionPropertyId], [BusinessSerialNumber], [Value])  VALUES ('86007476-F3D3-4940-A4F4-46D104B22378', '61EA083F-6332-40B2-A603-2A5D34152F76', '48f3889c-af8d-401f-ada2-c383031af92d', '阅读,羽毛球,乒乓球,足球')
+GO
+INSERT INTO [Dynamic].[ExtensionPropertyInstance] ([Id], [ExtensionPropertyId], [BusinessSerialNumber], [Value])  VALUES ('56D2FB24-8F71-4E7E-8657-4CA141AA93AB', '5AE10037-B407-4DF9-ABC9-438802C4516D', '48f3889c-af8d-401f-ada2-c383031af92d', '架构师')
+GO
+INSERT INTO [Dynamic].[ExtensionPropertyInstance] ([Id], [ExtensionPropertyId], [BusinessSerialNumber], [Value])  VALUES ('964400A4-5BF7-42A2-972C-99C237A37C52', '24987B48-C87F-43CF-AD1B-F9A01E7EF54B', '48f3889c-af8d-401f-ada2-c383031af92d', '武汉科技大学城市学院')
+GO
+INSERT INTO [Dynamic].[ExtensionPropertyInstance] ([Id], [ExtensionPropertyId], [BusinessSerialNumber], [Value])  VALUES ('C5697818-F103-4117-B753-DDBCF0692E5F', '770F6357-1447-48B1-A924-5F502A32A7B2', '48f3889c-af8d-401f-ada2-c383031af92d', '2008-06-02')
 GO
 INSERT INTO [RBAC].[Button] ([Id], [Name], [Title], [Image], [Code], [Sort], [Category], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('020e2c2a-e203-4694-85ef-c73bd301ad72', '备份', '备份', 'glyphicon glyphicon-download-alt', 'OnBackup', 32, '工具栏', '数据库备份', 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-05-04 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2015-03-12 15:56:09.410')
 GO
@@ -296,7 +696,11 @@ INSERT INTO [RBAC].[HomeShortcut] ([Id], [UserId], [Name], [NavigateUrl], [Targe
 GO
 INSERT INTO [RBAC].[HomeShortcut] ([Id], [UserId], [Name], [NavigateUrl], [Target], [Image], [Sort], [Remark])  VALUES ('40abb9d3-219a-4469-9ce5-40c4eb088b0a', '48f3889c-af8d-401f-ada2-c383031af92d', '个人信息', '/Admin/User/ViewDetails', 'Iframe', 'glyphicon glyphicon-user', 2, NULL)
 GO
+INSERT INTO [RBAC].[HomeShortcut] ([Id], [UserId], [Name], [NavigateUrl], [Target], [Image], [Sort], [Remark])  VALUES ('CA7DA27F-9A23-4A8A-9E13-9AFCA175729C', '48f3889c-af8d-401f-ada2-c383031af92d', 'Web Api文档', '/Swagger/ui/index', 'Open', 'glyphicon glyphicon-book', 5, NULL)
+GO
 INSERT INTO [RBAC].[HomeShortcut] ([Id], [UserId], [Name], [NavigateUrl], [Target], [Image], [Sort], [Remark])  VALUES ('d3973803-c2bd-4e16-be0d-cd26673ba0dd', '48f3889c-af8d-401f-ada2-c383031af92d', '菜单管理', '/Admin/SystemMenu/Index', 'Iframe', 'fa fa-sitemap', 1, '菜单管理页')
+GO
+INSERT INTO [RBAC].[HomeShortcut] ([Id], [UserId], [Name], [NavigateUrl], [Target], [Image], [Sort], [Remark])  VALUES ('EB673350-ADA7-4F33-8872-292E127BAEAA', '48f3889c-af8d-401f-ada2-c383031af92d', '控制台', '/Console/Home/Index', 'href', 'fa fa-desktop', 4, '控制台')
 GO
 INSERT INTO [RBAC].[Organization] ([Id], [ParentId], [Code], [Name], [InnerPhone], [OuterPhone], [Manager], [AssistantManager], [Fax], [ZipCode], [Address], [Sort], [Remark], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('50578619-6939-4F6D-B421-9176E76ADBC0', '77B51251-0D00-45F9-A39F-8B853E8F812D', '1002', '财务部', NULL, NULL, '75e1f7a2-74ab-4d21-af74-a601f30f02ee', NULL, NULL, NULL, NULL, 2, NULL, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-30 11:53:43.513', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-03-30 11:53:51.693')
 GO
@@ -680,7 +1084,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('0d1764f3-43bb-41cc-8f05-af4d5c90bc2c', '5c5ce6bd-44dc-4903-b1f8-a510ce332c76', '编辑', '编辑', 'glyphicon glyphicon-pencil', 3, 'edit()', 'OnClick', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-12-24 00:00:00.000', NULL, NULL)
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('0D651E28-A260-43E6-A7BF-522909D96D81', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '数据显示页', '数据显示页', NULL, 2, '/DynamicPage/Dynamic/Index', 'Iframe', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:33:16.593', NULL, NULL)
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('0D651E28-A260-43E6-A7BF-522909D96D81', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '数据显示页', '数据显示页', NULL, 2, '/Dynamic/Core/Index', 'Iframe', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:33:16.593', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('0e35988d-b4a3-4835-a872-d0a32dbcfb5e', 'a5c7ffb2-c271-4b77-952b-a1d0f7f385c2', '添加', '添加', 'glyphicon glyphicon-plus', 3, 'add', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2015-03-12 11:43:09.633', NULL, NULL)
 GO
@@ -742,7 +1146,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('5c5ce6bd-44dc-4903-b1f8-a510ce332c76', '3e544d7a-d850-4785-9648-feafc4698a3b', '按钮管理', '按钮管理', '567.png', 1, '/Admin/Button/Index', 'Iframe', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-03-31 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-10-08 10:04:39.607')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('62E80369-FE9E-4AAF-97CD-330CDCC3A393', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '列注释管理', '列注释管理', NULL, 2, '/DynamicPage/Configuration/ShowColumns', 'Iframe', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:32:45.813', NULL, NULL)
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('62E80369-FE9E-4AAF-97CD-330CDCC3A393', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '列注释管理', '列注释管理', NULL, 2, '/Dynamic/Configuration/ShowColumns', 'Iframe', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:32:45.813', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('68427266-1bdd-42c0-bd60-094cba29bfaa', '9606167a-fd94-4ad6-88b8-1b419dc3410e', '添加', '添加', 'glyphicon glyphicon-plus', 3, 'OnCreate', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-15 10:22:33.757', NULL, NULL)
 GO
@@ -762,7 +1166,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('7961fd3c-6f0e-496c-a656-772742e14d5a', 'bbc045ff-7f04-4da9-b0db-e1dbd24cb3d9', '授权', '授权', 'glyphicon glyphicon-thumbs-up', 3, 'OnAccredit', 'Onclick', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2013-04-17 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:11:59.753')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('7A044068-395B-4569-AD29-BB582DF14959', '9606167a-fd94-4ad6-88b8-1b419dc3410e', '添加或修改信息', '添加或修改信息', NULL, 2, '/DynamicPage/ExtensionProperty/CreateOrUpdate', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:36:55.290', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:43:38.197')
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('7A044068-395B-4569-AD29-BB582DF14959', '9606167a-fd94-4ad6-88b8-1b419dc3410e', '添加或修改信息', '添加或修改信息', NULL, 2, '/Dynamic/ExtensionProperty/CreateOrUpdate', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:36:55.290', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:43:38.197')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('7c200187-5793-430b-9eeb-eced97f9798b', 'c2947a69-fc79-4861-92ea-87361d8b5715', '删除', '删除', 'glyphicon glyphicon-remove', 3, 'OnDelete', 'OnClick', 5, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2015-08-03 13:46:40.787', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:12:48.900')
 GO
@@ -778,7 +1182,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('8520707c-d9bf-4595-a9eb-5ce24c9bc0ff', 'e620450b-6d17-4192-bee0-66fbd114e82a', '删除', '删除', 'glyphicon glyphicon-remove-sign', 3, 'OnDelete', 'OnClick', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-05-04 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-04 15:00:51.533')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '7dfdf495-83fe-4194-a042-35fe28c2e36b', '数据管理', '数据管理', 'glyphicon glyphicon-random', 1, '/DynamicPage/Configuration/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-12-31 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-15 10:18:41.000')
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '7dfdf495-83fe-4194-a042-35fe28c2e36b', '数据管理', '数据管理', 'glyphicon glyphicon-random', 1, '/Dynamic/Configuration/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-12-31 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-15 10:18:41.000')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('8884d6af-28ed-466d-9cb1-1a2d55dd12da', '6a8044e3-d6ae-406c-a281-5e4d3ba44f67', '删除', '删除', 'glyphicon glyphicon-remove', 3, 'OnDelete', 'OnClick', 6, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2015-08-04 15:35:08.147', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:13:10.963')
 GO
@@ -798,7 +1202,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('946E9D24-BAF1-4A04-BB18-FC8C8257C1F8', '04782509-7aa5-446d-b63f-eac068c4c05a', '修改密码', '修改密码', NULL, 2, '/Admin/User/ChangePassword', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:39:30.303', NULL, NULL)
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('9606167a-fd94-4ad6-88b8-1b419dc3410e', '7dfdf495-83fe-4194-a042-35fe28c2e36b', '动态属性', '动态属性', NULL, 1, '/DynamicPage/ExtensionProperty/Index', 'Iframe', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-15 10:19:32.313', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-15 10:22:12.410')
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('9606167a-fd94-4ad6-88b8-1b419dc3410e', '7dfdf495-83fe-4194-a042-35fe28c2e36b', '动态属性', '动态属性', NULL, 1, '/Dynamic/ExtensionProperty/Index', 'Iframe', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-15 10:19:32.313', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-15 10:22:12.410')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('963f06f5-c1c3-4346-8b0f-7abe22ddeed7', '9606167a-fd94-4ad6-88b8-1b419dc3410e', '删除', '删除', 'glyphicon glyphicon-remove', 3, 'OnDelete', 'OnClick', 3, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-15 10:22:37.453', NULL, NULL)
 GO
@@ -816,7 +1220,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('A7C5B542-A71B-47C9-AF0D-8C76DE7EEB70', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '发布', '发布', 'glyphicon glyphicon-globe', 3, 'OnPublish', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:01:49.983', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:05:26.287')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('AA6F85E5-E048-4841-AD0B-72AAFCB37524', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '查看数据详情', '查看数据详情', NULL, 2, '/DynamicPage/Dynamic/ViewDetail', 'Iframe', 6, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:34:22.630', NULL, NULL)
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('AA6F85E5-E048-4841-AD0B-72AAFCB37524', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '查看数据详情', '查看数据详情', NULL, 2, '/Dynamic/Core/ViewDetail', 'Iframe', 6, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:34:22.630', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('AFB74C98-DDEA-496F-AF5D-BCC613AEB88D', '40178207-f2f2-44de-95bc-b5b4beb69e49', '添加或编辑信息', '添加或编辑信息', NULL, 2, '/Admin/HomeShortcut/CreateOrUpdate', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:38:33.647', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:43:15.147')
 GO
@@ -824,9 +1228,9 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('b1d87254-b0ef-4a50-b427-ca0484e4516b', '58e86c4c-8022-4d30-95d5-b3d0eedcc878', '添加', '添加', 'glyphicon glyphicon-plus', 3, 'add', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2015-03-12 14:03:16.443', NULL, NULL)
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('B263E084-6FA7-4286-BB35-A9274B04BF2A', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '编辑修改', '编辑修改', NULL, 2, '/NewsCenter/News/CreateOrUpdate', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:07:12.750', NULL, NULL)
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('B263E084-6FA7-4286-BB35-A9274B04BF2A', 'F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '编辑修改', '编辑修改', NULL, 2, '/News/News/CreateOrUpdate', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 14:07:12.750', '48f3889c-af8d-401f-ada2-c383031af92d', '2017-02-07 17:07:05.133')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('B4A6E0B5-ACA5-4ECE-96F8-54164B02AE1D', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '查询配置', '查询配置', NULL, 2, '/DynamicPage/Configuration/ShowSearchConfig', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:30:58.940', NULL, NULL)
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('B4A6E0B5-ACA5-4ECE-96F8-54164B02AE1D', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '查询配置', '查询配置', NULL, 2, '/Dynamic/Configuration/ShowSearchConfig', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:30:58.940', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('b4d8cc0e-bdf9-439f-83fa-be8210be5b57', 'c8f3a73a-7b35-4d3a-916e-0d5992a670bc', '保存', '保存', 'glyphicon glyphicon-floppy-save', 3, 'OnSave', 'OnClick', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-13 09:29:43.617', NULL, NULL)
 GO
@@ -846,7 +1250,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('c2947a69-fc79-4861-92ea-87361d8b5715', 'ea6da9bc-7ccb-415f-b037-a8e28fb2db35', '用户管理', '用户管理', 'glyphicon glyphicon-user', 1, '/WebApi/User/Index', 'Iframe', 10, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2015-08-03 13:45:51.693', NULL, NULL)
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('C4E02B4F-725F-4415-8FAF-BC48BD8267BE', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '添加或编辑数据', '添加或编辑数据', NULL, 2, '/DynamicPage/Dynamic/CreateOrUpdate', 'Iframe', 5, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:33:50.610', NULL, NULL)
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('C4E02B4F-725F-4415-8FAF-BC48BD8267BE', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '添加或编辑数据', '添加或编辑数据', NULL, 2, '/Dynamic/Core/CreateOrUpdate', 'Iframe', 5, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:33:50.610', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('c546a78a-7f0d-4cd9-a9ed-96548acb8910', '3885ba7f-c246-493f-9053-7aa70a642662', '删除', '删除', 'glyphicon glyphicon-remove', 3, 'OnDelete', 'OnClick', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2014-05-04 00:00:00.000', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 16:53:44.700')
 GO
@@ -882,7 +1286,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('DFC4EA95-B7D1-41F9-821A-5C5521E1CF04', '8fcead5e-991a-4904-99ac-2c9d9269040b', '查看用户详情', '查看用户详情', NULL, 2, '/Admin/User/ViewDetails', 'Iframe', 5, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:42:27.370', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-05-04 16:18:34.133')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('E304E93B-EBBA-4C06-A573-58F856F5E0B0', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '添加或编辑数据', '添加或编辑数据', NULL, 2, '/DynamicPage/Configuration/ShowCreateOrUpdateConfig', 'Iframe', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:32:01.810', NULL, NULL)
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('E304E93B-EBBA-4C06-A573-58F856F5E0B0', '87b0202d-d6bd-4179-86e7-b1121ddfd0d7', '添加或编辑数据', '添加或编辑数据', NULL, 2, '/Dynamic/Configuration/ShowCreateOrUpdateConfig', 'Iframe', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 13:32:01.810', NULL, NULL)
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('E3167219-99BE-4F58-9DD4-F7A5AE14F2E7', '010B7B7D-9FFD-4C5B-A2EF-502AF100C193', '查看日志', '查看日志', NULL, 2, '/Home/OperationRecords', 'Iframe', 2, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-13 14:57:21.893', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-09-29 17:28:22.153')
 GO
@@ -902,7 +1306,7 @@ INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Ca
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('f367dc71-5918-45fd-a4bf-84c0091f18e7', '6a8044e3-d6ae-406c-a281-5e4d3ba44f67', '权限管理', '权限管理', 'glyphicon glyphicon-tower', 3, 'OnAllotAuthority', 'OnClick', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2015-08-04 15:36:07.830', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:13:10.963')
 GO
-INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '84F93314-C30D-4C2C-8665-06F0E232C186', '新闻管理', '新闻管理', NULL, 1, '/NewsCenter/News/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 13:53:31.527', NULL, NULL)
+INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('F3FD2BFF-9A9E-4794-A596-4ADE65C71C0A', '84F93314-C30D-4C2C-8665-06F0E232C186', '新闻管理', '新闻管理', NULL, 1, '/News/News/Index', 'Iframe', 1, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-06-24 13:53:31.527', '48f3889c-af8d-401f-ada2-c383031af92d', '2017-02-07 17:06:46.157')
 GO
 INSERT INTO [RBAC].[SystemMenu] ([Id], [ParentId], [Name], [Title], [Image], [Category], [NavigateUrl], [Target], [Sort], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES ('f4ca7d5c-63cf-471f-9226-d7ce5f298272', 'bd745be7-c7b5-43d2-84c0-8890d7dd5e92', '删除', '删除', 'glyphicon glyphicon-remove', 3, 'OnDelete', 'OnClick', 4, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-01-13 09:28:35.240', '48f3889c-af8d-401f-ada2-c383031af92d', '2016-04-14 09:13:28.647')
 GO
@@ -976,8 +1380,6 @@ INSERT INTO [Storage].[BusinessFile] ([Id], [Category], [SerialNumber], [Source]
 GO
 INSERT INTO [Storage].[BusinessFile] ([Id], [Category], [SerialNumber], [Source], [FileId], [Description], [Sort], [UploadUserId], [UploadDateTime])  VALUES ('E1F4FC28-DB25-402B-927B-DFBEE2B369F2', '新闻管理', '1cc526a1-427d-4fe4-8305-beeb1948c4aa', 2, '34BF1E37-E2CE-4631-BEC6-567D40075F6C', NULL, 1, '48f3889c-af8d-401f-ada2-c383031af92d', '2016-10-10 14:33:58.917')
 GO
-INSERT INTO [Storage].[File] ([Id], [Name], [Size], [MD5], [ContentType], [SavedPath], [SavedDateTime])  VALUES ('E1E53ED3-5568-43EB-9FCE-0A13B1A84728', '四板金缘数据库的表结构文档.xls', 155648, '9eea0a4794066f140c07dd02d342b8cf', 'application/octet-stream', '~/uploads/201610/cd79ff85-4a3e-4f74-9317-c06d2cd92035.xls', '2016-10-10 14:36:28.813')
-GO
 INSERT INTO [Storage].[File] ([Id], [Name], [Size], [MD5], [ContentType], [SavedPath], [SavedDateTime])  VALUES ('C73171A5-88A8-424B-9262-0D672FCCDC52', '15164623286273882.png', 3929, 'd11c9ddafd1a49d7f3985bd73b98f194', 'image/png', '~/uploads/201610/7125c4f1-9ea5-4628-b73d-df52d8c1d4af.png', '2016-10-10 13:26:00.673')
 GO
 INSERT INTO [Storage].[File] ([Id], [Name], [Size], [MD5], [ContentType], [SavedPath], [SavedDateTime])  VALUES ('4F261973-181D-46CD-BD0F-10E98185F739', '张枫林工作汇报16年9月第4周.doc', 83456, '1b514b1cfcf29b8be16f922e6916eaa8', 'application/msword', '~/uploads/201610/6d83256a-ad03-4a0e-b996-f5ee44bb1d4a.doc', '2016-10-10 14:52:50.743')
@@ -1010,7 +1412,7 @@ SET IDENTITY_INSERT [WebApi].[Role] OFF;
 GO
 SET IDENTITY_INSERT [WebApi].[User] ON;
 GO
-INSERT INTO [WebApi].[User] ([Id], [Account], [Password], [Description], [Status], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES (1, 'nebula', 'ef5caa746eb6e51eef59a31a96c3e99b', '星云用户', NULL, NULL, '2016-03-10 15:12:53.730', NULL, '2016-03-10 15:12:58.713')
+INSERT INTO [WebApi].[User] ([Id], [Account], [Password], [Description], [Status], [RefreshToken], [ProtectedTicket], [CreateUserId], [CreateDateTime], [ModifyUserId], [ModifyDateTime])  VALUES (1, 'nebula', 'ef5caa746eb6e51eef59a31a96c3e99b', '星云用户', NULL, '8MshRVaZ5E1eTZmDbZG3oCi5cC3lOg2E2gkdmr7I4lg=', 'nKLv4Jj06NZ-iid5TZC0uHgKpp-j57Lrar1EdVr0Pqnb-i2TWBH13c7c1RRNBW9uzC29Y-EqggB8Atx-omXJ9IFE8LyKE4PbBQ_7bjYMzyQ1odPiZGy60117szM-h4jhBhN7StPhta8L0ri5r7YqCYN7RX_Ft01I3OvDEq1fzGPp2qtJcW-KDdT0KQiGb-Dgau4uBS4VezPrWpwzG1CYgZXYqde8CyJF3Y_N2F1-8NBtE9IEW8MKPgl7XxmZrjIFstxmkhzF5_KlUiSwRx6aeAJVd7PwCNCZaBF81ooo7uEXkWRuXMRJKwytDFg8Hr01QcjTQg', NULL, '2016-03-10 15:12:53.730', NULL, '2016-03-10 15:12:58.713')
 GO
 SET IDENTITY_INSERT [WebApi].[User] OFF;
 GO

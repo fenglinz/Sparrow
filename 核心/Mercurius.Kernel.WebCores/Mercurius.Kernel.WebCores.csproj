@@ -100,24 +100,26 @@
     <Compile Include="BaseController.cs" />
     <Compile Include="Filters\IgnorePermissionValidAttribute.cs" />
     <Compile Include="Filters\WebApiAuthorizeAttribute.cs" />
-    <Compile Include="Helpers\Bootstrap\BootstrapHtmlHelper.cs" />
-    <Compile Include="Helpers\Bootstrap\FormBaseExtensions.cs" />
-    <Compile Include="Helpers\Bootstrap\Controls\FormGroup.cs" />
-    <Compile Include="Helpers\Option.cs" />
-    <Compile Include="Helpers\PropertyMetadata.cs" />
-    <Compile Include="Helpers\Bootstrap\Screen.cs" />
-    <Compile Include="Helpers\Bootstrap\Controls\CustomControl.cs" />
-    <Compile Include="Helpers\Bootstrap\Controls\FormBase.cs" />
-    <Compile Include="Helpers\Bootstrap\Controls\MultipleListControl.cs" />
-    <Compile Include="Helpers\Bootstrap\Controls\PasswordControl.cs" />
-    <Compile Include="Helpers\Bootstrap\Controls\RadioButtonControl.cs" />
-    <Compile Include="Helpers\Bootstrap\Controls\TextAreaControl.cs" />
-    <Compile Include="Helpers\Bootstrap\Controls\TextBoxControl.cs" />
-    <Compile Include="Helpers\HtmlHelperExtensions.cs" />
-    <Compile Include="Helpers\MercuriusUrlHelper.cs" />
-    <Compile Include="Helpers\ModelExtensions.cs" />
-    <Compile Include="Helpers\PagingExtensions.cs" />
-    <Compile Include="Helpers\ValidationExtensions.cs" />
+    <Compile Include="HtmlHelpers\BootstrapHtmlHelper.cs" />
+    <Compile Include="HtmlHelpers\BootstrapControlExtensions.cs" />
+    <Compile Include="HtmlHelpers\Bootstrap\Controls\FormGroup.cs" />
+    <Compile Include="HtmlHelpers\Option.cs" />
+    <Compile Include="HtmlHelpers\PropertyMetadata.cs" />
+    <Compile Include="HtmlHelpers\Screen.cs" />
+    <Compile Include="HtmlHelpers\Bootstrap\Controls\CustomControl.cs" />
+    <Compile Include="HtmlHelpers\Bootstrap\Controls\FormBase.cs" />
+    <Compile Include="HtmlHelpers\Bootstrap\Controls\MultipleListControl.cs" />
+    <Compile Include="HtmlHelpers\Bootstrap\Controls\PasswordControl.cs" />
+    <Compile Include="HtmlHelpers\Bootstrap\Controls\RadioButtonControl.cs" />
+    <Compile Include="HtmlHelpers\Bootstrap\Controls\TextAreaControl.cs" />
+    <Compile Include="HtmlHelpers\Bootstrap\Controls\TextBoxControl.cs" />
+    <Compile Include="HtmlHelpers\HtmlHelperExtensions.cs" />
+    <Compile Include="HtmlHelpers\MercuriusUrlHelper.cs" />
+    <Compile Include="HtmlHelpers\ModelExtensions.cs" />
+    <Compile Include="HtmlHelpers\PagingExtensions.cs" />
+    <Compile Include="HtmlHelpers\Table\Table.cs" />
+    <Compile Include="HtmlHelpers\Table\TableColumn.cs" />
+    <Compile Include="HtmlHelpers\ValidationExtensions.cs" />
     <Compile Include="OAuth2\AuthorizationServerProvider.cs" />
     <Compile Include="OAuth2\RefreshTokenProvider.cs" />
     <Compile Include="Plugins\Plugin.cs" />
@@ -145,6 +147,7 @@
       <Name>Mercurius.Kernel.Implementations</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

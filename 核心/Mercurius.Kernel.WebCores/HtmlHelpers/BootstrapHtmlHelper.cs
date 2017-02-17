@@ -4,9 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
-using Mercurius.Kernel.WebCores.Helpers.Bootstrap.Controls;
+using Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap;
+using Mercurius.Kernel.WebCores.HtmlHelpers.Bootstrap.Controls;
 
-namespace Mercurius.Kernel.WebCores.Helpers.Bootstrap
+namespace Mercurius.Kernel.WebCores.HtmlHelpers
 {
     /// <summary>
     /// 基于Bootstrap的HTML呈现助手。

@@ -12,9 +12,8 @@ using Mercurius.Kernel.Contracts.RBAC.Services;
 using Mercurius.Kernel.Contracts.Storage.Entities;
 using Mercurius.Kernel.Contracts.Storage.Services;
 using Mercurius.Prime.Core;
-using static Mercurius.Prime.Core.SystemConfiguration;
 
-namespace Mercurius.Kernel.WebCores.Helpers
+namespace Mercurius.Kernel.WebCores.HtmlHelpers
 {
     /// <summary>
     /// HtmlHelper扩展。

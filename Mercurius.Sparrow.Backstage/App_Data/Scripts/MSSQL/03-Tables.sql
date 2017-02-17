@@ -877,6 +877,8 @@ Create Table [WebApi].[User](
   [Password] NVARCHAR (50) NULL,
   [Description] NVARCHAR (2000) NULL,
   [Status] INT NULL,
+  [RefreshToken] NVARCHAR (50) NULL,
+  [ProtectedTicket] NVARCHAR (1500) NULL,
   [CreateUserId] NVARCHAR (36) NULL,
   [CreateDateTime] DATETIME NULL,
   [ModifyUserId] NVARCHAR (36) NULL,
@@ -894,6 +896,10 @@ GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '使用者描述' ,'SCHEMA', 'WebApi', 'TABLE', 'User', 'COLUMN', 'Description';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '状态(1：正常，其它：锁定)' ,'SCHEMA', 'WebApi', 'TABLE', 'User', 'COLUMN', 'Status';
+GO
+EXEC sys.sp_addextendedproperty 'MS_Description', 'RefreshToken' ,'SCHEMA', 'WebApi', 'TABLE', 'User', 'COLUMN', 'RefreshToken';
+GO
+EXEC sys.sp_addextendedproperty 'MS_Description', 'ProtectedTicket' ,'SCHEMA', 'WebApi', 'TABLE', 'User', 'COLUMN', 'ProtectedTicket';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '创建者编号' ,'SCHEMA', 'WebApi', 'TABLE', 'User', 'COLUMN', 'CreateUserId';
 GO
