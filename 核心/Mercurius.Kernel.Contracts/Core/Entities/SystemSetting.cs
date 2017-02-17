@@ -8,7 +8,7 @@ namespace Mercurius.Kernel.Contracts.Core.Entities
     /// 系统设置信息。
     /// </summary>
     [Table("SystemSetting")]
-    public class SystemSetting : Entity
+    public class SystemSetting : EntityBase
     {
         #region 属性
 

@@ -8,7 +8,7 @@ namespace Mercurius.Kernel.Contracts.Dynamic.Entities
     /// 扩展属性实例。
     /// </summary>
     [Table("Dynamic.ExtensionPropertyInstance")]
-    public class ExtensionPropertyInstance : Entity
+    public class ExtensionPropertyInstance : EntityBase
     {
         #region 属性
 

@@ -8,7 +8,7 @@ namespace Mercurius.Kernel.Contracts.WebApi.Entities
     /// Web API信息。
     /// </summary>
     [Table("WebApi.Api")]
-    public class Api : WithModification
+    public class Api : ModificationEntityBase
     {
         #region 属性
 

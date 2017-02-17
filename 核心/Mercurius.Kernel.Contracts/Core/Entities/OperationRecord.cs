@@ -7,7 +7,7 @@ namespace Mercurius.Kernel.Contracts.Core.Entities
     /// 操作记录实体信息。
     /// </summary>
     [Table("OperationRecord")]
-    public class OperationRecord : Entity
+    public class OperationRecord : EntityBase
     {
         #region 属性
 

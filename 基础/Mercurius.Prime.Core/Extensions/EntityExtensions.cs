@@ -14,7 +14,7 @@ namespace Mercurius.Prime.Core
         /// </summary>
         /// <param name="entity">实体对象</param>
         /// <returns>是否通过有效性验证</returns>
-        public static bool IsValid(this Entity entity)
+        public static bool IsValid(this EntityBase entity)
         {
             var validationResults = entity.Validate();
 
@@ -31,7 +31,7 @@ namespace Mercurius.Prime.Core
         /// </summary>
         /// <param name="domain">实体对象</param>
         /// <returns>错误信息集合</returns>
-        public static NameValueCollection GetErrorMessage(this Entity domain)
+        public static NameValueCollection GetErrorMessage(this EntityBase domain)
         {
             var validationResults = domain.Validate();
 

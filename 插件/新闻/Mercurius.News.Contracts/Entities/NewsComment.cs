@@ -14,7 +14,7 @@ namespace Mercurius.News.Contracts.Entities
     /// 新闻评论。
     /// </summary>
     [Table("NewsComment")]
-    public class NewsComment : Entity
+    public class NewsComment : EntityBase
     {
         #region 属性
     

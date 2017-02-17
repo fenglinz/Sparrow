@@ -7,7 +7,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
     /// 首页快捷方式信息。
     /// </summary>
 	[Table("RBAC.HomeShortcut")]
-    public class HomeShortcut : Entity
+    public class HomeShortcut : EntityBase
     {
         #region 属性
 

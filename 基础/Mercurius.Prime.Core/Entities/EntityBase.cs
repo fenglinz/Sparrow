@@ -5,7 +5,7 @@ namespace Mercurius.Prime.Core.Entities
     /// <summary>
     /// 领域信息基类。
     /// </summary>
-    public abstract class Entity
+    public abstract class EntityBase
     {
         #region 属性
 

@@ -7,7 +7,7 @@ namespace Mercurius.Kernel.Contracts.WebApi.Entities
     /// WebApi用户。
     /// </summary>
     [Table("WebApi.User")]
-    public class User : WithModification
+    public class User : ModificationEntityBase
     {
         #region 属性
 

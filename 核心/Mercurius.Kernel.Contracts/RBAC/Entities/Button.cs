@@ -7,7 +7,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
     /// 按钮信息。
     /// </summary>
     [Table("RBAC.Button")]
-    public class Button : WithModification
+    public class Button : ModificationEntityBase
     {
         #region 属性
 

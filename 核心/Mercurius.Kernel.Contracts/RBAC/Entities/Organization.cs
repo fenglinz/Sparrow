@@ -7,7 +7,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
     /// 组织机构/部门信息。
     /// </summary>
 	[Table("RBAC.Organization")]
-    public class Organization : WithModification, IHierarchy<string>
+    public class Organization : ModificationEntityBase, IHierarchy<string>
     {
         #region 属性
 

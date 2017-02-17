@@ -14,7 +14,7 @@ namespace Mercurius.News.Contracts.Entities
     /// 新闻。
     /// </summary>
     [Table("News")]
-    public class Tidings : Entity
+    public class Tidings : EntityBase
     {
         #region 属性
     

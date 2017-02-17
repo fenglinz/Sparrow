@@ -103,8 +103,8 @@
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Logger\Level.cs" />
-    <Compile Include="Entities\WithCreation.cs" />
-    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\CreationEntityBase.cs" />
+    <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\CrossSiteScriptingValidation.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Entities\TreeNode.cs" />
     <Compile Include="Extensions\WebHelper.cs" />
     <Compile Include="Logger\Log.cs" />
-    <Compile Include="Entities\WithModification.cs" />
+    <Compile Include="Entities\ModificationEntityBase.cs" />
     <Compile Include="Mail\MailBodyParser.cs" />
     <Compile Include="Mail\MailSender.cs" />
     <Compile Include="Mail\MailSettingCollection.cs" />

@@ -9,7 +9,7 @@ namespace Mercurius.Prime.Core.Logger
     /// 日志信息。
     /// </summary>
     [Table("SystemLog")]
-    public class Log : Entity
+    public class Log : EntityBase
     {
         #region 属性
 

@@ -8,7 +8,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
     /// 用户信息。
     /// </summary>
 	[Table("RBAC.User")]
-    public class User : WithModification
+    public class User : ModificationEntityBase
     {
         #region 属性
 

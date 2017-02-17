@@ -7,7 +7,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
     /// 系统菜单信息。
     /// </summary>
 	[Table("RBAC.SystemMenu")]
-    public partial class SystemMenu : WithModification, IHierarchy<string>
+    public partial class SystemMenu : ModificationEntityBase, IHierarchy<string>
     {
         #region 属性
 

@@ -7,7 +7,7 @@ namespace Mercurius.Kernel.Contracts.Core.Entities
     /// 全球化信息。
     /// </summary>
     [Table("Globalization")]
-    public class Globalization : Entity
+    public class Globalization : EntityBase
     {
         #region 属性
 

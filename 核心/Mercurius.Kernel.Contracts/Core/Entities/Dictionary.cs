@@ -8,7 +8,7 @@ namespace Mercurius.Kernel.Contracts.Core.Entities
     /// 字典信息
     /// </summary>
     [Table("Dictionary")]
-    public class Dictionary : Entity, IHierarchy<string>
+    public class Dictionary : EntityBase, IHierarchy<string>
     {
         #region 属性
 

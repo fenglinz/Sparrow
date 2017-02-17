@@ -7,7 +7,7 @@ namespace Mercurius.Kernel.Contracts.WebApi.Entities
     /// Web API角色。
     /// </summary>
     [Table("WebApi.Role")]
-    public class Role : WithModification
+    public class Role : ModificationEntityBase
     {
         #region 属性
     

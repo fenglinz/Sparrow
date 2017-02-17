@@ -6,7 +6,7 @@ namespace Mercurius.Prime.Core.Entities
     /// <summary>
     /// 具有创建信息的实体。
     /// </summary>
-    public abstract class WithCreation : Entity
+    public abstract class CreationEntityBase : EntityBase
     {
         #region 属性
 

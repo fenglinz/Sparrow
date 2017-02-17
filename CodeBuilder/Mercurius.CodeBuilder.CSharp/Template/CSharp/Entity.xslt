@@ -20,7 +20,7 @@ using <xsl:value-of select="./rootNamespace"/>.Prime.Core.Entities;
     <xsl:call-template name="classDescription" />
     [Serializable]
     [Table("<xsl:value-of select="./table/@table" />")]
-    public class <xsl:value-of select="./table/@className" /> : Entity
+    public class <xsl:value-of select="./table/@className" /> : EntityBase
     {
         #region 属性
     <xsl:call-template name="properties" />

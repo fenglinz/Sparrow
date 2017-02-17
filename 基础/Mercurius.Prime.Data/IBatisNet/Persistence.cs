@@ -257,7 +257,7 @@ namespace Mercurius.Prime.Data.IBatisNet
             var type = obj.GetType();
 
             // 非匿名类型对象时直接返回。
-            if (obj is string || obj is Entity || obj is SearchObject ||
+            if (obj is string || obj is EntityBase || obj is SearchObject ||
                 obj is IDictionary<string, object> || obj is IDictionary<string, string> ||
                 type.IsPrimitive || type.IsValueType)
             {

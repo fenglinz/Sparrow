@@ -7,7 +7,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
     /// 角色信息。
     /// </summary>
     [Table("RBAC.Role")]
-    public class Role : WithModification, IHierarchy<string>
+    public class Role : ModificationEntityBase, IHierarchy<string>
     {
         #region 属性
 

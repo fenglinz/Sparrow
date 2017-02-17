@@ -6,7 +6,7 @@ namespace Mercurius.Prime.Core.Entities
     /// <summary>
     /// 具有修改者信息的实体。
     /// </summary>
-    public abstract class WithModification : WithCreation
+    public abstract class ModificationEntityBase : CreationEntityBase
     {
         #region 属性
 

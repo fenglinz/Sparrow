@@ -8,7 +8,7 @@ namespace Mercurius.Kernel.Contracts.Storage.Entities
     /// 上传文件。
     /// </summary>
     [Table("Storage.File")]
-    public class File : Entity
+    public class File : EntityBase
     {
         #region 常量
 
