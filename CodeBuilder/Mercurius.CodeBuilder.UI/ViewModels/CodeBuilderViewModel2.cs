@@ -52,7 +52,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         #region 属性
 
-        public Configuration Configuration { get; private set; }
+        public Configuration Configuration { get; }
 
         public string ProjectFileLabel1 { get; set; } = "接口定义项目：";
 
@@ -219,6 +219,15 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             {
                 return this._buildingDatabaseScriptsCommand ?? (this._buildingDatabaseScriptsCommand = new DelegateCommand(() =>
                 {
+                    var db = this.Configuration.CurrentDatabase;
+
+                    if (db.Type != DatabaseType.MSSQL)
+                    {
+                        MessageBox.Show(Application.Current.MainWindow, "提示：暂不支持SQL Server以外的数据库脚本导出！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        return;
+                    }
+
                     var dialog = new FolderBrowserDialog
                     {
                         Description = "选择数据库脚本保存目录"
@@ -232,8 +241,6 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         {
                             buildEvent?.Publish(new BuildEventArg(Status.Begin, "开始导出脚本，请稍后..."));
 
-                            var db = this.Configuration.CurrentDatabase;
-
                             var task = new Task(() =>
                             {
                                 var dbHelper = DbHelperCreator.Create(DatabaseType.MSSQL, db.ServerUri, db.Name, db.Account, db.Password);
@@ -246,13 +253,19 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                             task.Start();
                             task.ContinueWith(t =>
                             {
-                                MessageBox.Show(Application.Current.MainWindow, "数据库脚本生成成功！", "提示", MessageBoxButton.OK);
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    MessageBox.Show(Application.Current.MainWindow, "数据库脚本生成成功！", "提示", MessageBoxButton.OK);
+                                });
                             });
                         }
                         catch (Exception e)
                         {
                             buildEvent?.Publish(new BuildEventArg(Status.Failure));
-                            MessageBox.Show(Application.Current.MainWindow, "出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                MessageBox.Show(Application.Current.MainWindow, "出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
+                            });
                         }
                     }
                 }));
@@ -260,7 +273,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         }
 
         /// <summary>
-        /// 选择代码生成保存目录的命令。
+        /// 选择实体代码生成保存目录的命令。
         /// </summary>
         public ICommand SelectEntityProjectFileCommand
         {

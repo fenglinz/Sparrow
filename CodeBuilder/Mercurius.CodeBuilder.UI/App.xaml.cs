@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 
@@ -24,21 +25,34 @@ namespace Mercurius.CodeBuilder.UI
             var m = typeof(AppDomainSetup).GetMethod("UpdateContextProperty", BindingFlags.NonPublic | BindingFlags.Static);
             var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", PrivateBinPath });
-
-            // 设置固定程序配置文件名称。
-            var configFile = "app.config";
-
-            m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "APP_CONFIG_FILE", configFile });
+            m.Invoke(null, new[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", PrivateBinPath });
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            // 检查配置文件。
+            CheckEnvironment();
+
+            // 设置固定程序配置文件名称。
+            var configFile = "app.config";
+
+            AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", configFile);
+
             base.OnStartup(e);
 
             var bootstrapper = new CodeBuilderBootstrapper();
 
             bootstrapper.Run();
+        }
+
+        private void CheckEnvironment()
+        {
+            var configFile = $"{AppDomain.CurrentDomain.BaseDirectory}app.config";
+
+            if (!File.Exists(configFile))
+            {
+                MessageBox.Show("警告：App.config文件不存在！", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

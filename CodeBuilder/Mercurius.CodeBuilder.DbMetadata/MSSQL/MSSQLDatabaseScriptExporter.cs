@@ -59,7 +59,6 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
         /// <summary>
         /// 获取数据库表的数据库定义语句。
         /// </summary>
-        /// <param name="table">表名称</param>
         /// <returns>表的数据库定义语句列表</returns>
         protected override String GetTablesDefinition()
         {
