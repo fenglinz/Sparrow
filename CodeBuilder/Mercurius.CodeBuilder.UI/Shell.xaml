@@ -37,7 +37,7 @@
                     </StackPanel>
                 </Grid>
             </Border>
-            <ContentControl Grid.Column="1" prism:RegionManager.RegionName="DisplayRegion" Margin="5,0,0,0" />
+            <ContentControl Grid.Column="1" prism:RegionManager.RegionName="DisplayRegion" Margin="0,0,0,0" />
         </Grid>
 
         <StatusBar Grid.Row="1">

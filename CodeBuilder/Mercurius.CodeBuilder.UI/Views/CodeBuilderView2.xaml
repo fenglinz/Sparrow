@@ -136,7 +136,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <ListBox Grid.RowSpan="2" Width="280" Margin="0,0,0,5" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding}" SelectedIndex="0" Style="{x:Null}">
+            <ListBox Grid.RowSpan="2" Width="280" Margin="5,0,0,5" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding}" SelectedIndex="0" Style="{x:Null}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border>
