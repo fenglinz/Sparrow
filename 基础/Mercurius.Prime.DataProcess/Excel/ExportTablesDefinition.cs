@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Ado;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 
-namespace Mercurius.Infrastructure.Ado
+namespace Mercurius.Prime.DataProcess.Excel
 {
     /// <summary>
     /// 导出表的定义。

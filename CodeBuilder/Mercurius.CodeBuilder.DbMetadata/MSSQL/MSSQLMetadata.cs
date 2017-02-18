@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mercurius.CodeBuilder.Core.Database;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
-using DatabaseType = Mercurius.Infrastructure.Ado.DatabaseType;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Ado;
 
 namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
 {

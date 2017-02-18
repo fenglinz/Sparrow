@@ -1,11 +1,8 @@
 ﻿using Mercurius.CodeBuilder.Core.Database;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Ado;
 
 namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
 {

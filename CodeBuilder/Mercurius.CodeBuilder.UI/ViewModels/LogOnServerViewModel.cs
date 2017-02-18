@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.Core.Events;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core.Ado;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using Prism.Events;

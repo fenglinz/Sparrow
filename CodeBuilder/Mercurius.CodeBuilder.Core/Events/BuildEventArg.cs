@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mercurius.CodeBuilder.Core.Events
+﻿namespace Mercurius.CodeBuilder.Core.Events
 {
     /// <summary>
     /// 创建事件信息。

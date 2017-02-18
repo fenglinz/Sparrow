@@ -61,7 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Excel\ExportTablesDefinition.cs" />
     <Compile Include="Excel\NPOIExporter.cs" />
+    <Compile Include="Excel\NPOIExtensions.cs" />
     <Compile Include="Excel\NPOIImporter.cs" />
     <Compile Include="Excel\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

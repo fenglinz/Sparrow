@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Xml.Linq;
-using System.Xml.XPath;
 using System.Xml.Xsl;
-using Mercurius.CodeBuilder.Core.Database;
 using System.Xml;
 
 namespace Mercurius.CodeBuilder.Core

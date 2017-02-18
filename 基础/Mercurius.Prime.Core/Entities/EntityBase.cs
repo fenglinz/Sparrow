@@ -1,6 +1,4 @@
-﻿using Mercurius.Prime.Core.Ado;
-
-namespace Mercurius.Prime.Core.Entities
+﻿namespace Mercurius.Prime.Core.Entities
 {
     /// <summary>
     /// 领域信息基类。

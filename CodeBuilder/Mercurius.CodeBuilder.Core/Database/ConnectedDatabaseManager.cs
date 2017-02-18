@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core.Ado;
 
 namespace Mercurius.CodeBuilder.Core.Database
 {

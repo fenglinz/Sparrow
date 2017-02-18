@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.Core", "CodeBuilder\Mercurius.CodeBuilder.Core\Mercurius.CodeBuilder.Core.csproj", "{62379B2C-78EE-488C-AF19-635319117678}"
 EndProject
@@ -11,7 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.DbMet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.UI", "CodeBuilder\Mercurius.CodeBuilder.UI\Mercurius.CodeBuilder.UI.csproj", "{8798F336-D1A2-489A-9182-4C31F8876D62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Infrastructure", "CodeBuilder\Mercurius.Infrastructure\Mercurius.Infrastructure.csproj", "{B0732AD6-AC7A-4980-817E-432631963939}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "基础", "基础", "{91BD7B99-8281-4565-BC08-EE9BF3E90CA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Core", "基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj", "{5B236DA6-7A5A-48E8-813E-5745B0E50D65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.DataProcess", "基础\Mercurius.Prime.DataProcess\Mercurius.Prime.DataProcess.csproj", "{D9A831D4-D63C-48F2-B741-AA8FA2956158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +39,24 @@ Global
 		{8798F336-D1A2-489A-9182-4C31F8876D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8798F336-D1A2-489A-9182-4C31F8876D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8798F336-D1A2-489A-9182-4C31F8876D62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0732AD6-AC7A-4980-817E-432631963939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0732AD6-AC7A-4980-817E-432631963939}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0732AD6-AC7A-4980-817E-432631963939}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0732AD6-AC7A-4980-817E-432631963939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5B236DA6-7A5A-48E8-813E-5745B0E50D65} = {91BD7B99-8281-4565-BC08-EE9BF3E90CA3}
+		{D9A831D4-D63C-48F2-B741-AA8FA2956158} = {91BD7B99-8281-4565-BC08-EE9BF3E90CA3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35;packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

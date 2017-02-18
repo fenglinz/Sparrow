@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using Mercurius.Infrastructure;
+﻿using System.Xml.Linq;
 using Mercurius.CodeBuilder.Core.Database;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Ado;
 using Microsoft.Practices.ServiceLocation;
-using Mercurius.Infrastructure.Ado;
 
 namespace Mercurius.CodeBuilder.Core
 {

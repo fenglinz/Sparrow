@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Principal;
-using System.Text;
 using Mercurius.CodeBuilder.Core.Database;
 using System.IO;
 using System.Xml.Linq;

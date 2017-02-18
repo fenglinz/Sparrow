@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NPOI.SS.UserModel;
 
-namespace Mercurius.Infrastructure
+namespace Mercurius.Prime.DataProcess.Excel
 {
     /// <summary>
     /// NPOI扩展方法。

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mercurius.CodeBuilder.Core.Database
+﻿namespace Mercurius.CodeBuilder.Core.Database
 {
     /// <summary>
     /// 数据库自定义对象(表/视图/过程)。

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
-using Mercurius.Infrastructure;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Ado;
 
 namespace Mercurius.CodeBuilder.DbMetadata.MySQL
 {
@@ -50,17 +48,10 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
         /// <returns>自定义对象名称集合</returns>
         public override IList<CustomObject> GetCustomObjects(string databaseName)
         {
-            var result = new List<CustomObject>();
             var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, databaseName, this.Account, this.Password);
+            var tables = dbHelper.DbMetadata.GetTables();
 
-            var reader = dbHelper.ExecuteReader("show TABLES");
-
-            while (reader.Read())
-            {
-                result.Add(new CustomObject { Name = reader.GetString(0), Type = CustomObjectType.Table });
-            }
-
-            return result;
+            return (from t in tables select new CustomObject { Name = t.Name, Description = t.Comments }).ToList();
         }
 
         /// <summary>
@@ -85,7 +76,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
 
                 foreach (var item in columns)
                 {
-                    var dbColumn = new DbColumn {Name = item.Name};
+                    var dbColumn = new DbColumn { Name = item.Name };
 
                     dbColumn.PropertyName = dbColumn.Name.PascalNaming();
                     dbColumn.IsIdentity = item.IsIdentity;

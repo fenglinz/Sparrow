@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.Core.Entities;
 
 namespace Mercurius.Prime.Core.Logger

@@ -9,7 +9,7 @@ using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Config;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.Core.Events;
-using Mercurius.Infrastructure.Ado;
+using Mercurius.Prime.Core.Ado;
 
 namespace Mercurius.CodeBuilder.CSharp
 {

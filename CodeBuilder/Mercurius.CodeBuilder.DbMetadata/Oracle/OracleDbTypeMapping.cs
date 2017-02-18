@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mercurius.CodeBuilder.Core.Database;
+﻿using Mercurius.CodeBuilder.Core.Database;
 
 namespace Mercurius.CodeBuilder.DbMetadata.Oracle
 {

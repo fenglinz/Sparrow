@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Mercurius.CodeBuilder.Core.Database;
 
 namespace Mercurius.CodeBuilder.Core.Config
