@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <sqlMap namespace="Mercurius.Plugins.Repositories.News.NewsComment" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="NewsComment" type="Mercurius.News.Interfaces.Entities.NewsComment, Mercurius.News.Interfaces" />
-    <typeAlias alias="NewsCommentSO" type="Mercurius.News.Interfaces.SearchObjects.NewsCommentSO, Mercurius.News.Interfaces" />
+    <typeAlias alias="NewsComment" type="Mercurius.News.Contracts.Entities.NewsComment, Mercurius.News.Contracts" />
+    <typeAlias alias="NewsCommentSO" type="Mercurius.News.Contracts.SearchObjects.NewsCommentSO, Mercurius.News.Contracts" />
   </alias>
   <statements>
 

@@ -11,7 +11,7 @@
   <providers resource="App_Data/IBatisNet/providers.config" />
   <database>
     <provider name="sqlServer2.0" />
-    <dataSource name="MSSQLDataSource" connectionString="Data Source=${whost};Initial Catalog=${wsid};Persist Security Info=True;User ID=${wusername};Password=${wpassword}" />
+    <dataSource name="MSSQLDataSource" connectionString="Data Source=${whost};Initial Catalog=${wsid};Persist Security Info=True;Pooling=True;Min Pool Size=${wminpool};Max Pool Size=${wmaxpool};Asynchronous Processing=True;User ID=${wusername};Password=${wpassword};" />
   </database>
   <alias>
     <typeAlias alias="DataTable" type="System.Data.DataTable" />

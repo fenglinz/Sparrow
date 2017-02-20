@@ -14,7 +14,7 @@ namespace Mercurius.Prime.Data.IBatisNet
         private readonly ISqlMapper _writer;
 
         // 是否读写分离
-        private readonly bool _isReadWriteSpliting;
+        private readonly bool _isReadWriteSeparation;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace Mercurius.Prime.Data.IBatisNet
         /// <param name="sqlMapper">SqlMapper对象</param>
         public SqlMapperManager(ISqlMapper sqlMapper)
         {
-            this._isReadWriteSpliting = false;
+            this._isReadWriteSeparation = false;
             this._reader = this._writer = sqlMapper;
 
             this._reader.SessionStore = new HybridWebThreadSessionStore(this._reader.Id);
@@ -35,14 +35,14 @@ namespace Mercurius.Prime.Data.IBatisNet
         /// <summary>
         /// 构造方法。
         /// </summary>
-        /// <param name="reader">从数据库读取数据的SqlMapper</param>
         /// <param name="writer">向数据库写入数据的SqlMapper</param>
-        public SqlMapperManager(ISqlMapper reader, ISqlMapper writer)
+        /// <param name="reader">从数据库读取数据的SqlMapper</param>
+        public SqlMapperManager(ISqlMapper writer, ISqlMapper reader)
         {
-            this._reader = reader;
             this._writer = writer;
+            this._reader = reader;
 
-            this._isReadWriteSpliting = true;
+            this._isReadWriteSeparation = true;
             this._reader.SessionStore = new HybridWebThreadSessionStore(this._reader.Id);
             this._writer.SessionStore = new HybridWebThreadSessionStore(this._writer.Id);
         }
@@ -58,8 +58,8 @@ namespace Mercurius.Prime.Data.IBatisNet
         {
             get
             {
-                var result = this._isReadWriteSpliting ?
-                    (rw == RW.Read ? this._reader : this._writer) : this._reader;
+                var result = this._isReadWriteSeparation ?
+                    (rw == RW.Read ? this._reader : this._writer) : this._writer;
 
                 var callContextSessionStore = new CallContextSessionStore(result.Id);
 

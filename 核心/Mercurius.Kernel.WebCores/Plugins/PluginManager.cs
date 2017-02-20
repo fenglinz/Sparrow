@@ -11,6 +11,7 @@ using System.Xml;
 using Mercurius.Kernel.WebCores.Plugins;
 using Mercurius.Prime.Core;
 using System.Configuration;
+using System.Diagnostics;
 
 // 初始化插件。
 [assembly: PreApplicationStartMethod(typeof(PluginManager), "Initialize")]
@@ -265,13 +266,22 @@ namespace Mercurius.Kernel.WebCores.Plugins
 
             if (tempBins != null)
             {
-                for (var i = 0; i < tempBins.Count(); i++)
+                var bins = tempBins as string[] ?? tempBins.ToArray();
+
+                for (var i = 0; i < bins.Length; i++)
                 {
-                    var bin = tempBins.ElementAt(i);
+                    var bin = bins[i];
 
                     if (!sourceBins.Contains(bin))
                     {
-                        File.Delete(bin);
+                        try
+                        {
+                            File.Delete(bin);
+                        }
+                        catch (Exception exception)
+                        {
+                            Debug.WriteLine($"文件{bin}删除失败，原因：{exception.Message}");
+                        }
                     }
                 }
             }

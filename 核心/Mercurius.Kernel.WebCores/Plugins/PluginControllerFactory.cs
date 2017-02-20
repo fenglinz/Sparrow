@@ -27,7 +27,7 @@ namespace Mercurius.Kernel.WebCores.Plugins
                 controllerType = this.GetControllerType(namespaces, controllerName);
             }
 
-            return controllerType ?? (controllerType = base.GetControllerType(requestContext, controllerName));
+            return controllerType ?? (base.GetControllerType(requestContext, controllerName));
         }
 
         #region 私有方法
