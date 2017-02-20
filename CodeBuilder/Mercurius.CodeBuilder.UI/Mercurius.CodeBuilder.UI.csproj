@@ -150,6 +150,7 @@
     <Compile Include="ViewModels\LogOnServerViewModel.cs" />
     <Compile Include="ViewModels\OutputViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\CodeBuilderView2.xaml.cs">
       <DependentUpon>CodeBuilderView2.xaml</DependentUpon>
     </Compile>

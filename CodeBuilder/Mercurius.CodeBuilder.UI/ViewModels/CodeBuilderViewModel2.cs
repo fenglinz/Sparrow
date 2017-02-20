@@ -13,13 +13,11 @@ using Mercurius.CodeBuilder.Core.Events;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Mvvm;
-using Application = System.Windows.Application;
-using MessageBox = System.Windows.MessageBox;
 using static System.Configuration.ConfigurationManager;
 using Mercurius.CodeBuilder.DbMetadata.MSSQL;
 using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.DataProcess.Excel;
+using Application = System.Windows.Application;
 
 namespace Mercurius.CodeBuilder.UI.ViewModels
 {
@@ -33,11 +31,13 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
     /// 日期：2011-11-11
     /// </para>
     /// </summary>
-    public class CodeBuilderViewModel2 : BindableBase
+    public class CodeBuilderViewModel2 : ViewModelBase
     {
         #region 字段
 
         private readonly IEventAggregator _eventAggregator;
+
+        private readonly BuildEvent _buildEvent;
 
         private ICommand _loadedCommand;
         private ICommand _buildingCommand;
@@ -64,6 +64,9 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         #region 命令
 
+        /// <summary>
+        /// 窗体加载处理。
+        /// </summary>
         public ICommand LoadedCommand
         {
             get
@@ -82,6 +85,9 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// 加载项目的命令。
+        /// </summary>
         public ICommand InitializeProjectCommand
         {
             get
@@ -91,14 +97,14 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     {
                         if (!File.Exists(@"Projects\CSharp.zip"))
                         {
-                            MessageBox.Show(Application.Current.MainWindow, "请在应用程序的Projects文件夹中存入CSharp.zip基础项目文件。", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            ShowMessage("请在应用程序的Projects文件夹中存入CSharp.zip基础项目文件。", MessageBoxImage.Warning, "警告");
 
                             return;
                         }
 
                         if (string.IsNullOrWhiteSpace(this.Configuration.BaseNamespace))
                         {
-                            MessageBox.Show(Application.Current.MainWindow, "请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            ShowMessage("请输入命名空间！", MessageBoxImage.Warning);
 
                             return;
                         }
@@ -115,7 +121,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                             task.Start();
                             task.ContinueWith(t =>
                             {
-                                MessageBox.Show(Application.Current.MainWindow, "初始化完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                                ShowMessage("初始化完成!");
                             });
                         }
                     }));
@@ -164,11 +170,12 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                                    export.Export(tables, dialog.OpenFile());
 
-                                   MessageBox.Show(Application.Current.MainWindow, "表定义文档生成成功！", "提示", MessageBoxButton.OK);
+                                   ShowMessage("表定义文档生成成功！");
                                }
                                catch (Exception e)
                                {
-                                   MessageBox.Show(Application.Current.MainWindow, "出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
+                                   this._buildEvent.Publish(new BuildEventArg(Status.Failure));
+                                   ShowMessage("出现错误，错误原因：" + e.Message, MessageBoxImage.Error);
                                }
                            }
                        }));
@@ -186,7 +193,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 {
                     if (string.IsNullOrWhiteSpace(this.Configuration.BaseNamespace))
                     {
-                        MessageBox.Show(Application.Current.MainWindow, "请输入命名空间！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        ShowMessage("请输入命名空间！", MessageBoxImage.Warning);
 
                         return;
                     }
@@ -199,12 +206,13 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         {
                             codeCreator.Create(this.Configuration);
 
-                            MessageBox.Show(Application.Current.MainWindow, "生成完成！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                            ShowMessage("生成完成！");
                         }
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(Application.Current.MainWindow, "生成不成功，请稍后重试！\n错误详情：" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                        this._buildEvent.Publish(new BuildEventArg(Status.Failure));
+                        ShowMessage("生成不成功，请稍后重试！\n错误详情：" + e.Message, MessageBoxImage.Error);
                     }
                 }));
             }
@@ -223,7 +231,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                     if (db.Type != DatabaseType.MSSQL)
                     {
-                        MessageBox.Show(Application.Current.MainWindow, "提示：暂不支持SQL Server以外的数据库脚本导出！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                        ShowMessage("提示：暂不支持SQL Server以外的数据库脚本导出！");
 
                         return;
                     }
@@ -255,7 +263,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                             {
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
-                                    MessageBox.Show(Application.Current.MainWindow, "数据库脚本生成成功！", "提示", MessageBoxButton.OK);
+                                    ShowMessage("数据库脚本生成成功！");
                                 });
                             });
                         }
@@ -264,7 +272,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                             buildEvent?.Publish(new BuildEventArg(Status.Failure));
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                MessageBox.Show(Application.Current.MainWindow, "出现错误，错误原因：" + e.Message, "错误", MessageBoxButton.OK);
+                                ShowMessage("出现错误，错误原因：" + e.Message, MessageBoxImage.Error);
                             });
                         }
                     }
@@ -354,9 +362,14 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         #region 构造方法
 
+        /// <summary>
+        /// 构造方法。
+        /// </summary>
+        /// <param name="eventAggregator">事件分发器</param>
         public CodeBuilderViewModel2(IEventAggregator eventAggregator)
         {
             this._eventAggregator = eventAggregator;
+            this._buildEvent = eventAggregator.GetEvent<BuildEvent>();
 
             this.Configuration = new Configuration
             {
@@ -444,7 +457,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        MessageBox.Show(Application.Current.MainWindow, "发生错误，请稍后再试！\n" + e.Message, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                        ShowMessage("发生错误，请稍后再试！\n" + e.Message, MessageBoxImage.Error);
                     });
                 }
                 finally
