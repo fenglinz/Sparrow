@@ -9,17 +9,6 @@
     <!-- 添加首页快捷方式 -->
     <insert id="CreateOrUpdate" parameterClass="HomeShortcut">
       <![CDATA[
-        IF EXISTS(SELECT * FROM RBAC.HomeShortcut WHERE Id=#Id# AND UserId=#UserId#)
-          UPDATE RBAC.HomeShortcut
-          SET
-            Name=#Name#,
-            NavigateUrl=#NavigateUrl#,
-            Target=#Target#,
-            Image=#Image#,
-            Sort=#Sort#,
-            Remark=#Remark#
-          WHERE Id=#Id# AND UserId=#UserId#
-        ELSE 
           INSERT INTO RBAC.HomeShortcut
           (
             Id,
@@ -33,7 +22,7 @@
           )
           VALUES
           (
-            NEWID(),
+            uuid(),
             #UserId#,
             #Name#,
             #NavigateUrl#,
@@ -42,13 +31,22 @@
             #Sort#,
             #Remark#
           )
+          ON DUPLICATE KEY UPDATE
+          UPDATE RBAC_HomeShortcut
+          SET
+            Name=#Name#,
+            NavigateUrl=#NavigateUrl#,
+            Target=#Target#,
+            Image=#Image#,
+            Sort=#Sort#,
+            Remark=#Remark#
       ]]>
     </insert>
 
     <!-- 删除用户首页快捷方式 -->
     <delete id="Remove" parameterClass="Params">
       <![CDATA[
-        Delete FROM RBAC.HomeShortcut WHERE UserId=#UserId# AND Id IN
+        Delete FROM RBAC_HomeShortcut WHERE UserId=#UserId# AND Id IN
       ]]>
       <iterate property="HomeShortcutIds" open="(" close=")" conjunction=",">
         #HomeShortcutIds[]#
@@ -67,7 +65,7 @@
           ,Image
           ,Sort
           ,Remark
-        FROM RBAC.HomeShortcut
+        FROM RBAC_HomeShortcut
         WHERE Id=#value#
       ]]>
     </select>
@@ -84,7 +82,7 @@
           ,Image
           ,Sort
           ,Remark
-        FROM RBAC.HomeShortcut
+        FROM RBAC_HomeShortcut
         WHERE UserId=#value#
         ORDER BY Sort ASC
       ]]>

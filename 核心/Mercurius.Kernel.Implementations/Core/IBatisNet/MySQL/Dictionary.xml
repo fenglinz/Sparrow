@@ -9,16 +9,16 @@
     <select id="GetDictionary" parameterClass="string" resultClass="Dictionary">
       <![CDATA[
         SELECT 
-          Id
-          ,[Type]
-          ,[Key]
-          ,Value
-          ,Sort
-          ,Status
-          ,Remark
-          ,ParentId
-        FROM Dictionary
-        WHERE Id=#value#
+          `Id`
+          ,`Type`
+          ,`Key`
+          ,`Value`
+          ,`Sort`
+          ,`Status`
+          ,`Remark`
+          ,`ParentId`
+        FROM `Dictionary`
+        WHERE `Id`=#value#
       ]]>
     </select>
 
@@ -27,19 +27,19 @@
       <![CDATA[
         SELECT
           a.Id
-          ,a.[Type]
-          ,a.[Key]
-          ,a.Value
-          ,a.Status
-          ,a.Remark
-          ,a.ParentId
-          ,a.Sort
-          ,CAST(b.Sort as varchar)+'-'+CAST(a.Sort as varchar) AS FullSort
-          ,b.[Key] AS ParentName
-        FROM Dictionary a 
-        LEFT JOIN Dictionary b 
-          ON a.ParentId=b.id
-        ORDER BY b.Sort ASC,a.Sort ASC
+          ,a.`Type`
+          ,a.`Key`
+          ,a.`Value`
+          ,a.`Status`
+          ,a.`Remark`
+          ,a.`ParentId`
+          ,a.`Sort`
+          ,CAST(b.`Sort` as char(10))+'-'+CAST(a.`Sort` as char(10)) AS FullSort
+          ,b.`Key` AS ParentName
+        FROM `Dictionary` a 
+        LEFT JOIN `Dictionary` b 
+          ON a.`ParentId`=b.`Id`
+        ORDER BY b.`Sort` ASC,a.`Sort` ASC
       ]]>
     </select>
 
@@ -47,15 +47,15 @@
     <select id="GetCategories" resultClass="Dictionary">
       <![CDATA[
         SELECT 
-          a.Id,
-          a.[Type],
-          a.[ParentId],
-          a.[Key],
-          a.[Value],
-          a.[Sort]
-        FROM Dictionary a
-        WHERE a.ParentId IS NULL OR a.ParentId='0' OR a.[Type] IS NOT NULL
-        ORDER BY a.[Sort] ASC
+          a.`Id`,
+          a.`Type`,
+          a.`ParentId`,
+          a.`Key`,
+          a.`Value`,
+          a.`Sort`
+        FROM `Dictionary` a
+        WHERE a.`ParentId` IS NULL OR a.`ParentId`='0' OR a.`Type` IS NOT NULL
+        ORDER BY a.`Sort` ASC
       ]]>
     </select>
 
@@ -63,15 +63,15 @@
     <select id="GetCategoriesByParentKey" parameterClass="string" resultClass="Dictionary">
       <![CDATA[
         SELECT
-          [Id],
-          [Type],
-          [ParentId],
-          [Key],
-          [Value],
-          [Sort]
-        FROM Dictionary
-        WHERE ParentId=(SELECT TOP 1 Id FROM Dictionary WHERE ([Type]=1 OR ParentId IS NULL) AND [Key]=#value#)
-        ORDER BY Sort ASC
+          `Id`,
+          `Type`,
+          `ParentId`,
+          `Key`,
+          `Value`,
+          `Sort`
+        FROM `Dictionary`
+        WHERE `ParentId`=(SELECT `Id` FROM `Dictionary` WHERE (`Type`=1 OR `ParentId` IS NULL) AND `Key`=#value# LIMIT 1)
+        ORDER BY `Sort` ASC
       ]]>
     </select>
 
@@ -115,39 +115,38 @@
     <!-- 添加或更新字典信息 -->
     <insert id="CreateOrUpdate" parameterClass="Dictionary">
       <![CDATA[
-        IF EXISTS(SELECT * FROM Dictionary WHERE Id=#Id#)
-          UPDATE Dictionary
-          SET
-            [Key]=#Key#,
-            Value=#Value#,
-            ParentId=#ParentId#,
-            Sort=#Sort#,
-            Status=#Status#,
-            Remark=#Remark#
-          WHERE Id=#Id#
-        ELSE
-          INSERT INTO Dictionary
-          (
-            Id
-            ,[Type]
-            ,[Key]
-            ,Value
-            ,ParentId
-            ,Sort
-            ,Status
-            ,Remark
-          )
-          VALUES
-          (
-            #Id#
-            ,#Type#
-            ,#Key#
-            ,#Value#
-            ,#ParentId#
-            ,#Sort#
-            ,#Status#
-            ,#Remark#
-          )
+        INSERT INTO `Dictionary`
+        (
+          Id
+          ,`Type`
+          ,`Key`
+          ,`Value`
+          ,`ParentId`
+          ,`Sort`
+          ,`Status`
+          ,`Remark`
+        )
+        VALUES
+        (
+          #Id#
+          ,#Type#
+          ,#Key#
+          ,#Value#
+          ,#ParentId#
+          ,#Sort#
+          ,#Status#
+          ,#Remark#
+        )
+        ON DUPLICATE KEY
+        UPDATE
+        UPDATE Dictionary
+        SET
+          `Key`=#Key#,
+          `Value`=#Value#,
+          `ParentId`=#ParentId#,
+          `Sort`=#Sort#,
+          `Status`=#Status#,
+          `Remark`=#Remark#
       ]]>
     </insert>
 

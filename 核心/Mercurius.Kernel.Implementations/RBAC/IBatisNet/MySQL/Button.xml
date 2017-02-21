@@ -37,8 +37,7 @@
           #CreateUserId#,
           now()
         )
-        ON DUPLICATE KEY
-        UPDATE
+        ON DUPLICATE KEY UPDATE
         UPDATE `RBAC_Button`
         SET
           `Name`=#Name#,
