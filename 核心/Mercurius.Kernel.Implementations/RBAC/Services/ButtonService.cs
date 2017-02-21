@@ -47,9 +47,14 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         {
             return this.InvokeService(nameof(Remove), () =>
             {
-                this.Persistence.Delete(NS, "Remove", id);
+                var count = this.Persistence.QueryForObject<int>("CheckButtonUsed", id);
 
-                this.ClearCache<Button>();
+                if (count < 1)
+                {
+                    this.Persistence.Delete(NS, "Remove", id);
+
+                    this.ClearCache<Button>();
+                }
             }, id);
         }
 

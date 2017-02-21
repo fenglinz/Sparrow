@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Permission" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Kernel.Repositories.RBAC.Permission" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="SystemMenu" type="Mercurius.Sparrow.Entities.RBAC.SystemMenu, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="SystemMenu" type="Mercurius.Kernel.Contracts.RBAC.Entities.SystemMenu, Mercurius.Kernel.Contracts" />
   </alias>
 
   <statements>
@@ -354,10 +354,10 @@
           M.ParentId,
           M.NavigateUrl,
           M.Sort
-        FROM RBAC.SystemMenu M
-        LEFT JOIN RBAC.RolePermission R_R 
+        FROM RBAC_SystemMenu M
+        LEFT JOIN RBAC_RolePermission R_R 
           ON R_R.SystemMenuId=M.Id
-        LEFT JOIN RBAC.UserRole U_R 
+        LEFT JOIN RBAC_UserRole U_R 
           ON U_R.RoleId=R_R.RoleId
         WHERE M.Category<>3 AND U_R.UserId=#value# AND M.Status=1
         UNION ALL
@@ -371,11 +371,11 @@
           M.ParentId,
           M.NavigateUrl,
           M.Sort
-        FROM RBAC.SystemMenu M
-        LEFT JOIN RBAC.UserPermission U_R 
+        FROM RBAC_SystemMenu M
+        LEFT JOIN RBAC_UserPermission U_R 
           ON U_R.SystemMenuId=M.Id
         WHERE M.Category<>3 AND U_R.UserId=#value# AND M.Status=1
-        ORDER BY M.Sort
+        ORDER BY Sort
       ]]>
     </select>
 
@@ -394,12 +394,12 @@
             B.Code AS NavigateUrl,
             M.Sort,
             M.Category
-          FROM RBAC.SystemMenu M
-          LEFT JOIN RBAC.RolePermission R_R 
+          FROM RBAC_SystemMenu M
+          LEFT JOIN RBAC_RolePermission R_R 
             ON R_R.SystemMenuId=M.Id
-          LEFT JOIN RBAC.UserRole U_R 
+          LEFT JOIN RBAC_UserRole U_R 
             ON U_R.RoleId=R_R.RoleId
-          LEFT JOIN RBAC.Button B
+          LEFT JOIN RBAC_Button B
             ON M.Name=B.Name
           WHERE U_R.UserId=#UserId# AND M.Status=1
           UNION
@@ -414,10 +414,10 @@
             B.Code AS NavigateUrl,
             M.Sort,
             M.Category
-          FROM RBAC.SystemMenu M
-          LEFT JOIN RBAC.UserPermission U_R 
+          FROM RBAC_SystemMenu M
+          LEFT JOIN RBAC_UserPermission U_R 
             ON U_R.SystemMenuId=M.Id
-          LEFT JOIN RBAC.Button B
+          LEFT JOIN RBAC_Button B
             ON M.Name=B.Name
           WHERE U_R.UserId=#UserId# AND M.Status=1
         )

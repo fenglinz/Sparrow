@@ -4,7 +4,7 @@
     <typeAlias alias="Table" type="Mercurius.Prime.Core.Ado.Table, Mercurius.Prime.Core"/>
     <typeAlias alias="Partition" type="Mercurius.Kernel.Contracts.Core.Entities.Partition, Mercurius.Kernel.Contracts" />
   </alias>
-  
+
   <resultMaps>
     <resultMap id="GetPartitionsRM" class="Partition">
       <result property="Name" column="PARTITION_NAME" />

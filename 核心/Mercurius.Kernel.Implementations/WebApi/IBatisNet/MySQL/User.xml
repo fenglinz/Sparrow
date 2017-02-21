@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.Sparrow.Repositories.WebApi.User" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Kernel.Repositories.WebApi.User" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="WebApiUser" type="Mercurius.Sparrow.Entities.WebApi.User, Mercurius.Sparrow.Entities" />
-    <typeAlias alias="WebApiUserSO" type="Mercurius.Sparrow.Entities.WebApi.SO.UserSO, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="WebApiUser" type="Mercurius.Kernel.Contracts.WebApi.Entities.User, Mercurius.Kernel.Contracts" />
+    <typeAlias alias="WebApiUserSO" type="Mercurius.Kernel.Contracts.WebApi.SearchObjects.UserSO, Mercurius.Kernel.Contracts" />
   </alias>
   <statements>
+
     <!-- 添加或者更新WebApi用户信息。 -->
     <update id="CreateOrUpdate" parameterClass="WebApiUser">
       <![CDATA[
@@ -64,6 +65,24 @@
       ]]>
     </delete>
 
+    <!-- 设置刷新令牌 -->
+    <update id="SetRefreshToken" parameterClass="Params">
+      <![CDATA[
+        UPDATE [WebApi].[User]
+        SET 
+          RefreshToken=#RefreshToken#,
+          ProtectedTicket=#Token#
+        WHERE [Account]=#Account#
+      ]]>
+    </update>
+
+    <select id="GetToken" parameterClass="string" resultClass="string">
+      <![CDATA[
+        SELECT ProtectedTicket FROM [WebApi].[User] WHERE [RefreshToken]=#value#;
+        UPDATE [WebApi].[User] SET RefreshToken=NULL WHERE [RefreshToken]=#value#;
+      ]]>
+    </select>
+    
     <!-- 根据主键获取WebApi用户信息。 -->
     <select id="GetById" parameterClass="int" resultClass="WebApiUser">
       <![CDATA[

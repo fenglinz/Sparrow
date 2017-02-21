@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Organization" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Kernel.Repositories.RBAC.Organization" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Organization" type="Mercurius.Sparrow.Entities.RBAC.Organization, Mercurius.Sparrow.Entities"/>
-    <typeAlias alias="OrganizationSO" type="Mercurius.Sparrow.Entities.RBAC.SO.OrganizationSO, Mercurius.Sparrow.Entities"/>
+    <typeAlias alias="Organization" type="Mercurius.Kernel.Contracts.RBAC.Entities.Organization, Mercurius.Kernel.Contracts" />
+    <typeAlias alias="OrganizationSO" type="Mercurius.Kernel.Contracts.RBAC.SearchObjects.OrganizationSO, Mercurius.Kernel.Contracts" />
   </alias>
 
   <statements>

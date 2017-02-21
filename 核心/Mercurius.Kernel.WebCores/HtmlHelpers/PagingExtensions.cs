@@ -221,16 +221,12 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
             return MvcHtmlString.Create(htmlString.ToString());
         }
 
-        #endregion
-
-        #region 私有方法
-
         /// <summary>
         /// 取得当前页数。
         /// </summary>
         /// <param name="html">HTML呈现器</param>
         /// <returns>当前页数</returns>
-        private static int GetCurrentIndex(this HtmlHelper html)
+        public static int GetCurrentIndex(this HtmlHelper html)
         {
             int currentIndex;
 
@@ -251,6 +247,10 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
 
             return currentIndex;
         }
+
+        #endregion
+
+        #region 私有方法
 
         /// <summary>
         /// 生成分页栏上的菜单。

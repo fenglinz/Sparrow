@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Role" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Kernel.Repositories.RBAC.Role" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Role" type="Mercurius.Sparrow.Entities.RBAC.Role, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="Role" type="Mercurius.Kernel.Contracts.RBAC.Entities.Role, Mercurius.Kernel.Contracts" />
   </alias>
 
   <statements>

@@ -117,8 +117,8 @@
     <Compile Include="HtmlHelpers\MercuriusUrlHelper.cs" />
     <Compile Include="HtmlHelpers\ModelExtensions.cs" />
     <Compile Include="HtmlHelpers\PagingExtensions.cs" />
-    <Compile Include="HtmlHelpers\Table\Table.cs" />
-    <Compile Include="HtmlHelpers\Table\TableColumn.cs" />
+    <Compile Include="HtmlHelpers\Controls\DataGrid.cs" />
+    <Compile Include="HtmlHelpers\Controls\DataGridColumn.cs" />
     <Compile Include="HtmlHelpers\ValidationExtensions.cs" />
     <Compile Include="OAuth2\AuthorizationServerProvider.cs" />
     <Compile Include="OAuth2\RefreshTokenProvider.cs" />

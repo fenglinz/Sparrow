@@ -22,6 +22,15 @@ namespace Mercurius.Prime.Core.Services
 
         #endregion
 
+        #region 业务属性
+
+        /// <summary>
+        /// 获取偏移的行数。
+        /// </summary>
+        public int OffsetRows => (this.PageIndex - 1) * this.PageSize;
+
+        #endregion
+
         #region 构造方法
 
         /// <summary>

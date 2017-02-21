@@ -46,51 +46,14 @@
 }
 <div class="header">首页快捷功能</div>
 @Html.RenderAccessibleButtons()
-<table id="table1" class="grid">
-    <thead>
-        <tr>
-            <td style="width: 40px;">
-                <label class="check-all" title="全选"></label>
-            </td>
-            <td style="width: 50px;">图标</td>
-            <td style="width: 100px;">快捷功能</td>
-            <td style="width: 60px;">连接目标</td>
-            <td style="width: 500px">连接地址</td>
-            <td style="width: 60px;">显示顺序</td>
-            <td style="text-align:left;">描述</td>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.HasData())
-        {
-            foreach (var item in Model.Datas)
-            {
-                <tr>
-                    <td style="text-align: center;">
-                        <input type="checkbox" value="@item.Id" name="checkbox" />
-                    </td>
-                    <td style="text-align: center;">
-                        <i class="@item.Image fa-2x"></i>
-                    </td>
-                    <td>@item.Name</td>
-                    <td style="text-align: center;">@item.Target</td>
-                    <td>@item.NavigateUrl</td>
-                    <td style="text-align: center;">@item.Sort</td>
-                    <td>@item.Remark</td>
-                </tr>
-            }
-        }
-        else if (Model.IsSuccess)
-        {
-            <tr>
-                <td colspan='7' class="empty-data">@Html.GetGlobalValue("empty-data")</td>
-            </tr>
-        }
-        else
-        {
-            <tr>
-                <td colspan='7' class="empty-data">@Model.ErrorMessage</td>
-            </tr>
-        }
-    </tbody>
-</table>
+@Html.DataGridFor(Model,
+    t => t.Id("table1")
+          .RowData(m => m.Id)
+          .CustomColumn(@<label class="check-all" title="全选"></label>, 40, @<input type="checkbox" value="@item.Id" name="checkbox" />, "text-center")
+          .CustomColumn("图标", 50, @<i class="@item.Image" style="font-size: 1.5em;"></i>, "text-center")
+          .Column(c => c.Name, "快捷功能", 100)
+          .Column(c => c.Target, "连接目标", 60)
+          .Column(c => c.NavigateUrl, "连接地址", 500)
+          .Column(c => c.Sort, "显示顺序", 60)
+          .Column(c => c.Remark, "描述")
+)

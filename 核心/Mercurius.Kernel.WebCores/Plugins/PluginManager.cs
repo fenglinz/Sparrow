@@ -137,12 +137,14 @@ namespace Mercurius.Kernel.WebCores.Plugins
 
                             var pluginDllPath = Path.Combine(PluginBinsTemporaryDirectory, Path.GetFileName(bin));
 
-                            if (File.Exists(pluginDllPath))
+                            try
                             {
-                                File.Delete(pluginDllPath);
+                                File.Copy(bin, pluginDllPath, true);
                             }
-
-                            File.Copy(bin, pluginDllPath, true);
+                            catch (Exception exception)
+                            {
+                                Debug.WriteLine($"复制失败，请重启IIS后再重试！");
+                            }
 
                             // 加载程序集。
                             // 将程序集加载到当前应用程序域。

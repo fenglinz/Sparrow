@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.HomeShortcut" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Kernel.Repositories.RBAC.HomeShortcut" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="HomeShortcut" type="Mercurius.Sparrow.Entities.RBAC.HomeShortcut, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="HomeShortcut" type="Mercurius.Kernel.Contracts.RBAC.Entities.HomeShortcut, Mercurius.Kernel.Contracts" />
   </alias>
 
   <statements>

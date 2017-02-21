@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using Mercurius.Kernel.WebCores.HtmlHelpers.Controls;
+using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Kernel.WebCores.HtmlHelpers
 {
@@ -352,6 +353,29 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
         public static FormGroup<T> FormGroupFor<T>(this HtmlHelper<T> html, Screen screen = Screen.Default)
         {
             return new FormGroup<T>(html, screen);
+        }
+
+        #endregion
+
+        #region 表格显示
+
+        /// <summary>
+        /// 显示数据表。
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="html">Html助手对象</param>
+        /// <param name="datas">数据集合</param>
+        /// <param name="callback">表格属性设置回调</param>
+        /// <returns>表格的HTML片段</returns>
+        public static IHtmlString DataGridFor<T>(
+            this HtmlHelper<ResponseSet<T>> html,
+            ResponseSet<T> datas, Action<DataGrid<T>> callback = null)
+        {
+            var dataGrid = new DataGrid<T>(html);
+
+            callback?.Invoke(dataGrid);
+
+            return dataGrid.Render(datas);
         }
 
         #endregion

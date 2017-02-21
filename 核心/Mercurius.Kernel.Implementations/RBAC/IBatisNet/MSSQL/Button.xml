@@ -54,12 +54,19 @@
       ]]>
     </update>
 
+    <!-- 检查按钮是否已经被使用 -->
+    <select id="CheckButtonUsed" parameterClass="string" resultClass="int">
+      <![CDATA[
+        IF EXISTS(SELECT * FROM RBAC.SystemMenu WHERE Name IN (SELECT Name FROM RBAC.Button WHERE Id=#value#) AND Category=3)
+          SELECT 1;
+        ELSE
+          SELECT 0;
+      ]]>
+    </select>
+    
     <!-- 删除按钮 -->
     <delete id="Remove" parameterClass="string">
       <![CDATA[
-        IF EXISTS(SELECT * FROM RBAC.SystemMenu WHERE Name IN (SELECT Name FROM RBAC.Button WHERE Id=#value#) AND Category=3)
-          RAISERROR('此按钮已经被使用，不能删除！', 16, 1);
-        ELSE
 	        DELETE FROM RBAC.Button WHERE Id=#value#;
       ]]>
     </delete>

@@ -70,7 +70,7 @@
         }
 
         function ViewDetails() {
-            var logId = $('#logsGrid tr.selected').find('td:eq(7)').text().trim();
+            var logId = $('#logsGrid tr.selected').attr('data-id');
 
             if (mercurius.HasSingleRowSelected(logId)) {
                 var url = '@Url.Action("ViewDetails")/' + logId;

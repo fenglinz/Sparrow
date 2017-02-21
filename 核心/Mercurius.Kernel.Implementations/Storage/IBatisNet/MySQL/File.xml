@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sqlMap namespace="Mercurius.Sparrow.Repositories.Storage.File" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Kernel.Repositories.Storage.File" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="File" type="Mercurius.Sparrow.Entities.Storage.File,Mercurius.Sparrow.Entities" />
-    <typeAlias alias="FileSO" type="Mercurius.Sparrow.Entities.Storage.SO.FileSO,Mercurius.Sparrow.Entities" />
-    <typeAlias alias="BusinessFile" type="Mercurius.Sparrow.Entities.Storage.BusinessFile, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="File" type="Mercurius.Kernel.Contracts.Storage.Entities.File, Mercurius.Kernel.Contracts" />
+    <typeAlias alias="FileSO" type="Mercurius.Kernel.Contracts.Storage.SearchObjects.FileSO, Mercurius.Kernel.Contracts" />
+    <typeAlias alias="BusinessFile" type="Mercurius.Kernel.Contracts.Storage.Entities.BusinessFile, Mercurius.Kernel.Contracts" />
   </alias>
 
   <resultMaps>

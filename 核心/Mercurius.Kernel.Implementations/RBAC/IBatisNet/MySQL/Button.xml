@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<sqlMap namespace="Mercurius.Sparrow.Repositories.RBAC.Button" xmlns="http://ibatis.apache.org/mapping">
+<sqlMap namespace="Mercurius.Kernel.Repositories.RBAC.Button" xmlns="http://ibatis.apache.org/mapping">
   <alias>
-    <typeAlias alias="Button" type="Mercurius.Sparrow.Entities.RBAC.Button, Mercurius.Sparrow.Entities" />
+    <typeAlias alias="Button" type="Mercurius.Kernel.Contracts.RBAC.Entities.Button, Mercurius.Kernel.Contracts" />
   </alias>
 
   <statements>
@@ -9,58 +9,65 @@
     <!-- 新增修改按钮信息 -->
     <update id="CreateOrUpdate" parameterClass="Button">
       <![CDATA[
-        IF EXISTS(SELECT * FROM RBAC.Button WHERE Id=#Id#)
-          UPDATE RBAC.Button
-          SET 
-            Name=#Name#,
-            Title=#Title#,
-            Image=#Image#,
-            Code=#Code#,
-            Sort=#Sort#,
-            Category=#Category#,
-            Remark=#Remark#,
-            ModifyUserId=#ModifyUserId#,
-            ModifyDateTime=GETDATE()
-          WHERE Id=#Id#
-        ELSE
-          INSERT INTO RBAC.Button
-          (
-            Id,
-            Name,
-            Title,
-            Image,
-            Code,
-            Sort,
-            Category,
-            Remark,
-            Status,
-            CreateUserId,
-            CreateDateTime
-          )
-          VALUES
-          (
-            NEWID(),
-            #Name#,
-            #Title#,
-            #Image#,
-            #Code#,
-            #Sort#,
-            #Category#,
-            #Remark#,
-            1,
-            #CreateUserId#,
-            GETDATE()
-          )
+        INSERT INTO `RBAC_Button`
+        (
+          `Id`,
+          `Name`,
+          `Title`,
+          `Image`,
+          `Code`,
+          `Sort`,
+          `Category`,
+          `Remark`,
+          `Status`,
+          `CreateUserId`,
+          `CreateDateTime`
+        )
+        VALUES
+        (
+          uuid(),
+          #Name#,
+          #Title#,
+          #Image#,
+          #Code#,
+          #Sort#,
+          #Category#,
+          #Remark#,
+          1,
+          #CreateUserId#,
+          now()
+        )
+        ON DUPLICATE KEY
+        UPDATE
+        UPDATE `RBAC_Button`
+        SET
+          `Name`=#Name#,
+          `Title`=#Title#,
+          `Image`=#Image#,
+          `Code`=#Code#,
+          `Sort`=#Sort#,
+          `Category`=#Category#,
+          `Remark`=#Remark#,
+          `ModifyUserId`=#ModifyUserId#,
+          `ModifyDateTime`=now()
       ]]>
     </update>
 
+    <!-- 检查按钮是否已经被使用 -->
+    <select id="CheckButtonUsed" parameterClass="string" resultClass="int">
+      <![CDATA[
+        SELECT
+          1
+        FROM `RBAC_SystemMenu`
+        WHERE `Name` IN (SELECT `Name` FROM `RBAC_Button` WHERE `Id`=#value#) AND `Category`=3
+        LIMIT 1
+      ]]>
+    </select>
+    
     <!-- 删除按钮 -->
     <delete id="Remove" parameterClass="string">
       <![CDATA[
-        IF EXISTS(SELECT * FROM RBAC.SystemMenu WHERE Name IN (SELECT Name FROM RBAC.Button WHERE Id=#value#) AND Category=3)
-          RAISERROR('此按钮已经被使用，不能删除！', 16, 1);
-        ELSE
-	        DELETE FROM RBAC.Button WHERE Id=#value#;
+	        DELETE FROM `RBAC_Button` WHERE `Id`=#value#;
       ]]>
     </delete>
 
@@ -68,26 +75,26 @@
     <select id="GetButtonById" parameterClass="string" resultClass="Button">
       <![CDATA[
         SELECT
-          a.Id
-          ,a.Name
-          ,a.Title
-          ,a.Image
-          ,a.Code
-          ,a.Sort
-          ,a.Category
-          ,a.Remark
-          ,a.CreateUserId
-          ,u1.Name AS CreateUserName
-          ,a.CreateDateTime
-          ,a.ModifyUserId
-          ,u2.Name AS ModifyUserName
-          ,a.ModifyDateTime
-        FROM RBAC.Button a
-        LEFT JOIN RBAC.[User] u1
-          ON a.CreateUserId=u1.Id
-        LEFT JOIN RBAC.[User] u2
-          ON a.ModifyUserId=u2.Id
-        WHERE a.Id=#value#
+          a.`Id`
+          ,a.`Name`
+          ,a.`Title`
+          ,a.`Image`
+          ,a.`Code`
+          ,a.`Sort`
+          ,a.`Category`
+          ,a.`Remark`
+          ,a.``CreateUserId`
+          ,u1.`Name` AS CreateUserName
+          ,a.`CreateDateTime`
+          ,a.`ModifyUserId`
+          ,u2.`Name` AS ModifyUserName
+          ,a.`ModifyDateTime`
+        FROM `RBAC_Button` a
+        LEFT JOIN `RBAC_User` u1
+          ON a.`CreateUserId`=u1.`Id`
+        LEFT JOIN `RBAC_User` u2
+          ON a.`ModifyUserId`=u2.`Id`
+        WHERE a.`Id`=#value#
       ]]>
     </select>
     
@@ -95,50 +102,46 @@
     <select id="GetButtons" resultClass="Button">
       <![CDATA[ 
         SELECT
-          a.Id
-          ,a.Name
-          ,a.Title
-          ,a.Image
-          ,a.Code
-          ,a.Sort
-          ,a.Category
-          ,a.Remark
-          ,a.CreateUserId
-          ,u1.Name AS CreateUserName
-          ,a.CreateDateTime
-          ,a.ModifyUserId
-          ,u2.Name AS ModifyUserName
-          ,a.ModifyDateTime
-        FROM RBAC.BUTTON a
-        LEFT JOIN RBAC.[User] u1
-          ON a.CreateUserId=u1.Id
-        LEFT JOIN RBAC.[User] u2
-          ON a.ModifyUserId=u2.Id
-        WHERE a.Status=1
-        ORDER BY SORT ASC
+          a.`Id`
+          ,a.`Name`
+          ,a.`Title`
+          ,a.`Image`
+          ,a.`Code`
+          ,a.`Sort`
+          ,a.`Category`
+          ,a.`Remark`
+          ,a.`CreateUserId`
+          ,u1.`Name` AS CreateUserName
+          ,a.`CreateDateTime`
+          ,a.`ModifyUserId`
+          ,u2.`Name` AS ModifyUserName
+          ,a.`ModifyDateTime`
+        FROM `RBAC_BUTTON` a
+        LEFT JOIN `RBAC_User` u1
+          ON a.`CreateUserId`=u1.`Id`
+        LEFT JOIN `RBAC_User` u2
+          ON a.`ModifyUserId`=u2.`Id`
+        WHERE a.`Status`=1
+        ORDER BY `Sort` ASC
       ]]>
     </select>
 
     <!-- 获取标记为已分配的按钮信息 -->
     <select id="GetButtonsWithAllot" parameterClass="string" resultClass="Button">
       <![CDATA[
-        WITH cte AS(
-	        SELECT
-		        b.Id,
-		        a.Sort
-	        FROM rbac.SystemMenu a
-	        INNER JOIN RBAC.Button b ON a.Name=b.Name
-	        WHERE ParentId=#value# AND a.Category=3
-        )
-        SELECT 
-          a.*,
-          CASE WHEN p.Id IS NULL THEN 0 ELSE 1 END IsAllotToSystemMenu,
-          p.Sort
-        FROM RBAC.Button a
-        OUTER APPLY(
-	        SELECT * FROM cte WHERE a.Id=cte.Id
-        ) p
-        ORDER BY CASE WHEN p.Id IS NULL THEN 0 ELSE 1 END DESC, p.Sort ASC,a.Sort ASC
+        SELECT
+          CASE WHEN cte.`Id` IS NULL THEN 0 ELSE 1 END AS IsAllotToSystemMenu,
+          a.*
+        FROM(
+            SELECT
+              b.`Id`,
+              a.`Sort`
+            FROM `rbac_SystemMenu` a
+            INNER JOIN `RBAC_Button` b ON a.`Name`=b.`Name`
+            WHERE `ParentId`=#value# AND a.`Category`=3
+        ) cte 
+        RIGHT JOIN `RBAC_Button` a ON a.`Id` = cte.`Id`
+        ORDER BY CASE WHEN cte.`Id` IS NULL THEN 0 ELSE 1 END DESC, cte.`Sort` ASC, a.`Sort` ASC
       ]]>
     </select>
   </statements>
