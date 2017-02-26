@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Mercurius.Prime.Core.Entities;
+using Newtonsoft.Json;
 
 namespace Mercurius.Kernel.Contracts.RBAC.Entities
 {
@@ -75,6 +77,13 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
         public virtual string Target { get; set; }
 
         /// <summary>
+        /// 按钮。
+        /// </summary>
+        [Display(Name = "按钮")]
+        [Column("Buttons")]
+        public virtual string Buttons { get; set; }
+
+        /// <summary>
         /// 排序码。
         /// </summary>
         [Display(Name = "排序码")]
@@ -91,6 +100,11 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
         #endregion
 
         #region 业务属性
+
+        /// <summary>
+        /// 拥有的按钮。
+        /// </summary>
+        public virtual IList<Button> HasButtons => JsonConvert.DeserializeObject<IList<Button>>(this.Buttons);
 
         /// <summary>
         /// 完整的排序号(父节点排序号+"-"+当前排序号)。
