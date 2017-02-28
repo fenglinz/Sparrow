@@ -37,6 +37,11 @@ namespace Mercurius.Kernel.WebCores.Plugins
         public static string PluginsDirectory { get; private set; }
 
         /// <summary>
+        /// 插件视图相对于Web应用程序的路径。
+        /// </summary>
+        public static string PluginsWebApplicationPath { get; private set; }
+
+        /// <summary>
         /// 插件dll临时存放目录。
         /// </summary>
         public static string PluginBinsTemporaryDirectory { get; private set; }
@@ -55,10 +60,11 @@ namespace Mercurius.Kernel.WebCores.Plugins
         /// </summary>
         static PluginManager()
         {
-            var plugins = ConfigurationManager.AppSettings["Plugins"]?.Replace("/", "\\") ?? "App_Data\\Plugins";
+            var plugins = ConfigurationManager.AppSettings["Plugins"]?.Trim('\\', '/').Replace("/", "\\") ?? "App_Data\\Plugins";
 
-            _pluginBins = ConfigurationManager.AppSettings["PluginBins"]?.Replace("/", "\\") ?? "plugins";
+            _pluginBins = ConfigurationManager.AppSettings["PluginBins"]?.Trim('\\', '/').Replace("/", "\\") ?? "plugins";
 
+            PluginsWebApplicationPath = $"~/{plugins.Replace("\\", "/")}";
             PluginsDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{plugins}";
             PluginBinsTemporaryDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}{_pluginBins}";
 

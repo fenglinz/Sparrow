@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages.Razor;
+using static Mercurius.Kernel.WebCores.Plugins.PluginManager;
 
 namespace Mercurius.Kernel.WebCores.Plugins
 {
@@ -18,10 +19,10 @@ namespace Mercurius.Kernel.WebCores.Plugins
         /// 区域视图位置格式化字符串集合。
         /// </summary>
         private string[] _areaViewLocationFormats = {
-                "~/App_Data/Plugins/{2}/Views/{1}/{0}.cshtml",
-                "~/App_Data/Plugins/{2}/Views/{1}/{0}.vbhtml",
-                "~/App_Data/Plugins/{2}/Views/Shared/{0}.cshtml",
-                "~/App_Data/Plugins/{2}/Views/Shared/{0}.vbhtml",
+                PluginsWebApplicationPath + "/{2}/Views/{1}/{0}.cshtml",
+                PluginsWebApplicationPath + "/{2}/Views/{1}/{0}.vbhtml",
+                PluginsWebApplicationPath + "/{2}/Views/Shared/{0}.cshtml",
+                PluginsWebApplicationPath + "/{2}/Views/Shared/{0}.vbhtml",
                 "~/Areas/{2}/Views/{1}/{0}.cshtml",
                 "~/Areas/{2}/Views/{1}/{0}.vbhtml",
                 "~/Areas/{2}/Views/Shared/{0}.cshtml",
