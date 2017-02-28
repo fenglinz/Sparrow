@@ -48,8 +48,7 @@ namespace Mercurius.Kernel.WebCores.Plugins
         /// <summary>初始化Razor引擎，参照
         /// <see cref="T:System.Web.Mvc.RazorViewEngine" /> 类。
         /// </summary>
-        public PluginRazorViewEngine()
-            : this(null)
+        public PluginRazorViewEngine() : this(null)
         {
         }
 
@@ -58,8 +57,7 @@ namespace Mercurius.Kernel.WebCores.Plugins
         /// 构造方法：使用视图创建器初始化。
         /// </summary>
         /// <param name="viewPageActivator">视图创建器</param>
-        public PluginRazorViewEngine(IViewPageActivator viewPageActivator)
-            : base(viewPageActivator)
+        public PluginRazorViewEngine(IViewPageActivator viewPageActivator) : base(viewPageActivator)
         {
             base.AreaViewLocationFormats = _areaViewLocationFormats;
             base.AreaMasterLocationFormats = _areaViewLocationFormats;
