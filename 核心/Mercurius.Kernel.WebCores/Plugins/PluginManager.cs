@@ -192,6 +192,9 @@ namespace Mercurius.Kernel.WebCores.Plugins
             var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
 
             m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "PRIVATE_BINPATH", privateBinPath });
+
+            // 插件注册。
+            RegisterPluginAreas();
         }
 
         #endregion
