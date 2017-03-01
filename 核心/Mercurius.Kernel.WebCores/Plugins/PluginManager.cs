@@ -73,7 +73,7 @@ namespace Mercurius.Kernel.WebCores.Plugins
                 Directory.CreateDirectory(PluginBinsTemporaryDirectory);
             }
 
-            if (File.Exists(PluginsDirectory))
+            if (Directory.Exists(PluginsDirectory))
             {
                 _fileSystemWatcher = new FileSystemWatcher(PluginsDirectory, "*.dll")
                 {
