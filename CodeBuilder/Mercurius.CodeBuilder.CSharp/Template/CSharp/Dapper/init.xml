@@ -3,8 +3,9 @@
   <item
     name="Entity"
     template="Entity.xslt"
-    module="entity"
+    module="interface"
     fileFormat="{0}"
+    subFolder="Entities"
     extension="cs"
     handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
     project="" />
@@ -12,10 +13,10 @@
   <item
     name="SearchResponse"
     template="SearchResponse.xslt"
-    module="contract"
+    module="interface"
+    subFolder="SearchObjects"
     fileFormat="{0}SO"
     extension="cs"
-    subFolder="SearchObjects"
     handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
     project="" />
 
@@ -23,11 +24,11 @@
     name="SqlMap"
     dependency="Entity,SearchResponse"
     template="Dapper\SqlMap.xslt"
-    module="service"
+    module="implement"
+    subFolder="Scripts\{dbType}"
     fileFormat="{0}Service"
     extension="xml"
     ignoreView="true"
-    subFolder="Scripts\{dbType}"
     handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
     project=""/>
 
@@ -35,7 +36,8 @@
     name="Contract"
     dependency="Entity,Response,SearchResponse"
     template="IContract.xslt"
-    module="contract"
+    module="interface"
+    subFolder="Services"
     fileFormat="I{0}Service"
     extension="cs"
     ignoreView="true"
@@ -46,7 +48,8 @@
     name="Service"
     dependency="Entity,SearchResponse,Contract"
     template="Dapper\Service.xslt"
-    module="service"
+    module="implement"
+    subFolder="Services"
     fileFormat="{0}Service"
     extension="cs"
     ignoreView="true"

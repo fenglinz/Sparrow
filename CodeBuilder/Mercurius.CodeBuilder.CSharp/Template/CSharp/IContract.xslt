@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using <xsl:value-of select="./rootNamespace"/>.Prime.Core.Services;
+using YlY2PRO.PlatForm.Core.Services;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {
@@ -63,17 +63,8 @@ using <xsl:value-of select="./rootNamespace"/>.Prime.Core.Services;
         /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param>
         </xsl:for-each>
         /// &lt;returns>返回删除结果&lt;/returns>
-        Response Remove(
-          <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-            <xsl:value-of select="@basicType"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="@fieldName"/>
-            <xsl:if test="position()!=last()">
-              <xsl:text>, </xsl:text>
-            </xsl:if>
-          </xsl:for-each><xsl:text>);</xsl:text>
-        </xsl:otherwise>
-      </xsl:choose></xsl:if>
+        Response Remove(<xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>);</xsl:text></xsl:otherwise></xsl:choose></xsl:if>
+
       <xsl:if test="count(./table[@hasSingleData='true'])=1">
       <xsl:choose>
         <xsl:when test="count(./table/column[@isPrimaryKey='true'])=1">
@@ -83,23 +74,15 @@ using <xsl:value-of select="./rootNamespace"/>.Prime.Core.Services;
         /// &lt;param name="id"><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
         Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id);
-          </xsl:when><xsl:otherwise>
+        </xsl:when><xsl:otherwise>
         /// &lt;summary>
         /// 根据主键获取<xsl:value-of select="./table/@description" />信息。
         /// &lt;/summary><xsl:for-each select="./table/column[@isPrimaryKey='true']">
         /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
-        Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/><xsl:text>ById(</xsl:text>
-            <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-              <xsl:value-of select="@basicType"/><xsl:text> </xsl:text>
-              <xsl:value-of select="@fieldName"/>
-              <xsl:if test="position()!=last()">
-                <xsl:text>, </xsl:text>
-              </xsl:if>
-            </xsl:for-each><xsl:text>);</xsl:text>
-          </xsl:otherwise>
-        </xsl:choose>
+        Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/><xsl:text>ById(</xsl:text><xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>);</xsl:text></xsl:otherwise></xsl:choose>
       </xsl:if>
+
       <xsl:if test="count(./table[@hasSearchData='true'])=1">
         /// &lt;summary>
         /// 查询并分页获取<xsl:value-of select="./table/@description" />信息。

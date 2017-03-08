@@ -12,7 +12,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
+using YlY2PRO;
+using YlY2PRO.PlatForm.Core.Services;
+using YlY2PRO.PlatForm.Data.SimpleDapper;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {
@@ -37,9 +39,21 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
                 {
                     var command = this.ParseCommandText("Create");
 
-                    this.Persistence.Execute(command, <xsl:value-of select="./table/@camelClassName" />);
-
-                    this.ClearCache&lt;<xsl:value-of select="./table/@className" />&gt;();
+                    this.Persistence.Execute(command, (item, tran) => 
+                    {
+                        var count = item["Check"]?.Single&lt;int>(<xsl:value-of select="./table/@camelClassName" />, tran);
+                      
+                        if (count != 1)
+                        {
+                            command.Execute(<xsl:value-of select="./table/@camelClassName" />, tran);
+                            
+                            this.ClearCache&lt;<xsl:value-of select="./table/@className" />&gt;();
+                        }
+                        else
+                        {
+                            throw new Exception("不能添加重复数据！");
+                        }
+                    });
                 },
                 <xsl:value-of select="./table/@camelClassName" />);
         }
@@ -58,9 +72,21 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
                 {
                     var command = this.ParseCommandText("Update");
                     
-                    this.Persistence.Execute(command, <xsl:value-of select="./table/@camelClassName" />);
-
-                    this.ClearCache&lt;<xsl:value-of select="./table/@className" />&gt;();
+                    this.Persistence.Execute(command, (item, tran) =>
+                    {
+                        var count = item["Check"]?.Single&lt;int>(<xsl:value-of select="./table/@camelClassName" />, tran);
+                        
+                        if (count == 1)
+                        {
+                            command.Execute(<xsl:value-of select="./table/@camelClassName" />, tran);
+                            
+                            this.ClearCache&lt;<xsl:value-of select="./table/@className" />&gt;();
+                        }
+                        else
+                        {
+                            throw new Exception("未找到需要更新的数据！");
+                        }
+                    });
                 },
                 <xsl:value-of select="./table/@camelClassName"/>);
         }
@@ -110,20 +136,11 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
         /// &lt;summary>
         /// 根据主键删除<xsl:value-of select="./table/@description" />信息。
         /// &lt;/summary><xsl:for-each select="./table/column[@isPrimaryKey='true']">
-        /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param>
-          </xsl:for-each>
+        /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;returns>返回删除结果&lt;/returns>
-        public Response Remove(
-          <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-            <xsl:value-of select="@basicType"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="@fieldName"/>
-            <xsl:if test="position()!=last()">
-              <xsl:text>, </xsl:text>
-            </xsl:if>
-          </xsl:for-each><xsl:text>)</xsl:text>
+        public Response Remove(<xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>)</xsl:text>
         {
-            var args = <xsl:call-template name="GetByIdParams" />;
+            <xsl:call-template name="GetByIdParams" />
              
             return this.InvokeService(nameof(Remove), () =>
             {
@@ -150,7 +167,7 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
             
             return this.InvokeService(
                 nameof(Get<xsl:value-of select="./table/@className"/>ById),
-                () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(command, new { value = id }),
+                () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>, object>(command, new { value = id }),
                 id);
         }
         </xsl:when>
@@ -160,21 +177,14 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
         /// &lt;/summary><xsl:for-each select="./table/column[@isPrimaryKey='true']">
         /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
-        public Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/><xsl:text>ById(</xsl:text>
-            <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-              <xsl:value-of select="@basicType"/><xsl:text> </xsl:text>
-              <xsl:value-of select="@fieldName"/>
-              <xsl:if test="position()!=last()">
-                <xsl:text>, </xsl:text>
-              </xsl:if>
-            </xsl:for-each><xsl:text>)</xsl:text>
+        public Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/><xsl:text>ById(</xsl:text><xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>)</xsl:text>
         {
-            var args = <xsl:call-template name="GetByIdParams" />;
+            <xsl:call-template name="GetByIdParams" />
             var command = this.ParseCommandText("GetById");
             
             return this.InvokeService(
                 nameof(Get<xsl:value-of select="./table/@className"/>ById),
-                () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(command, args),
+                () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>, object>(command, args),
                 args);
         }
         </xsl:otherwise>
@@ -193,9 +203,9 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
             
             var command = this.ParseCommandText("Search<xsl:value-of select="./table/@pluralClassName" />");
             
-            return this.InvokeService(
+            return this.InvokePagingService(
                 nameof(Search<xsl:value-of select="./table/@pluralClassName" />),
-                () => this.Persistence.QueryForList&lt;<xsl:value-of select="./table/@className"/>>(command, so),
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList&lt;<xsl:value-of select="./table/@className"/>, <xsl:value-of select="./table/@className"/>SO>(command, out totalRecords, so<xsl:call-template name="SearchConditions" />),
                 so);
         }
       </xsl:if>
@@ -204,13 +214,15 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Core.Services;
 }
     </xsl:template>
 
-  <xsl:template name="GetByIdParams">
-      new {
-      <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-          <xsl:value-of select="@propertyName"/> = <xsl:value-of select="@fieldName"/>
-          <xsl:if test="position()!=last()">
-            <xsl:text>, </xsl:text>
-          </xsl:if>
-        </xsl:for-each>}
+  <xsl:template name="GetByIdParams"><xsl:text>       </xsl:text>var args = new { <xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@propertyName"/> = <xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()">, </xsl:if></xsl:for-each> };</xsl:template>
+
+  <xsl:template name="SearchConditions">
+    <xsl:if test="count(./table/column[@isSearchCriteria='true'])>0">,
+    <xsl:text xml:space="preserve">                </xsl:text>s => s</xsl:if>
+    <xsl:for-each select="./table/column[@isSearchCriteria='true']"><xsl:if test="position()!=1"><xsl:text xml:space="preserve">                      </xsl:text></xsl:if>.And(c => c.<xsl:value-of select="@propertyName"/>, c => c.<xsl:value-of select="@propertyName"/>.<xsl:choose>
+        <xsl:when test="@basicType!='string' and @basicType!='String'">HasValue</xsl:when>
+        <xsl:otherwise>IsNullOrEmpty() == false</xsl:otherwise>
+      </xsl:choose>, <xsl:choose><xsl:when test="@basicType='string' or @basicType='String'">QuickSearchType.Like</xsl:when><xsl:otherwise>QuickSearchType.Equal</xsl:otherwise></xsl:choose>)
+    </xsl:for-each><xsl:text xml:space="preserve">            </xsl:text>
   </xsl:template>
 </xsl:stylesheet>
