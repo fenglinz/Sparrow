@@ -315,13 +315,14 @@ namespace Mercurius.CodeBuilder.Core
         /// <summary>
         /// 重新加载上一次的配置信息。
         /// </summary>
-        public void ReloadLastConfiguration()
+        public void ReloadLastConfiguration(Action<DbTable> callback = null)
         {
             var recoverTables = this.GetSerializedTables();
 
             foreach (var table in this.Tables)
             {
                 this.Recover(recoverTables, table);
+                callback?.Invoke(table);
             }
         }
 

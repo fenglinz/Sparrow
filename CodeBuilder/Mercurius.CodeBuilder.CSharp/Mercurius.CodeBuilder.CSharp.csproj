@@ -68,7 +68,7 @@
     <Compile Include="RepositoryCreatedHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
+    <ProjectReference Include="..\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
       <Name>Mercurius.Prime.Core</Name>
     </ProjectReference>
@@ -91,10 +91,8 @@
     <Content Include="Template\CSharp\Dapper\SqlMap_MySQL.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Template\CSharp\Dapper\SqlMap_Oracle.xslt">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Template\CSharp\Dapper\SqlMap_Oracle.xslt" />
+    <Content Include="Template\CSharp\IBatisNet\SqlMap_Oracle.xslt" />
     <Content Include="Template\CSharp\IContract.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -109,10 +107,6 @@
     </Content>
     <Content Include="Template\CSharp\IBatisNet\SqlMap.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Template\CSharp\IBatisNet\SqlMap_Oracle.xslt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

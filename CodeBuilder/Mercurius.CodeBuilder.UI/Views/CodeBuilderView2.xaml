@@ -4,9 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
-             xmlns:para="clr-namespace:System.Windows;assembly=PresentationFramework"
-             xmlns:prism="http://www.codeplex.com/prism"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="800" d:DesignWidth="1200" mc:Ignorable="d">
     <i:Interaction.Triggers>
@@ -136,38 +133,58 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <ListBox Grid.RowSpan="2" Width="280" Margin="5,0,0,5" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding}" SelectedIndex="0" Style="{x:Null}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox Margin="0,5,0,5" IsChecked="{Binding IsEnabled}">
-                                    <CheckBox.Template>
-                                        <ControlTemplate TargetType="CheckBox">
-                                            <Image x:Name="img1" Width="36" Height="36" Source="../Images/add.png" />
+            <Grid Grid.RowSpan="2" Width="280" Margin="5,0,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Height="40" DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext}">
+                    <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="195" Margin="0,5,0,0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged">
+                                <i:InvokeCommandAction Command="{Binding SearchCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                    <Button Content="{Binding SelectAllText}" Width="80" Padding="10,5" Margin="5,5,0,0" Command="{Binding SelectAllCommand}" />
+                </StackPanel>
 
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsChecked" Value="true">
-                                                    <Setter TargetName="img1" Property="Source" Value="../Images/add.png" />
-                                                </Trigger>
-                                                <Trigger Property="IsChecked" Value="false">
-                                                    <Setter TargetName="img1" Property="Source" Value="../Images/remove.png" />
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </CheckBox.Template>
-                                </CheckBox>
-                                <StackPanel Margin="5,5,0,5" Orientation="Vertical">
-                                    <TextBlock Text="{Binding Name}" />
-                                    <TextBlock Margin="0,5,0,0" FontSize="15" FontStyle="Italic" Text="{Binding StringFormat='类名 : {0}', Path=ClassName}" />
+                <ListBox Grid.Row="1" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding}" SelectedIndex="0" Style="{x:Null}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent">
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox Margin="0,5,0,5" IsChecked="{Binding IsEnabled}">
+                                        <CheckBox.Template>
+                                            <ControlTemplate TargetType="CheckBox">
+                                                <Image x:Name="img1" Width="36" Height="36" Source="../Images/add.png" />
+
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="true">
+                                                        <Setter TargetName="img1" Property="Source" Value="../Images/add.png" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsChecked" Value="false">
+                                                        <Setter TargetName="img1" Property="Source" Value="../Images/remove.png" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </CheckBox.Template>
+                                    </CheckBox>
+                                    <StackPanel Margin="5,5,0,5" Orientation="Vertical">
+                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Margin="0,5,0,0" 
+                                                   FontSize="15" 
+                                                   FontStyle="Italic" 
+                                                   Text="{Binding Path=Description}" />
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
 
-            <Path Grid.RowSpan="2"
+            <Path Grid.RowSpan="3"
                   Name="loadingAn"
                   Width="68"
                   Height="68"
@@ -237,7 +254,12 @@
                 </GroupBox.Content>
             </GroupBox>
 
-            <DataGrid Grid.Row="1" Grid.Column="1" Margin="5,0,5,3" VerticalAlignment="Stretch" ItemsSource="{Binding Columns}">
+            <DataGrid IsEnabled="{Binding IsEnabled}"
+                Grid.Row="1" 
+                Grid.Column="1" 
+                Margin="5,0,5,3" 
+                VerticalAlignment="Stretch" 
+                ItemsSource="{Binding Columns}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="Auto" Header="列名" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
@@ -260,14 +282,14 @@
                             </ItemContainerTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="80" Header="查询">
+                    <DataGridTemplateColumn Width="90" Header="参与查询">
                         <DataGridTemplateColumn.CellTemplate>
                             <ItemContainerTemplate>
                                 <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsSearchCriteria, UpdateSourceTrigger=PropertyChanged}" />
                             </ItemContainerTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="3*" Header="描述">
+                    <DataGridTemplateColumn Width="2.5*" Header="描述">
                         <DataGridTemplateColumn.CellTemplate>
                             <ItemContainerTemplate>
                                 <TextBox HorizontalAlignment="Stretch" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
@@ -282,7 +304,7 @@
             <Button Margin="0,8,5,0" HorizontalAlignment="Right" Command="{Binding BuildingDatabaseScriptsCommand }" Content="生成数据库脚本" />
             <Button Margin="0,8,163,0" HorizontalAlignment="Right" Command="{Binding CreateTableDefinitionCommand }" Content="生成表定义文档" />
             <Button Margin="0,8,320,0" HorizontalAlignment="Right" Command="{Binding InitializeProjectCommand}" Content="初始化项目" ToolTip="请在应用程序的Projects文件夹中存入CSharp.zip基础项目文件。" />
-            <Button Margin="0,8,450,0" HorizontalAlignment="Right" Command="{Binding BuildingCommand}" Content="生成" IsDefault="True" ToolTip="生成代码" />
+            <Button Margin="0,8,450,0" HorizontalAlignment="Right" Command="{Binding BuildingCommand}" Content="生成" ToolTip="生成代码" />
         </Grid>
     </Grid>
 </UserControl>

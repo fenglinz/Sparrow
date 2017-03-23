@@ -37,7 +37,7 @@
                             </AdornerDecorator.Effect>
                             <Grid x:Name="LayoutRoot">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="65" />
+                                    <RowDefinition Height="48" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
@@ -50,8 +50,8 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!--  Icon图标  -->
-                                    <Border x:Name="icon" Width="48"
-                                            Height="48"
+                                    <Border x:Name="icon" Width="32"
+                                            Height="32"
                                             Margin="5,0,0,0">
                                         <Image Source="{TemplateBinding Icon}" Stretch="Uniform" />
                                     </Border>
@@ -63,7 +63,7 @@
                                                VerticalAlignment="Center"
                                                FontSize="18"
                                                FontStretch="Medium"
-                                               FontStyle="Italic"
+                                               FontStyle="Normal"
                                                FontWeight="Bold"
                                                Foreground="White"
                                                Text="{TemplateBinding Title}" />
@@ -250,7 +250,7 @@
 
         <Setter Property="shellex:WindowChrome.WindowChrome">
             <Setter.Value>
-                <shellex:WindowChrome CaptionHeight="65"
+                <shellex:WindowChrome CaptionHeight="48"
                                       CornerRadius="12,12,0,0"
                                       GlassFrameThickness="1"
                                       NonClientFrameEdges="None"

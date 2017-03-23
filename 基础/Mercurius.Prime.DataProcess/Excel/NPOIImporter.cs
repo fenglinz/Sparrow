@@ -41,7 +41,7 @@ namespace Mercurius.Prime.DataProcess.Excel
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="input">输入流</param>
         /// <returns>导入的数据对象集合</returns>
-        public IList<T> Import<T>(Stream input) where T : class,new()
+        public IList<T> Import<T>(Stream input) where T : class, new()
         {
             var configuration = Util.ResolveConfiguration<T>();
 
@@ -55,11 +55,10 @@ namespace Mercurius.Prime.DataProcess.Excel
         /// <param name="input">输入流</param>
         /// <param name="configuration">Excel导入导出配置信息</param>
         /// <returns>导入的数据对象集合</returns>
-        public IList<T> Import<T>(Stream input, Configuration configuration) where T : class,new()
+        public IList<T> Import<T>(Stream input, Configuration configuration) where T : class, new()
         {
             var result = new List<T>();
             var workbook = WorkbookFactory.Create(input);
-            var metadata = Util.GetPropertyMetadatas<T>();
             var sheets = this.GetValidSheets(workbook, configuration.Options);
 
             foreach (var sheet in sheets)
@@ -75,19 +74,12 @@ namespace Mercurius.Prime.DataProcess.Excel
 
                     var data = new T();
 
-                    foreach (var cell in row.Cells)
+                    foreach (var item in configuration.Options)
                     {
-                        var realColumnIndex = cell.ColumnIndex;
+                        var cell = row.Cells[item.CellIndex];
+                        var value = GetCellValue(cell, item);
 
-                        if (configuration.Options.Count < realColumnIndex + 1)
-                        {
-                            break;
-                        }
-
-                        var value = GetCellValue(cell, configuration[realColumnIndex]);
-                        var propertyInfo = metadata[realColumnIndex].Property;
-
-                        propertyInfo.SetValue(data, Conversion.CTypeDynamic(value, propertyInfo.PropertyType), null);
+                        item.Property.SetValue(data, Conversion.CTypeDynamic(value, item.Property.PropertyType), null);
                     }
 
                     result.Add(data);
@@ -122,18 +114,13 @@ namespace Mercurius.Prime.DataProcess.Excel
 
                     var data = new StringBuilder("<ROOT>");
 
-                    foreach (var cell in row.Cells)
+                    foreach (var item in options)
                     {
-                        var realColumnIndex = cell.ColumnIndex;
+                        var cell = row.Cells[item.CellIndex];
 
-                        if (options.Count < realColumnIndex + 1)
-                        {
-                            break;
-                        }
+                        var value = GetCellValue(cell, item);
 
-                        var value = GetCellValue(cell, options[realColumnIndex]);
-
-                        data.AppendFormat("<{0}>{1}</{0}>", options[realColumnIndex].ColumnName, value);
+                        data.AppendFormat("<{0}>{1}</{0}>", item.ColumnName, value);
                     }
 
                     data.Append("</ROOT>");
@@ -236,7 +223,6 @@ namespace Mercurius.Prime.DataProcess.Excel
 
             for (int index = 0; index < sheetCount; index++)
             {
-                var cellIndex = 0;
                 var isValid = true;
                 var sheet = workbook.GetSheetAt(index);
                 var headerRow = sheet.GetRow(0);
@@ -248,11 +234,16 @@ namespace Mercurius.Prime.DataProcess.Excel
 
                 foreach (var item in options)
                 {
-                    var cellString = headerRow.Cells[cellIndex++].StringCellValue;
-
-                    if (string.IsNullOrWhiteSpace(cellString) || cellString != item.HeaderText)
+                    for (var cellIndex = headerRow.FirstCellNum; cellIndex < headerRow.LastCellNum; cellIndex++)
                     {
-                        isValid = false;
+                        var cellString = headerRow.Cells[cellIndex].StringCellValue;
+
+                        if (cellString == item.HeaderText)
+                        {
+                            item.CellIndex = cellIndex;
+
+                            break;
+                        }
                     }
                 }
 

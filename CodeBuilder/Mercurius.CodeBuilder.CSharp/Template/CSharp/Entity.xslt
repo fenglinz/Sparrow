@@ -14,13 +14,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using <xsl:value-of select="./rootNamespace"/>.Prime.Core.Entities;
 <xsl:call-template name="namespace" />
 {
     <xsl:call-template name="classDescription" />
-    [Serializable]
-    [Table("<xsl:value-of select="./table/@table" />")]
-    public class <xsl:value-of select="./table/@className" /> : EntityBase
+    public class <xsl:value-of select="./table/@className" />
     {
         #region 属性
     <xsl:call-template name="properties" />
@@ -35,11 +32,6 @@ using <xsl:value-of select="./rootNamespace"/>.Prime.Core.Entities;
         /// <xsl:value-of select="@description" />。
         /// <![CDATA[</summary>]]>
         [Display(Name = "<xsl:value-of select="@description"/>")]<xsl:choose>
-          <xsl:when test="@isPrimaryKey='true'">
-        [Column("<xsl:value-of select="@name" />", IsPrimaryKey = true)]</xsl:when><xsl:otherwise>
-        [Column("<xsl:value-of select="@name" />")]</xsl:otherwise>
-        </xsl:choose>
-      <xsl:choose>
       <xsl:when test="(@basicType='string' or @basicType='String') and @length!='-1'">
         [StringLength(<xsl:value-of select="@length" />, ErrorMessage = "<xsl:value-of select="@description" />不能超过{1}个字符。")]
         public virtual <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }

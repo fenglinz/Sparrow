@@ -15,7 +15,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="48" />
+            <RowDefinition Height="32" />
         </Grid.RowDefinitions>
 
         <Grid>
@@ -42,8 +42,8 @@
 
         <StatusBar Grid.Row="1">
             <StackPanel Orientation="Horizontal">
-                <Label>状态：</Label>
-                <Label BorderThickness="1" BorderBrush="#8888" Width="200">就绪</Label>
+                <Label FontSize="12">状态：</Label>
+                <Label FontSize="12" Padding="5,4.2" BorderThickness="1" BorderBrush="#8888" Width="200">就绪</Label>
             </StackPanel>
         </StatusBar>
     </Grid>

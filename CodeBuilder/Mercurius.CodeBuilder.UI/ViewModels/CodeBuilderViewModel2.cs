@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -15,6 +17,7 @@ using Prism.Commands;
 using Prism.Events;
 using static System.Configuration.ConfigurationManager;
 using Mercurius.CodeBuilder.DbMetadata.MSSQL;
+using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.DataProcess.Excel;
 using Application = System.Windows.Application;
@@ -39,6 +42,10 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         private readonly BuildEvent _buildEvent;
 
+        private string _selectAllText = "全选";
+        private string _searchText = "";
+        private bool _searchTextChanged = false;
+
         private ICommand _loadedCommand;
         private ICommand _buildingCommand;
         private ICommand _selectEntityProjectFileCommand;
@@ -47,6 +54,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         private ICommand _initializeProjectCommand;
         private ICommand _createTableDefinitionCommand;
         private ICommand _buildingDatabaseScriptsCommand;
+        private ICommand _selectAllCommand;
+        private ICommand _searchCommand;
 
         #endregion
 
@@ -54,11 +63,40 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         public Configuration Configuration { get; }
 
+        public ObservableCollection<DbTable> Tables { get; set; }
+
         public string ProjectFileLabel1 { get; set; } = "接口定义项目：";
 
         public string ProjectFileLabel2 { get; set; } = "接口实现项目：";
 
         public string ProjectFileLabel3 { get; set; } = "插件实现项目：";
+
+        public string SelectAllText
+        {
+            get { return this._selectAllText; }
+            set
+            {
+                if (this._selectAllText != value)
+                {
+                    this._selectAllText = value;
+                    this.OnPropertyChanged(() => this.SelectAllText);
+                }
+            }
+        }
+
+        public string SearchText
+        {
+            get { return this._searchText; }
+            set
+            {
+                if (this._searchText != value.Trim())
+                {
+                    this._searchText = value.Trim();
+                    this._searchTextChanged = true;
+                    this.OnPropertyChanged(() => this.SearchText);
+                }
+            }
+        }
 
         #endregion
 
@@ -79,7 +117,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     {
                         delAction.EndInvoke(ar);
 
-                        this.Configuration.ReloadLastConfiguration();
+                        this.Configuration.ReloadLastConfiguration(item => this.Tables.Add(item));
                     }, null);
                 });
             }
@@ -358,6 +396,52 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             }
         }
 
+        public ICommand SelectAllCommand
+        {
+            get
+            {
+                return this._selectAllCommand ?? (this._selectAllCommand = new DelegateCommand(() =>
+                {
+                    if (this._selectAllText == "全选")
+                    {
+                        this.SelectAllText = "全不选";
+                        Configuration.Tables.ForEach(t => t.IsEnabled = true);
+                    }
+                    else
+                    {
+                        this.SelectAllText = "全选";
+                        Configuration.Tables.ForEach(t => t.IsEnabled = false);
+                    }
+                }));
+            }
+        }
+
+        public ICommand SearchCommand
+        {
+            get
+            {
+                return this._searchCommand ?? (this._searchCommand = new DelegateCommand(() =>
+                {
+                    if (this._searchTextChanged)
+                    {
+                        this._searchTextChanged = false;
+
+                        this.SelectAllText = "全选";
+                        this.Configuration.Tables.Clear();
+                        this.Tables.ForEach(t => t.IsEnabled = false);
+
+                        if (string.IsNullOrWhiteSpace(this.SearchText))
+                        {
+                            this.Configuration.Tables.AddRange(this.Tables);
+                        }
+                        else
+                        {
+                            this.Configuration.Tables.AddRange(this.Tables.Where(t => t.Name.ToLower().Contains(this.SearchText.ToLower()) || t.Description.ToLower().Contains(this.SearchText.ToLower())));
+                        }
+                    }
+                }));
+            }
+        }
         #endregion
 
         #region 构造方法
@@ -370,12 +454,14 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         {
             this._eventAggregator = eventAggregator;
             this._buildEvent = eventAggregator.GetEvent<BuildEvent>();
+            this.Tables = new ObservableCollection<DbTable>();
 
             this.Configuration = new Configuration
             {
                 Language = "C#",
                 OrmMiddleware = "Dapper",
                 CopyrightOwner = AppSettings["copyright"],
+                BaseNamespace = AppSettings["DefaultNamespace"]
             };
 
             this.Configuration.PropertyChanged += (sender, e) =>
@@ -386,9 +472,9 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                     if (config?.OrmMiddleware == "Dapper")
                     {
-                        this.ProjectFileLabel1 = "实体定义项目：";
-                        this.ProjectFileLabel2 = "业务接口项目：";
-                        this.ProjectFileLabel3 = "业务实现项目：";
+                        this.ProjectFileLabel1 = "接口定义项目：";
+                        this.ProjectFileLabel2 = "接口实现项目：";
+                        this.ProjectFileLabel3 = "插件实现项目";
                     }
                     else
                     {

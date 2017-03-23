@@ -29,8 +29,8 @@
                         <ComboBox Margin="100,5,10,5"
                                   HorizontalAlignment="Stretch"
                                   Text="{Binding Database}">
-                            <ComboBoxItem Content="MSSQL" IsSelected="True" />
-                            <ComboBoxItem Content="MySQL" />
+                            <ComboBoxItem Content="MSSQL" />
+                            <ComboBoxItem Content="MySQL" IsSelected="True" />
                             <!--<ComboBoxItem Content="Oracle" />-->
                         </ComboBox>
 

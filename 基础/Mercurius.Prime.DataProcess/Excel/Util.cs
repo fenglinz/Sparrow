@@ -46,7 +46,7 @@ namespace Mercurius.Prime.DataProcess.Excel
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
         /// <returns>导出配置信息</returns>
-        public static Configuration ResolveConfiguration<T>() where T : class,new()
+        public static Configuration ResolveConfiguration<T>() where T : class, new()
         {
             var type = typeof(T);
 
@@ -84,6 +84,7 @@ namespace Mercurius.Prime.DataProcess.Excel
             {
                 configuration.Options.Add(new OptionItem
                 {
+                    Property = item.Property,
                     HeaderText = item.ColumnMapping.HeaderText,
                     ColumnName = item.ColumnMapping.ColumnName,
                     DataFormat = item.ColumnMapping.DataFormat,

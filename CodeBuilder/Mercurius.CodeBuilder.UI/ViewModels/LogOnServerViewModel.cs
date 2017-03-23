@@ -27,7 +27,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
     {
         #region 字段
 
-        private DatabaseType _database = default(DatabaseType);
+        private DatabaseType _database = DatabaseType.MySQL;
         private string _serverUri = string.Empty;
         private string _account = string.Empty;
         private string _password = string.Empty;
