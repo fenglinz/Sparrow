@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,6 +15,27 @@ using static Mercurius.Prime.Core.SystemConfiguration;
 namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
 {
     /// <summary>
+    /// 行数据。
+    /// </summary>
+    /// <typeparam name="T">数据类型</typeparam>
+    public class RowData<T>
+    {
+        #region 属性
+
+        /// <summary>
+        /// 行号。
+        /// </summary>
+        public int RowIndex { get; internal set; }
+
+        /// <summary>
+        /// 行数据。
+        /// </summary>
+        public T Data { get; internal set; }
+
+        #endregion
+    }
+
+    /// <summary>
     /// 表格控件。
     /// </summary>
     public class DataGrid<T>
@@ -24,14 +44,21 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
 
         private static readonly Dictionary<Type, PropertyInfo[]> _dictProperties;
 
+        private readonly HtmlHelper _htmlHelper;
         private readonly IList<string> _rowDatas;
         private readonly IList<DataGridColumn<T>> _columns;
-        private readonly HtmlHelper<ResponseSet<T>> _htmlHelper;
+
+        // 手风琴设置
+        private Func<T, object> _accordionRowFunc;
+        private string _accordionContainerClass;
 
         private string _id;
-        private string _class;
+        private string _title;
+        private bool _isReplace = false;
+        private string _class = "";
+        private string _classTemp = "grid";
         private string _styles;
-        private bool _isShowLineNumber;
+        private Func<RowData<T>, object> _lineNumberFunc;
 
         private bool _isPagging;
         private string _controllerName;
@@ -57,7 +84,7 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
         /// 构造方法。
         /// </summary>
         /// <param name="htmlHelper">Html助手</param>
-        public DataGrid(HtmlHelper<ResponseSet<T>> htmlHelper)
+        public DataGrid(HtmlHelper htmlHelper)
         {
             this._htmlHelper = htmlHelper;
             this._rowDatas = new List<string>();
@@ -65,6 +92,8 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
         }
 
         #endregion
+
+        #region 设置表格基本属性
 
         /// <summary>
         /// 设置表格的id元素值。
@@ -79,13 +108,27 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
         }
 
         /// <summary>
+        /// 设置表格标题。
+        /// </summary>
+        /// <param name="title">表格标题</param>
+        /// <returns>表格对象</returns>
+        public DataGrid<T> Title(string title)
+        {
+            this._title = title;
+
+            return this;
+        }
+
+        /// <summary>
         /// 设置表格的css类样式。
         /// </summary>
         /// <param name="class">css类</param>
+        /// <param name="isReplace">是否为替换</param>
         /// <returns>表格对象</returns>
-        public DataGrid<T> Class(string @class)
+        public DataGrid<T> Class(string @class, bool isReplace = false)
         {
             this._class = @class;
+            this._isReplace = isReplace;
 
             return this;
         }
@@ -102,14 +145,73 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
             return this;
         }
 
+        #endregion
+
+        #region 设置显示的列
+
         /// <summary>
-        /// 设置是否显示行数。
+        /// 设置显示行号。
         /// </summary>
-        /// <param name="isShow">是否显示</param>
+        /// <param name="lineNumberFunc">设置自定义行号显示回调</param>
+        /// <param name="title">标题</param>
+        /// <param name="style">样式</param>
         /// <returns>表格对象</returns>
-        public DataGrid<T> ShowLineNumber(bool isShow = true)
+        public DataGrid<T> ShowLineNumber(
+            Func<RowData<T>, object> lineNumberFunc = null,
+            string title = "序号",
+            string style = "width:70px")
         {
-            this._isShowLineNumber = isShow;
+            this._lineNumberFunc = lineNumberFunc;
+
+            if (this._columns.Count > 0 && this._columns[0].DisplayPropertyName == "$RowIndex")
+            {
+                this._columns[0].Title = title;
+                this._columns[0].Style = style;
+            }
+            else
+            {
+                this._columns.Insert(0, new DataGridColumn<T>
+                {
+                    Title = title,
+                    Style = style,
+                    DisplayPropertyName = "$RowIndex",
+                });
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// 设置显示行号。
+        /// </summary>
+        /// <param name="lineNumberFunc">设置自定义行号显示回调</param>
+        /// <param name="titleFunc">自定义标题回调</param>
+        /// <param name="style">样式</param>
+        /// <returns>表格对象</returns>
+        public DataGrid<T> ShowLineNumber(
+            Func<RowData<T>, object> lineNumberFunc,
+            Func<HttpRequestBase, object> titleFunc,
+            string style = "width:70px"
+            )
+        {
+            this._lineNumberFunc = lineNumberFunc;
+
+            var title = (titleFunc != null ? (new HelperResult(w => w.Write(titleFunc(this._htmlHelper.ViewContext.HttpContext.Request))).ToHtmlString()) : "");
+
+            if (this._columns.Count > 0 && this._columns[0].DisplayPropertyName == "$RowIndex")
+            {
+                this._columns[0].Title = title;
+                this._columns[0].Style = style;
+            }
+            else
+            {
+                this._columns.Insert(0, new DataGridColumn<T>
+                {
+                    Title = title,
+                    Style = style,
+                    DisplayPropertyName = "$RowIndex",
+                });
+            }
 
             return this;
         }
@@ -130,24 +232,28 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
         }
 
         /// <summary>
-        /// 设置单元格。
+        /// 设置表格列。
         /// </summary>
-        /// <typeparam name="P">单元格属性类型</typeparam>
-        /// <param name="expression">获取单元格属性的Lambda表达式</param>
+        /// <typeparam name="P">表格列属性类型</typeparam>
+        /// <param name="expression">获取表格列属性的Lambda表达式</param>
         /// <param name="title">标题</param>
         /// <param name="width">宽</param>
-        /// <param name="formatString">数据格式化字符串</param>
+        /// <param name="format">数据格式化字符串</param>
         /// <returns>数据表对象</returns>
-        public DataGrid<T> Column<P>(Expression<Func<T, P>> expression, string title = null, uint? width = null, string formatString = null)
+        public DataGrid<T> Column<P>(
+            Expression<Func<T, P>> expression,
+            string title = null,
+            uint? width = null,
+            string format = null)
         {
             var propertyName = ExpressionHelper.GetExpressionText(expression);
 
             this._columns.Add(new DataGridColumn<T>
             {
-                Title = title.IsNullOrWhiteSpace() ? propertyName : title,
+                Title = title.IsNullOrEmptyValue(propertyName),
                 DisplayPropertyName = propertyName,
-                Style = $"width:{width}px",
-                DataFormatString = formatString
+                Style = width.HasValue ? $"width:{width}px" : "",
+                DataFormatString = format
             });
 
             return this;
@@ -156,39 +262,65 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
         /// <summary>
         /// 添加自定义列的内容。
         /// </summary>
-        /// <param name="titleFunc">标题</param>
-        /// <param name="width">宽度</param>
         /// <param name="callback">自定义内容回调</param>
-        /// <returns>表格对象</returns>
-        public DataGrid<T> CustomColumn(
-            Func<HttpRequestBase, object> titleFunc,
-            uint width, Func<T, object> callback, string @class = null)
-        {
-            var title = new HelperResult(w => w.Write(titleFunc(this._htmlHelper.ViewContext.HttpContext.Request))).ToString();
-
-            return this.CustomColumn(title, width, callback, @class);
-        }
-
-        /// <summary>
-        /// 添加自定义列的内容。
-        /// </summary>
         /// <param name="title">标题</param>
         /// <param name="width">宽度</param>
-        /// <param name="callback">自定义内容回调</param>
+        /// <param name="class">自定义列样式</param>
         /// <returns>表格对象</returns>
-        public DataGrid<T> CustomColumn(string title,
-            uint width, Func<T, object> callback, string @class = null)
+        public DataGrid<T> CustomColumn(
+            Func<T, object> callback,
+            string title,
+            uint? width = null,
+            string @class = null)
         {
             this._columns.Add(new DataGridColumn<T>
             {
                 Title = title,
-                Style = $"width:{width}px",
+                Style = width.HasValue ? $"width:{width}px" : "",
                 Class = @class,
                 CustomPart = callback
             });
 
             return this;
         }
+
+        /// <summary>
+        /// 添加自定义列的内容。
+        /// </summary>
+        /// <param name="callback">自定义内容回调</param>
+        /// <param name="titleFunc">标题</param>
+        /// <param name="width">宽度</param>
+        /// <param name="class">表格样式</param>
+        /// <returns>表格对象</returns>
+        public DataGrid<T> CustomColumn(
+            Func<T, object> callback,
+            Func<HttpRequestBase, object> titleFunc,
+            uint? width = null,
+            string @class = null)
+        {
+            var title = new HelperResult(w => w.Write(titleFunc(this._htmlHelper.ViewContext.HttpContext.Request))).ToString();
+
+            return this.CustomColumn(callback, title, width, @class);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 设置手风琴行。
+        /// </summary>
+        /// <param name="accordionRowFunc">手风琴行回调</param>
+        /// <param name="containerClass">手风琴行附加样式类</param>
+        /// <returns>数据表对象</returns>
+        public DataGrid<T> AccordionRow(Func<T, object> accordionRowFunc, string containerClass = "")
+        {
+            this._class = "table-1b";
+            this._accordionContainerClass = $"table-stretching{(string.IsNullOrWhiteSpace(containerClass) ? "" : " " + containerClass)}";
+            this._accordionRowFunc = accordionRowFunc;
+
+            return this;
+        }
+
+        #region 分页设置
 
         /// <summary>
         /// 分页设置。
@@ -219,6 +351,10 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
             return this;
         }
 
+        #endregion
+
+        #region 表格呈现
+
         /// <summary>
         /// 表格呈现。
         /// </summary>
@@ -235,7 +371,7 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
 
             var properties = _dictProperties[type];
 
-            this._id = this._id.IsNullOrWhiteSpace() ? type.Name : this._id;
+            this._id = this._id.IsNullOrEmptyValue(type.Name);
 
             if (this._columns.IsEmpty())
             {
@@ -251,22 +387,13 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
                 }
             }
 
-            // 显示序号的处理。
-            if (this._isShowLineNumber)
-            {
-                this._columns.Insert(0, new DataGridColumn<T>
-                {
-                    Title = "序号",
-                    Style = "width:70px",
-                    DisplayPropertyName = "$RowIndex"
-                });
-            }
-
             var tableTag = new TagBuilder("table");
-            tableTag.AddCssClass(this._class.IsNullOrWhiteSpace() ? "grid" : this._class);
             tableTag.Attributes.Add("id", this._id);
 
-            if (!this._styles.IsNullOrWhiteSpace())
+            // 添加样式类。
+            tableTag.AddCssClass(this._isReplace ? this._class : $"{this._classTemp} {this._class}");
+
+            if (!this._styles.IsNullOrEmpty())
             {
                 tableTag.Attributes.Add("style", this._styles);
             }
@@ -284,28 +411,40 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
             }
             else
             {
-                tableBodyTag.InnerHtml = $"<tr><td colspan=\"{this._columns.Count}\" class=\"empty-data\">无符合条件的数据！</td></tr>";
+                // tableBodyTag.InnerHtml = $"<tr><td colspan=\"{this._columns.Count}\" class=\"empty-data\">无符合条件的数据！</td></tr>";
             }
 
             tableTag.InnerHtml += tableHeadTag;
-            tableTag.InnerHtml += tableBodyTag;
+            tableTag.InnerHtml += this._accordionRowFunc == null ? tableBodyTag.ToString() : tableBodyTag.InnerHtml;
+
+            var datasInfoTag = new TagBuilder("h2");
+
+            datasInfoTag.AddCssClass("h2_1");
+            datasInfoTag.InnerHtml = $"您当前共有<span>{set?.TotalRecords ?? 0}</span>项{this._title}";
 
             if (this._isPagging)
             {
                 var pagging = this._htmlHelper.Paging(
-                    set.TotalRecords, this._actionName,
-                    this._controllerName, this._routeValues,
-                    this._pageSize, this._showNumbers, this._ajaxOptions);
+                    set?.TotalRecords ?? 0,
+                    this._actionName,
+                    this._controllerName,
+                    this._routeValues,
+                    this._pageSize,
+                    this._showNumbers,
+                    this._ajaxOptions);
 
                 var div = new TagBuilder("div");
+                div.InnerHtml += datasInfoTag;
                 div.InnerHtml += tableTag;
                 div.InnerHtml += pagging;
 
                 return new MvcHtmlString(div.InnerHtml);
             }
 
-            return new MvcHtmlString(tableTag.ToString());
+            return new MvcHtmlString(datasInfoTag + tableTag.ToString());
         }
+
+        #endregion
 
         #region 私有方法
 
@@ -354,25 +493,52 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
                 {
                     if (column.DisplayPropertyName == "$RowIndex")
                     {
-                        dataTag.InnerHtml += $"<td class=\"text-center\">{startIndex + index}</td>";
+                        if (this._lineNumberFunc == null)
+                        {
+                            dataTag.InnerHtml += $"<td class=\"text-center\">{startIndex + index}</td>";
+                        }
+                        else
+                        {
+                            var helperResult = new HelperResult(w => w.Write(this._lineNumberFunc(new RowData<T> { Data = data, RowIndex = startIndex + index })));
+
+                            dataTag.InnerHtml += $"<td class=\"text-center\">{helperResult.ToHtmlString()}</td>";
+                        }
                     }
                     else if (column.CustomPart != null)
                     {
-                        dataTag.InnerHtml += $"<td {(column.Class.IsNullOrWhiteSpace() ? "\"\"" : "class=" + column.Class)} style=\"{column.Style}\">{new HelperResult(w => w.Write(column.CustomPart.Invoke(data)))}</td>";
+                        dataTag.InnerHtml += $"<td {(column.Class.IsNullOrEmpty() ? "" : "class=\"" + column.Class + "\"")} style=\"{column.Style}\">{new HelperResult(w => w.Write(column.CustomPart.Invoke(data)))}</td>";
                     }
                     else
                     {
                         var property = GetProperty(properties, column.DisplayPropertyName);
                         var value = property.GetValue(data);
 
-                        dataTag.InnerHtml +=
-                            $"<td{(column.IsHide ? " style=\"display:none\"" : "")}>{(column.DataFormatString.IsNullOrWhiteSpace() ? value : string.Format(column.DataFormatString, value))}</td>";
+                        dataTag.InnerHtml += $"<td{(column.IsHide ? " style=\"display:none\"" : "")}>{(column.DataFormatString.IsNullOrEmpty() ? value : string.Format(column.DataFormatString, value))}</td>";
                     }
                 }
 
                 index++;
 
-                divTag.InnerHtml += dataTag;
+                if (this._accordionRowFunc != null)
+                {
+                    var helperResult = new HelperResult(writer => writer.Write(this._accordionRowFunc(data)));
+
+                    var bodyTag = new TagBuilder("tbody");
+                    var accordionTag = new TagBuilder("tr");
+
+                    accordionTag.InnerHtml = $"<td colspan=\"{this._columns.Count}\"><div class=\"{this._accordionContainerClass}\">";
+                    accordionTag.InnerHtml += helperResult;
+                    accordionTag.InnerHtml += "</div><span class=\"table_more\"></span></td>";
+
+                    bodyTag.InnerHtml += dataTag;
+                    bodyTag.InnerHtml += accordionTag;
+
+                    divTag.InnerHtml += bodyTag;
+                }
+                else
+                {
+                    divTag.InnerHtml += dataTag;
+                }
             }
 
             return divTag.InnerHtml;

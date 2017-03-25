@@ -37,9 +37,20 @@ namespace Mercurius.Prime.Core
         /// </summary>
         /// <param name="source">字符串</param>
         /// <returns>判断结果</returns>
-        public static bool IsNullOrWhiteSpace(this string source)
+        public static bool IsNullOrEmpty(this string source)
         {
             return string.IsNullOrWhiteSpace(source);
+        }
+
+        /// <summary>
+        /// 字符串为空则采用替换字符。
+        /// </summary>
+        /// <param name="source">字符串</param>
+        /// <param name="replaced">替换字符串</param>
+        /// <returns>最终结果</returns>
+        public static string IsNullOrEmptyValue(this string source, string replaced)
+        {
+            return string.IsNullOrWhiteSpace(source) ? replaced : source;
         }
 
         /// <summary>
@@ -103,7 +114,7 @@ namespace Mercurius.Prime.Core
         /// <returns>字符串是否为数字</returns>
         public static bool IsDigit(this string text)
         {
-            if (text.IsNullOrWhiteSpace())
+            if (text.IsNullOrEmpty())
             {
                 return false;
             }
@@ -308,7 +319,7 @@ namespace Mercurius.Prime.Core
         {
             var result = string.Empty;
 
-            if (!tableName.IsNullOrWhiteSpace())
+            if (!tableName.IsNullOrEmpty())
             {
                 result = tableName.Replace(" ", string.Empty);
 
@@ -369,11 +380,11 @@ namespace Mercurius.Prime.Core
         {
             var result = string.Empty;
 
-            if (!str.IsNullOrWhiteSpace())
+            if (!str.IsNullOrEmpty())
             {
                 var temps = str.Split('_', ' ');
 
-                foreach (var temp in temps.Where(temp => !temp.IsNullOrWhiteSpace()))
+                foreach (var temp in temps.Where(temp => !temp.IsNullOrEmpty()))
                 {
                     result += char.ToUpper(temp[0]) + (temp.Length > 1 ? temp.Substring(1).AsNamingLower() : string.Empty);
                 }
@@ -391,7 +402,7 @@ namespace Mercurius.Prime.Core
         {
             var result = string.Empty;
 
-            if (!str.IsNullOrWhiteSpace())
+            if (!str.IsNullOrEmpty())
             {
                 var temps = str.Split('_');
 
@@ -406,7 +417,7 @@ namespace Mercurius.Prime.Core
                     {
                         var temp = temps[i];
 
-                        if (!temp.IsNullOrWhiteSpace())
+                        if (!temp.IsNullOrEmpty())
                         {
                             result += char.ToUpper(temp[0]) + (temp.Length > 1 ? temp.Substring(1).AsNamingLower() : string.Empty);
                         }
@@ -426,7 +437,7 @@ namespace Mercurius.Prime.Core
         {
             var result = string.Empty;
 
-            if (!str.IsNullOrWhiteSpace())
+            if (!str.IsNullOrEmpty())
             {
                 result = str.IsAllUpperChars() ? str.ToLower() : str;
             }
