@@ -411,16 +411,16 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
             }
             else
             {
-                // tableBodyTag.InnerHtml = $"<tr><td colspan=\"{this._columns.Count}\" class=\"empty-data\">无符合条件的数据！</td></tr>";
+                tableBodyTag.InnerHtml = $"<tr><td colspan=\"{this._columns.Count}\" class=\"empty-data\">无符合条件的数据！</td></tr>";
             }
 
             tableTag.InnerHtml += tableHeadTag;
             tableTag.InnerHtml += this._accordionRowFunc == null ? tableBodyTag.ToString() : tableBodyTag.InnerHtml;
 
-            var datasInfoTag = new TagBuilder("h2");
+            //var datasInfoTag = new TagBuilder("h2");
 
-            datasInfoTag.AddCssClass("h2_1");
-            datasInfoTag.InnerHtml = $"您当前共有<span>{set?.TotalRecords ?? 0}</span>项{this._title}";
+            //datasInfoTag.AddCssClass("h2_1");
+            //datasInfoTag.InnerHtml = $"您当前共有<span>{set?.TotalRecords ?? 0}</span>项{this._title}";
 
             if (this._isPagging)
             {
@@ -434,14 +434,14 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
                     this._ajaxOptions);
 
                 var div = new TagBuilder("div");
-                div.InnerHtml += datasInfoTag;
+                // div.InnerHtml += datasInfoTag;
                 div.InnerHtml += tableTag;
                 div.InnerHtml += pagging;
 
                 return new MvcHtmlString(div.InnerHtml);
             }
 
-            return new MvcHtmlString(datasInfoTag + tableTag.ToString());
+            return new MvcHtmlString(tableTag.ToString());
         }
 
         #endregion

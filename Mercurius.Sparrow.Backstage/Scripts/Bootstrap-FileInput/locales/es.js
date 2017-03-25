@@ -22,7 +22,7 @@
         uploadLabel: 'Subir archivo',
         uploadTitle: 'Subir archivos seleccionados',
         msgNo: 'No',
-        msgNoFilesSelected: '',
+        msgNoFilesSelected: 'No hay archivos seleccionados',
         msgCancelled: 'Cancelado',
         msgZoomModalHeading: 'Vista previa detallada',
         msgSizeTooSmall: 'El archivo "{name}" (<b>{size} KB</b>) es demasiado pequeño y debe ser mayor de <b>{minSize} KB</b>.',
@@ -37,8 +37,19 @@
         msgInvalidFileName: 'Caracteres no válidos o no soportados en el nombre de archivo "{name}".',
         msgInvalidFileType: 'Tipo de archivo no válido para "{name}". Sólo se permiten archivos de tipo "{types}".',
         msgInvalidFileExtension: 'Extensión de archivo no válido para "{name}". Sólo se permiten archivos "{extensions}".',
+        msgFileTypes: {
+            'image': 'image',
+            'html': 'HTML',
+            'text': 'text',
+            'video': 'video',
+            'audio': 'audio',
+            'flash': 'flash',
+            'pdf': 'PDF',
+            'object': 'object'
+        },
         msgUploadAborted: 'La carga de archivos se ha cancelado',
         msgUploadThreshold: 'Procesando...',
+        msgUploadEmpty: 'No valid data available for upload.',
         msgValidationError: 'Error de validación',
         msgLoading: 'Subiendo archivo {index} de {files} &hellip;',
         msgProgress: 'Subiendo archivo {index} de {files} - {name} - {percent}% completado.',
@@ -50,6 +61,14 @@
         msgImageHeightLarge: 'La altura de la imagen "{name}" no puede exceder de {size} px.',
         msgImageResizeError: 'No se pudieron obtener las dimensiones de la imagen para cambiar el tamaño.',
         msgImageResizeException: 'Error al cambiar el tamaño de la imagen.<pre>{errors}</pre>',
+        msgAjaxError: 'Something went wrong with the {operation} operation. Please try again later!',
+        msgAjaxProgressError: '{operation} failed',
+        ajaxOperations: {
+            deleteThumb: 'file delete',
+            uploadThumb: 'single file upload',
+            uploadBatch: 'batch file upload',
+            uploadExtra: 'form data upload'
+        },
         dropZoneTitle: 'Arrastre y suelte aquí los archivos &hellip;',
         dropZoneClickTitle: '<br>(o haga clic para seleccionar {files})',
         fileActionSettings: {
