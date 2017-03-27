@@ -4,6 +4,8 @@ using System.Web.Compilation;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using Castle.DynamicProxy;
+using Autofac.Extras.DynamicProxy;
 using Mercurius.Kernel.Implementations.Core;
 using Mercurius.Kernel.Implementations.Storage.WebApi;
 using Mercurius.Kernel.WebCores;
@@ -21,7 +23,7 @@ namespace Mercurius.Sparrow.Autofac
     public static class AutofacConfig
     {
         #region 字段
-        
+
         private static object _locker = new object();
 
         #endregion
@@ -66,8 +68,13 @@ namespace Mercurius.Sparrow.Autofac
 
                     // 注册Logger。
                     Builder.Register(c => new Logger { Cache = c.Resolve<CacheProvider>(), Persistence = c.Resolve<Persistence>() })
-                        .As<ILogger>()
-                        .InstancePerLifetimeScope();
+                           .As<ILogger>()
+                           .InstancePerLifetimeScope();
+
+                    // 注册拦截器。
+                    Builder.RegisterType<ServiceInterceptor>()
+                           .PropertiesAutowired()
+                           .InstancePerLifetimeScope();
 
                     Builder.Register(c => new FileStorageClient()).InstancePerLifetimeScope();
 
@@ -76,21 +83,23 @@ namespace Mercurius.Sparrow.Autofac
 
                     // Web Api客户端对象。
                     Builder.RegisterAssemblyTypes(appDomainAssemblies)
-                             .Where(p => p.IsSubclassOf(typeof(WebApiClientSupport)))
-                             .PropertiesAutowired()  // 启用属性注入
-                             .SingleInstance();
+                           .Where(p => p.IsSubclassOf(typeof(WebApiClientSupport)))
+                           .PropertiesAutowired()  // 启用属性注入
+                           .SingleInstance();
 
                     // 注册服务。
                     Builder.RegisterAssemblyTypes(appDomainAssemblies)
-                             .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
-                             .PropertiesAutowired()  // 启用属性注入
-                             .AsImplementedInterfaces()
-                             .InstancePerLifetimeScope();
+                           .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
+                           .PropertiesAutowired()  // 启用属性注入
+                           .AsImplementedInterfaces()
+                           .InstancePerLifetimeScope()
+                           .EnableInterfaceInterceptors()
+                           .InterceptedBy(typeof(ServiceInterceptor));
 
                     // 注册MVC控制器。
                     Builder.RegisterControllers(appDomainAssemblies)
-                        .PropertiesAutowired()
-                        .InstancePerRequest();
+                           .PropertiesAutowired()
+                           .InstancePerRequest();
 
                     // 注册Model Binder。
                     Builder.RegisterModelBinders(appDomainAssemblies);
@@ -107,10 +116,11 @@ namespace Mercurius.Sparrow.Autofac
 
                     // WebApi注册。
                     Builder.RegisterApiControllers(appDomainAssemblies)
-                        .PropertiesAutowired()
-                        .InstancePerRequest();
+                           .PropertiesAutowired()
+                           .InstancePerRequest();
 
                     Container = Builder.Build();
+
                     AutofacServiceLocator.Container = Container;
                 }
             }

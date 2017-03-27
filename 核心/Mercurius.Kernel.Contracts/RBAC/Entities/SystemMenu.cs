@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Entities;
 using Newtonsoft.Json;
 
@@ -8,7 +9,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
     /// <summary>
     /// 系统菜单信息。
     /// </summary>
-	[Table("RBAC.SystemMenu")]
+    [Table("RBAC.SystemMenu")]
     public partial class SystemMenu : ModificationEntityBase, IHierarchy<string>
     {
         #region 属性
@@ -104,7 +105,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Entities
         /// <summary>
         /// 拥有的按钮。
         /// </summary>
-        public virtual IList<Button> HasButtons => JsonConvert.DeserializeObject<IList<Button>>(this.Buttons);
+        public virtual IList<Button> HasButtons => this.Buttons.AsObject<IList<Button>>();
 
         /// <summary>
         /// 完整的排序号(父节点排序号+"-"+当前排序号)。

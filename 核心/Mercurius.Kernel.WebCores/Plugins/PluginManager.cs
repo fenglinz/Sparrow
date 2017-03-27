@@ -24,6 +24,7 @@ namespace Mercurius.Kernel.WebCores.Plugins
     {
         #region 字段
 
+        private static object _locker = new object();
         private static readonly string _pluginBins;
         private static readonly FileSystemWatcher _fileSystemWatcher;
 
@@ -214,22 +215,33 @@ namespace Mercurius.Kernel.WebCores.Plugins
         {
             if (!Plugins.IsEmpty())
             {
-                foreach (var plugin in Plugins)
+                lock (_locker)
                 {
-                    // 将插件注册为Asp.Net MVC区域。
-                    var route = RouteTable.Routes.MapRoute(
-                        $"{plugin.PluginName}_Plugin",
-                        plugin.PluginName + "/{controller}/{action}/{id}",
-                        new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                        plugin.Namespaces.ToArray()
-                    );
+                    foreach (var plugin in Plugins)
+                    {
+                        Route route;
 
-                    route.DataTokens["area"] = plugin.PluginName;
+                        if ((route = RouteTable.Routes[plugin.PluginName] as Route) != null)
+                        {
+                            RouteTable.Routes.Remove(route);
+                        }
+
+                        // 将插件注册为Asp.Net MVC区域。
+                        route = RouteTable.Routes.MapRoute(
+                            $"{plugin.PluginName}_Plugin",
+                            plugin.PluginName + "/{controller}/{action}/{id}",
+                            new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                            plugin.Namespaces.ToArray()
+                        );
+
+                        route.DataTokens["area"] = plugin.PluginName;
+                        route.DataTokens["pluginName"] = plugin.PluginName;
+                    }
+
+                    // 采用自定义的Razor视图引擎。
+                    ViewEngines.Engines.Clear();
+                    ViewEngines.Engines.Add(new PluginRazorViewEngine());
                 }
-
-                // 采用自定义的Razor视图引擎。
-                ViewEngines.Engines.Clear();
-                ViewEngines.Engines.Add(new PluginRazorViewEngine());
             }
         }
 

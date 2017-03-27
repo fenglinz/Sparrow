@@ -18,7 +18,7 @@ namespace Mercurius.Kernel.WebCores.Plugins
         /// <summary>
         /// 区域视图位置格式化字符串集合。
         /// </summary>
-        private string[] _areaViewLocationFormats = {
+        private readonly string[] _areaViewLocationFormats = {
                 PluginsWebApplicationPath + "/{2}/Views/{1}/{0}.cshtml",
                 PluginsWebApplicationPath + "/{2}/Views/{1}/{0}.vbhtml",
                 PluginsWebApplicationPath + "/{2}/Views/Shared/{0}.cshtml",
@@ -34,7 +34,7 @@ namespace Mercurius.Kernel.WebCores.Plugins
         /// <summary>
         /// 非区域视图位置格式化字符串集合。
         /// </summary>
-        private string[] _viewLocationFormats = {
+        private readonly string[] _viewLocationFormats = {
                 "~/Views/{1}/{0}.cshtml",
                 "~/Views/{1}/{0}.vbhtml",
                 "~/Views/Shared/{0}.cshtml",

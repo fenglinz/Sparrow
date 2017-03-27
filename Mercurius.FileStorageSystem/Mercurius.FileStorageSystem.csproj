@@ -57,6 +57,9 @@
     <Reference Include="Autofac, Version=4.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.4.0\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Extras.DynamicProxy, Version=4.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Extras.DynamicProxy.4.1.0\lib\net45\Autofac.Extras.DynamicProxy.dll</HintPath>
+    </Reference>
     <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Mvc5.4.0.1\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
@@ -250,6 +253,9 @@
     </Compile>
     <Compile Include="..\Mercurius.Sparrow.Backstage\Autofac\IBatisNetModule.cs">
       <Link>Autofac\IBatisNetModule.cs</Link>
+    </Compile>
+    <Compile Include="..\Mercurius.Sparrow.Backstage\Autofac\ServiceInterceptor.cs">
+      <Link>Autofac\ServiceInterceptor.cs</Link>
     </Compile>
     <Compile Include="Apis\Core\Controllers\ConfigController.cs" />
     <Compile Include="Apis\Core\Controllers\FileController.cs" />

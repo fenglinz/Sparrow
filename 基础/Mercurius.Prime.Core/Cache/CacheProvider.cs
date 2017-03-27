@@ -106,6 +106,13 @@ namespace Mercurius.Prime.Core.Cache
         public abstract void Clear();
 
         /// <summary>
+        /// 获取缓存中的数据(json格式)。
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns>值</returns>
+        public abstract string Get(string key);
+
+        /// <summary>
         /// 获取缓存中的数据。
         /// </summary>
         /// <typeparam name="T">数据类型</typeparam>
