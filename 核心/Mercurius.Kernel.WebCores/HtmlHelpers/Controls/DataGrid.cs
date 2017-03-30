@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
@@ -45,8 +46,10 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
         private static readonly Dictionary<Type, PropertyInfo[]> _dictProperties;
 
         private readonly HtmlHelper _htmlHelper;
-        private readonly IList<string> _rowDatas;
         private readonly IList<DataGridColumn<T>> _columns;
+
+        private string _rowDataKey;
+        private Func<T, object> _rowDataFunc;
 
         // 手风琴设置
         private Func<T, object> _accordionRowFunc;
@@ -87,7 +90,6 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
         public DataGrid(HtmlHelper htmlHelper)
         {
             this._htmlHelper = htmlHelper;
-            this._rowDatas = new List<string>();
             this._columns = new List<DataGridColumn<T>>();
         }
 
@@ -219,14 +221,13 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
         /// <summary>
         /// 设置表格行上的数据属性。
         /// </summary>
-        /// <typeparam name="P">属性名称</typeparam>
-        /// <param name="expression">显示的属性值的Lambda表达式</param>
+        /// <param name="dataKey">数据键</param>
+        /// <param name="dataFunc">数据值回调</param>
         /// <returns>数据表对象</returns>
-        public DataGrid<T> RowData<P>(Expression<Func<T, P>> expression)
+        public DataGrid<T> RowData(string dataKey, Func<T, object> dataFunc)
         {
-            var propertyName = ExpressionHelper.GetExpressionText(expression);
-
-            this._rowDatas.Add(propertyName);
+            this._rowDataKey = dataKey;
+            this._rowDataFunc = dataFunc;
 
             return this;
         }
@@ -479,14 +480,15 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
             // 数据显示。
             foreach (var data in set.Datas)
             {
-                var dataTag = new TagBuilder("tr");
+                var dataTag = new StringBuilder("<tr");
 
-                if (!this._rowDatas.IsEmpty())
+                if (this._rowDataFunc != null)
                 {
-                    foreach (var item in this._rowDatas)
-                    {
-                        dataTag.Attributes.Add($"data-{item}", Convert.ToString(GetProperty(properties, item).GetValue(data)));
-                    }
+                    dataTag.AppendFormat(" {0}='{1}'>", this._rowDataKey, this._htmlHelper.Raw(this._rowDataFunc(data)));
+                }
+                else
+                {
+                    dataTag.Append(">");
                 }
 
                 foreach (var column in this._columns)
@@ -495,27 +497,29 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
                     {
                         if (this._lineNumberFunc == null)
                         {
-                            dataTag.InnerHtml += $"<td class=\"text-center\">{startIndex + index}</td>";
+                            dataTag.Append($"<td class=\"text-center\">{startIndex + index}</td>");
                         }
                         else
                         {
                             var helperResult = new HelperResult(w => w.Write(this._lineNumberFunc(new RowData<T> { Data = data, RowIndex = startIndex + index })));
 
-                            dataTag.InnerHtml += $"<td class=\"text-center\">{helperResult.ToHtmlString()}</td>";
+                            dataTag.Append($"<td class=\"text-center\">{helperResult.ToHtmlString()}</td>");
                         }
                     }
                     else if (column.CustomPart != null)
                     {
-                        dataTag.InnerHtml += $"<td {(column.Class.IsNullOrEmpty() ? "" : "class=\"" + column.Class + "\"")} style=\"{column.Style}\">{new HelperResult(w => w.Write(column.CustomPart.Invoke(data)))}</td>";
+                        dataTag.Append($"<td {(column.Class.IsNullOrEmpty() ? "" : "class=\"" + column.Class + "\"")} style=\"{column.Style}\">{new HelperResult(w => w.Write(column.CustomPart.Invoke(data)))}</td>");
                     }
                     else
                     {
                         var property = GetProperty(properties, column.DisplayPropertyName);
                         var value = property.GetValue(data);
 
-                        dataTag.InnerHtml += $"<td{(column.IsHide ? " style=\"display:none\"" : "")}>{(column.DataFormatString.IsNullOrEmpty() ? value : string.Format(column.DataFormatString, value))}</td>";
+                        dataTag.Append($"<td{(column.IsHide ? " style=\"display:none\"" : "")}>{(column.DataFormatString.IsNullOrEmpty() ? value : string.Format(column.DataFormatString, value))}</td>");
                     }
                 }
+
+                dataTag.Append("</tr>");
 
                 index++;
 
