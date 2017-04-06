@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using Castle.DynamicProxy;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Cache;
+using Mercurius.Prime.Core.Logger;
 using Mercurius.Prime.Core.Services;
 using Newtonsoft.Json;
 
@@ -17,6 +19,11 @@ namespace Mercurius.Sparrow.Autofac
     public class ServiceInterceptor : StandardInterceptor
     {
         #region 属性
+
+        /// <summary>
+        /// 日志组件。
+        /// </summary>
+        public ILogger Logger { get; set; }
 
         /// <summary>
         /// 缓存提供者。
@@ -44,19 +51,47 @@ namespace Mercurius.Sparrow.Autofac
         {
             if (invocation.Method.ReturnType != typeof(void) && invocation.Method.ReturnType != typeof(Response))
             {
+                var type = invocation.Method.DeclaringType;
+
+                this.Logger?.BeforeExecution(type.Name, invocation.Method.DeclaringType.Name, invocation.Method.Name, invocation.Arguments);
+
+                var result = new Response();
+                var stopwatch = new Stopwatch();
+
+                stopwatch.Start();
+
                 var cacheKey = this.GetCacheKey(invocation);
                 var cacheValue = this.Cache.Get(cacheKey);
 
-                if (cacheValue != null)
+                try
                 {
-                    invocation.ReturnValue = JsonConvert.DeserializeObject(cacheValue, invocation.Method.ReturnType);
-                }
-                else
-                {
-                    base.PerformProceed(invocation);
+                    if (cacheValue != null)
+                    {
+                        invocation.ReturnValue = JsonConvert.DeserializeObject(cacheValue, invocation.Method.ReturnType);
+                    }
+                    else
+                    {
+                        base.PerformProceed(invocation);
 
-                    this.Cache.Add(cacheKey, invocation.ReturnValue);
+                        this.Cache.Add(cacheKey, invocation.ReturnValue);
+                    }
                 }
+                catch (Exception exp)
+                {
+                    var res = invocation.ReturnValue as Response;
+
+                    if (res != null)
+                    {
+                        res.IsSuccess = false;
+                        res.ErrorMessage = exp.Message;
+                    }
+
+                    this.Logger?.Abnormal(type.Name, invocation.Method.DeclaringType.Name, invocation.Method.Name, exp, invocation.Arguments);
+                }
+
+                stopwatch.Stop();
+                this.Logger?.AfterExecution(type.Name, invocation.Method.DeclaringType.Name, invocation.Method.Name, stopwatch.Elapsed, invocation.Arguments, result);
+
             }
         }
 

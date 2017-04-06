@@ -1,5 +1,5 @@
 /*!
- * bootstrap-fileinput v4.3.8
+ * bootstrap-fileinput v4.3.9
  * http://plugins.krajee.com/file-input
  *
  * Krajee default styling for bootstrap-fileinput.
@@ -274,8 +274,8 @@
 
 /* noinspection CssOverwrittenProperties */
 .file-zoom-dialog .file-other-icon {
-    font-size: 8em;
-    font-size: 65vmin;
+    font-size: 22em;
+    font-size: 50vmin;
 }
 
 .file-input-new .file-preview, .file-input-new .close, .file-input-new .glyphicon-file,
@@ -436,6 +436,11 @@
 .file-zoom-content {
     height: 480px;
     text-align: center;
+}
+
+.file-zoom-content .file-preview-image, .file-preview-
+.file-zoom-content .file-preview-video {
+    max-height: 100%
 }
 
 .file-preview-initial.sortable-chosen {
