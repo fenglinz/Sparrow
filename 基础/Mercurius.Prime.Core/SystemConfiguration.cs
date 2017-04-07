@@ -66,7 +66,7 @@ namespace Mercurius.Prime.Core
         /// <summary>
         /// 文件系统地址。
         /// </summary>
-        public static string FileStorageRomoteUrl => Get("FileStorage.RomoteUrl", "http://127.0.0.1/FileStorageSystem/");
+        public static string FileStorageRemoteUrl => Get("FileStorage.RemoteUrl", "http://127.0.0.1/FileStorageSystem/");
 
         /// <summary>
         /// 文件系统Web Api账户。
@@ -81,7 +81,7 @@ namespace Mercurius.Prime.Core
         /// <summary>
         /// 文件系统Web Api token认证获取地址。
         /// </summary>
-        public static string FileStorageTokenTokenEndpointPath => FileStorageRomoteUrl + Get("FileStorage.Token.TokenEndpointPath", "api/token");
+        public static string FileStorageTokenTokenEndpointPath => FileStorageRemoteUrl + Get("FileStorage.Token.TokenEndpointPath", "api/token");
 
         #endregion
 

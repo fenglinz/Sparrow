@@ -43,7 +43,7 @@ namespace Mercurius.Prime.Core.WebApi
         /// <returns>返回的数据</returns>
         public T Get<T>(string webApiRoute, object data = null, bool needToken = true)
         {
-            var url = $"{FileStorageRomoteUrl}{webApiRoute}";
+            var url = $"{FileStorageRemoteUrl}{webApiRoute}";
 
             if (data != null)
             {
@@ -95,7 +95,7 @@ namespace Mercurius.Prime.Core.WebApi
         /// <returns>返回的数据</returns>
         public T Post<T>(string webApiRoute, object data = null, bool needToken = true)
         {
-            var url = $"{FileStorageRomoteUrl}{webApiRoute}";
+            var url = $"{FileStorageRemoteUrl}{webApiRoute}";
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = "application/json";
@@ -145,7 +145,7 @@ namespace Mercurius.Prime.Core.WebApi
         /// <returns>返回的数据</returns>
         public T Put<T>(string webApiRoute, object data = null, bool needToken = true)
         {
-            var url = $"{FileStorageRomoteUrl}{webApiRoute}";
+            var url = $"{FileStorageRemoteUrl}{webApiRoute}";
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = "application/json";
@@ -195,7 +195,7 @@ namespace Mercurius.Prime.Core.WebApi
         /// <returns>返回的数据</returns>
         public T Delete<T>(string webApiRoute, object data = null, bool needToken = true)
         {
-            var url = $"{FileStorageRomoteUrl}{webApiRoute}";
+            var url = $"{FileStorageRemoteUrl}{webApiRoute}";
 
             if (data != null)
             {

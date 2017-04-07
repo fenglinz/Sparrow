@@ -52,7 +52,7 @@ namespace Mercurius.Kernel.Implementations.Storage.WebApi
 
             var id = Convert.ToBase64String(Encoding.UTF8.GetBytes(path));
 
-            return $"{FileStorageRomoteUrl}File/Index/{id}?mode={mode}";
+            return $"{FileStorageRemoteUrl}File/Index/{id}?mode={mode}";
         }
 
         /// <summary>
