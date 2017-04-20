@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -27,17 +28,9 @@ namespace Mercurius.Prime.Data.Support
         #region 字段
 
         /// <summary>
-        /// 线程锁。
+        /// 默认执行返回结果。
         /// </summary>
-        private static object _locker = new object();
-
-        /// <summary>
-        /// 模块字典。
-        /// </summary>
-        private static readonly Dictionary<Type, string> _dictModuleNames;
-
-        private ILogger _logger;
-        private string _className;
+        private static Response Defalut() => new Response();
 
         #endregion
 
@@ -53,35 +46,6 @@ namespace Mercurius.Prime.Data.Support
         /// </summary>
         public Persistence Persistence { get; set; }
 
-        /// <summary>
-        /// 日志组件。
-        /// </summary>
-        public ILogger Logger
-        {
-            get
-            {
-                return this._logger;
-            }
-
-            set
-            {
-                this._logger = value;
-                this._className = this.GetType().FullName.Replace('.', '_');
-            }
-        }
-
-        #endregion
-
-        #region 构造方法
-
-        /// <summary>
-        /// 静态构造方法。
-        /// </summary>
-        static ServiceSupport()
-        {
-            _dictModuleNames = new Dictionary<Type, string>();
-        }
-
         #endregion
 
         #region 服务支持
@@ -89,99 +53,75 @@ namespace Mercurius.Prime.Data.Support
         /// <summary>
         /// 执行服务。
         /// </summary>
-        /// <param name="method">方法名</param>
-        /// <param name="args">方法参数</param>
         /// <param name="callback">回调方法</param>
         /// <returns>操作结果</returns>
-        protected Response InvokeService(string method, Action callback, object args = null)
+        protected Response Create(
+            StatementNamespace ns,
+            string innerId,
+            object param = null,
+            Action callback = null)
         {
-            var model = this.GetModelName();
+            this.Persistence.Create(ns, innerId, param);
 
-            this.Logger?.BeforeExecution(model, this._className, method, args);
+            callback?.Invoke();
 
-            var result = new Response();
-            var stopwatch = new Stopwatch();
-
-            stopwatch.Start();
-
-            try
-            {
-                callback();
-            }
-            catch (Exception exception)
-            {
-                result.IsSuccess = false;
-                result.ErrorMessage = exception.Message;
-
-                this.Logger?.Abnormal(model, this._className, method, exception, args);
-            }
-
-            stopwatch.Stop();
-
-            this.Logger?.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
-
-            return result;
+            return Defalut();
         }
 
         /// <summary>
-        /// 执行服务操作。
+        /// 执行服务。
         /// </summary>
-        /// <typeparam name="T">返回类型</typeparam>
-        /// <param name="method">方法名</param>
         /// <param name="callback">回调方法</param>
-        /// <param name="args">参数列表</param>
-        /// <param name="cacheable">是否缓存数据</param>
-        /// <returns>服务返回结果</returns>
-        protected Response<T> InvokeService<T>(
-            string method,
-            Func<T> callback,
-            object args = null,
-            bool cacheable = true)
+        /// <returns>操作结果</returns>
+        protected Response Update(
+            StatementNamespace ns,
+            string innerId,
+            object param = null,
+            Action callback = null)
         {
-            var model = this.GetModelName();
+            this.Persistence.Update(ns, innerId, param);
 
-            this.Logger?.BeforeExecution(model, this._className, method, args);
+            callback?.Invoke();
 
-            var result = new Response<T>();
-            var stopwatch = new Stopwatch();
+            return Defalut();
+        }
 
-            stopwatch.Start();
+        /// <summary>
+        /// 执行服务。
+        /// </summary>
+        /// <param name="callback">回调方法</param>
+        /// <returns>操作结果</returns>
+        protected Response Delete(
+            StatementNamespace ns,
+            string innerId,
+            object param = null,
+            Action callback = null)
+        {
+            this.Persistence.Delete(ns, innerId, param);
 
-            try
+            callback?.Invoke();
+
+            return Defalut();
+        }
+
+        /// <summary>
+        /// 执行服务操作。
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="callback">回调方法</param>
+        /// <returns>服务返回结果</returns>
+        protected Response<T> QueryForObject<T>(
+            StatementNamespace ns,
+            string innerId,
+            object so = null,
+            Action callback = null)
+        {
+            var result = new Response<T>()
             {
-                if (cacheable && this.Cache != null)
-                {
-                    var cacheKey = this.Cache.GetCacheKey<T>($"{_className}_{method}", args);
-                    var cacheValue = this.Cache.Get<T>(cacheKey);
+                Data = this.Persistence.QueryForObject<T>(ns, innerId, so)
+            };
 
-                    if (cacheValue == null)
-                    {
-                        cacheValue = callback();
-
-                        if (cacheValue != null)
-                        {
-                            this.AddCache(cacheKey, cacheValue);
-                        }
-                    }
-
-                    result.Data = cacheValue;
-                }
-                else
-                {
-                    result.Data = callback();
-                }
-            }
-            catch (Exception exception)
-            {
-                result.IsSuccess = false;
-                result.ErrorMessage = exception.Message;
-
-                this.Logger?.Abnormal(model, this._className, method, exception, args);
-            }
-
-            stopwatch.Stop();
-
-            this.Logger?.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
+            callback?.Invoke();
 
             return result;
         }
@@ -190,61 +130,20 @@ namespace Mercurius.Prime.Data.Support
         /// 执行服务操作。
         /// </summary>
         /// <typeparam name="T">返回类型</typeparam>
-        /// <param name="method">方法名</param>
         /// <param name="handler">回调方法</param>
-        /// <param name="args">参数列表</param>
-        /// <param name="cacheable">是否缓存数据</param>
         /// <returns>服务返回结果</returns>
-        protected ResponseSet<T> InvokeService<T>(
-            string method,
-            Func<IList<T>> handler,
-            object args = null,
-            bool cacheable = true)
+        protected ResponseSet<T> QueryForList<T>(
+            StatementNamespace ns,
+            string innerId,
+            object so = null,
+            Action callback = null)
         {
-            var model = this.GetModelName();
-
-            this.Logger?.BeforeExecution(model, this._className, method, args);
-
-            var stopwatch = new Stopwatch();
-            var result = new ResponseSet<T>();
-
-            stopwatch.Start();
-
-            try
+            var result = new ResponseSet<T>()
             {
-                if (cacheable && this.Cache != null)
-                {
-                    var cacheKey = this.Cache.GetCacheKey<T>($"{_className}_{method}", args);
-                    var cacheValue = this.Cache.Get<IList<T>>(cacheKey);
+                Datas = this.Persistence.QueryForList<T>(ns, innerId, so)
+            };
 
-                    if (cacheValue.IsEmpty())
-                    {
-                        cacheValue = handler();
-
-                        if (!cacheValue.IsEmpty())
-                        {
-                            this.AddCache(cacheKey, cacheValue);
-                        }
-                    }
-
-                    result.Datas = cacheValue;
-                }
-                else
-                {
-                    result.Datas = handler();
-                }
-            }
-            catch (Exception exception)
-            {
-                result.IsSuccess = false;
-                result.ErrorMessage = exception.Message;
-
-                this.Logger?.Abnormal(model, this._className, method, exception, args);
-            }
-
-            stopwatch.Stop();
-
-            this.Logger?.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
+            callback?.Invoke();
 
             return result;
         }
@@ -253,67 +152,36 @@ namespace Mercurius.Prime.Data.Support
         /// 执行分页服务操作。
         /// </summary>
         /// <typeparam name="T">返回类型</typeparam>
-        /// <param name="method">方法名</param>
         /// <param name="handler">回调方法</param>
-        /// <param name="args">参数列表</param>
-        /// <param name="cacheable">是否缓存数据</param>
         /// <returns>服务返回结果</returns>
-        protected ResponseSet<T> InvokePagingService<T>(
-            string method,
-            PagingServiceCallback<T> handler,
-            object args = null,
-            bool cacheable = true)
+        protected ResponseSet<T> QueryForPagedList<T>(
+            StatementNamespace ns,
+            string innerId,
+            object param = null,
+            Action callback = null)
         {
-            var model = this.GetModelName();
+            var totalRecords = -1;
 
-            this.Logger?.BeforeExecution(model, this._className, method, args);
-
-            var stopwatch = new Stopwatch();
-            var result = new ResponseSet<T>();
-
-            stopwatch.Start();
-
-            try
+            var result = new ResponseSet<T>()
             {
-                if (cacheable && this.Cache != null)
-                {
-                    var cacheKey = this.Cache.GetCacheKey<T>($"{_className}_{method}", args);
-                    var cacheValue = this.Cache.Get<ResponseSet<T>>(cacheKey);
+                Datas = this.Persistence.QueryForPaginatedList<T>(ns, innerId, out totalRecords, param),
+                TotalRecords = totalRecords
+            };
 
-                    if (cacheValue == null || cacheValue.Datas.IsEmpty())
-                    {
-                        int totalRecords;
+            callback?.Invoke();
 
-                        cacheValue = result;
-                        cacheValue.Datas = handler(out totalRecords);
-                        cacheValue.TotalRecords = totalRecords;
+            return result;
+        }
 
-                        if (totalRecords > 0)
-                        {
-                            this.AddCache(cacheKey, cacheValue);
-                        }
-                    }
+        protected DataTable QueryForDataTable(
+            StatementNamespace ns,
+            string innerId,
+            object so = null,
+            Action callback = null)
+        {
+            var result = this.Persistence.QueryForDataTable(ns, innerId, so);
 
-                    result = cacheValue;
-                }
-                else
-                {
-                    int totalRecords;
-                    result.Datas = handler(out totalRecords);
-                    result.TotalRecords = totalRecords;
-                }
-            }
-            catch (Exception exception)
-            {
-                result.IsSuccess = false;
-                result.ErrorMessage = exception.Message;
-
-                this.Logger?.Abnormal(model, this._className, method, exception, args);
-            }
-
-            stopwatch.Stop();
-
-            this.Logger?.AfterExecution(model, this._className, method, stopwatch.Elapsed, args, result);
+            callback?.Invoke();
 
             return result;
         }
@@ -358,50 +226,11 @@ namespace Mercurius.Prime.Data.Support
         #region 缓存处理
 
         /// <summary>
-        /// 添加缓存。
-        /// </summary>
-        /// <param name="key">缓存主键</param>
-        /// <param name="value">需要缓存的数据</param>
-        protected void AddCache(string key, object value)
-        {
-            if (value != null)
-            {
-                this.Cache?.Add(key, value);
-            }
-        }
-
-        /// <summary>
         /// 清除与本服务相关的缓存。
         /// </summary>
         protected void ClearCache<T>()
         {
             this.Cache?.RemoveStarts(this.Cache?.GetCacheKey<T>(string.Empty));
-        }
-
-        #endregion
-
-        #region 私有方法
-
-        /// <summary>
-        /// 获取模块名称。
-        /// </summary>
-        /// <returns>模块名称</returns>
-        private string GetModelName()
-        {
-            var type = this.GetType();
-
-            lock (_locker)
-            {
-                if (!_dictModuleNames.ContainsKey(type))
-                {
-                    var attributre = type.GetCustomAttribute<ModuleAttribute>();
-                    var moduleName = string.IsNullOrWhiteSpace(attributre?.Name) ? type.Namespace.Split('.').LastOrDefault() : attributre.Name;
-
-                    _dictModuleNames.Add(type, moduleName);
-                }
-            }
-
-            return _dictModuleNames[type];
         }
 
         #endregion

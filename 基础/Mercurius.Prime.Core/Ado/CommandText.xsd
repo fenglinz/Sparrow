@@ -5,24 +5,47 @@
     xmlns="http://www.mercurius.com/CommandText.xsd"
     xmlns:mstns="http://www.mercurius.com/CommandText.xsd"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="CommandTexts" type="CommandTexts"/>
 
-  <xs:complexType name="CommandTexts">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="CommandText" type="CommandText" />
-    </xs:sequence>
-  </xs:complexType>
+  <xs:element name="CommandTexts">
+    <xs:complexType mixed="0">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="CommandText" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 
-  <xs:complexType name="CommandText" mixed="true">
-    <xs:attribute name="name" type="xs:string" />
-    <xs:attribute name="commandType" type="CommandType" />
-  </xs:complexType>
+  <xs:element name="CommandText">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="attach" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="commandType" type="CommandType" default="Text" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="attach">
+    <xs:complexType mixed="true">
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="commandType" type="CommandType" default="Text" />
+      <xs:attribute name="mode" type="QueryMode" default="Scalar" />
+    </xs:complexType>
+  </xs:element>
 
   <xs:simpleType name="CommandType">
     <xs:restriction base="xs:string">
       <xs:enumeration id="Text" value="Text" />
       <xs:enumeration id="StoredProcedure" value="StoredProcedure" />
       <xs:enumeration id="TableDirect" value="TableDirect" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="QueryMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration id="Execute" value="Execute" />
+      <xs:enumeration id="Scalar" value="Scalar" />
+      <xs:enumeration id="Single" value="Single" />
+      <xs:enumeration id="List" value="List" />
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

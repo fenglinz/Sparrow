@@ -4,7 +4,7 @@
 
 @Html.DataGridFor(Model,
     t => t.Id("logsGrid").ShowLineNumber()
-          .RowData(c => c.Id)
+          .RowData("data-id", c => c.Id)
           .Column(c => c.LogOnName, "用户", 120)
           .Column(c => c.LogOnIP, "用户IP地址", 140)
           .Column(c => c.ModelName, "模块", 180)

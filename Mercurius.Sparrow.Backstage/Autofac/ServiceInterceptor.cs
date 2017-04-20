@@ -49,49 +49,68 @@ namespace Mercurius.Sparrow.Autofac
         /// <param name="invocation">拦截信息</param>
         protected override void PerformProceed(IInvocation invocation)
         {
-            if (invocation.Method.ReturnType != typeof(void) && invocation.Method.ReturnType != typeof(Response))
+            var responseType = typeof(Response);
+
+            if (invocation.Method.ReturnType != typeof(void) &&
+                (invocation.Method.ReturnType == responseType ||
+                invocation.Method.ReturnType.IsSubclassOf(responseType)))
             {
                 var type = invocation.Method.DeclaringType;
 
                 this.Logger?.BeforeExecution(type.Name, invocation.Method.DeclaringType.Name, invocation.Method.Name, invocation.Arguments);
 
-                var result = new Response();
                 var stopwatch = new Stopwatch();
 
                 stopwatch.Start();
 
-                var cacheKey = this.GetCacheKey(invocation);
-                var cacheValue = this.Cache.Get(cacheKey);
-
-                try
+                if (invocation.Method.ReturnType == responseType)
                 {
-                    if (cacheValue != null)
-                    {
-                        invocation.ReturnValue = JsonConvert.DeserializeObject(cacheValue, invocation.Method.ReturnType);
-                    }
-                    else
+                    try
                     {
                         base.PerformProceed(invocation);
+                    }
+                    catch (Exception exp)
+                    {
+                        invocation.ReturnValue = new Response { ErrorMessage = exp.Message };
 
-                        this.Cache.Add(cacheKey, invocation.ReturnValue);
+                        this.Logger?.Abnormal(type.Name, invocation.Method.DeclaringType.Name, invocation.Method.Name, exp, invocation.Arguments);
                     }
                 }
-                catch (Exception exp)
+                else
                 {
-                    var res = invocation.ReturnValue as Response;
 
-                    if (res != null)
+                    var cacheKey = this.GetCacheKey(invocation);
+                    var cacheValue = this.Cache.Get(cacheKey);
+
+                    try
                     {
-                        res.IsSuccess = false;
-                        res.ErrorMessage = exp.Message;
-                    }
+                        if (cacheValue != null)
+                        {
+                            invocation.ReturnValue = JsonConvert.DeserializeObject(cacheValue, invocation.Method.ReturnType);
+                        }
+                        else
+                        {
+                            base.PerformProceed(invocation);
 
-                    this.Logger?.Abnormal(type.Name, invocation.Method.DeclaringType.Name, invocation.Method.Name, exp, invocation.Arguments);
+                            this.Cache.Add(cacheKey, invocation.ReturnValue);
+                        }
+                    }
+                    catch (Exception exp)
+                    {
+                        var res = invocation.ReturnValue as Response;
+
+                        if (res != null)
+                        {
+                            res.IsSuccess = false;
+                            res.ErrorMessage = exp.Message;
+                        }
+
+                        this.Logger?.Abnormal(type.Name, invocation.Method.DeclaringType.Name, invocation.Method.Name, exp, invocation.Arguments);
+                    }
                 }
 
                 stopwatch.Stop();
-                this.Logger?.AfterExecution(type.Name, invocation.Method.DeclaringType.Name, invocation.Method.Name, stopwatch.Elapsed, invocation.Arguments, result);
-
+                this.Logger?.AfterExecution(type.Name, invocation.Method.DeclaringType.Name, invocation.Method.Name, stopwatch.Elapsed, invocation.Arguments, invocation.ReturnValue);
             }
         }
 
@@ -115,7 +134,7 @@ namespace Mercurius.Sparrow.Autofac
         /// <returns></returns>
         private string GetCacheKey(IInvocation invocation)
         {
-            return $"Aop{invocation.TargetType.Namespace?.Replace(".", "_")}_{invocation.Method.Name}_{invocation.Arguments?.AsJson()}";
+            return $"{invocation.TargetType.Namespace?.Replace(".", "_")}_{invocation.Method.Name}_{invocation.Arguments?.AsJson()}";
         }
 
         #endregion

@@ -33,14 +33,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         {
             var args = new { Key = key, Value = value, Remark = remark };
 
-            return this.InvokeService(
-                nameof(CreateOrUpdateGlobalResource),
-                () =>
-                {
-                    this.Persistence.Create(NS, "CreateOrUpdateGlobalResource", args);
-
-                    this.ClearCache<Globalization>();
-                }, new { key, value, remark });
+            return this.Create(NS, "CreateOrUpdateGlobalResource", args, () => this.ClearCache<Globalization>());
         }
 
         /// <summary>
@@ -49,14 +42,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <param name="globalization">资源信息</param>
         public Response CreateOrUpdateResource(Globalization globalization)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdateResource),
-                () =>
-                {
-                    this.Persistence.Update(NS, "CreateOrUpdateResource", globalization);
-
-                    this.ClearCache<Globalization>();
-                }, globalization);
+            return this.Update(NS, "CreateOrUpdateResource", globalization, () => this.ClearCache<Globalization>());
         }
 
         /// <summary>
@@ -65,14 +51,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <param name="id">资源编号</param>
         public Response Remove(string id)
         {
-            return this.InvokeService(
-                nameof(Remove),
-                () =>
-                {
-                    this.Persistence.Delete(NS, "Remove", id);
-
-                    this.ClearCache<Globalization>();
-                }, id);
+            return this.Delete(NS, "Remove", id, () => this.ClearCache<Globalization>());
         }
 
         /// <summary>
@@ -82,9 +61,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>值</returns>
         public string GetGlobalResource(string key)
         {
-            var result = this.InvokeService(
-                nameof(GetGlobalResource),
-                () => this.Persistence.QueryForObject<string>(NS, "GetGlobalResource", key), key);
+            var result = this.QueryForObject<string>(NS, "GetGlobalResource", key);
 
             return (result.IsSuccess && !string.IsNullOrWhiteSpace(result.Data)) ? result.Data : key;
         }
@@ -98,32 +75,26 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>资源信息字典</returns>
         public Dictionary<string, string> GetResources(string controller, string view, string area = null)
         {
+            var dict = new Dictionary<string, string>();
             var args = new { Area = area, Controller = controller, View = view };
 
-            return this.InvokeService(
-                nameof(GetResources),
-                () =>
+            var table = this.QueryForDataTable(NS, "GetResources", args);
+
+            if (table != null)
+            {
+                foreach (DataRow item in table.Rows)
                 {
-                    var table = this.Persistence.QueryForDataTable(NS, "GetResources", args);
+                    var key = Convert.ToString(item[0]);
+                    var value = Convert.ToString(item[1]);
 
-                    var dict = new Dictionary<string, string>();
-
-                    if (table != null)
+                    if (!dict.ContainsKey(key))
                     {
-                        foreach (DataRow item in table.Rows)
-                        {
-                            var key = Convert.ToString(item[0]);
-                            var value = Convert.ToString(item[1]);
-
-                            if (!dict.ContainsKey(key))
-                            {
-                                dict.Add(key, value);
-                            }
-                        }
+                        dict.Add(key, value);
                     }
+                }
+            }
 
-                    return dict;
-                }, new { controller, view, area }).Data;
+            return dict;
         }
 
         /// <summary>
@@ -133,9 +104,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>资源信息</returns>
         public Response<Globalization> GetResource(string id)
         {
-            return this.InvokeService(
-                nameof(GetResource),
-                () => this.Persistence.QueryForObject<Globalization>(NS, "GetResource", id), id);
+            return this.QueryForObject<Globalization>(NS, "GetResource", id);
         }
 
         /// <summary>
@@ -145,9 +114,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>视图资源列表</returns>
         public ResponseSet<Globalization> GetGlobalResources(SearchObject so)
         {
-            return this.InvokePagingService(
-                nameof(GetGlobalResources),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<Globalization>(NS, "GetGlobalResources", out totalRecords, so), so);
+            return this.QueryForPagedList<Globalization>(NS, "GetGlobalResources", so);
         }
 
         /// <summary>
@@ -157,9 +124,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>视图资源列表</returns>
         public ResponseSet<Globalization> GetLocalResources(GlobalizationSO so)
         {
-            return this.InvokePagingService(
-                nameof(GetLocalResources),
-                (out int records) => this.Persistence.QueryForPaginatedList<Globalization>(NS, "GetLocalResources", out records, so), so);
+            return this.QueryForList<Globalization>(NS, "GetLocalResources", so);
         }
 
         #endregion
