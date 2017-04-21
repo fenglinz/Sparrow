@@ -29,7 +29,7 @@ namespace Mercurius.Prime.Data.IBatisNet
             this._isReadWriteSeparation = false;
             this._reader = this._writer = sqlMapper;
 
-            this._reader.SessionStore = SessionStoreFactory.GetSessionStore(this._reader.Id);
+            this._reader.SessionStore = new HybridWebThreadSessionStore(this._reader.Id);
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace Mercurius.Prime.Data.IBatisNet
             this._reader = reader;
 
             this._isReadWriteSeparation = true;
-            this._reader.SessionStore = SessionStoreFactory.GetSessionStore(this._reader.Id);
-            this._writer.SessionStore = SessionStoreFactory.GetSessionStore(this._writer.Id);
+            this._reader.SessionStore = new HybridWebThreadSessionStore(this._reader.Id);
+            this._writer.SessionStore = new HybridWebThreadSessionStore(this._writer.Id);
         }
 
         #endregion

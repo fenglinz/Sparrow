@@ -293,7 +293,7 @@ namespace Mercurius.Kernel.Implementations.Core
                     this.Persistence.Create(NS, "Write", log);
                 }
             }
-            catch
+            catch(Exception exp)
             {
             }
         }

@@ -78,9 +78,9 @@ namespace Mercurius.Sparrow.Autofac
                 }
                 else
                 {
-                    var cache = invocation.Method.GetCustomAttribute<NonCacheAttribute>();
+                    var nonCacheAttribute = invocation.Method.GetCustomAttribute<NonCacheAttribute>();
 
-                    if (cache?.UseCache == false)
+                    if (this.Cache == null || nonCacheAttribute != null)
                     {
                         base.PerformProceed(invocation);
 
@@ -94,14 +94,24 @@ namespace Mercurius.Sparrow.Autofac
                     {
                         if (cacheValue != null)
                         {
-                            invocation.ReturnValue = JsonConvert.DeserializeObject(cacheValue, invocation.Method.ReturnType);
-                        }
-                        else
-                        {
-                            base.PerformProceed(invocation);
+                            dynamic resData = JsonConvert.DeserializeObject(cacheValue, invocation.Method.ReturnType);
 
-                            this.Cache.Add(cacheKey, invocation.ReturnValue);
+                            if (invocation.Method.ReturnType.GetProperty("Data") != null && resData.Data != null)
+                            {
+                                invocation.ReturnValue = resData;
+
+                                return;
+                            }
+                            else if (invocation.Method.ReturnType.GetProperty("Datas") != null && resData.Datas != null && resData.Datas.Count > 0)
+                            {
+                                invocation.ReturnValue = resData;
+
+                                return;
+                            }
                         }
+
+                        base.PerformProceed(invocation);
+                        this.Cache.Add(cacheKey, invocation.ReturnValue);
                     }
                     catch (Exception exp)
                     {
@@ -142,7 +152,7 @@ namespace Mercurius.Sparrow.Autofac
         /// <returns></returns>
         private string GetCacheKey(IInvocation invocation)
         {
-            return $"{invocation.TargetType.Namespace?.Replace(".", "_")}_{invocation.Method.Name}_{invocation.Arguments?.AsJson()}";
+            return this.Cache.GetCacheKey(invocation.TargetType, invocation.Method.Name, invocation.Arguments);
         }
 
         #endregion

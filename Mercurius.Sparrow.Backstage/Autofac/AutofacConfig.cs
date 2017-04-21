@@ -93,8 +93,8 @@ namespace Mercurius.Sparrow.Autofac
                            .PropertiesAutowired()  // 启用属性注入
                            .AsImplementedInterfaces()
                            .InstancePerLifetimeScope()
-                           .EnableInterfaceInterceptors()
-                           .InterceptedBy(typeof(ServiceInterceptor));
+                           .EnableInterfaceInterceptors() // 启用接口拦截
+                           .InterceptedBy(typeof(ServiceInterceptor)); // 设置连接器
 
                     // 注册MVC控制器。
                     Builder.RegisterControllers(appDomainAssemblies)
