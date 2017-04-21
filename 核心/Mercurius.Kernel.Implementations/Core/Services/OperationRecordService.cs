@@ -13,7 +13,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
     {
         #region 常量
 
-        private static readonly StatementNamespace OperationRecordNamespace = "Mercurius.Kernel.Repositories.Core.OperationRecord";
+        private static readonly StatementNamespace NS = "Mercurius.Kernel.Repositories.Core.OperationRecord";
 
         #endregion
 
@@ -26,8 +26,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>操作记录结果</returns>
         public ResponseSet<OperationRecord> SearchOperationRecords(OperationRecordSO so)
         {
-            return this.InvokePagingService(nameof(SearchOperationRecords),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<OperationRecord>(OperationRecordNamespace, "SearchOperationRecords", out totalRecords, so), so);
+            return this.QueryForPagedList<OperationRecord>(NS, "SearchOperationRecords", so);
         }
 
         #endregion

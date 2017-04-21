@@ -24,14 +24,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>操作结果</returns>
         public Response CreateOrUpdate(HomeShortcut homeShortcut)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Create(NS, "CreateOrUpdate", homeShortcut);
-
-                    this.ClearCache<HomeShortcut>();
-                }, homeShortcut);
+            return this.Create<HomeShortcut>(NS, "CreateOrUpdate", homeShortcut);
         }
 
         /// <summary>
@@ -42,17 +35,8 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>操作结果</returns>
         public Response Remove(string userId, params string[] args)
         {
-            return this.InvokeService(
-                nameof(Remove),
-                () =>
-                {
-                    if (!args.IsEmpty())
-                    {
-                        this.Persistence.Delete(NS, "Remove", new { UserId = userId, HomeShortcutIds = args });
-                    }
-
-                    this.ClearCache<HomeShortcut>();
-                }, new { userId, args });
+            return this.Delete<HomeShortcut>(NS, "Remove",
+                new { UserId = userId, HomeShortcutIds = args }, rs => !args.IsEmpty());
         }
 
         /// <summary>
@@ -62,9 +46,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>首页快捷方式信息</returns>
         public Response<HomeShortcut> GetHomeShortcutById(string id)
         {
-            return this.InvokeService(
-                nameof(GetHomeShortcutById),
-                () => this.Persistence.QueryForObject<HomeShortcut>(NS, "GetHomeShortcutById", id), id);
+            return this.QueryForObject<HomeShortcut>(NS, "GetHomeShortcutById", id);
         }
 
         /// <summary>
@@ -74,9 +56,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>首页快捷方式列表</returns>
         public ResponseSet<HomeShortcut> GetHomeShortcuts(string userId)
         {
-            return this.InvokeService(
-                nameof(GetHomeShortcuts),
-                () => this.Persistence.QueryForList<HomeShortcut>(NS, "GetHomeShortcuts", userId), userId);
+            return this.QueryForList<HomeShortcut>(NS, "GetHomeShortcuts", userId);
         }
 
         #endregion

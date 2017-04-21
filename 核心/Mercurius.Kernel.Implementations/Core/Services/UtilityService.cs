@@ -24,8 +24,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>架构名称</returns>
         public ResponseSet<string> GetSchemas()
         {
-            return this.InvokeService(nameof(GetSchemas),
-                () => this.Persistence.QueryForList<string>(NS, "GetSchemas"), cacheable: false);
+            return this.QueryForList<string>(NS, "GetSchemas");
         }
 
         /// <summary>
@@ -34,8 +33,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>表信息集合</returns>
         public ResponseSet<Table> GetTables()
         {
-            return this.InvokeService(nameof(GetTables),
-                () => this.Persistence.QueryForList<Table>(NS, "GetTables"), cacheable: false);
+            return this.QueryForList<Table>(NS, "GetTables");
         }
 
         /// <summary>
@@ -44,8 +42,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>表的DDL语句</returns>
         public ResponseSet<string> GetTablesDefinition()
         {
-            return this.InvokeService(nameof(GetTablesDefinition),
-                () => this.Persistence.QueryForList<string>(NS, "GetTablesDefinition"), cacheable: false);
+            return this.QueryForList<string>(NS, "GetTablesDefinition");
         }
 
         /// <summary>
@@ -55,8 +52,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>表的数据添加脚本</returns>
         public ResponseSet<string> GetAddDatasScript(string fullName)
         {
-            return this.InvokeService(nameof(GetAddDatasScript),
-                () => this.Persistence.QueryForList<string>(NS, "GetAddDatasScript", fullName), fullName, false);
+            return this.QueryForList<string>(NS, "GetAddDatasScript", fullName);
         }
 
         /// <summary>
@@ -65,8 +61,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>用户自定义过程完整名称</returns>
         public ResponseSet<string> GetProcedures()
         {
-            return this.InvokeService(nameof(GetProcedures),
-                () => this.Persistence.QueryForList<string>(NS, "GetProcedures"), cacheable: false);
+            return this.QueryForList<string>(NS, "GetProcedures");
         }
 
         /// <summary>
@@ -76,8 +71,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>过程定义</returns>
         public ResponseSet<string> GetProcedureDefinition(string fullName)
         {
-            return this.InvokeService(nameof(GetProcedureDefinition),
-                () => this.Persistence.QueryForList<string>(NS, "GetProcedureDefinition", fullName), fullName, false);
+            return this.QueryForList<string>(NS, "GetProcedureDefinition", fullName);
         }
 
         #endregion

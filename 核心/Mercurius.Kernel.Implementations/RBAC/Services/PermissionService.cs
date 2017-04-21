@@ -27,14 +27,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>服务执行结果</returns>
         public Response CreateOrUpdate(SystemMenu systemMenu)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Create(PermissionNamespace, "CreateOrUpdate", systemMenu);
-
-                    this.ClearCache<SystemMenu>();
-                }, systemMenu);
+            return this.Create<SystemMenu>(PermissionNamespace, "CreateOrUpdate", systemMenu);
         }
 
         /// <summary>
@@ -43,15 +36,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <param name="id">菜单编号</param>
         public Response Remove(string id)
         {
-            return this.InvokeService(
-                nameof(Remove),
-                () =>
-                {
-                    this.Persistence.Delete(PermissionNamespace, "Remove", id);
-
-                    this.ClearCache<Button>();
-                    this.ClearCache<SystemMenu>();
-                }, id);
+            return this.Delete<Button>(PermissionNamespace, "Remove", id, () => this.ClearCache<SystemMenu>());
         }
 
         /// <summary>
@@ -61,20 +46,18 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <param name="buttonIds">按钮编号集合(以','号分隔)</param>
         public Response AllotButtons(string systemMenuId, string buttonIds)
         {
-            return this.InvokeService(
-                nameof(AllotButtons),
+            return this.Create(PermissionNamespace, "AllotButtons",
+                new
+                {
+                    SystemMenuId = systemMenuId,
+                    ButtonIds = buttonIds,
+                    OpUserId = WebHelper.GetLogOnUserId()
+                },
                 () =>
                 {
-                    this.Persistence.Create(PermissionNamespace, "AllotButtons", new
-                    {
-                        SystemMenuId = systemMenuId,
-                        ButtonIds = buttonIds,
-                        OpUserId = WebHelper.GetLogOnUserId()
-                    });
-
                     this.ClearCache<Button>();
                     this.ClearCache<SystemMenu>();
-                }, new { systemMenuId, buttonIds });
+                });
         }
 
         /// <summary>
@@ -85,19 +68,14 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>服务执行响应信息</returns>
         public Response AllotPermissionByRole(string roleId, params string[] args)
         {
-            return this.InvokeService(
-                nameof(AllotPermissionByRole),
-                () =>
+            return this.Create<SystemMenu>(PermissionNamespace,
+                "AllotPermissionByRole",
+                new
                 {
-                    this.Persistence.Create(PermissionNamespace, "AllotPermissionByRole", new
-                    {
-                        RoleId = roleId,
-                        CreateUserId = WebHelper.GetLogOnUserId(),
-                        SystemMenuIds = args
-                    });
-
-                    this.ClearCache<SystemMenu>();
-                }, new { roleId, args });
+                    RoleId = roleId,
+                    CreateUserId = WebHelper.GetLogOnUserId(),
+                    SystemMenuIds = args
+                });
         }
 
         /// <summary>
@@ -107,9 +85,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>系统菜单信息</returns>
         public Response<SystemMenu> GetSystemMenu(string id)
         {
-            return this.InvokeService(
-                nameof(GetSystemMenu),
-                () => this.Persistence.QueryForObject<SystemMenu>(PermissionNamespace, "GetSystemMenu", id), id);
+            return this.QueryForObject<SystemMenu>(PermissionNamespace, "GetSystemMenu", id);
         }
 
         /// <summary>
@@ -118,9 +94,9 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>服务执行结果</returns>
         public ResponseSet<SystemMenu> GetSystemMenus()
         {
-            return this.InvokeService(
-                nameof(GetSystemMenus),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenus").AsSorted<SystemMenu, string>());
+            return this.QueryForList<SystemMenu>(
+                PermissionNamespace, "GetSystemMenus",
+                callback: rs => rs.Datas.AsSorted<SystemMenu, string>());
         }
 
         /// <summary>
@@ -130,9 +106,9 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>菜单列表</returns>
         public ResponseSet<SystemMenu> GetSystemMenusWithAllotedByUser(string id)
         {
-            return this.InvokeService(
-                nameof(GetSystemMenusWithAllotedByUser),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByUser", id).AsSorted<SystemMenu, string>(), id);
+            return this.QueryForList<SystemMenu>(
+                PermissionNamespace, "GetSystemMenusWithAllotedByUser", id,
+                rs => rs.Datas.AsSorted<SystemMenu, string>());
         }
 
         /// <summary>
@@ -142,9 +118,9 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>菜单列表</returns>
         public ResponseSet<SystemMenu> GetSystemMenusWithAllotedByRole(string id)
         {
-            return this.InvokeService(
-                nameof(GetSystemMenusWithAllotedByRole),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetSystemMenusWithAllotedByRole", id).AsSorted<SystemMenu, string>(), id);
+            return this.QueryForList<SystemMenu>(
+                PermissionNamespace, "GetSystemMenusWithAllotedByRole", id,
+                rs => rs.Datas.AsSorted<SystemMenu, string>());
         }
 
         /// <summary>
@@ -154,9 +130,9 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>菜单列表</returns>
         public ResponseSet<SystemMenu> GetAccessibleMenus(string userId)
         {
-            return this.InvokeService(
-                nameof(GetAccessibleMenus),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetAccessibleMenusByUser", userId).AsSorted<SystemMenu, string>(), userId);
+            return this.QueryForList<SystemMenu>(
+                PermissionNamespace, "GetAccessibleMenusByUser",
+                userId, rs => rs.Datas.AsSorted<SystemMenu, string>());
         }
 
         /// <summary>
@@ -167,10 +143,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>按钮列表</returns>
         public ResponseSet<SystemMenu> GetAccessibleButtons(string userId, string navigateUrl)
         {
-            return this.InvokeService(
-                nameof(GetAccessibleButtons),
-                () => this.Persistence.QueryForList<SystemMenu>(PermissionNamespace, "GetAccessibleButtons", new { UserId = userId, NavigateUrl = navigateUrl }),
-                new { userId, navigateUrl });
+            return this.QueryForList<SystemMenu>(PermissionNamespace, "GetAccessibleButtons", new { UserId = userId, NavigateUrl = navigateUrl });
         }
 
         #endregion

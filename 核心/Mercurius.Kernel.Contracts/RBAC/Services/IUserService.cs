@@ -1,5 +1,6 @@
 ﻿using Mercurius.Kernel.Contracts.RBAC.Entities;
 using Mercurius.Kernel.Contracts.RBAC.SearchObjects;
+using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Kernel.Contracts.RBAC.Services
@@ -46,6 +47,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Services
         /// </summary>
         /// <param name="id">用户编号</param>
         /// <returns>用户信息</returns>
+        [NonCache]
         Response<User> GetUserById(string id);
 
         /// <summary>
@@ -53,6 +55,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Services
         /// </summary>
         /// <param name="account">登录账号</param>
         /// <returns>用户信息</returns>
+        [NonCache]
         Response<User> GetUserByAccount(string account);
 
         /// <summary>
@@ -61,6 +64,7 @@ namespace Mercurius.Kernel.Contracts.RBAC.Services
         /// <param name="account">登录账号</param>
         /// <param name="password">登录密码</param>
         /// <returns>用户信息</returns>
+        [NonCache]
         Response<User> ValidateUser(string account, string password);
 
         /// <summary>

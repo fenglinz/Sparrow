@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mercurius.Kernel.Contracts.Storage.Entities;
 using Mercurius.Kernel.Contracts.Storage.SearchObjects;
+using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Kernel.Contracts.Storage.Services
@@ -23,6 +24,7 @@ namespace Mercurius.Kernel.Contracts.Storage.Services
         /// </summary>
         /// <param name="md5">文件md5值</param>
         /// <returns>文件保存路径</returns>
+        [NonCache]
         Response<string> CheckFileExists(string md5);
 
         /// <summary>
@@ -32,6 +34,7 @@ namespace Mercurius.Kernel.Contracts.Storage.Services
         /// <param name="serialNumber">业务流水号</param>
         /// <param name="businessFiles">业务文件存储对象</param>
         /// <returns>上传结果</returns>
+        [NonCache]
         ResponseSet<string> UploadFiles(string category, string serialNumber, IList<BusinessFile> businessFiles);
 
         /// <summary>
@@ -60,6 +63,7 @@ namespace Mercurius.Kernel.Contracts.Storage.Services
         /// 获取无效的文件列表。
         /// </summary>
         /// <returns>文件列表</returns>
+        [NonCache]
         ResponseSet<string> GetInvalidFiles();
 
         /// <summary>
@@ -67,6 +71,7 @@ namespace Mercurius.Kernel.Contracts.Storage.Services
         /// </summary>
         /// <param name="files">本地文集列表(',以逗号分隔')</param>
         /// <returns>文件列表</returns>
+        [NonCache]
         ResponseSet<string> GetUnmanagedFiles(string files);
 
         /// <summary>

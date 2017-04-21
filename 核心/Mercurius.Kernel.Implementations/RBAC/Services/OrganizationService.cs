@@ -28,15 +28,12 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>添加或更新结果</returns>
         public Response CreateOrUpdate(Organization org)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
+            return this.Update(NS, "CreateOrUpdate", org,
                 () =>
                 {
-                    this.Persistence.Update(NS, "CreateOrUpdate", org);
-
                     this.ClearCache<User>();
                     this.ClearCache<Organization>();
-                }, org);
+                });
         }
 
         /// <summary>
@@ -46,13 +43,12 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>删除结果</returns>
         public Response Remove(string id)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<User>();
-                this.ClearCache<Organization>();
-            }, id);
+            return this.Delete(NS, "Remove", id,
+                () =>
+                {
+                    this.ClearCache<User>();
+                    this.ClearCache<Organization>();
+                });
         }
 
         /// <summary>
@@ -63,17 +59,12 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>添加结果</returns>
         public Response AddMembers(string id, params string[] users)
         {
-            return this.InvokeService(nameof(AddMembers), () =>
+            return this.Create(NS, "AddMembers", new
             {
-                this.Persistence.Create(NS, "AddMembers", new
-                {
-                    Id = id,
-                    UserIds = users,
-                    CreateUserId = WebHelper.GetLogOnUserId()
-                });
-
-                this.ClearCache<User>();
-            }, new { id, users });
+                Id = id,
+                UserIds = users,
+                CreateUserId = WebHelper.GetLogOnUserId()
+            }, () => this.ClearCache<User>());
         }
 
         /// <summary>
@@ -84,17 +75,12 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>删除结果</returns>
         public Response RemoveMembers(string id, params string[] users)
         {
-            return this.InvokeService(nameof(RemoveMembers), () =>
+            return this.Delete(NS, "RemoveMembers", new
             {
-                this.Persistence.Delete(NS, "RemoveMembers", new
-                {
-                    Id = id,
-                    UserIds = users,
-                    CreateUserId = WebHelper.GetLogOnUserId()
-                });
-
-                this.ClearCache<User>();
-            }, new { id, users });
+                Id = id,
+                UserIds = users,
+                CreateUserId = WebHelper.GetLogOnUserId()
+            }, () => this.ClearCache<User>());
         }
 
         /// <summary>
@@ -104,9 +90,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>组织机构信息</returns>
         public Response<Organization> GetOrganizationById(string id)
         {
-            return this.InvokeService(
-                nameof(GetOrganizationById),
-                () => this.Persistence.QueryForObject<Organization>(NS, "GetOrganizationById", id), id);
+            return this.QueryForObject<Organization>(NS, "GetOrganizationById", id);
         }
 
         /// <summary>
@@ -115,9 +99,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>组织机构信息</returns>
         public ResponseSet<Organization> GetOrganizations()
         {
-            return this.InvokeService(
-                nameof(GetOrganizations),
-                () => this.Persistence.QueryForList<Organization>(NS, "GetOrganizations"));
+            return this.QueryForList<Organization>(NS, "GetOrganizations");
         }
 
         /// <summary>
@@ -127,8 +109,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>用户信息集合</returns>
         public ResponseSet<User> GetUnAllotUsers(OrganizationSO so)
         {
-            return this.InvokePagingService(nameof(GetUnAllotUsers),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(NS, "GetUnAllotUsers", out totalRecords, so), so);
+            return this.QueryForPagedList<User>(NS, "GetUnAllotUsers", so);
         }
 
         #endregion

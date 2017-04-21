@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ado\AdoNetExtensions.cs" />
+    <Compile Include="Cache\NonCacheAttribute.cs" />
     <Compile Include="Cache\CacheProvider.cs" />
     <Compile Include="Cache\DefaultCacheProvider.cs" />
     <Compile Include="Data\ColumnMappingAttribute.cs" />

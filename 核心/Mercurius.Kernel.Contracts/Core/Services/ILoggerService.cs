@@ -1,5 +1,6 @@
 ﻿using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Kernel.Contracts.Core.SearchObjects;
+using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Logger;
 using Mercurius.Prime.Core.Services;
 
@@ -10,12 +11,6 @@ namespace Mercurius.Kernel.Contracts.Core.Services
     /// </summary>
     public interface ILoggerService
     {
-        /// <summary>
-        /// 获取日志表信息的分区信息。
-        /// </summary>
-        /// <returns>分区信息列表</returns>
-        ResponseSet<Partition> GetPartitions();
-
         /// <summary>
         /// 清空日志信息。
         /// </summary>
@@ -35,6 +30,7 @@ namespace Mercurius.Kernel.Contracts.Core.Services
         /// </summary>
         /// <param name="so">日志查询条件</param>
         /// <returns>日志信息列表</returns>
+        [NonCache]
         ResponseSet<Log> SearchLogs(LogSO so);
     }
 }

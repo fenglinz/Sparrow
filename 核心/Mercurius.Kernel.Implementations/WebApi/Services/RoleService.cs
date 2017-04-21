@@ -29,15 +29,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回添加或保存结果</returns>
         public Response CreateOrUpdate(Role role)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Update(NS, "CreateOrUpdate", role);
-
-                    this.ClearCache<Role>();
-                },
-                role);
+            return this.Update<Role>(NS, "CreateOrUpdate", role);
         }
 
         /// <summary>
@@ -50,14 +42,12 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         {
             var args = new { RoleId = roleId, UserId = userId };
 
-            return this.InvokeService(nameof(AddMember),
+            return this.Create(NS, "AddMember", args,
                 () =>
                 {
-                    this.Persistence.Create(NS, "AddMember", args);
-
                     this.ClearCache<Role>();
                     this.ClearCache<User>();
-                }, args);
+                });
         }
 
         /// <summary>
@@ -70,14 +60,12 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         {
             var args = new { RoleId = roleId, UserId = userId };
 
-            return this.InvokeService(nameof(RemoveMember),
+            return this.Delete(NS, "RemoveMember", args,
                 () =>
                 {
-                    this.Persistence.Delete(NS, "RemoveMember", args);
-
                     this.ClearCache<Role>();
                     this.ClearCache<User>();
-                }, args);
+                });
         }
 
         /// <summary>
@@ -87,13 +75,12 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回删除结果</returns>
         public Response Remove(int id)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<Role>();
-                this.ClearCache<User>();
-            }, id);
+            return this.Delete(NS, "Remove", id,
+                () =>
+                {
+                    this.ClearCache<Role>();
+                    this.ClearCache<User>();
+                });
         }
 
         /// <summary>
@@ -103,10 +90,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回Web API角色查询结果</returns>
         public Response<Role> GetRoleById(int id)
         {
-            return this.InvokeService(
-                nameof(GetRoleById),
-                () => this.Persistence.QueryForObject<Role>(NS, "GetById", id),
-                id);
+            return this.QueryForObject<Role>(NS, "GetById", id);
         }
 
         /// <summary>
@@ -116,12 +100,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回Web API角色的分页查询结果</returns>
         public ResponseSet<Role> SearchRoles(RoleSO so)
         {
-            so = so ?? new RoleSO();
-
-            return this.InvokePagingService(
-                nameof(SearchRoles),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<Role>(NS, "SearchRoles", out totalRecords, so),
-                so);
+            return this.QueryForPagedList<Role>(NS, "SearchRoles", so);
         }
 
         /// <summary>
@@ -131,7 +110,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>已分配的用户信息</returns>
         public ResponseSet<User> GetAllotUsers(int id)
         {
-            return this.InvokeService(nameof(GetAllotUsers), () => this.Persistence.QueryForList<User>(NS, "GetAllotUsers", id), id);
+            return this.QueryForList<User>(NS, "GetAllotUsers", id);
         }
 
         /// <summary>
@@ -144,7 +123,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         {
             var args = new { RoleId = roleId, Account = account };
 
-            return this.InvokeService(nameof(GetUnAllotUsers), () => this.Persistence.QueryForList<User>(NS, "GetUnAllotUsers", args), args);
+            return this.QueryForList<User>(NS, "GetUnAllotUsers", args);
         }
 
         /// <summary>
@@ -162,16 +141,12 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
                 Apis = apis
             };
 
-            return this.InvokeService(
-                nameof(AllotPermissions),
+            return this.Create(NS, "AllotPermissions", args,
                 () =>
                 {
-                    this.Persistence.Create(NS, "AllotPermissions", args);
-
                     this.ClearCache<Api>();
                     this.ClearCache<Role>();
-                },
-                args);
+                });
         }
 
         /// <summary>
@@ -181,8 +156,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回结果</returns>
         public ResponseSet<Api> GetRolePermissions(int roleId)
         {
-            return this.InvokeService(nameof(GetRolePermissions),
-                () => this.Persistence.QueryForList<Api>(NS, "GetRolePermissions", roleId), roleId);
+            return this.QueryForList<Api>(NS, "GetRolePermissions", roleId);
         }
 
         #endregion

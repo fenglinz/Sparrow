@@ -26,16 +26,12 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>执行结果</returns>
         public Response CreateOrUpdate(Button button)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
+            return this.Update(NS, "CreateOrUpdate", button,
                 () =>
                 {
-                    this.Persistence.Update(NS, "CreateOrUpdate", button);
-
                     this.ClearCache<Button>();
                     this.ClearCache<SystemMenu>();
-                },
-                button);
+                });
         }
 
         /// <summary>
@@ -45,17 +41,9 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>删除结果</returns>
         public Response Remove(string id)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                var count = this.Persistence.QueryForObject<int>("CheckButtonUsed", id);
-
-                if (count < 1)
-                {
-                    this.Persistence.Delete(NS, "Remove", id);
-
-                    this.ClearCache<Button>();
-                }
-            }, id);
+            return this.Delete(NS, "Remove", id,
+                rs => this.Persistence.QueryForObject<int>("CheckButtonUsed", id) < 1,
+                rs => this.ClearCache<Button>());
         }
 
         /// <summary>
@@ -65,9 +53,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>按钮信息</returns>
         public Response<Button> GetButtonById(string id)
         {
-            return this.InvokeService(
-                nameof(GetButtonById),
-                () => this.Persistence.QueryForObject<Button>(NS, "GetButtonById", id), id);
+            return this.QueryForObject<Button>(NS, "GetButtonById", id);
         }
 
         /// <summary>
@@ -76,7 +62,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>按钮信息列表</returns>
         public ResponseSet<Button> GetButtons()
         {
-            return this.InvokeService(nameof(GetButtons), () => this.Persistence.QueryForList<Button>(NS, "GetButtons"));
+            return this.QueryForList<Button>(NS, "GetButtons");
         }
 
         /// <summary>
@@ -86,8 +72,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>按钮信息列表</returns>
         public ResponseSet<Button> GetButtonsWithAllot(string systemMenuId)
         {
-            return this.InvokeService(nameof(GetButtonsWithAllot),
-                () => this.Persistence.QueryForList<Button>(NS, "GetButtonsWithAllot", systemMenuId), systemMenuId);
+            return this.QueryForList<Button>(NS, "GetButtonsWithAllot", systemMenuId);
         }
 
         #endregion

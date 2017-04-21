@@ -36,16 +36,12 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
                 ModifyUserId = apis?.FirstOrDefault().ModifyUserId
             };
 
-            return this.InvokeService(
-                nameof(Adds),
+            return this.Create(NS, "Create", args,
                 () =>
                 {
-                    this.Persistence.Create(NS, "Create", args);
-
                     this.ClearCache<Api>();
                     this.ClearCache<Role>();
-                },
-                args);
+                });
         }
 
         /// <summary>
@@ -55,15 +51,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回添加或保存结果</returns>
         public Response CreateOrUpdate(Api api)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Update(NS, "CreateOrUpdate", api);
-
-                    this.ClearCache<Api>();
-                },
-                api);
+            return this.Update<Api>(NS, "CreateOrUpdate", api);
         }
 
         /// <summary>
@@ -73,12 +61,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回删除结果</returns>
         public Response Remove(int id)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<Api>();
-            }, id);
+            return this.Delete<Api>(NS, "Remove", id);
         }
 
         /// <summary>
@@ -87,12 +70,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns></returns>
         public Response Truncate()
         {
-            return this.InvokeService(nameof(Truncate), () =>
-            {
-                this.Persistence.Delete(NS, "Truncate");
-
-                this.ClearCache<Api>();
-            });
+            return this.Delete<Api>(NS, "Truncate", null);
         }
 
         /// <summary>
@@ -102,10 +80,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回Web API信息查询结果</returns>
         public Response<Api> GetApiById(int id)
         {
-            return this.InvokeService(
-                nameof(GetApiById),
-                () => this.Persistence.QueryForObject<Api>(NS, "GetById", id),
-                id);
+            return this.QueryForObject<Api>(NS, "GetById", id);
         }
 
         /// <summary>
@@ -117,10 +92,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         {
             so = so ?? new ApiSO();
 
-            return this.InvokePagingService(
-                nameof(SearchApis),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<Api>(NS, "SearchApis", out totalRecords, so),
-                so);
+            return this.QueryForPagedList<Api>(NS, "SearchApis", so);
         }
 
         #endregion

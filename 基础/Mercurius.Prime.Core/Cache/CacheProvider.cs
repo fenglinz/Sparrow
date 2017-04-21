@@ -65,12 +65,27 @@ namespace Mercurius.Prime.Core.Cache
         /// <summary>
         /// 获取缓存键。
         /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
         /// <param name="key">键</param>
         /// <param name="value">查询参数</param>
         /// <returns>缓存键</returns>
         public string GetCacheKey<T>(string key, object value = null)
         {
-            var prefix = GetCacheKeyPrefix<T>();
+            var prefix = GetCacheKeyPrefix(typeof(T));
+
+            return GetCacheKey(prefix, key, value);
+        }
+
+        /// <summary>
+        /// 获取缓存键。
+        /// </summary>
+        /// <param name="type">缓存数据类型</param>
+        /// <param name="key">键</param>
+        /// <param name="value">查询参数</param>
+        /// <returns>缓存键</returns>
+        public string GetCacheKey(Type type, string key, object value = null)
+        {
+            var prefix = GetCacheKeyPrefix(type);
 
             return GetCacheKey(prefix, key, value);
         }
@@ -135,19 +150,17 @@ namespace Mercurius.Prime.Core.Cache
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
         /// <returns>缓存键前缀</returns>
-        private string GetCacheKeyPrefix<T>()
+        private string GetCacheKeyPrefix(Type type)
         {
-            var typeInfo = typeof(T);
-
-            if (!_dictCacheKeyPrefix.ContainsKey(typeInfo))
+            if (!_dictCacheKeyPrefix.ContainsKey(type))
             {
-                var tableAttribute = typeInfo.GetCustomAttribute<TableAttribute>();
-                var tableName = tableAttribute == null ? typeInfo.Name : tableAttribute.Name;
+                var tableAttribute = type.GetCustomAttribute<TableAttribute>();
+                var tableName = tableAttribute == null ? type.Name : tableAttribute.Name;
 
-                _dictCacheKeyPrefix.Add(typeInfo, tableName);
+                _dictCacheKeyPrefix.Add(type, tableName);
             }
 
-            return _dictCacheKeyPrefix[typeInfo];
+            return _dictCacheKeyPrefix[type];
         }
 
         /// <summary>

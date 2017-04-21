@@ -26,43 +26,12 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         #region ILoggerService接口实现
 
         /// <summary>
-        /// 获取日志表信息的分区信息。
-        /// </summary>
-        /// <returns>分区信息列表</returns>
-        public ResponseSet<Partition> GetPartitions()
-        {
-            return this.InvokeService(
-                nameof(GetPartitions),
-                () =>
-                {
-                    var partitions = this.Persistence.QueryForDataTable(UtilsNS, "GetPartitions", "SystemLog").GetDatas<Partition>();
-
-                    partitions = (from p in partitions
-                                  let d = p.HightValue.Length > 20 ? DateTime.Parse(p.HightValue.Substring(10, 10)).AddDays(-1) : DateTime.Now
-                                  where
-                                      p.HightValue.Length > 10
-                                  orderby d ascending
-                                  select new Partition { Name = p.Name, HightValue = d.ToString("yyyy-MM-dd") }).ToList();
-
-                    return partitions;
-                },
-                false);
-        }
-
-        /// <summary>
         /// 清空日志信息。
         /// </summary>
         /// <returns>操作结果</returns>
         public Response ClearLogs()
         {
-            return this.InvokeService(
-                nameof(ClearLogs),
-                () =>
-                {
-                    this.Persistence.Delete(NS, "ClearLogs");
-
-                    this.ClearCache<Log>();
-                });
+            return this.Delete<Log>(NS, "ClearLogs", null);
         }
 
         /// <summary>
@@ -75,7 +44,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         {
             var args = new { Partition = partition, Id = id };
 
-            return this.InvokeService(nameof(GetLog), () => this.Persistence.QueryForObject<Log>(NS, "GetLog", args), args);
+            return this.QueryForObject<Log>(NS, "GetLog", args);
         }
 
         /// <summary>
@@ -85,12 +54,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>日志信息列表</returns>
         public ResponseSet<Log> SearchLogs(LogSO so)
         {
-            var totalRecords = 0;
-            var result = this.InvokeService(nameof(SearchLogs), () => this.Persistence.QueryForPaginatedList<Log>(NS, "SearchLogs", out totalRecords, so), so, false);
-
-            result.TotalRecords = totalRecords;
-
-            return result;
+            return this.QueryForPagedList<Log>(NS, "SearchLogs", so);
         }
 
         #endregion

@@ -28,15 +28,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回添加或保存结果</returns>
         public Response CreateOrUpdate(User user)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Update(NS, "CreateOrUpdate", user);
-
-                    this.ClearCache<User>();
-                },
-                user);
+            return this.Update<User>(NS, "CreateOrUpdate", user);
         }
 
         /// <summary>
@@ -49,13 +41,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         {
             var args = new { Id = id, Status = status };
 
-            return this.InvokeService(nameof(ChangeStatus),
-                () =>
-                {
-                    this.Persistence.Update(NS, "ChangeStatus", args);
-
-                    this.ClearCache<User>();
-                }, args);
+            return this.Update<User>(NS, "ChangeStatus", args);
         }
 
         /// <summary>
@@ -65,12 +51,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回删除结果</returns>
         public Response Remove(int id)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<User>();
-            }, id);
+            return this.Delete<User>(NS, "Remove", id);
         }
 
         /// <summary>
@@ -84,11 +65,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         {
             var args = new { Account = account, RefreshToken = refreshToken, Token = token };
 
-            return this.InvokeService(nameof(SetRefreshToken),
-                () =>
-                {
-                    this.Persistence.Update(NS, "SetRefreshToken", args);
-                }, args);
+            return this.Update(NS, "SetRefreshToken", args);
         }
 
         /// <summary>
@@ -98,7 +75,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>操作结果</returns>
         public Response<string> GetToken(string refreshToken)
         {
-            return this.InvokeService(nameof(GetToken), () => this.Persistence.QueryForObject<string>(NS, "GetToken", refreshToken), refreshToken, false);
+            return this.QueryForObject<string>(NS, "GetToken", refreshToken);
         }
 
         /// <summary>
@@ -111,7 +88,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         {
             var args = new { Account = account, Password = password.MD5() };
 
-            return this.InvokeService(nameof(ValidateAccount), () => this.Persistence.QueryForObject<User>(NS, "ValidateAccount", args), args, false);
+            return this.QueryForObject<User>(NS, "ValidateAccount", args);
         }
 
         /// <summary>
@@ -121,10 +98,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回WebApi用户查询结果</returns>
         public Response<User> GetUserById(int id)
         {
-            return this.InvokeService(
-                nameof(GetUserById),
-                () => this.Persistence.QueryForObject<User>(NS, "GetById", id),
-                id);
+            return this.QueryForObject<User>(NS, "GetById", id);
         }
 
 
@@ -135,10 +109,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>用户信息</returns>
         public Response<User> GetUserByAccount(string account)
         {
-            return this.InvokeService(
-                nameof(GetUserByAccount),
-                () => this.Persistence.QueryForObject<User>(NS, "GetUserByAccount", account),
-                account);
+            return this.QueryForObject<User>(NS, "GetUserByAccount", account);
         }
 
         /// <summary>
@@ -148,12 +119,7 @@ namespace Mercurius.WebApi.Implementations.WebApi.Services
         /// <returns>返回WebApi用户的分页查询结果</returns>
         public ResponseSet<User> SearchUsers(UserSO so)
         {
-            so = so ?? new UserSO();
-
-            return this.InvokePagingService(
-                nameof(SearchUsers),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(NS, "SearchUsers", out totalRecords, so),
-                so);
+            return this.QueryForPagedList<User>(NS, "SearchUsers",  so);
         }
 
         #endregion

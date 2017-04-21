@@ -78,6 +78,14 @@ namespace Mercurius.Sparrow.Autofac
                 }
                 else
                 {
+                    var cache = invocation.Method.GetCustomAttribute<NonCacheAttribute>();
+
+                    if (cache?.UseCache == false)
+                    {
+                        base.PerformProceed(invocation);
+
+                        return;
+                    }
 
                     var cacheKey = this.GetCacheKey(invocation);
                     var cacheValue = this.Cache.Get(cacheKey);

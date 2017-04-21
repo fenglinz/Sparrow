@@ -27,14 +27,9 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>保存结果</returns>
         public Response SaveSetting(SystemSetting setting)
         {
-            return this.InvokeService(
-                nameof(SaveSetting),
+            return this.Create<SystemSetting>(NS, "SaveSetting", setting,
                 () =>
                 {
-                    this.Persistence.Create(NS, "SaveSetting", setting);
-
-                    this.ClearCache<SystemSetting>();
-
                     if (setting != null && setting.Name == "LogLevel")
                     {
                         this.Cache.Remove(Constants.LogerLevelCacheKey);
@@ -49,10 +44,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>系统配置信息</returns>
         public Response<SystemSetting> GetSetting(string name)
         {
-            return this.InvokeService(
-                nameof(GetSetting),
-                () => this.Persistence.QueryForObject<SystemSetting>(NS, "GetSetting", name),
-                name);
+            return this.QueryForObject<SystemSetting>(NS, "GetSetting", name);
         }
 
         /// <summary>
@@ -62,10 +54,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>系统配置信息集合</returns>
         public ResponseSet<SystemSetting> GetSettings(string category)
         {
-            return this.InvokeService(
-                nameof(GetSettings),
-                () => this.Persistence.QueryForList<SystemSetting>(NS, "GetSettings", category),
-                category);
+            return this.QueryForList<SystemSetting>(NS, "GetSettings", category);
         }
 
         #endregion

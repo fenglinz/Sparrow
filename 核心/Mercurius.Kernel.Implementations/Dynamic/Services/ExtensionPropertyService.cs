@@ -4,6 +4,7 @@ using System.Reflection;
 using Mercurius.Kernel.Contracts.Dynamic.Entities;
 using Mercurius.Kernel.Contracts.Dynamic.SearchObjects;
 using Mercurius.Kernel.Contracts.Dynamic.Services;
+using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Services;
 using Mercurius.Prime.Data.Support;
 
@@ -30,15 +31,7 @@ namespace Mercurius.Kernel.Implementations.Dynamic.Services
         /// <returns>返回添加或保存结果</returns>
         public Response CreateOrUpdate(ExtensionProperty extensionProperty)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Update(NS, "CreateOrUpdate", extensionProperty);
-
-                    this.ClearCache<ExtensionProperty>();
-                },
-                extensionProperty);
+            return this.Update(NS, "CreateOrUpdate", extensionProperty, () => this.ClearCache<ExtensionProperty>());
         }
 
         /// <summary>
@@ -51,12 +44,7 @@ namespace Mercurius.Kernel.Implementations.Dynamic.Services
         {
             var args = new { BusinessSerialNumber = businessSerialNumber, Instances = instances };
 
-            return this.InvokeService(nameof(CreateInstances), () =>
-            {
-                this.Persistence.Create(NS, "CreateInstances", args);
-
-                this.ClearCache<ExtensionProperty>();
-            }, args);
+            return this.Create(NS, "CreateInstances", args, () => this.ClearCache<ExtensionProperty>());
         }
 
         /// <summary>
@@ -66,12 +54,7 @@ namespace Mercurius.Kernel.Implementations.Dynamic.Services
         /// <returns>返回删除结果</returns>
         public Response Remove(Guid id)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<ExtensionProperty>();
-            }, id);
+            return this.Delete(NS, "Remove", id, () => this.ClearCache<ExtensionProperty>());
         }
 
         /// <summary>
@@ -81,21 +64,17 @@ namespace Mercurius.Kernel.Implementations.Dynamic.Services
         /// <returns>返回删除的结果</returns>
         public Response RemoveInstances(string businessSerialNumber)
         {
-            return this.InvokeService(nameof(RemoveInstances), () =>
-            {
-                this.Persistence.Delete(NS, "RemoveInstances", businessSerialNumber);
-
-                this.ClearCache<ExtensionProperty>();
-            }, businessSerialNumber);
+            return this.Delete(NS, "RemoveInstances", businessSerialNumber, () => this.ClearCache<ExtensionProperty>());
         }
 
         /// <summary>
         /// 获取扩展属性分类。
         /// </summary>
         /// <returns>扩展属性分类集合</returns>
+        [NonCache]
         public ResponseSet<string> GetCategories()
         {
-            return this.InvokeService(nameof(GetCategories), () => this.Persistence.QueryForList<string>(NS, "GetCategories"), false);
+            return this.QueryForList<string>(NS, "GetCategories");
         }
 
         /// <summary>
@@ -103,10 +82,10 @@ namespace Mercurius.Kernel.Implementations.Dynamic.Services
         /// </summary>
         /// <param name="category">分类名</param>
         /// <returns>分组集合</returns>
+        [NonCache]
         public ResponseSet<string> GetGroupNames(string category)
         {
-            return this.InvokeService(nameof(GetGroupNames),
-                () => this.Persistence.QueryForList<string>(NS, "GetGroupNames", category), category, false);
+            return this.QueryForList<string>(NS, "GetGroupNames", category);
         }
 
         /// <summary>
@@ -116,10 +95,7 @@ namespace Mercurius.Kernel.Implementations.Dynamic.Services
         /// <returns>返回扩展属性查询结果</returns>
         public Response<ExtensionProperty> GetExtensionPropertyById(Guid id)
         {
-            return this.InvokeService(
-                nameof(GetExtensionPropertyById),
-                () => this.Persistence.QueryForObject<ExtensionProperty>(NS, "GetById", id),
-                id);
+            return this.QueryForObject<ExtensionProperty>(NS, "GetById", id);
         }
 
         /// <summary>
@@ -132,9 +108,7 @@ namespace Mercurius.Kernel.Implementations.Dynamic.Services
         {
             var args = new { Category = category, BusinessSerialNumber = businessSerialNumber };
 
-            return this.InvokeService(nameof(GetExtensionProperties),
-                () => this.Persistence.QueryForList<ExtensionProperty>(NS, "GetExtensionPropertiesByCategory", args),
-                args);
+            return this.QueryForList<ExtensionProperty>(NS, "GetExtensionPropertiesByCategory", args);
         }
 
         /// <summary>
@@ -146,10 +120,7 @@ namespace Mercurius.Kernel.Implementations.Dynamic.Services
         {
             so = so ?? new ExtensionPropertySO();
 
-            return this.InvokePagingService(
-                nameof(SearchExtensionProperties),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<ExtensionProperty>(NS, "SearchExtensionProperties", out totalRecords, so),
-                so);
+            return this.QueryForPagedList<ExtensionProperty>(NS, "SearchExtensionProperties", so);
         }
 
         #endregion

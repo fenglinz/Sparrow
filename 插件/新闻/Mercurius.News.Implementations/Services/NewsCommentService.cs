@@ -20,13 +20,13 @@ namespace Mercurius.News.Implementations.Services
     public class NewsCommentService : ServiceSupport, INewsCommentService
     {
         #region 常量
-    
+
         private static readonly StatementNamespace NS = "Mercurius.Plugins.Repositories.News.NewsComment";
-      
+
         #endregion
 
         #region INewsCommentService接口实现 
-        
+
         /// <summary>
         /// 添加或者编辑新闻评论
         /// </summary>
@@ -34,17 +34,9 @@ namespace Mercurius.News.Implementations.Services
         /// <returns>返回添加或保存结果</returns>
         public Response CreateOrUpdate(NewsComment newsComment)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Update(NS, "CreateOrUpdate", newsComment);
-                    
-                    this.ClearCache<NewsComment>();
-                },
-                newsComment);
+            return this.Update<NewsComment>(NS, "CreateOrUpdate", newsComment);
         }
-        
+
         /// <summary>
         /// 根据主键删除新闻评论信息。
         /// </summary>
@@ -52,14 +44,9 @@ namespace Mercurius.News.Implementations.Services
         /// <returns>返回删除结果</returns>
         public Response Remove(Guid id)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache<NewsComment>();
-            }, id);
+            return this.Delete<NewsComment>(NS, "Remove", id);
         }
-        
+
         /// <summary>
         /// 根据主键获取新闻评论信息。
         /// </summary>
@@ -67,12 +54,9 @@ namespace Mercurius.News.Implementations.Services
         /// <returns>返回新闻评论查询结果</returns>
         public Response<NewsComment> GetNewsCommentById(Guid id)
         {
-            return this.InvokeService(
-                nameof(GetNewsCommentById),
-                () => this.Persistence.QueryForObject<NewsComment>(NS, "GetById", id),
-                id);
+            return this.QueryForObject<NewsComment>(NS, "GetById", id);
         }
-        
+
         /// <summary>
         /// 查询并分页获取新闻评论信息。
         /// </summary>
@@ -82,13 +66,9 @@ namespace Mercurius.News.Implementations.Services
         {
             so = so ?? new NewsCommentSO();
 
-            return this.InvokePagingService(
-                nameof(SearchNewsCommenies),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<NewsComment>(NS, "SearchNewsCommenies", out totalRecords, so),
-                so);
+            return this.QueryForPagedList<NewsComment>(NS, "SearchNewsCommenies", so);
         }
-      
+
         #endregion
     }
 }
-    

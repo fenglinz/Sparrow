@@ -27,10 +27,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>字典信息</returns>
         public Response<Dictionary> GetDictionary(string id)
         {
-            return this.InvokeService(
-                nameof(GetDictionary),
-                () => this.Persistence.QueryForObject<Dictionary>(NS, "GetDictionary", id),
-                id);
+            return this.QueryForObject<Dictionary>(NS, "GetDictionary", id);
         }
 
         /// <summary>
@@ -39,9 +36,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>字典信息集合</returns>
         public ResponseSet<Dictionary> GetDictionaries()
         {
-            return this.InvokeService(
-                nameof(GetDictionaries),
-                () => this.Persistence.QueryForList<Dictionary>(NS, "GetDictionaries"));
+            return this.QueryForList<Dictionary>(NS, "GetDictionaries");
         }
 
         /// <summary>
@@ -50,9 +45,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>字典类别</returns>
         public ResponseSet<Dictionary> GetCategories()
         {
-            return this.InvokeService(
-                nameof(GetCategories),
-                () => this.Persistence.QueryForList<Dictionary>(NS, "GetCategories"));
+            return this.QueryForList<Dictionary>(NS, "GetCategories");
         }
 
         /// <summary>
@@ -62,10 +55,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>字典分类信息</returns>
         public ResponseSet<Dictionary> GetCategories(string parentKey)
         {
-            return this.InvokeService(
-                nameof(GetCategories),
-                () => this.Persistence.QueryForList<Dictionary>(NS, "GetCategoriesByParentKey", parentKey)
-                , parentKey);
+            return this.QueryForList<Dictionary>(NS, "GetCategoriesByParentKey", parentKey);
         }
 
         /// <summary>
@@ -75,10 +65,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>字典分类信息集合</returns>
         public ResponseSet<Dictionary> GetCategoryItems(string category)
         {
-            return this.InvokeService(
-                nameof(GetCategoryItems),
-                () => this.Persistence.QueryForList<Dictionary>(NS, "GetCategoryItems", category),
-                category);
+            return this.QueryForList<Dictionary>(NS, "GetCategoryItems", category);
         }
 
         /// <summary>
@@ -88,27 +75,11 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>操作结果</returns>
         public Response CreateOrUpdate(Dictionary dictionary)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    var checkResult = this.Persistence.QueryForObject<int>(
-						NS,
-                        "CheckDictionaryExists",
-                        new { Id = dictionary.Id, ParentId = dictionary.ParentId, Key = dictionary.Key });
+            var args = new { Id = dictionary.Id, ParentId = dictionary.ParentId, Key = dictionary.Key };
 
-                    if (checkResult == 0)
-                    {
-                        this.Persistence.Create(NS, "CreateOrUpdate", dictionary);
-
-                        this.ClearCache<Dictionary>();
-                    }
-                    else
-                    {
-                        throw new Exception($"已存在键为{dictionary.Key}的字典信息！");
-                    }
-                },
-                dictionary);
+            return this.Create(NS, "CreateOrUpdate", dictionary,
+                rs => this.Persistence.QueryForObject<int>(NS, "CheckDictionaryExists", args) == 0,
+                rs => rs.ErrorMessage = $"已存在键为{dictionary.Key}的字典信息！");
         }
 
         /// <summary>
@@ -118,23 +89,9 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>操作结果</returns>
         public Response CreateOrUpdateCategory(Dictionary dictionary)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdateCategory),
-                () =>
-                {
-                    var checkResult = this.Persistence.QueryForObject<int>(NS, "CheckCategoryExists", new { Id = dictionary.Id, Category = dictionary.Key });
-
-                    if (checkResult == 0)
-                    {
-                        this.Persistence.Create(NS, "CreateOrUpdate", dictionary);
-
-                        this.ClearCache<Dictionary>();
-                    }
-                    else
-                    {
-                        throw new Exception($"已存在名为{dictionary.Key}的字典分类！");
-                    }
-                });
+            return this.Create(NS, "CreateOrUpdate", dictionary,
+                    rs => this.Persistence.QueryForObject<int>(NS, "CheckCategoryExists", new { Id = dictionary.Id, Category = dictionary.Key }) == 0,
+                    rs => rs.ErrorMessage = $"已存在名为{dictionary.Key}的字典分类！");
         }
 
         /// <summary>
@@ -145,13 +102,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <returns>操作结果</returns>
         public Response ChangeStatus(string id, int status)
         {
-            return this.InvokeService(
-                nameof(ChangeStatus),
-                () =>
-                {
-                    this.Persistence.Update(NS, "ChangeStatus", new { Id = id, Status = status });
-                    this.ClearCache<Dictionary>();
-                });
+            return this.Update<Dictionary>(NS, "ChangeStatus", new { Id = id, Status = status });
         }
 
         /// <summary>
@@ -160,15 +111,7 @@ namespace Mercurius.Kernel.Implementations.Core.Services
         /// <param name="id">字典Id</param>
         public Response Remove(string id)
         {
-            return this.InvokeService(
-                nameof(Remove),
-                () =>
-                {
-                    this.Persistence.Delete(NS, "Remove", id);
-
-                    this.ClearCache<Dictionary>();
-                },
-                id);
+            return this.Delete<Dictionary>(NS, "Remove", id);
         }
 
         #endregion

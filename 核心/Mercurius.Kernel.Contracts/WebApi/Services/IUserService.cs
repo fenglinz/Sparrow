@@ -1,5 +1,6 @@
 ﻿using Mercurius.Kernel.Contracts.WebApi.Entities;
 using Mercurius.Kernel.Contracts.WebApi.SearchObjects;
+using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Services;
 
 namespace Mercurius.Kernel.Contracts.WebApi.Services
@@ -45,6 +46,7 @@ namespace Mercurius.Kernel.Contracts.WebApi.Services
         /// </summary>
         /// <param name="refreshToken">刷新令牌</param>
         /// <returns>操作结果</returns>
+        [NonCache]
         Response<string> GetToken(string refreshToken);
 
         /// <summary>
@@ -53,6 +55,7 @@ namespace Mercurius.Kernel.Contracts.WebApi.Services
         /// <param name="account">账号</param>
         /// <param name="password">密码</param>
         /// <returns>用户信息</returns>
+        [NonCache]
         Response<User> ValidateAccount(string account, string password);
 
         /// <summary>

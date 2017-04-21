@@ -32,33 +32,29 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>执行结果</returns>
         public Response CreateOrUpdate(User user, string[] departments, string[] roles)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
+            return this.Transaction(
+                rs =>
                 {
-                    using (this.Persistence.BeginTransaction())
+                    user.DepartmentId = departments.FirstOrDefault();
+
+                    this.Persistence.Update(NS, "CreateOrUpdate", user);
+                    this.Persistence.Create(NS, "AddToOrganizations", new
                     {
-                        user.DepartmentId = departments.FirstOrDefault();
+                        UserId = user.Id,
+                        CreateUserId = WebHelper.GetLogOnUserId(),
+                        OrganizationIds = departments
+                    });
+                    this.Persistence.Create(NS, "AddToRoles", new
+                    {
+                        UserId = user.Id,
+                        CreateUserId = WebHelper.GetLogOnUserId(),
+                        RoleIds = roles
+                    });
 
-                        this.Persistence.Update(NS, "CreateOrUpdate", user);
-                        this.Persistence.Create(NS, "AddToOrganizations", new
-                        {
-                            UserId = user.Id,
-                            CreateUserId = WebHelper.GetLogOnUserId(),
-                            OrganizationIds = departments
-                        });
-                        this.Persistence.Create(NS, "AddToRoles", new
-                        {
-                            UserId = user.Id,
-                            CreateUserId = WebHelper.GetLogOnUserId(),
-                            RoleIds = roles
-                        });
-
-                        this.ClearCache<User>();
-                        this.ClearCache<Role>();
-                        this.ClearCache<Organization>();
-                    }
-                }, new { user, departments, roles });
+                    this.ClearCache<User>();
+                    this.ClearCache<Role>();
+                    this.ClearCache<Organization>();
+                });
         }
 
         /// <summary>
@@ -68,19 +64,24 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>删除结果</returns>
         public Response Remove(string id)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                if (string.CompareOrdinal(id, WebHelper.GetLogOnUserId()) == 0)
+            return this.Delete(NS, "Remove", id,
+                rs =>
                 {
-                    throw new ArgumentException("不能删除当前用户！");
-                }
+                    if (string.CompareOrdinal(id, WebHelper.GetLogOnUserId()) == 0)
+                    {
+                        rs.ErrorMessage = "不能删除当前用户！";
 
-                this.Persistence.Delete(NS, "Remove", id);
+                        return false;
+                    }
 
-                this.ClearCache<User>();
-                this.ClearCache<Role>();
-                this.ClearCache<Organization>();
-            }, id);
+                    return true;
+                },
+                rs =>
+                {
+                    this.ClearCache<User>();
+                    this.ClearCache<Role>();
+                    this.ClearCache<Organization>();
+                });
         }
 
         /// <summary>
@@ -93,15 +94,9 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         {
             var args = new { UserId = userId, Status = status };
 
-            return this.InvokeService(
-                nameof(ChangeStatus),
-                () =>
-                {
-                    this.Persistence.Update(NS, "ChangeStatus", args);
-                    this.AddOperationRecord("用户管理", userId, "将状态修改为：" + status);
-
-                    this.ClearCache<User>();
-                }, args);
+            return this.Update<User>(
+                NS, "ChangeStatus", args, null,
+                callback: rs => this.AddOperationRecord("用户管理", userId, "将状态修改为：" + status));
         }
 
         /// <summary>
@@ -112,38 +107,45 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <param name="newPassword">用户新密码</param>
         public Response ChangePassword(string id, string oldPassword, string newPassword)
         {
-            return this.InvokeService(
-                nameof(ChangePassword),
-                () =>
-                {
-                    if (string.IsNullOrWhiteSpace(newPassword))
-                    {
-                        throw new Exception("新密码不能为空！");
-                    }
+            return this.Update(NS, "ChangePassword",
+                        new User { Id = id, Password = newPassword.Encrypt(), ModifyUserId = WebHelper.GetLogOnUserId() },
+                        rs =>
+                        {
+                            if (string.IsNullOrWhiteSpace(newPassword))
+                            {
+                                rs.ErrorMessage = "新密码不能为空！";
+                            }
+                            else if (oldPassword == newPassword)
+                            {
+                                rs.ErrorMessage = "新密码不能与旧密码相同!";
+                            }
+                            else
+                            {
+                                var user = this.Persistence.QueryForObject<User>(NS, "GetUser", id);
 
-                    if (oldPassword == newPassword)
-                    {
-                        throw new Exception("新密码不能与旧密码相同!");
-                    }
+                                if (user == null)
+                                {
+                                    rs.ErrorMessage = "用户不存在！";
+                                }
+                                else
+                                {
+                                    oldPassword = oldPassword.Encrypt();
 
-                    var user = this.Persistence.QueryForObject<User>(NS, "GetUser", id);
-
-                    if (user == null)
-                    {
-                        throw new Exception("用户不存在！");
-                    }
-
-                    oldPassword = oldPassword.Encrypt();
-
-                    if (user.Password != oldPassword)
-                    {
-                        throw new Exception("旧密码不正确！");
-                    }
-
-                    this.Persistence.Update(NS, "ChangePassword",
-                        new User { Id = id, Password = newPassword.Encrypt(), ModifyUserId = WebHelper.GetLogOnUserId() });
-                    this.AddOperationRecord("用户管理", id, "修改了密码");
-                }, new { id, oldPassword, newPassword });
+                                    if (user.Password != oldPassword)
+                                    {
+                                        rs.ErrorMessage = "旧密码不正确！";
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                            return false;
+                        }, rs =>
+                        {
+                            this.AddOperationRecord("用户管理", id, "修改了密码");
+                        });
         }
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>用户信息</returns>
         public Response<User> GetUserById(string id)
         {
-            return this.InvokeService(nameof(GetUserById), () => this.Persistence.QueryForObject<User>(NS, "GetUserById", id), id, false);
+            return this.QueryForObject<User>(NS, "GetUserById", id);
         }
 
         /// <summary>
@@ -163,7 +165,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>用户信息</returns>
         public Response<User> GetUserByAccount(string account)
         {
-            return this.InvokeService(nameof(GetUserByAccount), () => this.Persistence.QueryForObject<User>(NS, "GetUserByAccount", account), account, false);
+            return this.QueryForObject<User>(NS, "GetUserByAccount", account);
         }
 
         /// <summary>
@@ -178,7 +180,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
 
             var args = new { Account = account, Password = password };
 
-            return this.InvokeService(nameof(ValidateUser), () => this.Persistence.QueryForObject<User>(NS, "ValidateUser", args), args, false);
+            return this.QueryForObject<User>(NS, "ValidateUser", args);
         }
 
         /// <summary>
@@ -188,8 +190,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>报告者和直接下属信息</returns>
         public ResponseSet<User> GetRepoterAndSubordinates(string id)
         {
-            return this.InvokeService(nameof(GetRepoterAndSubordinates),
-                () => this.Persistence.QueryForList<User>(NS, "GetRepoterAndSubordinates", id), id);
+            return this.QueryForList<User>(NS, "GetRepoterAndSubordinates", id);
         }
 
         /// <summary>
@@ -199,11 +200,7 @@ namespace Mercurius.Kernel.Implementations.RBAC.Services
         /// <returns>用户信息列表</returns>
         public ResponseSet<User> SearchUsers(UserSO so)
         {
-            so = so ?? new UserSO();
-
-            return this.InvokePagingService(
-                nameof(SearchUsers),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<User>(NS, "SearchUsers", out totalRecords, so), so);
+            return this.QueryForPagedList<User>(NS, "SearchUsers", so);
         }
 
         #endregion

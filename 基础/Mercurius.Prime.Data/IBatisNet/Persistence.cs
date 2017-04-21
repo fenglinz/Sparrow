@@ -122,7 +122,7 @@ namespace Mercurius.Prime.Data.IBatisNet
         /// <param name="totalRecords">总记录数</param>
         /// <param name="so">查询参数</param>
         /// <returns>实体信息集合</returns>
-        public IList<T> QueryForPaginatedList<T>(StatementNamespace ns, string innerId, out int totalRecords, object so = null)
+        public IList<T> QueryForPagedList<T>(StatementNamespace ns, string innerId, out int totalRecords, object so = null)
         {
             so = this.GetParameterObject(so);
             totalRecords = this.QueryForObject<int>(ns, innerId + "Count", so);

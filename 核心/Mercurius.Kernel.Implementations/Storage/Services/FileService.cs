@@ -30,15 +30,7 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
         /// <returns>返回添加或保存结果</returns>
         public Response CreateOrUpdate(File fileStorage)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Update(NS, "CreateOrUpdate", fileStorage);
-
-                    this.ClearCache<File>();
-                    this.ClearCache<BusinessFile>();
-                }, fileStorage);
+            return this.Update<File>(NS, "CreateOrUpdate", fileStorage, () => this.ClearCache<BusinessFile>());
         }
 
         /// <summary>
@@ -48,8 +40,7 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
         /// <returns>文件保存路径</returns>
         public Response<string> CheckFileExists(string md5)
         {
-            return this.InvokeService(nameof(CheckFileExists),
-                () => this.Persistence.QueryForObject<string>(NS, "CheckFileExists", md5), md5, false);
+            return this.QueryForObject<string>(NS, "CheckFileExists", md5);
         }
 
         /// <summary>
@@ -69,15 +60,12 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
                 IsBeforeBusinessData = businessFiles.Any(s => s.Source == 2)
             };
 
-            return this.InvokeService(nameof(UploadFiles), () =>
-            {
-                var rs = this.Persistence.QueryForList<string>(NS, "UploadFiles", args);
-
-                this.ClearCache<File>();
-                this.ClearCache<BusinessFile>();
-
-                return rs;
-            }, args, false);
+            return this.QueryForList<string>(NS, "UploadFiles", args,
+                rs =>
+                {
+                    this.ClearCache<File>();
+                    this.ClearCache<BusinessFile>();
+                });
         }
 
         /// <summary>
@@ -90,13 +78,7 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
         {
             var args = new { Category = category, SerialNumber = serialNumber };
 
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", args);
-
-                this.ClearCache<File>();
-                this.ClearCache<BusinessFile>();
-            }, args);
+            return this.Delete<File>(NS, "Remove", args, () => this.ClearCache<BusinessFile>());
         }
 
         /// <summary>
@@ -106,7 +88,7 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
         /// <returns>文件信息</returns>
         public Response<File> GetById(Guid id)
         {
-            return this.InvokeService(nameof(GetById), () => this.Persistence.QueryForObject<File>(NS, "GetById", id), id);
+            return this.QueryForObject<File>(NS, "GetById", id);
         }
 
         /// <summary>
@@ -116,7 +98,7 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
         /// <returns>根据文件保存路径获取文件信息</returns>
         public Response<File> GetFileByPath(string path)
         {
-            return this.InvokeService(nameof(GetFileByPath), () => this.Persistence.QueryForObject<File>(NS, "GetFileByPath", path), path);
+            return this.QueryForObject<File>(NS, "GetFileByPath", path);
         }
 
         /// <summary>
@@ -125,16 +107,12 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
         /// <returns>文件列表</returns>
         public ResponseSet<string> GetInvalidFiles()
         {
-            return this.InvokeService(nameof(GetInvalidFiles),
-                () =>
+            return this.QueryForList<string>(NS, "GetInvalidFiles",
+                callback: rs =>
                 {
-                    var datas = this.Persistence.QueryForList<string>(NS, "GetInvalidFiles");
-
                     this.ClearCache<File>();
                     this.ClearCache<BusinessFile>();
-
-                    return datas;
-                }, cacheable: false);
+                });
         }
 
         /// <summary>
@@ -144,8 +122,7 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
         /// <returns>文件列表</returns>
         public ResponseSet<string> GetUnmanagedFiles(string files)
         {
-            return this.InvokeService(nameof(GetUnmanagedFiles),
-                () => this.Persistence.QueryForList<string>(NS, "GetUnmanagedFiles", files), files, false);
+            return this.QueryForList<string>(NS, "GetUnmanagedFiles", files);
         }
 
         /// <summary>
@@ -157,10 +134,7 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
         {
             so = so ?? new FileSO();
 
-            return this.InvokePagingService(
-                nameof(SearchFiles),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList<File>(NS, "SearchFiles", out totalRecords, so),
-                so);
+            return this.QueryForPagedList<File>(NS, "SearchFiles",  so);
         }
 
         /// <summary>
@@ -174,8 +148,7 @@ namespace Mercurius.Kernel.Implementations.Storage.Services
         {
             var args = new { Category = category, SerialNumber = serialNumber, IncludeFromRichEditor = includeFromRichEditor };
 
-            return this.InvokeService(nameof(GetBusinessFiles),
-                () => this.Persistence.QueryForList<BusinessFile>(NS, "GetBusinessFiles", args), args);
+            return this.QueryForList<BusinessFile>(NS, "GetBusinessFiles", args);
         }
 
         #endregion
