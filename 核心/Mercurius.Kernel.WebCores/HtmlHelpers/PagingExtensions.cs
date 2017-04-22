@@ -46,9 +46,6 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
             int showNumbers = 5,
             AjaxOptions ajaxOptions = null)
         {
-            var htmlString = new StringBuilder();
-
-            htmlString.Append("<div class=\"pager-container\">");
 
             pageSize = pageSize ?? DefaultPageSize;
 
@@ -61,19 +58,15 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
             actionName = actionName ?? Convert.ToString(routeDatas["action"]);
             controllerName = controllerName ?? Convert.ToString(routeDatas["controller"]);
 
-            if (pageCount > 1)
+            if (pageCount <= 1)
             {
-                htmlString.Append(
-                    $"<span>总共有{totalRecords}条数据&nbsp;&nbsp;当前{currentIndex}/{pageCount}页</span>");
-            }
-            else
-            {
-                htmlString.Append($"<span>总共有{totalRecords}条数据</span></div>");
-
-                return MvcHtmlString.Create(htmlString.ToString());
+                return MvcHtmlString.Create(string.Empty);
             }
 
             RouteValueDictionary routeDict;
+            var htmlString = new StringBuilder();
+
+            htmlString.Append("<div class=\"paging-container\">");
 
             if (routeValues is RouteValueDictionary)
             {
@@ -129,24 +122,25 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
                 }
 
                 // 计算分页栏上的起始页码。
-                int startIndex;
-                var mode = currentIndex % showNumbers;
-                currentIndex = currentIndex > pageCount ? pageCount : currentIndex;
+                int startIndex = 0;
+                int endIndex = showNumbers;
 
-                if (mode == 0)
-                {
-                    startIndex = (currentIndex / showNumbers - 1) * showNumbers;
-                }
-                else
-                {
-                    startIndex = (currentIndex / showNumbers) * showNumbers - showNumbers + mode;
-                }
-
-                startIndex = startIndex < 0 ? 0 : startIndex;
-
-                // 当前页号大于分页栏上显示的页码数时，起始页码前显示一个"..."。
                 if (currentIndex > showNumbers)
                 {
+                    startIndex = (currentIndex / showNumbers) * showNumbers;
+
+                    if (currentIndex % showNumbers == 0)
+                    {
+                        startIndex = (currentIndex / showNumbers) * showNumbers - 1;
+                    }
+
+                    endIndex = startIndex + showNumbers;
+
+                    if (endIndex >= pageCount)
+                    {
+                        startIndex = pageCount - showNumbers - 1;
+                    }
+
                     htmlString.Append(
                         html.CreateActionLink(
                             pageCount,
@@ -159,10 +153,9 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
                 }
 
                 // 显示页码。
-                var index = startIndex + 1;
-                for (; index <= startIndex + showNumbers; index++)
+                for (var index = startIndex; index < endIndex; index++)
                 {
-                    if (index > pageCount)
+                    if (index >= pageCount)
                     {
                         break;
                     }
@@ -170,8 +163,8 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
                     htmlString.Append(
                         html.CreateActionLink(
                             pageCount,
-                            index,
-                            index.ToString(CultureInfo.InvariantCulture),
+                            index + 1,
+                            (index + 1).ToString(CultureInfo.InvariantCulture),
                             actionName,
                             controllerName,
                             routeDict,
@@ -179,22 +172,18 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
                 }
 
                 // 在不能显示最后一页的页码时，分页栏页码的后面显示一个"..."。
-                if (startIndex + showNumbers < pageCount)
+                if (endIndex < pageCount)
                 {
                     htmlString.Append(
                         html.CreateActionLink(
                             pageCount,
-                            index < pageCount ? index : pageCount,
+                            endIndex + 1,
                             "...",
                             actionName,
                             controllerName,
                             routeDict,
                             ajaxOptions));
-                }
 
-                // 当前页号小于总页数时，显示"下一页"、"尾页"菜单。
-                if (currentIndex < pageCount)
-                {
                     htmlString.Append(
                         html.CreateActionLink(
                             pageCount,
@@ -208,7 +197,7 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
                         html.CreateActionLink(
                             pageCount,
                             pageCount,
-                            "尾页",
+                            "末页",
                             actionName,
                             controllerName,
                             routeDict,
