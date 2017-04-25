@@ -261,7 +261,7 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
 
                 if (type == typeof(string))
                 {
-                    this.Rule = isRequired ? ValidRule.NotNull : ValidRule.Default;
+                    this.Rule = isRequired ? ValidRule.Required : ValidRule.Default;
                 }
                 else if (type == typeof(int))
                 {
@@ -273,11 +273,11 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
                 }
                 else if (type == typeof(float) || type == typeof(double) || type == typeof(decimal))
                 {
-                    this.Rule = ValidRule.Double;
+                    this.Rule = ValidRule.Number;
                 }
                 else if (type == typeof(float?) || type == typeof(double?) || type == typeof(decimal?))
                 {
-                    this.Rule = ValidRule.DoubleOrNull;
+                    this.Rule = ValidRule.NumberOrNull;
                 }
                 else if (type == typeof(DateTime))
                 {
@@ -289,7 +289,7 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
                 }
                 else if (isRequired)
                 {
-                    this.Rule = ValidRule.NotNull;
+                    this.Rule = ValidRule.Required;
                 }
             }
         }

@@ -152,7 +152,9 @@ namespace Mercurius.Sparrow.Autofac
         /// <returns></returns>
         private string GetCacheKey(IInvocation invocation)
         {
-            return this.Cache.GetCacheKey(invocation.TargetType, invocation.Method.Name, invocation.Arguments);
+           var type = invocation.Method.ReturnType.GenericTypeArguments[0];
+
+            return this.Cache.GetCacheKey(type, invocation.Method.Name, invocation.Arguments);
         }
 
         #endregion
