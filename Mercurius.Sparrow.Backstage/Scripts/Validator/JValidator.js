@@ -1,738 +1,1011 @@
-﻿/* jquery 表单验证使用实例！  */
-//获取Request notnull
-var validateField = "validate-field";
+﻿/**
+ * description: 自定义验证插件，
+ *   validate-rule为验证规则
+ *   validate-field属性表示被验证表单的中文名称
+ * author:fenglinz
+ * create:2017-3-30
+ */
+(function () {
+    var validateField = "valid-field";
 
-function isRequestNotNull(obj) {
-    obj = $.trim(obj);
-    if (obj.length == 0) {
-        return true;
-    }
-    else
-        return false;
-}
-//验证不为空 notnull
-function isNotNull(obj) {
-    obj = $.trim(obj);
-    if (obj.length == 0) {
-        return true;
-    }
-    else
-        return false;
-}
+    /**
+     * 验证必填。
+     * @param {string} value 字符
+     */
+    function isRequired(value) {
+        value = $.trim(value);
 
-//验证数字 num
-function isInteger(obj) {
-    var reg = /^[-+]?\d+$/;
-
-    if (!reg.test(obj)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//验证数字 num  或者null,空
-function isIntegerOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isInteger(obj);
-}
-
-//Email验证 email
-function isEmail(obj) {
-    var reg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-    if (!reg.test(obj)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//Email验证 email   或者null,空
-function isEmailOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isEmail(obj);
-}
-
-//验证只能输入英文字符串 echar
-function isEnglishStr(obj) {
-    var reg = /^[a-z,A-Z]+$/;
-    if (!reg.test(obj)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//验证只能输入英文字符串 echar 或者null,空
-function isEnglishStrOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isEnglishStr(obj);
-}
-
-//验证是否是n位数字字符串编号 nnum
-function isLenNum(obj, n) {
-    var reg = /^[0-9]+$/;
-    obj = $.trim(obj);
-    if (obj.length > n)
-        return false;
-    if (!reg.test(obj)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//验证是否是n位数字字符串编号 nnum或者null,空
-function isLenNumOrNull(obj, n) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isLenNum(obj, n);
-}
-
-//验证是否小于等于n位数的字符串 nchar
-function isLenStr(obj, n) {
-    //reg = /^[A-Za-z0-9\u0391-\uFFE5]+$/;
-    obj = $.trim(obj);
-    if (obj.length == 0 || obj.length > n)
-        return false;
-    else
-        return true;
-}
-
-//验证是否小于等于n位数的字符串 nchar或者null,空
-function isLenStrOrNull(obj, n) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-    obj = $.trim(obj);
-    if (obj.length > n)
-        return false;
-    else
-        return true;
-}
-
-//验证是否电话号码 phone
-function isTelephone(obj) {
-    var reg = /^(\d{3,4}\-)?[1-9]\d{6,7}$/;
-    if (!reg.test(obj)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//验证是否电话号码 phone或者null,空
-function isTelephoneOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isTelephone(obj);
-}
-
-//验证是否手机号 mobile
-function isMobile(obj) {
-    var reg = /^(\+\d{2,3}\-)?\d{11}$/;
-    if (!reg.test(obj)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//验证是否手机号 mobile或者null,空
-function isMobileOrnull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isMobile(obj);
-}
-
-//验证是否手机号或电话号码 mobile phone 
-function isMobileOrPhone(obj) {
-    var regMobile = /^(\+\d{2,3}\-)?\d{11}$/;
-    var regPhone = /^(\d{3,4}\-)?[1-9]\d{6,7}$/;
-    if (!regMobile.test(obj) && !regPhone.test(obj)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//验证是否手机号或电话号码 mobile phone或者null,空
-function isMobileOrPhoneOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isMobileOrPhone(obj);
-}
-
-//验证网址 uri
-function isUri(obj) {
-    var reg = /^http:\/\/[a-zA-Z0-9]+\.[a-zA-Z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/;
-    if (!reg.test(obj)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//验证网址 uri或者null,空
-function isUriOrnull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isUri(obj);
-}
-
-//验证两个值是否相等 equals
-function isEqual(obj1, controlObj) {
-    if (obj1.length != 0 && controlObj.length != 0) {
-        if (obj1 == controlObj)
+        if (value.length == 0) {
             return true;
-        else
-            return false;
-    }
-    else
-        return false;
-}
-
-//判断日期类型是否为YYYY-MM-DD格式的类型 date
-function isDate(obj) {
-    if (obj.length != 0) {
-        var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/;
-        if (!reg.test(obj)) {
+        } else {
             return false;
         }
-        else {
-            return true;
-        }
     }
 
-    return false;
-}
+    /**
+     * 验证必填整数。
+     * @param {string} value 字符
+     * @param {number} min 最小值
+     * @param {number} max 最大值
+     */
+    function isInt(value, min, max) {
+        var regx = /^[-+]?\d+$/;
 
-//判断日期类型是否为YYYY-MM-DD格式的类型 date或者null,空
-function isDateOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isDate(obj);
-}
-
-//判断日期类型是否为YYYY-MM-DD hh:mm:ss格式的类型 datetime
-function isDateTime(obj) {
-    if (obj.length != 0) {
-        var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2})(\:\d{1,2})?$/;
-        if (!reg.test(obj)) {
+        if (!regx.test(value)) {
             return false;
+        } else {
+            var result = true;
+            var number = parseInt(value);
+
+            if (!isNaN(min)) {
+                result = number >= min;
+            }
+
+            if (!isNaN(max)) {
+                result = number <= max;
+            }
+
+            return result;
         }
-        else {
+    }
+
+    /**
+     * 验证可为空的整数。
+     * @param {string} value 字符
+     * @param {number} min 最小值
+     * @param {number} max 最大值
+     */
+    function isIntOrNull(value, min, max) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
             return true;
         }
+
+        return isInt(value);
     }
 
-    return false;
-}
+    /**
+     * 验证必填浮点数。
+     * @param {string} value 字符
+     * @param {number} min 最小值
+     * @param {number} max 最大值
+     */
+    function isNumber(value, min, max) {
+        if (value.length != 0) {
+            var regx = /^[-\+]?\d+(\.\d+)?$/;
 
-//判断日期类型是否为YYYY-MM-DD hh:mm:ss格式的类型 datetime或者null,空
-function isDateTimeOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
+            if (!regx.test(value)) {
+                return false;
+            } else {
+                var result = true;
+                var real = parseFloat(value);
 
-    return isDateTime(obj);
-}
+                if (!isNaN(min)) {
+                    result = number >= min;
+                }
 
-//判断日期类型是否为hh:mm:ss格式的类型 time
-function isTime(obj) {
-    if (obj.length != 0) {
-        var reg = /^((20|21|22|23|[0-1]\d)\:[0-5][0-9])(\:[0-5][0-9])?$/;
-        if (!reg.test(obj)) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
+                if (!isNaN(max)) {
+                    result = number <= max;
+                }
 
-    return false;
-}
-
-//判断日期类型是否为hh:mm:ss格式的类型 time或者null,空
-function isTimeOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isTime(obj);
-}
-
-//判断输入的字符是否为中文 cchar 
-function isChinese(obj) {
-    if (obj.length != 0) {
-        var reg = /^[\u0391-\uFFE5]+$/;
-        if (!reg.test(obj)) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-//判断输入的字符是否为中文 cchar或者null,空
-function isChineseOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isChinese(obj);
-}
-
-//判断输入的邮编(只能为六位)是否正确 zip
-function isZip(obj) {
-    if (obj.length != 0) {
-        var reg = /^\d{6}$/;
-        if (!reg.test(obj)) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-//判断输入的邮编(只能为六位)是否正确 zip或者null,空
-function isZipOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isZip(obj);
-}
-
-//判断输入的字符是否为双精度 double
-function isDouble(obj) {
-    if (obj.length != 0) {
-        var reg = /^[-\+]?\d+(\.\d+)?$/;
-        if (!reg.test(obj)) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-//判断输入的字符是否为双精度 double或者null,空
-function isDoubleOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isDouble(obj);
-}
-
-//判断是否为身份证 idcard
-function isIDCard(obj) {
-    if (obj.length != 0) {
-        var reg = /^\d{15}(\d{2}[A-Za-z0-9;])?$/;
-        if (!reg.test(obj))
-            return false;
-        else
-            return true;
-    }
-
-    return false;
-}
-
-//判断是否为身份证 idcard或者null,空
-function isIDCardOrNull(obj) {
-    var controlObj = $.trim(obj);
-    if (controlObj.length == 0) {
-        return true;
-    }
-
-    return isIDCard(obj);
-}
-
-//验证是否为浮点长度格式。
-function isNumCommaNum(obj) {
-    var reg = /^([1-9]?\d)+(\,)+(\d)$/;
-    if (!reg.test(obj)) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-//验证IP格式和有效性
-function isIP(obj) {
-    var reg = /^(22[0-3]|2[0,1]\d{1}|1\d{2}|[1-9]?\d).((25[0-5]|2[0-4]\d{1}|1\d{2}|[1-9]?\d).){2}(25[0-5]|2[0-4]\d{1}|1\d{2}|[1-9]?\d)$/;
-    if (!reg.test(obj)) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-// 验证脚本
-// containerObj为当前input所在的空间容器 (例如：Div,Panel)
-// 脚本中 validate-rule为验证规则，validate-field属性表示被验证表单的【中文名称】。
-function JudgeValidate(containerObj) {
-    var first = 0;
-    var isValidate = true;
-
-    $(containerObj).find("[validate-rule]").each(function () {
-        var temp = ValidateElement(this);
-
-        if (!temp) {
-            isValidate = false;
-
-            if (first == 0) {
-                first++;
-                $(this).focus();
+                return result;
             }
         }
-    });
 
-    return isValidate;
-}
+        return false;
+    }
 
-function ValidateElement(element, isCallback) {
-    isCallback = isCallback || false;
+    /**
+     * 验证可空浮点数。
+     * @param {string} value 字符
+     * @param {number} min 最小值
+     * @param {number} max 最大值
+     */
+    function isNumberOrNull(value, min, max) {
+        var trimedValue = $.trim(value);
 
-    if ($(element).attr("validate-rule") != undefined) {
-        var errorMessage = '';
-        var field = $(element).attr(validateField);
-
-        field = field == undefined ? '' : field;
-
-        switch ($(element).attr("validate-rule")) {
-            case "default":
-                if (isNotNull($(element).val())) {
-                    errorMessage = field + "\n";
-                }
-
-                break;
-            case "notNull":
-                if (isNotNull($(element).val())) {
-                    errorMessage = field + "不能为空！\n";
-                }
-
-                break;
-            case "int":
-                if (!isInteger($(element).val())) {
-                    errorMessage = field + "必须为整数！\n";
-                }
-
-                break;
-            case "intOrNull":
-                if (!isIntegerOrNull($(element).val())) {
-                    errorMessage = field + "必须为整数！\n";
-                }
-
-                break;
-            case "email":
-                if (!isEmail($(element).val())) {
-                    errorMessage = field + "必须为E-mail格式！\n";
-                }
-
-                break;
-            case "emailOrNull":
-                if (!isEmailOrNull($(element).val())) {
-                    errorMessage = field + "必须为E-mail格式！\n";
-                }
-
-                break;
-            case "english":
-                if (!isEnglishStr($(element).val())) {
-                    errorMessage = field + "必须为英文字符串！\n";
-                }
-
-                break;
-            case "englishOrNull":
-                if (!isEnglishStrOrNull($(element).val())) {
-                    errorMessage = field + "必须为字符串！\n";
-                }
-
-                break;
-            case "limitInt":
-                if (!isLenNum($(element).val(), $(element).attr("maxlength"))) {
-                    errorMessage = field + "不能为空且必须小于" + $(element).attr("maxlength") + "位数字！\n";
-                }
-
-                break;
-            case "limitIntOrNull":
-                if (!isLenNumOrNull($(element).val(), $(element).attr("maxlength"))) {
-                    errorMessage = field + "必须为" + $(element).attr("maxlength") + "位数字！\n";
-                }
-
-                break;
-            case "limit":
-                if (!isLenStr($(element).val(), $(element).attr("maxlength"))) {
-                    errorMessage = field + "不能为空且必须小于" + $(element).attr("maxlength") + "个字符！\n";
-                }
-
-                break;
-            case "limitOrNull":
-                if (!isLenStrOrNull($(element).val(), $(element).attr("maxlength"))) {
-                    errorMessage = field + "必须小于" + $(element).attr("maxlength") + "个字符！\n";
-                }
-
-                break;
-            case "phone":
-                if (!isTelephone($(element).val())) {
-                    errorMessage = field + "必须电话格式！\n";
-                }
-
-                break;
-            case "fax":
-                if (!isTelephoneOrNull($(element).val())) {
-                    errorMessage = field + "必须为传真格式！\n";
-                }
-
-                break;
-            case "phoneOrNull":
-                if (!isTelephoneOrNull($(element).val())) {
-                    errorMessage = field + "必须电话格式！\n";
-                }
-
-                break;
-            case "mobile":
-                if (!isMobile($(element).val())) {
-                    errorMessage = field + "必须为手机格式！\n";
-                }
-
-                break;
-            case "mobileOrNull":
-                if (!isMobileOrnull($(element).val())) {
-                    errorMessage = field + "必须为手机格式！\n";
-                }
-
-                break;
-            case "mobileOrPhone":
-                if (!isMobileOrPhone($(element).val())) {
-                    errorMessage = field + "必须为电话格式或手机格式！\n";
-                }
-
-                break;
-            case "mobileOrPhoneOrNull":
-                if (!isMobileOrPhoneOrNull($(element).val())) {
-                    errorMessage = field + "必须为电话格式或手机格式！\n";
-                }
-
-                break;
-            case "uri":
-                if (!isUri($(element).val())) {
-                    errorMessage = field + "必须为网址格式！\n";
-                }
-
-                break;
-            case "uriOrNull":
-                if (!isUriOrnull($(element).val())) {
-                    errorMessage = field + "必须为网址格式！\n";
-                }
-
-                break;
-            case "equal":
-                if (!isEqual($(element).val(), $(element).attr("equal-value"))) {
-                    errorMessage = field + "不相等！\n";
-                }
-
-                break;
-            case "date":
-                if (!isDate($(element).val())) {
-                    errorMessage = field + "必须为日期格式！\n";
-                }
-
-                break;
-            case "dateOrNull":
-                if (!isDateOrNull($(element).val())) {
-                    errorMessage = field + "必须为日期格式！\n";
-                }
-
-                break;
-            case "dateTime":
-                if (!isDateTime($(element).val())) {
-                    errorMessage = field + "必须为日期时间格式！\n";
-                }
-
-                break;
-            case "dateTimeOrNull":
-                if (!isDateTimeOrNull($(element).val())) {
-                    errorMessage = field + "必须为日期时间格式！\n";
-                }
-
-                break;
-            case "time":
-                if (!isTime($(element).val())) {
-                    errorMessage = field + "必须为时间格式！\n";
-                }
-
-                break;
-            case "timeOrNull":
-                if (!isTimeOrNull($(element).val())) {
-                    errorMessage = field + "必须为时间格式！\n";
-                }
-
-                break;
-            case "chinese":
-                if (!isChinese($(element).val())) {
-                    errorMessage = field + "必须为中文！\n";
-                }
-
-                break;
-            case "chineseOrNull":
-                if (!isChineseOrNull($(element).val())) {
-                    errorMessage = field + "必须为中文！\n";
-                }
-
-                break;
-            case "zip":
-                if (!isZip($(element).val())) {
-                    errorMessage = field + "必须为邮编格式！\n";
-                }
-
-                break;
-            case "zipOrNull":
-                if (!isZipOrNull($(element).val())) {
-                    errorMessage = field + "必须为邮编格式！\n";
-                }
-
-                break;
-            case "double":
-                if (!isDouble($(element).val())) {
-                    errorMessage = field + "必须为数字！\n";
-                }
-
-                break;
-            case "doubleOrNull":
-                if (!isDoubleOrNull($(element).val())) {
-                    errorMessage = field + "必须为数字！\n";
-                }
-
-                break;
-            case "IDCard":
-                if (!isIDCard($(element).val())) {
-                    errorMessage = field + "必须为身份证格式！\n";
-                }
-
-                break;
-            case "IDCardOrNull":
-                if (!isIDCardOrNull($(element).val())) {
-                    errorMessage = field + "必须为身份证格式！\n";
-                }
-
-                break;
-            case "requestNotNull":
-                if (isNotNull($(element).val())) {
-                    errorMessage = field + "！\n";
-                }
-
-                break;
-
-            case "isCommaNumber": //格式 例如:(10,2)
-                if (!isNumCommaNum($(element).val())) {
-                    errorMessage = field + "！\n";
-                }
-
-                break;
-            case "ipAddress": //格式 例如:(192.168.0.1)
-                if (!isIP($(element).val())) {
-                    errorMessage = field + "必须为有效IPV4！\n";
-                }
-
-                break;
+        if (trimedValue.length == 0) {
+            return true;
         }
 
-        if (errorMessage != '') {
-            ChangeCss(element, errorMessage, isCallback);
+        return isNumber(value, min, max);
+    }
 
+    /**
+     * 验证必填的逗号分隔的整数。
+     * @param {string} value 字符
+     */
+    function isCommaNumber(value) {
+        var regx = /^([1-9]?\d)+(\,)+(\d)$/;
+
+        if (!regx.test(value)) {
             return false;
+        } else {
+            return true;
         }
     }
 
-    return true;
-}
+    /**
+     * 判断是否为必填日期。
+     * @param {string} value 字符
+     */
+    function isDate(value) {
+        if (value.length != 0) {
+            var regx = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/;
 
-//修改出错的input的外观
-function ChangeCss(obj, validatemsg, isCallback) {
-    if (!isCallback) {
-        $(obj).addClass("tooltipinputerr");
+            if (!regx.test(value)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
 
+        return false;
+    }
+
+    /**
+     * 验证可空日期。
+     * @param {string} value 字符
+     */
+    function isDateOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isDate(value);
+    }
+
+    /**
+     * 验证必填日期+时间。
+     * @param {string} value 字符
+     */
+    function isDateTime(value) {
+        if (value.length != 0) {
+            var regx = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2})(\:\d{1,2})?$/;
+
+            if (!regx.test(value)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 验证可空日期+时间。
+     * @param {string} value 字符
+     */
+    function isDateTimeOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isDateTime(value);
+    }
+
+    /**
+     * 验证必填时间。
+     * @param {string} value 字符
+     */
+    function isTime(value) {
+        if (value.length != 0) {
+            var regx = /^((20|21|22|23|[0-1]\d)\:[0-5][0-9])(\:[0-5][0-9])?$/;
+
+            if (!regx.test(value)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 验证可空时间。
+     * @param {string} value 字符
+     */
+    function isTimeOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isTime(value);
+    }
+
+    /**
+     * 验证必填字符串。
+     * @param {string} vlaue 字符
+     * @param {number} minLength 最小长度
+     * @param {number} maxLength 最大长度
+     */
+    function isLimitChars(vlaue, minLength, maxLength) {
+        var result = false;
+
+        vlaue = $.trim(vlaue);
+        minLength = minLength || 1;
+
+        if (vlaue.length >= minLength) {
+            result = true;
+        }
+
+        if (!isNaN(maxLength)) {
+            result = value.length <= maxLength;
+        }
+
+        return result;
+    }
+
+    /**
+     * 验证可空字符串。
+     * @param {string} vlaue 字符
+     * @param {number} minLength 最小长度
+     * @param {number} maxLength 最大长度
+     */
+    function isLimitCharsOrNull(vlaue, minValue, maxValue) {
+        vlaue = $.trim(vlaue);
+
+        if (vlaue.length == 0) {
+            return true;
+        }
+
+        return isLimitChars(value, minLength, maxLength);
+    }
+
+    /**
+     * 验证必填英文字符。
+     * @param {string} value 字符
+     * @param {number} minLength 最小长度
+     * @param {number} maxLength 最大长度
+     */
+    function isEnglishChars(value, minLength, maxLength) {
+        var regx = /^[a-z,A-Z]+$/;
+
+        if (!regx.test(value)) {
+            return false;
+        } else {
+            return isLimitChars(value, minLength, maxLength);
+        }
+    }
+
+    /**
+     * 验证可空英文字符。
+     * @param {string} value 字符
+     * @param {number} minLength 最小长度
+     * @param {number} maxLength 最大长度
+     */
+    function isEnglishCharsOrNull(value, minLength, maxLength) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isEnglishChars(value, minLength, maxLength);
+    }
+
+    /**
+     * 验证必填中文字符。
+     * @param {string} value 字符
+     * @param {number} minLength 最小长度
+     * @param {number} maxLength 最大长度
+     */
+    function isChineseChars(value, minLength, maxLength) {
+        if (value.length != 0) {
+            var regx = /^[\u0391-\uFFE5]+$/;
+
+            if (!regx.test(value)) {
+                return false;
+            } else {
+                return isLimitChars(value, minLength, maxLength);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 验证可空中文字符。
+     * @param {string} value 字符
+     * @param {number} minLength 最小长度
+     * @param {number} maxLength 最大长度
+     */
+    function isChineseOrNull(value, minLength, maxLength) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isChineseChars(value, minLength, maxLength);
+    }
+
+    /**
+     * 是否相等。
+     * @param {string} value1 字符1
+     * @param {string} value2 字符2
+     */
+    function isEqual(value1, value2) {
+        if (value1.length != 0 && value2.length != 0) {
+            if (value1 == value2) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 验证必填邮箱。
+     * @param {string} value 字符
+     */
+    function isEmail(value) {
+        var regx = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+
+        if (!regx.test(value)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 验证可空邮箱。
+     * @param {string} value 字符
+     */
+    function isEmailOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isEmail(value);
+    }
+
+    /**
+     * 验证必填电话号码。
+     * @param {string} value 字符
+     */
+    function isTelephone(value) {
+        var regx = /^(\d{3,4}\-)?[1-9]\d{6,7}$/;
+
+        if (!regx.test(value)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 验证可空电话号码。
+     * @param {string} value 字符
+     */
+    function isTelephoneOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isTelephone(value);
+    }
+
+    /**
+     * 验证必填手机号码。
+     * @param {string} value 字符
+     */
+    function isMobile(value) {
+        var regx = /^(\+\d{2,3}\-)?\d{11}$/;
+
+        if (!regx.test(value)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 验证可空手机号码。
+     * @param {string} value 字符
+     */
+    function isMobileOrnull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isMobile(value);
+    }
+
+    /**
+     * 验证必填电话号码或手机号码。
+     * @param {string} value 字符
+     */
+    function isMobileOrPhone(value) {
+        return isMobile(value) || isTelephone(value);
+    }
+
+    /**
+     * 验证可空电话号码或手机号码。
+     * @param {string} value 字符
+     */
+    function isMobileOrPhoneOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isMobileOrPhone(value);
+    }
+
+    /**
+     * 验证必填Uri。
+     * @param {string} value 字符
+     */
+    function isUri(value) {
+        var regx = /^http:\/\/[a-zA-Z0-9]+\.[a-zA-Z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/;
+
+        if (!regx.test(value)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 验证可空Uri。
+     * @param {string} value 字符
+     */
+    function isUriOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isUri(value);
+    }
+
+    /**
+     * 验证必填邮编。
+     * @param {string} value 字符
+     */
+    function isZip(value) {
+        if (value.length != 0) {
+            var regx = /^\d{6}$/;
+
+            if (!regx.test(value)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 验证可空邮编。
+     * @param {string} value 字符
+     */
+    function isZipOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isZip(value);
+    }
+
+    /**
+     * 验证必填身份证号。
+     * @param {string} value 字符
+     */
+    function isIDCard(value) {
+        if (value.length != 0) {
+            var regx = /^\d{15}(\d{2}[A-Za-z0-9;])?$/;
+
+            if (!regx.test(value)) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 验证可空身份证号。
+     * @param {string} value 字符
+     */
+    function isIDCardOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return true;
+        }
+
+        return isIDCard(value);
+    }
+
+    /**
+     * 验证必填IP地址。
+     * @param {string} value 字符
+     */
+    function isIP(value) {
+        var regx = /^(22[0-3]|2[0,1]\d{1}|1\d{2}|[1-9]?\d).((25[0-5]|2[0-4]\d{1}|1\d{2}|[1-9]?\d).){2}(25[0-5]|2[0-4]\d{1}|1\d{2}|[1-9]?\d)$/;
+
+        if (!regx.test(value)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 验证可空IP地址。
+     * @param {string} value 字符
+     */
+    function isIPOrNull(value) {
+        var trimedValue = $.trim(value);
+
+        if (trimedValue.length == 0) {
+            return trimedValue;
+        }
+
+        return isIP(value);
+    }
+
+    /**
+     * 脚本验证起始方法。
+     * @param {String} formSelector form表单选择器。
+     */
+    function Validator(formSelector) {
+        var first = 0;
+        var isValidate = true;
+
+        if ($(formSelector).eq(0).prop('nodeName').toUpperCase() == "FORM") {
+            var formFilds = $(formSelector).find("[valid-rule]");
+
+            formFilds.each(function () {
+                AttachValidation(this);
+
+                var rule = $(this).attr('valid-rule');
+                if (rule.toLowerCase().indexOf('ornull') == -1) {
+                    $(this).parent().addClass('form-required');
+                }
+            });
+
+            $(formSelector).on('submit', function () {
+                formFilds.each(function () {
+                    var error = ValidElement(this);
+
+                    if (error) {
+                        addErrorMessage(this, error);
+                    } else {
+                        removeErrorMessage(this);
+                    }
+                });
+
+                return $(formSelector).find('.has-error').length == 0;
+            });
+        }
+    }
+
+    /**
+     * 检查是否通过验证。
+     * @param {String} formSelector form表单选择器。
+     */
+    function IsValid(formSelector) {
+        var formFilds = $(formSelector).find("[valid-rule]");
+
+        formFilds.each(function () {
+            var error = ValidElement(this);
+
+            if (error) {
+                addErrorMessage(this, error);
+            } else {
+                removeErrorMessage(this);
+            }
+        });
+
+        return $(formSelector).find('.has-error').length == 0;
+    }
+
+    /**
+     * 元素值验证。
+     * @param {HTMLElement} element Html元素
+     */
+    function ValidElement(element) {
+        var error = '';
+        var validRule = $(element).attr("valid-rule");
+
+        if (validRule) {
+            var value = $(element).val();
+            var field = $(element).attr(validateField);
+
+            field = field == undefined ? '' : field;
+
+            switch (validRule) {
+                case "required":
+                    if (isRequired(value)) {
+                        error = field + "不能为空！";
+                    }
+
+                    break;
+                case "int":
+                    var min = parseInt($(element).attr('min'));
+                    var max = parseInt($(element).attr('max'));
+
+                    if (!isInt(value, min, max)) {
+                        error = field + '必须为整数' + getNumberErrorMessage(min, max);
+                    }
+
+                    break;
+                case "intOrNull":
+                    var min = parseInt($(element).attr('min'));
+                    var max = parseInt($(element).attr('max'));
+
+                    if (!isIntOrNull(value, min, max)) {
+                        error = field + "必须为整数" + getNumberErrorMessage(min, max);
+                    }
+
+                    break;
+
+                case "number":
+                    var min = parseInt($(element).attr('min'));
+                    var max = parseInt($(element).attr('max'));
+
+                    if (!isNumber(value, min, max)) {
+                        error = field + "必须为数字" + getNumberErrorMessage(min, max);
+                    }
+
+                    break;
+                case "numberOrNull":
+                    var min = parseInt($(element).attr('min'));
+                    var max = parseInt($(element).attr('max'));
+
+                    if (!isNumberOrNull(value, min, max)) {
+                        error = field + "必须为数字" + getNumberErrorMessage(min, max);
+                    }
+
+                    break;
+                case "commaNumber":
+                    if (!isCommaNumber(value)) {
+                        error = field + "！\n";
+                    }
+
+                    break;
+                case "date":
+                    if (!isDate(value)) {
+                        error = field + "必须为日期格式！";
+                    }
+
+                    break;
+                case "dateOrNull":
+                    if (!isDateOrNull(value)) {
+                        error = field + "必须为日期格式！";
+                    }
+
+                    break;
+                case "dateTime":
+                    if (!isDateTime(value)) {
+                        error = field + "必须为日期时间格式！";
+                    }
+
+                    break;
+                case "dateTimeOrNull":
+                    if (!isDateTimeOrNull(value)) {
+                        error = field + "必须为日期时间格式！";
+                    }
+
+                    break;
+                case "time":
+                    if (!isTime(value)) {
+                        error = field + "必须为时间格式！";
+                    }
+
+                    break;
+                case "timeOrNull":
+                    if (!isTimeOrNull(value)) {
+                        error = field + "必须为时间格式！";
+                    }
+
+                    break;
+                case "limit":
+                    var minLength = $(element).attr('minlength');
+                    var maxLength = $(element).attr('maxlength');
+
+                    if (!isLimitChars(value, minLength, maxLength)) {
+                        error = field + "必须为非空文字，且" + getCharsErrorMessage(minLength, maxLength);
+                    }
+
+                    break;
+                case "limitOrNull":
+                    var minLength = $(element).attr('minlength');
+                    var maxLength = $(element).attr('maxlength');
+
+                    if (!isLimitCharsOrNull(value, minLength, maxLength)) {
+                        error = field + getCharsErrorMessage(minLength, maxLength);
+                    }
+
+                    break;
+                case "english":
+                    var minLength = $(element).attr('minlength');
+                    var maxLength = $(element).attr('maxlength');
+
+                    if (!isEnglishChars(value, minLength, maxLength)) {
+                        error = field + "必须为英文非空文字，且" + getCharsErrorMessage(minLength, maxLength);
+                    }
+
+                    break;
+                case "englishOrNull":
+                    var minLength = $(element).attr('minlength');
+                    var maxLength = $(element).attr('maxlength');
+
+                    if (!isEnglishCharsOrNull(value, minLength, maxLength)) {
+                        error = field + "必须为英文文字，且" + getCharsErrorMessage(minLength, maxLength);
+                    }
+
+                    break;
+                case "chinese":
+                    var minLength = $(element).attr('minlength');
+                    var maxLength = $(element).attr('maxlength');
+
+                    if (!isChineseChars(value, minLength, maxLength)) {
+                        error = field + "必须为中文非空文字，且" + getCharsErrorMessage(minLength, maxLength);
+                    }
+
+                    break;
+                case "chineseOrNull":
+                    var minLength = $(element).attr('minlength');
+                    var maxLength = $(element).attr('maxlength');
+
+                    if (!isChineseOrNull(value)) {
+                        error = field + "必须为中文文字，且" + getCharsErrorMessage(minLength, maxLength);
+                    }
+
+                    break;
+
+                case "equal":
+                    var eqValue = '';
+                    var equalTo = $(element).attr('equal-to');
+                    var equalValue = $(element).attr('equal-value');
+
+                    if (equalTo != undefined) {
+                        eqValue = $(equalTo).val();
+                    }
+
+                    if (!isEqual(value, equalValue)) {
+                        error = field + "不相等！";
+                    }
+
+                    break;
+
+                case "email":
+                    if (!isEmail(value)) {
+                        error = field + "必须为E-mail格式！";
+                    }
+
+                    break;
+                case "emailOrNull":
+                    if (!isEmailOrNull(value)) {
+                        error = field + "必须为E-mail格式！";
+                    }
+
+                    break;
+
+                case "phone":
+                    if (!isTelephone(value)) {
+                        error = field + "必须电话格式！";
+                    }
+
+                    break;
+                case "phoneOrNull":
+                    if (!isTelephoneOrNull(value)) {
+                        error = field + "必须电话格式！";
+                    }
+
+                    break;
+                case "fax":
+                    if (!isTelephoneOrNull(value)) {
+                        error = field + "必须为传真格式！";
+                    }
+
+                    break;
+                case "faxOrNull":
+                    if (!isTelephoneOrNull(value)) {
+                        error = field + "必须为传真格式！";
+                    }
+
+                    break;
+                case "mobile":
+                    if (!isMobile(value)) {
+                        error = field + "必须为手机格式！";
+                    }
+
+                    break;
+                case "mobileOrNull":
+                    if (!isMobileOrnull(value)) {
+                        error = field + "必须为手机格式！";
+                    }
+
+                    break;
+                case "mobileOrPhone":
+                    if (!isMobileOrPhone(value)) {
+                        error = field + "必须为电话格式或手机格式！";
+                    }
+
+                    break;
+                case "mobileOrPhoneOrNull":
+                    if (!isMobileOrPhoneOrNull(value)) {
+                        error = field + "必须为电话格式或手机格式！";
+                    }
+
+                    break;
+                case "uri":
+                    if (!isUri(value)) {
+                        error = field + "必须为网址格式！";
+                    }
+
+                    break;
+                case "uriOrNull":
+                    if (!isUriOrNull(value)) {
+                        error = field + "必须为网址格式！";
+                    }
+
+                    break;
+
+                case "zip":
+                    if (!isZip(value)) {
+                        error = field + "必须为邮编格式！";
+                    }
+
+                    break;
+                case "zipOrNull":
+                    if (!isZipOrNull(value)) {
+                        error = field + "必须为邮编格式！";
+                    }
+
+                    break;
+
+                case "IDCard":
+                    if (!isIDCard(value)) {
+                        error = field + "必须为身份证格式！";
+                    }
+
+                    break;
+                case "IDCardOrNull":
+                    if (!isIDCardOrNull(value)) {
+                        error = field + "必须为身份证格式！";
+                    }
+
+                    break;
+
+                case "ipAddress":
+                    if (!isIP(value)) {
+                        error = field + "必须为有效IP V4！";
+                    }
+
+                    break;
+
+                case "ipAddressOrNull":
+                    if (!isIPOrNull(value)) {
+                        error = field + "必须为有效IP V4！";
+                    }
+
+                    break;
+            }
+        }
+
+        return error;
+    }
+
+    //修改出错的input的外观
+    function AttachValidation(obj) {
         if ($(obj).prop('nodeName').toUpperCase() == "SELECT") {
-            $(obj).css('background-position', $(obj).width() - 10);
-            $(obj).after('<msg style="background:#FFF7E3;position: absolute;top: 8px;left: 20px;color: gray;font-size: 1.15em;">' + validatemsg + '</msg>');
-
             $(obj).click(function () {
-                if (ValidateElement(obj, true)) {
-                    $(obj).addClass("tooltipinputok");
-                    $(obj).removeClass("tooltipinputerr");
+                var error = ValidElement(obj);
 
-                    $(obj).nextAll('msg').remove();
+                if (error) {
+                    addErrorMessage(obj, error);
                 } else {
-                    $(obj).addClass("tooltipinputerr");
-                    $(obj).removeClass("tooltipinputok");
-                    $(obj).after('<msg style="background:#FFF7E3;position: absolute;top: 8px;left: 20px;color: gray;font-size: 1.15em;">' + validatemsg + '</msg>');
+                    removeErrorMessage(obj);
                 }
             });
         } else {
-            $(obj).val('');
-            $(obj).prop('placeholder', validatemsg);
-            $(obj).css('background-position', $(obj).width() - 1);
+            $(obj).on("input propertychange", function () {
+                var error = ValidElement(obj);
 
-            $(obj).on("blur", function () {
-                if (ValidateElement(obj, true)) {
-                    $(obj).addClass("tooltipinputok");
-                    $(obj).removeClass("tooltipinputerr");
-
-                    $(obj).prop('placeholder', '');
+                if (error) {
+                    addErrorMessage(obj, error);
                 } else {
-                    $(obj).val('');
-                    $(obj).addClass("tooltipinputerr");
-                    $(obj).removeClass("tooltipinputok");
-                    $(obj).prop('placeholder', validatemsg);
+                    removeErrorMessage(obj);
                 }
             });
         }
     }
-}
+
+    /**
+     * 获取数字验证错误提示。
+     * @param {number} min 最小值
+     * @param {number} max 最大值
+     */
+    function getNumberErrorMessage(min, max) {
+        var result = '';
+
+        if (!isNaN(min) || !isNaN(max)) {
+            if (!isNaN(min) && !isNaN(max)) {
+                result = '，且值在' + min + '~' + max + '范围内';
+            } else if (!isNaN(min)) {
+                result = '，且值不小于' + min;
+            } else {
+                result = '，且值不超过' + max;
+            }
+        }
+
+        return result + '！';
+    }
+
+    /**
+     * 获取字符验证错误提示。
+     * @param {number} minLength 最小长度
+     * @param {number} maxLength 最大长度
+     */
+    function getCharsErrorMessage(minLength, maxLength) {
+        var result = '';
+
+        if (!isNaN(minLength) || !isNaN(maxLength)) {
+            if (!isNaN(min) && !isNaN(max)) {
+                result = '文字长度在' + min + '~' + max + '个范围内';
+            } else if (!isNaN(min)) {
+                result = '文字长度不小于' + min + '个';
+            } else {
+                result = '文字长度不超过' + max + '个';
+            }
+        }
+
+        return result + '！';
+    }
+
+    /**
+     * 添加错误信息。
+     * @param {HTMLElement} formElement 表单元素
+     * @param {string} error 错误信息
+     */
+    function addErrorMessage(formElement, error) {
+        $(formElement).parent().addClass('has-error');
+        $(formElement).after('<span tag="__byValidator" class="help-block m-b-none">' + error + '</span>');
+    }
+
+    /**
+     * 移除错误信息。
+     * @param {HTMLElement} formElement 表单元素
+     */
+    function removeErrorMessage(formElement) {
+        $(formElement).parent().removeClass('has-error');
+        $(formElement).siblings('span.help-block').remove();
+    }
+
+    // 添加验证
+    window.validator = Validator;
+    window.isValid = IsValid;
+})();

@@ -16,109 +16,99 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
     public enum ValidRule
     {
         /// <summary>
-        /// 默认。
+        /// 默认(不验证)
         /// </summary>
         Default = 0,
 
         /// <summary>
-        /// 不能为空。
+        /// 必填。
         /// </summary>
-        NotNull,
+        Required,
 
         /// <summary>
-        /// 非空整数。
+        /// 必填整型。
         /// </summary>
         Int,
 
         /// <summary>
-        /// 整数。
+        /// 可空整型。
         /// </summary>
         IntOrNull,
 
         /// <summary>
-        /// 非空邮箱。
+        /// 必填数字。
         /// </summary>
-        Email,
+        Number,
 
         /// <summary>
-        /// 邮箱。
+        /// 可空数字。
         /// </summary>
-        EmailOrNull,
+        NumberOrNull,
 
         /// <summary>
-        /// 非空英文字符。
+        /// 必填逗号分隔的数字。
         /// </summary>
-        English,
+        CommaNumber,
 
         /// <summary>
-        /// 英文字符。
+        /// 必填日期。
         /// </summary>
-        EnglishOrNull,
+        Date,
 
         /// <summary>
-        /// 非空限制位数字。
+        /// 可空日期。
         /// </summary>
-        LimitInt,
+        DateOrNull,
 
         /// <summary>
-        /// 限制位数字。
+        /// 必填日期+时间。
         /// </summary>
-        LimitIntOrNull,
+        DateTime,
 
         /// <summary>
-        /// 非空限制长度字符。
+        /// 可空日期+时间。
+        /// </summary>
+        DateTimeOrNull,
+
+        /// <summary>
+        /// 必填时间。
+        /// </summary>
+        Time,
+
+        /// <summary>
+        /// 可空时间。
+        /// </summary>
+        TimeOrNull,
+
+        /// <summary>
+        /// 必填字符串。
         /// </summary>
         Limit,
 
         /// <summary>
-        /// 限值长度字符。
+        /// 可空字符串。
         /// </summary>
         LimitOrNull,
 
         /// <summary>
-        /// 非空电话号码。
+        /// 必填英文字符串。
         /// </summary>
-        Phone,
+        English,
 
         /// <summary>
-        /// 非空传真号码。
+        /// 可空英文字符串。
         /// </summary>
-        Fax,
+        EnglishOrNull,
 
         /// <summary>
-        /// 电话号码。
+        /// 必填中文字符串。
         /// </summary>
-        PhoneOrNull,
+        Chinese,
 
         /// <summary>
-        /// 非空手机号码。
+        /// 可空中文字符串。
         /// </summary>
-        Mobile,
-
-        /// <summary>
-        /// 手机号码。
-        /// </summary>
-        MobileOrNull,
-
-        /// <summary>
-        /// 非空手机或电话号码。
-        /// </summary>
-        MobileOrPhone,
-
-        /// <summary>
-        /// 手机或电话号码。
-        /// </summary>
-        MobileOrPhoneOrNull,
-
-        /// <summary>
-        /// 非空链接。
-        /// </summary>
-        Uri,
-
-        /// <summary>
-        /// 链接。
-        /// </summary>
-        UriOrNull,
+        ChineseOrNull,
 
         /// <summary>
         /// 相等。
@@ -126,79 +116,94 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
         Equal,
 
         /// <summary>
-        /// 非空日期。
+        /// 必填电子邮箱。
         /// </summary>
-        Date,
+        Email,
 
         /// <summary>
-        /// 日期。
+        /// 可空电子邮箱。
         /// </summary>
-        DateOrNull,
+        EmailOrNull,
 
         /// <summary>
-        /// 非空日期(包含时间)。
+        /// 必填电话号码。
         /// </summary>
-        DateTime,
+        Phone,
 
         /// <summary>
-        /// 日期(包含时间)。
+        /// 可空电话号码。
         /// </summary>
-        DateTimeOrNull,
+        PhoneOrNull,
 
         /// <summary>
-        /// 非空时间。
+        /// 必填传真号。
         /// </summary>
-        Time,
+        Fax,
 
         /// <summary>
-        /// 时间。
+        /// 可空传真号。
         /// </summary>
-        TimeOrNull,
+        FaxOrNull,
 
         /// <summary>
-        /// 非空中文字符。
+        /// 必填手机号。
         /// </summary>
-        Chinese,
+        Mobile,
 
         /// <summary>
-        /// 中文字符。
+        /// 可空手机号。
         /// </summary>
-        ChineseOrNull,
+        MobileOrNull,
 
         /// <summary>
-        /// 非空邮编。
+        /// 必填电话号码或手机号码。
+        /// </summary>
+        MobileOrPhone,
+
+        /// <summary>
+        /// 可空电话号码或手机号码。
+        /// </summary>
+        MobileOrPhoneOrNull,
+
+        /// <summary>
+        /// 必填uri地址。
+        /// </summary>
+        Uri,
+
+        /// <summary>
+        /// 可空uri地址。
+        /// </summary>
+        UriOrNull,
+
+        /// <summary>
+        /// 必填邮编。
         /// </summary>
         Zip,
 
         /// <summary>
-        /// 邮编。
+        /// 可空邮编。
         /// </summary>
         ZipOrNull,
 
         /// <summary>
-        /// 非空数字。
-        /// </summary>
-        Double,
-
-        /// <summary>
-        /// 数字。
-        /// </summary>
-        DoubleOrNull,
-
-        /// <summary>
-        /// 非空省份证号。
+        /// 必填身份证号。
         /// </summary>
         IDCard,
 
         /// <summary>
-        /// 身份证号。
+        /// 可空身份证号。
         /// </summary>
         IDCardOrNull,
 
         /// <summary>
-        /// IP v4地址。
+        /// 必填IP地址。
         /// </summary>
-        IpAddress
+        IpAddress,
+
+        /// <summary>
+        /// 可空IP地址。
+        /// </summary>
+        IpAddressOrNull
     }
 
     #endregion
@@ -213,42 +218,43 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
         private static readonly string[] Rules =
         {
             "",
-            "notNull",
+            "required",
             "int",
             "intOrNull",
-            "email",
-            "emailOrNull",
-            "english",
-            "englishOrNull",
-            "limitInt",
-            "limitIntOrNull",
-            "limit",
-            "limitOrNull",
-            "phone",
-            "fax",
-            "phoneOrNull",
-            "mobile",
-            "mobileOrNull",
-            "mobileOrPhone",
-            "mobileOrPhoneOrNull",
-            "uri",
-            "uriOrNull",
-            "equal",
+            "number",
+            "numberOrNull",
+            "commaNumber",
             "date",
             "dateOrNull",
             "dateTime",
             "dateTimeOrNull",
             "time",
             "timeOrNull",
+            "limit",
+            "limitOrNull",
+            "english",
+            "englishOrNull",
             "chinese",
             "chineseOrNull",
+            "equal",
+            "email",
+            "emailOrNull",
+            "phone",
+            "phoneOrNull",
+            "fax",
+            "faxOrNull",
+            "mobile",
+            "mobileOrNull",
+            "mobileOrPhone",
+            "mobileOrPhoneOrNull",
+            "uri",
+            "uriOrNull",
             "zip",
             "zipOrNull",
-            "double",
-            "doubleOrNull",
             "IDCard",
             "IDCardOrNull",
-            "ipAddress"
+            "ipAddress",
+            "ipAddressOrNull"
         };
 
         #endregion
@@ -262,9 +268,23 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
         /// <param name="fieldName">字段名</param>
         /// <param name="rule">验证规则</param>
         /// <returns>附加验证属性</returns>
-        public static IHtmlString AttachValidateAttributes(this HtmlHelper html, string fieldName, ValidRule rule = ValidRule.Default)
+        public static IHtmlString Valid(
+            this HtmlHelper html,
+            string fieldName,
+            ValidRule rule = ValidRule.Required,
+            object extraAttributes = null)
         {
-            return html.Raw($"validate-rule=\"{Rules[(int)rule]}\" validate-field=\"{fieldName}\"");
+            var iTag = new TagBuilder("span");
+
+            iTag.Attributes.Add("valid-rule", Rules[(int)rule]);
+            iTag.Attributes.Add("valid-field", fieldName);
+
+            if (extraAttributes != null)
+            {
+                iTag.MergeAttributes(HtmlHelper.AnonymousObjectToHtmlAttributes(extraAttributes));
+            }
+
+            return html.Raw(iTag.ToString().Replace("<span", "").Replace("/>", "").Replace("</span>", "").Replace(">", ""));
         }
 
         /// <summary>
@@ -277,7 +297,12 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
         /// <param name="rule">验证规则</param>
         /// <param name="fieldName">字段名</param>
         /// <returns>附加验证属性</returns>
-        public static IHtmlString AttachValidateAttributes<T, P>(this HtmlHelper<T> html, Expression<Func<T, P>> expression, ValidRule rule = ValidRule.Default, string fieldName = null)
+        public static IHtmlString Valid<T, P>(
+            this HtmlHelper<T> html,
+            Expression<Func<T, P>> expression,
+            ValidRule rule = ValidRule.Default,
+            object extraAttributes = null,
+            string fieldName = null)
         {
             if (string.IsNullOrWhiteSpace(fieldName))
             {
@@ -289,7 +314,7 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
                 fieldName = displayAttr == null ? propertyName : displayAttr.Name;
             }
 
-            return html.Raw($"validate-rule=\"{Rules[(int)rule]}\" validate-field=\"{fieldName}\"");
+            return Valid(html, fieldName, rule, extraAttributes);
         }
 
         #endregion
@@ -322,8 +347,8 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
                 attributes.Add("placeholder", fieldName);
             }
 
-            attributes.Add("validate-field", fieldName);
-            attributes.Add("validate-rule", Rules[(int)rule]);
+            attributes.Add("valid-field", fieldName);
+            attributes.Add("valid-rule", Rules[(int)rule]);
 
             return attributes;
         }
@@ -361,8 +386,8 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
                 attributes.Add("placeholder", propertyDisplayName);
             }
 
-            attributes.Add("validate-field", propertyDisplayName);
-            attributes.Add("validate-rule", Rules[(int)rule]);
+            attributes.Add("valid-field", propertyDisplayName);
+            attributes.Add("valid-rule", Rules[(int)rule]);
 
             return attributes;
         }
@@ -383,8 +408,8 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
         {
             var attributes = new RouteValueDictionary
             {
-                {"validate-field", fieldName},
-                {"validate-rule", Rules[(int) rule]}
+                {"valid-field", fieldName},
+                {"valid-rule", Rules[(int) rule]}
             };
 
             return attributes;
