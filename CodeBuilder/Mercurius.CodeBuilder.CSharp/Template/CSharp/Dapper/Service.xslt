@@ -12,9 +12,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using CSBR.Prime.Data.Support;
 using YlY2PRO;
 using YlY2PRO.PlatForm.Core.Services;
-using YlY2PRO.PlatForm.Data.SimpleDapper;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {
@@ -205,8 +205,7 @@ using YlY2PRO.PlatForm.Data.SimpleDapper;
             
             return this.InvokePagingService(
                 nameof(Search<xsl:value-of select="./table/@pluralClassName" />),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList&lt;<xsl:value-of select="./table/@className"/>, <xsl:value-of select="./table/@className"/>SO>(command, out totalRecords, so<xsl:call-template name="SearchConditions" />),
-                so);
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList&lt;<xsl:value-of select="./table/@className"/>, <xsl:value-of select="./table/@className"/>SO>(command, out totalRecords, so), so);
         }
       </xsl:if>
         #endregion

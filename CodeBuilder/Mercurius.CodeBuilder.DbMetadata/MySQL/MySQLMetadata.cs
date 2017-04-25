@@ -82,7 +82,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
                     dbColumn.IsIdentity = item.IsIdentity;
                     dbColumn.IsPrimaryKey = item.IsPrimaryKey;
                     dbColumn.Nullable = item.IsNullable;
-                    dbColumn.Description = item.Description;
+                    dbColumn.Description = item.Description?.Replace("\"","");
                     dbColumn.SqlType = item.DataType;
                     dbColumn.Length = item.DataLength;
                     dbColumn.BasicType = dbColumn.SqlType;

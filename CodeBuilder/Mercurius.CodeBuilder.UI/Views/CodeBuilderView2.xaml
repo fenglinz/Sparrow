@@ -84,7 +84,7 @@
                         </ComboBox>
 
                         <Label Margin="33,99,0,0" Content="{Binding ProjectFileLabel1}" />
-                        <TextBox Margin="146,98,0,0" HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Configuration.EntityProjectFile}" Width="700">
+                        <TextBox Margin="146,98,0,0" HorizontalAlignment="Left" Text="{Binding Configuration.EntityProjectFile}" Width="700">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="GotFocus">
                                     <i:InvokeCommandAction Command="{Binding SelectEntityProjectFileCommand}" />
@@ -95,7 +95,7 @@
                         <TextBox Margin="888,98,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.EntityBaseNamespace}" />
 
                         <Label Margin="33,140,0,0" Content="{Binding ProjectFileLabel2}" />
-                        <TextBox Margin="146,138,0,0" HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Configuration.ContractProjectFile}" Width="700">
+                        <TextBox Margin="146,138,0,0" HorizontalAlignment="Left" Text="{Binding Configuration.ContractProjectFile}" Width="700">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="GotFocus">
                                     <i:InvokeCommandAction Command="{Binding SelectContractProjectFileCommand}" />
@@ -106,7 +106,7 @@
                         <TextBox Margin="888,139,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.ContractBaseNamespace}" />
 
                         <Label Margin="33,180,0,0" Content="{Binding ProjectFileLabel3}" />
-                        <TextBox Margin="146,178,0,0" HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Configuration.ServiceProjectFile}" Width="700">
+                        <TextBox Margin="146,178,0,0" HorizontalAlignment="Left" Text="{Binding Configuration.ServiceProjectFile}" Width="700">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="GotFocus">
                                     <i:InvokeCommandAction Command="{Binding SelectServiceProjectFileCommand}" />

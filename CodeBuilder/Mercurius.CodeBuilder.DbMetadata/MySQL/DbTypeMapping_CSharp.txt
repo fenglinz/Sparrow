@@ -10,7 +10,7 @@ decimal,decimal
 numberic,decimal
 bit,bool
 date,DateTime
-time,DateTime
+time,DateTimeOffset
 datetime,DateTime
 timestamp,DateTime
 year,uint

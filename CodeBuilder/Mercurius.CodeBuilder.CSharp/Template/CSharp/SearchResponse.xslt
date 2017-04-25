@@ -20,6 +20,7 @@ using YlY2PRO.PlatForm.Core.Services;
     /// &lt;summary>
     /// <xsl:value-of select="./table/@description" />查询条件。
     /// &lt;/summary>
+    [Criteria]
     public class <xsl:value-of select="./table/@className"/>SO : SearchObject
     {
         #region 属性
@@ -27,6 +28,7 @@ using YlY2PRO.PlatForm.Core.Services;
         /// <![CDATA[<summary>]]>
         /// <xsl:value-of select="@description" />。
         /// <![CDATA[</summary>]]>
+        [Restriction(Column = "<xsl:value-of select="@name" />", ConditionType = ConditionType.And, SearchType = QuickSearchType.<xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">Equal</xsl:when><xsl:otherwise>Like</xsl:otherwise></xsl:choose>)]
         public virtual <xsl:value-of select="@basicType"/><xsl:if test="@basicType!='string' and @basicType!='String'">?</xsl:if><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
         </xsl:for-each>
         #endregion
