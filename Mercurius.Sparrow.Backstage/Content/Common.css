@@ -658,7 +658,7 @@ input.search-image {
 /** 表单验证样式-结束 **/
 
 /** 分页控件样式。*/
-.pager-container {
+.paging-container {
     height: 42px;
     float: right;
     color: black;
@@ -667,7 +667,7 @@ input.search-image {
     display: block;
 }
 
-    .pager-container span {
+    .paging-container span {
         float: left;
         padding-top: 4px;
         padding-bottom: 3px;
@@ -678,11 +678,11 @@ input.search-image {
         user-select: none;
     }
 
-    .pager-container .pagination {
+    .paging-container .pagination {
         margin: 5px 0 0 0;
     }
 
-        .pager-container .pagination > li > a, .pagination > li > span {
+        .paging-container .pagination > li > a, .pagination > li > span {
             padding: 4px 11px;
         }
 

@@ -68,6 +68,18 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
 
             htmlString.Append("<div class=\"paging-container\">");
 
+            if (pageCount > 1)
+            {
+                htmlString.Append(
+                    $"<span>总共有{totalRecords}条数据&nbsp;&nbsp;当前{currentIndex}/{pageCount}页</span>");
+            }
+            else
+            {
+                htmlString.Append($"<span>总共有{totalRecords}条数据</span></div>");
+
+                return MvcHtmlString.Create(htmlString.ToString());
+            }
+
             if (routeValues is RouteValueDictionary)
             {
                 routeDict = routeValues as RouteValueDictionary;
@@ -131,7 +143,7 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
 
                     if (currentIndex % showNumbers == 0)
                     {
-                        startIndex = (currentIndex / showNumbers) * showNumbers - 1;
+                        startIndex = ((currentIndex / showNumbers) - 1) * showNumbers;
                     }
 
                     endIndex = startIndex + showNumbers;
