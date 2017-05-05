@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function() {
     function BeginLoading() {
         top.$("#loading").show();
     }
@@ -22,8 +22,7 @@
             content: msg,
             padding: '20px 30px 20px 30px',
             okValue: '<i class="glyphicon glyphicon-off"></i> 确定',
-            ok: function () {
-            }
+            ok: function() {}
         }).showModal();
     }
 
@@ -37,11 +36,11 @@
             content: msg,
             padding: '20px 30px 20px 30px',
             okValue: '<i class="glyphicon glyphicon-ok"></i> 确定',
-            ok: function () {
+            ok: function() {
                 if (callBack != undefined) { callBack(true); }
             },
             cancelValue: '<i class="glyphicon glyphicon-off"></i> 取消',
-            cancel: function () { }
+            cancel: function() {}
         }).showModal();
     }
 
@@ -56,11 +55,11 @@
             dataType: "JSON",
             cache: false,
             async: true,
-            success: function (msg) {
+            success: function(msg) {
                 EndLoading();
                 callBack(msg);
             },
-            error: function (xhr, e) {
+            error: function(xhr, e) {
                 EndLoading();
                 ShowWarningMessage(xhr.responseText);
             }
@@ -90,7 +89,7 @@
             width: width,
             height: height,
             okValue: settings.statusbar ? settings.okValue : null,
-            ok: settings.statusbar ? function () {
+            ok: settings.statusbar ? function() {
                 if (top[id].OnSave != undefined) {
                     top[id].OnSave();
 
@@ -101,12 +100,12 @@
             } : null,
             cancelValue: settings.statusbar ? settings.cancelValue : '取消',
             cancelDisplay: settings.statusbar,
-            cancel: function () {
+            cancel: function() {
                 if (top[id] != undefined && top[id].OnClose != undefined) {
                     top[id].OnClose();
                 }
             },
-            onshow: function () {
+            onshow: function() {
                 var offsetX = '0px';
                 var offsetY = '0px';
 
@@ -182,12 +181,13 @@
     作用是，如果没有对表单值更新，就不提交到数据库
     **/
     var isDataChanged = "";
+
     function IsDataChanged() {
-        $("textarea,input[type='text']").keydown(function () {
+        $("textarea,input[type='text']").keydown(function() {
             isDataChanged = 1;
         });
 
-        $("select").change(function () {
+        $("select").change(function() {
             isDataChanged = 1;
         });
     }
@@ -212,11 +212,11 @@
     文本框只允许输入数字
     **/
     function SetNumberInputOnly(obj) {
-        $("#" + obj).bind("contextmenu", function () {
+        $("#" + obj).bind("contextmenu", function() {
             return false;
         });
         $("#" + obj).css('ime-mode', 'disabled');
-        $("#" + obj).keypress(function (e) {
+        $("#" + obj).keypress(function(e) {
             if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
                 return false;
             }
@@ -230,7 +230,7 @@
 
         table = table == undefined ? '.treetable' : table;
 
-        $(table + ' :checkbox:checked').each(function () {
+        $(table + ' :checkbox:checked').each(function() {
             reVal += $(this).val() + ',';
         });
 
@@ -248,7 +248,7 @@
 
         keepHeight();
 
-        $(window).resize(function () {
+        $(window).resize(function() {
             keepHeight();
         });
     }
@@ -278,7 +278,7 @@
         }
 
         $(gv).css('width', width);
-        $(gvn).find('thead > tr > td:visible').each(function (index, item) {
+        $(gvn).find('thead > tr > td:visible').each(function(index, item) {
             if ($(item).width() != "") {
                 $(gv).find('tbody > tr > td:visible:eq(' + index + ')').css('width', $(item).css('width'));
             }
@@ -301,7 +301,7 @@
         }
 
         if (!params.multiple) {
-            $(gv + ' > tbody > tr').click(function () {
+            $(gv + ' > tbody > tr').click(function() {
                 var element = $(this);
                 var checkboxs = element.find(':checkbox:not(:disabled)');
 
@@ -324,7 +324,7 @@
                 }
             });
         } else {
-            $(gv + ' > tbody > tr').click(function () {
+            $(gv + ' > tbody > tr').click(function() {
                 var element = $(this);
                 var checkboxs = element.find(':checkbox:not(:disabled)');
 
@@ -369,7 +369,7 @@
             width -= params.minusWidth;
         }
 
-        $(gv + ' > tbody > tr a').click(function (e) {
+        $(gv + ' > tbody > tr a').click(function(e) {
             window.location.href = $(this).attr('href');
 
             return false;
@@ -378,7 +378,7 @@
         if (params.triggerRowChecked == undefined || params.triggerRowChecked == true) {
             ApplyTableStyle(gv, params);
         } else {
-            $(gv + ' > tbody > tr').click(function () {
+            $(gv + ' > tbody > tr').click(function() {
                 $(gv + ' > tbody > tr').removeClass('selected');
 
                 $(this).addClass('selected');
@@ -392,7 +392,7 @@
         var checkAllElement = $(gv + '_header > thead > tr .check-all');
 
         if (params.multiple && checkAllElement.length > 0) {
-            checkAllElement.click(function () {
+            checkAllElement.click(function() {
                 if (!checkAllElement.is('.active')) {
                     checkAllElement.attr('title', '反选');
                     checkAllElement.addClass('active');
@@ -415,7 +415,7 @@
             });
         }
 
-        $(window).resize(function () {
+        $(window).resize(function() {
             width = '100%';
             height = $(window).height() - otherHeight;
 
@@ -430,7 +430,7 @@
             $(fixedTableId).prev().css('width', width);
             $(fixedTableId).find('table').css('width', width);
 
-            $(fixedTableId).prev().find('thead > tr > td:visible').each(function (index, item) {
+            $(fixedTableId).prev().find('thead > tr > td:visible').each(function(index, item) {
                 if ($(item).width() != "") {
                     $(fixedTableId + ' table > tbody > tr > td:visible:eq(' + index + ')').css('width', $(item).css('width'));
                 }
@@ -442,7 +442,7 @@
         $('#' + treeContainer + " li span").css("cursor", "pointer");
         $('#' + treeContainer + " li span").find(':checked').parent('span').addClass('collapsableselected');
 
-        $('#' + treeContainer + " li :checkbox").click(function (event) {
+        $('#' + treeContainer + " li :checkbox").click(function(event) {
             if ($(this).prop('checked')) {
                 $(this).parent('span').addClass('collapsableselected');
             } else {
@@ -452,7 +452,7 @@
             return false;
         });
 
-        $('#' + treeContainer + " li span").click(function () {
+        $('#' + treeContainer + " li span").click(function() {
             var checked = $(this).find(':checkbox');
 
             if (checked.length > 0) {
@@ -472,15 +472,15 @@
 
     /*****************树形样式********************************/
     function ShowTreeView(treeContainer, collapse) {
-        $('#' + treeContainer).lightTreeview({  //指定需要转化成treeview的ul或ol
+        $('#' + treeContainer).lightTreeview({ //指定需要转化成treeview的ul或ol
             collapse: collapse == undefined ? true : collapse, //是否允许收缩或展开树型菜单。默认为true
             line: true, //是否始用连接线。默认为true。你也可以直接对根节点加入类“treeview-noline”来实现同样的效果
-            nodeEvent: true,  //是否将节点标题的点击也绑定菜单收缩展开的事件。默认为true
-            unique: false,  //同级节点是否互斥。默认为false
-            animate: 200,  //动画效果。0为无效果。默认为200
-            style: 'red',  //菜单风格。目前有默认,灰色,红色,黑色,fam 共5种风格，风格可以通过添加CSS来增加。你也可以直接对根节点加入类“treeview-风格名称”来实现同样的效果
-            fileico: true,  //是否显示文件的图标。默认为false。你也可以对节点的DOM加入类“treeview-file”来实现同样的效果
-            folderico: true  //是否显示节点文件夹的图标。默认为false。你也可以对节点的DOM加入类“treeview-folder”来实现同样的效果
+            nodeEvent: true, //是否将节点标题的点击也绑定菜单收缩展开的事件。默认为true
+            unique: false, //同级节点是否互斥。默认为false
+            animate: 200, //动画效果。0为无效果。默认为200
+            style: 'red', //菜单风格。目前有默认,灰色,红色,黑色,fam 共5种风格，风格可以通过添加CSS来增加。你也可以直接对根节点加入类“treeview-风格名称”来实现同样的效果
+            fileico: true, //是否显示文件的图标。默认为false。你也可以对节点的DOM加入类“treeview-file”来实现同样的效果
+            folderico: true //是否显示节点文件夹的图标。默认为false。你也可以对节点的DOM加入类“treeview-folder”来实现同样的效果
         });
 
         ApplyTreeViewCss(treeContainer);
@@ -490,7 +490,7 @@
         var beginTime = new Date(startTime);
         var endTime = beginTime.setMinutes(beginTime.getMinutes() + parseInt(keepingTime));
 
-        var handler = setInterval(function () {
+        var handler = setInterval(function() {
             var now = new Date();
             var dif = (endTime - now) / 1000;
 
@@ -536,48 +536,48 @@
     var mercurius = {
         BaseUrl: '',
         FixedTableIndex: 0,
-        CloseWindow: function () {
+        CloseWindow: function() {
             window.opener = null;
             window.open('', '_self');
             window.close();
         },
         BeginLoading: BeginLoading,
         EndLoading: EndLoading,
-        OnWaitProcess: function (callback) {
+        OnWaitProcess: function(callback) {
             mercurius.BeginLoading();
 
             var result = callback();
 
             return result;
         },
-        Reloading: function () {
-            return mercurius.OnWaitProcess(function () {
+        Reloading: function() {
+            return mercurius.OnWaitProcess(function() {
                 mercurius.BeginLoading();
                 window.location.reload();
 
                 return false;
             });
         },
-        GoHomePage: function () {
-            return mercurius.OnWaitProcess(function () {
+        GoHomePage: function() {
+            return mercurius.OnWaitProcess(function() {
                 $('#nav_1').addClass('selected');
                 OnSidebarItemClick(mercurius.BaseUrl + '/Home/Index', '首页', 'Iframe');
 
                 return false;
             });
         },
-        RefreshPage: function () {
+        RefreshPage: function() {
             window.location.reload();
 
             return false;
         },
-        Back: function () {
-            mercurius.OnWaitProcess(function () {
+        Back: function() {
+            mercurius.OnWaitProcess(function() {
                 window.history.back(-1);
             });
         },
-        NavigateUrl: function (url) {
-            return mercurius.OnWaitProcess(function () {
+        NavigateUrl: function(url) {
+            return mercurius.OnWaitProcess(function() {
                 window.location.href = url;
 
                 return false;
@@ -592,28 +592,26 @@
         HasSingleRowSelected: HasSingleRowSelected,
         HasAnyRowSelected: HasAnyRowSelected,
         IsNullOrEmpty: IsNullOrEmpty,
-        RemoveData: function (url, parm) {
-            ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function (r) {
-                Ajax(url, parm, function (rs) {
+        RemoveData: function(url, parm) {
+            ShowConfirmMessage("此操作不可恢复，您确定要删除吗？", function(r) {
+                Ajax(url, parm, function(rs) {
                     if (rs.IsSuccess) {
                         ShowTipsMessage("删除成功！", 6000, 4);
                         mercurius.Reloading();
-                    }
-                    else {
+                    } else {
                         ShowTipsMessage("<span style='color:red'>删除失败，失败原因：" + rs.ErrorMessage + "</span>", 6000, 5);
                     }
                 });
             });
         },
-        OnRefresh: function (url, parm) {
-            ShowConfirmMessage("确定要刷新数据吗，此前的数据将被清空？", function (r) {
+        OnRefresh: function(url, parm) {
+            ShowConfirmMessage("确定要刷新数据吗，此前的数据将被清空？", function(r) {
                 if (r) {
-                    Ajax(url, parm, function (rs) {
+                    Ajax(url, parm, function(rs) {
                         if (rs.IsSuccess) {
                             ShowTipsMessage("刷新成功！", 2000, 4);
                             mercurius.Reloading();
-                        }
-                        else {
+                        } else {
                             ShowTipsMessage("<span style='color:red'>刷新失败，请稍后重试！  失败原因：" + rs.Data + "</span>", 4000, 5);
                         }
                     });
@@ -630,8 +628,8 @@
         ApplyTableStyle: ApplyTableStyle,
         ShowTreeView: ShowTreeView,
         Countdown: Countdown,
-        tips: function () {
-            $('[data-tip]').each(function () {
+        tips: function() {
+            $('[data-tip]').each(function() {
                 var $this = this;
                 var text = $(this).text().trim();
                 var maxLength = $(this).attr('data-tip');
@@ -642,7 +640,7 @@
                 $(this).text(text.length > maxLength ? text.substr(0, maxLength) + '...' : text);
             }).tooltip();
         },
-        ShowDatePicker:function() {
+        ShowDatePicker: function() {
             $('.date,[validate-rule=date],[validate-rule=dateOrNull]').datetimepicker({
                 format: 'L',
                 showClear: true,

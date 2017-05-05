@@ -48,7 +48,7 @@
 @Html.RenderAccessibleButtons()
 @Html.DataGridFor(Model,
     t => t.Id("table1")
-          .RowData(m => m.Id)
+          .RowData("data-id", m => m.Id)
           .CustomColumn(@<input type="checkbox" value="@item.Id" name="checkbox" />,@<label class="check-all" title="全选"></label>, 40, "text-center")
           .CustomColumn(@<i class="@item.Image" style="font-size: 1.5em;"></i>, "图标", 50, "text-center")
           .Column(c => c.Name, "快捷功能", 100)

@@ -595,17 +595,7 @@
             });
 
             $(formSelector).on('submit', function () {
-                formFilds.each(function () {
-                    var error = ValidElement(this);
-
-                    if (error) {
-                        addErrorMessage(this, error);
-                    } else {
-                        removeErrorMessage(this);
-                    }
-                });
-
-                return $(formSelector).find('.has-error').length == 0;
+                return IsValid(formSelector);
             });
         }
     }
@@ -932,7 +922,7 @@
                 }
             });
         } else {
-            $(obj).on("input propertychange", function () {
+            $(obj).on("input propertychange change", function () {
                 var error = ValidElement(obj);
 
                 if (error) {
