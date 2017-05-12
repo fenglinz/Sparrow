@@ -512,6 +512,7 @@ Create Table [RBAC].[Role](
   [Id] NVARCHAR (36) Primary Key,
   [ParentId] NVARCHAR (36) NULL,
   [Name] NVARCHAR (100) NULL,
+  [Permissions] NVARCHAR (MAX) NULL,
   [Sort] INT NULL,
   [Remark] NVARCHAR (500) NULL,
   [CreateUserId] NVARCHAR (36) NULL,
@@ -527,6 +528,8 @@ GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '父角色编号' ,'SCHEMA', 'RBAC', 'TABLE', 'Role', 'COLUMN', 'ParentId';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '名称' ,'SCHEMA', 'RBAC', 'TABLE', 'Role', 'COLUMN', 'Name';
+GO
+EXEC sys.sp_addextendedproperty 'MS_Description', '权限' ,'SCHEMA', 'RBAC', 'TABLE', 'Role', 'COLUMN', 'Permissions';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '排序号' ,'SCHEMA', 'RBAC', 'TABLE', 'Role', 'COLUMN', 'Sort';
 GO
@@ -544,9 +547,12 @@ GO
 Create Table [RBAC].[RolePermission](
   [Id] NVARCHAR (36) Primary Key,
   [RoleId] NVARCHAR (36) NULL,
+  [Permissions] TEXT NULL,
   [SystemMenuId] NVARCHAR (36) NULL,
   [CreateUserId] NVARCHAR (36) NULL,
-  [CreateDateTime] DATETIME NULL
+  [CreateDateTime] DATETIME NULL,
+  [ModifyUserId] NVARCHAR (36) NULL,
+  [ModifyDateTime] DATETIME NULL
 );
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '角色权限', 'SCHEMA', 'RBAC', 'TABLE', 'RolePermission', NULL, NULL;
@@ -555,11 +561,17 @@ EXEC sys.sp_addextendedproperty 'MS_Description', '编号' ,'SCHEMA', 'RBAC', 'T
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '角色编号' ,'SCHEMA', 'RBAC', 'TABLE', 'RolePermission', 'COLUMN', 'RoleId';
 GO
+EXEC sys.sp_addextendedproperty 'MS_Description', '角色拥有的权限' ,'SCHEMA', 'RBAC', 'TABLE', 'RolePermission', 'COLUMN', 'Permissions';
+GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '菜单编号' ,'SCHEMA', 'RBAC', 'TABLE', 'RolePermission', 'COLUMN', 'SystemMenuId';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '创建者编号' ,'SCHEMA', 'RBAC', 'TABLE', 'RolePermission', 'COLUMN', 'CreateUserId';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '创建时间' ,'SCHEMA', 'RBAC', 'TABLE', 'RolePermission', 'COLUMN', 'CreateDateTime';
+GO
+EXEC sys.sp_addextendedproperty 'MS_Description', 'ModifyUserId' ,'SCHEMA', 'RBAC', 'TABLE', 'RolePermission', 'COLUMN', 'ModifyUserId';
+GO
+EXEC sys.sp_addextendedproperty 'MS_Description', 'ModifyDateTime' ,'SCHEMA', 'RBAC', 'TABLE', 'RolePermission', 'COLUMN', 'ModifyDateTime';
 GO
 
 Create Table [RBAC].[StaffOrganize](
@@ -592,6 +604,7 @@ Create Table [RBAC].[SystemMenu](
   [Category] INT NULL,
   [NavigateUrl] NVARCHAR (400) NULL,
   [Target] NVARCHAR (100) NULL,
+  [Buttons] NVARCHAR (MAX) NULL,
   [Sort] INT NULL,
   [Status] INT NULL,
   [CreateUserId] NVARCHAR (36) NULL,
@@ -617,6 +630,8 @@ GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '导航地址' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'NavigateUrl';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '目标' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Target';
+GO
+EXEC sys.sp_addextendedproperty 'MS_Description', '按钮信息' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Buttons';
 GO
 EXEC sys.sp_addextendedproperty 'MS_Description', '排序码' ,'SCHEMA', 'RBAC', 'TABLE', 'SystemMenu', 'COLUMN', 'Sort';
 GO

@@ -1309,7 +1309,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>53680</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://127.0.0.1:8000/Backstage</IISUrl>
+          <IISUrl>http://127.0.0.1:3100/Backstage</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
