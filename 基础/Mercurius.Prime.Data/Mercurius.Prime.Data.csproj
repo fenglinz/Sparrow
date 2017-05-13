@@ -37,15 +37,15 @@
       <HintPath>..\..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="IBatisNet.Common, Version=1.6.2.0, Culture=neutral, PublicKeyToken=ed781d9fc396c6ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\IBatisNet45.1.6.2\lib\net45\IBatisNet.Common.dll</HintPath>
+      <HintPath>..\..\packages\IBatisNet45.1.6.2\lib\net45\IBatisNet.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="IBatisNet.Common.Logging.Log4Net, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IBatisNet45.1.6.2\lib\net45\IBatisNet.Common.Logging.Log4Net.dll</HintPath>
+      <HintPath>..\..\packages\IBatisNet45.1.6.2\lib\net45\IBatisNet.Common.Logging.Log4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="IBatisNet.DataMapper, Version=1.6.2.0, Culture=neutral, PublicKeyToken=ed781d9fc396c6ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\IBatisNet45.1.6.2\lib\net45\IBatisNet.DataMapper.dll</HintPath>
+      <HintPath>..\..\packages\IBatisNet45.1.6.2\lib\net45\IBatisNet.DataMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
