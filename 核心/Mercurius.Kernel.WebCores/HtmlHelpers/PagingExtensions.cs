@@ -134,23 +134,25 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
                 }
 
                 // 计算分页栏上的起始页码。
-                int startIndex = 0;
-                int endIndex = showNumbers;
+                var startIndex = 0;
+                var endIndex = showNumbers;
 
                 if (currentIndex > showNumbers)
                 {
-                    startIndex = (currentIndex / showNumbers) * showNumbers;
-
                     if (currentIndex % showNumbers == 0)
                     {
-                        startIndex = ((currentIndex / showNumbers) - 1) * showNumbers;
+                        startIndex = (currentIndex / showNumbers - 1) * showNumbers;
+                    }
+                    else
+                    {
+                        startIndex = currentIndex / showNumbers * showNumbers;
                     }
 
                     endIndex = startIndex + showNumbers;
 
-                    if (endIndex >= pageCount)
+                    if (endIndex > pageCount - showNumbers)
                     {
-                        startIndex = pageCount - showNumbers - 1;
+                        startIndex = pageCount - showNumbers;
                     }
 
                     htmlString.Append(
