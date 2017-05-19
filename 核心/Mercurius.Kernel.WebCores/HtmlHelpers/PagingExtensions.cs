@@ -58,11 +58,6 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
             actionName = actionName ?? Convert.ToString(routeDatas["action"]);
             controllerName = controllerName ?? Convert.ToString(routeDatas["controller"]);
 
-            if (pageCount <= 1)
-            {
-                return MvcHtmlString.Create(string.Empty);
-            }
-
             RouteValueDictionary routeDict;
             var htmlString = new StringBuilder();
 
