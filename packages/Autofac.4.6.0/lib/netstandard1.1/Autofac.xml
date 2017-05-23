@@ -1799,6 +1799,26 @@
             was made.</param>
             <param name="componentRegistration">The component registration.</param>
         </member>
+        <member name="T:Autofac.Core.ComponentRegistrationExtensions">
+            <summary>
+            Extension methods for <see cref="T:Autofac.Core.IComponentRegistration"/>.
+            </summary>
+        </member>
+        <member name="M:Autofac.Core.ComponentRegistrationExtensions.MatchingLifetimeScopeTags(Autofac.Core.IComponentRegistration)">
+            <summary>
+            For components registered instance-per-matching-lifetime-scope, retrieves the set
+            of lifetime scope tags to match.
+            </summary>
+            <param name="registration">
+            The <see cref="T:Autofac.Core.IComponentRegistration"/> to query for matching lifetime scope tags.
+            </param>
+            <returns>
+            If the component is registered instance-per-matching-lifetime-scope, this method returns
+            the set of matching lifetime scope tags. If the component is singleton, instance-per-scope,
+            instance-per-dependency, or otherwise not an instance-per-matching-lifetime-scope
+            component, this method returns an empty enumeration.
+            </returns>
+        </member>
         <member name="T:Autofac.Core.ConstantParameter">
             <summary>
             Base class for parameters that provide a constant value.
@@ -2758,6 +2778,15 @@
             Initializes a new instance of the <see cref="T:Autofac.Core.Lifetime.MatchingScopeLifetime"/> class.
             </summary>
             <param name="lifetimeScopeTagsToMatch">The tags applied to matching scopes.</param>
+        </member>
+        <member name="P:Autofac.Core.Lifetime.MatchingScopeLifetime.TagsToMatch">
+            <summary>
+            Gets the list of lifetime scope tags to match.
+            </summary>
+            <value>
+            An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of object tags to match
+            when searching for the lifetime scope for the component.
+            </value>
         </member>
         <member name="M:Autofac.Core.Lifetime.MatchingScopeLifetime.FindScope(Autofac.Core.ISharingLifetimeScope)">
             <summary>
