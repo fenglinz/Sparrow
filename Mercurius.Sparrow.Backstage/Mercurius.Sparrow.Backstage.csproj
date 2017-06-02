@@ -786,8 +786,8 @@
     <Content Include="Scripts\Pdf\web\viewer.css" />
     <Content Include="Scripts\Pdf\web\viewer.html" />
     <Content Include="Scripts\Pdf\web\viewer.js" />
-    <Content Include="Scripts\plugins\canvas-to-blob.js" />
-    <Content Include="Scripts\plugins\canvas-to-blob.min.js" />
+    <Content Include="Scripts\plugins\piexif.js" />
+    <Content Include="Scripts\plugins\piexif.min.js" />
     <Content Include="Scripts\plugins\purify.js" />
     <Content Include="Scripts\plugins\purify.min.js" />
     <Content Include="Scripts\plugins\sortable.js" />
