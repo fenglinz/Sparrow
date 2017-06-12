@@ -32,7 +32,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         protected void ShowMessage(string message,
             MessageBoxImage icon = MessageBoxImage.Information, string caption = null)
         {
-            if (caption.IsNullOrWhiteSpace())
+            if (caption.IsNullOrEmpty())
             {
                 switch (icon)
                 {
