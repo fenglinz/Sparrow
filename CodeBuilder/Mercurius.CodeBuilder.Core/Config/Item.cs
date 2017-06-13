@@ -136,7 +136,7 @@ namespace Mercurius.CodeBuilder.Core.Config
 
             if (!string.IsNullOrWhiteSpace(table.ModuleName))
             {
-                folder = string.Format(@"{0}\{1}", folder, table.ModuleName);
+                folder = string.Format(@"{0}\{1}", folder, table.ModuleName.Replace(".", "\\"));
             }
 
             if (!string.IsNullOrWhiteSpace(this.SubFolder))

@@ -436,7 +436,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         }
                         else
                         {
-                            this.Configuration.Tables.AddRange(this.Tables.Where(t => t.Name?.ToLower().Contains(this.SearchText.ToLower()) == null || t.Description?.ToLower().Contains(this.SearchText.ToLower()) == true));
+                            this.Configuration.Tables.AddRange(this.Tables.Where(t => t.Name?.ToLower().Contains(this.SearchText.ToLower()) == true || t.Description?.ToLower().Contains(this.SearchText.ToLower()) == true));
                         }
                     }
                 }));

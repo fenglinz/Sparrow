@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Mercurius.CodeBuilder.UI
 {
