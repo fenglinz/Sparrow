@@ -79,7 +79,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._selectAllText != value)
                 {
                     this._selectAllText = value;
-                    this.OnPropertyChanged(() => this.SelectAllText);
+                    this.RaisePropertyChanged(nameof(SelectAllCommand));
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 {
                     this._searchText = value.Trim();
                     this._searchTextChanged = true;
-                    this.OnPropertyChanged(() => this.SearchText);
+                    this.RaisePropertyChanged(nameof(SearchText));
                 }
             }
         }
@@ -436,7 +436,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         }
                         else
                         {
-                            this.Configuration.Tables.AddRange(this.Tables.Where(t => t.Name.ToLower().Contains(this.SearchText.ToLower()) || t.Description.ToLower().Contains(this.SearchText.ToLower())));
+                            this.Configuration.Tables.AddRange(this.Tables.Where(t => t.Name?.ToLower().Contains(this.SearchText.ToLower()) == null || t.Description?.ToLower().Contains(this.SearchText.ToLower()) == true));
                         }
                     }
                 }));
