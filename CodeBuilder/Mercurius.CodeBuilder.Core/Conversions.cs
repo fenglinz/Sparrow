@@ -53,6 +53,7 @@ namespace Mercurius.CodeBuilder.Core
                 tableElement.SetAttributeValue("hasCreateOrUpdate", table.HasCreateOrUpdate);
                 tableElement.SetAttributeValue("hasRemove", table.HasRemove);
                 tableElement.SetAttributeValue("hasSingleData", table.HasSingleData);
+                tableElement.SetAttributeValue("hasGetAll", table.HasGetAll);
                 tableElement.SetAttributeValue("hasSearchData", table.HasSearchData);
 
                 foreach (var column in table.Columns)

@@ -46,6 +46,9 @@ namespace Mercurius.CodeBuilder.Core
         /// </summary>
         public ConnectedDatabase CurrentDatabase { get; set; }
 
+        /// <summary>
+        /// 当前数据库的多有表集合。
+        /// </summary>
         public ObservableCollection<DbTable> Tables { get; private set; }
 
         #endregion

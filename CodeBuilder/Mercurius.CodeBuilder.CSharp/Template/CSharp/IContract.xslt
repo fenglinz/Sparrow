@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using YlY2PRO.PlatForm.Core.Services;
+using Mercurius.Prime.Core.Services;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {
@@ -85,10 +85,18 @@ using YlY2PRO.PlatForm.Core.Services;
 
       <xsl:if test="count(./table[@hasSearchData='true'])=1">
         /// &lt;summary>
+        /// 获取所有<xsl:value-of select="./table/@description" />信息。
+        /// &lt;/summary>
+        /// &lt;param name="so">查询条件&lt;/param>
+        /// &lt;returns>返回符合条件的<xsl:value-of select="./table/@description" />查询结果&lt;/returns>
+        ResponseSet&lt;<xsl:value-of select="./table/@className"/>> GetAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so);</xsl:if>
+    
+      <xsl:if test="count(./table[@hasSearchData='true'])=1">
+        /// &lt;summary>
         /// 查询并分页获取<xsl:value-of select="./table/@description" />信息。
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
-        /// &lt;returns>返回结果&lt;/returns>
+        /// &lt;returns>返回符合条件的<xsl:value-of select="./table/@description" />查询结果&lt;/returns>
         ResponseSet&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so);</xsl:if>
     }
 }

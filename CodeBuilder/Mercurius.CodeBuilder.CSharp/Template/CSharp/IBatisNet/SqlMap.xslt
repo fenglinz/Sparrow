@@ -45,7 +45,7 @@
       </xsl:if>
       <xsl:text>
       </xsl:text>
-      <xsl:if test="count(./table[@hasSearchData='true'])=1">
+      <xsl:if test="count(./table[@hasSearchData='true'])=1 or count(./table[@hasGetAll='true'])=1">
       <xsl:call-template name="search" />
       <xsl:text>
 

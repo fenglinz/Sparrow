@@ -43,15 +43,7 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
         /// &lt;returns>返回结果&lt;/returns>
         public Response Create(<xsl:value-of select="./table/@className" /><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
-            return this.InvokeService(
-                nameof(Create),
-                () => 
-                {
-                    this.Persistence.Create(NS, "Create", <xsl:value-of select="./table/@camelClassName" />);
-
-                    this.ClearCache&lt;<xsl:value-of select="./table/@className" />&gt;();
-                },
-                <xsl:value-of select="./table/@camelClassName" />);
+            return this.Update&lt;<xsl:value-of select="./table/@className" />&gt;(NS, "Create", <xsl:value-of select="./table/@camelClassName" />);
         }
         </xsl:if>
         <xsl:if test="count(./table[@hasUpdate='true'])=1">
@@ -62,15 +54,7 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
         /// &lt;returns>返回结果&lt;/returns>
         public Response Update(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
-            return this.InvokeService(
-                nameof(Update),
-                () =>
-                {
-                    this.Persistence.Update(NS, "Update", <xsl:value-of select="./table/@camelClassName" />);
-
-                    this.ClearCache&lt;<xsl:value-of select="./table/@className" />&gt;();
-                },
-                <xsl:value-of select="./table/@camelClassName"/>);
+            return this.Update&lt;<xsl:value-of select="./table/@className" />&gt;(NS, "Update", <xsl:value-of select="./table/@camelClassName" />);
         }
         </xsl:if>
         <xsl:if test="count(./table[@hasCreateOrUpdate='true'])=1">
@@ -81,15 +65,7 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
         /// &lt;returns>返回添加或保存结果&lt;/returns>
         public Response CreateOrUpdate(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
-            return this.InvokeService(
-                nameof(CreateOrUpdate),
-                () =>
-                {
-                    this.Persistence.Update(NS, "CreateOrUpdate", <xsl:value-of select="./table/@camelClassName"/>);
-                    
-                    this.ClearCache&lt;<xsl:value-of select="./table/@className" />&gt;();
-                },
-                <xsl:value-of select="./table/@camelClassName"/>);
+            return this.Update&lt;<xsl:value-of select="./table/@className" />&gt;(NS, "CreateOrUpdate", <xsl:value-of select="./table/@camelClassName"/>);
         }
         </xsl:if>
         <xsl:if test="count(./table[@hasRemove='true'])=1">
@@ -102,12 +78,7 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
         /// &lt;returns>返回删除结果&lt;/returns>
         public Response Remove(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
         {
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", id);
-
-                this.ClearCache&lt;<xsl:value-of select="./table/@className" />&gt;();
-            }, id);
+            return this.Delete&lt;<xsl:value-of select="./table/@className" />&gt;(NS, "Remove", id);
         }
         </xsl:when>
         <xsl:otherwise>
@@ -129,12 +100,7 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
         {
             var args = <xsl:call-template name="GetByIdParams" />;
              
-            return this.InvokeService(nameof(Remove), () =>
-            {
-                this.Persistence.Delete(NS, "Remove", args);
-
-                this.ClearCache&lt;<xsl:value-of select="./table/@className" />&gt;();
-            }, args);
+            return this.Delete&lt;<xsl:value-of select="./table/@className" />&gt;(NS, "Remove", args);
         }
         </xsl:otherwise>
       </xsl:choose></xsl:if>
@@ -148,10 +114,7 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
         public Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
         {
-            return this.InvokeService(
-                nameof(Get<xsl:value-of select="./table/@className"/>ById),
-                () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(NS, "GetById", id),
-                id);
+            return this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(NS, "GetById", id);
         }
         </xsl:when>
         <xsl:otherwise>
@@ -171,13 +134,24 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
         {
             var args = <xsl:call-template name="GetByIdParams" />;
 
-            return this.InvokeService(
-                nameof(Get<xsl:value-of select="./table/@className"/>ById),
-                () => this.Persistence.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(NS, "GetById", args),
-                args);
+            return this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>>(NS, "GetById", args);
         }
         </xsl:otherwise>
       </xsl:choose>
+      </xsl:if>
+
+      <xsl:if test="count(./table[@hasGetAll='true'])=1">
+        /// &lt;summary>
+        /// 获取所有<xsl:value-of select="./table/@description" />信息。
+        /// &lt;/summary>
+        /// &lt;param name="so">查询条件&lt;/param>
+        /// &lt;returns>返回符合条件的<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
+        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>> GetAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
+        {
+            so = so ?? new <xsl:value-of select="./table/@className" />SO();
+
+            return this.QueryForList&lt;<xsl:value-of select="./table/@className"/>>(NS, "Search<xsl:value-of select="./table/@pluralClassName" />", so);
+        }
       </xsl:if>
 
         <xsl:if test="count(./table[@hasSearchData='true'])=1">
@@ -185,15 +159,12 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
         /// 查询并分页获取<xsl:value-of select="./table/@description" />信息。
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
-        /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>
+        /// &lt;returns>返回符合条件的<xsl:value-of select="./table/@description" />分页查询结果&lt;/returns>
         public ResponseSet&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
         {
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
 
-            return this.InvokePagingService(
-                nameof(Search<xsl:value-of select="./table/@pluralClassName" />),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList&lt;<xsl:value-of select="./table/@className"/>>(NS, "Search<xsl:value-of select="./table/@pluralClassName" />", out totalRecords, so),
-                so);
+            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className"/>>(NS, "Search<xsl:value-of select="./table/@pluralClassName" />", so);
         }
       </xsl:if>
         #endregion

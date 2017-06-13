@@ -247,6 +247,7 @@
                                 <CheckBox Content="添加并修改" IsChecked="{Binding HasCreateOrUpdate}" />
                                 <CheckBox Content="删除" IsChecked="{Binding HasRemove}" />
                                 <CheckBox Content="单条数据" IsChecked="{Binding HasSingleData}" />
+                                <CheckBox Content="所有数据" IsChecked="{Binding HasGetAll}" />
                                 <CheckBox Content="分页查询" IsChecked="{Binding HasSearchData}" />
                             </StackPanel>
                         </Grid>

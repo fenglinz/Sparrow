@@ -2,6 +2,9 @@
 
 namespace Mercurius.CodeBuilder.Core.Database
 {
+    /// <summary>
+    /// 连接的数据库信息。
+    /// </summary>
     public class ConnectedDatabase
     {
         #region 属性

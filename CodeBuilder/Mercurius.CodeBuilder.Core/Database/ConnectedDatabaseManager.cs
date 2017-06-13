@@ -6,6 +6,9 @@ using Mercurius.Prime.Core.Ado;
 
 namespace Mercurius.CodeBuilder.Core.Database
 {
+    /// <summary>
+    /// 连接数据库管理类。
+    /// </summary>
     public static class ConnectedDatabaseManager
     {
         #region 公开方法

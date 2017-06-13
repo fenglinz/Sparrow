@@ -28,6 +28,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         private bool _hasCreateOrUpdate = false;
         private bool _hasRemove = true;
         private bool _hasSingleData = true;
+        private bool _hasGetAll = false;
         private bool _hasSearchData = true;
 
         #endregion
@@ -55,7 +56,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._IsEnabled != value)
                 {
                     this._IsEnabled = value;
-                    this.RaisePropertyChanged("IsEnabled");
+                    this.RaisePropertyChanged(nameof(IsEnabled));
                 }
             }
         }
@@ -71,7 +72,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._moduleName != value)
                 {
                     this._moduleName = value;
-                    this.RaisePropertyChanged("ModuleName");
+                    this.RaisePropertyChanged(nameof(ModuleName));
                 }
             }
         }
@@ -87,7 +88,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._moduleDescription != value)
                 {
                     this._moduleDescription = value;
-                    this.RaisePropertyChanged("ModuleDescription");
+                    this.RaisePropertyChanged(nameof(ModuleDescription));
                 }
             }
         }
@@ -108,7 +109,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._className != value)
                 {
                     this._className = value;
-                    this.RaisePropertyChanged("ClassName");
+                    this.RaisePropertyChanged(nameof(ClassName));
                 }
             }
         }
@@ -129,7 +130,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._description != value)
                 {
                     this._description = value;
-                    this.RaisePropertyChanged("Description");
+                    this.RaisePropertyChanged(nameof(Description));
                 }
             }
         }
@@ -153,7 +154,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._isEntityOnly != value)
                 {
                     this._isEntityOnly = value;
-                    this.RaisePropertyChanged("IsEntityOnly");
+                    this.RaisePropertyChanged(nameof(IsEntityOnly));
                 }
             }
         }
@@ -169,7 +170,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._hasCreate != value)
                 {
                     this._hasCreate = value;
-                    this.RaisePropertyChanged("HasCreate");
+                    this.RaisePropertyChanged(nameof(HasCreate));
                 }
             }
         }
@@ -185,7 +186,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._hasUpdate != value)
                 {
                     this._hasUpdate = value;
-                    this.RaisePropertyChanged("HasUpdate");
+                    this.RaisePropertyChanged(nameof(HasUpdate));
                 }
             }
         }
@@ -201,7 +202,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._hasCreateOrUpdate != value)
                 {
                     this._hasCreateOrUpdate = value;
-                    this.RaisePropertyChanged("HasCreateOrUpdate");
+                    this.RaisePropertyChanged(nameof(HasCreateOrUpdate));
                 }
             }
         }
@@ -217,7 +218,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._hasRemove != value)
                 {
                     this._hasRemove = value;
-                    this.RaisePropertyChanged("HasRemove");
+                    this.RaisePropertyChanged(nameof(HasRemove));
                 }
             }
         }
@@ -233,7 +234,20 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._hasSingleData != value)
                 {
                     this._hasSingleData = value;
-                    this.RaisePropertyChanged("HasSingleData");
+                    this.RaisePropertyChanged(nameof(HasSingleData));
+                }
+            }
+        }
+
+        public bool HasGetAll
+        {
+            get { return this._hasGetAll; }
+            set
+            {
+                if (this._hasGetAll!=value)
+                {
+                    this._hasGetAll = value;
+                    this.RaisePropertyChanged(nameof(HasGetAll));
                 }
             }
         }
@@ -249,7 +263,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                 if (this._hasSearchData != value)
                 {
                     this._hasSearchData = value;
-                    this.RaisePropertyChanged("HasSearchData");
+                    this.RaisePropertyChanged(nameof(HasSearchData));
                 }
             }
         }

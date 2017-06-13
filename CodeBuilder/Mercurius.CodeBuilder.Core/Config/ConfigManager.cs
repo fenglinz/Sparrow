@@ -38,8 +38,13 @@ namespace Mercurius.CodeBuilder.Core.Config
 
         #endregion
 
-        #region 属性
+        #region 公开方法
 
+        /// <summary>
+        /// 获取所有的配置信息。
+        /// </summary>
+        /// <param name="orm">Orm中间件</param>
+        /// <returns>配置信息集合</returns>
         public static ItemCollection GetItems(OrmMiddleware orm)
         {
             if (dictItems.ContainsKey(orm))
@@ -73,11 +78,7 @@ namespace Mercurius.CodeBuilder.Core.Config
 
             return _sections;
         }
-
-        #endregion
-
-        #region 公开方法
-
+        
         /// <summary>
         /// 获取配置项信息索引。
         /// </summary>
