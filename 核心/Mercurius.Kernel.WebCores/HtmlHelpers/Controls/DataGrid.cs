@@ -345,7 +345,7 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers.Controls
             this._actionName = actionName;
             this._controllerName = controllerName;
             this._routeValues = routeValues;
-            this._pageSize = pageSize ?? DefaultPageSize;
+            this._pageSize = this._htmlHelper.ViewContext.HttpContext.Request.Params["pageSize"].AsInt(DefaultPageSize);
             this._showNumbers = showNumbers;
             this._ajaxOptions = ajaxOptions;
 

@@ -46,8 +46,7 @@ namespace Mercurius.Kernel.WebCores.HtmlHelpers
             int showNumbers = 5,
             AjaxOptions ajaxOptions = null)
         {
-
-            pageSize = pageSize ?? DefaultPageSize;
+            pageSize = html.ViewContext.HttpContext.Request.Params["pageSize"].AsInt(DefaultPageSize);
 
             var currentIndex = html.GetCurrentIndex();
             var pageCount = totalRecords % pageSize.Value == 0 ?
