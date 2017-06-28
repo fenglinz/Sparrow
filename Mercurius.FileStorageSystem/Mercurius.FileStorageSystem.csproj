@@ -289,10 +289,16 @@
     </Content>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-fileinput\css\fileinput-rtl.css" />
+    <Content Include="Content\bootstrap-fileinput\css\fileinput-rtl.min.css" />
     <Content Include="Content\bootstrap-fileinput\css\fileinput.css" />
     <Content Include="Content\bootstrap-fileinput\css\fileinput.min.css" />
     <Content Include="Content\bootstrap-fileinput\img\loading-sm.gif" />
     <Content Include="Content\bootstrap-fileinput\img\loading.gif" />
+    <Content Include="Content\bootstrap-fileinput\themes\explorer-fa\theme.css" />
+    <Content Include="Content\bootstrap-fileinput\themes\explorer-fa\theme.js" />
+    <Content Include="Content\bootstrap-fileinput\themes\explorer-fa\theme.min.css" />
+    <Content Include="Content\bootstrap-fileinput\themes\explorer-fa\theme.min.js" />
     <Content Include="Content\bootstrap-fileinput\themes\explorer\theme.css" />
     <Content Include="Content\bootstrap-fileinput\themes\explorer\theme.js" />
     <Content Include="Content\bootstrap-fileinput\themes\explorer\theme.min.css" />
