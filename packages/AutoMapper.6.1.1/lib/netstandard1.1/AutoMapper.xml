@@ -1163,6 +1163,11 @@
             <typeparam name="TSourceMember">Member type of the source member to use</typeparam>
             <param name="sourceMember">Expression referencing the source member to map against</param>
         </member>
+        <member name="M:AutoMapper.IPathConfigurationExpression`2.Ignore">
+            <summary>
+            Ignore this member for configuration validation and skip during mapping
+            </summary>
+        </member>
         <member name="T:AutoMapper.IProfileExpression">
             <summary>
             Configuration for profile-specific maps
