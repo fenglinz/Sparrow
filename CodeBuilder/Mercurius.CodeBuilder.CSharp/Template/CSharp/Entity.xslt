@@ -12,11 +12,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 <xsl:call-template name="namespace" />
 {
     <xsl:call-template name="classDescription" />
+    [Table("<xsl:value-of select="./table/@table"/>")]
     public class <xsl:value-of select="./table/@className" />
     {
         #region 属性
@@ -31,9 +33,8 @@ using System.Text;
         /// <![CDATA[<summary>]]>
         /// <xsl:value-of select="@description" />。
         /// <![CDATA[</summary>]]>
-        [Display(Name = "<xsl:value-of select="@description"/>")]<xsl:choose>
-      <xsl:when test="(@basicType='string' or @basicType='String') and @length!='-1'">
-        [StringLength(<xsl:value-of select="@length" />, ErrorMessage = "<xsl:value-of select="@description" />不能超过{1}个字符。")]
+        <xsl:if test="@isPrimaryKey='true'">[Key]
+        </xsl:if>[Column("<xsl:value-of select="@name"/>")]<xsl:choose><xsl:when test="(@basicType='string' or @basicType='String') and @length!='-1'">
         public virtual <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
         </xsl:when>
         <xsl:otherwise>
