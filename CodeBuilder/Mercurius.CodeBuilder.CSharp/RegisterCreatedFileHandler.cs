@@ -11,6 +11,11 @@ namespace Mercurius.CodeBuilder.CSharp
             var projectFile = this.GetPorjectFile(configuration, item);
             var itemGroupItemType = this.GetItemGroupItemType(item.Extension);
 
+            if (item.Parameters?.ContainsKey("References") == true)
+            {
+                ProjectFileConfigurationManager.AddReferences(projectFile, item);
+            }
+
             ProjectFileConfigurationManager.AddItemGroupItem(projectFile, fileName, itemGroupItemType);
         }
     }

@@ -34,8 +34,14 @@ namespace Mercurius.CodeBuilder.CSharp
                         continue;
                     }
 
+                    var refItem = new XElement(xmlns + "Reference");
 
+                    refItem.SetAttributeValue("Include", a);
+
+                    xdocument.Descendants(xmlns + "ItemGroup").First().Add(refItem);
                 }
+
+                xdocument.Save(projectFile, SaveOptions.None);
             }
 
         }
