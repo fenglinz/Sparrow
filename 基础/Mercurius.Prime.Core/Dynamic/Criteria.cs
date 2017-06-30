@@ -19,7 +19,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// 查询条件。
         /// </summary>
         [JsonProperty]
-        internal List<Condition> Conditions { get; }
+        internal List<Restriction> Conditions { get; }
 
         /// <summary>
         /// 排序条件。
@@ -30,7 +30,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <summary>
         /// 有效的查询条件。
         /// </summary>
-        internal IList<Condition> EffectiveConditions => this.Conditions?.Where(c => (int)c.Op >= 6 || !string.IsNullOrWhiteSpace(c.Value?.ToString())).ToList();
+        internal IList<Restriction> EffectiveConditions => this.Conditions?.Where(c => (int)c.Op >= 6 || !string.IsNullOrWhiteSpace(c.Value?.ToString())).ToList();
 
         public DynamicQuery DynamicQuery { get; set; }
 
@@ -38,10 +38,13 @@ namespace Mercurius.Prime.Core.Dynamic
 
         #region 构造方法
 
+        /// <summary>
+        /// 默认构造方法。
+        /// </summary>
         public Criteria()
         {
             this.Orders = new List<Order>();
-            this.Conditions = new List<Condition>();
+            this.Conditions = new List<Restriction>();
         }
 
         /// <summary>
@@ -71,7 +74,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// </summary>
         /// <param name="condition">查询条件</param>
         /// <returns>查询条件集合</returns>
-        public Criteria And(Condition condition)
+        public Criteria And(Restriction condition)
         {
             condition.JoinType = "AND";
             this.Conditions.Add(condition);
@@ -84,7 +87,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// </summary>
         /// <param name="condition">查询条件</param>
         /// <returns>查询条件集合</returns>
-        public Criteria Or(Condition condition)
+        public Criteria Or(Restriction condition)
         {
             condition.JoinType = "OR";
             this.Conditions.Add(condition);
@@ -346,7 +349,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>查询条件集合</returns>
         public Criteria<T> And(Expression<Func<T, object>> expression, object value, Op op = Op.Eq)
         {
-            var result = new Condition
+            var result = new Restriction
             {
                 Op = op,
                 Value = value,
@@ -365,7 +368,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <returns>查询条件集合</returns>
         public Criteria<T> Or(Expression<Func<T, object>> expression, object value, Op op = Op.Eq)
         {
-            var result = new Condition
+            var result = new Restriction
             {
                 Op = op,
                 Value = value,

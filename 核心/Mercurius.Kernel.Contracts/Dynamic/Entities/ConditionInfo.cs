@@ -60,14 +60,14 @@ namespace Mercurius.Kernel.Contracts.Dynamic.Entities
         /// 将查询条件实体信息隐式转换为查询条件信息。
         /// </summary>
         /// <param name="info">查询条件实体信息</param>
-        public static explicit operator Condition(ConditionInfo info)
+        public static explicit operator Restriction(ConditionInfo info)
         {
             if (info == null)
             {
                 return null;
             }
 
-            return new Condition
+            return new Restriction
             {
                 PropertyName = info.Column,
                 Op = (Op)info.Op,

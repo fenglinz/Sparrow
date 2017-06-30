@@ -4,7 +4,10 @@ using Microsoft.VisualBasic;
 
 namespace Mercurius.Prime.Core.Dynamic
 {
-    public static class ConditionExtension
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class RestrictionExtension
     {
         #region 公开方法
 
@@ -14,9 +17,9 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="propertyName">属性名</param>
         /// <param name="value">值</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Eq(string propertyName, object value)
+        public static Restriction Eq(string propertyName, object value)
         {
-            return new Condition(propertyName, Op.Eq, value);
+            return new Restriction(propertyName, Op.Eq, value);
         }
 
         /// <summary>
@@ -27,7 +30,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <param name="value">值</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Eq<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
+        public static Restriction Eq<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
         {
             return Eq(expression.GetPropertyName(), value);
         }
@@ -38,9 +41,9 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="propertyName">属性名</param>
         /// <param name="value">值</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Gt(string propertyName, object value)
+        public static Restriction Gt(string propertyName, object value)
         {
-            return new Condition(propertyName, Op.Gt, value);
+            return new Restriction(propertyName, Op.Gt, value);
         }
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <param name="value">值</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Gt<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
+        public static Restriction Gt<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
         {
             return Gt(expression.GetPropertyName(), value);
         }
@@ -62,9 +65,9 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="propertyName">属性名</param>
         /// <param name="value">值</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Ge(string propertyName, object value)
+        public static Restriction Ge(string propertyName, object value)
         {
-            return new Condition(propertyName, Op.Ge, value);
+            return new Restriction(propertyName, Op.Ge, value);
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <param name="value"></param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Ge<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
+        public static Restriction Ge<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
         {
             return Ge(expression.GetPropertyName(), value);
         }
@@ -86,9 +89,9 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="propertyName">属性名</param>
         /// <param name="value">值</param>
         /// <returns>数据查询条件</returns>
-        public static Condition Lt(string propertyName, object value)
+        public static Restriction Lt(string propertyName, object value)
         {
-            return new Condition(propertyName, Op.Lt, value);
+            return new Restriction(propertyName, Op.Lt, value);
         }
 
         /// <summary>
@@ -99,7 +102,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <param name="value">值</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Lt<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
+        public static Restriction Lt<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
         {
             return Lt(expression.GetPropertyName(), value);
         }
@@ -110,9 +113,9 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="propertyName">属性名</param>
         /// <param name="value">值</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Le(string propertyName, object value)
+        public static Restriction Le(string propertyName, object value)
         {
-            return new Condition(propertyName, Op.Le, value);
+            return new Restriction(propertyName, Op.Le, value);
         }
 
         /// <summary>
@@ -123,7 +126,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <param name="value"></param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Le<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
+        public static Restriction Le<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
         {
             return Le(expression.GetPropertyName(), value);
         }
@@ -134,9 +137,9 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="propertyName">属性名</param>
         /// <param name="value">值</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Like(string propertyName, object value)
+        public static Restriction Like(string propertyName, object value)
         {
-            return new Condition(propertyName, Op.Like, value);
+            return new Restriction(propertyName, Op.Like, value);
         }
 
         /// <summary>
@@ -147,7 +150,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <param name="value"></param>
         /// <returns>数据库查询条件</returns>
-        public static Condition Like<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
+        public static Restriction Like<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression, TProperty value)
         {
             return Like(expression.GetPropertyName(), value);
         }
@@ -157,9 +160,9 @@ namespace Mercurius.Prime.Core.Dynamic
         /// </summary>
         /// <param name="propertyName">属性名</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition IsNull(string propertyName)
+        public static Restriction IsNull(string propertyName)
         {
-            return new Condition(propertyName, Op.IsNull, null);
+            return new Restriction(propertyName, Op.IsNull, null);
         }
 
         /// <summary>
@@ -169,7 +172,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <typeparam name="TProperty">属性类型</typeparam>
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition IsNull<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression)
+        public static Restriction IsNull<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression)
         {
             return IsNull(expression.GetPropertyName());
         }
@@ -179,9 +182,9 @@ namespace Mercurius.Prime.Core.Dynamic
         /// </summary>
         /// <param name="propertyName">属性名</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition IsNotNull(string propertyName)
+        public static Restriction IsNotNull(string propertyName)
         {
-            return new Condition(propertyName, Op.IsNotNull, null);
+            return new Restriction(propertyName, Op.IsNotNull, null);
         }
 
         /// <summary>
@@ -191,7 +194,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <typeparam name="TProperty">属性类型</typeparam>
         /// <param name="expression">属性获取Lambda表达式</param>
         /// <returns>数据库查询条件</returns>
-        public static Condition IsNotNull<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression)
+        public static Restriction IsNotNull<TModel, TProperty>(Expression<Func<TModel, TProperty>> expression)
         {
             return IsNotNull(expression.GetPropertyName());
         }

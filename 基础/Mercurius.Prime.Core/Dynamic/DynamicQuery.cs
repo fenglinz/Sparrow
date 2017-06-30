@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
-using static Mercurius.Prime.Core.Dynamic.ConditionExtension;
+using static Mercurius.Prime.Core.Dynamic.RestrictionExtension;
 
 namespace Mercurius.Prime.Core.Dynamic
 {
@@ -44,13 +44,13 @@ namespace Mercurius.Prime.Core.Dynamic
 
             if (conditions != null)
             {
-                if (conditions is Condition)
+                if (conditions is Restriction)
                 {
-                    criteria.Conditions.Add(conditions as Condition);
+                    criteria.Conditions.Add(conditions as Restriction);
                 }
-                else if (conditions is IEnumerable<Condition>)
+                else if (conditions is IEnumerable<Restriction>)
                 {
-                    var items = conditions as IEnumerable<Condition>;
+                    var items = conditions as IEnumerable<Restriction>;
 
                     if (!items.IsEmpty())
                     {
@@ -82,7 +82,7 @@ namespace Mercurius.Prime.Core.Dynamic
         {
             var criteria = new Criteria(this);
 
-            criteria.Conditions.Add(new Condition(propertyName, op, value));
+            criteria.Conditions.Add(new Restriction(propertyName, op, value));
 
             return criteria;
         }
@@ -99,7 +99,7 @@ namespace Mercurius.Prime.Core.Dynamic
         {
             var criteria = new Criteria<T>(this);
 
-            criteria.Conditions.Add(new Condition(expression.GetPropertyName(), op, value));
+            criteria.Conditions.Add(new Restriction(expression.GetPropertyName(), op, value));
 
             return criteria;
         }

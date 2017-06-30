@@ -3,7 +3,7 @@
     /// <summary>
     /// 数据库查询条件。
     /// </summary>
-    public class Condition
+    public class Restriction
     {
         #region 属性
 
@@ -34,7 +34,7 @@
         /// <summary>
         /// 默认构造方法。
         /// </summary>
-        public Condition()
+        public Restriction()
         {
             this.Op = Op.Eq;
             this.JoinType = "AND";
@@ -46,7 +46,7 @@
         /// <param name="column">属性</param>
         /// <param name="op">操作</param>
         /// <param name="value">值</param>
-        internal Condition(string column, Op op, object value)
+        internal Restriction(string column, Op op, object value)
         {
             this.Op = op;
             this.Value = value;

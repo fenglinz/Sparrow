@@ -43,6 +43,16 @@
         /// <summary>
         /// 非null。
         /// </summary>
-        IsNotNull = 7
+        IsNotNull = 7,
+
+        /// <summary>
+        /// 包含。
+        /// </summary>
+        In,
+
+        /// <summary>
+        /// 不包含。
+        /// </summary>
+        NotIn
     }
 }

@@ -68,8 +68,8 @@
     <Compile Include="Data\Excel\IImporter.cs" />
     <Compile Include="Data\ImportExportAttribute.cs" />
     <Compile Include="Data\OptionItem.cs" />
-    <Compile Include="Dynamic\Condition.cs" />
-    <Compile Include="Dynamic\ConditionExtension.cs" />
+    <Compile Include="Dynamic\Restriction.cs" />
+    <Compile Include="Dynamic\RestrictionExtension.cs" />
     <Compile Include="Dynamic\Criteria.cs" />
     <Compile Include="Dynamic\DynamicQuery.cs" />
     <Compile Include="Dynamic\DynamicQueryExtension.cs" />

@@ -46,7 +46,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Controllers
                 }
                 else
                 {
-                    var temps = conditions.Select(c => (Condition)c);
+                    var temps = conditions.Select(c => (Restriction)c);
 
                     model.Conditions = conditions.MergeDatas(model.Conditions, (i1, i2) => i1.Column == i2.Column, (i1, i2) =>
                     {
@@ -91,7 +91,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Controllers
 
                 if (!string.IsNullOrWhiteSpace(conditions))
                 {
-                    model.Conditions = conditions.AsObject<IList<Condition>>();
+                    model.Conditions = conditions.AsObject<IList<Restriction>>();
                     model.DataSource = this.DynamicQuery.Where(model.Conditions).Single(id);
                 }
             }
@@ -125,7 +125,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Controllers
         [IgnorePermissionValid]
         public ActionResult Remove(string id, string conditions)
         {
-            this.DynamicQuery.Where(conditions.AsObject<IList<Condition>>()).Remove(id);
+            this.DynamicQuery.Where(conditions.AsObject<IList<Restriction>>()).Remove(id);
 
             return Json(new { Success = true });
         }
@@ -152,7 +152,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Controllers
 
                 if (!string.IsNullOrWhiteSpace(conditions))
                 {
-                    model.Conditions = conditions.AsObject<IList<Condition>>();
+                    model.Conditions = conditions.AsObject<IList<Restriction>>();
                     model.DataSource = this.DynamicQuery.Where(model.Conditions).Single(id);
                 }
             }

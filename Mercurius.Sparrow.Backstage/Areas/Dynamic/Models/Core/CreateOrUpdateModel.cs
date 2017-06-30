@@ -19,7 +19,7 @@ namespace Mercurius.Sparrow.Backstage.Areas.Dynamic.Models.Core
         /// <summary>
         /// 查询条件。
         /// </summary>
-        public IList<Condition> Conditions { get; set; }
+        public IList<Restriction> Conditions { get; set; }
 
         /// <summary>
         /// 表信息。

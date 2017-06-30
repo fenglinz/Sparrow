@@ -1,12 +1,44 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Mercurius.CodeBuilder.Core.Config;
 
 namespace Mercurius.CodeBuilder.CSharp
 {
     public static class ProjectFileConfigurationManager
     {
         #region 公开方法
+
+        public static void AddReferences(string projectFile, Item item)
+        {
+            if (!File.Exists(projectFile))
+            {
+                return;
+            }
+
+            var xdocument = XDocument.Load(projectFile);
+            XNamespace xmlns = "http://schemas.microsoft.com/developer/msbuild/2003";
+
+            if (item.Parameters?.ContainsKey("References") == true)
+            {
+                var items = item.Parameters["References"].Split(',');
+
+                var references = from c in xdocument.Descendants(xmlns + "Reference")
+                                 where items.Contains(c.Attribute("Include").Value)
+                                 select c.Attribute("Include").Value;
+
+                foreach (var a in items)
+                {
+                    if (references.Contains(a))
+                    {
+                        continue;
+                    }
+
+
+                }
+            }
+
+        }
 
         public static void AddItemGroupItem(string projectFile, string fileName, ItemGroupItemType itemType)
         {

@@ -8,6 +8,7 @@
     subFolder="Entities"
     extension="cs"
     handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
+    parameter="References:System.ComponentModel.DataAnnotations"
     project="" />
   
   <item
