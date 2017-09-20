@@ -14,7 +14,7 @@
 
     $.fn.fileinputLocales['fa'] = {
         fileSingle: 'فایل',
-        filePlural: 'فایل',
+        filePlural: 'فایل‌ها',
         browseLabel: 'مرور &hellip;',
         removeLabel: 'حذف',
         removeTitle: 'پاکسازی فایل‌های انتخاب شده',
@@ -54,6 +54,7 @@
         msgUploadBegin: 'در حال شروع...',
         msgUploadEnd: 'انجام شد',
         msgUploadEmpty: 'هیچ داده معتبری برای بارگذاری موجود نیست.',
+        msgUploadError: 'Error',
         msgValidationError: 'خطای اعتبار سنجی',
         msgLoading: 'بارگیری فایل {index} از {files} &hellip;',
         msgProgress: 'بارگیری فایل {index} از {files} - {name} - {percent}% تمام شد.',
@@ -78,6 +79,7 @@
         fileActionSettings: {
             removeTitle: 'حذف فایل',
             uploadTitle: 'آپلود فایل',
+            uploadRetryTitle: 'Retry upload',
             zoomTitle: 'دیدن جزئیات',
             dragTitle: 'جابجایی / چیدمان',
             indicatorNewTitle: 'آپلود نشده است',
