@@ -46,6 +46,11 @@ namespace Mercurius.Prime.Core.Entities
         /// </summary>
         public bool IsReadOnly { get; set; }
 
+        /// <summary>
+        /// 是否为Guid字段。
+        /// </summary>
+        public bool IsNewGuid { get; set; }
+
         #endregion
 
         #region 构造方法

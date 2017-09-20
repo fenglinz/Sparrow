@@ -27,6 +27,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         private bool _visible;
         private bool _isKeyWordSearch;
         private bool _isSearchCriteria;
+        private bool _isNewGuid;
 
         #endregion
 
@@ -144,6 +145,19 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// 获取或者设置该字段是否为自动增长列。
         /// </summary>
         public bool IsIdentity { get; set; }
+
+        public bool IsNewGuid
+        {
+            get { return this._isNewGuid; }
+            set
+            {
+                if (this._isNewGuid != value)
+                {
+                    this._isNewGuid = value;
+                    this.RaisePropertyChanged(nameof(IsNewGuid));
+                }
+            }
+        }
 
         /// <summary>
         /// 获取或者设置该字段是否可编辑。

@@ -437,6 +437,7 @@ namespace Mercurius.CodeBuilder.Core
                     {
                         item.PropertyName = configItem.PropertyName;
                         item.Description = configItem.Description;
+                        item.IsNewGuid = configItem.IsNewGuid;
                         item.IsSearchCriteria = configItem.IsSearchCriteria;
                     }
                 }

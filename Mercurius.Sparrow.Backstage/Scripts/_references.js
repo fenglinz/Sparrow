@@ -1,4 +1,4 @@
-﻿/// <reference path="jquery-3.1.1.js" />
+﻿/// <reference path="jquery-3.2.1.js" />
 /// <autosync enabled="true" />
 /// <reference path="../content/bootstrap-fileinput/themes/fa/theme.js" />
 /// <reference path="../content/bootstrap-fileinput/themes/gly/theme.js" />

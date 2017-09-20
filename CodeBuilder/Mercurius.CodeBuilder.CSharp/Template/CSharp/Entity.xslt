@@ -11,14 +11,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using CSBR.Prime.Core.Entities;
 <xsl:call-template name="namespace" />
 {
     <xsl:call-template name="classDescription" />
-    [Table("<xsl:value-of select="./table/@table"/>")]
+    [Table("<xsl:value-of select="./table/@table"/>"<xsl:if test="./table/@table='true'">, IsView = true</xsl:if>)]
     public class <xsl:value-of select="./table/@className" />
     {
         #region 属性
@@ -33,8 +32,7 @@ using System.Text;
         /// <![CDATA[<summary>]]>
         /// <xsl:value-of select="@description" />。
         /// <![CDATA[</summary>]]>
-        <xsl:if test="@isPrimaryKey='true'">[Key]
-        </xsl:if>[Column("<xsl:value-of select="@name"/>")]<xsl:choose><xsl:when test="(@basicType='string' or @basicType='String') and @length!='-1'">
+        [Column("<xsl:value-of select="@name"/>"<xsl:if test="@isPrimaryKey='true'">, IsPrimaryKey = true</xsl:if><xsl:if test="@isNewGuid='true'">, IsNewGuid = true</xsl:if><xsl:if test="@nullable='true'">, IsNullable = true</xsl:if>)]<xsl:choose><xsl:when test="(@basicType='string' or @basicType='String') and @length!='-1'">
         public virtual <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
         </xsl:when>
         <xsl:otherwise>

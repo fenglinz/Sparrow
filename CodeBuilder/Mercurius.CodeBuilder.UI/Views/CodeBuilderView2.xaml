@@ -283,10 +283,17 @@
                             </ItemContainerTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="90" Header="参与查询">
+                    <DataGridTemplateColumn Width="40" Header="查询">
                         <DataGridTemplateColumn.CellTemplate>
                             <ItemContainerTemplate>
                                 <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsSearchCriteria, UpdateSourceTrigger=PropertyChanged}" />
+                            </ItemContainerTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="40" Header="Guid">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <ItemContainerTemplate>
+                                <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsNewGuid, UpdateSourceTrigger=PropertyChanged}" />
                             </ItemContainerTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

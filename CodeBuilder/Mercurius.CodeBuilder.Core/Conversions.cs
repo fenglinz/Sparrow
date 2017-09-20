@@ -70,6 +70,7 @@ namespace Mercurius.CodeBuilder.Core
                     columnElement.SetAttributeValue("basicType", (type == "string" && column.Length == 36) ? "Guid" : type);
                     columnElement.SetAttributeValue("isPrimaryKey", column.IsPrimaryKey);
                     columnElement.SetAttributeValue("isIdentity", column.IsIdentity);
+                    columnElement.SetAttributeValue("isNewGuid", column.IsNewGuid);
                     columnElement.SetAttributeValue("description", column.Description.IsNullOrEmptyValue(column.PropertyName));
                     columnElement.SetAttributeValue("propertyName", column.PropertyName);
                     columnElement.SetAttributeValue("fieldName", column.FieldName);

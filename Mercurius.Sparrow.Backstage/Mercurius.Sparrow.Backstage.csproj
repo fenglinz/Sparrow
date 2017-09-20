@@ -28,6 +28,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,8 +53,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.6.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Extras.DynamicProxy, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Extras.DynamicProxy.4.2.1\lib\net45\Autofac.Extras.DynamicProxy.dll</HintPath>
@@ -61,12 +62,11 @@
     <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.Owin.4.0.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
+    <Reference Include="Autofac.Integration.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Owin.4.1.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.WebApi, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.WebApi2.4.0.1\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Autofac.Integration.WebApi, Version=4.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.4.1.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi2.Owin.4.0.0\lib\net45\Autofac.Integration.WebApi.Owin.dll</HintPath>
@@ -74,16 +74,14 @@
     <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.4.1.0\lib\net45\Castle.Core.dll</HintPath>
+    <Reference Include="Castle.Core, Version=4.1.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.1.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
     <Reference Include="IBatisNet.Common, Version=1.6.2.0, Culture=neutral, PublicKeyToken=ed781d9fc396c6ca, processorArchitecture=MSIL">
       <HintPath>..\packages\IBatisNet45.1.6.2\lib\net45\IBatisNet.Common.dll</HintPath>
@@ -148,8 +146,8 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StackExchange.Redis.StrongName, Version=1.2.4.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
-      <HintPath>..\packages\StackExchange.Redis.StrongName.1.2.4\lib\net46\StackExchange.Redis.StrongName.dll</HintPath>
+    <Reference Include="StackExchange.Redis.StrongName, Version=1.2.6.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.StrongName.1.2.6\lib\net46\StackExchange.Redis.StrongName.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.Net45.5.2.1\lib\net45\Swashbuckle.Core.dll</HintPath>
@@ -566,6 +564,8 @@
     <Content Include="Scripts\DateTimePicker\zh-cn.js" />
     <Content Include="Scripts\Bootstrap-FileInput\fileinput.js" />
     <Content Include="Scripts\Bootstrap-FileInput\fileinput.min.js" />
+    <Content Include="Scripts\fileinput.js" />
+    <Content Include="Scripts\fileinput.min.js" />
     <Content Include="Scripts\handlebars.amd.js" />
     <Content Include="Scripts\handlebars.amd.min.js" />
     <Content Include="Scripts\handlebars.js" />
@@ -574,46 +574,6 @@
     <Content Include="Scripts\handlebars.runtime.amd.min.js" />
     <Content Include="Scripts\handlebars.runtime.js" />
     <Content Include="Scripts\handlebars.runtime.min.js" />
-    <Content Include="Scripts\highcharts\4.2.0\adapters\standalone-framework.js" />
-    <Content Include="Scripts\highcharts\4.2.0\adapters\standalone-framework.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\highcharts-3d.js" />
-    <Content Include="Scripts\highcharts\4.2.0\highcharts-3d.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\highcharts-more.js" />
-    <Content Include="Scripts\highcharts\4.2.0\highcharts-more.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\highcharts.js" />
-    <Content Include="Scripts\highcharts\4.2.0\highcharts.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\boost.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\boost.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\broken-axis.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\broken-axis.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\canvas-tools.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\canvas-tools.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\data.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\data.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\drilldown.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\drilldown.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\exporting.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\exporting.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\funnel.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\funnel.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\heatmap.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\heatmap.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\no-data-to-display.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\no-data-to-display.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\offline-exporting.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\offline-exporting.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\solid-gauge.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\solid-gauge.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\treemap.js" />
-    <Content Include="Scripts\highcharts\4.2.0\modules\treemap.src.js" />
-    <Content Include="Scripts\highcharts\4.2.0\themes\dark-blue.js" />
-    <Content Include="Scripts\highcharts\4.2.0\themes\dark-green.js" />
-    <Content Include="Scripts\highcharts\4.2.0\themes\dark-unica.js" />
-    <Content Include="Scripts\highcharts\4.2.0\themes\gray.js" />
-    <Content Include="Scripts\highcharts\4.2.0\themes\grid-light.js" />
-    <Content Include="Scripts\highcharts\4.2.0\themes\grid.js" />
-    <Content Include="Scripts\highcharts\4.2.0\themes\sand-signika.js" />
-    <Content Include="Scripts\highcharts\4.2.0\themes\skies.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -622,12 +582,162 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Scripts\highcharts\5.0.14\css\highcharts.css" />
+    <Content Include="Scripts\highcharts\5.0.14\highcharts-3d.js" />
+    <Content Include="Scripts\highcharts\5.0.14\highcharts-3d.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\highcharts-more.js" />
+    <Content Include="Scripts\highcharts\5.0.14\highcharts-more.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\highcharts.js" />
+    <Content Include="Scripts\highcharts\5.0.14\highcharts.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highcharts-3d.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highcharts-3d.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highcharts-more.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highcharts-more.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highcharts.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highcharts.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\accessibility.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\accessibility.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\annotations.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\annotations.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\boost-canvas.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\boost-canvas.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\boost.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\boost.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\broken-axis.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\broken-axis.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\data.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\data.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\drilldown.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\drilldown.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\export-data.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\export-data.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\exporting.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\exporting.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\funnel.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\funnel.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\gantt.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\gantt.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\grid-axis.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\grid-axis.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\heatmap.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\heatmap.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\no-data-to-display.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\no-data-to-display.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\offline-exporting.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\offline-exporting.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\overlapping-datalabels.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\overlapping-datalabels.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\series-label.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\series-label.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\solid-gauge.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\solid-gauge.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\static-scale.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\static-scale.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\stock.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\stock.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\treemap.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\treemap.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\xrange-series.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\xrange-series.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\avocado.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\avocado.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\dark-blue.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\dark-blue.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\dark-green.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\dark-green.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\dark-unica.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\dark-unica.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\gray.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\gray.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\grid-light.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\grid-light.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\grid.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\grid.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\sand-signika.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\sand-signika.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\skies.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\skies.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\sunset.js" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\sunset.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\lib\canvg.js" />
+    <Content Include="Scripts\highcharts\5.0.14\lib\canvg.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\lib\jspdf.js" />
+    <Content Include="Scripts\highcharts\5.0.14\lib\jspdf.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\lib\rgbcolor.js" />
+    <Content Include="Scripts\highcharts\5.0.14\lib\rgbcolor.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\lib\svg2pdf.js" />
+    <Content Include="Scripts\highcharts\5.0.14\lib\svg2pdf.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\accessibility.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\accessibility.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\annotations.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\annotations.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\boost-canvas.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\boost-canvas.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\boost.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\boost.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\broken-axis.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\broken-axis.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\data.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\data.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\drilldown.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\drilldown.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\export-data.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\export-data.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\exporting.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\exporting.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\funnel.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\funnel.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\gantt.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\gantt.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\grid-axis.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\grid-axis.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\heatmap.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\heatmap.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\no-data-to-display.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\no-data-to-display.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\offline-exporting.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\offline-exporting.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\overlapping-datalabels.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\overlapping-datalabels.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\series-label.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\series-label.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\solid-gauge.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\solid-gauge.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\static-scale.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\static-scale.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\stock.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\stock.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\treemap.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\treemap.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\xrange-series.js" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\xrange-series.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\readme.txt" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\avocado.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\avocado.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\dark-blue.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\dark-blue.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\dark-green.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\dark-green.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\dark-unica.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\dark-unica.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\gray.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\gray.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\grid-light.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\grid-light.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\grid.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\grid.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\sand-signika.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\sand-signika.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\skies.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\skies.src.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\sunset.js" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\sunset.src.js" />
     <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
-    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.1.1.js" />
-    <Content Include="Scripts\jquery-3.1.1.min.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\DateTimePicker\ar.js" />
@@ -656,8 +766,88 @@
     <Content Include="Scripts\DateTimePicker\uk.js" />
     <Content Include="Scripts\DateTimePicker\zh-TW.js" />
     <Content Include="Scripts\DateTimePicker\zh.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\sunset.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\skies.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\sand-signika.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\grid.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\grid-light.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\gray.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\dark-unica.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\dark-green.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\dark-blue.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\themes\avocado.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\xrange-series.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\treemap.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\stock.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\static-scale.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\solid-gauge.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\series-label.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\overlapping-datalabels.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\offline-exporting.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\no-data-to-display.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\map.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\map-parser.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\heatmap.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\grid-axis.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\gantt.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\funnel.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\exporting.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\export-data.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\drilldown.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\data.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\canvasrenderer.experimental.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\broken-axis.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\boost.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\boost-canvas.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\annotations.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\modules\accessibility.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\sunset.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\skies.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\sand-signika.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\grid.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\grid-light.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\gray.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\dark-unica.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\dark-green.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\dark-blue.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\themes\avocado.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\xrange-series.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\treemap.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\stock.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\static-scale.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\solid-gauge.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\series-label.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\overlapping-datalabels.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\offline-exporting.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\no-data-to-display.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\map.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\map-parser.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\heatmap.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\grid-axis.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\gantt.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\funnel.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\exporting.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\export-data.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\drilldown.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\data.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\canvasrenderer.experimental.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\broken-axis.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\boost.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\boost-canvas.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\annotations.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\modules\accessibility.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highstock.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highmaps.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highcharts.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highcharts-more.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\js\highcharts-3d.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\highstock.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\highmaps.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\highcharts.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\highcharts-more.js.map" />
+    <Content Include="Scripts\highcharts\5.0.14\highcharts-3d.js.map" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
@@ -696,6 +886,45 @@
     <Content Include="Scripts\Bootstrap-FileInput\locales\vi.js" />
     <Content Include="Scripts\Bootstrap-FileInput\locales\zh-TW.js" />
     <Content Include="Scripts\Bootstrap-FileInput\locales\zh.js" />
+    <Content Include="Scripts\locales\ar.js" />
+    <Content Include="Scripts\locales\az.js" />
+    <Content Include="Scripts\locales\bg.js" />
+    <Content Include="Scripts\locales\ca.js" />
+    <Content Include="Scripts\locales\cr.js" />
+    <Content Include="Scripts\locales\cz.js" />
+    <Content Include="Scripts\locales\da.js" />
+    <Content Include="Scripts\locales\de.js" />
+    <Content Include="Scripts\locales\el.js" />
+    <Content Include="Scripts\locales\es.js" />
+    <Content Include="Scripts\locales\et.js" />
+    <Content Include="Scripts\locales\fa.js" />
+    <Content Include="Scripts\locales\fi.js" />
+    <Content Include="Scripts\locales\fr.js" />
+    <Content Include="Scripts\locales\gl.js" />
+    <Content Include="Scripts\locales\hu.js" />
+    <Content Include="Scripts\locales\id.js" />
+    <Content Include="Scripts\locales\it.js" />
+    <Content Include="Scripts\locales\ja.js" />
+    <Content Include="Scripts\locales\kr.js" />
+    <Content Include="Scripts\locales\kz.js" />
+    <Content Include="Scripts\locales\LANG.js" />
+    <Content Include="Scripts\locales\lt.js" />
+    <Content Include="Scripts\locales\nl.js" />
+    <Content Include="Scripts\locales\no.js" />
+    <Content Include="Scripts\locales\pl.js" />
+    <Content Include="Scripts\locales\pt-BR.js" />
+    <Content Include="Scripts\locales\pt.js" />
+    <Content Include="Scripts\locales\ro.js" />
+    <Content Include="Scripts\locales\ru.js" />
+    <Content Include="Scripts\locales\sk.js" />
+    <Content Include="Scripts\locales\sl.js" />
+    <Content Include="Scripts\locales\sv.js" />
+    <Content Include="Scripts\locales\th.js" />
+    <Content Include="Scripts\locales\tr.js" />
+    <Content Include="Scripts\locales\uk.js" />
+    <Content Include="Scripts\locales\vi.js" />
+    <Content Include="Scripts\locales\zh-TW.js" />
+    <Content Include="Scripts\locales\zh.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />

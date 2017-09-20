@@ -170,7 +170,7 @@
         <Setter Property="Foreground" Value="{DynamicResource DataGridCellForeground}" />
         <Setter Property="BorderBrush" Value="#808080" />
         <Setter Property="BorderThickness" Value="1,0,0,0" />
-        <Setter Property="Padding" Value="2,2" />
+        <Setter Property="Padding" Value="1,1" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
@@ -205,7 +205,8 @@
         <Setter Property="BorderBrush" Value="#808080" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
-        <Setter Property="Padding" Value="6,6" />
+        <Setter Property="Padding" Value="2,2" />
+        <Setter Property="MinHeight" Value="32" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -216,7 +217,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Padding="{TemplateBinding Padding}">
-                            <Grid x:Name="containerGrid" Margin="5">
+                            <Grid x:Name="containerGrid" Margin="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
@@ -227,9 +228,9 @@
                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <Path x:Name="SortArrow"
                                       Grid.Column="1"
-                                      Width="8"
-                                      Height="6"
-                                      Margin="5,0,5,0"
+                                      Width="1"
+                                      Height="1"
+                                      Margin="1,0,1,0"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       Data="M0,0 L1,0 0.5,1 z"
