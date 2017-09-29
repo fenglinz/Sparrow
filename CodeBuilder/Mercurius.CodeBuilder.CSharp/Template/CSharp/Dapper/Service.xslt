@@ -191,7 +191,25 @@ using YlY2PRO.PlatForm.Core.Services;
       </xsl:choose>
       </xsl:if>
 
-        <xsl:if test="count(./table[@hasSearchData='true'])=1">
+     <xsl:if test="count(./table[@hasGetAll='true'])=1">
+        /// &lt;summary>
+        /// 查询并分页获取<xsl:value-of select="./table/@description" />信息。
+        /// &lt;/summary>
+        /// &lt;param name="so">查询条件&lt;/param>
+        /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>
+        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
+        {
+            so = so ?? new <xsl:value-of select="./table/@className" />SO();
+            
+            var command = this.ParseCommandText("Search<xsl:value-of select="./table/@pluralClassName" />");
+            
+            return this.InvokeService(
+                nameof(Search<xsl:value-of select="./table/@pluralClassName" />),
+                (out int totalRecords) => this.Persistence.QueryForList&lt;<xsl:value-of select="./table/@className"/>, <xsl:value-of select="./table/@className"/>SO>(command, so), so);
+        }
+      </xsl:if>
+    
+      <xsl:if test="count(./table[@hasSearchData='true'])=1">
         /// &lt;summary>
         /// 查询并分页获取<xsl:value-of select="./table/@description" />信息。
         /// &lt;/summary>

@@ -83,7 +83,7 @@ using Mercurius.Prime.Core.Services;
         Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/><xsl:text>ById(</xsl:text><xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>);</xsl:text></xsl:otherwise></xsl:choose>
       </xsl:if>
 
-      <xsl:if test="count(./table[@hasSearchData='true'])=1">
+      <xsl:if test="count(./table[@hasGetAll='true'])=1">
         /// &lt;summary>
         /// 获取所有<xsl:value-of select="./table/@description" />信息。
         /// &lt;/summary>
