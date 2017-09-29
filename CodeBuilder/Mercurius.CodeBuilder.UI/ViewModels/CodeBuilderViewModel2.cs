@@ -483,9 +483,9 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         this.ProjectFileLabel3 = "插件实现项目：";
                     }
 
-                    this.OnPropertyChanged(() => this.ProjectFileLabel1);
-                    this.OnPropertyChanged(() => this.ProjectFileLabel2);
-                    this.OnPropertyChanged(() => this.ProjectFileLabel3);
+                    this.RaisePropertyChanged(nameof(ProjectFileLabel1));
+                    this.RaisePropertyChanged(nameof(ProjectFileLabel2));
+                    this.RaisePropertyChanged(nameof(ProjectFileLabel3));
                 }
             };
 
@@ -519,6 +519,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         metadata.ServerUri = this.Configuration.CurrentDatabase.ServerUri;
                         metadata.Account = this.Configuration.CurrentDatabase.Account;
                         metadata.Password = this.Configuration.CurrentDatabase.Password;
+                        metadata.Port = this.Configuration.CurrentDatabase.Port;
 
                         var tables = metadata.GetCustomObjects(this.Configuration.CurrentDatabase.Name);
 

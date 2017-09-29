@@ -26,7 +26,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
         /// <returns>数据库名称集合</returns>
         public override IList<string> GetDatabaseNames()
         {
-            var dbHelper = DbHelperCreator.Create(DatabaseType.MSSQL, this.ServerUri, "master", this.Account, this.Password);
+            var dbHelper = DbHelperCreator.Create(DatabaseType.MSSQL, this.ServerUri, "master", this.Account, this.Password, this.Port);
 
             return dbHelper.DbMetadata.GetDatabases();
         }
@@ -106,7 +106,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
         /// <returns></returns>
         private DbHelper GetDbHelper(string database)
         {
-            return DbHelperCreator.Create(DatabaseType.MSSQL, this.ServerUri, database, this.Account, this.Password);
+            return DbHelperCreator.Create(DatabaseType.MSSQL, this.ServerUri, database, this.Account, this.Password, this.Port);
         }
 
         #endregion

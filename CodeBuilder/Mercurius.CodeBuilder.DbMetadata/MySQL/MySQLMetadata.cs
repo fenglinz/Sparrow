@@ -29,7 +29,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
         public override IList<string> GetDatabaseNames()
         {
             var result = new List<string>();
-            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, "mysql", this.Account, this.Password);
+            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, "mysql", this.Account, this.Password, this.Port);
 
             var reader = dbHelper.ExecuteReader("show DATABASES");
 
@@ -48,7 +48,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
         /// <returns>自定义对象名称集合</returns>
         public override IList<CustomObject> GetCustomObjects(string databaseName)
         {
-            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, databaseName, this.Account, this.Password);
+            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, databaseName, this.Account, this.Password, this.Port);
             var tables = dbHelper.DbMetadata.GetTables();
 
             return (from t in tables select new CustomObject { Name = t.Name, Description = t.Comments }).ToList();
@@ -64,7 +64,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
         public override DbTable GetTableOrViewDetails(string databaseName, string tableName, bool isView = false)
         {
             var result = new DbTable();
-            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, databaseName, this.Account, this.Password);
+            var dbHelper = DbHelperCreator.Create(DatabaseType.MySQL, this.ServerUri, databaseName, this.Account, this.Password, this.Port);
 
             result.Name = tableName;
             result.ClassName = tableName.AsClassName();

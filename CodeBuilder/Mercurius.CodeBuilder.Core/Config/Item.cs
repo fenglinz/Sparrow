@@ -12,17 +12,17 @@ namespace Mercurius.CodeBuilder.Core.Config
         #region 属性
 
         /// <summary>
-        /// 获取或者设置配置项名称。
+        /// 配置项名称。
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// 获取或者设置依赖项名称。
+        /// 依赖项名称。
         /// </summary>
         public string[] Dependencys { get; set; }
 
         /// <summary>
-        /// 获取或者设置XSLT文件所在路径。
+        /// XSLT文件所在路径。
         /// </summary>
         public string TemplateFile { get; set; }
 
@@ -32,12 +32,12 @@ namespace Mercurius.CodeBuilder.Core.Config
         public string Module { get; set; }
 
         /// <summary>
-        /// 获取或者设置生成的文件名格式。
+        /// 生成的文件名格式。
         /// </summary>
         public string FileFormat { get; set; }
 
         /// <summary>
-        /// 获取或者设置生成文件的扩展名。
+        /// 生成文件的扩展名。
         /// </summary>
         public string Extension { get; set; }
 
@@ -47,22 +47,22 @@ namespace Mercurius.CodeBuilder.Core.Config
         public bool IgnoreView { get; set; }
 
         /// <summary>
-        /// 获取或者设置项目。
+        /// 项目。
         /// </summary>
         public string Project { get; set; }
 
         /// <summary>
-        /// 获取或者设置生成文件所在的子目录。
+        /// 生成文件所在的子目录。
         /// </summary>
         public string SubFolder { get; set; }
 
         /// <summary>
-        /// 获取或者设置代码生成完成后的事件处理。
+        /// 代码生成完成后的事件处理。
         /// </summary>
         public string Handler { get; set; }
 
         /// <summary>
-        /// 获取或者设置参数。
+        /// 参数。
         /// </summary>
         public Dictionary<string, string> Parameters { get; set; }
 

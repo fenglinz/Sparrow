@@ -54,7 +54,7 @@
         </StackPanel>
 
         <Grid>
-            <GroupBox Height="245" Margin="5,5,5,5" Padding="0,5,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Header="基本信息">
+            <GroupBox Height="200" Margin="5,5,5,5" Padding="0,5,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Header="基本信息">
                 <GroupBox.Content>
                     <Grid>
                         <Label Margin="89,0,0,0" Content="作者：" RenderTransformOrigin="-0.385,0.5" />
@@ -84,28 +84,28 @@
                         </ComboBox>
 
                         <Label Margin="33,99,0,0" Content="{Binding ProjectFileLabel1}" />
-                        <TextBox Margin="146,98,0,0" HorizontalAlignment="Left" Text="{Binding Configuration.EntityProjectFile}" Width="700">
+                        <TextBox Margin="146,98,0,0" HorizontalAlignment="Left" Text="{Binding Configuration.EntityProjectFile}" Width="600">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="GotFocus">
                                     <i:InvokeCommandAction Command="{Binding SelectEntityProjectFileCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
-                        <Button Width="30" Margin="848,98,0,0" HorizontalAlignment="Left" Command="{Binding SelectEntityProjectFileCommand}" Content="..." Padding="0,5.5" />
-                        <TextBox Margin="888,98,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.EntityBaseNamespace}" />
+                        <Button Width="30" Margin="748,98,0,0" HorizontalAlignment="Left" Command="{Binding SelectEntityProjectFileCommand}" Content="..." Padding="0,5.5" BorderThickness="0,5,5,0" />
+                        <TextBox Margin="788,98,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.EntityBaseNamespace}" />
 
                         <Label Margin="33,140,0,0" Content="{Binding ProjectFileLabel2}" />
-                        <TextBox Margin="146,138,0,0" HorizontalAlignment="Left" Text="{Binding Configuration.ContractProjectFile}" Width="700">
+                        <TextBox Margin="146,138,0,0" HorizontalAlignment="Left" Text="{Binding Configuration.ContractProjectFile}" Width="600">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="GotFocus">
                                     <i:InvokeCommandAction Command="{Binding SelectContractProjectFileCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
-                        <Button Width="30" Margin="848,139,0,0" HorizontalAlignment="Left" Command="{Binding SelectContractProjectFileCommand}" Content="..." Padding="0,5.5" />
-                        <TextBox Margin="888,139,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.ContractBaseNamespace}" />
+                        <Button Width="30" Margin="748,139,0,0" HorizontalAlignment="Left" Command="{Binding SelectContractProjectFileCommand}" Content="..." Padding="0,5.5" BorderThickness="0,5,5,0" />
+                        <TextBox Margin="788,139,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.ContractBaseNamespace}" />
 
-                        <Label Margin="33,180,0,0" Content="{Binding ProjectFileLabel3}" />
+                        <!--<Label Margin="33,180,0,0" Content="{Binding ProjectFileLabel3}" />
                         <TextBox Margin="146,178,0,0" HorizontalAlignment="Left" Text="{Binding Configuration.ServiceProjectFile}" Width="700">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="GotFocus">
@@ -114,7 +114,7 @@
                             </i:Interaction.Triggers>
                         </TextBox>
                         <Button Width="30" Margin="848,178,0,0" HorizontalAlignment="Left" Command="{Binding SelectServiceProjectFileCommand}" Content="..." Padding="0,5.5" />
-                        <TextBox Margin="888,178,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.ServiceBaseNamespace}" />
+                        <TextBox Margin="888,178,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.ServiceBaseNamespace}" />-->
                     </Grid>
                 </GroupBox.Content>
             </GroupBox>

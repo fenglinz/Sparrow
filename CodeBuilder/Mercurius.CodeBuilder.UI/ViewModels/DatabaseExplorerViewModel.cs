@@ -32,7 +32,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         #region 属性
 
         /// <summary>
-        /// 获取或者设置当前窗体。
+        /// 当前窗体。
         /// </summary>
         public Window CurrentWindow { get; set; }
 

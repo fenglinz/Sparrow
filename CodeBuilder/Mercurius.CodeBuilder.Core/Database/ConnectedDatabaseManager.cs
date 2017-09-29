@@ -34,7 +34,8 @@ namespace Mercurius.CodeBuilder.Core.Database
                                      Type = (DatabaseType)Enum.Parse(typeof(DatabaseType), x.Attribute("type").Value, true),
                                      ServerUri = x.Element("logon").Attribute("server").Value,
                                      Account = x.Element("logon").Attribute("account").Value,
-                                     Password = x.Element("logon").Attribute("password").Value
+                                     Password = x.Element("logon").Attribute("password").Value,
+                                     Port = x.Element("logon").Attribute("port") == null ? (int?)null : Convert.ToInt32(x.Element("logon").Attribute("port").Value)
                                  }).ToList();
 
                 return (ConnectedDatabaseCollection)databases;
@@ -67,6 +68,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                         element.Element("logon").Attribute("server").Value = item.ServerUri;
                         element.Element("logon").Attribute("account").Value = item.Account;
                         element.Element("logon").Attribute("password").Value = item.Password;
+                        element.Element("logon").Attribute("port").Value = Convert.ToString(item.Port);
                     }
                 }
                 else
@@ -79,6 +81,7 @@ namespace Mercurius.CodeBuilder.Core.Database
                     logonElement.SetAttributeValue("server", item.ServerUri);
                     logonElement.SetAttributeValue("account", item.Account);
                     logonElement.SetAttributeValue("password", item.Password);
+                    logonElement.SetAttributeValue("port", item.Port);
 
                     element.Add(logonElement);
 

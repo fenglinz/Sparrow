@@ -31,6 +31,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         private string _serverUri = string.Empty;
         private string _account = string.Empty;
         private string _password = string.Empty;
+        private int? _port = null;
         private Visibility _showInputSid = Visibility.Collapsed;
 
         private ICommand _confirmCommand = null;
@@ -45,7 +46,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         #region 属性
 
         /// <summary>
-        /// 获取或者设置当前窗体。
+        /// 当前窗体。
         /// </summary>
         public Window CurrentWindow { get; set; }
 
@@ -71,7 +72,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._database != value)
                 {
                     this._database = value;
-                    this.OnPropertyChanged(() => this.Database);
+                    this.RaisePropertyChanged(nameof(Database));
 
                     if (value == DatabaseType.Oracle)
                     {
@@ -89,7 +90,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._serverUri != value)
                 {
                     this._serverUri = value;
-                    this.OnPropertyChanged(() => this.ServerUri);
+                    this.RaisePropertyChanged(nameof(ServerUri));
                 }
             }
         }
@@ -102,7 +103,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._account != value)
                 {
                     this._account = value;
-                    this.OnPropertyChanged(() => this.Account);
+                    this.RaisePropertyChanged(nameof(Account));
                 }
             }
         }
@@ -115,7 +116,20 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._password != value)
                 {
                     this._password = value;
-                    this.OnPropertyChanged(() => this.Password);
+                    this.RaisePropertyChanged(nameof(Password));
+                }
+            }
+        }
+
+        public int? Port
+        {
+            get => this._port;
+            set
+            {
+                if (this._port != value)
+                {
+                    this._port = value;
+                    this.RaisePropertyChanged(nameof(Port));
                 }
             }
         }
@@ -128,7 +142,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._showInputSid != value)
                 {
                     this._showInputSid = value;
-                    this.OnPropertyChanged(() => this.ShowInputSid);
+                    this.RaisePropertyChanged(nameof(ShowInputSid));
                 }
             }
         }
@@ -154,12 +168,13 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         metadata.ServerUri = this.ServerUri;
                         metadata.Account = this.Account;
                         metadata.Password = this.Password;
+                        metadata.Port = this.Port;
 
                         try
                         {
                             this.Databases = metadata.GetDatabaseNames();
 
-                            this.OnPropertyChanged(() => this.Databases);
+                            this.RaisePropertyChanged(nameof(Databases));
                         }
                         catch (Exception e)
                         {
@@ -197,7 +212,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                                     Type = this.Database,
                                     ServerUri = this.ServerUri,
                                     Account = this.Account,
-                                    Password = this.Password
+                                    Password = this.Password,
+                                    Port = this.Port
                                 };
 
                                 if (!string.IsNullOrWhiteSpace(this.UpdateName))

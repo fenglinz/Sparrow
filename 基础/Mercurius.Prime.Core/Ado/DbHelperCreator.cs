@@ -11,7 +11,7 @@ namespace Mercurius.Prime.Core.Ado
 
         private const string MSSQLFormater = "Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3}";
         private const string OracleFormater = "Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={0})(PORT={4})))(CONNECT_DATA=(sid={1})));User Id={2};Password={3}";
-        private const string MySQLFormater = "server={0};database={1};persistsecurityinfo=True;user id={2};password={3}";
+        private const string MySQLFormater = "server={0};database={1};persistsecurityinfo=True;user id={2};password={3};port={4};";
         private const string SQLiteFormater = "Data Source={0};Default Database Type=String";
 
         #endregion
@@ -133,7 +133,7 @@ namespace Mercurius.Prime.Core.Ado
 
                     break;
                 case DatabaseType.MySQL:
-                    connectionString = string.Format(MySQLFormater, host, instance, account, password);
+                    connectionString = string.Format(MySQLFormater, host, instance, account, password, port.HasValue ? port : 3306);
 
                     break;
 

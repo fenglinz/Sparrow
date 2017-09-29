@@ -94,7 +94,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.Oracle
         /// <returns></returns>
         private DbHelper GetDbHelper(string database)
         {
-            return DbHelperCreator.Create(DatabaseType.Oracle, this.ServerUri, database, this.Account, this.Password);
+            return DbHelperCreator.Create(DatabaseType.Oracle, this.ServerUri, database, this.Account, this.Password, this.Port);
         }
 
         #endregion

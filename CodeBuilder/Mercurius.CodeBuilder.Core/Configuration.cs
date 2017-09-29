@@ -42,7 +42,7 @@ namespace Mercurius.CodeBuilder.Core
         #region 属性
 
         /// <summary>
-        /// 获取或者设置当前数据库信息。
+        /// 当前数据库信息。
         /// </summary>
         public ConnectedDatabase CurrentDatabase { get; set; }
 

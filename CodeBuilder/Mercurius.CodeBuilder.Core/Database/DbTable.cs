@@ -36,7 +36,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         #region 属性
 
         /// <summary>
-        /// 获取或者设置表名。
+        /// 表名。
         /// </summary>
         public string Name { get; set; }
 
@@ -46,7 +46,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         public string Schema { get; set; }
 
         /// <summary>
-        /// 获取或者设置该表是否可用。
+        /// 该表是否可用。
         /// </summary>
         public bool IsEnabled
         {
@@ -62,7 +62,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置当前类所属的模块名称。
+        /// 当前类所属的模块名称。
         /// </summary>
         public string ModuleName
         {
@@ -94,12 +94,12 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置该实体的命名空间。
+        /// 该实体的命名空间。
         /// </summary>
         public string Namespace { get; set; }
 
         /// <summary>
-        /// 获取或者设置该表对应的实体类名称。
+        /// 该表对应的实体类名称。
         /// </summary>
         public string ClassName
         {
@@ -115,12 +115,12 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置完整类名称格式化字符串(包含程序集)。
+        /// 完整类名称格式化字符串(包含程序集)。
         /// </summary>
         public string FullClassNameFormat { get; set; }
 
         /// <summary>
-        /// 获取或者设置类的描述信息。
+        /// 类的描述信息。
         /// </summary>
         public string Description
         {

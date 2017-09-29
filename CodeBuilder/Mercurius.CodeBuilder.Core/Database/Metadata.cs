@@ -20,13 +20,14 @@ namespace Mercurius.CodeBuilder.Core.Database
         private string _serverUri;
         private string _account;
         private string _password;
+        private int? _port;
 
         #endregion
 
         #region 属性
 
         /// <summary>
-        /// 获取或者设置数据库服务器地址。
+        /// 数据库服务器地址。
         /// </summary>
         public string ServerUri
         {
@@ -42,7 +43,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置登录数据库的账户。
+        /// 登录数据库的账户。
         /// </summary>
         public string Account
         {
@@ -58,7 +59,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置登录数据库的密码。
+        /// 登录数据库的密码。
         /// </summary>
         public string Password
         {
@@ -69,6 +70,22 @@ namespace Mercurius.CodeBuilder.Core.Database
                 {
                     this._password = value;
                     this.RaisePropertyChanged("Password");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 数据库监听端口。
+        /// </summary>
+        public int? Port
+        {
+            get => this._port;
+            set
+            {
+                if (this._port != value)
+                {
+                    this._port = value;
+                    this.RaisePropertyChanged(nameof(Port));
                 }
             }
         }

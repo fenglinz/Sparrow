@@ -34,7 +34,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         #region 属性
 
         /// <summary>
-        /// 获取或者设置字段名。
+        /// 字段名。
         /// </summary>
         public string Name
         {
@@ -57,7 +57,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置该字段对应的属性名。
+        /// 该字段对应的属性名。
         /// </summary>
         public string PropertyName
         {
@@ -87,7 +87,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置基本类型。
+        /// 基本类型。
         /// </summary>
         public string BasicType
         {
@@ -102,7 +102,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置字段长度。
+        /// 字段长度。
         /// </summary>
         public long? Length
         {
@@ -117,7 +117,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置字段描述信息。
+        /// 字段描述信息。
         /// </summary>
         public string Description
         {
@@ -132,17 +132,17 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置字段是否可为空。
+        /// 字段是否可为空。
         /// </summary>
         public bool Nullable { get; set; }
 
         /// <summary>
-        /// 获取或者设置该字段是否为主键。
+        /// 该字段是否为主键。
         /// </summary>
         public bool IsPrimaryKey { get; set; }
 
         /// <summary>
-        /// 获取或者设置该字段是否为自动增长列。
+        /// 该字段是否为自动增长列。
         /// </summary>
         public bool IsIdentity { get; set; }
 
@@ -160,7 +160,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置该字段是否可编辑。
+        /// 该字段是否可编辑。
         /// </summary>
         public bool Editable
         {
@@ -175,7 +175,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置该字段是否可见。
+        /// 该字段是否可见。
         /// </summary>
         public bool Visible
         {
@@ -190,7 +190,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置是否作为关键字查询。
+        /// 是否作为关键字查询。
         /// </summary>
         public bool IsKeyWordSearch
         {
@@ -205,7 +205,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         }
 
         /// <summary>
-        /// 获取或者设置是否作为条件查询。
+        /// 是否作为条件查询。
         /// </summary>
         public bool IsSearchCriteria
         {
