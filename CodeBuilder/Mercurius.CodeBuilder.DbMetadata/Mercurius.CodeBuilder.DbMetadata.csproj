@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MSSQL\MSSQLDatabaseScriptExporter.cs" />
+    <Compile Include="MySQL\MySQLDatabaseScriptExporter.cs" />
     <Compile Include="MySQL\MySQLMetadata.cs" />
     <Compile Include="MySQL\MySQLDbTypeMapping.cs" />
     <Compile Include="Oracle\OracleDbTypeMapping.cs" />
