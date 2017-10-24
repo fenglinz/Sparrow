@@ -1,5 +1,6 @@
 ﻿int,Integer
 text,String
+json,String
 bigint,Long
 binary,Byte[]
 bit,Boolean

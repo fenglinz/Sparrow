@@ -22,6 +22,7 @@ tinyblob,string
 tinytext,string
 blob,byte[]
 text,string
+json,string
 mediumblob,byte[]
 mediumtext,string
 longblob,byte[]

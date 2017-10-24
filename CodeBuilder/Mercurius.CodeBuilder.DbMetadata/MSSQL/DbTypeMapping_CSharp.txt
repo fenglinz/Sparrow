@@ -1,5 +1,6 @@
 ﻿int,int
 text,string
+json,string
 bigint,long
 binary,byte[]
 bit,bool
