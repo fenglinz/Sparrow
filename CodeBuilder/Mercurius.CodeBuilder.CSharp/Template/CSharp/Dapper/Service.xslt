@@ -223,7 +223,7 @@ using YlY2PRO.PlatForm.Core.Services;
             
             return this.InvokePagingService(
                 nameof(Search<xsl:value-of select="./table/@pluralClassName" />),
-                (out int totalRecords) => this.Persistence.QueryForPaginatedList&lt;<xsl:value-of select="./table/@className"/>, <xsl:value-of select="./table/@className"/>SO>(command, out totalRecords, so), so);
+                (out int totalRecords) => this.Persistence.QueryForPaginatedList&lt;<xsl:value-of select="./table/@className"/>, <xsl:value-of select="./table/@className"/>SO>(command, out totalRecords, so<xsl:call-template name="SearchConditions" />), so);
         }
       </xsl:if>
         #endregion
