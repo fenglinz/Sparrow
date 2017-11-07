@@ -51,14 +51,14 @@
     <commandText name="Create" commandType="Text">
       INSERT INTO `<xsl:value-of select="./table/@name" />`
       (
-       <xsl:for-each select="./table/column[@isIdentity='false']"><xsl:text> </xsl:text>`<xsl:value-of select="@name"/>`<xsl:if test="position()!=last()"><xsl:text>,
+       <xsl:for-each select="./table/column[@isAddColumn='true']"><xsl:text> </xsl:text>`<xsl:value-of select="@name"/>`<xsl:if test="position()!=last()"><xsl:text>,
        </xsl:text>
        </xsl:if>
        </xsl:for-each>
       )
       VALUES
       (
-       <xsl:for-each select="./table/column[@isIdentity='false']"><xsl:text> </xsl:text>@<xsl:value-of select="@propertyName" /><xsl:if test="position()!=last()"><xsl:text>,
+       <xsl:for-each select="./table/column[@isAddColumn='true']"><xsl:text> </xsl:text>@<xsl:value-of select="@propertyName" /><xsl:if test="position()!=last()"><xsl:text>,
        </xsl:text>
        </xsl:if>
        </xsl:for-each>
@@ -90,7 +90,7 @@
     <commandText name="Update" commandType="Text">
       UPDATE `<xsl:value-of select="./table/@name" />`
       SET
-      <xsl:for-each select="./table/column[@isPrimaryKey='false']">
+      <xsl:for-each select="./table/column[@isUpdateColumn='true']">
         <xsl:if test="position()=1">
           <xsl:text>  </xsl:text>
         </xsl:if>
@@ -144,14 +144,14 @@
       )
       VALUES
       (
-        <xsl:for-each select="./table/column[@isIdentity='false']"><xsl:text></xsl:text>@<xsl:value-of select="@propertyName" /><xsl:if test="position()!=last()"><xsl:text>,
+        <xsl:for-each select="./table/column[@isAddColumn='true']"><xsl:text></xsl:text>@<xsl:value-of select="@propertyName" /><xsl:if test="position()!=last()"><xsl:text>,
         </xsl:text>
         </xsl:if>
         </xsl:for-each>
       )
       ON DUPLICATE KEY
       UPDATE
-        <xsl:for-each select="./table/column[@isIdentity='false']"><xsl:text></xsl:text>`<xsl:value-of select="@name"/>`=@<xsl:value-of select="@propertyName" /><xsl:if test="position()!=last()"><xsl:text>,
+        <xsl:for-each select="./table/column[@isUpdateColumn='true']"><xsl:text></xsl:text>`<xsl:value-of select="@name"/>`=@<xsl:value-of select="@propertyName" /><xsl:if test="position()!=last()"><xsl:text>,
         </xsl:text>
         </xsl:if>
         </xsl:for-each>

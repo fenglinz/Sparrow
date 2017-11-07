@@ -86,6 +86,8 @@ namespace Mercurius.CodeBuilder.DbMetadata.MySQL
                     dbColumn.SqlType = item.DataType;
                     dbColumn.Length = item.DataLength;
                     dbColumn.BasicType = dbColumn.SqlType;
+                    dbColumn.IsAddColumn = base.IsAddColumn(dbColumn);
+                    dbColumn.IsUpdateColumn = base.IsUpdateColumn(dbColumn);
 
                     result.Columns.Add(dbColumn);
                 }

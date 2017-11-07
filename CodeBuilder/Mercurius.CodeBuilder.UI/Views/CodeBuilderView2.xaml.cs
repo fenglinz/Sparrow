@@ -38,7 +38,11 @@ namespace Mercurius.CodeBuilder.UI.Views
             var loadedEvent = this._eventAggregator.GetEvent<LoadedTablesCompletedEvent>();
 
             loadedEvent.Subscribe(
-                arg => Application.Current.Dispatcher.BeginInvoke(new Action(() => this.loadingAn.Visibility = Visibility.Collapsed)),
+                arg => Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    this.txtSearch.IsEnabled = true;
+                    this.loadingAn.Visibility = Visibility.Collapsed;
+                })),
                 ThreadOption.BackgroundThread,
                 false);
 
@@ -49,12 +53,14 @@ namespace Mercurius.CodeBuilder.UI.Views
                 switch (arg.Status)
                 {
                     case Status.Begin:
+                        this.txtSearch.IsEnabled = false;
                         this.buildNotify.Visibility = Visibility.Visible;
 
                         break;
 
                     case Status.Success:
                     case Status.Failure:
+                        this.txtSearch.IsEnabled = true;
                         this.buildNotify.Visibility = Visibility.Collapsed;
 
                         break;

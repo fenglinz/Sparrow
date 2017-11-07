@@ -76,6 +76,8 @@ namespace Mercurius.CodeBuilder.Core
                     columnElement.SetAttributeValue("fieldName", column.FieldName);
                     columnElement.SetAttributeValue("isKeyWordSearch", column.IsKeyWordSearch);
                     columnElement.SetAttributeValue("isSearchCriteria", column.IsSearchCriteria);
+                    columnElement.SetAttributeValue("isAddColumn", column.IsAddColumn);
+                    columnElement.SetAttributeValue("isUpdateColumn", column.IsUpdateColumn);
 
                     tableElement.Add(columnElement);
                 }

@@ -139,7 +139,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" Height="40" DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext}">
-                    <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="195" Margin="0,5,0,0">
+                    <TextBox Name="txtSearch" IsEnabled="False" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="195" Margin="0,5,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="TextChanged">
                                 <i:InvokeCommandAction Command="{Binding SearchCommand}" />
@@ -269,7 +269,7 @@
                             </ItemContainerTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="1*" Header="类型" IsReadOnly="True">
+                    <DataGridTemplateColumn Width="80" Header="类型" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <ItemContainerTemplate>
                                 <TextBlock VerticalAlignment="Center" Padding="8,0" Text="{Binding SqlType}" />
@@ -290,13 +290,27 @@
                             </ItemContainerTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="40" Header="Guid">
+                    <DataGridTemplateColumn Width="40" Header="添加">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <ItemContainerTemplate>
+                                <CheckBox IsChecked="{Binding IsAddColumn, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ItemContainerTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="40" Header="更新">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <ItemContainerTemplate>
+                                <CheckBox IsChecked="{Binding IsUpdateColumn, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </ItemContainerTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--<DataGridTemplateColumn Width="40" Header="Guid">
                         <DataGridTemplateColumn.CellTemplate>
                             <ItemContainerTemplate>
                                 <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsNewGuid, UpdateSourceTrigger=PropertyChanged}" />
                             </ItemContainerTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTemplateColumn Width="2.5*" Header="描述">
                         <DataGridTemplateColumn.CellTemplate>
                             <ItemContainerTemplate>

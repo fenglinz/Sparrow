@@ -439,6 +439,8 @@ namespace Mercurius.CodeBuilder.Core
                         item.Description = configItem.Description;
                         item.IsNewGuid = configItem.IsNewGuid;
                         item.IsSearchCriteria = configItem.IsSearchCriteria;
+                        item.IsAddColumn = configItem.IsAddColumn;
+                        item.IsUpdateColumn = configItem.IsUpdateColumn;
                     }
                 }
             }

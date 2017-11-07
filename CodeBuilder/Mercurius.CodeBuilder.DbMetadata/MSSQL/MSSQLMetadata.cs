@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.Prime.Core;
@@ -89,6 +90,8 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
                 dbColumn.SqlType = item.DataType;
                 dbColumn.Length = item.DataLength;
                 dbColumn.BasicType = dbColumn.SqlType;
+                dbColumn.IsAddColumn = base.IsAddColumn(dbColumn);
+                dbColumn.IsUpdateColumn = base.IsUpdateColumn(dbColumn);
 
                 result.Columns.Add(dbColumn);
             }

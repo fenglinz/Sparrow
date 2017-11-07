@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Mercurius.CodeBuilder.Core.Database
@@ -15,6 +16,13 @@ namespace Mercurius.CodeBuilder.Core.Database
     /// </summary>
     public abstract class Metadata : INotifyPropertyChanged
     {
+        #region 常量
+
+        private static readonly string[] AddColumnKeyWords = { "create", "add", "insert" };
+        private static readonly string[] UpdateColumnKeyWords = { "update", "modify", "edit" };
+
+        #endregion
+
         #region 字段
 
         private string _serverUri;
@@ -121,6 +129,66 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// <param name="isView">是否为视图</param>
         /// <returns>表或视图信息</returns>
         public abstract DbTable GetTableOrViewDetails(string databaseName, string tableName, bool isView = false);
+
+        #endregion
+
+        #region 保护方法
+
+        /// <summary>
+        /// 判断是否为需要添加的列。
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        protected bool IsAddColumn(DbColumn column)
+        {
+            if (column.IsIdentity)
+            {
+                return false;
+            }
+
+            if (column.IsPrimaryKey)
+            {
+                return true;
+            }
+
+            foreach (var item in UpdateColumnKeyWords)
+            {
+                if (column.Name.StartsWith(item, StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 判断是否为需要更新的列
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        protected bool IsUpdateColumn(DbColumn column)
+        {
+            if (column.IsIdentity)
+            {
+                return false;
+            }
+
+            if (column.IsPrimaryKey)
+            {
+                return false;
+            }
+
+            foreach (var item in AddColumnKeyWords)
+            {
+                if (column.Name.StartsWith(item, StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         #endregion
 

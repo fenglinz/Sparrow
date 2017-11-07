@@ -28,6 +28,8 @@ namespace Mercurius.CodeBuilder.Core.Database
         private bool _isKeyWordSearch;
         private bool _isSearchCriteria;
         private bool _isNewGuid;
+        private bool _isAddColumn = true;
+        private bool _isUpdateColumn = true;
 
         #endregion
 
@@ -216,6 +218,38 @@ namespace Mercurius.CodeBuilder.Core.Database
 
                 this._isSearchCriteria = value;
                 this.RaisePropertyChanged("IsSearchCriteria");
+            }
+        }
+
+        /// <summary>
+        /// 是否为添加字段。
+        /// </summary>
+        public bool IsAddColumn
+        {
+            get { return this._isAddColumn; }
+            set
+            {
+                if (this._isAddColumn != value)
+                {
+                    this._isAddColumn = value;
+                    this.RaisePropertyChanged(nameof(IsAddColumn));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否为更新字段。
+        /// </summary>
+        public bool IsUpdateColumn
+        {
+            get { return this._isUpdateColumn; }
+            set
+            {
+                if (this._isUpdateColumn != value)
+                {
+                    this._isUpdateColumn = value;
+                    this.RaisePropertyChanged(nameof(IsUpdateColumn));
+                }
             }
         }
 

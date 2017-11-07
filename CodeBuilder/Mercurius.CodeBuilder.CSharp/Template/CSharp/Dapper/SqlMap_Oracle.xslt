@@ -89,7 +89,7 @@
       </xsl:attribute>
       INSERT INTO <xsl:value-of select="./table/@name" />
       (
-      <xsl:for-each select="./table/column[@isIdentity='false']">
+      <xsl:for-each select="./table/column[@isAddColumn='true']">
         <xsl:if test="position()=1">
           <xsl:text>    </xsl:text>
         </xsl:if>
@@ -99,7 +99,7 @@
       )
       VALUES
       (
-      <xsl:for-each select="./table/column[@isIdentity='false']">
+      <xsl:for-each select="./table/column[@isAddColumn='true']">
         <xsl:if test="position()=1">
           <xsl:text>    </xsl:text>
         </xsl:if>
@@ -123,7 +123,7 @@
       </xsl:attribute>
       UPDATE <xsl:value-of select="./table/@name" />
       SET
-      <xsl:for-each select="./table/column[@isPrimaryKey='false']">
+      <xsl:for-each select="./table/column[@isUpdateColumn='true']">
         <xsl:if test="position()=1">
           <xsl:text>    </xsl:text>
         </xsl:if>
@@ -180,7 +180,7 @@
       WHEN MATCHED THEN 
         UPDATE <xsl:value-of select="./table/@name" />
         SET
-        <xsl:for-each select="./table/column[@isPrimaryKey='false']">
+        <xsl:for-each select="./table/column[@isUpdateColumn='true']">
           <xsl:if test="position()=1">
             <xsl:text>  </xsl:text>
           </xsl:if>
@@ -203,7 +203,7 @@
       WHEN NOT MATCHED THEN
         INSERT INTO <xsl:value-of select="./table/@name" />
         (
-        <xsl:for-each select="./table/column[@isIdentity='false']">
+        <xsl:for-each select="./table/column[@isAddColumn='true']">
           <xsl:if test="position()=1">
             <xsl:text>  </xsl:text>
           </xsl:if>
@@ -214,7 +214,7 @@
         )
         VALUES
         (
-        <xsl:for-each select="./table/column[@isIdentity='false']">
+        <xsl:for-each select="./table/column[@isAddColumn='true']">
           <xsl:if test="position()=1">
             <xsl:text>  </xsl:text>
           </xsl:if>
