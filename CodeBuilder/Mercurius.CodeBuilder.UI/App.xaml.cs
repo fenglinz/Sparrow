@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Oracle.ManagedDataAccess.Client;
@@ -36,7 +38,7 @@ namespace Mercurius.CodeBuilder.UI
             CheckEnvironment();
 
             // 设置固定程序配置文件名称。
-            var configFile = "app.config";
+            var configFile = $"{AppDomain.CurrentDomain.BaseDirectory}app.config";
 
             AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", configFile);
 
@@ -54,6 +56,8 @@ namespace Mercurius.CodeBuilder.UI
             if (!File.Exists(configFile))
             {
                 MessageBox.Show("警告：App.config文件不存在！", "警告", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                Environment.Exit(0);
             }
         }
     }

@@ -239,7 +239,7 @@ using YlY2PRO.PlatForm.Core.Services;
     <xsl:for-each select="./table/column[@isSearchCriteria='true']"><xsl:if test="position()!=1"><xsl:text xml:space="preserve">                      </xsl:text></xsl:if>.And(c => c.<xsl:value-of select="@propertyName"/>, c => c.<xsl:value-of select="@propertyName"/>.<xsl:choose>
         <xsl:when test="@basicType!='string' and @basicType!='String'">HasValue</xsl:when>
         <xsl:otherwise>IsNullOrEmpty() == false</xsl:otherwise>
-      </xsl:choose>, <xsl:choose><xsl:when test="@basicType='string' or @basicType='String'">QuickSearchType.Like</xsl:when><xsl:otherwise>QuickSearchType.Equal</xsl:otherwise></xsl:choose>)
+      </xsl:choose>, <xsl:choose><xsl:when test="@mustEqual='true'">QuickSearchType.Equal</xsl:when><xsl:otherwise>QuickSearchType.Like</xsl:otherwise></xsl:choose>)
     </xsl:for-each><xsl:text xml:space="preserve">            </xsl:text>
   </xsl:template>
 </xsl:stylesheet>

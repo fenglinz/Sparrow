@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;
@@ -68,6 +69,16 @@ namespace Mercurius.CodeBuilder.Core
                     var type = dbTypeMapping.GetBasicType("C#", column.SqlType);
 
                     columnElement.SetAttributeValue("basicType", (type == "string" && column.Length == 36) ? "Guid" : type);
+                    if (column.BasicType.Equals("string",StringComparison.OrdinalIgnoreCase) ||
+                        column.PropertyName.EndsWith("guid", StringComparison.OrdinalIgnoreCase) ||
+                        column.PropertyName.EndsWith("id", StringComparison.OrdinalIgnoreCase))
+                    {
+                        columnElement.SetAttributeValue("mustEqual", true);
+                    }
+                    else
+                    {
+                        columnElement.SetAttributeValue("mustEqual", false);
+                    }
                     columnElement.SetAttributeValue("isPrimaryKey", column.IsPrimaryKey);
                     columnElement.SetAttributeValue("isIdentity", column.IsIdentity);
                     columnElement.SetAttributeValue("isNewGuid", column.IsNewGuid);
