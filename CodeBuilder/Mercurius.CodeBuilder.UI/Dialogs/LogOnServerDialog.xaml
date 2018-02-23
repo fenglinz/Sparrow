@@ -10,6 +10,11 @@
                        Height="350"
                        WindowStartupLocation="CenterOwner"
                        mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding SelectDatabaseCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

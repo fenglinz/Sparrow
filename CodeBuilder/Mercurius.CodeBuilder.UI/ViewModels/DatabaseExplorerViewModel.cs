@@ -159,6 +159,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                                 vm.ServerUri = arg.ServerUri;
                                 vm.Account = arg.Account;
                                 vm.Password = arg.Password;
+                                vm.Port = arg.Port;
                                 vm.SelectedDatabase = arg.Name;
                                 vm.UpdateDababaseType = arg.Type;
                                 vm.UpdateName = arg.Name;
