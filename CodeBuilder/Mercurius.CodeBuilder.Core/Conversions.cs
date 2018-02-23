@@ -69,7 +69,7 @@ namespace Mercurius.CodeBuilder.Core
                     var type = dbTypeMapping.GetBasicType("C#", column.SqlType);
 
                     columnElement.SetAttributeValue("basicType", (type == "string" && column.Length == 36) ? "Guid" : type);
-                    if (column.BasicType.Equals("string",StringComparison.OrdinalIgnoreCase) ||
+                    if (!column.BasicType.Equals("string", StringComparison.OrdinalIgnoreCase) ||
                         column.PropertyName.EndsWith("guid", StringComparison.OrdinalIgnoreCase) ||
                         column.PropertyName.EndsWith("id", StringComparison.OrdinalIgnoreCase))
                     {
