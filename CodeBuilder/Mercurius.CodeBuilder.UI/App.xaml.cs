@@ -34,8 +34,8 @@ namespace Mercurius.CodeBuilder.UI
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            // 检查配置文件。
-            CheckEnvironment();
+            // 修改配置文件路径。
+            ChangeConfigurationFilePath();
 
             // 设置固定程序配置文件名称。
             var configFile = $"{AppDomain.CurrentDomain.BaseDirectory}app.config";
@@ -49,7 +49,7 @@ namespace Mercurius.CodeBuilder.UI
             bootstrapper.Run();
         }
 
-        private void CheckEnvironment()
+        private void ChangeConfigurationFilePath()
         {
             var configFile = $"{AppDomain.CurrentDomain.BaseDirectory}app.config";
 
@@ -59,6 +59,11 @@ namespace Mercurius.CodeBuilder.UI
 
                 Environment.Exit(0);
             }
+
+            var m = typeof(AppDomainSetup).GetMethod("UpdateContextProperty", BindingFlags.NonPublic | BindingFlags.Static);
+            var funsion = typeof(AppDomain).GetMethod("GetFusionContext", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            m.Invoke(null, new object[] { funsion.Invoke(AppDomain.CurrentDomain, null), "APP_CONFIG_FILE", configFile });
         }
     }
 }
