@@ -172,6 +172,13 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                         try
                         {
+                            if (string.IsNullOrEmpty(metadata.ServerUri) ||
+                                string.IsNullOrEmpty(metadata.Account) ||
+                                string.IsNullOrEmpty(metadata.Password))
+                            {
+                                return;
+                            }
+
                             this.Databases = metadata.GetDatabaseNames();
 
                             this.RaisePropertyChanged(nameof(Databases));
