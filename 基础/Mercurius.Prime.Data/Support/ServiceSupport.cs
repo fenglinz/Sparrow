@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Services;
 using Mercurius.Prime.Data.IBatisNet;

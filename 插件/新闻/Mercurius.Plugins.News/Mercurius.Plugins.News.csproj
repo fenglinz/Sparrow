@@ -143,11 +143,11 @@
     </ProjectReference>
     <ProjectReference Include="..\Mercurius.News.Implementations\Mercurius.News.Implementations.csproj">
       <Project>{afd86f60-c751-45a9-9798-7a0c4579d9d5}</Project>
-      <Name>Mercurius.News.Implements</Name>
+      <Name>Mercurius.News.Implementations</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mercurius.News.Contracts\Mercurius.News.Contracts.csproj">
       <Project>{1eda83c9-e710-41e8-a31e-d5bf59ee86a9}</Project>
-      <Name>Mercurius.News.Interfaces</Name>
+      <Name>Mercurius.News.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

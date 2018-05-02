@@ -58,6 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ado\AdoNetExtensions.cs" />
+    <Compile Include="Ado\Parsers\AttachCommand.cs" />
+    <Compile Include="Ado\Parsers\QueryMode.cs" />
+    <Compile Include="Ado\Parsers\StatementNamespace.cs" />
+    <Compile Include="Ado\Parsers\XCommand.cs" />
     <Compile Include="Cache\NonCacheAttribute.cs" />
     <Compile Include="Cache\CacheProvider.cs" />
     <Compile Include="Cache\DefaultCacheProvider.cs" />
@@ -83,7 +87,7 @@
     <Compile Include="Entities\ColumnAttribute.cs" />
     <Compile Include="Ado\Columns.cs" />
     <Compile Include="Ado\DatabaseType.cs" />
-    <Compile Include="Ado\DbCommandParser.cs" />
+    <Compile Include="Ado\Parsers\DbCommandParser.cs" />
     <Compile Include="Ado\DbHelper.cs" />
     <Compile Include="Ado\DbHelperCreator.cs" />
     <Compile Include="Ado\DbTypeMapping\DbTypeResolve.cs" />
@@ -133,7 +137,7 @@
     <Compile Include="WebApi\WebApiClientSupport.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ado\CommandText.xsd">
+    <EmbeddedResource Include="Ado\Parsers\CommandText.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />

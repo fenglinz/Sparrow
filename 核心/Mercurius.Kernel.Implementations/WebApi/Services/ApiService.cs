@@ -3,6 +3,7 @@ using System.Linq;
 using Mercurius.Kernel.Contracts.WebApi.Entities;
 using Mercurius.Kernel.Contracts.WebApi.SearchObjects;
 using Mercurius.Kernel.Contracts.WebApi.Services;
+using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Services;
 using Mercurius.Prime.Data.Support;
 

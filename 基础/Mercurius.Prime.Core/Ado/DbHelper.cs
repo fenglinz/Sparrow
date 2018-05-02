@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+
 namespace Mercurius.Prime.Core.Ado
 {
     /// <summary>
@@ -275,6 +276,24 @@ namespace Mercurius.Prime.Core.Ado
             var result = this.CreateCommand(commandText, connection);
 
             result.CommandType = commandType;
+
+            return result;
+        }
+
+        /// <summary>
+        /// 创建命令对象。
+        /// </summary>
+        /// <param name="ns">命令所属的命名空间</param>
+        /// <param name="commandName">命令名称</param>
+        /// <param name="connection">数据库连接对象</param>
+        /// <returns>命令对象</returns>
+        public DbCommand CreateCommand(StatementNamespace ns, string commandName, DbConnection connection = null)
+        {
+            var command = ns.GetXCommand(commandName);
+            var result = this.CreateCommand(connection);
+
+            result.CommandText = command.Text;
+            result.CommandType = command.Type;
 
             return result;
         }

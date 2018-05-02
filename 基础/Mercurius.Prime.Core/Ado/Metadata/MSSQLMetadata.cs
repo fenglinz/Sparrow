@@ -7,6 +7,12 @@ namespace Mercurius.Prime.Core.Ado
     /// </summary>
     public class MSSQLMetadata : DbMetadata
     {
+        #region 静态变量
+
+        private static StatementNamespace ns = "Mercurius.Prime.Core.MSSQL";
+
+        #endregion
+
         #region 重写
 
         /// <summary>
@@ -15,7 +21,7 @@ namespace Mercurius.Prime.Core.Ado
         /// <returns>数据库列表</returns>
         public override IList<string> GetDatabases()
         {
-            return this.DbHelper.CreateCommand<Table>("GetDatabases")
+            return this.DbHelper.CreateCommand(ns, "GetDatabases")
                 .ExecuteReader()
                 .GetDatas(dr => dr.GetString(0));
         }
@@ -26,7 +32,7 @@ namespace Mercurius.Prime.Core.Ado
         /// <returns>表信息集合</returns>
         public override IList<Table> GetTables()
         {
-            return this.DbHelper.CreateCommand<Table>("GetTables").GetDatas<Table>();
+            return this.DbHelper.CreateCommand(ns, "GetTables").GetDatas<Table>();
         }
 
         /// <summary>
@@ -38,7 +44,7 @@ namespace Mercurius.Prime.Core.Ado
         {
             var rs = this.ResolveTable(tableName);
 
-            return this.DbHelper.CreateCommand<Table>("GetTable")
+            return this.DbHelper.CreateCommand(ns, "GetTable")
                 .AddParameter("@schema", rs.Item1)
                 .AddParameter("@table", rs.Item2)
                 .GetData<Table>();
@@ -53,7 +59,7 @@ namespace Mercurius.Prime.Core.Ado
         {
             var rs = this.ResolveTable(tableName);
 
-            return this.DbHelper.CreateCommand<Column>("GetColumns")
+            return this.DbHelper.CreateCommand(ns, "GetColumns")
                 .AddParameter("@schema", rs.Item1)
                 .AddParameter("@table", rs.Item2)
                 .GetDatas<Column>();
@@ -70,7 +76,7 @@ namespace Mercurius.Prime.Core.Ado
 
             if (tableInfo != null)
             {
-                this.DbHelper.CreateCommand<Table>("Comment")
+                this.DbHelper.CreateCommand(ns, "Comment")
                 .AddParameter("@comments", comments)
                 .AddParameter("@type", tableInfo.IsView ? "VIEW" : "TABLE")
                 .AddParameter("@table", tableInfo.Name)
@@ -90,7 +96,7 @@ namespace Mercurius.Prime.Core.Ado
 
             if (tableInfo != null)
             {
-                this.DbHelper.CreateCommand<Column>("Comment")
+                this.DbHelper.CreateCommand(ns, "Comment")
                 .AddParameter("@table", tableInfo.Name)
                 .AddParameter("@schema", tableInfo.Schema)
                 .AddParameter("@type", tableInfo.IsView ? "VIEW" : "TABLE")

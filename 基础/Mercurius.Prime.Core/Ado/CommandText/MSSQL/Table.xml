@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<CommandTexts xmlns="http://www.mercurius.com/CommandText.xsd">
+<statements namespace="Mercurius.Prime.Core.MSSQL" xmlns="http://www.mercurius.com/CommandText.xsd">
 
   <!-- 获取数据库信息 -->
-  <CommandText name="GetDatabases" commandType="Text">
+  <commandText name="GetDatabases" commandType="Text">
     <![CDATA[
       SELECT * FROM SysDatabases ORDER BY dbid
     ]]>
-  </CommandText>
+  </commandText>
 
   <!-- 获取所有表的信息 -->
-  <CommandText name="GetTables" commandType="Text">
+  <commandText name="GetTables" commandType="Text">
     <![CDATA[
       WITH cte AS(
         SELECT
@@ -34,10 +34,10 @@
       ) p
       ORDER BY cte.[schema],cte.Name
     ]]>
-  </CommandText>
+  </commandText>
 
   <!-- 获取表的信息 -->
-  <CommandText name="GetTable" commandType="Text">
+  <commandText name="GetTable" commandType="Text">
     <![CDATA[
       WITH cte AS(
 	    SELECT
@@ -62,10 +62,10 @@
       ) p
       WHERE cte.[Schema]=@schema AND cte.name=@table
     ]]>
-  </CommandText>
+  </commandText>
 
   <!-- 修改表的注释信息 -->
-  <CommandText name="Comment" commandType="Text">
+  <commandText name="Comment" commandType="Text">
     <![CDATA[
       IF ((SELECT count(*) from FN_LISTEXTENDEDPROPERTY('MS_Description',N'SCHEMA',@schema,@type,@table,NULL,DEFAULT))>0)
         EXEC sp_updateextendedproperty
@@ -86,5 +86,5 @@
           @level2type = NULL,
           @level2name = NULL
     ]]>
-  </CommandText>
-</CommandTexts>
+  </commandText>
+</statements>

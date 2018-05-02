@@ -7,6 +7,12 @@ namespace Mercurius.Prime.Core.Ado
     /// </summary>
     public class OracleMetadata : DbMetadata
     {
+        #region 静态常量
+
+        private static StatementNamespace ns = "Mercurius.Prime.Core.Oracle";
+
+        #endregion
+
         #region 实现抽象方法
 
         /// <summary>
@@ -15,7 +21,7 @@ namespace Mercurius.Prime.Core.Ado
         /// <returns>数据库名称列表</returns>
         public override IList<string> GetDatabases()
         {
-            return this.DbHelper.CreateCommand<Table>("GetDatabases")
+            return this.DbHelper.CreateCommand(ns, "GetDatabases")
                 .ExecuteReader()
                 .GetDatas(d => d.GetString(0));
         }
@@ -26,7 +32,7 @@ namespace Mercurius.Prime.Core.Ado
         /// <returns>表信息集合</returns>
         public override IList<Table> GetTables()
         {
-            return this.DbHelper.CreateCommand<Table>("GetTables")
+            return this.DbHelper.CreateCommand(ns, "GetTables")
                 .ExecuteReader()
                 .GetDatas<Table>();
         }
@@ -38,7 +44,7 @@ namespace Mercurius.Prime.Core.Ado
         /// <returns>表信息</returns>
         public override Table GetTable(string tableName)
         {
-            return this.DbHelper.CreateCommand<Table>("GetTable")
+            return this.DbHelper.CreateCommand(ns, "GetTable")
                 .AddParameter("ptable", tableName)
                 .GetData<Table>();
         }
@@ -50,7 +56,7 @@ namespace Mercurius.Prime.Core.Ado
         /// <returns>字段详细信息集合</returns>
         public override IList<Column> GetColumns(string tableName)
         {
-            return this.DbHelper.CreateCommand<Column>("GetColumns")
+            return this.DbHelper.CreateCommand(ns, "GetColumns")
                 .AddParameter("ptable", tableName)
                 .GetDatas<Column>();
         }

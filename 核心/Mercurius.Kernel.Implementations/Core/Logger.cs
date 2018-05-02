@@ -4,7 +4,6 @@ using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Logger;
 using Mercurius.Prime.Data.IBatisNet;
-using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.Kernel.Implementations.Core
 {

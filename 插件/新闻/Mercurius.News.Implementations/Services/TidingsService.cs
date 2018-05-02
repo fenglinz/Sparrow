@@ -8,6 +8,7 @@ using System;
 using Mercurius.News.Contracts.Entities;
 using Mercurius.News.Contracts.SearchObjects;
 using Mercurius.News.Contracts.Services;
+using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Services;
 using Mercurius.Prime.Data.Support;
 

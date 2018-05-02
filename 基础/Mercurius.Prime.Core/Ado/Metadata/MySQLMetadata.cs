@@ -6,6 +6,12 @@ namespace Mercurius.Prime.Core.Ado
 {
     public class MySQLMetadata : DbMetadata
     {
+        #region 静态变量
+
+        private static StatementNamespace ns = "Mercurius.Prime.Core.MySQL";
+
+        #endregion
+
         #region 重写
 
         /// <summary>
@@ -16,7 +22,7 @@ namespace Mercurius.Prime.Core.Ado
         {
             var database = this.GetCurrentDatabase();
 
-            return this.DbHelper.CreateCommand<Table>("GetDatabases")
+            return this.DbHelper.CreateCommand(ns, "GetDatabases")
                 .ExecuteReader().GetDatas(dr => dr.GetString(0));
         }
 
@@ -28,7 +34,7 @@ namespace Mercurius.Prime.Core.Ado
         {
             var database = this.GetCurrentDatabase();
 
-            return this.DbHelper.CreateCommand<Table>("GetTables").AddParameter("@database", database).GetDatas<Table>();
+            return this.DbHelper.CreateCommand(ns, "GetTables").AddParameter("@database", database).GetDatas<Table>();
         }
 
         /// <summary>
@@ -41,7 +47,7 @@ namespace Mercurius.Prime.Core.Ado
             var rs = this.ResolveTable(tableName);
             var database = this.GetCurrentDatabase();
 
-            return this.DbHelper.CreateCommand<Table>("GetTable")
+            return this.DbHelper.CreateCommand(ns, "GetTable")
                 .AddParameter(":database", database)
                 .AddParameter(":table", $"{rs.Item1}_{rs.Item2}")
                 .GetData<Table>();
@@ -57,7 +63,7 @@ namespace Mercurius.Prime.Core.Ado
             var rs = this.ResolveTable(tableName);
             var database = this.GetCurrentDatabase();
 
-            return this.DbHelper.CreateCommand<Column>("GetColumns")
+            return this.DbHelper.CreateCommand(ns, "GetColumns")
                 .AddParameter("@database", database)
                 .AddParameter("@table", rs.Item2)
                 .GetDatas<Column>();
@@ -74,7 +80,7 @@ namespace Mercurius.Prime.Core.Ado
 
             if (tableInfo != null)
             {
-                var command = this.DbHelper.CreateCommand<Table>("Comment");
+                var command = this.DbHelper.CreateCommand(ns, "Comment");
 
                 command.CommandText = string.Format(command.CommandText, tableInfo.Schema, tableInfo.Name, comments);
                 command.Execute();
@@ -93,7 +99,7 @@ namespace Mercurius.Prime.Core.Ado
 
             if (tableInfo != null)
             {
-                var command = this.DbHelper.CreateCommand<Column>("CommentColumn");
+                var command = this.DbHelper.CreateCommand(ns, "CommentColumn");
 
                 command.CommandText = string.Format(command.CommandText, tableInfo.Schema, tableInfo.Name, column, comments);
                 command.Execute();
@@ -131,7 +137,7 @@ namespace Mercurius.Prime.Core.Ado
         /// <returns>数据库名称</returns>
         private string GetCurrentDatabase()
         {
-            var command = this.DbHelper.CreateCommand<Table>("GetCurrentDatabase");
+            var command = this.DbHelper.CreateCommand(ns, "GetCurrentDatabase");
 
             return command.GetData(r => r.GetString(0));
         }

@@ -1,4 +1,4 @@
-﻿namespace Mercurius.Prime.Data.Support
+﻿namespace Mercurius.Prime.Core
 {
     /// <summary>
     /// Satement命令命名空间信息。
@@ -23,7 +23,7 @@
         /// <returns>Satement完整命令id</returns>
         public string GetStatementId(string innerId)
         {
-            return $"{this._namesapce}.{innerId}";
+            return $"{(this._namesapce.IsNullOrEmpty() ? "" : this._namesapce + ".")}{innerId}";
         }
 
         #endregion

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Kernel.Contracts.Core.SearchObjects;
 using Mercurius.Kernel.Contracts.Core.Services;
-using Mercurius.Prime.Core.Ado;
+using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Logger;
 using Mercurius.Prime.Core.Services;
 using Mercurius.Prime.Data.Support;

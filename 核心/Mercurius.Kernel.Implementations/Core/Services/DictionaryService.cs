@@ -1,6 +1,7 @@
 ﻿using System;
 using Mercurius.Kernel.Contracts.Core.Entities;
 using Mercurius.Kernel.Contracts.Core.Services;
+using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Services;
 using Mercurius.Prime.Data.Support;
 

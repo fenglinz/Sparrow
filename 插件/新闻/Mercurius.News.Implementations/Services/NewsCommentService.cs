@@ -5,11 +5,12 @@
 // <create>2017-01-22</create>
 
 using System;
-using Mercurius.Prime.Core.Services;
-using Mercurius.Prime.Data.Support;
 using Mercurius.News.Contracts.Entities;
 using Mercurius.News.Contracts.SearchObjects;
 using Mercurius.News.Contracts.Services;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Services;
+using Mercurius.Prime.Data.Support;
 
 namespace Mercurius.News.Implementations.Services
 {
