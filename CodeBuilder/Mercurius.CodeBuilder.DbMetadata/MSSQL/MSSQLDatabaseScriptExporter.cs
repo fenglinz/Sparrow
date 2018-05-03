@@ -8,6 +8,12 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
 {
     public class MSSQLDatabaseScriptExporter : DatabaseScriptExporter
     {
+        #region 静态字段
+
+        private static StatementNamespace ns = "Mercurius.CodeBuilder.DbMetadata.MSSQL";
+
+        #endregion
+
         #region 字段
 
         private readonly DbHelper _dbHelper;
@@ -35,7 +41,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
         /// <returns>自定义架构列表</returns>
         protected override String GetSchemasDefinition()
         {
-            var command = this._dbHelper.CreateCommand<MSSQLDatabaseScriptExporter>("GetSchemas");
+            var command = this._dbHelper.CreateCommand(ns, "GetSchemas");
             var schemas = command?.GetDatas(r => r.GetString(0));
 
             if (!schemas.IsEmpty())
@@ -62,7 +68,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
         /// <returns>表的数据库定义语句列表</returns>
         protected override String GetTablesDefinition()
         {
-            var command = this._dbHelper.CreateCommand<MSSQLDatabaseScriptExporter>("GetTablesDefinition");
+            var command = this._dbHelper.CreateCommand(ns, "GetTablesDefinition");
             var ddls = command?.GetDatas(r => r.GetString(0));
 
             if (!ddls.IsEmpty())
@@ -86,7 +92,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
         /// <returns>脚本</returns>
         protected override String GetProceduresDefinition()
         {
-            var allCommand = this._dbHelper.CreateCommand<MSSQLDatabaseScriptExporter>("GetProcedures");
+            var allCommand = this._dbHelper.CreateCommand(ns, "GetProcedures");
 
             var procedureNames = allCommand?.GetDatas(r => r.GetString(0));
 
@@ -96,9 +102,9 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
 
                 foreach (var procedure in procedureNames)
                 {
-                    var ddlCommand = this._dbHelper.CreateCommand<MSSQLDatabaseScriptExporter>("GetProcedureDefinition");
+                    var ddlCommand = this._dbHelper.CreateCommand(ns, "GetProcedureDefinition");
 
-                    var ddls = ddlCommand?.AddParameter("@procedure", procedure).GetDatas(r=>r.GetString(0));
+                    var ddls = ddlCommand?.AddParameter("@procedure", procedure).GetDatas(r => r.GetString(0));
 
                     foreach (var d in ddls)
                     {
@@ -116,7 +122,7 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
 
         protected override String GetAddDatasScript()
         {
-            var command = this._dbHelper.CreateCommand<MSSQLDatabaseScriptExporter>("GetTables");
+            var command = this._dbHelper.CreateCommand(ns, "GetTables");
             var tables = command?.GetDatas<Table>();
 
             if (tables.IsEmpty())
@@ -129,15 +135,15 @@ namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
             foreach (var item in tables)
             {
                 var fullName = $"[{item.Schema}].[{item.Name}]";
-                var ddlCommand = this._dbHelper.CreateCommand<MSSQLDatabaseScriptExporter>("GetAddDatasScript");
+                var ddlCommand = this._dbHelper.CreateCommand(ns, "GetAddDatasScript");
 
-                var datas = ddlCommand?.AddParameter("@table", fullName).GetDatas(r=>r.GetString(0));
-                
+                var datas = ddlCommand?.AddParameter("@table", fullName).GetDatas(r => r.GetString(0));
+
                 if (datas.IsEmpty())
                 {
                     continue;
                 }
-                
+
                 if (item.HasIdentityColumn == true)
                 {
                     sql.AppendLine($"SET IDENTITY_INSERT {fullName} ON;\r\nGO");

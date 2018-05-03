@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace Mercurius.Prime.Core.Ado
@@ -34,6 +35,11 @@ namespace Mercurius.Prime.Core.Ado
 
             foreach (var item in assemblies)
             {
+                if (item.IsDynamic)
+                {
+                    continue;
+                }
+
                 var resources =
                 from r in item.GetManifestResourceNames()
                 where

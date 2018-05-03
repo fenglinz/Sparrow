@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<CommandTexts xmlns="http://www.mercurius.com/CommandText.xsd">
+<statements namespace="Mercurius.CodeBuilder.DbMetadata.MSSQL" xmlns="http://www.mercurius.com/CommandText.xsd">
   <!-- 获取用户自定义架构 -->
-  <CommandText name="GetSchemas" commandType="Text">
+  <commandText name="GetSchemas" commandType="Text">
     <![CDATA[
       SELECT
         name
@@ -11,10 +11,10 @@
       )
       ORDER BY SCHEMA_ID ASC
     ]]>
-  </CommandText>
+  </commandText>
 
   <!-- 获取所有表信息 -->
-  <CommandText name="GetTables" commandType="Text">
+  <commandText name="GetTables" commandType="Text">
     <![CDATA[
       WITH cte AS(
         SELECT
@@ -39,10 +39,10 @@
       ) p
       ORDER BY cte.[schema],cte.Name
     ]]>
-  </CommandText>
+  </commandText>
 
   <!-- 获取所有自定义表的DDL语句。 -->
-  <CommandText name="GetTablesDefinition" commandType="Text">
+  <commandText name="GetTablesDefinition" commandType="Text">
     <![CDATA[
       BEGIN
         DECLARE @isView INT;
@@ -184,10 +184,10 @@
         SELECT source FROM @ddl ORDER BY id ASC;
       END
     ]]>
-  </CommandText>
+  </commandText>
 
   <!-- 获取表的添加数据脚本 -->
-  <CommandText name="GetAddDatasScript" commandType="Text">
+  <commandText name="GetAddDatasScript" commandType="Text">
     <![CDATA[
       BEGIN
         DECLARE @sqlstr VARCHAR(MAX);
@@ -236,10 +236,10 @@
         EXEC( @sqlstr);
       END
     ]]>
-  </CommandText>
+  </commandText>
 
   <!-- 获取数据库中的所有用户自定义过程(包括函数) -->
-  <CommandText name="GetProcedures" commandType="Text">
+  <commandText name="GetProcedures" commandType="Text">
     <![CDATA[
       SELECT
         '['+s.name+'].['+t.name+']' AS FullTable
@@ -247,12 +247,12 @@
       INNER JOIN sys.schemas s ON t.schema_id=s.schema_id 
       WHERE t.type IN('P','TF','FN');
     ]]>
-  </CommandText>
+  </commandText>
 
   <!-- 获取数据库中自定义过程(包括函数)的详细定义 -->
-  <CommandText name="GetProcedureDefinition" commandType="Text">
+  <commandText name="GetProcedureDefinition" commandType="Text">
     <![CDATA[
       exec sp_helptext @procedure
     ]]>
-  </CommandText>
-</CommandTexts>
+  </commandText>
+</statements>
