@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <item
+    name="Entity"
+    template="Entity.xslt"
+    module="interface"
+    fileFormat="{0}"
+    extension="java"
+    subFolder="entity"
+    project="" />
+  
+  <item
+    name="SearchResponse"
+    template="SearchResponse.xslt"
+    module="interface"
+    fileFormat="{0}SO"
+    extension="java"
+    subFolder="mapper\so"
+    project="" />
+
+  <item
+    name="SqlMap"
+    dependency="Entity,SearchResponse"
+    template="MyBatis\SqlMap.xslt"
+    module="implement"
+    fileFormat="{0}Mapper"
+    extension="xml"
+    subFolder="mapper"
+    ignoreView="true"
+    project="" />
+
+  <item
+    name="Mapper"
+    dependency="Entity,SearchResponse"
+    template="IContract.xslt"
+    module="interface"
+    fileFormat="{0}Mapper"
+    extension="java"
+    subFolder="mapper"
+    ignoreView="true"
+    project="" />
+
+  <item
+    name="Service"
+    dependency="Entity,SearchResponse,Mapper"
+    template="MyBatis\Service.xslt"
+    module="implement"
+    fileFormat="{0}Service"
+    extension="java"
+    subFolder="service"
+    ignoreView="true"
+    project="" />
+</config>

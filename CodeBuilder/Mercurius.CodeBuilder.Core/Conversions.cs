@@ -66,9 +66,11 @@ namespace Mercurius.CodeBuilder.Core
                     columnElement.SetAttributeValue("length", column.Length);
                     columnElement.SetAttributeValue("nullable", column.Nullable);
 
-                    var type = dbTypeMapping.GetBasicType("C#", column.SqlType);
+                    var type = dbTypeMapping.GetBasicType(config.Language, column.SqlType);
 
-                    columnElement.SetAttributeValue("basicType", (type == "string" && column.Length == 36) ? "Guid" : type);
+                    columnElement.SetAttributeValue("basicType", (type.LanguageType == "string" && column.Length == 36) ? "Guid" : type.LanguageType);
+                    columnElement.SetAttributeValue("jdbcType", type.JdbcType);
+                    columnElement.SetAttributeValue("parameterType", type.ParameterType);
                     if (!column.BasicType.Equals("string", StringComparison.OrdinalIgnoreCase) ||
                         column.PropertyName.EndsWith("guid", StringComparison.OrdinalIgnoreCase) ||
                         column.PropertyName.EndsWith("id", StringComparison.OrdinalIgnoreCase))

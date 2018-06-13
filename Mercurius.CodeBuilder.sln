@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.Core", "CodeBuilder\Mercurius.CodeBuilder.Core\Mercurius.CodeBuilder.Core.csproj", "{62379B2C-78EE-488C-AF19-635319117678}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Core", "基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj", "{5B236DA6-7A5A-48E8-813E-5745B0E50D65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.DataProcess", "基础\Mercurius.Prime.DataProcess\Mercurius.Prime.DataProcess.csproj", "{D9A831D4-D63C-48F2-B741-AA8FA2956158}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.Java", "CodeBuilder\Mercurius.CodeBuilder.Java\Mercurius.CodeBuilder.Java.csproj", "{54A250FB-F6EB-418E-9F44-4579967D30AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54A250FB-F6EB-418E-9F44-4579967D30AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54A250FB-F6EB-418E-9F44-4579967D30AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54A250FB-F6EB-418E-9F44-4579967D30AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54A250FB-F6EB-418E-9F44-4579967D30AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,7 +62,8 @@ Global
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158} = {91BD7B99-8281-4565-BC08-EE9BF3E90CA3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35;packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45
+		SolutionGuid = {CDA521A6-C155-455A-9A6A-5161920C57C9}
 	EndGlobalSection
 EndGlobal

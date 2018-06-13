@@ -158,6 +158,7 @@
       <DependentUpon>RoundedBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Themes\Converters\LanguageToVisibilityConverter.cs" />
     <Compile Include="Themes\Converters\MinusConverter.cs" />
     <Compile Include="Themes\MercuriusDialog.cs" />
     <Compile Include="Themes\MercuriusWindow.cs" />
@@ -372,6 +373,10 @@
     <ProjectReference Include="..\Mercurius.CodeBuilder.DbMetadata\Mercurius.CodeBuilder.DbMetadata.csproj">
       <Project>{e06c7d09-f050-4734-88e2-61d8d7e53b93}</Project>
       <Name>Mercurius.CodeBuilder.DbMetadata</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mercurius.CodeBuilder.Java\Mercurius.CodeBuilder.Java.csproj">
+      <Project>{54a250fb-f6eb-418e-9f44-4579967d30af}</Project>
+      <Name>Mercurius.CodeBuilder.Java</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

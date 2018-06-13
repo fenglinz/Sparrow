@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Unity;
 using Mercurius.CodeBuilder.DbMetadata.MySQL;
+using Mercurius.CodeBuilder.Java;
 
 namespace Mercurius.CodeBuilder.UI
 {
@@ -42,6 +43,7 @@ namespace Mercurius.CodeBuilder.UI
             this.Container.RegisterType<DbTypeMapping, MySQLDbTypeMapping>("MySQL");
             this.Container.RegisterType<DbTypeMapping, OracleDbTypeMapping>("Oracle");
             this.Container.RegisterType<AbstractCodeCreator, CSharpCodeCreator>("C#");
+            this.Container.RegisterType<AbstractCodeCreator, JavaCodeCreator>("Java");
         }
 
         protected override void ConfigureModuleCatalog()

@@ -19,6 +19,11 @@ namespace Mercurius.Prime.Core
         private const int WrapThreshold = 120;
         private const string BlockElements = "div|p|img|ul|ol|li|h[1-6]|blockquote";
 
+        /// <summary>
+        /// 元音字符
+        /// </summary>
+        private static readonly string[] vowels = { "a", "e", "i", "o", "u" };
+
         private static readonly string NewLine = Environment.NewLine;
         private static readonly int NewLineLength = Environment.NewLine.Length;
         private static readonly Regex EmptyTagRegex = new Regex("^<.*/>$", RegexOptions.Compiled);
@@ -362,10 +367,15 @@ namespace Mercurius.Prime.Core
                 return result + "es";
             }
 
-            // 以辅音加y结尾的，将y变成ies。
-            if (!(result.EndsWith("a") || result.EndsWith("e") || result.EndsWith("i") || result.EndsWith("o") || result.EndsWith("u")))
+            if (result.Length > 1)
             {
-                return result.Substring(0, result.Length - 1) + "ies";
+                var temp = result[result.Length - 2].ToString();
+
+                // 以辅音加y结尾的，将y变成ies。
+                if (result.EndsWith("y") && !vowels.Contains(temp.ToLower()))
+                {
+                    return result.Substring(0, result.Length - 1) + "ies";
+                }
             }
 
             return result + "s";

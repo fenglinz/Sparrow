@@ -13,7 +13,9 @@ namespace Mercurius.CodeBuilder.Core.Config
     {
         Dapper,
 
-        IBatisNet
+        IBatisNet,
+
+        MyBatis
     }
 
     public static class ConfigManager
@@ -45,14 +47,14 @@ namespace Mercurius.CodeBuilder.Core.Config
         /// </summary>
         /// <param name="orm">Orm中间件</param>
         /// <returns>配置信息集合</returns>
-        public static ItemCollection GetItems(OrmMiddleware orm)
+        public static ItemCollection GetItems(OrmMiddleware orm, string language="CSharp")
         {
             if (dictItems.ContainsKey(orm))
             {
                 return dictItems[orm];
             }
 
-            var configFile = $@"{Environment.CurrentDirectory}\Template\CSharp\{orm}\init.xml";
+            var configFile = $@"{Environment.CurrentDirectory}\Template\{language}\{orm}\init.xml";
 
             if (File.Exists(configFile))
             {
@@ -62,7 +64,7 @@ namespace Mercurius.CodeBuilder.Core.Config
                      {
                          Name = s.Attribute("name").Value,
                          Dependencys = s.Attribute("dependency")?.Value.Split(','),
-                         TemplateFile = $@"{Environment.CurrentDirectory}\Template\CSharp\{s.Attribute("template").Value}",
+                         TemplateFile = $@"{Environment.CurrentDirectory}\Template\{language}\{s.Attribute("template").Value}",
                          Module = s.Attribute("module")?.Value,
                          FileFormat = s.Attribute("fileFormat").Value,
                          Extension = s.Attribute("extension").Value,

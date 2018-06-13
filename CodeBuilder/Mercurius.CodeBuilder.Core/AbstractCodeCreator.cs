@@ -117,7 +117,7 @@ namespace Mercurius.CodeBuilder.Core
                 {
                     var column = table.Columns[j];
 
-                    column.BasicType = dbTypeMapping.GetBasicType(configuration.Language, column.SqlType);
+                    column.BasicType = dbTypeMapping.GetBasicType(configuration.Language, column.SqlType).LanguageType;
                 }
             }
         }

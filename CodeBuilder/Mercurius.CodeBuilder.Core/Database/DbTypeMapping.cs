@@ -3,6 +3,28 @@ using System.IO;
 
 namespace Mercurius.CodeBuilder.Core.Database
 {
+    public class MappingItem
+    {
+        #region 属性
+
+        /// <summary>
+        /// 对应的jdbc类型
+        /// </summary>
+        public string JdbcType { get; set; }
+
+        /// <summary>
+        /// 语言类型
+        /// </summary>
+        public string LanguageType { get; set; }
+
+        /// <summary>
+        /// 参数类型
+        /// </summary>
+        public string ParameterType { get; set; }
+
+        #endregion
+    }
+
     /// <summary>
     /// <para>
     /// 数据库类型映射工具。
@@ -17,7 +39,7 @@ namespace Mercurius.CodeBuilder.Core.Database
     {
         #region 字段
 
-        private Dictionary<string, Dictionary<string, string>> _sqlTypeConvertors;
+        private Dictionary<string, Dictionary<string, MappingItem>> _sqlTypeConvertors;
 
         #endregion
 
@@ -28,7 +50,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public DbTypeMapping()
         {
-            this._sqlTypeConvertors = new Dictionary<string, Dictionary<string, string>>();
+            this._sqlTypeConvertors = new Dictionary<string, Dictionary<string, MappingItem>>();
         }
 
         #endregion
@@ -41,10 +63,10 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// <param name="language">语言</param>
         /// <param name="dbType">数据库类型</param>
         /// <returns>对应指定语言的基本类型</returns>
-        public string GetBasicType(string language, string dbType)
+        public MappingItem GetBasicType(string language, string dbType)
         {
             var key = dbType.ToLower();
-            var result = key;
+            var result = new MappingItem { LanguageType = key, JdbcType = key, ParameterType = key };
 
             if (this._sqlTypeConvertors.ContainsKey(language))
             {
@@ -70,14 +92,15 @@ namespace Mercurius.CodeBuilder.Core.Database
         {
             if (stream != null)
             {
-                Dictionary<string, string> dict = null;
+                Dictionary<string, MappingItem> dict = null;
                 if (this._sqlTypeConvertors.ContainsKey(language))
                 {
                     dict = this._sqlTypeConvertors[language];
                 }
                 else
                 {
-                    dict = new Dictionary<string, string>();
+                    dict = new Dictionary<string, MappingItem>();
+
                     this._sqlTypeConvertors.Add(language, dict);
                 }
 
@@ -89,8 +112,13 @@ namespace Mercurius.CodeBuilder.Core.Database
                     while (!string.IsNullOrWhiteSpace(temp = reader.ReadLine()))
                     {
                         var arrays = temp.Split(',');
-                        
-                        dict.Add(arrays[0].ToLower(), arrays[1]);
+
+                        dict.Add(arrays[0].ToLower(), new MappingItem
+                        {
+                            LanguageType = arrays[1],
+                            JdbcType = arrays.Length > 2 ? arrays[2] : arrays[0],
+                            ParameterType = arrays.Length > 3 ? arrays[3] : arrays[0].ToLower()
+                        });
                     }
                 }
             }

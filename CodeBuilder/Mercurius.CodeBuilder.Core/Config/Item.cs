@@ -32,6 +32,11 @@ namespace Mercurius.CodeBuilder.Core.Config
         public string Module { get; set; }
 
         /// <summary>
+        /// 文件名称。
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
         /// 生成的文件名格式。
         /// </summary>
         public string FileFormat { get; set; }
@@ -76,6 +81,11 @@ namespace Mercurius.CodeBuilder.Core.Config
         /// <returns>项目所在路径</returns>
         public string GetProjectFolder(Configuration config)
         {
+            if (config.Language == "Java")
+            {
+                return $"{config.OutputFolder}\\{config.BaseNamespace.Replace(".", "\\")}";
+            }
+
             var folder = string.Empty;
 
             switch (this.Module)

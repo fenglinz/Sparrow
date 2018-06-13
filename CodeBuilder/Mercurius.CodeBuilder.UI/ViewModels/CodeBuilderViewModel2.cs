@@ -48,6 +48,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         private ICommand _loadedCommand;
         private ICommand _buildingCommand;
+        private ICommand _selectProjectFolderCommand;
         private ICommand _selectEntityProjectFileCommand;
         private ICommand _selectContractProjectFileCommand;
         private ICommand _selectServiceProjectFileCommand;
@@ -313,6 +314,22 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                                 ShowMessage("出现错误，错误原因：" + e.Message, MessageBoxImage.Error);
                             });
                         }
+                    }
+                }));
+            }
+        }
+
+        public ICommand SelectProjectFolderCommand
+        {
+            get
+            {
+                return this._selectProjectFolderCommand ?? (this._selectProjectFolderCommand = new DelegateCommand(() =>
+                {
+                    var dialog = new FolderBrowserDialog { Description = "选择Java项目的源代码目录" };
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        this.Configuration.OutputFolder = dialog.SelectedPath;
                     }
                 }));
             }
