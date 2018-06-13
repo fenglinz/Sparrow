@@ -245,7 +245,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="0" Visibility="{Binding Configuration.Language, Converter={StaticResource LanguageConverter}, ConverterParameter=C#}">
+                            <Grid Grid.Row="0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Configuration.Language, Converter={StaticResource LanguageConverter}, ConverterParameter=C#}">
                                 <Label Margin="52,5,0,0" Content="模块：" />
                                 <TextBox Width="260" Margin="105,6,0,0" Text="{Binding ModuleName, UpdateSourceTrigger=PropertyChanged}" />
                                 <Label Margin="379,5,0,0" Content="模块描述：" />
