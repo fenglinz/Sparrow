@@ -90,7 +90,7 @@ public class <xsl:value-of select="./table/@className"/>Service {
      * @param id <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
      * @return <xsl:value-of select="./table/@description"/>查询结果
      */
-    public <xsl:value-of select="./table/@className"/>> get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
+    public <xsl:value-of select="./table/@className"/> get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
         return this.<xsl:value-of select="./table/@camelClassName" />Mapper.get<xsl:value-of select="./table/@className"/>ById(id);
     }
 </xsl:when>

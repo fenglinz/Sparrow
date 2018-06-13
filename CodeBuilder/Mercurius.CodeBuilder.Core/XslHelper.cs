@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using System.Xml.Xsl;
 using System.Xml;
+using System.Text;
 
 namespace Mercurius.CodeBuilder.Core
 {
@@ -37,7 +38,8 @@ namespace Mercurius.CodeBuilder.Core
                     Directory.CreateDirectory(fileInfo.Directory.FullName);
                 }
 
-                using (var stream = new FileStream(outFile, FileMode.Create, FileAccess.Write))
+                // new UTF8Encoding(false)控制生成的文本为UTF-8无bom格式，解决Java环境下编译出错的问题。
+                using (var stream = new StreamWriter(outFile, false, new UTF8Encoding(false)))
                 {
                     xslTransform.Load(xslFile);
                     xslTransform.Transform(new XmlTextReader(new StringReader(xdocument.ToString())), null, stream);
