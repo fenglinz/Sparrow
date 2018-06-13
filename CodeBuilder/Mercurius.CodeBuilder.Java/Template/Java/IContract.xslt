@@ -8,9 +8,12 @@
 <xsl:text>
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 </xsl:text>
 <xsl:call-template name="dependencys" />
-<xsl:call-template name="classDescription" />public interface <xsl:value-of select="./table/@className"/>Mapper {
+<xsl:call-template name="classDescription" />@Mapper
+public interface <xsl:value-of select="./table/@className"/>Mapper {
 <xsl:if test="count(./table[@hasCreate='true'])=1">
     <![CDATA[/**]]>
     <![CDATA[ * ]]><xsl:value-of select="./table/@description" />.
@@ -41,7 +44,7 @@ import java.util.List;
     <![CDATA[/**]]>
     <![CDATA[ * 根据主键删除]]><xsl:value-of select="./table/@description" />信息.
     <![CDATA[ *]]>
-    <![CDATA[ * @param id]]><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
+    <![CDATA[ * @param id ]]><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
     <![CDATA[ */]]>
     void remove(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id);
 </xsl:when>

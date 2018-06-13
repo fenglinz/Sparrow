@@ -38,6 +38,21 @@ namespace Mercurius.Prime.Core
         #region 公开方法
 
         /// <summary>
+        /// 将字符串合并到一行。
+        /// </summary>
+        /// <param name="source">源字符串</param>
+        /// <returns>合并后的字符串</returns>
+        public static string Inline(this string source)
+        {
+            if (source.IsNullOrEmpty())
+            {
+                return string.Empty;
+            }
+
+            return source.Replace("\r", "").Replace("\n", "");
+        }
+
+        /// <summary>
         /// 判断字符串是否为空(null、空或空白)。
         /// </summary>
         /// <param name="source">字符串</param>

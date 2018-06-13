@@ -43,12 +43,12 @@ namespace Mercurius.CodeBuilder.Core
 
                 tableElement.SetAttributeValue("namespace", table.Namespace);
                 tableElement.SetAttributeValue("isView", table.IsView);
-                tableElement.SetAttributeValue("moduleName", table.ModuleName ?? string.Empty);
-                tableElement.SetAttributeValue("moduleDescription", table.ModuleDescription ?? string.Empty);
+                tableElement.SetAttributeValue("moduleName", table.ModuleName.Inline());
+                tableElement.SetAttributeValue("moduleDescription", table.ModuleDescription.Inline());
                 tableElement.SetAttributeValue("className", table.ClassName);
                 tableElement.SetAttributeValue("camelClassName", table.ClassName.CamelNaming());
                 tableElement.SetAttributeValue("pluralClassName", table.ClassName.PluralClassName());
-                tableElement.SetAttributeValue("description", table.Description);
+                tableElement.SetAttributeValue("description", table.Description.Inline());
                 tableElement.SetAttributeValue("hasCreate", table.HasCreate);
                 tableElement.SetAttributeValue("hasUpdate", table.HasUpdate);
                 tableElement.SetAttributeValue("hasCreateOrUpdate", table.HasCreateOrUpdate);
@@ -84,7 +84,7 @@ namespace Mercurius.CodeBuilder.Core
                     columnElement.SetAttributeValue("isPrimaryKey", column.IsPrimaryKey);
                     columnElement.SetAttributeValue("isIdentity", column.IsIdentity);
                     columnElement.SetAttributeValue("isNewGuid", column.IsNewGuid);
-                    columnElement.SetAttributeValue("description", column.Description.IsNullOrEmptyValue(column.PropertyName));
+                    columnElement.SetAttributeValue("description", column.Description.IsNullOrEmptyValue(column.PropertyName).Inline());
                     columnElement.SetAttributeValue("propertyName", column.PropertyName);
                     columnElement.SetAttributeValue("fieldName", column.FieldName);
                     columnElement.SetAttributeValue("isKeyWordSearch", column.IsKeyWordSearch);

@@ -273,7 +273,7 @@
   <xsl:text disable-output-escaping="yes">  &lt;!-- 分页返回满足查询条件的</xsl:text><xsl:value-of select="./table/@description"/><xsl:text disable-output-escaping="yes">信息 --&gt;
   </xsl:text>
     <select>
-      <xsl:attribute name="id">Search<xsl:value-of select="./table/@pluralClassName"/></xsl:attribute>
+      <xsl:attribute name="id">search<xsl:value-of select="./table/@pluralClassName"/></xsl:attribute>
       <xsl:attribute name="parameterType"><xsl:value-of select="./table/@camelClassName"/>SO</xsl:attribute>
       <xsl:attribute name="resultType"><xsl:value-of select="./table/@camelClassName"/></xsl:attribute>
       <xsl:text disable-output-escaping="yes">
@@ -320,9 +320,9 @@
           <xsl:text>
       </xsl:text>
           <if>
-            <xsl:attribute name="test"><xsl:value-of select="@fieldName" />!=null or <xsl:value-of select="@fieldName" />!=''</xsl:attribute>
+            <xsl:attribute name="test"><xsl:value-of select="@fieldName" />!=null and <xsl:value-of select="@fieldName" />!=''</xsl:attribute>
             <xsl:text disable-output-escaping="yes">
-        &lt;![CDATA[ and </xsl:text>`<xsl:value-of select="@name"/>`={<xsl:value-of select="@fieldName"/>}<xsl:text disable-output-escaping="yes"> ]]&gt;</xsl:text>
+        &lt;![CDATA[ and </xsl:text>`<xsl:value-of select="@name"/>`=#{<xsl:value-of select="@fieldName"/>}<xsl:text disable-output-escaping="yes"> ]]&gt;</xsl:text>
             <xsl:text>
       </xsl:text>
           </if>
