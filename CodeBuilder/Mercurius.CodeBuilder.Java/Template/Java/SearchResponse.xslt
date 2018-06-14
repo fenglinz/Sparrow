@@ -6,6 +6,8 @@
   <xsl:template match="root"><xsl:call-template name="package" />
 <xsl:call-template name="dependencys" />
 import java.sql.Timestamp;
+
+import com.csbr.common.so.SearchBean;
 <xsl:call-template name="classDescription" />public class <xsl:value-of select="./table/@className"/>SO extends SearchBean {
   <xsl:call-template name="fields" />
   <xsl:call-template name="setters" />

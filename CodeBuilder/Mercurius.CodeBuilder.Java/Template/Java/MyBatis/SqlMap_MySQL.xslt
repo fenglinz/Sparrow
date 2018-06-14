@@ -301,7 +301,6 @@
         <xsl:when test="count(./table/column[@isPrimaryKey='true'])>1">
           <xsl:for-each select="./table/column[@isPrimaryKey='true']">`<xsl:value-of select="@name"/>` DESC<xsl:if test="position()!=last()">,</xsl:if></xsl:for-each>
         </xsl:when></xsl:choose>
-      LIMIT #OffsetRows#, #PageSize#
     <xsl:text disable-output-escaping="yes">]]&gt;
   </xsl:text>
     </select>

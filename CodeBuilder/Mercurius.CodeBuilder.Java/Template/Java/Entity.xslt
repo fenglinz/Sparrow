@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 
   <xsl:template name="fields">
     <xsl:for-each select="./table/column">
-    <![CDATA[/* ]]><xsl:value-of select="@description" /><![CDATA[ */]]>
+    <![CDATA[/** ]]><xsl:value-of select="@description" /><![CDATA[ */]]>
     private <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/>;
 </xsl:for-each>
   </xsl:template>
