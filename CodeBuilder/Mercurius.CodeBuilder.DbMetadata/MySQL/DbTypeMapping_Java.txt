@@ -1,5 +1,6 @@
 ﻿int,Integer,INTEGER,integer
 text,String,CLOB,string
+tinytext,String,VARCHAR,string
 json,String,LONGVARCHAR,string
 bigint,Long,BIGINT,long
 binary,Byte[],BINARY,byte[]

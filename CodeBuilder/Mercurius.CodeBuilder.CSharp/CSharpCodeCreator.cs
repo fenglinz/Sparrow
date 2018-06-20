@@ -129,7 +129,7 @@ namespace Mercurius.CodeBuilder.CSharp
                                 continue;
                             }
 
-                            if (!table.HasSearchData && sectionItem.Name == "SearchResponse")
+                            if (!(table.HasSearchData || table.HasGetAll) && sectionItem.Name == "SearchResponse")
                             {
                                 continue;
                             }
@@ -184,7 +184,7 @@ namespace Mercurius.CodeBuilder.CSharp
                 {
                     var dependencyItem = ConfigManager.GetItems(ormMiddleware)[dependency];
 
-                    if (dependencyItem == null || (dependencyItem.Name == "SearchResponse" && !table.HasSearchData))
+                    if (dependencyItem == null || (dependencyItem.Name == "SearchResponse" && !(table.HasSearchData || table.HasGetAll)))
                     {
                         continue;
                     }

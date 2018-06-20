@@ -84,9 +84,9 @@ public interface <xsl:value-of select="./table/@className"/>Mapper {
 </xsl:text></xsl:otherwise></xsl:choose>
 </xsl:if>
 
-  <xsl:if test="count(./table[@hasSearchData='true'])=1">
+  <xsl:if test="count(./table[@hasSearchData='true'])>0 or count(./table[@hasGetAll='true'])>0">
     <![CDATA[/**]]>
-    <![CDATA[ * 分页查询]]><xsl:value-of select="./table/@description" />信息.
+    <![CDATA[ * 查询]]><xsl:value-of select="./table/@description" />信息.
     <![CDATA[ *]]>
     <![CDATA[ * @param so 查询条件]]>
     <![CDATA[ *]]>

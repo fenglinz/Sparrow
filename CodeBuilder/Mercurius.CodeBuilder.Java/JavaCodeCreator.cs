@@ -65,7 +65,7 @@ namespace Mercurius.CodeBuilder.Java
                                 continue;
                             }
 
-                            if (!table.HasSearchData && sectionItem.Name == "SearchResponse")
+                            if (!(table.HasSearchData || table.HasGetAll) && sectionItem.Name == "SearchResponse")
                             {
                                 continue;
                             }
@@ -101,7 +101,7 @@ namespace Mercurius.CodeBuilder.Java
                 {
                     var dependencyItem = ConfigManager.GetItems(ormMiddleware, configuration.Language)[dependency];
 
-                    if (dependencyItem == null || (dependencyItem.Name == "SearchResponse" && !table.HasSearchData))
+                    if (dependencyItem == null || (dependencyItem.Name == "SearchResponse" && !(table.HasSearchData || table.HasGetAll)))
                     {
                         continue;
                     }
