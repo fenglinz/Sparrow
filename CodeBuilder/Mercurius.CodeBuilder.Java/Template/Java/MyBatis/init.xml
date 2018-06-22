@@ -25,7 +25,7 @@
     module="implement"
     fileFormat="{0}Mapper"
     extension="xml"
-    subFolder="mapper"
+    subFolder="mybatis\mapper"
     ignoreView="true"
     project="" />
 

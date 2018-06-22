@@ -83,6 +83,11 @@ namespace Mercurius.CodeBuilder.Core.Config
         {
             if (config.Language == "Java")
             {
+                if (this.Name == "SqlMap")
+                {
+                    return $"{Path.Combine(Directory.GetParent(config.OutputFolder).FullName, "resources")}";
+                }
+
                 return $"{config.OutputFolder}\\{config.BaseNamespace.Replace(".", "\\")}";
             }
 
