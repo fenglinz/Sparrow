@@ -18,6 +18,25 @@
 <xsl:text>
 
 </xsl:text>
+<xsl:text>  </xsl:text>
+  <resultMap>
+  <xsl:attribute name="id"><xsl:value-of select="./table/@camelClassName"/>RM</xsl:attribute>
+  <xsl:attribute name="type"><xsl:value-of select="./table/@camelClassName"/></xsl:attribute>
+  <xsl:for-each select="./table/column">
+    <xsl:text>
+    </xsl:text>
+    <result>
+      <xsl:attribute name="column"><xsl:value-of select="@name"/></xsl:attribute>
+      <xsl:attribute name="property"><xsl:value-of select="@fieldName"/></xsl:attribute>
+      <xsl:attribute name="jdbcType"><xsl:value-of select="@jdbcType"/></xsl:attribute>
+    </result>
+  </xsl:for-each>
+  <xsl:text>
+  </xsl:text>
+  </resultMap>
+<xsl:text>
+
+</xsl:text>
 <xsl:if test="count(./table[@hasCreate='true'])=1"><xsl:call-template name="create" /></xsl:if>
 <xsl:text>
 </xsl:text>
@@ -222,9 +241,7 @@
           </xsl:otherwise>
         </xsl:choose>
       </xsl:attribute>
-      <xsl:attribute name="resultType">
-        <xsl:value-of select="./table/@camelClassName"/>
-      </xsl:attribute>
+      <xsl:attribute name="resultMap"><xsl:value-of select="./table/@camelClassName"/>RM</xsl:attribute>
       <xsl:text disable-output-escaping="yes">
     &lt;![CDATA[</xsl:text>
       <xsl:text>
