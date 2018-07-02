@@ -126,6 +126,11 @@ namespace Mercurius.CodeBuilder.Core.Config
         {
             var result = baseNamespace;
 
+            if (this.Name == "SqlMap")
+            {
+                return $"{result}.mapper";
+            }
+
             if (!string.IsNullOrWhiteSpace(moduleName))
             {
                 result = string.Format("{0}.{1}", result, moduleName);

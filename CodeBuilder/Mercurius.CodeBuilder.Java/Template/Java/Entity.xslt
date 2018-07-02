@@ -23,7 +23,7 @@ import java.sql.Timestamp;
   <xsl:template name="setters">
     <xsl:for-each select="./table/column">
     <![CDATA[/**]]>
-    <![CDATA[ * 返回]]><xsl:value-of select="@description" />
+    <![CDATA[ * 设置]]><xsl:value-of select="@description" />
     <![CDATA[ *]]>
     <![CDATA[ * @param ]]><xsl:value-of select="@fieldName"/><xsl:text> </xsl:text><xsl:value-of select="@description" />
     <![CDATA[ */]]>
@@ -36,7 +36,7 @@ import java.sql.Timestamp;
   <xsl:template name="getters">
     <xsl:for-each select="./table/column">
     <![CDATA[/**]]>
-    <![CDATA[ * 设置]]><xsl:value-of select="@description" />
+    <![CDATA[ * 返回]]><xsl:value-of select="@description" />
     <![CDATA[ *]]>
     <![CDATA[ * @return ]]><xsl:value-of select="@description" />
     <![CDATA[ */]]>
