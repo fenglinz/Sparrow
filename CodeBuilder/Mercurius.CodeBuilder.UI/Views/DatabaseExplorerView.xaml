@@ -34,7 +34,7 @@
                     <GradientStop Offset="1" Color="#FFCC6D1D" />
                 </LinearGradientBrush>
             </Style.Resources>
-            <Setter Property="Padding" Value="8,5,0,5" />
+            <Setter Property="Padding" Value="8,5,0,0" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <EventSetter Event="MouseDoubleClick" Handler="OnOpenConnectedDatabase" />
@@ -87,7 +87,7 @@
         <TreeView HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
             <TreeViewItem IsExpanded="True" ItemsSource="{Binding ConnectedDatabases.Items}">
                 <TreeViewItem.Header>
-                    <ContentControl HorizontalAlignment="Stretch" ContextMenu="{StaticResource dbExplorerContextMenu}" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=33}">
+                    <ContentControl HorizontalAlignment="Stretch" ContextMenu="{StaticResource dbExplorerContextMenu}" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=45}">
                         <ContentControl.Template>
                             <ControlTemplate>
                                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">

@@ -244,7 +244,7 @@ namespace Mercurius.CodeBuilder.Core.Database
             get { return this._hasGetAll; }
             set
             {
-                if (this._hasGetAll!=value)
+                if (this._hasGetAll != value)
                 {
                     this._hasGetAll = value;
                     this.RaisePropertyChanged(nameof(HasGetAll));

@@ -427,6 +427,7 @@ namespace Mercurius.CodeBuilder.Core
                 table.HasCreateOrUpdate = serializedTable.HasCreateOrUpdate;
                 table.HasRemove = serializedTable.HasRemove;
                 table.HasSingleData = serializedTable.HasSingleData;
+                table.HasGetAll = serializedTable.HasGetAll;
                 table.HasSearchData = serializedTable.HasSearchData;
 
                 foreach (var item in table.Columns)

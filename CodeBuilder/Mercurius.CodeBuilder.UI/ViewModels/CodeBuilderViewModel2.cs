@@ -327,6 +327,11 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 {
                     var dialog = new FolderBrowserDialog { Description = "选择Java项目的源代码目录" };
 
+                    if (Directory.Exists(this.Configuration.OutputFolder))
+                    {
+                        dialog.SelectedPath = this.Configuration.OutputFolder;
+                    }
+
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         this.Configuration.OutputFolder = dialog.SelectedPath;
