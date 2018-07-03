@@ -6,7 +6,7 @@ bigint,Long,BIGINT,long
 binary,Byte[],BINARY,byte[]
 bit,Boolean,BIT,boolean
 char,String,CHAR,string
-datetime,Date,DATE,date
+datetime,Timestamp,TIMESTAMP,java.sql.Timestamp
 decimal,Double,DECIMAL,double
 float,Double,FLOAT,float
 image,Byte[],BINARY,byte[]

@@ -23,7 +23,7 @@ import com.csbr.common.service.ResponseList;
 <xsl:call-template name="classDescription" />@Service
 public class <xsl:value-of select="./table/@className"/>Service {
 
-    /* <xsl:value-of select="./table/@description" />数据放问接口 */
+    /** <xsl:value-of select="./table/@description" />数据访问接口 */
     @Autowired
     private <xsl:value-of select="./table/@className" />Mapper <xsl:value-of select="./table/@camelClassName" />Mapper;
 <xsl:if test="count(./table[@hasCreate='true'])=1">
