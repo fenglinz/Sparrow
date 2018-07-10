@@ -68,6 +68,7 @@ namespace Mercurius.CodeBuilder.Core
 
                     var type = dbTypeMapping.GetBasicType(config.Language, column.SqlType);
 
+                    columnElement.SetAttributeValue("validLength", column.Length.HasValue && string.Compare(column.BasicType, "string", true) == 0);
                     columnElement.SetAttributeValue("basicType", (type.LanguageType == "string" && column.Length == 36) ? "Guid" : type.LanguageType);
                     columnElement.SetAttributeValue("jdbcType", type.JdbcType);
                     columnElement.SetAttributeValue("parameterType", type.ParameterType);
@@ -81,10 +82,17 @@ namespace Mercurius.CodeBuilder.Core
                     {
                         columnElement.SetAttributeValue("mustEqual", false);
                     }
+
+                    var description = column.Description.IsNullOrEmptyValue(column.PropertyName).Replace('（', '(').Replace('）', ')').Inline();
+
                     columnElement.SetAttributeValue("isPrimaryKey", column.IsPrimaryKey);
                     columnElement.SetAttributeValue("isIdentity", column.IsIdentity);
                     columnElement.SetAttributeValue("isNewGuid", column.IsNewGuid);
-                    columnElement.SetAttributeValue("description", column.Description.IsNullOrEmptyValue(column.PropertyName).Inline());
+
+                    var temp = description.IndexOf('(');
+
+                    columnElement.SetAttributeValue("shortDesc", description.Substring(0, temp == -1 ? description.Length : temp));
+                    columnElement.SetAttributeValue("description", description);
                     columnElement.SetAttributeValue("propertyName", column.PropertyName);
                     columnElement.SetAttributeValue("fieldName", column.FieldName);
                     columnElement.SetAttributeValue("isKeyWordSearch", column.IsKeyWordSearch);

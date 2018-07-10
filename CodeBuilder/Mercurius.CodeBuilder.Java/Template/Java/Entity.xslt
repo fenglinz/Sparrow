@@ -5,6 +5,8 @@
   <xsl:include href="Common.xslt" />
   <xsl:template match="root">package <xsl:value-of select="./table/@namespace"/>;
 
+import org.hibernate.validator.constraints.Length;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 <xsl:call-template name="classDescription" />public class <xsl:value-of select="./table/@className" /> {
@@ -15,7 +17,8 @@ import java.sql.Timestamp;
 
   <xsl:template name="fields">
     <xsl:for-each select="./table/column">
-    <![CDATA[/** ]]><xsl:value-of select="@description" /><![CDATA[ */]]>
+    <![CDATA[/** ]]><xsl:value-of select="@description" /><![CDATA[ */]]><xsl:if test="@validLength='true'">
+    @Length(max = <xsl:value-of select="@length" />, message = "<xsl:value-of select="@shortDesc" />长度不能超过<xsl:value-of select="@length" />个字符.")</xsl:if>
     private <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/>;
 </xsl:for-each>
   </xsl:template>
