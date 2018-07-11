@@ -80,7 +80,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._selectAllText != value)
                 {
                     this._selectAllText = value;
-                    this.RaisePropertyChanged(nameof(SelectAllCommand));
+                    this.RaisePropertyChanged(nameof(SelectAllText));
                 }
             }
         }
@@ -243,9 +243,25 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                         if (codeCreator != null)
                         {
-                            codeCreator.Create(this.Configuration);
+                            var buildEvent = this._eventAggregator?.GetEvent<BuildEvent>();
 
-                            ShowMessage("生成完成！");
+                            buildEvent?.Publish(new BuildEventArg(Status.Begin, "开始生成代码，请稍后..."));
+
+                            var task = new Task(() =>
+                            {
+                                codeCreator.Create(this.Configuration);
+                                buildEvent?.Publish(new BuildEventArg(Status.Success, "代码生成完成！"));
+                            });
+
+                            task.Start();
+                            task.ContinueWith(t =>
+                            {
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    ShowMessage("生成完成！");
+                                });
+                            });
+
                         }
                     }
                     catch (Exception e)

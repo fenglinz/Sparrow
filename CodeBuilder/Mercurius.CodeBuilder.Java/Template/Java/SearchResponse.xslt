@@ -5,10 +5,15 @@
     <xsl:include href="Common.xslt" />
   <xsl:template match="root"><xsl:call-template name="package" />
 <xsl:call-template name="dependencys" />
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
 
 import com.csbr.common.so.SearchBean;
-<xsl:call-template name="classDescription" />public class <xsl:value-of select="./table/@className"/>SO extends SearchBean {
+<xsl:call-template name="classDescription" />
+@ApiModel(description = "<xsl:value-of select="./table/@description"/>查询条件")
+public class <xsl:value-of select="./table/@className"/>SO extends SearchBean {
   <xsl:call-template name="fields" />
   <xsl:call-template name="setters" />
   <xsl:call-template name="getters" />
@@ -18,6 +23,7 @@ import com.csbr.common.so.SearchBean;
   <xsl:template name="fields">
     <xsl:for-each select="./table/column[@isSearchCriteria='true']">
     <![CDATA[/* ]]><xsl:value-of select="@description" /><![CDATA[ */]]>
+    @ApiModelProperty("<xsl:value-of select="@description"/>")
     private <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/>;
 </xsl:for-each>
   </xsl:template>
