@@ -11,8 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-<xsl:call-template name="classDescription" />
-@ApiModel(description = "<xsl:value-of select="./table/@description"/>")
+<xsl:call-template name="classDescription" />@ApiModel(description = "<xsl:value-of select="./table/@description"/>")
 public class <xsl:value-of select="./table/@className" /> {
     <xsl:call-template name="fields" />
     <xsl:call-template name="setters" />

@@ -11,8 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.sql.Timestamp;
 
 import com.csbr.common.so.SearchBean;
-<xsl:call-template name="classDescription" />
-@ApiModel(description = "<xsl:value-of select="./table/@description"/>查询条件")
+<xsl:call-template name="classDescription" />@ApiModel(description = "<xsl:value-of select="./table/@description"/>查询条件")
 public class <xsl:value-of select="./table/@className"/>SO extends SearchBean {
   <xsl:call-template name="fields" />
   <xsl:call-template name="setters" />
