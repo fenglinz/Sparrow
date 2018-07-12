@@ -29,7 +29,7 @@ mediumint,Integer,INTEGER,integer
 integer,Integer,INTEGER,integer
 double,Double,DOUBLE,double
 date,Date,DATE,date
-time,Integer,TIME,integer
+time,Time,TIME,java.sql.Time
 year,Integer,TINYINT,integer
 tinyblob,String,CBLOB,string
 blob,String,BLOB,string

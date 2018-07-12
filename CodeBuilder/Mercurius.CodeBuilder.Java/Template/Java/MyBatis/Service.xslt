@@ -6,14 +6,10 @@
   <xsl:template match="root">
 <xsl:call-template name="package" />
 <xsl:text>
-import java.util.List;
-
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.csbr.common.annotation.Pageable;
 import com.csbr.common.service.Response;
 import com.csbr.common.service.ResponseBean;
 import com.csbr.common.service.ResponseList;
@@ -35,7 +31,6 @@ public class <xsl:value-of select="./table/@className"/>Service {
     public Response create(<xsl:value-of select="./table/@className" /><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
         Response rs = new Response();
 
-        rs.setSuccess(true);
         this.<xsl:value-of select="./table/@camelClassName" />Mapper.create(<xsl:value-of select="./table/@camelClassName"/>);
 
         return rs;
@@ -50,7 +45,6 @@ public class <xsl:value-of select="./table/@className"/>Service {
     public Response update(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
         Response rs = new Response();
 
-        rs.setSuccess(true);
         this.<xsl:value-of select="./table/@camelClassName" />Mapper.update(<xsl:value-of select="./table/@camelClassName"/>);
 
         return rs;
@@ -65,7 +59,6 @@ public class <xsl:value-of select="./table/@className"/>Service {
     public Response createOrUpdate(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
         Response rs = new Response();
 
-        rs.setSuccess(true);
         this.<xsl:value-of select="./table/@camelClassName" />Mapper.createOrUpdate(<xsl:value-of select="./table/@camelClassName"/>);
 
         return rs;
@@ -82,7 +75,6 @@ public class <xsl:value-of select="./table/@className"/>Service {
     public Response remove(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
         Response rs = new Response();
 
-        rs.setSuccess(true);
         this.<xsl:value-of select="./table/@camelClassName" />Mapper.remove(id);
 
         return rs;
@@ -106,7 +98,6 @@ public class <xsl:value-of select="./table/@className"/>Service {
     <xsl:call-template name="GetByIdParams" />
         Response rs = new Response();
 
-        rs.setSuccess(true);
         this.<xsl:value-of select="./table/@camelClassName" />Mapper.remove(map);
 
         return rs;
@@ -125,7 +116,6 @@ public class <xsl:value-of select="./table/@className"/>Service {
     public ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
         ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt;();
 
-        rs.setSuccess(true);
         rs.setData(this.<xsl:value-of select="./table/@camelClassName" />Mapper.get<xsl:value-of select="./table/@className"/>ById(id));
 
         return rs;
@@ -148,7 +138,6 @@ public class <xsl:value-of select="./table/@className"/>Service {
        <xsl:call-template name="GetByIdParams" />
         ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt;();
 
-        rs.setSuccess(true);
         rs.setData(this.<xsl:value-of select="./table/@camelClassName" />Mapper.get<xsl:value-of select="./table/@className"/>ById(map));
 
         return rs;
@@ -169,7 +158,6 @@ public class <xsl:value-of select="./table/@className"/>Service {
         ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt;();
 
         rs.setDatas(this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so));
-        rs.setSuccess(true);
 
         return rs;
     }
@@ -183,17 +171,11 @@ public class <xsl:value-of select="./table/@className"/>Service {
      *
      * @return 返回符合条件的<xsl:value-of select="./table/@description" />分页查询结果
      */
+    @Pageable
     public ResponseList&lt;<xsl:value-of select="./table/@className"/>> search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so) {
         ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt;();
 
-        PageHelper.startPage(so.getPageIndex(), so.getPageSize());
-
-        List&lt;<xsl:value-of select="./table/@className"/>&gt; datas = this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so);
-
-        rs.setDatas(datas);
-        rs.setSuccess(true);
-        rs.setTotal(((Page&lt;<xsl:value-of select="./table/@className"/>&gt;)datas).getTotal());
-        rs.setPages(((Page&lt;<xsl:value-of select="./table/@className"/>&gt;)datas).getPages());
+        rs.setDatas(this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so);this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so));
 
         return rs;
     }

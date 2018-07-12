@@ -5,10 +5,12 @@
     <xsl:include href="Common.xslt" />
   <xsl:template match="root"><xsl:call-template name="package" />
 <xsl:call-template name="dependencys" />
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.sql.Timestamp;
 
 import com.csbr.common.so.SearchBean;
 <xsl:call-template name="classDescription" />@ApiModel(description = "<xsl:value-of select="./table/@description"/>查询条件")

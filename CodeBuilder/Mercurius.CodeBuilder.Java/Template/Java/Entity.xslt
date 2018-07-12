@@ -5,12 +5,14 @@
   <xsl:include href="Common.xslt" />
   <xsl:template match="root">package <xsl:value-of select="./table/@namespace"/>;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+
 import org.hibernate.validator.constraints.Length;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 <xsl:call-template name="classDescription" />@ApiModel(description = "<xsl:value-of select="./table/@description"/>")
 public class <xsl:value-of select="./table/@className" /> {
     <xsl:call-template name="fields" />
