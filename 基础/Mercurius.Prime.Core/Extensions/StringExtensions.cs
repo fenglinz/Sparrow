@@ -414,7 +414,7 @@ namespace Mercurius.Prime.Core
                     result += char.ToUpper(temp[0]) + (temp.Length > 1 ? temp.Substring(1).AsNamingLower() : string.Empty);
                 }
 
-                if (result.EndsWith("guid", StringComparison.CurrentCultureIgnoreCase))
+                if (result.Length > 4 && result.EndsWith("guid", StringComparison.CurrentCultureIgnoreCase))
                 {
                     result = result.Substring(0, str.Length - 4) + "Guid";
                 }
