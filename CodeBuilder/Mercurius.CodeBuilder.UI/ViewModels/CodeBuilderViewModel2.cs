@@ -179,8 +179,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                        {
                            var dialog = new SaveFileDialog
                            {
-                               Filter = "Excel文件|*.xls",
-                               FileName = $"{Configuration.CurrentDatabase.Name}数据库的表结构文档.xls"
+                               Filter = "Excel文件|*.xlsx",
+                               FileName = $"{Configuration.CurrentDatabase.Name}数据库的表结构文档.xlsx"
                            };
 
                            if (dialog.ShowDialog() == DialogResult.OK)

@@ -7,6 +7,7 @@ using Mercurius.Prime.Core.Ado;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
+using NPOI.XSSF.UserModel;
 
 namespace Mercurius.Prime.DataProcess.Excel
 {
@@ -37,7 +38,7 @@ namespace Mercurius.Prime.DataProcess.Excel
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            var workbook = new HSSFWorkbook();
+            var workbook = new XSSFWorkbook();
 
             // 标题单元格样式。
             var tableCellStyle = workbook.NewCellStyle(fontCallback: font => font.FontHeightInPoints = 18, borderStyle: BorderStyle.None);
@@ -111,7 +112,7 @@ namespace Mercurius.Prime.DataProcess.Excel
                     bookmarkRow.CreateCell(2, leftCellStyle).SetCellValue(table.Comments);
                     bookmarkRow.CreateCell(3, leftCellStyle).SetCellValue("");
 
-                    bookmarkRow.Cells[1].Hyperlink = new HSSFHyperlink(HyperlinkType.Document)
+                    bookmarkRow.Cells[1].Hyperlink = new XSSFHyperlink(HyperlinkType.Document)
                     {
                         Address = $"#{sheetName}!A{rowIndex + 3}"
                     };
