@@ -155,7 +155,7 @@ public class <xsl:value-of select="./table/@className"/>Service {
      * @return 返回符合条件的<xsl:value-of select="./table/@description"/>查询结果
      */
     public ResponseList&lt;<xsl:value-of select="./table/@className"/>> getAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so) {
-        ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt;();
+        ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseList&lt;&gt;();
 
         rs.setDatas(this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so));
 
@@ -173,9 +173,9 @@ public class <xsl:value-of select="./table/@className"/>Service {
      */
     @Pageable
     public ResponseList&lt;<xsl:value-of select="./table/@className"/>> search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so) {
-        ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt;();
+        ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseList&lt;&gt;();
 
-        rs.setDatas(this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so);this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so));
+        rs.setDatas(this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so));
 
         return rs;
     }
