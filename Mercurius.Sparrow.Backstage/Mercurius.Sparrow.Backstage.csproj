@@ -581,6 +581,8 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\fileinput.js" />
+    <Content Include="Scripts\fileinput.min.js" />
     <Content Include="Scripts\handlebars.amd.js" />
     <Content Include="Scripts\handlebars.amd.min.js" />
     <Content Include="Scripts\handlebars.js" />
@@ -743,11 +745,6 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <Content Include="Content\bootstrap-fileinput\scss\themes\explorer\theme.scss" />
-    <Content Include="Content\bootstrap-fileinput\scss\themes\explorer-fa\theme.scss" />
-    <Content Include="Content\bootstrap-fileinput\scss\themes\explorer-fas\theme.scss" />
-    <Content Include="Content\bootstrap-fileinput\scss\fileinput.scss" />
-    <Content Include="Content\bootstrap-fileinput\scss\fileinput-rtl.scss" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -756,6 +753,11 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-fileinput\scss\themes\explorer\theme.scss" />
+    <Content Include="Content\bootstrap-fileinput\scss\themes\explorer-fa\theme.scss" />
+    <Content Include="Content\bootstrap-fileinput\scss\themes\explorer-fas\theme.scss" />
+    <Content Include="Content\bootstrap-fileinput\scss\fileinput.scss" />
+    <Content Include="Content\bootstrap-fileinput\scss\fileinput-rtl.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
