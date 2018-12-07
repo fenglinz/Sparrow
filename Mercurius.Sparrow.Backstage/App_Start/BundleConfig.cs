@@ -57,8 +57,8 @@ namespace Mercurius.Sparrow.Backstage
 
             // highchart JS
             bundles.Add(new ScriptBundle("~/bundles/chart").Include(
-                "~/Scripts/highcharts/4.2.0/highcharts.js",
-                "~/Scripts/highcharts/4.2.0/themes/dark-blue.js"));
+                "~/Scripts/highcharts/{version}/highcharts.js",
+                "~/Scripts/highcharts/{version}/themes/dark-blue.js"));
 
             // RichEditor JS
             bundles.Add(new ScriptBundle("~/bundles/RichEditor").Include(

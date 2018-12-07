@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Security.Principal;
-using Mercurius.CodeBuilder.Core.Database;
-using System.IO;
 using System.Xml.Linq;
-using Prism.Mvvm;
+using Mercurius.CodeBuilder.Core.Database;
 using Newtonsoft.Json;
+using Prism.Mvvm;
 
 namespace Mercurius.CodeBuilder.Core
 {
@@ -57,39 +57,39 @@ namespace Mercurius.CodeBuilder.Core
 
         public string Author
         {
-            get { return this._author; }
+            get => this._author;
             set
             {
                 if (this._author != value)
                 {
                     this._author = value;
-                    this.OnPropertyChanged(() => this.Author);
+                    this.RaisePropertyChanged(nameof(this.Author));
                 }
             }
         }
 
         public string Language
         {
-            get { return this._language; }
+            get => this._language;
             set
             {
                 if (this._language != value)
                 {
                     this._language = value;
-                    this.OnPropertyChanged(() => this.Language);
+                    this.RaisePropertyChanged(nameof(this.Language));
                 }
             }
         }
 
         public DateTime BuildDate
         {
-            get { return this._buildDate; }
+            get => this._buildDate;
             set
             {
                 if (this._buildDate != value)
                 {
                     this._buildDate = value;
-                    this.OnPropertyChanged(() => this.BuildDate);
+                    this.RaisePropertyChanged(nameof(this.BuildDate));
                 }
             }
         }
@@ -99,26 +99,26 @@ namespace Mercurius.CodeBuilder.Core
         /// </summary>
         public string CopyrightOwner
         {
-            get { return this._copyrightOwner; }
+            get => this._copyrightOwner;
             set
             {
                 if (this._copyrightOwner != value)
                 {
                     this._copyrightOwner = value;
-                    this.OnPropertyChanged(() => this.CopyrightOwner);
+                    this.RaisePropertyChanged(nameof(this.CopyrightOwner));
                 }
             }
         }
 
         public string OrmMiddleware
         {
-            get { return this._ormMiddleware; }
+            get => this._ormMiddleware;
             set
             {
                 if (this._ormMiddleware != value)
                 {
                     this._ormMiddleware = value;
-                    this.OnPropertyChanged(() => this.OrmMiddleware);
+                    this.RaisePropertyChanged(nameof(this.OrmMiddleware));
 
                     this.EntityProjectFile = string.Empty;
                     this.EntityBaseNamespace = string.Empty;
@@ -134,104 +134,104 @@ namespace Mercurius.CodeBuilder.Core
 
         public string OutputFolder
         {
-            get { return this._outputFolder; }
+            get => this._outputFolder;
             set
             {
                 if (this._outputFolder != value)
                 {
                     this._outputFolder = value;
-                    this.OnPropertyChanged(() => this.OutputFolder);
+                    this.RaisePropertyChanged(nameof(this.OutputFolder));
                 }
             }
         }
 
         public string EntityProjectFile
         {
-            get { return this._entityProjectFile; }
+            get => this._entityProjectFile;
             set
             {
                 if (this._entityProjectFile != value)
                 {
                     this._entityProjectFile = value;
-                    this.OnPropertyChanged(() => this.EntityProjectFile);
+                    this.RaisePropertyChanged(nameof(this.EntityProjectFile));
                 }
             }
         }
 
         public string ContractProjectFile
         {
-            get { return this._contactProjectFile; }
+            get => this._contactProjectFile;
             set
             {
                 if (this._contactProjectFile != value)
                 {
                     this._contactProjectFile = value;
-                    this.OnPropertyChanged(() => this.ContractProjectFile);
+                    this.RaisePropertyChanged(nameof(this.ContractProjectFile));
                 }
             }
         }
 
         public string ServiceProjectFile
         {
-            get { return this._serviceProjectFile; }
+            get => this._serviceProjectFile;
             set
             {
                 if (this._serviceProjectFile != value)
                 {
                     this._serviceProjectFile = value;
-                    this.OnPropertyChanged(() => this.ServiceProjectFile);
+                    this.RaisePropertyChanged(nameof(this.ServiceProjectFile));
                 }
             }
         }
 
         public string BaseNamespace
         {
-            get { return this._baseNamespace; }
+            get => this._baseNamespace;
             set
             {
                 if (this._baseNamespace != value)
                 {
                     this._baseNamespace = value;
-                    this.OnPropertyChanged(() => this.BaseNamespace);
+                    this.RaisePropertyChanged(nameof(this.BaseNamespace));
                 }
             }
         }
 
         public string EntityBaseNamespace
         {
-            get { return this._entityBaseNamespace; }
+            get => this._entityBaseNamespace;
             set
             {
                 if (this._entityBaseNamespace != value)
                 {
                     this._entityBaseNamespace = value;
-                    this.OnPropertyChanged(() => this.EntityBaseNamespace);
+                    this.RaisePropertyChanged(nameof(this.EntityBaseNamespace));
                 }
             }
         }
 
         public string ContractBaseNamespace
         {
-            get { return this._contractBaseNamespace; }
+            get => this._contractBaseNamespace;
             set
             {
                 if (this._contractBaseNamespace != value)
                 {
                     this._contractBaseNamespace = value;
-                    this.OnPropertyChanged(() => this.ContractBaseNamespace);
+                    this.RaisePropertyChanged(nameof(this.ContractBaseNamespace));
                 }
             }
         }
 
         public string ServiceBaseNamespace
         {
-            get { return this._serviceBaseNamespace; }
+            get => this._serviceBaseNamespace;
             set
             {
                 if (this._serviceBaseNamespace != value)
                 {
                     this._serviceBaseNamespace = value;
-                    this.OnPropertyChanged(() => this.ServiceBaseNamespace);
+                    this.RaisePropertyChanged(nameof(this.ServiceBaseNamespace));
                 }
             }
         }

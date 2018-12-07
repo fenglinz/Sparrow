@@ -42,16 +42,13 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         public ConnectedDatabaseCollection ConnectedDatabases
         {
-            get
-            {
-                return this._connectedDatabases;
-            }
+            get => this._connectedDatabases;
             set
             {
                 if (this._connectedDatabases != value)
                 {
                     this._connectedDatabases = value;
-                    this.OnPropertyChanged(() => this.ConnectedDatabases);
+                    this.RaisePropertyChanged(nameof(this.ConnectedDatabases));
                 }
             }
         }

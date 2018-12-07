@@ -38,7 +38,7 @@ namespace Mercurius.Prime.DataProcess.Excel
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            var workbook = new XSSFWorkbook();
+            var workbook = new HSSFWorkbook();
 
             // 标题单元格样式。
             var tableCellStyle = workbook.NewCellStyle(fontCallback: font => font.FontHeightInPoints = 18, borderStyle: BorderStyle.None);
@@ -112,7 +112,7 @@ namespace Mercurius.Prime.DataProcess.Excel
                     bookmarkRow.CreateCell(2, leftCellStyle).SetCellValue(table.Comments);
                     bookmarkRow.CreateCell(3, leftCellStyle).SetCellValue("");
 
-                    bookmarkRow.Cells[1].Hyperlink = new XSSFHyperlink(HyperlinkType.Document)
+                    bookmarkRow.Cells[1].Hyperlink = new HSSFHyperlink(HyperlinkType.Document)
                     {
                         Address = $"#{sheetName}!A{rowIndex + 3}"
                     };
