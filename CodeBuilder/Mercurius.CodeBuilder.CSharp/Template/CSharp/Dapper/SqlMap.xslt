@@ -7,6 +7,7 @@
   
   <xsl:template match="root">
     <statements xmlns="http://www.csbr.cn/CommandText.xsd">
+    <xsl:attribute name="namespace"><xsl:value-of select="./table/@namespace" />.<xsl:value-of select="./table/@className" /></xsl:attribute>
     <xsl:text>
     </xsl:text>
     <xsl:if test="count(./table[@hasCreate='true'])=1">

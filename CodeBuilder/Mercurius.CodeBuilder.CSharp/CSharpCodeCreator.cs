@@ -161,7 +161,7 @@ namespace Mercurius.CodeBuilder.CSharp
 
                 case "contract":
                 case "implement":
-                    table.Namespace = item.GetNamespace(configuration.ContractBaseNamespace, table.ModuleName);
+                    table.Namespace = item.GetNamespace(configuration.ContractBaseNamespace, table.ModuleName, "csharp");
 
                     break;
 

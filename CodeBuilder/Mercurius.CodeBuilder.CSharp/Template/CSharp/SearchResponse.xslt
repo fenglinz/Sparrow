@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using YlY2PRO.PlatForm.Core.Services;
+using CSBR.Prime.Core.Services;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {

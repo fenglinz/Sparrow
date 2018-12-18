@@ -122,13 +122,13 @@ namespace Mercurius.CodeBuilder.Core.Config
         /// <param name="baseNamespace">基命名空间</param>
         /// <param name="moduleName">生成项所属模块</param>
         /// <returns>生成项的命名空间</returns>
-        public string GetNamespace(string baseNamespace, string moduleName)
+        public string GetNamespace(string baseNamespace, string moduleName, string language = "java")
         {
             var result = baseNamespace;
 
             if (this.Name == "SqlMap")
             {
-                return $"{result}.mapper";
+                return $"{result}.{(language == "java" ? "mapper" : "Services")}";
             }
 
             if (!string.IsNullOrWhiteSpace(moduleName))
