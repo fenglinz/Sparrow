@@ -153,10 +153,11 @@ using CSBR.Prime.Core.Services;
   <xsl:template name="GetByIdParams"><xsl:text>       </xsl:text>var args = new { <xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@propertyName"/> = <xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()">, </xsl:if></xsl:for-each> };</xsl:template>
 
   <xsl:template name="SearchConditions">
-    <xsl:if test="count(./table/column[@isSearchCriteria='true'])>0">, cmd => cmd<xsl:for-each select="./table/column[@isSearchCriteria='true']">.Segment("<xsl:value-of select="@propertyName"/>=@<xsl:value-of select="@propertyName"/>", () => so.<xsl:value-of select="@propertyName"/><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">HasValue</xsl:when><xsl:otherwise>.IsNotBlank()</xsl:otherwise></xsl:choose>)
-    <xsl:text xml:space="preserve">                          </xsl:text>
+    <xsl:if test="count(./table/column[@isSearchCriteria='true'])>0">, <xsl:text xml:space="preserve">
+                   </xsl:text>cmd => cmd<xsl:for-each select="./table/column[@isSearchCriteria='true']">.Segment("<xsl:value-of select="@propertyName"/>=@<xsl:value-of select="@propertyName"/>", () => so.<xsl:value-of select="@propertyName"/><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">HasValue</xsl:when><xsl:otherwise>.IsNotBlank()</xsl:otherwise></xsl:choose>)
+    <xsl:text xml:space="preserve">                  </xsl:text>
     </xsl:for-each>
     <xsl:text xml:space="preserve">
-</xsl:text></xsl:if>
+            </xsl:text></xsl:if>
   </xsl:template>
 </xsl:stylesheet>
