@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,54 +88,67 @@ namespace Mercurius.CodeBuilder.Java
         /// <param name="table"></param>
         private void CreateByXslt(Configuration configuration, Item item, DbTable table)
         {
-            item.FileName = string.IsNullOrWhiteSpace(item.FileFormat) ? table.ClassName : string.Format(item.FileFormat, table.ClassName);
-            table.Namespace = item.GetNamespace(configuration.BaseNamespace, item.SubFolder.Replace("\\", "."));
-
-            var xml = table.ToXml(configuration);
-            var ormMiddleware = OrmMiddleware.MyBatis;
-
-            if (item.Dependencys != null)
+            try
             {
-                var dependencys = new XElement("dependencys");
+                item.FileName = string.IsNullOrWhiteSpace(item.FileFormat) ? table.ClassName : string.Format(item.FileFormat, table.ClassName);
+                table.Namespace = item.GetNamespace(configuration.BaseNamespace, item.SubFolder.Replace("\\", "."));
 
-                foreach (var dependency in item.Dependencys)
+                var xml = table.ToXml(configuration);
+                var ormMiddleware = OrmMiddleware.MyBatis;
+
+                if (item.Dependencys != null)
                 {
-                    var dependencyItem = ConfigManager.GetItems(ormMiddleware, configuration.Language)[dependency];
+                    var dependencys = new XElement("dependencys");
 
-                    if (dependencyItem == null || (dependencyItem.Name == "SearchResponse" && !(table.HasSearchData || table.HasGetAll)))
+                    foreach (var dependency in item.Dependencys)
                     {
-                        continue;
+                        var dependencyItem = ConfigManager.GetItems(ormMiddleware, configuration.Language)[dependency];
+
+                        if (dependencyItem == null || (dependencyItem.Name == "SearchResponse" && !(table.HasSearchData || table.HasGetAll)))
+                        {
+                            continue;
+                        }
+
+                        var package = configuration.BaseNamespace + "." + dependencyItem.SubFolder; ;
+                        var dependencyNs = dependencyItem.GetNamespace(configuration.BaseNamespace, dependencyItem.SubFolder.Replace("\\", "."));
+
+                        dependencyItem.FileName = string.IsNullOrWhiteSpace(dependencyItem.FileFormat) ? table.ClassName : string.Format(dependencyItem.FileFormat, table.ClassName);
+
+                        var element = new XElement("dependency", dependencyNs + "." + dependencyItem.FileName);
+
+                        element.SetAttributeValue("name", dependencyItem.Name);
+                        element.SetAttributeValue("className", dependencyItem.FileName);
+                        element.SetAttributeValue("package", package);
+
+                        var exists = (from d in dependencys.Descendants("dependency") where d.Value == dependencyNs select d).Any();
+
+                        if (!exists)
+                        {
+                            dependencys.Add(element);
+                        }
                     }
 
-                    var package = configuration.BaseNamespace + "." + dependencyItem.SubFolder; ;
-                    var dependencyNs = dependencyItem.GetNamespace(configuration.BaseNamespace, dependencyItem.SubFolder.Replace("\\", "."));
-
-                    dependencyItem.FileName = string.IsNullOrWhiteSpace(dependencyItem.FileFormat) ? table.ClassName : string.Format(dependencyItem.FileFormat, table.ClassName);
-
-                    var element = new XElement("dependency", dependencyNs + "." + dependencyItem.FileName);
-
-                    element.SetAttributeValue("name", dependencyItem.Name);
-                    element.SetAttributeValue("className", dependencyItem.FileName);
-                    element.SetAttributeValue("package", package);
-
-                    var exists = (from d in dependencys.Descendants("dependency") where d.Value == dependencyNs select d).Any();
-
-                    if (!exists)
-                    {
-                        dependencys.Add(element);
-                    }
+                    xml.Root.Add(dependencys);
                 }
 
-                xml.Root.Add(dependencys);
+                var templateFile = item.TemplateFile;
+                var outputFile = item.GetOutputFile(configuration, table);
+
+                XslHelper.Transform(xml, templateFile, outputFile);
+
+                // 代码创建完成后的处理。
+                OnFileCreateComplated(configuration, item, table, outputFile);
             }
+            catch (Exception exp)
+            {
+                using (var file = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log.log"), false, Encoding.UTF8))
+                {
+                    file.WriteLine(exp.Message);
+                    file.Write(exp.StackTrace);
 
-            var templateFile = item.TemplateFile;
-            var outputFile = item.GetOutputFile(configuration, table);
-
-            XslHelper.Transform(xml, templateFile, outputFile);
-
-            // 代码创建完成后的处理。
-            OnFileCreateComplated(configuration, item, table, outputFile);
+                    file.Flush();
+                }
+            }
         }
 
         private static void OnFileCreateComplated(Configuration configuration, Item sectionItem, DbTable table, string outputFile)

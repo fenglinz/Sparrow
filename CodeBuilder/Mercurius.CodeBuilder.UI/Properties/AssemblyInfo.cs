@@ -8,9 +8,9 @@ using System.Windows;
 [assembly: AssemblyTitle("代码生成器")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("武汉星云资本管理有限公司")]
+[assembly: AssemblyCompany("武汉链享医药供应链有限公司")]
 [assembly: AssemblyProduct("代码生成器")]
-[assembly: AssemblyCopyright("版权所有 © 武汉星云资本管理有限公司  2015")]
+[assembly: AssemblyCopyright("版权所有 © 武汉链享医药供应链有限公司  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
