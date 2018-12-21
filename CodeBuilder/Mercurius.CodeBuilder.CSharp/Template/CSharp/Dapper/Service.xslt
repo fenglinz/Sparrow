@@ -18,17 +18,17 @@ using CSBR.Prime.Core.Services;
 <xsl:call-template name="namespace" />
 {
     /// <![CDATA[<summary>]]>
-    /// <xsl:value-of select="./table/@description" />业务逻辑接口实现。 
+    /// <xsl:value-of select="./table/@description" />业务逻辑接口实现。
     /// <![CDATA[</summary>]]>
     public class <xsl:value-of select="./table/@className"/>Service : ServiceSupport, I<xsl:value-of select="./table/@className" />Service
     {
         #region 字段
-        
+
         private static readonly StatementNamespace ns = "<xsl:value-of select="./table/@namespace" />.<xsl:value-of select="./table/@className"/>";
-        
+
         #endregion
-    
-        #region I<xsl:value-of select="./table/@className" />Service接口实现 
+
+        #region I<xsl:value-of select="./table/@className" />Service接口实现
         <xsl:if test="count(./table[@hasCreate='true'])=1">
         /// <![CDATA[<summary>]]>
         /// 添加<xsl:value-of select="./table/@description" />。
@@ -84,7 +84,7 @@ using CSBR.Prime.Core.Services;
         public Response Remove(<xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>)</xsl:text>
         {
             <xsl:call-template name="GetByIdParams" />
-             
+
             return this.Execute(ns, "Remove", args);
         }
         </xsl:otherwise>
@@ -98,7 +98,7 @@ using CSBR.Prime.Core.Services;
         /// &lt;param name="id"><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
         public Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
-        {            
+        {
             return this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>&gt;(ns, "GetById", new { value = id });
         }
         </xsl:when>
@@ -124,14 +124,14 @@ using CSBR.Prime.Core.Services;
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>
-        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
+        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>> GetAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
         {
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
-            
+
             return this.QueryForList&lt;<xsl:value-of select="./table/@className" />&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
         }
       </xsl:if>
-    
+
       <xsl:if test="count(./table[@hasSearchData='true'])=1">
         /// &lt;summary>
         /// 查询并分页获取<xsl:value-of select="./table/@description" />信息。
@@ -141,7 +141,7 @@ using CSBR.Prime.Core.Services;
         public ResponseSet&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
         {
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
-            
+
             return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
         }
       </xsl:if>
@@ -154,8 +154,9 @@ using CSBR.Prime.Core.Services;
 
   <xsl:template name="SearchConditions">
     <xsl:if test="count(./table/column[@isSearchCriteria='true'])>0">, <xsl:text xml:space="preserve">
-                   </xsl:text>cmd => cmd<xsl:for-each select="./table/column[@isSearchCriteria='true']">.Segment("<xsl:value-of select="@propertyName"/>=@<xsl:value-of select="@propertyName"/>", () => so.<xsl:value-of select="@propertyName"/><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">HasValue</xsl:when><xsl:otherwise>.IsNotBlank()</xsl:otherwise></xsl:choose>)
-    <xsl:text xml:space="preserve">                  </xsl:text>
+                </xsl:text>cmd => cmd.Where()<xsl:text xml:space="preserve">
+                          </xsl:text><xsl:for-each select="./table/column[@isSearchCriteria='true']">.Segment("<xsl:value-of select="@propertyName"/>=@<xsl:value-of select="@propertyName"/>", () => so.<xsl:value-of select="@propertyName"/><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">.HasValue</xsl:when><xsl:otherwise>.IsNotBlank()</xsl:otherwise></xsl:choose>)
+    <xsl:text xml:space="preserve">                      </xsl:text>
     </xsl:for-each>
     <xsl:text xml:space="preserve">
             </xsl:text></xsl:if>
