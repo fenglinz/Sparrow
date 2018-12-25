@@ -30,6 +30,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         private bool _hasSingleData = true;
         private bool _hasGetAll = false;
         private bool _hasSearchData = true;
+        private bool _hasCreateWebApi = true;
 
         #endregion
 
@@ -50,7 +51,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public bool IsEnabled
         {
-            get { return this._IsEnabled; }
+            get => this._IsEnabled;
             set
             {
                 if (this._IsEnabled != value)
@@ -66,7 +67,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public string ModuleName
         {
-            get { return this._moduleName; }
+            get => this._moduleName;
             set
             {
                 if (this._moduleName != value)
@@ -82,7 +83,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public string ModuleDescription
         {
-            get { return this._moduleDescription; }
+            get => this._moduleDescription;
             set
             {
                 if (this._moduleDescription != value)
@@ -103,7 +104,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public string ClassName
         {
-            get { return this._className; }
+            get => this._className;
             set
             {
                 if (this._className != value)
@@ -124,7 +125,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public string Description
         {
-            get { return this._description; }
+            get => this._description;
             set
             {
                 if (this._description != value)
@@ -145,10 +146,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public bool IsEntityOnly
         {
-            get
-            {
-                return this._isEntityOnly;
-            }
+            get => this._isEntityOnly;
             set
             {
                 if (this._isEntityOnly != value)
@@ -164,7 +162,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public bool HasCreate
         {
-            get { return this._hasCreate; }
+            get => this._hasCreate;
             set
             {
                 if (this._hasCreate != value)
@@ -180,7 +178,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public bool HasUpdate
         {
-            get { return this._hasUpdate; }
+            get => this._hasUpdate;
             set
             {
                 if (this._hasUpdate != value)
@@ -196,7 +194,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public bool HasCreateOrUpdate
         {
-            get { return this._hasCreateOrUpdate; }
+            get => this._hasCreateOrUpdate;
             set
             {
                 if (this._hasCreateOrUpdate != value)
@@ -212,7 +210,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public bool HasRemove
         {
-            get { return this._hasRemove; }
+            get => this._hasRemove;
             set
             {
                 if (this._hasRemove != value)
@@ -228,7 +226,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public bool HasSingleData
         {
-            get { return this._hasSingleData; }
+            get => this._hasSingleData;
             set
             {
                 if (this._hasSingleData != value)
@@ -241,7 +239,7 @@ namespace Mercurius.CodeBuilder.Core.Database
 
         public bool HasGetAll
         {
-            get { return this._hasGetAll; }
+            get => this._hasGetAll;
             set
             {
                 if (this._hasGetAll != value)
@@ -257,13 +255,26 @@ namespace Mercurius.CodeBuilder.Core.Database
         /// </summary>
         public bool HasSearchData
         {
-            get { return this._hasSearchData; }
+            get => this._hasSearchData;
             set
             {
                 if (this._hasSearchData != value)
                 {
                     this._hasSearchData = value;
                     this.RaisePropertyChanged(nameof(HasSearchData));
+                }
+            }
+        }
+
+        public bool HasCreateWebApi
+        {
+            get => this._hasCreateWebApi;
+            set
+            {
+                if (this._hasCreateWebApi != value)
+                {
+                    this._hasCreateWebApi = value;
+                    this.RaisePropertyChanged(nameof(this.HasCreateWebApi));
                 }
             }
         }

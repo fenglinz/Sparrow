@@ -50,4 +50,15 @@
     subFolder="service"
     ignoreView="true"
     project="" />
+
+  <item
+    name="Controller"
+    dependency="Entity,SearchResponse,Mapper,Service"
+    template="WebApi.xslt"
+    module="implement"
+    fileFormat="{0}Controller"
+    extension="java"
+    subFolder="api"
+    ignoreView="true"
+    project="" />
 </config>

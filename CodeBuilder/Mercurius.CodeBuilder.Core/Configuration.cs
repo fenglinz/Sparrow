@@ -33,6 +33,7 @@ namespace Mercurius.CodeBuilder.Core
         private string _serviceProjectFile = null;
 
         private string _baseNamespace = null;
+        private string _webApiPrefix = null;
         private string _entityBaseNamespace = null;
         private string _contractBaseNamespace = null;
         private string _serviceBaseNamespace = null;
@@ -197,6 +198,19 @@ namespace Mercurius.CodeBuilder.Core
             }
         }
 
+        public string WebApiPrefix
+        {
+            get => this._webApiPrefix;
+            set
+            {
+                if (this._webApiPrefix != value)
+                {
+                    this._webApiPrefix = value;
+                    this.RaisePropertyChanged(nameof(this.WebApiPrefix));
+                }
+            }
+        }
+
         public string EntityBaseNamespace
         {
             get => this._entityBaseNamespace;
@@ -298,6 +312,7 @@ namespace Mercurius.CodeBuilder.Core
             database.SetAttributeValue("entityBaseNamespace", this.EntityBaseNamespace);
             database.SetAttributeValue("contractBaseNamespace", this.ContractBaseNamespace);
             database.SetAttributeValue("serviceBaseNamespace", this.ServiceBaseNamespace);
+            database.SetAttributeValue("webApiPrefix", this.WebApiPrefix);
 
             // 移除所有子节点。
             database.RemoveNodes();
@@ -384,6 +399,7 @@ namespace Mercurius.CodeBuilder.Core
             this.EntityBaseNamespace = database.Attribute("entityBaseNamespace")?.Value;
             this.ContractBaseNamespace = database.Attribute("contractBaseNamespace")?.Value;
             this.ServiceBaseNamespace = database.Attribute("serviceBaseNamespace")?.Value;
+            this.WebApiPrefix = database.Attribute("webApiPrefix")?.Value;
 
             var tables = new List<DbTable>();
 
@@ -429,6 +445,7 @@ namespace Mercurius.CodeBuilder.Core
                 table.HasSingleData = serializedTable.HasSingleData;
                 table.HasGetAll = serializedTable.HasGetAll;
                 table.HasSearchData = serializedTable.HasSearchData;
+                table.HasCreateWebApi = serializedTable.HasCreateWebApi;
 
                 foreach (var item in table.Columns)
                 {

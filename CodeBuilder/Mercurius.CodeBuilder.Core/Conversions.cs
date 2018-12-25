@@ -22,6 +22,7 @@ namespace Mercurius.CodeBuilder.Core
             xdocument.Root.Add(new XElement("entityNamespace", config.EntityBaseNamespace));
             xdocument.Root.Add(new XElement("contactNamespace", config.ContractBaseNamespace));
             xdocument.Root.Add(new XElement("serviceNamespace", config.ServiceBaseNamespace));
+            xdocument.Root.Add(new XElement("webApiPrefix", config.WebApiPrefix));
 
             if (table != null && database != null)
             {
@@ -56,6 +57,7 @@ namespace Mercurius.CodeBuilder.Core
                 tableElement.SetAttributeValue("hasSingleData", table.HasSingleData);
                 tableElement.SetAttributeValue("hasGetAll", table.HasGetAll);
                 tableElement.SetAttributeValue("hasSearchData", table.HasSearchData);
+                tableElement.SetAttributeValue("hasCreateWebApi", table.HasCreateWebApi);
 
                 foreach (var column in table.Columns)
                 {

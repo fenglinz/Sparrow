@@ -63,8 +63,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Label Margin="89,0,0,0" Content="作者：" RenderTransformOrigin="-0.385,0.5" />
-                        <TextBox Width="110" Margin="146,0,0,0" Text="{Binding Configuration.Author}" />
+                        <Label Margin="30,0,0,0" Content="作者：" RenderTransformOrigin="-0.385,0.5" />
+                        <TextBox Width="170" Margin="75,0,0,0" Text="{Binding Configuration.Author}" />
 
                         <Label Margin="504,0,0,0" Content="生成语言：" />
                         <ComboBox Width="80" Margin="584,0,0,0" Text="{Binding Configuration.Language}">
@@ -76,9 +76,9 @@
                         <DatePicker Width="130" Margin="351,4,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" SelectedDate="{x:Static sys:DateTime.Now}" Text="{Binding Configuration.BuildDate}" SelectedDateFormat="Short" />
 
                         <Label Margin="688,1,0,0">版权拥有者：</Label>
-                        <TextBox Margin="783,0,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.CopyrightOwner}" />
+                        <TextBox Margin="783,0,20,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.CopyrightOwner}" />
 
-                        <Line Margin="25,42,25,0" Stretch="Fill" X1="0" Y1="0" X2="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=GroupBox},Path=ActualWidth}" Y2="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stroke="#8888" Fill="#8888" StrokeThickness="1" />
+                        <Line Margin="25,40,25,5" Stretch="Fill" X1="0" Y1="0" X2="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=GroupBox},Path=ActualWidth}" Y2="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stroke="#8888" Fill="#8888" StrokeThickness="1" />
 
                         <Grid Grid.Row="1" Visibility="{Binding Configuration.Language, Converter={StaticResource LanguageConverter}, ConverterParameter=C#}">
                             <Label Margin="5,5,0,0" Content="解决方案命名空间：" />
@@ -111,30 +111,21 @@
                             </TextBox>
                             <Button Width="30" Margin="748,80,0,0" HorizontalAlignment="Left" Command="{Binding SelectContractProjectFileCommand}" Content="..." Padding="0,5.5" BorderThickness="0,5,5,0" />
                             <TextBox Margin="788,80,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.ContractBaseNamespace}" />
-
-                            <!--<Label Margin="33,180,0,0" Content="{Binding ProjectFileLabel3}" />
-                            <TextBox Margin="146,178,0,0" HorizontalAlignment="Left" Text="{Binding Configuration.ServiceProjectFile}" Width="700">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="GotFocus">
-                                    <i:InvokeCommandAction Command="{Binding SelectServiceProjectFileCommand}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBox>
-                        <Button Width="30" Margin="848,178,0,0" HorizontalAlignment="Left" Command="{Binding SelectServiceProjectFileCommand}" Content="..." Padding="0,5.5" />
-                        <TextBox Margin="888,178,52,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.ServiceBaseNamespace}" />-->
                         </Grid>
                         <Grid Grid.Row="1" Visibility="{Binding Configuration.Language, Converter={StaticResource LanguageConverter}, ConverterParameter=Java}">
-                            <Label Margin="5,5,0,0" Content="根包名：" />
-                            <TextBox Margin="75,4,0,0" Width="300" Text="{Binding Configuration.BaseNamespace}" />
-                            <Label Margin="390,5,0,0" Content="项目目录：" />
-                            <TextBox Margin="470,5,93,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.OutputFolder}">
+                            <Label Margin="16,5,0,0" Content="根包名：" />
+                            <TextBox Margin="75,4,0,0" Width="250" Text="{Binding Configuration.BaseNamespace}" />
+                            <Label Margin="340,5,0,0" Content="服务前缀：" />
+                            <TextBox Text="{Binding Configuration.WebApiPrefix}" Margin="410,4, 0,0" Width="200" />
+                            <Label Margin="617,5,0,0" Content="项目目录：" />
+                            <TextBox Margin="688,5,55,0" HorizontalAlignment="Stretch" Text="{Binding Configuration.OutputFolder}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="GotFocus">
                                         <i:InvokeCommandAction Command="{Binding SelectProjectFolderCommand}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </TextBox>
-                            <Button Width="30" Margin="0,5,60,0" HorizontalAlignment="Right" Command="{Binding SelectProjectFolderCommand}" Content="..." Padding="0,5.5" BorderThickness="0,5,5,0" />
+                            <Button Width="30" Margin="0,5,20,0" HorizontalAlignment="Right" Command="{Binding SelectProjectFolderCommand}" Content="..." Padding="0,5.5" BorderThickness="0,5,5,0" />
                         </Grid>
                     </Grid>
                 </GroupBox.Content>
@@ -280,6 +271,8 @@
                                     <CheckBox Content="单条数据" IsChecked="{Binding HasSingleData}" />
                                     <CheckBox Content="所有数据" IsChecked="{Binding HasGetAll}" />
                                     <CheckBox Content="分页查询" IsChecked="{Binding HasSearchData}" />
+                                    <CheckBox Content="Web Api" IsChecked="{Binding HasCreateWebApi}"
+                                              Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Configuration.Language, Converter={StaticResource LanguageConverter}, ConverterParameter=Java}" />
                                 </StackPanel>
                             </Grid>
                         </Grid>
