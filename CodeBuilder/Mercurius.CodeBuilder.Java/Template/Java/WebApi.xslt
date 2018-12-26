@@ -39,22 +39,22 @@ public class <xsl:value-of select="./table/@className"/>Controller {
 
   <xsl:template name="create">
     /**
-     * 添加<xsl:value-of select="./table/@description"/>信息。
+     * 添加<xsl:value-of select="./table/@description"/>信息.
      * 
      * @param <xsl:value-of select="./table/@camelClassName"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@description"/>信息
-     * 
+     *
      * @return 添加结果
      */
     @PostMapping("/add")
     @ApiOperation("添加<xsl:value-of select="./table/@description"/>信息")
-    public Response add(@Valid @RequestBody <xsl:value-of select="./table/@className"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
+    public Response add(@ApiParam(value = "<xsl:value-of select="./table/@description"/>信息", required = true) @Valid @RequestBody <xsl:value-of select="./table/@className"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
         return this.<xsl:value-of select="./table/@camelClassName"/>Service.create(<xsl:value-of select="./table/@camelClassName"/>);
     }
   </xsl:template>
 
   <xsl:template name="update">
     /**
-    * 更新<xsl:value-of select="./table/@description"/>信息。
+    * 更新<xsl:value-of select="./table/@description"/>信息.
     *
     * @param id <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
     * @param <xsl:value-of select="./table/@camelClassName"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@description"/>信息
@@ -63,16 +63,19 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     */
     @PutMapping("/{id}")
     @ApiOperation("更新<xsl:value-of select="./table/@description"/>信息")
-    public Response put(@PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id, @Valid @RequestBody <xsl:value-of select="./table/@className"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
+    public Response put(
+        @ApiParam(value = "<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>", required = true) @PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id,
+        @ApiParam(value = "<xsl:value-of select="./table/@description"/>信息", required = true) @Valid @RequestBody <xsl:value-of select="./table/@className"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@camelClassName"/>
+    ) {
         <xsl:value-of select="./table/@camelClassName"/>.set<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@propertyName" />(id);
-        
+
         return this.<xsl:value-of select="./table/@camelClassName"/>Service.update(<xsl:value-of select="./table/@camelClassName"/>);
     }
   </xsl:template>
 
   <xsl:template name="remove">
     /**
-    * 删除<xsl:value-of select="./table/@description"/>信息。
+    * 删除<xsl:value-of select="./table/@description"/>信息.
     *
     * @param id <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
     *
@@ -80,14 +83,14 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     */    
     @DeleteMapping("/{id}")
     @ApiOperation("删除<xsl:value-of select="./table/@description"/>信息")
-    public Response put(@PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
+    public Response remove(@ApiParam(value = "<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>", required = true) @PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
         return this.<xsl:value-of select="./table/@camelClassName"/>Service.remove(id);
     }
   </xsl:template>
 
   <xsl:template name="getById">
     /**
-    * 获取<xsl:value-of select="./table/@description"/>信息。
+    * 获取<xsl:value-of select="./table/@description"/>信息.
     *
     * @param id <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
     *
@@ -95,14 +98,14 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     */    
     @GetMapping("/{id}")
     @ApiOperation("获取<xsl:value-of select="./table/@description"/>信息")
-    public ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; get(@PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
+    public ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; get(@ApiParam(value = "<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>", required = true) @PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
         return this.<xsl:value-of select="./table/@camelClassName"/>Service.get<xsl:value-of select="./table/@className"/>ById(id);
     }
   </xsl:template>
 
   <xsl:template name="getAll">
     /**
-    * 获取所有<xsl:value-of select="./table/@description"/>信息。
+    * 获取所有<xsl:value-of select="./table/@description"/>信息.
     *
     * @param so <xsl:value-of select="./table/@description"/>查询对象
     *
@@ -110,14 +113,14 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     */    
     @PostMapping("/all")
     @ApiOperation("获取<xsl:value-of select="./table/@description"/>信息")
-    public ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; all(<xsl:value-of select="./table/@className" />SO <xsl:text> so</xsl:text>) {
+    public ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; all(@ApiParam(value = "<xsl:value-of select="./table/@description"/>查询对象", required = true) @RequestBody <xsl:value-of select="./table/@className" />SO<xsl:text> so</xsl:text>) {
         return this.<xsl:value-of select="./table/@camelClassName"/>Service.getAll<xsl:value-of select="./table/@pluralClassName"/>(so);
     }    
   </xsl:template>
   
   <xsl:template name="search">
     /**
-    * 分页查询<xsl:value-of select="./table/@description"/>信息。
+    * 分页查询<xsl:value-of select="./table/@description"/>信息.
     *
     * @param so <xsl:value-of select="./table/@description"/>查询对象
     *
@@ -125,7 +128,7 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     */    
     @PostMapping("/search")
     @ApiOperation("获取<xsl:value-of select="./table/@description"/>信息")
-    public ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; search(<xsl:value-of select="./table/@className" />SO <xsl:text> so</xsl:text>) {
+    public ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; search(@ApiParam(value = "<xsl:value-of select="./table/@description"/>查询对象", required = true) @RequestBody <xsl:value-of select="./table/@className" />SO<xsl:text> so</xsl:text>) {
         return this.<xsl:value-of select="./table/@camelClassName"/>Service.search<xsl:value-of select="./table/@pluralClassName"/>(so);
     }
   </xsl:template>

@@ -4,10 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             Name="viewer"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
-             mc:Ignorable="d">
+             Name="viewer" d:DesignHeight="300" d:DesignWidth="300" mc:Ignorable="d">
     <UserControl.Resources>
         <Style TargetType="TreeView">
             <Style.Resources>
@@ -15,12 +12,12 @@
                     <GradientStop Offset="0" Color="#FFFF8F26" />
                     <GradientStop Offset="1" Color="#FFCC6D1D" />
                 </LinearGradientBrush>
-
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" x:Key="{x:Static SystemColors.ControlBrushKey}">
                     <GradientStop Offset="0" Color="#FFFF8F26" />
                     <GradientStop Offset="1" Color="#FFCC6D1D" />
                 </LinearGradientBrush>
             </Style.Resources>
+
         </Style>
         <Style x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
             <Style.Resources>
@@ -34,7 +31,8 @@
                     <GradientStop Offset="1" Color="#FFCC6D1D" />
                 </LinearGradientBrush>
             </Style.Resources>
-            <Setter Property="Padding" Value="8,5,0,0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Padding" Value="2,5,0,5" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <EventSetter Event="MouseDoubleClick" Handler="OnOpenConnectedDatabase" />
@@ -49,75 +47,46 @@
         </Style>
 
         <ContextMenu x:Key="dbExplorerContextMenu">
-            <MenuItem Command="{Binding AddServerCommand}"
-                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},
-                                                 Path=.}"
-                      Header="添加数据库连接...">
+            <MenuItem Command="{Binding AddServerCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},Path=.}" Header="添加数据库连接...">
                 <MenuItem.Icon>
-                    <Image Width="16"
-                           Height="16"
-                           Source="../Images/New.png" />
+                    <Image Width="16" Height="16" Source="../Images/New.png" />
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
 
         <ContextMenu x:Key="tableContextMenu">
-            <MenuItem Click="OnUpdateConnectedDatabase"
-                      Header="修改"
-                      Tag="{Binding}">
+            <MenuItem Click="OnUpdateConnectedDatabase" Header="修改" Tag="{Binding}">
                 <MenuItem.Icon>
-                    <Image Width="16"
-                           Height="16"
-                           Source="../Images/edit.png" />
+                    <Image Width="16" Height="16" Source="../Images/edit.png" />
                 </MenuItem.Icon>
             </MenuItem>
             <Separator />
-            <MenuItem Click="OnDeleteConnectedDatabase"
-                      Header="删除"
-                      Tag="{Binding}">
+            <MenuItem Click="OnDeleteConnectedDatabase" Header="删除" Tag="{Binding}">
                 <MenuItem.Icon>
-                    <Image Width="16"
-                           Height="16"
-                           Source="../Images/delete.png" />
+                    <Image Width="16" Height="16" Source="../Images/delete.png" />
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
     </UserControl.Resources>
     <Grid>
         <TreeView HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
-            <TreeViewItem IsExpanded="True" ItemsSource="{Binding ConnectedDatabases.Items}">
+            <TreeViewItem IsExpanded="True" Margin="0,4,0,4" ItemsSource="{Binding ConnectedDatabases.Items}">
                 <TreeViewItem.Header>
-                    <ContentControl HorizontalAlignment="Stretch" ContextMenu="{StaticResource dbExplorerContextMenu}" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=45}">
-                        <ContentControl.Template>
-                            <ControlTemplate>
-                                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-                                    <Image Width="32"
-                                           Height="32"
-                                           Source="../Images/Server.png" />
-                                    <Label VerticalAlignment="Center"
-                                           Content="数据库管理"
-                                           FontSize="16"
-                                           Padding="5,5" />
-                                </StackPanel>
-                            </ControlTemplate>
-                        </ContentControl.Template>
+                    <ContentControl HorizontalAlignment="Stretch" ContextMenu="{StaticResource dbExplorerContextMenu}" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=25}">
+                        <StackPanel Height="36" HorizontalAlignment="Stretch" Orientation="Horizontal" Cursor="Hand">
+                            <Image Width="32" Height="32" Source="../Images/Server.png" />
+                            <Label VerticalAlignment="Center" Content="数据库管理" FontSize="16" Padding="0,0,0,3" />
+                        </StackPanel>
                     </ContentControl>
                 </TreeViewItem.Header>
-
                 <TreeViewItem.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel ContextMenu="{StaticResource tableContextMenu}" Orientation="Horizontal">
-                            <Image Width="24"
-                                   Height="24"
-                                   Source="../Images/Database.png" />
-                            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="14" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeView}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=75}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}.{1}">
-                                        <Binding Path="Type" />
-                                        <Binding Path="Name" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
+                        <StackPanel Margin="0,2" HorizontalAlignment="Stretch" ContextMenu="{StaticResource tableContextMenu}" Orientation="Horizontal" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=44}">
+                            <Image Width="36" Height="36" Margin="5,0,0,0" Source="../Images/Database.png" />
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="{Binding Name}" FontSize="14" Padding="0,0,0,2" FontWeight="Bold" />
+                                <Label Content="{Binding Type}" FontSize="8" Padding="0" FontStyle="Normal" />
+                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </TreeViewItem.ItemTemplate>
