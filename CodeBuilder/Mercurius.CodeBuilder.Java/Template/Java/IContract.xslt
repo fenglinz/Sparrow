@@ -9,10 +9,12 @@
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 </xsl:text>
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="classDescription" />@Mapper
+@Repository
 public interface <xsl:value-of select="./table/@className"/>Mapper {
 <xsl:if test="count(./table[@hasCreate='true'])=1">
     <![CDATA[/**]]>
