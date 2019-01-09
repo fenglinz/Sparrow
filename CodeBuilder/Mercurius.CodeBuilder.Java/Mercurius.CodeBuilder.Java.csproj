@@ -58,8 +58,12 @@
     <Content Include="Template\Java\Common.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Template\Java\DTO-Request.xslt" />
-    <Content Include="Template\Java\DTO-Response.xslt" />
+    <Content Include="Template\Java\DTO-Request.xslt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Template\Java\DTO-Response.xslt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Template\Java\Entity.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -74,7 +78,9 @@
     <Content Include="Template\Java\MyBatis\SqlMap_MySQL.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Template\Java\MyBatis\SqlMap_Oracle.xslt" />
+    <Content Include="Template\Java\MyBatis\SqlMap_Oracle.xslt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Template\Java\IContract.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
