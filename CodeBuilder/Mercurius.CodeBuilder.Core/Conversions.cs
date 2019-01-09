@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
+using Mercurius.CodeBuilder.Core.Config;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;
@@ -9,7 +10,7 @@ namespace Mercurius.CodeBuilder.Core
 {
     public static class Conversions
     {
-        public static XDocument ToXml(this DbTable table, Configuration config)
+        public static XDocument ToXml(this DbTable table, Configuration config, Item item)
         {
             var xdocument = new XDocument(new XElement("root"));
             var database = config.CurrentDatabase;
@@ -47,6 +48,7 @@ namespace Mercurius.CodeBuilder.Core
                 tableElement.SetAttributeValue("moduleName", table.ModuleName.Inline());
                 tableElement.SetAttributeValue("moduleDescription", table.ModuleDescription.Inline());
                 tableElement.SetAttributeValue("className", table.ClassName);
+                tableElement.SetAttributeValue("realClassName", table.GetClassName());
                 tableElement.SetAttributeValue("camelClassName", table.ClassName.CamelNaming());
                 tableElement.SetAttributeValue("pluralClassName", table.ClassName.PluralClassName());
                 tableElement.SetAttributeValue("description", table.Description.Inline());
@@ -101,6 +103,12 @@ namespace Mercurius.CodeBuilder.Core
                     columnElement.SetAttributeValue("isSearchCriteria", column.IsSearchCriteria);
                     columnElement.SetAttributeValue("isAddColumn", column.IsAddColumn);
                     columnElement.SetAttributeValue("isUpdateColumn", column.IsUpdateColumn);
+
+                    // dto属性忽略处理
+                    if (string.CompareOrdinal(item.Module, "dto") == 0)
+                    {
+                        columnElement.SetAttributeValue("igdto", item.IsIgnoreProperty(column.FieldName));
+                    }
 
                     tableElement.Add(columnElement);
                 }

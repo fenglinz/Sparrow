@@ -91,11 +91,14 @@ namespace Mercurius.CodeBuilder.Java
             try
             {
                 item.FileName = string.IsNullOrWhiteSpace(item.FileFormat) ? table.ClassName : string.Format(item.FileFormat, table.ClassName);
+
+                table.ClassFormat = item.FileFormat;
                 table.Namespace = item.GetNamespace(configuration.BaseNamespace, item.SubFolder.Replace("\\", "."));
 
-                var xml = table.ToXml(configuration);
+                var xml = table.ToXml(configuration, item);
                 var ormMiddleware = OrmMiddleware.MyBatis;
 
+                // 添加依赖
                 if (item.Dependencys != null)
                 {
                     var dependencys = new XElement("dependencys");

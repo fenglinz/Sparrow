@@ -13,8 +13,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import com.csbr.common.so.SearchBean;
-<xsl:call-template name="classDescription" />@ApiModel(description = "<xsl:value-of select="./table/@description"/>查询条件")
-public class <xsl:value-of select="./table/@className"/>SO extends SearchBean {
+<xsl:call-template name="soDescription" />@ApiModel(description = "<xsl:value-of select="./table/@description"/>查询实体")
+public class <xsl:value-of select="./table/@realClassName"/> extends SearchBean {
   <xsl:call-template name="fields" />
   <xsl:call-template name="setters" />
   <xsl:call-template name="getters" />

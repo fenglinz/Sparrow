@@ -173,7 +173,7 @@ namespace Mercurius.CodeBuilder.CSharp
 
             table.FullClassNameFormat = $"{table.Namespace}.{table.ClassName}{"{0}"}, {configuration.EntityBaseNamespace}";
 
-            var xml = table.ToXml(configuration);
+            var xml = table.ToXml(configuration, item);
             var ormMiddleware = (OrmMiddleware)Enum.Parse(typeof(OrmMiddleware), configuration.OrmMiddleware);
 
             if (item.Dependencys != null)

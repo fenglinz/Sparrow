@@ -6,6 +6,8 @@
   <xsl:template match="root">
 <xsl:call-template name="package" />
 <xsl:text>
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,53 +15,63 @@ import com.csbr.common.annotation.Pageable;
 import com.csbr.common.service.Response;
 import com.csbr.common.service.ResponseBean;
 import com.csbr.common.service.ResponseList;
+import com.csbr.common.service.ServiceSupport;
 
 </xsl:text>
 <xsl:call-template name="dependencys" />
-<xsl:call-template name="classDescription" />@Service
-public class <xsl:value-of select="./table/@className"/>Service {
+<xsl:call-template name="serviceDescription" />@Service
+public class <xsl:value-of select="./table/@realClassName"/> extends ServiceSupport {
 
-    /** <xsl:value-of select="./table/@description" />数据访问接口 */
+    /** <xsl:value-of select="./table/@description" />数据持久化对象 */
     @Autowired
     private <xsl:value-of select="./table/@className" />Mapper <xsl:value-of select="./table/@camelClassName" />Mapper;
 <xsl:if test="count(./table[@hasCreate='true'])=1">
-    /** 
+    /**
      * 添加<xsl:value-of select="./table/@description" />信息.
      *
-     * @param <xsl:value-of select="./table/@camelClassName" /><xsl:text> </xsl:text><xsl:value-of select="./table/@description"/>
+     * @param request<xsl:text> </xsl:text><xsl:value-of select="./table/@description"/>业务逻辑请求数据
+     *
+     * @return 添加结果
      */
-    public Response create(<xsl:value-of select="./table/@className" /><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
+    public Response create(<xsl:value-of select="./table/@className" />Request<xsl:text> </xsl:text>request) {
         Response rs = new Response();
+        <xsl:value-of select="./table/@className" /> entity = this.convert(request, <xsl:value-of select="./table/@className" />.class);
 
-        this.<xsl:value-of select="./table/@camelClassName" />Mapper.create(<xsl:value-of select="./table/@camelClassName"/>);
+        this.<xsl:value-of select="./table/@camelClassName" />Mapper.create(entity);
 
         return rs;
     }
 </xsl:if>
 <xsl:if test="count(./table[@hasUpdate='true'])=1">
     /**
-     * 编辑<xsl:value-of select="./table/@description" />信息.
+     * 更新<xsl:value-of select="./table/@description" />信息.
      *
-     * @param <xsl:value-of select="./table/@camelClassName"/><xsl:text> </xsl:text><xsl:value-of select="./table/@description"/>
+     * @param request<xsl:text> </xsl:text><xsl:value-of select="./table/@description"/>业务逻辑请求数据
+     *
+     * @return 更新结果
      */
-    public Response update(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
+    public Response update(<xsl:value-of select="./table/@className"/>Request<xsl:text> </xsl:text>request) {
         Response rs = new Response();
+        <xsl:value-of select="./table/@className" /> entity = this.convert(request, <xsl:value-of select="./table/@className" />.class);
 
-        this.<xsl:value-of select="./table/@camelClassName" />Mapper.update(<xsl:value-of select="./table/@camelClassName"/>);
+        this.<xsl:value-of select="./table/@camelClassName" />Mapper.update(entity);
 
         return rs;
     }
 </xsl:if>
 <xsl:if test="count(./table[@hasCreateOrUpdate='true'])=1">
     /**
-     * 添加或者编辑<xsl:value-of select="./table/@description" />信息.
+     * 添加或者更新<xsl:value-of select="./table/@description" />信息.
      *
-     * @param <xsl:value-of select="./table/@camelClassName"/><xsl:text> </xsl:text><xsl:value-of select="./table/@description"/>
+     * @param request<xsl:text> </xsl:text><xsl:value-of select="./table/@description"/>业务逻辑请求数据
+     *
+     * @return 添加或更新结果
      */
-    public Response createOrUpdate(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
+    public Response createOrUpdate(<xsl:value-of select="./table/@className"/>Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
         Response rs = new Response();
+        <xsl:value-of select="./table/@className" /> entity = this.convert(request, <xsl:value-of select="./table/@className" />.class);
 
-        this.<xsl:value-of select="./table/@camelClassName" />Mapper.createOrUpdate(<xsl:value-of select="./table/@camelClassName"/>);
+        this.<xsl:value-of select="./table/@camelClassName" />Mapper.createOrUpdate(entity);
 
         return rs;
     }
@@ -111,12 +123,14 @@ public class <xsl:value-of select="./table/@className"/>Service {
      * 根据主键获取<xsl:value-of select="./table/@description" />信息.
      *
      * @param id <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
+     *
      * @return <xsl:value-of select="./table/@description"/>查询结果
      */
-    public ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
-        ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt;();
+    public ResponseBean&lt;<xsl:value-of select="./table/@className"/>Response&gt; get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
+        ResponseBean&lt;<xsl:value-of select="./table/@className"/>Response&gt; rs = new ResponseBean&lt;&gt;();
+        <xsl:value-of select="./table/@className" /> entity = this.<xsl:value-of select="./table/@camelClassName" />Mapper.get<xsl:value-of select="./table/@className"/>ById(id);
 
-        rs.setData(this.<xsl:value-of select="./table/@camelClassName" />Mapper.get<xsl:value-of select="./table/@className"/>ById(id));
+        rs.setData(this.convert(entity, <xsl:value-of select="./table/@className" />Response.class));
 
         return rs;
     }
@@ -136,9 +150,10 @@ public class <xsl:value-of select="./table/@className"/>Service {
           </xsl:if>
         </xsl:for-each><xsl:text>) {</xsl:text>
        <xsl:call-template name="GetByIdParams" />
-        ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt;();
+        ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseBean&lt;&gt;();
+        <xsl:value-of select="./table/@className" /> entity = this.<xsl:value-of select="./table/@camelClassName" />Mapper.get<xsl:value-of select="./table/@className"/>ById(map);
 
-        rs.setData(this.<xsl:value-of select="./table/@camelClassName" />Mapper.get<xsl:value-of select="./table/@className"/>ById(map));
+        rs.setData(this.convert(entity, <xsl:value-of select="./table/@className" />Response.class));
 
         return rs;
     }
@@ -150,14 +165,15 @@ public class <xsl:value-of select="./table/@className"/>Service {
     /**
      * 获取所有<xsl:value-of select="./table/@description" />信息.
      *
-     * @param so 查询条件
+     * @param so 查询对象
      *
      * @return 返回符合条件的<xsl:value-of select="./table/@description"/>查询结果
      */
-    public ResponseList&lt;<xsl:value-of select="./table/@className"/>> getAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so) {
-        ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseList&lt;&gt;();
+    public ResponseList&lt;<xsl:value-of select="./table/@className"/>Response&gt; getAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so) {
+        ResponseList&lt;<xsl:value-of select="./table/@className"/>Response&gt; rs = new ResponseList&lt;&gt;();
+        List&lt;<xsl:value-of select="./table/@className" />&gt; entities = this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so);
 
-        rs.setDatas(this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so));
+        rs.setDatas(this.convert(entities, <xsl:value-of select="./table/@className" />Response.class));
 
         return rs;
     }
@@ -167,15 +183,16 @@ public class <xsl:value-of select="./table/@className"/>Service {
     /**
      * 查询并分页获取<xsl:value-of select="./table/@description" />信息.
      *
-     * @param so 查询条件
+     * @param so 查询对象
      *
      * @return 返回符合条件的<xsl:value-of select="./table/@description" />分页查询结果
      */
     @Pageable
-    public ResponseList&lt;<xsl:value-of select="./table/@className"/>> search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so) {
-        ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; rs = new ResponseList&lt;&gt;();
+    public ResponseList&lt;<xsl:value-of select="./table/@className"/>Response> search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so) {
+        ResponseList&lt;<xsl:value-of select="./table/@className"/>Response&gt; rs = new ResponseList&lt;&gt;();
+        List&lt;<xsl:value-of select="./table/@className" />&gt; entities = this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so);
 
-        rs.setDatas(this.<xsl:value-of select="./table/@camelClassName" />Mapper.search<xsl:value-of select="./table/@pluralClassName"/>(so));
+        rs.setDatas(this.convert(entities, <xsl:value-of select="./table/@className" />Response.class));
 
         return rs;
     }

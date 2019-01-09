@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import com.csbr.common.service.Response;
 import com.csbr.common.service.ResponseBean;
@@ -20,10 +21,10 @@ import com.csbr.common.service.ResponseList;
 
 </xsl:text>
 <xsl:call-template name="dependencys" />
-<xsl:call-template name="classDescription" />@RestController
+<xsl:call-template name="apiDescription" />@RestController
 @RequestMapping("<xsl:value-of select="./webApiPrefix"/>/<xsl:value-of select="./table/@className"/>")
-@Api(description = "<xsl:value-of select="./table/@description"/>", tags = "<xsl:value-of select="./table/@className"/>")
-public class <xsl:value-of select="./table/@className"/>Controller {
+@Api(description = "<xsl:value-of select="./table/@description"/>Web Api服务", tags = "<xsl:value-of select="./table/@description"/>")
+public class <xsl:value-of select="./table/@realClassName"/> {
 
     /** <xsl:value-of select="./table/@description" />服务对象 */
     @Autowired
@@ -40,15 +41,15 @@ public class <xsl:value-of select="./table/@className"/>Controller {
   <xsl:template name="create">
     /**
      * 添加<xsl:value-of select="./table/@description"/>信息.
-     * 
-     * @param <xsl:value-of select="./table/@camelClassName"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@description"/>信息
+     *
+     * @param request<xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@description"/>请求数据模型
      *
      * @return 添加结果
      */
     @PostMapping("/add")
     @ApiOperation("添加<xsl:value-of select="./table/@description"/>信息")
-    public Response add(@ApiParam(value = "<xsl:value-of select="./table/@description"/>信息", required = true) @Valid @RequestBody <xsl:value-of select="./table/@className"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@camelClassName"/>) {
-        return this.<xsl:value-of select="./table/@camelClassName"/>Service.create(<xsl:value-of select="./table/@camelClassName"/>);
+    public Response add(@ApiParam(value = "<xsl:value-of select="./table/@description"/>请求数据模型", required = true) @Valid @RequestBody <xsl:value-of select="./table/@className"/>Request<xsl:text xml:space="preserve"> </xsl:text>request) {
+        return this.<xsl:value-of select="./table/@camelClassName"/>Service.create(request);
     }
   </xsl:template>
 
@@ -57,7 +58,7 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     * 更新<xsl:value-of select="./table/@description"/>信息.
     *
     * @param id <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
-    * @param <xsl:value-of select="./table/@camelClassName"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@description"/>信息
+    * @param request<xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@description"/>请求数据模型
     *
     * @return 更新结果
     */
@@ -65,11 +66,11 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     @ApiOperation("更新<xsl:value-of select="./table/@description"/>信息")
     public Response put(
         @ApiParam(value = "<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>", required = true) @PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id,
-        @ApiParam(value = "<xsl:value-of select="./table/@description"/>信息", required = true) @Valid @RequestBody <xsl:value-of select="./table/@className"/><xsl:text xml:space="preserve"> </xsl:text><xsl:value-of select="./table/@camelClassName"/>
+        @ApiParam(value = "<xsl:value-of select="./table/@description"/>请求数据模型", required = true) @Valid @RequestBody <xsl:value-of select="./table/@className"/>Request<xsl:text xml:space="preserve"> </xsl:text>request
     ) {
-        <xsl:value-of select="./table/@camelClassName"/>.set<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@propertyName" />(id);
+        request.set<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@propertyName" />(id);
 
-        return this.<xsl:value-of select="./table/@camelClassName"/>Service.update(<xsl:value-of select="./table/@camelClassName"/>);
+        return this.<xsl:value-of select="./table/@camelClassName"/>Service.update(request);
     }
   </xsl:template>
 
@@ -80,7 +81,7 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     * @param id <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
     *
     * @return 删除结果
-    */    
+    */
     @DeleteMapping("/{id}")
     @ApiOperation("删除<xsl:value-of select="./table/@description"/>信息")
     public Response remove(@ApiParam(value = "<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>", required = true) @PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
@@ -95,10 +96,10 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     * @param id <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>
     *
     * @return 获取结果
-    */    
+    */
     @GetMapping("/{id}")
     @ApiOperation("获取<xsl:value-of select="./table/@description"/>信息")
-    public ResponseBean&lt;<xsl:value-of select="./table/@className"/>&gt; get(@ApiParam(value = "<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>", required = true) @PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
+    public ResponseBean&lt;<xsl:value-of select="./table/@className"/>Response&gt; get(@ApiParam(value = "<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>", required = true) @PathVariable("id") <xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id) {
         return this.<xsl:value-of select="./table/@camelClassName"/>Service.get<xsl:value-of select="./table/@className"/>ById(id);
     }
   </xsl:template>
@@ -110,14 +111,14 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     * @param so <xsl:value-of select="./table/@description"/>查询对象
     *
     * @return 获取结果
-    */    
+    */
     @PostMapping("/all")
     @ApiOperation("获取<xsl:value-of select="./table/@description"/>信息")
-    public ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; all(@ApiParam(value = "<xsl:value-of select="./table/@description"/>查询对象", required = true) @RequestBody <xsl:value-of select="./table/@className" />SO<xsl:text> so</xsl:text>) {
+    public ResponseList&lt;<xsl:value-of select="./table/@className"/>Response&gt; all(@ApiParam(value = "<xsl:value-of select="./table/@description"/>查询对象", required = true) @RequestBody <xsl:value-of select="./table/@className" />SO<xsl:text> so</xsl:text>) {
         return this.<xsl:value-of select="./table/@camelClassName"/>Service.getAll<xsl:value-of select="./table/@pluralClassName"/>(so);
-    }    
+    }
   </xsl:template>
-  
+
   <xsl:template name="search">
     /**
     * 分页查询<xsl:value-of select="./table/@description"/>信息.
@@ -125,10 +126,10 @@ public class <xsl:value-of select="./table/@className"/>Controller {
     * @param so <xsl:value-of select="./table/@description"/>查询对象
     *
     * @return 获取结果
-    */    
+    */
     @PostMapping("/search")
     @ApiOperation("获取<xsl:value-of select="./table/@description"/>信息")
-    public ResponseList&lt;<xsl:value-of select="./table/@className"/>&gt; search(@ApiParam(value = "<xsl:value-of select="./table/@description"/>查询对象", required = true) @RequestBody <xsl:value-of select="./table/@className" />SO<xsl:text> so</xsl:text>) {
+    public ResponseList&lt;<xsl:value-of select="./table/@className"/>Response&gt; search(@ApiParam(value = "<xsl:value-of select="./table/@description"/>查询对象", required = true) @RequestBody <xsl:value-of select="./table/@className" />SO<xsl:text> so</xsl:text>) {
         return this.<xsl:value-of select="./table/@camelClassName"/>Service.search<xsl:value-of select="./table/@pluralClassName"/>(so);
     }
   </xsl:template>

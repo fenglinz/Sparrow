@@ -70,6 +70,7 @@ namespace Mercurius.CodeBuilder.Core.Config
                          Extension = s.Attribute("extension").Value,
                          Project = s.Attribute("project").Value,
                          IgnoreView = s.Attribute("ignoreView") != null && Convert.ToBoolean(s.Attribute("ignoreView").Value),
+                         IgnoreProperties = s.Attribute("ignoreProps")?.Value?.Split(','),
                          SubFolder = s.Attribute("subFolder")?.Value,
                          Handler = s.Attribute("handler")?.Value,
                          Parameters = s.Attribute("parameter")?.Value.AsDictionary()

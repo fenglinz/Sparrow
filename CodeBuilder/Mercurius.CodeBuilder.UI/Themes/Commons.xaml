@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="{x:Type Control}" TargetType="Control">
-        <Setter Property="FontFamily" Value="微软雅黑" />
+        <Setter Property="FontFamily" Value="宋体" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Top" />
@@ -47,14 +47,6 @@
                                 <ColumnDefinition ColumnDefinition.Width="Auto" />
                                 <ColumnDefinition ColumnDefinition.Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Path Name="arrow"
-                                  Width="9"
-                                  Height="12"
-                                  Margin="2"
-                                  Data="M26.75,52.443L26.75,67.693001 38,59.943001"
-                                  Fill="#FFFF0000"
-                                  Opacity="0.0"
-                                  Stretch="Fill" />
                             <ContentControl Name="textBlock"
                                             Grid.Column="1"
                                             Margin="2"
@@ -62,7 +54,7 @@
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                             Content="{TemplateBinding Content}"
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
-                                            FontFamily="Segoe UI"
+                                            FontFamily="Courier New"
                                             Foreground="#FF353535"
                                             IsTabStop="False"
                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
@@ -70,7 +62,6 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Trigger.Property="IsSelected" Value="True">
-                            <Setter TargetName="arrow" Property="Opacity" Value="1.0" />
                             <Setter TargetName="textBlock" Property="FontWeight" Value="Medium" />
                             <Setter TargetName="textBlock" Property="Foreground" Value="#FFE51400" />
                         </Trigger>

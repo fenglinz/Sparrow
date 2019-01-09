@@ -6,36 +6,60 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              Name="viewer" d:DesignHeight="300" d:DesignWidth="300" mc:Ignorable="d">
     <UserControl.Resources>
-        <Style TargetType="TreeView">
-            <Style.Resources>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" x:Key="{x:Static SystemColors.HighlightBrushKey}">
-                    <GradientStop Offset="0" Color="#FFFF8F26" />
-                    <GradientStop Offset="1" Color="#FFCC6D1D" />
-                </LinearGradientBrush>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" x:Key="{x:Static SystemColors.ControlBrushKey}">
-                    <GradientStop Offset="0" Color="#FFFF8F26" />
-                    <GradientStop Offset="1" Color="#FFCC6D1D" />
-                </LinearGradientBrush>
-            </Style.Resources>
-
+        <Style x:Key="header" TargetType="StackPanel">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0" Color="#337ab7 " />
+                        <GradientStop Offset="1" Color="#265a88 " />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#265a88" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
-        <Style x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
-            <Style.Resources>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" x:Key="{x:Static SystemColors.HighlightBrushKey}">
-                    <GradientStop Offset="0" Color="#FFFF8F26" />
-                    <GradientStop Offset="1" Color="#FFCC6D1D" />
-                </LinearGradientBrush>
+        <Style x:Key="{x:Type ListBox}" TargetType="ListBox" BasedOn="{x:Null}">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem" BasedOn="{x:Null}">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Offset="0" Color="#fff" />
+                                    <GradientStop Offset="1" Color="#e0e0e0" />
+                                </LinearGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="Margin" Value="0,0,0,3" />
+                        <Setter Property="Padding" Value="2,5,0,5" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <EventSetter Event="MouseDoubleClick" Handler="OnOpenConnectedDatabase" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop Offset="0" Color="#d9534f" />
+                                            <GradientStop Offset="1" Color="#c12e2a" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" x:Key="{x:Static SystemColors.ControlBrushKey}">
-                    <GradientStop Offset="0" Color="#FFFF8F26" />
-                    <GradientStop Offset="1" Color="#FFCC6D1D" />
-                </LinearGradientBrush>
-            </Style.Resources>
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Padding" Value="2,5,0,5" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <EventSetter Event="MouseDoubleClick" Handler="OnOpenConnectedDatabase" />
+        <Style x:Key="DbItemStyle" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,2" />
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
 
         <Style TargetType="ContextMenu">
@@ -69,28 +93,27 @@
         </ContextMenu>
     </UserControl.Resources>
     <Grid>
-        <TreeView HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
-            <TreeViewItem IsExpanded="True" Margin="0,4,0,4" ItemsSource="{Binding ConnectedDatabases.Items}">
-                <TreeViewItem.Header>
-                    <ContentControl HorizontalAlignment="Stretch" ContextMenu="{StaticResource dbExplorerContextMenu}" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=25}">
-                        <StackPanel Height="36" HorizontalAlignment="Stretch" Orientation="Horizontal" Cursor="Hand">
-                            <Image Width="32" Height="32" Source="../Images/Server.png" />
-                            <Label VerticalAlignment="Center" Content="数据库管理" FontSize="16" Padding="0,0,0,3" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Style="{StaticResource header}" Height="48" ContextMenu="{StaticResource dbExplorerContextMenu}" HorizontalAlignment="Stretch" Orientation="Horizontal" Cursor="Hand">
+            <Image Width="32" Height="32" Source="../Images/Server.png" />
+            <Label VerticalAlignment="Center" Content="数据库管理" FontWeight="Bold" FontFamily="宋体" Foreground="WhiteSmoke" FontSize="22" />
+        </StackPanel>
+
+        <ListBox Grid.Row="1" Padding="0" BorderThickness="0" BorderBrush="#f9f2f4" ItemsSource="{Binding ConnectedDatabases.Items}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Style="{StaticResource DbItemStyle}" ContextMenu="{StaticResource tableContextMenu}">
+                        <Image Width="32" Height="32" Source="../Images/Database.png" />
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="{Binding Name}" FontSize="16" Padding="0,0,0,2" FontWeight="Bold" />
+                            <Label Content="{Binding Type}" FontSize="10" Padding="0" FontStyle="Normal" />
                         </StackPanel>
-                    </ContentControl>
-                </TreeViewItem.Header>
-                <TreeViewItem.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="0,2" HorizontalAlignment="Stretch" ContextMenu="{StaticResource tableContextMenu}" Orientation="Horizontal" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=ActualWidth, Converter={StaticResource MinusConverter}, ConverterParameter=44}">
-                            <Image Width="36" Height="36" Margin="5,0,0,0" Source="../Images/Database.png" />
-                            <StackPanel Orientation="Vertical">
-                                <Label Content="{Binding Name}" FontSize="14" Padding="0,0,0,2" FontWeight="Bold" />
-                                <Label Content="{Binding Type}" FontSize="8" Padding="0" FontStyle="Normal" />
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </TreeViewItem.ItemTemplate>
-            </TreeViewItem>
-        </TreeView>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

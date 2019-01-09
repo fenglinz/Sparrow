@@ -164,12 +164,12 @@
                 <ListBox Grid.Row="1" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding}" SelectedIndex="0" Style="{x:Null}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="Transparent">
-                                <StackPanel Orientation="Horizontal">
-                                    <CheckBox Margin="0,5,0,5" IsChecked="{Binding IsEnabled}">
+                            <Border Background="Transparent" HorizontalAlignment="Stretch">
+                                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                                    <CheckBox Margin="0,2,0,2" IsChecked="{Binding IsEnabled}">
                                         <CheckBox.Template>
                                             <ControlTemplate TargetType="CheckBox">
-                                                <Image x:Name="img1" Width="36" Height="36" Source="../Images/add.png" />
+                                                <Image x:Name="img1" Width="32" Height="32" Source="../Images/add.png" />
 
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsChecked" Value="true">
@@ -182,12 +182,9 @@
                                             </ControlTemplate>
                                         </CheckBox.Template>
                                     </CheckBox>
-                                    <StackPanel Margin="5,5,0,5" Orientation="Vertical">
-                                        <TextBlock Text="{Binding Name}" />
-                                        <TextBlock Margin="0,5,0,0" 
-                                                   FontSize="15" 
-                                                   FontStyle="Italic" 
-                                                   Text="{Binding Path=Description}" />
+                                    <StackPanel Margin="5,1,0,1" Orientation="Vertical">
+                                        <TextBlock FontFamily="宋体" FontSize="14" FontWeight="Bold" Text="{Binding Name}" />
+                                        <TextBlock Margin="0,5,0,0" FontSize="10" FontStyle="Italic" Text="{Binding Path=Description}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Border>

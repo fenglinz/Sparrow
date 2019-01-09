@@ -10,22 +10,31 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 import org.hibernate.validator.constraints.Length;
-<xsl:call-template name="entityDescription" />public class <xsl:value-of select="./table/@realClassName" /> {
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import com.csbr.common.service.RequestModel;
+
+<xsl:call-template name="requestDescription" />@ApiModel(description = "<xsl:value-of select="./table/@description"/>业务逻辑请求数据模型")
+public class <xsl:value-of select="./table/@realClassName" /> extends RequestModel {
     <xsl:call-template name="fields" />
     <xsl:call-template name="setters" />
     <xsl:call-template name="getters" />
 }</xsl:template>
 
   <xsl:template name="fields">
-    <xsl:for-each select="./table/column">
+    <xsl:for-each select="./table/column[@igdto='false']">
     <![CDATA[/** ]]><xsl:value-of select="@description" /><![CDATA[ */]]>
-    <xsl:if test="@validLength='true'">@Length(max = <xsl:value-of select="@length" />, message = "<xsl:value-of select="@shortDesc" />长度不能超过<xsl:value-of select="@length" />个字符.")</xsl:if>
+    @ApiModelProperty("<xsl:value-of select="@description"/>")<!--<xsl:if test="@nullable='false' and @isPrimaryKey='false'">
+    @FieldNotNull("<xsl:value-of select="@description"/>不能为null！")</xsl:if>--><xsl:if test="@validLength='true'">
+    @Length(max = <xsl:value-of select="@length" />, message = "<xsl:value-of select="@shortDesc" />长度不能超过<xsl:value-of select="@length" />个字符.")</xsl:if>
     private <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/>;
 </xsl:for-each>
   </xsl:template>
 
   <xsl:template name="setters">
-    <xsl:for-each select="./table/column">
+    <xsl:for-each select="./table/column[@igdto='false']">
     <![CDATA[/**]]>
     <![CDATA[ * 设置]]><xsl:value-of select="@description" />
     <![CDATA[ *]]>
@@ -38,7 +47,7 @@ import org.hibernate.validator.constraints.Length;
   </xsl:template>
 
   <xsl:template name="getters">
-    <xsl:for-each select="./table/column">
+    <xsl:for-each select="./table/column[@igdto='false']">
     <![CDATA[/**]]>
     <![CDATA[ * 返回]]><xsl:value-of select="@description" />
     <![CDATA[ *]]>

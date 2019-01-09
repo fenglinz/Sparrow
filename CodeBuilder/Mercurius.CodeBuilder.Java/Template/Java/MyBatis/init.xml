@@ -8,7 +8,7 @@
     extension="java"
     subFolder="entity"
     project="" />
-  
+
   <item
     name="SearchResponse"
     template="SearchResponse.xslt"
@@ -41,8 +41,32 @@
     project="" />
 
   <item
+    name="RequestDto"
+    dependency=""
+    template="DTO-Request.xslt"
+    module="dto"
+    fileFormat="{0}Request"
+    extension="java"
+    subFolder="dto\request"
+    ignoreView="true"
+    ignoreProps="dataversion,create[_(date)(time)]+$,update[_(date)(time)]+$,varchar\d+$,num\d+$,date\d+$"
+    project="" />
+
+  <item
+    name="ResponseDto"
+    dependency=""
+    template="DTO-Response.xslt"
+    module="dto"
+    fileFormat="{0}Response"
+    extension="java"
+    subFolder="dto\response"
+    ignoreView="true"
+    ignoreProps="password,varchar\d+$,num\d+$,date\d+$"
+    project="" />
+
+  <item
     name="Service"
-    dependency="Entity,SearchResponse,Mapper"
+    dependency="Entity,RequestDto,ResponseDto,SearchResponse,Mapper"
     template="MyBatis\Service.xslt"
     module="implement"
     fileFormat="{0}Service"
@@ -53,7 +77,7 @@
 
   <item
     name="Controller"
-    dependency="Entity,SearchResponse,Mapper,Service"
+    dependency="RequestDto,ResponseDto,SearchResponse,Service"
     template="WebApi.xslt"
     module="implement"
     fileFormat="{0}Controller"

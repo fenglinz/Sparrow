@@ -115,6 +115,8 @@ namespace Mercurius.CodeBuilder.Core.Database
             }
         }
 
+        public string ClassFormat { get; set; }
+
         /// <summary>
         /// 完整类名称格式化字符串(包含程序集)。
         /// </summary>
@@ -303,6 +305,25 @@ namespace Mercurius.CodeBuilder.Core.Database
         public DbTable()
         {
             this.Columns = new List<DbColumn>();
+        }
+
+        #endregion
+
+        #region 公开方法
+
+        /// <summary>
+        /// 获取类名
+        /// </summary>
+        /// <param name="format">类格式化</param>
+        /// <returns>类名称</returns>
+        public string GetClassName()
+        {
+            if (!string.IsNullOrWhiteSpace(this.ClassFormat))
+            {
+                return string.Format(this.ClassFormat, this.ClassName);
+            }
+
+            return this.ClassName;
         }
 
         #endregion

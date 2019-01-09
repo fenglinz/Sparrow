@@ -7,9 +7,63 @@
 </xsl:for-each>
 </xsl:template>
 
-  <xsl:template name="classDescription">
+  <xsl:template name="soDescription">
 /**
- * <xsl:value-of select="./table/@description" />.
+ * <xsl:value-of select="./table/@description" />查询实体.
+ *
+ * @author <xsl:value-of select="./author"/>
+ * @since <xsl:value-of select="./buildDate"/>
+ */
+</xsl:template>
+
+  <xsl:template name="entityDescription">
+/**
+ * <xsl:value-of select="./table/@description" />实体.
+ *
+ * @author <xsl:value-of select="./author"/>
+ * @since <xsl:value-of select="./buildDate"/>
+ */
+</xsl:template>
+
+  <xsl:template name="mapperDescription">
+/**
+ * <xsl:value-of select="./table/@description" />实体持久化接口.
+ *
+ * @author <xsl:value-of select="./author"/>
+ * @since <xsl:value-of select="./buildDate"/>
+ */
+</xsl:template>
+
+  <xsl:template name="serviceDescription">
+/**
+ * <xsl:value-of select="./table/@description" />业务逻辑.
+ *
+ * @author <xsl:value-of select="./author"/>
+ * @since <xsl:value-of select="./buildDate"/>
+ */
+</xsl:template>
+
+  <xsl:template name="requestDescription">
+/**
+ * <xsl:value-of select="./table/@description" />业务逻辑请求数据模型.
+ *
+ * @author <xsl:value-of select="./author"/>
+ * @since <xsl:value-of select="./buildDate"/>
+ */
+</xsl:template>
+
+  <xsl:template name="responseDescription">
+/**
+ * <xsl:value-of select="./table/@description" />业务逻辑响应数据模型.
+ *
+ * @author <xsl:value-of select="./author"/>
+ * @since <xsl:value-of select="./buildDate"/>
+ */
+</xsl:template>
+
+  <xsl:template name="apiDescription">
+/**
+ * <xsl:value-of select="./table/@description" />Web Api服务控制器.
  *
  * @author <xsl:value-of select="./author"/>
  * @since <xsl:value-of select="./buildDate"/>

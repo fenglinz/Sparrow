@@ -58,8 +58,11 @@
     <Content Include="Template\Java\Common.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Template\Java\DTO-Request.xslt" />
+    <Content Include="Template\Java\DTO-Response.xslt" />
     <Content Include="Template\Java\Entity.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Template\Java\MyBatis\Service.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -13,9 +13,9 @@ import org.springframework.stereotype.Repository;
 
 </xsl:text>
 <xsl:call-template name="dependencys" />
-<xsl:call-template name="classDescription" />@Mapper
+<xsl:call-template name="mapperDescription" />@Mapper
 @Repository
-public interface <xsl:value-of select="./table/@className"/>Mapper {
+public interface <xsl:value-of select="./table/@realClassName"/> {
 <xsl:if test="count(./table[@hasCreate='true'])=1">
     <![CDATA[/**]]>
     <![CDATA[ * ]]><xsl:value-of select="./table/@description" />.

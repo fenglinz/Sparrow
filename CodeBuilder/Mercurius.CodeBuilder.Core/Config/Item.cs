@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using Mercurius.CodeBuilder.Core.Database;
+using Mercurius.Prime.Core;
 
 namespace Mercurius.CodeBuilder.Core.Config
 {
@@ -50,6 +52,11 @@ namespace Mercurius.CodeBuilder.Core.Config
         /// 为视图时忽略。
         /// </summary>
         public bool IgnoreView { get; set; }
+
+        /// <summary>
+        /// 忽略的属性列表
+        /// </summary>
+        public IEnumerable<string> IgnoreProperties { get; set; }
 
         /// <summary>
         /// 项目。
@@ -170,6 +177,40 @@ namespace Mercurius.CodeBuilder.Core.Config
             }
 
             return string.Format(@"{0}\{1}.{2}", folder, string.Format(this.FileFormat, table.ClassName), this.Extension);
+        }
+
+        /// <summary>
+        /// 判断属性是否可以忽略
+        /// </summary>
+        /// <param name="propName">属性名</param>
+        /// <returns>是否可以忽略</returns>
+        public bool IsIgnoreProperty(string propName)
+        {
+            if (this.IgnoreProperties.IsEmpty())
+            {
+                return false;
+            }
+
+            var result = false;
+
+            foreach (var item in this.IgnoreProperties)
+            {
+                if (string.IsNullOrWhiteSpace(item))
+                {
+                    continue;
+                }
+
+                var reg = new Regex(item, RegexOptions.IgnoreCase);
+
+                result = reg.IsMatch(propName);
+
+                if (result)
+                {
+                    break;
+                }
+            }
+
+            return result;
         }
 
         #endregion
