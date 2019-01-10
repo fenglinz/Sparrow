@@ -47,7 +47,7 @@ namespace Mercurius.CodeBuilder.Core.Config
         /// </summary>
         /// <param name="orm">Orm中间件</param>
         /// <returns>配置信息集合</returns>
-        public static ItemCollection GetItems(OrmMiddleware orm, string language="CSharp")
+        public static ItemCollection GetItems(OrmMiddleware orm, string language = "CSharp")
         {
             if (dictItems.ContainsKey(orm))
             {
@@ -71,6 +71,7 @@ namespace Mercurius.CodeBuilder.Core.Config
                          Project = s.Attribute("project").Value,
                          IgnoreView = s.Attribute("ignoreView") != null && Convert.ToBoolean(s.Attribute("ignoreView").Value),
                          IgnoreProperties = s.Attribute("ignoreProps")?.Value?.Split(','),
+                         AssociationProperties = s.Attribute("associationProps")?.Value?.Split(','),
                          SubFolder = s.Attribute("subFolder")?.Value,
                          Handler = s.Attribute("handler")?.Value,
                          Parameters = s.Attribute("parameter")?.Value.AsDictionary()
@@ -81,7 +82,7 @@ namespace Mercurius.CodeBuilder.Core.Config
 
             return _sections;
         }
-        
+
         /// <summary>
         /// 获取配置项信息索引。
         /// </summary>

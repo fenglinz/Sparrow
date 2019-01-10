@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Xml.Linq;
 using Mercurius.CodeBuilder.Core.Config;
 using Mercurius.CodeBuilder.Core.Database;
@@ -104,10 +105,37 @@ namespace Mercurius.CodeBuilder.Core
                     columnElement.SetAttributeValue("isAddColumn", column.IsAddColumn);
                     columnElement.SetAttributeValue("isUpdateColumn", column.IsUpdateColumn);
 
-                    // dto属性忽略处理
-                    if (string.CompareOrdinal(item.Module, "dto") == 0)
+                    // 属性忽略处理
+                    if (!item.IgnoreProperties.IsEmpty())
                     {
                         columnElement.SetAttributeValue("igdto", item.IsIgnoreProperty(column.FieldName));
+                    }
+
+                    // 关联字段处理
+                    if (item.AssociationProperties.IsEmpty())
+                    {
+                        columnElement.SetAttributeValue("isAssociate", false);
+                    }
+                    else
+                    {
+                        var rs = item.GetAssociationProperty(column.FieldName);
+
+                        if (rs.Item1)
+                        {
+                            var needAdded = rs.Item1;
+
+                            if (table.Columns.Any(c => string.Compare(c.FieldName, rs.Item3, true) == 0))
+                            {
+                                needAdded = false;
+                            }
+                            else
+                            {
+                                columnElement.SetAttributeValue("isAssociate", rs.Item1);
+                                columnElement.SetAttributeValue("associateDesc", column.Description?.ToLower().Replace(rs.Item2.ToLower(), "名称"));
+                                columnElement.SetAttributeValue("associateField", rs.Item3);
+                                columnElement.SetAttributeValue("associatePropName", rs.Item3.PascalNaming());
+                            }
+                        }
                     }
 
                     tableElement.Add(columnElement);

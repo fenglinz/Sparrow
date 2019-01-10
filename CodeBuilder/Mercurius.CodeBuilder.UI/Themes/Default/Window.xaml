@@ -57,16 +57,32 @@
                                     </Border>
 
                                     <!--  标题  -->
-                                    <TextBlock x:Name="title" Grid.Column="1"
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <TextBlock x:Name="title"
                                                Margin="5,0"
                                                HorizontalAlignment="Stretch"
                                                VerticalAlignment="Center"
                                                FontSize="18"
+                                               FontFamily="黑体"
                                                FontStretch="Medium"
                                                FontStyle="Normal"
                                                FontWeight="Bold"
                                                Foreground="White"
                                                Text="{TemplateBinding Title}" />
+                                        <TextBlock x:Name="subTitle"
+                                               Margin="15,0,0,5"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Bottom"
+                                               FontSize="14"
+                                               FontFamily="宋体"
+                                               FontStretch="Normal"
+                                               FontStyle="Italic"
+                                               FontWeight="Bold"
+                                               Foreground="White"
+                                               Text="{TemplateBinding SubTitle}" />
+                                        <!-- 副标题 -->
+                                    </StackPanel>
+
 
                                     <!--  Windows系统按钮  -->
                                     <StackPanel Grid.Column="2"

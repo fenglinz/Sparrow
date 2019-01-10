@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Mercurius.CodeBuilder.Core.Database;
@@ -57,6 +58,11 @@ namespace Mercurius.CodeBuilder.Core.Config
         /// 忽略的属性列表
         /// </summary>
         public IEnumerable<string> IgnoreProperties { get; set; }
+
+        /// <summary>
+        /// 关联属性列表
+        /// </summary>
+        public IEnumerable<string> AssociationProperties { get; set; }
 
         /// <summary>
         /// 项目。
@@ -195,14 +201,14 @@ namespace Mercurius.CodeBuilder.Core.Config
 
             foreach (var item in this.IgnoreProperties)
             {
-                if (string.IsNullOrWhiteSpace(item))
+                if (item.IsNullOrEmpty())
                 {
                     continue;
                 }
 
-                var reg = new Regex(item, RegexOptions.IgnoreCase);
+                var regex = new Regex(item, RegexOptions.IgnoreCase);
 
-                result = reg.IsMatch(propName);
+                result = regex.IsMatch(propName);
 
                 if (result)
                 {
@@ -211,6 +217,32 @@ namespace Mercurius.CodeBuilder.Core.Config
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 判断属性是否为有关联字段的属性
+        /// </summary>
+        /// <param name="propName">属性名</param>
+        /// <returns>是否为有关联字段的属性</returns>
+        public Tuple<bool, string, string> GetAssociationProperty(string propName)
+        {
+            if (this.AssociationProperties.IsEmpty())
+            {
+                return new Tuple<bool, string, string>(false, string.Empty, string.Empty);
+            }
+
+            foreach (var item in this.AssociationProperties)
+            {
+                if (propName.Length > item.Length)
+                {
+                    if (propName.EndsWith(item, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return new Tuple<bool, string, string>(true, item, propName.Substring(0, propName.Length - item.Length) + "Name");
+                    }
+                }
+            }
+
+            return new Tuple<bool, string, string>(false, string.Empty, string.Empty);
         }
 
         #endregion

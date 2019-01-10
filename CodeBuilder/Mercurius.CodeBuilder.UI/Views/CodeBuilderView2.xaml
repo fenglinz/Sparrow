@@ -68,7 +68,7 @@
 
                         <Label Margin="504,0,0,0" Content="生成语言：" />
                         <ComboBox Width="80" Margin="584,0,0,0" Text="{Binding Configuration.Language}">
-                            <ComboBoxItem Content="C#" IsSelected="True" />
+                            <ComboBoxItem Content="C#" />
                             <ComboBoxItem Content="Java" />
                         </ComboBox>
 

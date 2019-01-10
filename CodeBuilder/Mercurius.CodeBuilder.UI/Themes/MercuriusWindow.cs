@@ -5,6 +5,27 @@ namespace Mercurius.CodeBuilder.UI.Themes
 {
     public class MercuriusWindow : Window
     {
+        #region 依赖属性
+
+        /// <summary>
+        /// 副标题依赖属性
+        /// </summary>
+        public string SubTitle
+        {
+            get { return (string)GetValue(SubTitleProperty); }
+            set { SetValue(SubTitleProperty, value); }
+        }
+
+        /// <summary>
+        /// 注册副标题依赖属性
+        /// </summary>
+        public static readonly DependencyProperty SubTitleProperty = DependencyProperty.Register("SubTitle", typeof(string), typeof(MercuriusWindow), new PropertyMetadata(""));
+
+        #endregion
+
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public MercuriusWindow()
         {
             this.SetValue(Window.StyleProperty, Application.Current.Resources[typeof(MercuriusWindow)]);

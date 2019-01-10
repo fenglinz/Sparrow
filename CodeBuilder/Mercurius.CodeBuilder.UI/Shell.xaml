@@ -7,6 +7,7 @@
                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                           xmlns:prism="http://www.codeplex.com/prism"
                           Title="代码生成工具"
+                          SubTitle=""
                           Width="800"
                           Height="500"
                           Icon="Images/app.ico"
@@ -24,7 +25,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" Width="250" BorderThickness="0,0,2,0" BorderBrush="#454545">
+            <Border Grid.Column="0" Width="200" BorderThickness="0,0,2,0" BorderBrush="#454545">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />

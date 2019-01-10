@@ -9,18 +9,25 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+import javax.validation.constraints.NotBlank;
+
 import org.hibernate.validator.constraints.Length;
 <xsl:call-template name="entityDescription" />public class <xsl:value-of select="./table/@realClassName" /> {
-    <xsl:call-template name="fields" />
+<xsl:call-template name="fields" />
     <xsl:call-template name="setters" />
     <xsl:call-template name="getters" />
 }</xsl:template>
 
   <xsl:template name="fields">
     <xsl:for-each select="./table/column">
-    <![CDATA[/** ]]><xsl:value-of select="@description" /><![CDATA[ */]]>
-    <xsl:if test="@validLength='true'">@Length(max = <xsl:value-of select="@length" />, message = "<xsl:value-of select="@shortDesc" />长度不能超过<xsl:value-of select="@length" />个字符.")</xsl:if>
+    <![CDATA[/** ]]><xsl:value-of select="@description" /><![CDATA[ */]]><xsl:if test="@nullable='false'">
+    @NotBlank(message = "<xsl:value-of select="@description"/>不能为空！")</xsl:if><xsl:if test="@validLength='true'">
+    @Length(max = <xsl:value-of select="@length" />, message = "<xsl:value-of select="@shortDesc" />长度不能超过<xsl:value-of select="@length" />个字符.")</xsl:if>
     private <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/>;
+<xsl:if test="@isAssociate='true'">
+    <![CDATA[/** ]]><xsl:value-of select="@associateDesc"/><![CDATA[ */]]>
+    private String <xsl:value-of select="@associateField"/>;
+</xsl:if>
 </xsl:for-each>
   </xsl:template>
 
@@ -34,6 +41,16 @@ import org.hibernate.validator.constraints.Length;
     public void<xsl:text> set</xsl:text><xsl:value-of select="@propertyName"/>(<xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/>) {
         this.<xsl:value-of select="@fieldName"/> = <xsl:value-of select="@fieldName"/>;
     }
+<xsl:if test="@isAssociate='true'">
+    <![CDATA[/**]]>
+    <![CDATA[ * 设置]]><xsl:value-of select="@associateDesc" />
+    <![CDATA[ *]]>
+    <![CDATA[ * @param ]]><xsl:value-of select="@associateField"/><xsl:text> </xsl:text><xsl:value-of select="@associateDesc" />
+    <![CDATA[ */]]>
+    private String set<xsl:value-of select="@associatePropName"/>(String <xsl:value-of select="@associateField" />) {
+        this.<xsl:value-of select="@associateField" /> = <xsl:value-of select="@associateField" />;
+    }
+</xsl:if>
 </xsl:for-each>
   </xsl:template>
 
@@ -47,6 +64,16 @@ import org.hibernate.validator.constraints.Length;
     public <xsl:value-of select="@basicType"/><xsl:text> get</xsl:text><xsl:value-of select="@propertyName"/>() {
         return this.<xsl:value-of select="@fieldName"/>;
     }
+<xsl:if test="@isAssociate='true'">
+    <![CDATA[/**]]>
+    <![CDATA[ * 返回]]><xsl:value-of select="@associateDesc" />
+    <![CDATA[ *]]>
+    <![CDATA[ * @return ]]><xsl:value-of select="@associateDesc" />
+    <![CDATA[ */]]>
+    private String get<xsl:value-of select="@associatePropName"/>() {
+        return this.<xsl:value-of select="@associateField" />;
+    }
+</xsl:if>
 </xsl:for-each>
 </xsl:template>
 </xsl:stylesheet>

@@ -26,8 +26,7 @@ public class <xsl:value-of select="./table/@realClassName" /> extends RequestMod
   <xsl:template name="fields">
     <xsl:for-each select="./table/column[@igdto='false']">
     <![CDATA[/** ]]><xsl:value-of select="@description" /><![CDATA[ */]]>
-    @ApiModelProperty("<xsl:value-of select="@description"/>")<!--<xsl:if test="@nullable='false' and @isPrimaryKey='false'">
-    @FieldNotNull("<xsl:value-of select="@description"/>不能为null！")</xsl:if>--><xsl:if test="@validLength='true'">
+    @ApiModelProperty("<xsl:value-of select="@description"/>")<xsl:if test="@validLength='true'">
     @Length(max = <xsl:value-of select="@length" />, message = "<xsl:value-of select="@shortDesc" />长度不能超过<xsl:value-of select="@length" />个字符.")</xsl:if>
     private <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/>;
 </xsl:for-each>

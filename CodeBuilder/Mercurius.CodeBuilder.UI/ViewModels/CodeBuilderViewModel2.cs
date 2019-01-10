@@ -21,6 +21,7 @@ using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.DataProcess.Excel;
 using Application = System.Windows.Application;
+using Mercurius.CodeBuilder.UI.Themes;
 
 namespace Mercurius.CodeBuilder.UI.ViewModels
 {
@@ -112,13 +113,20 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             {
                 return this._loadedCommand = this._loadedCommand ?? new DelegateCommand<string>(arg =>
                 {
+                    if (Application.Current.MainWindow is MercuriusWindow shell)
+                    {
+                        shell.SubTitle = $"当前数据库为：{this.Configuration.CurrentDatabase.Name}({this.Configuration.CurrentDatabase.Type})";
+                    }
+
+                    this.Configuration.ReloadLastConfiguration();
+
                     var delAction = new Action(this.FillTableDetails);
 
                     delAction.BeginInvoke(ar =>
                     {
                         delAction.EndInvoke(ar);
 
-                        this.Configuration.ReloadLastConfiguration(item => this.Tables.Add(item));
+                        this.Configuration.ReloadLastTablesConfiguration(item => this.Tables.Add(item));
                     }, null);
                 });
             }

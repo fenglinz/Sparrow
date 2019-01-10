@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Xml.Linq;
 using Mercurius.CodeBuilder.Core.Database;
+using Mercurius.Prime.Core;
 using Newtonsoft.Json;
 using Prism.Mvvm;
 
@@ -76,7 +78,7 @@ namespace Mercurius.CodeBuilder.Core
             {
                 if (this._language != value)
                 {
-                    this._language = value;
+                    this._language = value.IsNullOrEmptyValue(ConfigurationManager.AppSettings["lang"].IsNullOrEmptyValue("Java"));
                     this.RaisePropertyChanged(nameof(this.Language));
                 }
             }
@@ -265,6 +267,8 @@ namespace Mercurius.CodeBuilder.Core
             {
                 this.Author = currentUserName.Split('\\')[1];
             }
+
+            this.Language = ConfigurationManager.AppSettings["lang"].IsNullOrEmptyValue("Java");
         }
 
         #endregion
@@ -299,6 +303,7 @@ namespace Mercurius.CodeBuilder.Core
                 xdocument.Root.Add(database);
             }
 
+            database.SetAttributeValue("language", this.Language);
             database.SetAttributeValue("ormMiddleware", this.OrmMiddleware);
             database.SetAttributeValue("author", this.Author);
             database.SetAttributeValue("baseNamespace", this.BaseNamespace);
@@ -330,10 +335,52 @@ namespace Mercurius.CodeBuilder.Core
             xdocument.Save(serializedFileName, SaveOptions.None);
         }
 
+        public void ReloadLastConfiguration()
+        {
+            var serializedFileName = this.GetSerializedConfigurationFileName();
+
+            if (!File.Exists(serializedFileName))
+            {
+                return;
+            }
+
+            var database = (from x in XDocument.Load(serializedFileName).Descendants("database")
+                            where
+                                x.Attribute("name").Value == this.CurrentDatabase.Name
+                            select x).FirstOrDefault();
+
+            if (database == null)
+            {
+                return;
+            }
+
+            this.Author = database.Attribute("author")?.Value;
+            this.OutputFolder = database.Attribute("outputFolder")?.Value;
+            this.BaseNamespace = database.Attribute("baseNamespace")?.Value;
+            this.OrmMiddleware = database.Attribute("ormMiddleware")?.Value;
+            this.Language = database.Attribute("language")?.Value;
+
+            if (string.IsNullOrWhiteSpace(this.OrmMiddleware))
+            {
+                this.OrmMiddleware = Config.OrmMiddleware.Dapper.ToString();
+            }
+
+            this.CopyrightOwner = database.Attribute("copyright")?.Value;
+
+            this.EntityProjectFile = database.Attribute("entityProjectFile")?.Value;
+            this.ContractProjectFile = database.Attribute("contractProjectFile")?.Value;
+            this.ServiceProjectFile = database.Attribute("serviceProjectFile")?.Value;
+
+            this.EntityBaseNamespace = database.Attribute("entityBaseNamespace")?.Value;
+            this.ContractBaseNamespace = database.Attribute("contractBaseNamespace")?.Value;
+            this.ServiceBaseNamespace = database.Attribute("serviceBaseNamespace")?.Value;
+            this.WebApiPrefix = database.Attribute("webApiPrefix")?.Value;
+        }
+
         /// <summary>
         /// 重新加载上一次的配置信息。
         /// </summary>
-        public void ReloadLastConfiguration(Action<DbTable> callback = null)
+        public void ReloadLastTablesConfiguration(Action<DbTable> callback = null)
         {
             var recoverTables = this.GetSerializedTables();
 
@@ -357,6 +404,8 @@ namespace Mercurius.CodeBuilder.Core
             return string.Format(CONFIG_FILE_FORMAT, this.CurrentDatabase.Name);
         }
 
+        // TODO: 分离表的回填和基础配置信息的回填
+
         /// <summary>
         /// 获取已序列化的表配置信息。
         /// </summary>
@@ -379,27 +428,6 @@ namespace Mercurius.CodeBuilder.Core
             {
                 return null;
             }
-
-            this.Author = database.Attribute("author")?.Value;
-            this.OutputFolder = database.Attribute("outputFolder")?.Value;
-            this.BaseNamespace = database.Attribute("baseNamespace")?.Value;
-            this.OrmMiddleware = database.Attribute("ormMiddleware")?.Value;
-
-            if (string.IsNullOrWhiteSpace(this.OrmMiddleware))
-            {
-                this.OrmMiddleware = Config.OrmMiddleware.Dapper.ToString();
-            }
-
-            this.CopyrightOwner = database.Attribute("copyright")?.Value;
-
-            this.EntityProjectFile = database.Attribute("entityProjectFile")?.Value;
-            this.ContractProjectFile = database.Attribute("contractProjectFile")?.Value;
-            this.ServiceProjectFile = database.Attribute("serviceProjectFile")?.Value;
-
-            this.EntityBaseNamespace = database.Attribute("entityBaseNamespace")?.Value;
-            this.ContractBaseNamespace = database.Attribute("contractBaseNamespace")?.Value;
-            this.ServiceBaseNamespace = database.Attribute("serviceBaseNamespace")?.Value;
-            this.WebApiPrefix = database.Attribute("webApiPrefix")?.Value;
 
             var tables = new List<DbTable>();
 

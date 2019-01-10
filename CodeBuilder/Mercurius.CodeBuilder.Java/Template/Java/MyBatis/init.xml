@@ -7,6 +7,7 @@
     fileFormat="{0}"
     extension="java"
     subFolder="entity"
+    associationProps="guid"
     project="" />
 
   <item
@@ -61,6 +62,7 @@
     extension="java"
     subFolder="dto\response"
     ignoreView="true"
+    associationProps="guid"
     ignoreProps="password,varchar\d+$,num\d+$,date\d+$"
     project="" />
 
