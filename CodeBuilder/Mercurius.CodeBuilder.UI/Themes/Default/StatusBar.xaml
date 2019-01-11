@@ -2,14 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Mercurius.CodeBuilder.UI.Themes.Default">
     <Style TargetType="{x:Type StatusBar}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <SolidColorBrush Color="#353535" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Background" Value="#353535" />
         <Style.Resources>
             <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
-                <Setter Property="Foreground" Value="WhiteSmoke" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="FontSize" Value="14" />
             </Style>
         </Style.Resources>
     </Style>

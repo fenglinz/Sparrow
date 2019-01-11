@@ -5,7 +5,10 @@
     
     <Color x:Key="WindowBackgroundColor">#252526</Color>
 
-    <SolidColorBrush x:Key="ButtonBackground" Color="#333333" />
+    <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#FF7A7A7A" />
+        <GradientStop Offset="1" Color="Black" />
+    </LinearGradientBrush>
     <SolidColorBrush x:Key="ButtonBackgroundHover" Color="#3e3e42" />
     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{DynamicResource AccentColor}" />
     <SolidColorBrush x:Key="ButtonBorder" Color="#333333" />
@@ -126,6 +129,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Commons.xaml" />
         <ResourceDictionary Source="Resources.xaml" />
+        <ResourceDictionary Source="Default/Panel.xaml" />
         <ResourceDictionary Source="Default/TextBox.xaml" />
         <ResourceDictionary Source="Default/ComboBox.xaml" />
         <ResourceDictionary Source="Default/Button.xaml" />

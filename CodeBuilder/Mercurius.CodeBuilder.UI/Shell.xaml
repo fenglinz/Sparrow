@@ -1,9 +1,9 @@
-﻿<controls:MercuriusWindow x:Class="Mercurius.CodeBuilder.UI.Shell"
+﻿<win:MercuriusWindow x:Class="Mercurius.CodeBuilder.UI.Shell"
                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                          xmlns:controls="clr-namespace:Mercurius.CodeBuilder.UI.Themes"
+                          xmlns:win="clr-namespace:Mercurius.CodeBuilder.UI.Themes"
                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                          xmlns:local="clr-namespace:Mercurius.CodeBuilder.UI"
+                          xmlns:controls="clr-namespace:Mercurius.CodeBuilder.UI.Themes.Controls"
                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                           xmlns:prism="http://www.codeplex.com/prism"
                           Title="代码生成工具"
@@ -21,31 +21,30 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="240" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0" Width="200" BorderThickness="0,0,2,0" BorderBrush="#454545">
+            <ContentControl>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <ContentControl prism:RegionManager.RegionName="NavigationRegion" />
-                    
-                    <StackPanel Grid.Row="1" Visibility="Collapsed" Orientation="Horizontal" Background="#FFF09609">
+                    <controls:AnimatedContentControl prism:RegionManager.RegionName="NavigationRegion" />
+                    <StackPanel Grid.Row="1" Visibility="Collapsed" Orientation="Horizontal">
                         <Button Command="{Binding TemplateSettingCommand}" Style="{StaticResource SettingImageButtonStyle}" Margin="3,0" />
                     </StackPanel>
                 </Grid>
-            </Border>
-            <ContentControl Grid.Column="1" prism:RegionManager.RegionName="DisplayRegion" Margin="0,0,0,0" />
+            </ContentControl>
+
+            <controls:AnimatedContentControl Grid.Column="1" prism:RegionManager.RegionName="DisplayRegion" />
         </Grid>
 
         <StatusBar Grid.Row="1">
             <StackPanel Orientation="Horizontal">
-                <Label FontSize="12">状态：</Label>
-                <Label FontSize="12" Padding="5,4.2" BorderThickness="1" BorderBrush="#8888" Width="200">就绪</Label>
+                <Label>状态：</Label>
+                <Label Padding="5,4.2" BorderThickness=".6" BorderBrush="WhiteSmoke" Width="300">就绪</Label>
             </StackPanel>
         </StatusBar>
     </Grid>
-</controls:MercuriusWindow>
+</win:MercuriusWindow>

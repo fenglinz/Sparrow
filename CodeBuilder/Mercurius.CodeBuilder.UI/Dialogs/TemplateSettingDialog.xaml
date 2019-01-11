@@ -8,26 +8,6 @@
         mc:Ignorable="d" Icon="../Images/Settings.png"
         Title="设置代码生产模板" Height="600" Width="800">
     <Grid>
-        <controls:AnimatedTabControl>
-            <TabItem Header="基于Dapper">
-                <Grid>
-                    <Label Margin="15,10,0,0" Content="名称：" />
-                    <TextBox Margin="65,10,0,0" Width="160" Text="{Binding Name}" />
-
-                    <Label Margin="250,10,0,0" Content="模板：" />
-                    <ComboBox Margin="305,10,0,0" Width="190" Text="{Binding Template}" ItemsSource="{Binding Templates}" />
-
-                    <Label Margin="525,10,0,0" Content="所属模块：" />
-                    <ComboBox Margin="610,10,0,0" Width="120" Text="{Binding Module}">
-                        <ComboBoxItem Content="entity" ToolTip="实体" />
-                        <ComboBoxItem Content="contract" ToolTip="服务接口" />
-                        <ComboBoxItem Content="service" ToolTip="服务实现" />
-                    </ComboBox>
-                </Grid>
-            </TabItem>
-            <TabItem Header="基于IBatisNet">
-
-            </TabItem>
-        </controls:AnimatedTabControl>
+        
     </Grid>
 </local:MercuriusDialog>

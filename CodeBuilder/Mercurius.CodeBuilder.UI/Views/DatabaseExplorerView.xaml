@@ -102,7 +102,7 @@
             <Label VerticalAlignment="Center" Content="数据库管理" FontWeight="Bold" FontFamily="宋体" Foreground="WhiteSmoke" FontSize="22" />
         </StackPanel>
 
-        <ListBox Grid.Row="1" Padding="0" BorderThickness="0" BorderBrush="#f9f2f4" ItemsSource="{Binding ConnectedDatabases.Items}">
+        <ListBox Grid.Row="1" ItemsSource="{Binding ConnectedDatabases.Items}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Style="{StaticResource DbItemStyle}" ContextMenu="{StaticResource tableContextMenu}">

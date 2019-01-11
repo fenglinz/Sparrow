@@ -154,7 +154,7 @@
       <DependentUpon>TemplateSettingDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Module.cs" />
-    <Compile Include="Themes\Controls\AnimatedTabControl.cs" />
+    <Compile Include="Themes\Controls\AnimatedContentControl.cs" />
     <Compile Include="Themes\Controls\RoundedBox.xaml.cs">
       <DependentUpon>RoundedBox.xaml</DependentUpon>
     </Compile>
@@ -253,6 +253,10 @@
     <Page Include="Themes\Default\MenuItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Default\Panel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Default\ScrollBar.xaml">
       <Generator>MSBuild:Compile</Generator>

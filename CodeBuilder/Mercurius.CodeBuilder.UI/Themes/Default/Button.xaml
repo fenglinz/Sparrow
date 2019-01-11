@@ -17,9 +17,7 @@
                             BorderThickness="1"
                             CornerRadius="5"
                             Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          RecognizesAccessKey="True" />
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -29,16 +27,24 @@
     <Style x:Key="{x:Type Button}"
            BasedOn="{StaticResource ButtonBase}"
            TargetType="Button">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="宋体" />
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Padding" Value="25,5" />
+        <Setter Property="Padding" Value="12,5" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="WhiteSmoke" />
-        <Setter Property="Background" Value="#252526" />
-        <Setter Property="BorderBrush" Value="#252526" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorder}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Red" />
-                <Setter Property="BorderBrush" Value="Red" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Offset="0" Color="SkyBlue" />
+                            <GradientStop Offset="1" Color="DarkBlue" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
             </Trigger>
         </Style.Triggers>
     </Style>

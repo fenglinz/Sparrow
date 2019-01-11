@@ -37,7 +37,7 @@ namespace Mercurius.CodeBuilder.UI.Themes.Controls
     /// <summary>
     /// 支持动画的TabControl。
     /// </summary>
-    public class AnimatedTabControl : TabControl
+    public class AnimatedContentControl : ContentControl
     {
         #region 字段
 
@@ -54,7 +54,7 @@ namespace Mercurius.CodeBuilder.UI.Themes.Controls
         /// 注册路由事件：TabItem选择正在改变事件。
         /// </summary>
         public static readonly RoutedEvent SelectionChangingEvent = EventManager.RegisterRoutedEvent(
-            "SelectionChanging", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(AnimatedTabControl));
+            "SelectionChanging", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(AnimatedContentControl));
 
         #endregion
 
@@ -76,17 +76,17 @@ namespace Mercurius.CodeBuilder.UI.Themes.Controls
         /// <summary>
         /// 静态构造方法
         /// </summary>
-        static AnimatedTabControl()
+        static AnimatedContentControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(AnimatedTabControl), new FrameworkPropertyMetadata(typeof(AnimatedTabControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(AnimatedContentControl), new FrameworkPropertyMetadata(typeof(AnimatedContentControl)));
         }
 
         /// <summary>
         /// 默认构造方法。
         /// </summary>
-        public AnimatedTabControl()
+        public AnimatedContentControl()
         {
-            DefaultStyleKey = typeof(AnimatedTabControl);
+            DefaultStyleKey = typeof(AnimatedContentControl);
         }
 
         #endregion
@@ -97,7 +97,7 @@ namespace Mercurius.CodeBuilder.UI.Themes.Controls
         /// 重载TabItem选择改变事件：异步处理SelectionChanging事件。
         /// </summary>
         /// <param name="e">路由事件信息</param>
-        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        protected override void OnContentChanged(object oldContent, object newContent)
         {
             this.Dispatcher.BeginInvoke(
                 (Action)delegate
@@ -112,7 +112,7 @@ namespace Mercurius.CodeBuilder.UI.Themes.Controls
                     handler = (sender, args) =>
                     {
                         this.StopTimer();
-                        base.OnSelectionChanged(e);
+                        base.OnContentChanged(oldContent, newContent);
                     };
                     this._timer.Tick += handler;
                     this._timer.Start();

@@ -3,117 +3,83 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Mercurius.CodeBuilder.UI.Themes.Controls">
 
-    <Style TargetType="controls:AnimatedTabControl">
+    <Style TargetType="controls:AnimatedContentControl">
         <Setter Property="Foreground" Value="WhiteSmoke"/>
         <Setter Property="Padding" Value="10,5,10,5"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Background" Value="Silver"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="controls:AnimatedTabControl">
-                    <Grid ClipToBounds="true"
-                          SnapsToDevicePixels="true"
-                          KeyboardNavigation.TabNavigation="Local">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <Border Height="42" Margin="10,5,10,5"
-                                Padding="0,2,5,2"  
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Width="Auto"
-                                CornerRadius="12,12,12,12"
-                                Background="{TemplateBinding Background}"
-                                BorderThickness="2,2,2,2"
-                                BorderBrush="WhiteSmoke">
-                            <TabPanel x:Name="HeaderPanel" 
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      Background="Transparent"
-                                      IsItemsHost="true"
-                                      Margin="10,0,0,0"
-                                      KeyboardNavigation.TabIndex="1"/>
-                        </Border>
-
-                        <Grid Grid.Row="1" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <Viewport3D x:Name="vp3D" Visibility="Hidden" Width="Auto" Height="Auto">
-                                <Viewport3D.Camera>
-                                    <PerspectiveCamera x:Name="camera" Position="0,0,0.5" LookDirection="0,0,-1" FieldOfView="90" />
-                                </Viewport3D.Camera>
-                                <Viewport3D.Children>
-                                    <ModelVisual3D>
-                                        <ModelVisual3D.Content>
-                                            <Model3DGroup>
-                                                <DirectionalLight Color="#444" Direction="0,0,-1" />
-                                                <AmbientLight Color="#BBB" />
-                                            </Model3DGroup>
-                                        </ModelVisual3D.Content>
-                                    </ModelVisual3D>
-                                    <ModelVisual3D>
-                                        <ModelVisual3D.Content>
-                                            <GeometryModel3D>
-                                                <GeometryModel3D.Geometry>
-                                                    <MeshGeometry3D TriangleIndices="0,1,2 2,3,0"
+                <ControlTemplate TargetType="controls:AnimatedContentControl">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ClipToBounds="true" SnapsToDevicePixels="true">
+                        <Viewport3D x:Name="vp3D" Visibility="Hidden" Width="Auto" Height="Auto">
+                            <Viewport3D.Camera>
+                                <PerspectiveCamera x:Name="camera" Position="0,0,0.5" LookDirection="0,0,-1" FieldOfView="90" />
+                            </Viewport3D.Camera>
+                            <Viewport3D.Children>
+                                <ModelVisual3D>
+                                    <ModelVisual3D.Content>
+                                        <Model3DGroup>
+                                            <DirectionalLight Color="#444" Direction="0,0,-1" />
+                                            <AmbientLight Color="#BBB" />
+                                        </Model3DGroup>
+                                    </ModelVisual3D.Content>
+                                </ModelVisual3D>
+                                <ModelVisual3D>
+                                    <ModelVisual3D.Content>
+                                        <GeometryModel3D>
+                                            <GeometryModel3D.Geometry>
+                                                <MeshGeometry3D TriangleIndices="0,1,2 2,3,0"
                                                                     TextureCoordinates="0,1 1,1 1,0 0,0"
                                                                     Positions="-0.5,-0.5,0 0.5,-0.5,0 0.5,0.5,0 -0.5,0.5,0" />
-                                                </GeometryModel3D.Geometry>
-                                                <GeometryModel3D.Material>
-                                                    <DiffuseMaterial>
-                                                        <DiffuseMaterial.Brush>
-                                                            <VisualBrush Visual="{Binding ElementName=BorderIn}" Stretch="Uniform" />
-                                                        </DiffuseMaterial.Brush>
-                                                    </DiffuseMaterial>
-                                                </GeometryModel3D.Material>
-                                                <GeometryModel3D.BackMaterial>
-                                                    <DiffuseMaterial>
-                                                        <DiffuseMaterial.Brush>
-                                                            <VisualBrush Visual="{Binding ElementName=BorderIn}" Stretch="Uniform">
-                                                                <VisualBrush.RelativeTransform>
-                                                                    <ScaleTransform ScaleX="-1" CenterX="0.5" />
-                                                                </VisualBrush.RelativeTransform>
-                                                            </VisualBrush>
-                                                        </DiffuseMaterial.Brush>
-                                                    </DiffuseMaterial>
-                                                </GeometryModel3D.BackMaterial>
-                                                <GeometryModel3D.Transform>
-                                                    <RotateTransform3D>
-                                                        <RotateTransform3D.Rotation>
-                                                            <AxisAngleRotation3D x:Name="rotate" Axis="0,3,0" Angle="0" />
-                                                        </RotateTransform3D.Rotation>
-                                                    </RotateTransform3D>
-                                                </GeometryModel3D.Transform>
-                                            </GeometryModel3D>
-                                        </ModelVisual3D.Content>
-                                    </ModelVisual3D>
-                                </Viewport3D.Children>
-                            </Viewport3D>
-                            <Border x:Name="BorderOut" VerticalAlignment="Stretch">
-                                <Border x:Name="BorderIn" VerticalAlignment="Stretch" Background="#00000000" >
-                                    <Grid>
-                                        <controls:RoundedBox Margin="10" />
-                                        <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="20"/>
-                                    </Grid>
-                                </Border>
+                                            </GeometryModel3D.Geometry>
+                                            <GeometryModel3D.Material>
+                                                <DiffuseMaterial>
+                                                    <DiffuseMaterial.Brush>
+                                                        <VisualBrush Visual="{Binding ElementName=BorderIn}" Stretch="Uniform" />
+                                                    </DiffuseMaterial.Brush>
+                                                </DiffuseMaterial>
+                                            </GeometryModel3D.Material>
+                                            <GeometryModel3D.BackMaterial>
+                                                <DiffuseMaterial>
+                                                    <DiffuseMaterial.Brush>
+                                                        <VisualBrush Visual="{Binding ElementName=BorderIn}" Stretch="Uniform">
+                                                            <VisualBrush.RelativeTransform>
+                                                                <ScaleTransform ScaleX="-1" CenterX="0.5" />
+                                                            </VisualBrush.RelativeTransform>
+                                                        </VisualBrush>
+                                                    </DiffuseMaterial.Brush>
+                                                </DiffuseMaterial>
+                                            </GeometryModel3D.BackMaterial>
+                                            <GeometryModel3D.Transform>
+                                                <RotateTransform3D>
+                                                    <RotateTransform3D.Rotation>
+                                                        <AxisAngleRotation3D x:Name="rotate" Axis="0,3,0" Angle="0" />
+                                                    </RotateTransform3D.Rotation>
+                                                </RotateTransform3D>
+                                            </GeometryModel3D.Transform>
+                                        </GeometryModel3D>
+                                    </ModelVisual3D.Content>
+                                </ModelVisual3D>
+                            </Viewport3D.Children>
+                        </Viewport3D>
+                        <Border x:Name="BorderOut" VerticalAlignment="Stretch">
+                            <Border x:Name="BorderIn" VerticalAlignment="Stretch" >
+                                <Grid>
+                                    <controls:RoundedBox Margin="5" />
+                                    <ContentPresenter Margin="10"/>
+                                </Grid>
                             </Border>
-                        </Grid>
+                        </Border>
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <EventTrigger RoutedEvent="controls:AnimatedTabControl.SelectionChanging">
+                        <EventTrigger RoutedEvent="controls:AnimatedContentControl.SelectionChanging">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="vp3D"  Storyboard.TargetProperty="Visibility">
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="vp3D" Storyboard.TargetProperty="Visibility">
                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
                                         <DiscreteObjectKeyFrame KeyTime="0:0:1.1" Value="{x:Static Visibility.Hidden}" />
                                     </ObjectAnimationUsingKeyFrames>
