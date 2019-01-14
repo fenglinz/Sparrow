@@ -87,9 +87,11 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                         {
                             var viewModel = ServiceLocator.Current.GetInstance<CodeBuilderViewModel2>();
                             var view = ServiceLocator.Current.GetInstance<Views.CodeBuilderView2>();
-
+                            
                             viewModel.Configuration.CurrentDatabase = arg;
                             view.DataContext = viewModel;
+
+                            this.SetCurrentDatabase(arg);
 
                             if (this._regionManager.Regions["DisplayRegion"].Views != null)
                             {
@@ -153,10 +155,12 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                             if (vm != null)
                             {
                                 vm.Database = arg.Type;
+                                vm.InitDatabase = arg.Type;
                                 vm.ServerUri = arg.ServerUri;
                                 vm.Account = arg.Account;
                                 vm.Password = arg.Password;
                                 vm.Port = arg.Port;
+                                vm.InitPort = arg.Port;
                                 vm.SelectedDatabase = arg.Name;
                                 vm.UpdateDababaseType = arg.Type;
                                 vm.UpdateName = arg.Name;
@@ -193,6 +197,21 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             }
 
             this.ConnectedDatabases = ConnectedDatabaseManager.GetConnectedDatabases();
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        private void SetCurrentDatabase(ConnectedDatabase database)
+        {
+            if (this.ConnectedDatabases?.Items != null)
+            {
+                foreach (var item in this.ConnectedDatabases.Items)
+                {
+                    item.IsOpened = database == item;
+                }
+            }
         }
 
         #endregion

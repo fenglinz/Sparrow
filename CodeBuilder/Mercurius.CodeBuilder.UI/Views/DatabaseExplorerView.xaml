@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:Mercurius.CodeBuilder.UI.Themes.Converters"
              Name="viewer" d:DesignHeight="300" d:DesignWidth="300" mc:Ignorable="d">
     <UserControl.Resources>
         <Style x:Key="header" TargetType="StackPanel">
@@ -21,46 +22,6 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="{x:Type ListBox}" TargetType="ListBox" BasedOn="{x:Null}">
-            <Setter Property="ItemContainerStyle">
-                <Setter.Value>
-                    <Style TargetType="ListBoxItem" BasedOn="{x:Null}">
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                    <GradientStop Offset="0" Color="#fff" />
-                                    <GradientStop Offset="1" Color="#e0e0e0" />
-                                </LinearGradientBrush>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Cursor" Value="Hand" />
-                        <Setter Property="Margin" Value="0,0,0,3" />
-                        <Setter Property="Padding" Value="2,5,0,5" />
-                        <Setter Property="HorizontalAlignment" Value="Stretch" />
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                        <EventSetter Event="MouseDoubleClick" Handler="OnOpenConnectedDatabase" />
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background">
-                                    <Setter.Value>
-                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                            <GradientStop Offset="0" Color="#d9534f" />
-                                            <GradientStop Offset="1" Color="#c12e2a" />
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="DbItemStyle" TargetType="StackPanel">
-            <Setter Property="Margin" Value="0,0,0,2" />
-            <Setter Property="Orientation" Value="Horizontal" />
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        </Style>
 
         <Style TargetType="ContextMenu">
             <Style.Resources>
@@ -69,6 +30,8 @@
                 </Style>
             </Style.Resources>
         </Style>
+
+        <converters:CurrentDatabaseConverter x:Key="currentDatabase" />
 
         <ContextMenu x:Key="dbExplorerContextMenu">
             <MenuItem Command="{Binding AddServerCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},Path=.}" Header="添加数据库连接...">
@@ -102,18 +65,67 @@
             <Label VerticalAlignment="Center" Content="数据库管理" FontWeight="Bold" FontFamily="宋体" Foreground="WhiteSmoke" FontSize="22" />
         </StackPanel>
 
-        <ListBox Grid.Row="1" ItemsSource="{Binding ConnectedDatabases.Items}">
-            <ListBox.ItemTemplate>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding ConnectedDatabases.Items}">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Style="{StaticResource DbItemStyle}" ContextMenu="{StaticResource tableContextMenu}">
-                        <Image Width="32" Height="32" Source="../Images/Database.png" />
-                        <StackPanel Orientation="Vertical">
-                            <Label Content="{Binding Name}" FontSize="16" Padding="0,0,0,2" FontWeight="Bold" />
-                            <Label Content="{Binding Type}" FontSize="10" Padding="0" FontStyle="Normal" />
-                        </StackPanel>
-                    </StackPanel>
+                    <DataTemplate.Resources>
+                        <Style TargetType="ContentControl">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                            <EventSetter Event="MouseDoubleClick" Handler="OnOpenConnectedDatabase" />
+                        </Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Cursor" Value="Hand" />
+                            <Setter Property="Margin" Value="0,4,0,0"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Offset="0" Color="#f0ad4e" />
+                                        <GradientStop Offset="1" Color="#eb9316" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                <GradientStop Offset="0" Color="#d9534f" />
+                                                <GradientStop Offset="1" Color="#c12e2a" />
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <DataTrigger Binding="{Binding IsOpened}" Value="true">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                <GradientStop Offset="0" Color="#5cb85c" />
+                                                <GradientStop Offset="1" Color="#419641" />
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataTemplate.Resources>
+                    <ContentControl>
+                        <Grid ContextMenu="{StaticResource tableContextMenu}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Width="32" Height="32" Margin="5" Source="../Images/Database.png" />
+                            <StackPanel Grid.Column="1" Margin="0,5,5,5" Orientation="Vertical" HorizontalAlignment="Stretch">
+                                <Label Content="{Binding Name}" FontSize="16" Padding="0,0,0,2" FontWeight="Bold" />
+                                <Label Content="{Binding Type}" FontSize="10" Padding="0" FontStyle="Normal" />
+                            </StackPanel>
+                        </Grid>
+                    </ContentControl>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

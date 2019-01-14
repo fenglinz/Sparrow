@@ -159,6 +159,7 @@
       <DependentUpon>RoundedBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Themes\Converters\CurrentDatabaseConverter.cs" />
     <Compile Include="Themes\Converters\LanguageToVisibilityConverter.cs" />
     <Compile Include="Themes\Converters\MinusConverter.cs" />
     <Compile Include="Themes\MercuriusDialog.cs" />

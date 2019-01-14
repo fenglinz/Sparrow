@@ -26,11 +26,11 @@ namespace Mercurius.CodeBuilder.UI.Views
 
         private void OnOpenConnectedDatabase(object sender, RoutedEventArgs e)
         {
-            var tvItem = sender as ListBoxItem;
+            var control = sender as Control;
 
-            if (tvItem != null)
+            if (control != null)
             {
-                var connectedDatabase = tvItem.DataContext as ConnectedDatabase;
+                var connectedDatabase = control.DataContext as ConnectedDatabase;
 
                 this._viewModel.OpenConnectedDatabaseCommand.Execute(connectedDatabase);
             }

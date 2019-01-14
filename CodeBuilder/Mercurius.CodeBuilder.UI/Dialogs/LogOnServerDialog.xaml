@@ -7,7 +7,7 @@
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        Title="连接到服务器"
                        Width="420"
-                       Height="350"
+                       Height="330"
                        WindowStartupLocation="CenterOwner"
                        mc:Ignorable="d">
     <i:Interaction.Triggers>
@@ -31,9 +31,12 @@
                 <GroupBox.Content>
                     <Grid>
                         <Label Margin="5,5,0,0" Content="服务器类型：" />
-                        <ComboBox Margin="100,5,10,5"
-                                  HorizontalAlignment="Stretch"
-                                  Text="{Binding Database}">
+                        <ComboBox Margin="100,5,10,5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Text="{Binding Database, UpdateSourceTrigger=PropertyChanged}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ComboBox}, Path=SelectedItem.Content}" Command="{Binding DatabaseChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <ComboBoxItem Content="MSSQL" />
                             <ComboBoxItem Content="MySQL" IsSelected="True" />
                             <ComboBoxItem Content="Oracle" />
@@ -63,7 +66,7 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Top"
                       Header="连接到一个数据库">
-                <Grid Height="55">
+                <Grid Height="65">
                     <Label Margin="20,8,0,0"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
@@ -82,12 +85,12 @@
                 </Grid>
             </GroupBox>
         </Grid>
-        <Grid Grid.Row="1" Height="50">
-            <Button Margin="0,9,95,0"
+        <Grid Grid.Row="1" Height="36">
+            <Button Margin="0,5,70,0"
                     HorizontalAlignment="Right"
                     Command="{Binding ConfirmCommand}"
                     Content="确定" />
-            <Button Margin="0,9,10,0"
+            <Button Margin="0,5,10,0"
                     HorizontalAlignment="Right"
                     Command="{Binding CancleCommand}"
                     Content="取消" />

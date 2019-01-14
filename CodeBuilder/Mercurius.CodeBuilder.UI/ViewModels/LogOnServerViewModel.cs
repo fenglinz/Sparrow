@@ -37,6 +37,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         private ICommand _confirmCommand = null;
         private ICommand _cancleCommand = null;
         private ICommand _selectDatabaseCommand = null;
+        private ICommand _databaseChangedCommand = null;
 
         private IRegionManager _regionManager = null;
         private IEventAggregator _eventAggregator = null;
@@ -64,6 +65,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         #region 绑定相关的属性
 
+        public DatabaseType? InitDatabase { get; set; }
+
         public DatabaseType Database
         {
             get { return this._database; }
@@ -74,10 +77,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     this._database = value;
                     this.RaisePropertyChanged(nameof(Database));
 
-                    if (value == DatabaseType.Oracle)
-                    {
-                        this.ShowInputSid = Visibility.Visible;
-                    }
+                    this.ShowInputSid = value == DatabaseType.Oracle ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
         }
@@ -121,6 +121,11 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// 初始化时的端口号。
+        /// </summary>
+        public int? InitPort { get; set; }
+
         public int? Port
         {
             get => this._port;
@@ -155,6 +160,20 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         #region 命令
 
+        public ICommand DatabaseChangedCommand
+        {
+            get
+            {
+                return this._databaseChangedCommand = this._databaseChangedCommand ?? new DelegateCommand<string>(type =>
+                {
+                    if (Enum.TryParse<DatabaseType>(type, out var database))
+                    {
+                        this.SetDatabasePort(database);
+                    }
+                });
+            }
+        }
+
         public ICommand SelectDatabaseCommand
         {
             get
@@ -165,6 +184,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                     if (metadata != null)
                     {
+                        this.SetDatabasePort(this.Database);
+
                         metadata.ServerUri = this.ServerUri;
                         metadata.Account = this.Account;
                         metadata.Password = this.Password;
@@ -279,6 +300,42 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         {
             this._regionManager = regionManager;
             this._eventAggregator = eventArggregator;
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        private void SetDatabasePort(DatabaseType database)
+        {
+            if (database == this.InitDatabase && this.InitPort.HasValue)
+            {
+                this.Port = this.InitPort;
+            }
+            else
+            {
+                switch (database)
+                {
+                    case DatabaseType.MSSQL:
+                        this.Port = 1433;
+
+                        break;
+                    case DatabaseType.Oracle:
+                        this.Port = 1521;
+
+                        break;
+                    case DatabaseType.MySQL:
+                        this.Port = 3306;
+
+                        break;
+                    case DatabaseType.SQLite:
+                        break;
+                    case DatabaseType.PostgreSQL:
+                        this.Port = 5432;
+
+                        break;
+                }
+            }
         }
 
         #endregion
