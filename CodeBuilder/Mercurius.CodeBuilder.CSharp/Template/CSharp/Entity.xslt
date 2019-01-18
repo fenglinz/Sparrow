@@ -35,10 +35,10 @@ using CSBR.Prime.Core.Entities;
         /// <![CDATA[</summary>]]>
         <xsl:if test="@nullable='false'">[Required(AllowEmptyStrings = false, ErrorMessage = "<xsl:value-of select="@description" />不能为空！")]</xsl:if><xsl:if test="(@basicType='string' or @basicType='String') and @length!=-1">[StringLength(<xsl:value-of select="@length" />, ErrorMessage = "<xsl:value-of select="@description" />字符长度不能超过{1}个字符！")]</xsl:if>
         [Column("<xsl:value-of select="@name"/>"<xsl:if test="@isPrimaryKey='true'">, IsPrimaryKey = true</xsl:if><xsl:if test="@isNewGuid='true'">, IsNewGuid = true</xsl:if><xsl:if test="@nullable='true'">, IsNullable = true</xsl:if>)]<xsl:choose><xsl:when test="(@basicType='string' or @basicType='String') and @length!='-1'">
-        public virtual <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
+        public <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
         </xsl:when>
         <xsl:otherwise>
-        public virtual <xsl:value-of select="@basicType"/><xsl:if test="(@basicType!='string' and @basicType!='String') and @nullable='true'">?</xsl:if><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
+        public <xsl:value-of select="@basicType"/><xsl:if test="(@basicType!='string' and @basicType!='String') and @nullable='true'">?</xsl:if><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
         </xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>

@@ -27,7 +27,7 @@ using CSBR.Prime.Core.Services;
         /// <![CDATA[<summary>]]>
         /// <xsl:value-of select="@description" />。
         /// <![CDATA[</summary>]]>
-        public virtual <xsl:value-of select="@basicType"/><xsl:if test="@basicType!='string' and @basicType!='String'">?</xsl:if><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
+        public <xsl:value-of select="@basicType"/><xsl:if test="@basicType!='string' and @basicType!='String'">?</xsl:if><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
         </xsl:for-each>
         #endregion
     }

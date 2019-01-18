@@ -10,6 +10,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace Mercurius.Prime.Core.Ado
 {
@@ -29,10 +30,10 @@ namespace Mercurius.Prime.Core.Ado
         /// <summary>
         /// 执行该命令的数据库连接对象。
         /// </summary>
-        public DbConnection Connection
+        internal DbConnection Connection
         {
             get { return this._connection; }
-            internal set
+            set
             {
                 if (this._connection != value)
                 {
@@ -65,9 +66,14 @@ namespace Mercurius.Prime.Core.Ado
         public string Text { get; set; }
 
         /// <summary>
+        /// 执行模式。
+        /// </summary>
+        public ExecuteMode Mode { get; set; }
+
+        /// <summary>
         /// 附加命令。
         /// </summary>
-        public IList<AttachCommand> Attachs { get; set; }
+        public IList<XCommand> Attachs { get; set; }
 
         #endregion
 
@@ -78,7 +84,7 @@ namespace Mercurius.Prime.Core.Ado
         /// </summary>
         /// <param name="index">索引位置</param>
         /// <returns>附加命令</returns>
-        public AttachCommand this[uint index]
+        public XCommand this[uint index]
         {
             get
             {
@@ -96,11 +102,129 @@ namespace Mercurius.Prime.Core.Ado
         /// </summary>
         /// <param name="attachName">附加命令名称</param>
         /// <returns>附加命令</returns>
-        public AttachCommand this[string attachName]
+        public XCommand this[string attachName]
         {
             get
             {
                 return this.Attachs?.FirstOrDefault(a => a.Name == attachName);
+            }
+        }
+
+        #endregion
+
+        #region 业务属性
+
+        /// <summary>
+        /// where条件。
+        /// </summary>
+        internal WhereSegment Where { get; set; }
+
+        /// <summary>
+        /// 执行片段
+        /// </summary>
+        internal IList<SqlSegment> Segments { get; private set; } = new List<SqlSegment>();
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        internal IList<string> OrderBys { get; private set; } = new List<string>();
+
+        /// <summary>
+        /// 分组
+        /// </summary>
+        internal IList<string> GroupBys { get; private set; } = new List<string>();
+
+        /// <summary>
+        /// 获取有效的SQL执行命令.
+        /// </summary>
+        /// <returns>sql命令</returns>
+        internal string EffectiveCommandText
+        {
+            get
+            {
+                var builder = new StringBuilder(this.Text);
+                var segmentBuilder = new StringBuilder();
+
+                for (var index = 0; index < this.Segments.Count; index++)
+                {
+                    var item = this.Segments[index];
+
+                    if (item.EffectiveExpression.Compile().Invoke())
+                    {
+                        segmentBuilder.Append(item.Text);
+                    }
+                }
+
+                if (segmentBuilder.Length > 0)
+                {
+                    var sqlSegment = segmentBuilder.ToString().Trim();
+
+                    if (this.Where != null)
+                    {
+                        builder.Append(" WHERE ");
+
+                        if (!this.Where.Trimeds.IsEmpty())
+                        {
+                            foreach (var item in this.Where.Trimeds)
+                            {
+                                if (sqlSegment.StartsWith(item, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    sqlSegment = sqlSegment.Substring(item.Length);
+                                }
+                            }
+                        }
+                    }
+
+                    builder.AppendFormat(" {0} ", sqlSegment);
+                }
+
+                // 追加分组
+                if (!this.GroupBys.IsEmpty())
+                {
+                    builder.Append("GROUP BY ");
+
+                    for (int index = 0; index < this.GroupBys.Count; index++)
+                    {
+                        builder.AppendFormat("{0}{1}", this.GroupBys[index], index < this.GroupBys.Count - 1 ? "," : string.Empty);
+                    }
+                }
+
+                // 追加排序
+                if (!this.OrderBys.IsEmpty())
+                {
+                    builder.Append(" ORDER BY ");
+
+                    for (var index = 0; index < this.OrderBys.Count; index++)
+                    {
+                        builder.AppendFormat("{0}{1}", this.OrderBys[index], index < this.OrderBys.Count - 1 ? "," : string.Empty);
+                    }
+                }
+
+                return builder.ToString();
+            }
+        }
+
+        #endregion
+
+        #region 内部方法
+
+        /// <summary>
+        /// 清理设置。
+        /// </summary>
+        internal void Clear()
+        {
+            this.Where = null;
+            this.Segments.Clear();
+            this.OrderBys.Clear();
+
+            if (!this.Attachs.IsEmpty())
+            {
+                foreach (var item in this.Attachs)
+                {
+                    this.Where = null;
+                    this.Segments.Clear();
+                    this.OrderBys.Clear();
+                }
             }
         }
 

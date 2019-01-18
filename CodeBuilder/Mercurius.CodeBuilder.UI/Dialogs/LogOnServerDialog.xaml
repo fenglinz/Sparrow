@@ -46,9 +46,14 @@
                         <TextBox Margin="100,46,80,0"
                                  HorizontalAlignment="Stretch"
                                  Text="{Binding ServerUri, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox Margin="0,46,10,0" Width="60"
-                                 HorizontalAlignment="Right"
-                                 Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Margin="0,46,10,0" Width="60" HorizontalAlignment="Right"
+                                 Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="KeyDown">
+                                    <i:InvokeCommandAction Command="{Binding PortChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
                         <Label Margin="20,84,0,0" Content="登录账户：" />
                         <TextBox Margin="100,82,10,0"
                                  HorizontalAlignment="Stretch"

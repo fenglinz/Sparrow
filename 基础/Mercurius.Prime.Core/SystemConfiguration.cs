@@ -34,14 +34,19 @@ namespace Mercurius.Prime.Core
         #region 属性
 
         /// <summary>
+        /// 记录日志的级别。
+        /// </summary>
+        public static string LogLevel => Get("logger.level", "Debug");
+
+        /// <summary>
         /// 数据库类型。
         /// </summary>
-        public static string DatabaseType => Get("DatabaseType", "MSSQL");
+        public static string DatabaseType => Get("DatabaseType", "MySql");
 
         /// <summary>
         /// 默认分页大小。
         /// </summary>
-        public static int DefaultPageSize => Get("DefaultPageSize", 15);
+        public static int DefaultPageSize => Get("DefaultPageSize", 30);
 
         /// <summary>
         /// Redis服务器地址。
@@ -107,7 +112,7 @@ namespace Mercurius.Prime.Core
                     from n in document.Root.Descendants("add")
                     where
                         n.Attribute("key").Value == key
-                    select n.Attribute("value").Value).FirstOrDefault();
+                    select n.Attribute("value") != null ? n.Attribute("value").Value : n.Value).FirstOrDefault();
                 var value = attrValue == null ? defaultValue : Conversion.CTypeDynamic<T>(attrValue);
 
                 settingDictionary.Add(key, value);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Mercurius.Prime.Core.Services
 {
@@ -114,7 +115,7 @@ namespace Mercurius.Prime.Core.Services
         /// <summary>
         /// 返回的数据集合。
         /// </summary>
-        public IList<T> Datas { get; set; }
+        public IEnumerable<T> Datas { get; set; }
 
         #endregion
 
@@ -126,7 +127,7 @@ namespace Mercurius.Prime.Core.Services
         /// <returns></returns>
         public override string ToString()
         {
-            return this.IsSuccess ? $"返回{this.Datas.Count}条记录！" : $"执行失败\n失败详情：{this.ErrorMessage}";
+            return this.IsSuccess ? $"返回{this.Datas.Count()}条记录！" : $"执行失败\n失败详情：{this.ErrorMessage}";
         }
 
         #endregion

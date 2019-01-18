@@ -165,7 +165,6 @@
     <Compile Include="Themes\MercuriusDialog.cs" />
     <Compile Include="Themes\MercuriusWindow.cs" />
     <Compile Include="ViewModels\CodeBuilderViewModel2.cs" />
-    <Compile Include="ViewModels\CodeBuilderViewModel.cs" />
     <Compile Include="ViewModels\DatabaseExplorerViewModel.cs" />
     <Compile Include="ViewModels\LogOnServerViewModel.cs" />
     <Compile Include="ViewModels\OutputViewModel.cs" />
@@ -173,9 +172,6 @@
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\CodeBuilderView2.xaml.cs">
       <DependentUpon>CodeBuilderView2.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CodeBuilderView.xaml.cs">
-      <DependentUpon>CodeBuilderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DatabaseExplorerView.xaml.cs">
       <DependentUpon>DatabaseExplorerView.xaml</DependentUpon>
@@ -288,10 +284,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CodeBuilderView2.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\CodeBuilderView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

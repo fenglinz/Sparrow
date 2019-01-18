@@ -56,11 +56,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Excel\ExportTablesDefinition.cs" />
-    <Compile Include="Excel\NPOIExporter.cs" />
-    <Compile Include="Excel\NPOIExtensions.cs" />
-    <Compile Include="Excel\NPOIImporter.cs" />
-    <Compile Include="Excel\Util.cs" />
+    <Compile Include="ColumnMappingAttribute.cs" />
+    <Compile Include="DataType.cs" />
+    <Compile Include="Excel\Configuration.cs" />
+    <Compile Include="Excel\IExporter.cs" />
+    <Compile Include="Excel\IImporter.cs" />
+    <Compile Include="Excel\NPOI\ExportTablesDefinition.cs" />
+    <Compile Include="Excel\NPOI\NPOIExporter.cs" />
+    <Compile Include="Excel\NPOI\NPOIExtensions.cs" />
+    <Compile Include="Excel\NPOI\NPOIImporter.cs" />
+    <Compile Include="Excel\NPOI\Util.cs" />
+    <Compile Include="ImportExportAttribute.cs" />
+    <Compile Include="OptionItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

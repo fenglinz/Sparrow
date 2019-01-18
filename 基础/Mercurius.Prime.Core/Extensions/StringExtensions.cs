@@ -53,6 +53,16 @@ namespace Mercurius.Prime.Core
         }
 
         /// <summary>
+        /// 判断字符串不为空白字符.
+        /// </summary>
+        /// <param name="source">字符串</param>
+        /// <returns>判断结果</returns>
+        public static bool IsNotBlank(this string source)
+        {
+            return !source.IsNullOrEmpty();
+        }
+
+        /// <summary>
         /// 判断字符串是否为空(null、空或空白)。
         /// </summary>
         /// <param name="source">字符串</param>

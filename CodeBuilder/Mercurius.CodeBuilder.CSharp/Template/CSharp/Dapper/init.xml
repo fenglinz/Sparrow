@@ -21,6 +21,43 @@
     project="" />
 
   <item
+    name="Contract"
+    dependency="Entity, SearchResponse"
+    template="IContract.xslt"
+    module="interface"
+    subFolder="Services"
+    fileFormat="I{0}Service"
+    extension="cs"
+    ignoreView="true"
+    handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
+    project="" />
+
+  <item
+    name="RequestDto"
+    template="DTO-Request.xslt"
+    module="implement"
+    fileFormat="{0}Request"
+    extension="cs"
+    subFolder="Services\Requests"
+    ignoreView="true"
+    ignoreProps="dataversion,create[_(date)(time)]+$,update[_(date)(time)]+$,varchar\d+$,num\d+$,date\d+$"
+    handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
+    project="" />
+
+  <item
+    name="ResponseDto"
+    template="DTO-Response.xslt"
+    module="implement"
+    fileFormat="{0}Response"
+    extension="cs"
+    subFolder="Services\Responses"
+    ignoreView="true"
+    associationProps="guid"
+    ignoreProps="password,varchar\d+$,num\d+$,date\d+$"
+    handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
+    project="" />
+
+  <item
     name="SqlMap"
     dependency="Entity,SearchResponse"
     template="Dapper\SqlMap.xslt"
@@ -33,20 +70,8 @@
     project=""/>
 
   <item
-    name="Contract"
-    dependency="Entity,Response,SearchResponse"
-    template="IContract.xslt"
-    module="interface"
-    subFolder="Services"
-    fileFormat="I{0}Service"
-    extension="cs"
-    ignoreView="true"
-    handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
-    project="" />
-
-  <item
     name="Service"
-    dependency="Entity,SearchResponse,Contract"
+    dependency="Entity,RequestDto,ResponseDto,SearchResponse,Contract"
     template="Dapper\Service.xslt"
     module="implement"
     subFolder="Services"

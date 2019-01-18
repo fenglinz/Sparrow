@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Reflection;
 using System.Xml.Linq;
 
 namespace Mercurius.Prime.Core.Ado
 {
+    /// <summary>
+    /// SQL命令获取器。
+    /// <para>将添加的xml文件生成属性设置为“嵌入的资源”</para>  
+    /// </summary>
     /// <summary>
     /// SQL命令获取器。
     /// <para>将添加的xml文件生成属性设置为“嵌入的资源”</para>  
@@ -69,8 +72,12 @@ namespace Mercurius.Prime.Core.Ado
         public static XCommand GetXCommand(this StatementNamespace ns, string commandName)
         {
             var statementId = ns.GetStatementId(commandName);
+            var command = XCommandDictionaries.ContainsKey(statementId) ? XCommandDictionaries[statementId] : null;
 
-            return XCommandDictionaries.ContainsKey(statementId) ? XCommandDictionaries[statementId] : null;
+            // 清理设置
+            command?.Clear();
+
+            return command;
         }
 
         #endregion
@@ -88,26 +95,27 @@ namespace Mercurius.Prime.Core.Ado
         private static void ParseCommandText(XDocument xdocument)
         {
             var xcommands = (
-            from c in xdocument.Descendants(XNamespace + "commandText")
-            let ns = xdocument.Root.Attribute("namespace")?.Value
-            let attachs = c.HasElements ? c.Elements(XNamespace + "attach") : null
-            let textNode = c.FirstNode as XText ?? c.FirstNode.NextNode as XText
-            select new XCommand
-            {
-                Name = $"{(ns.IsNullOrEmpty() ? "" : ns + ".")}{c.Attribute("name").Value}",
-                Type = c.Attribute("commandType") == null ? CommandType.Text : (CommandType)Enum.Parse(typeof(CommandType), c.Attribute("commandType").Value),
-                Text = textNode.Value.Replace(Environment.NewLine, " ").Replace("\n", " ").Replace("\t", " ").TrimStart(' '),
-                Attachs = attachs == null ? null : (
-                    from a in attachs
-                    select new AttachCommand()
-                    {
-                        Name = a.Attribute("name")?.Value,
-                        Type = a.Attribute("commandType") == null ? CommandType.Text : (CommandType)Enum.Parse(typeof(CommandType), a.Attribute("commandType").Value),
-                        Mode = a.Attribute("mode") == null ? QueryMode.Execute : (QueryMode)Enum.Parse(typeof(QueryMode), a.Attribute("mode").Value),
-                        Text = a.Value?.Replace(Environment.NewLine, " ").Replace("\n", " ").Replace("\t", " ").TrimStart(' ')
-                    }
-                ).ToList()
-            });
+                from c in xdocument.Descendants(XNamespace + "commandText")
+                let ns = xdocument.Root.Attribute("namespace")?.Value
+                let attachs = c.HasElements ? c.Elements(XNamespace + "attach") : null
+                let textNode = c.FirstNode as XText ?? c.FirstNode.NextNode as XText
+                select new XCommand
+                {
+                    Name = $"{(ns.IsNullOrEmpty() ? "" : ns + ".")}{c.Attribute("name").Value}",
+                    Type = c.Attribute("commandType") == null ? CommandType.Text : (CommandType)Enum.Parse(typeof(CommandType), c.Attribute("commandType").Value),
+                    Text = textNode.Value.Replace(Environment.NewLine, " ").Replace("\n", " ").Replace("\t", " ").TrimStart(' '),
+                    Attachs = attachs == null ? null : (
+                        from a in attachs
+                        select new XCommand
+                        {
+                            Name = a.Attribute("name")?.Value,
+                            Type = a.Attribute("commandType") == null ? CommandType.Text : (CommandType)Enum.Parse(typeof(CommandType), a.Attribute("commandType").Value),
+                            Mode = a.Attribute("mode") == null ? ExecuteMode.Execute : (ExecuteMode)Enum.Parse(typeof(ExecuteMode), a.Attribute("mode").Value),
+                            Text = a.Value?.Replace(Environment.NewLine, " ").Replace("\n", " ").Replace("\t", " ").TrimStart(' ')
+                        }
+                    ).ToList()
+                }
+            );
 
             if (!xcommands.IsEmpty())
             {

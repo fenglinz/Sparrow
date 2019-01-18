@@ -43,7 +43,7 @@ namespace Mercurius.Prime.Core.Ado
         /// <summary>
         /// 查询方式(默认第一行第一列)。
         /// </summary>
-        public QueryMode Mode { get; set; } = QueryMode.Scalar;
+        public ExecuteMode Mode { get; set; } = ExecuteMode.Scalar;
 
         #endregion
 

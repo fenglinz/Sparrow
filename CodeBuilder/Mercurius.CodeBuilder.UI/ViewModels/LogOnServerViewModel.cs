@@ -27,6 +27,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
     {
         #region 字段
 
+        private bool _canChangePort = false;
         private DatabaseType _database = DatabaseType.MySQL;
         private string _serverUri = string.Empty;
         private string _account = string.Empty;
@@ -38,9 +39,10 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         private ICommand _cancleCommand = null;
         private ICommand _selectDatabaseCommand = null;
         private ICommand _databaseChangedCommand = null;
+        private ICommand _portChangedCommand = null;
 
-        private IRegionManager _regionManager = null;
-        private IEventAggregator _eventAggregator = null;
+        private readonly IRegionManager _regionManager = null;
+        private readonly IEventAggregator _eventAggregator = null;
 
         #endregion
 
@@ -75,7 +77,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._database != value)
                 {
                     this._database = value;
-                    this.RaisePropertyChanged(nameof(Database));
+                    this.RaisePropertyChanged(nameof(this.Database));
 
                     this.ShowInputSid = value == DatabaseType.Oracle ? Visibility.Visible : Visibility.Collapsed;
                 }
@@ -90,7 +92,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._serverUri != value)
                 {
                     this._serverUri = value;
-                    this.RaisePropertyChanged(nameof(ServerUri));
+                    this.RaisePropertyChanged(nameof(this.ServerUri));
                 }
             }
         }
@@ -103,7 +105,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._account != value)
                 {
                     this._account = value;
-                    this.RaisePropertyChanged(nameof(Account));
+                    this.RaisePropertyChanged(nameof(this.Account));
                 }
             }
         }
@@ -116,7 +118,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._password != value)
                 {
                     this._password = value;
-                    this.RaisePropertyChanged(nameof(Password));
+                    this.RaisePropertyChanged(nameof(this.Password));
                 }
             }
         }
@@ -134,7 +136,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._port != value)
                 {
                     this._port = value;
-                    this.RaisePropertyChanged(nameof(Port));
+                    this.RaisePropertyChanged(nameof(this.Port));
                 }
             }
         }
@@ -147,7 +149,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 if (this._showInputSid != value)
                 {
                     this._showInputSid = value;
-                    this.RaisePropertyChanged(nameof(ShowInputSid));
+                    this.RaisePropertyChanged(nameof(this.ShowInputSid));
                 }
             }
         }
@@ -170,6 +172,17 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     {
                         this.SetDatabasePort(database);
                     }
+                });
+            }
+        }
+
+        public ICommand PortChangedCommand
+        {
+            get
+            {
+                return this._portChangedCommand = this._portChangedCommand ?? new DelegateCommand(() =>
+                {
+                    this._canChangePort = true;
                 });
             }
         }
@@ -202,7 +215,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                             this.Databases = metadata.GetDatabaseNames();
 
-                            this.RaisePropertyChanged(nameof(Databases));
+                            this.RaisePropertyChanged(nameof(this.Databases));
                         }
                         catch (Exception e)
                         {
@@ -308,7 +321,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         private void SetDatabasePort(DatabaseType database)
         {
-            if (database == this.InitDatabase && this.InitPort.HasValue)
+            if (!this._canChangePort && database == this.InitDatabase && this.InitPort.HasValue)
             {
                 this.Port = this.InitPort;
             }

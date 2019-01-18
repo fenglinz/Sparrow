@@ -9,7 +9,7 @@ using System.Text;
 using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Entities;
-using Mercurius.Prime.Core.Logger;
+using Mercurius.Prime.Core.Log;
 
 namespace Mercurius.Prime.Core.Dynamic
 {
@@ -106,7 +106,7 @@ namespace Mercurius.Prime.Core.Dynamic
         /// <summary>
         /// 日志记录接口对象。
         /// </summary>
-        public ILogger Logger { get; set; }
+        public AbstractLogger Logger { get; set; }
 
         /// <summary>
         /// 缓存对象。
@@ -282,8 +282,6 @@ namespace Mercurius.Prime.Core.Dynamic
                     sqlBuilder.AppendFormat(command.Parameters.Count != index++ ?
                         "{0}={1}({2}), " : "{0}={1}({2})", item.ParameterName, item.Value, item.DbType);
                 }
-
-                this.Logger?.Write("动态查询", description, sqlBuilder.ToString(), Level.Debug);
             }
         }
 

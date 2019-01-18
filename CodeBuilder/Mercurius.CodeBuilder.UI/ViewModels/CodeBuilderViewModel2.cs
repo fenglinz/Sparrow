@@ -22,6 +22,7 @@ using Mercurius.Prime.Core.Ado;
 using Mercurius.Prime.DataProcess.Excel;
 using Application = System.Windows.Application;
 using Mercurius.CodeBuilder.UI.Themes;
+using BuildConfiguration = Mercurius.CodeBuilder.Core.Configuration;
 
 namespace Mercurius.CodeBuilder.UI.ViewModels
 {
@@ -62,8 +63,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         #endregion
 
         #region 属性
-
-        public Configuration Configuration { get; }
+         
+        public BuildConfiguration Configuration { get; }
 
         public ObservableCollection<DbTable> Tables { get; set; }
 
@@ -502,7 +503,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             this._buildEvent = eventAggregator.GetEvent<BuildEvent>();
             this.Tables = new ObservableCollection<DbTable>();
 
-            this.Configuration = new Configuration
+            this.Configuration = new BuildConfiguration
             {
                 Language = "C#",
                 OrmMiddleware = "Dapper",
@@ -514,7 +515,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             {
                 if (e.PropertyName == "OrmMiddleware")
                 {
-                    var config = sender as Configuration;
+                    var config = sender as BuildConfiguration;
 
                     if (config?.OrmMiddleware == "Dapper")
                     {

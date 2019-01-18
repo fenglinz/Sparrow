@@ -30,6 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extras.DynamicProxy, Version=4.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.Extras.DynamicProxy.4.5.0\lib\net45\Autofac.Extras.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
     </Reference>
@@ -45,11 +54,18 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Xml.Linq" />
@@ -62,19 +78,18 @@
   <ItemGroup>
     <Compile Include="Ado\AdoNetExtensions.cs" />
     <Compile Include="Ado\Parsers\AttachCommand.cs" />
-    <Compile Include="Ado\Parsers\QueryMode.cs" />
+    <Compile Include="Ado\Parsers\ExecuteMode.cs" />
+    <Compile Include="Ado\Parsers\SqlSegment.cs" />
     <Compile Include="Ado\Parsers\StatementNamespace.cs" />
+    <Compile Include="Ado\Parsers\WhereSegment.cs" />
     <Compile Include="Ado\Parsers\XCommand.cs" />
     <Compile Include="Cache\NonCacheAttribute.cs" />
     <Compile Include="Cache\CacheProvider.cs" />
     <Compile Include="Cache\DefaultCacheProvider.cs" />
-    <Compile Include="Data\ColumnMappingAttribute.cs" />
-    <Compile Include="Data\Excel\Configuration.cs" />
-    <Compile Include="Data\DataType.cs" />
-    <Compile Include="Data\Excel\IExporter.cs" />
-    <Compile Include="Data\Excel\IImporter.cs" />
-    <Compile Include="Data\ImportExportAttribute.cs" />
-    <Compile Include="Data\OptionItem.cs" />
+    <Compile Include="Dapper\Persistence.cs" />
+    <Compile Include="Dapper\QueryObject.cs" />
+    <Compile Include="Dapper\SqlSegment.cs" />
+    <Compile Include="Dapper\WhereSegment.cs" />
     <Compile Include="Dynamic\Restriction.cs" />
     <Compile Include="Dynamic\RestrictionExtension.cs" />
     <Compile Include="Dynamic\Criteria.cs" />
@@ -108,8 +123,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Extensions\ResponseExtensions.cs" />
-    <Compile Include="Logger\ILogger.cs" />
-    <Compile Include="Logger\Level.cs" />
     <Compile Include="Entities\CreationEntityBase.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
@@ -125,8 +138,10 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Entities\TreeNode.cs" />
     <Compile Include="Extensions\WebHelper.cs" />
-    <Compile Include="Logger\Log.cs" />
     <Compile Include="Entities\ModificationEntityBase.cs" />
+    <Compile Include="Log\AbstractLogger.cs" />
+    <Compile Include="Log\Level.cs" />
+    <Compile Include="Log\NLogLogger.cs" />
     <Compile Include="Mail\MailBodyParser.cs" />
     <Compile Include="Mail\MailSender.cs" />
     <Compile Include="Mail\MailSettingCollection.cs" />
@@ -136,6 +151,8 @@
     <Compile Include="Services\Response.cs" />
     <Compile Include="Services\SearchObject.cs" />
     <Compile Include="Entities\Token.cs" />
+    <Compile Include="Services\ServiceSupport.cs" />
+    <Compile Include="Services\XCommandExtension.cs" />
     <Compile Include="SystemConfiguration.cs" />
     <Compile Include="WebApi\WebApiClientSupport.cs" />
   </ItemGroup>
