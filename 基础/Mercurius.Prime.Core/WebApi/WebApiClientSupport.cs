@@ -2,9 +2,8 @@
 using System.Net;
 using System.Text;
 using Mercurius.Prime.Core.Cache;
-using Mercurius.Prime.Core.Entities;
+using Mercurius.Prime.Core.Entity;
 using Newtonsoft.Json;
-using static Mercurius.Prime.Core.SystemConfiguration;
 
 namespace Mercurius.Prime.Core.WebApi
 {

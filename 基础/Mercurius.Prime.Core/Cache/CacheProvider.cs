@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Mercurius.Prime.Core.Entities;
+using Mercurius.Prime.Core.Entity;
 using Newtonsoft.Json;
 
 namespace Mercurius.Prime.Core.Cache

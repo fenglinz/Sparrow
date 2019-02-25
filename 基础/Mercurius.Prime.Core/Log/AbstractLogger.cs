@@ -1,4 +1,5 @@
 ﻿using System;
+using Mercurius.Prime.Core.Configuration;
 
 namespace Mercurius.Prime.Core.Log
 {
@@ -16,8 +17,7 @@ namespace Mercurius.Prime.Core.Log
         /// <returns>是否可记录</returns>
         public bool IsEnabledFor(Level level)
         {
-            var canWriteLevel = Level.Debug;
-            var success = Enum.TryParse<Level>(SystemConfiguration.LogLevel, out canWriteLevel);
+            var success = Enum.TryParse(PlatformSection.Instance.LogLevel.IsNullOrEmptyValue("Debug"), out Level canWriteLevel);
 
             if (success)
             {

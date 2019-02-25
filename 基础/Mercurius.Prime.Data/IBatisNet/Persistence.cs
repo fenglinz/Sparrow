@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using IBatisNet.DataMapper;
 using Mercurius.Prime.Core;
-using Mercurius.Prime.Core.Entities;
-using Mercurius.Prime.Core.Services;
-using Mercurius.Prime.Data.Support;
+using Mercurius.Prime.Core.Entity;
+using Mercurius.Prime.Data.Service;
 
 namespace Mercurius.Prime.Data.IBatisNet
 {
