@@ -4,8 +4,8 @@ using System.Xml.Linq;
 using Mercurius.CodeBuilder.Core.Config;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.Prime.Core;
-using Mercurius.Prime.Core.Ado;
 using Microsoft.Practices.ServiceLocation;
+using DatabaseType = Mercurius.Prime.Data.Database;
 
 namespace Mercurius.CodeBuilder.Core
 {

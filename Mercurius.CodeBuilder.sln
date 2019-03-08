@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28606.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.Core", "CodeBuilder\Mercurius.CodeBuilder.Core\Mercurius.CodeBuilder.Core.csproj", "{62379B2C-78EE-488C-AF19-635319117678}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.DataProcess", "基础\Mercurius.Prime.DataProcess\Mercurius.Prime.DataProcess.csproj", "{D9A831D4-D63C-48F2-B741-AA8FA2956158}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.CodeBuilder.Java", "CodeBuilder\Mercurius.CodeBuilder.Java\Mercurius.CodeBuilder.Java.csproj", "{54A250FB-F6EB-418E-9F44-4579967D30AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Data", "基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj", "{784654C8-CC89-4ADF-BB00-1E0085C768DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{54A250FB-F6EB-418E-9F44-4579967D30AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54A250FB-F6EB-418E-9F44-4579967D30AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54A250FB-F6EB-418E-9F44-4579967D30AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,10 +66,11 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5B236DA6-7A5A-48E8-813E-5745B0E50D65} = {91BD7B99-8281-4565-BC08-EE9BF3E90CA3}
 		{D9A831D4-D63C-48F2-B741-AA8FA2956158} = {91BD7B99-8281-4565-BC08-EE9BF3E90CA3}
+		{784654C8-CC89-4ADF-BB00-1E0085C768DD} = {91BD7B99-8281-4565-BC08-EE9BF3E90CA3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35;packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45
 		SolutionGuid = {CDA521A6-C155-455A-9A6A-5161920C57C9}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\EnterpriseLibrary.Validation.5.0.505.0\lib\NET35;packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

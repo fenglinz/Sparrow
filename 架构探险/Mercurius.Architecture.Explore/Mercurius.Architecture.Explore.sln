@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Core", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Data", "..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj", "{784654C8-CC89-4ADF-BB00-1E0085C768DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Boot", "..\..\基础\Mercurius.Prime.IoC\Mercurius.Prime.Boot.csproj", "{056C5E07-4DF9-41EF-8E85-FCA0544A30D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Boot", "..\..\基础\Mercurius.Prime.Boot\Mercurius.Prime.Boot.csproj", "{056C5E07-4DF9-41EF-8E85-FCA0544A30D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -31,11 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\架构探险\Mercurius.Architecture.Explore\packages\Dapper.1.50.7\lib\net451\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\架构探险\Mercurius.Architecture.Explore\packages\Dapper.1.60.1\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="IBatisNet.Common, Version=1.6.2.0, Culture=neutral, PublicKeyToken=ed781d9fc396c6ca, processorArchitecture=MSIL">
       <HintPath>..\..\packages\IBatisNet45.1.6.2\lib\net45\IBatisNet.Common.dll</HintPath>
@@ -122,6 +125,9 @@
       <HintPath>..\..\packages\System.Threading.Thread.4.3.0\lib\net46\System.Threading.Thread.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -171,6 +177,7 @@
     <Compile Include="IBatisNet\RW.cs" />
     <Compile Include="IBatisNet\SqlMapperExtensions.cs" />
     <Compile Include="IBatisNet\SqlMapperManager.cs" />
+    <Compile Include="Service\DtoUtils.cs" />
     <Compile Include="Service\ResponseExtensions.cs" />
     <Compile Include="Service\Response.cs" />
     <Compile Include="Service\SearchObject.cs" />

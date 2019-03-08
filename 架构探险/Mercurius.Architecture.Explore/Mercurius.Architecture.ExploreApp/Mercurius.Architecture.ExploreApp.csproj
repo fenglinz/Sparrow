@@ -37,8 +37,8 @@
     <Reference Include="Autofac, Version=4.9.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.9.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
+    <Reference Include="Google.Protobuf, Version=3.7.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.7.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=8.0.15.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.8.0.15\lib\net452\MySql.Data.dll</HintPath>
@@ -70,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Boot\Mercurius.Prime.Boot.csproj">
+      <Project>{03C8389A-BC76-404A-AC11-E6D25676BA2B}</Project>
+      <Name>Mercurius.Prime.Boot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5B236DA6-7A5A-48E8-813E-5745B0E50D65}</Project>
       <Name>Mercurius.Prime.Core</Name>
@@ -77,10 +81,6 @@
     <ProjectReference Include="..\..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
       <Project>{784654C8-CC89-4ADF-BB00-1E0085C768DD}</Project>
       <Name>Mercurius.Prime.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\基础\Mercurius.Prime.IoC\Mercurius.Prime.Boot.csproj">
-      <Project>{056c5e07-4df9-41ef-8e85-fca0544a30d0}</Project>
-      <Name>Mercurius.Prime.Boot</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

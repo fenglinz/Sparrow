@@ -2,7 +2,8 @@
 using System;
 using System.Text;
 using Mercurius.Prime.Core;
-using Mercurius.Prime.Core.Ado;
+using Mercurius.Prime.Data.Ado;
+using Mercurius.Prime.Data;
 
 namespace Mercurius.CodeBuilder.DbMetadata.MSSQL
 {

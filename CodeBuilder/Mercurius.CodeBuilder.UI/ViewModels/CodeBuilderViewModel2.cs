@@ -5,24 +5,25 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml.Linq;
 using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.Core.Events;
+using Mercurius.CodeBuilder.DbMetadata.MSSQL;
+using Mercurius.CodeBuilder.UI.Themes;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Data;
+using Mercurius.Prime.Data.Ado;
+using Mercurius.Prime.DataProcess.Excel;
 using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using Prism.Events;
 using static System.Configuration.ConfigurationManager;
-using Mercurius.CodeBuilder.DbMetadata.MSSQL;
-using Mercurius.Prime.Core;
-using Mercurius.Prime.Core.Ado;
-using Mercurius.Prime.DataProcess.Excel;
 using Application = System.Windows.Application;
-using Mercurius.CodeBuilder.UI.Themes;
 using BuildConfiguration = Mercurius.CodeBuilder.Core.Configuration;
+using DatabaseType = Mercurius.Prime.Data.Database;
 
 namespace Mercurius.CodeBuilder.UI.ViewModels
 {

@@ -4,7 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.Prime.Core;
-using Mercurius.Prime.Core.Ado;
+using Mercurius.Prime.Data.Ado;
+using DatabaseType = Mercurius.Prime.Data.Database;
 
 namespace Mercurius.CodeBuilder.DbMetadata.MySQL
 {

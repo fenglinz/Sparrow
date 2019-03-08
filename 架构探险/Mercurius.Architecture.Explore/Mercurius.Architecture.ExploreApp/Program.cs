@@ -26,7 +26,7 @@ namespace Mercurius.Architecture.ExploreApp
 
         static void QueryDemo()
         {
-            ContainerManager.IsOnWebEnvironment = false;
+          //  ContainerManager.IsOnWebEnvironment = false;
 
             using (var scop = ContainerManager.LifetimeScope)
             {

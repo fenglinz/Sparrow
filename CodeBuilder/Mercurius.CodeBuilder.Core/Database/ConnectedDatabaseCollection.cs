@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Mercurius.Prime.Core.Ado;
+using DatabaseType = Mercurius.Prime.Data.Database;
 
 namespace Mercurius.CodeBuilder.Core.Database
 {

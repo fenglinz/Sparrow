@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Config;
 using Mercurius.CodeBuilder.Core.Database;
-using Mercurius.Prime.Core.Ado;
+using DatabaseType = Mercurius.Prime.Data.Database;
 
 namespace Mercurius.CodeBuilder.Java
 {

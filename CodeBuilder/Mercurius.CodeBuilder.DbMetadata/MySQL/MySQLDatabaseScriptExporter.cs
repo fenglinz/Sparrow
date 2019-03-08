@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercurius.CodeBuilder.Core.Database;
-using Mercurius.Prime.Core.Ado;
+using Mercurius.Prime.Data.Ado;
 
 namespace Mercurius.CodeBuilder.DbMetadata.MySQL
 {

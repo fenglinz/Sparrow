@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mercurius.Prime.DataProcess</RootNamespace>
     <AssemblyName>Mercurius.Prime.DataProcess</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,6 +79,10 @@
     <ProjectReference Include="..\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
       <Name>Mercurius.Prime.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
+      <Project>{784654C8-CC89-4ADF-BB00-1E0085C768DD}</Project>
+      <Name>Mercurius.Prime.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

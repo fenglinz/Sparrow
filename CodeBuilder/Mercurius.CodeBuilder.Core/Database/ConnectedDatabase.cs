@@ -1,5 +1,5 @@
-﻿using Mercurius.Prime.Core.Ado;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
+using DatabaseType = Mercurius.Prime.Data.Database;
 
 namespace Mercurius.CodeBuilder.Core.Database
 {

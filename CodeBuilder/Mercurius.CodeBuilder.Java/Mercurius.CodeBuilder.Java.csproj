@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mercurius.CodeBuilder.Java</RootNamespace>
     <AssemblyName>Mercurius.CodeBuilder.Java</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -48,6 +48,10 @@
     <ProjectReference Include="..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
       <Project>{5B236DA6-7A5A-48E8-813E-5745B0E50D65}</Project>
       <Name>Mercurius.Prime.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
+      <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
+      <Name>Mercurius.Prime.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mercurius.CodeBuilder.Core\Mercurius.CodeBuilder.Core.csproj">
       <Project>{62379b2c-78ee-488c-af19-635319117678}</Project>
