@@ -18,105 +18,91 @@ using Mercurius.Prime.Data.Service;
 
 namespace Mercurius.Prime.Boot.Autofac
 {
-    // Token: 0x0200000A RID: 10
+    /// <summary>
+    /// Autofac容器管理器。
+    /// </summary>
     public static class ContainerManager
     {
-        #region 字段
+        #region Fields
 
         private static readonly object _locker = new object();
 
         #endregion
 
-        #region 属性
+        #region Properties
 
-        public static bool IsOnWebEnvironment { get; set; } = true;
+        /// <summary>
+        /// 容器对象.
+        /// </summary>
+        public static IContainer Container { get; private set; }
 
         /// <summary>
         /// Autofac容器构建器。
         /// </summary>
         public static ContainerBuilder Builder { get; private set; }
 
-        /// <summary>
-        /// Autofac容器。
-        /// </summary>
-        public static IContainer Container { get; private set; }
+        public static ILifetimeScope LifetimeScope
+        {
+            get => Container?.BeginLifetimeScope();
+        }
 
         #endregion
 
-        #region 构造方法
+        #region Public Methods
 
         /// <summary>
         /// 初始化Autofac容器。
         /// </summary>
-        static ContainerManager()
+        public static void Initialize(bool onWebEnvironment = true)
         {
-            if (Builder == null)
+            lock (_locker)
             {
-                lock (_locker)
+                if (Container == null)
                 {
                     Builder = new ContainerBuilder();
 
                     // 注册缓存。
-                    Builder.RegisterType<DefaultCacheProvider>()
-                        .As<CacheProvider>()
-                        .InstancePerLifetimeScope();
-
-                    //Builder.Register(c => new DefaultCacheProvider())
-                    //    .As<CacheProvider>()
-                    //    .InstancePerLifetimeScope();
+                    Builder.RegisterType<DefaultCacheProvider>().As<CacheProvider>().InstancePerLifetimeScope();
 
                     // 注册动态查询
-                    Builder.RegisterType<Persistence>()
-                        .OnActivated(p =>
+                    Builder.RegisterType<Persistence>().InstancePerLifetimeScope().OnActivated(p =>
                         {
-                            var flag3 = p.Instance.CommandTextBuilder != null;
-
-                            if (flag3)
+                            if (p.Instance.CommandTextBuilder != null)
                             {
-                                using (var scope = ContainerManager.LifetimeScope)
+                                using (var scope = LifetimeScope)
                                 {
                                     p.Instance.CommandTextBuilder.Logger = scope.Resolve<AbstractLogger>();
                                 }
                             }
-                        })
-                        .InstancePerLifetimeScope();
+                        });
 
                     // 注册Logger。
-                    Builder.Register(c => new NLogLogger())
-                        .As<AbstractLogger>()
-                        .InstancePerLifetimeScope();
-
-                    // 注册web api控制器拦截器。
-                    Builder.Register(c => new LoggingActionFilter(c.Resolve<AbstractLogger>()))
-                        .AsWebApiActionFilterFor<ApiController>()
-                        .InstancePerRequest();
+                    Builder.Register(c => new NLogLogger()).As<AbstractLogger>().InstancePerLifetimeScope();
 
                     // 当前执行代码的程序集。
-                    var appDomainAssemblies = BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToArray();
+                    var appDomainAssemblies = onWebEnvironment ? BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToArray() : AppDomain.CurrentDomain.GetAssemblies();
 
                     // 注册服务拦截器。
-                    Builder.RegisterType<ServiceInterceptor>()
-                        .PropertiesAutowired()
-                        .InstancePerLifetimeScope();
+                    Builder.RegisterType<ServiceInterceptor>().PropertiesAutowired().InstancePerLifetimeScope();
 
                     // 注册服务。
                     Builder.RegisterAssemblyTypes(appDomainAssemblies)
-                        .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
-                        .PropertiesAutowired() // 启用属性注入
-                        .AsImplementedInterfaces()
-                        .InstancePerLifetimeScope()
-                        .EnableInterfaceInterceptors() // 启用接口拦截
-                        .InterceptedBy(typeof(ServiceInterceptor)); // 设置连接器
+                                    .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
+                                    .PropertiesAutowired() // 启用属性注入
+                                    .AsImplementedInterfaces()
+                                    .InstancePerLifetimeScope()
+                                    .EnableInterfaceInterceptors() // 启用接口拦截
+                                    .InterceptedBy(typeof(ServiceInterceptor)); // 设置连接器
 
-                    if (IsOnWebEnvironment)
+                    if (onWebEnvironment)
                     {
-
-
+                        // 注册web api控制器拦截器。
+                        Builder.Register(c => new LoggingActionFilter(c.Resolve<AbstractLogger>()))
+                               .AsWebApiActionFilterFor<ApiController>()
+                               .InstancePerRequest();
 
                         // 注册MVC控制器。
-                        Builder.RegisterControllers(appDomainAssemblies)
-                            .PropertiesAutowired()
-                            .InstancePerRequest();
+                        Builder.RegisterControllers(appDomainAssemblies).PropertiesAutowired().InstancePerRequest();
 
                         // 注册Model Binder。
                         Builder.RegisterModelBinders(appDomainAssemblies);
@@ -133,12 +119,11 @@ namespace Mercurius.Prime.Boot.Autofac
 
                         // WebApi注册。
                         Builder.RegisterApiControllers(appDomainAssemblies)
-                            .OnActivated(c =>
-                            {
+                               .PropertiesAutowired()
+                               .InstancePerRequest().OnActivated(c =>
+                               {
 
-                            })
-                            .PropertiesAutowired()
-                            .InstancePerRequest();
+                               });
 
                         // 注册web api过滤器提供者
                         Builder.RegisterWebApiFilterProvider(GlobalConfiguration.Configuration);
@@ -152,14 +137,12 @@ namespace Mercurius.Prime.Boot.Autofac
             }
         }
 
-        #endregion
-
-        #region 属性
-
-        public static ILifetimeScope LifetimeScope
-        {
-            get => Container?.BeginLifetimeScope();
-        }
+        /// <summary>
+        /// 获取autofac容器中的对象.
+        /// </summary>
+        /// <typeparam name="T">对象类型</typeparam>
+        /// <param name="scope">容器生命周期管理器对象</param>
+        /// <returns>对象</returns>
 
         public static T GetObject<T>(this ILifetimeScope scope)
         {

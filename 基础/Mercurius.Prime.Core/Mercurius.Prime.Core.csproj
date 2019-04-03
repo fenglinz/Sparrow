@@ -105,6 +105,7 @@
     <Compile Include="Configuration\RedisSessionElement.cs" />
     <Compile Include="Configuration\Redis\RedisClient.cs" />
     <Compile Include="Configuration\SettingElements.cs" />
+    <Compile Include="Configuration\SwaggerElement.cs" />
     <Compile Include="Entity\ColumnAttribute.cs" />
     <Compile Include="Entity\NameValue.cs" />
     <Compile Include="Entity\TableAttribute.cs" />

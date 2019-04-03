@@ -36,8 +36,11 @@ namespace Mercurius.Prime.Core.Configuration
         [ConfigurationProperty(LogLevelKey, DefaultValue = "Debug")]
         public string LogLevel { get => base[LogLevelKey]?.ToString(); set => base[LogLevelKey] = value; }
 
+        [ConfigurationProperty("swagger")]
+        public SwaggerElement Swagger => base["swagger"] as SwaggerElement;
+
         /// <summary>
-        /// 
+        /// 数据库连接信息
         /// </summary>
         [ConfigurationProperty(ConnectionStringsKey)]
         public ConnectionStringElements ConnectionStrings => base[ConnectionStringsKey] as ConnectionStringElements;
@@ -48,6 +51,9 @@ namespace Mercurius.Prime.Core.Configuration
         [ConfigurationProperty("redisServers")]
         public RedisElements Redis => base["redisServers"] as RedisElements;
 
+        /// <summary>
+        /// 获取redis session配置信息
+        /// </summary>
         [ConfigurationProperty("redisSession")]
         public RedisSessionElement RedisSession => base["redisSession"] as RedisSessionElement;
 
@@ -60,7 +66,7 @@ namespace Mercurius.Prime.Core.Configuration
         #endregion
 
         #region 业务属性
-        
+
         /// <summary>
         /// 获取配置实例
         /// </summary>

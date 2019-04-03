@@ -8,25 +8,36 @@ using Mercurius.Prime.Boot.Web;
 
 namespace Mercurius.Prime.Boot.Autofac
 {
-	// Token: 0x02000009 RID: 9
-	public abstract class AutofacHttpApplication : HttpApplication
-	{
-		// Token: 0x0600003C RID: 60 RVA: 0x00002C3E File Offset: 0x00000E3E
-		protected override void OnApplicationStart()
-		{
-			base.OnApplicationStart();
-			DependencyResolver.SetResolver(new AutofacDependencyResolver(ContainerManager.Container));
-		}
+    /// <summary>
+    /// 基于autofac的asp.net应用程序启动类
+    /// </summary>
+    public abstract class AutofacHttpApplication : HttpApplication
+    {
+        /// <summary>
+        /// 应用程序启动设置。
+        /// </summary>
+        protected override void OnApplicationStart()
+        {
+            base.OnApplicationStart();
 
-		// Token: 0x0600003D RID: 61 RVA: 0x00002C58 File Offset: 0x00000E58
-		protected override void ConfigureWebApi(HttpConfiguration config)
-		{
-			config.DependencyResolver = new AutofacWebApiDependencyResolver(ContainerManager.Container);
-		}
+            // Autofac容器初始化
+            ContainerManager.Initialize();
 
-		// Token: 0x0600003E RID: 62 RVA: 0x00002C6C File Offset: 0x00000E6C
-		protected override void ConfigureWebMvc(RouteCollection routes)
-		{
-		}
-	}
+            // 使用Autofac替换Asp.Net MVC默认依赖解析器
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(ContainerManager.Container));
+        }
+
+        /// <summary>
+        /// web api配置
+        /// </summary>
+        /// <param name="config">http配置信息</param>
+        protected override void ConfigureWebApi(HttpConfiguration config)
+        {
+            // autofac容器初始化
+            ContainerManager.Initialize();
+
+            // 使用Autofac替换Asp.Net Web Api默认依赖解析器
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(ContainerManager.Container);
+        }
+    }
 }

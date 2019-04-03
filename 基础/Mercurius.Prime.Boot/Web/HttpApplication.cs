@@ -5,68 +5,131 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Mercurius.Prime.Core.Configuration;
 
 namespace Mercurius.Prime.Boot.Web
 {
-	public abstract class HttpApplication : System.Web.HttpApplication
-	{
-		protected void Application_Start()
-		{
-			this.RemoveWebFormEngines();
-			this.OnApplicationStart();
-			GlobalConfiguration.Configure(new Action<HttpConfiguration>(this.WebApiConfiguration));
-			GlobalConfiguration.Configure(new Action<HttpConfiguration>(SwaggerConfig.Register));
-			AreaRegistration.RegisterAllAreas();
-			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-			this.MvcConfiguration(RouteTable.Routes);
-		}
+    /// <summary>
+    /// 自定义asp.net应用程序启动类。
+    /// </summary>
+    public abstract class HttpApplication : System.Web.HttpApplication
+    {
+        /// <summary>
+        /// 应用程序启动处理
+        /// </summary>
+        protected void Application_Start()
+        {
+            // 移除WebForm视图引擎
+            this.RemoveWebFormEngines();
 
-		// Token: 0x06000010 RID: 16
-		protected abstract void ConfigureWebApi(HttpConfiguration config);
+            // 执行扩展
+            this.OnApplicationStart();
 
-		// Token: 0x06000011 RID: 17
-		protected abstract void ConfigureWebMvc(RouteCollection routes);
+            // web api配置
+            GlobalConfiguration.Configure(this.WebApiConfiguration);
 
-		// Token: 0x06000012 RID: 18 RVA: 0x00002349 File Offset: 0x00000549
-		protected virtual void OnApplicationStart()
-		{
-		}
+            // swagger配置
+            GlobalConfiguration.Configure(SwaggerConfig.Register);
 
-		// Token: 0x06000013 RID: 19 RVA: 0x0000234C File Offset: 0x0000054C
-		private void RemoveWebFormEngines()
-		{
-			ViewEngineCollection viewEngines = ViewEngines.Engines;
-			WebFormViewEngine webFormEngines = viewEngines.OfType<WebFormViewEngine>().FirstOrDefault<WebFormViewEngine>();
-			bool flag = webFormEngines != null;
-			if (flag)
-			{
-				viewEngines.Remove(webFormEngines);
-			}
-		}
+            // 注册区域
+            AreaRegistration.RegisterAllAreas();
 
-		// Token: 0x06000014 RID: 20 RVA: 0x00002380 File Offset: 0x00000580
-		private void WebApiConfiguration(HttpConfiguration config)
-		{
-			config.MapHttpAttributeRoutes();
-			config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
-			config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new
-			{
-				id = RouteParameter.Optional
-			});
-			this.ConfigureWebApi(config);
-		}
+            // 添加错误处理过滤器
+            GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
-		// Token: 0x06000015 RID: 21 RVA: 0x000023D8 File Offset: 0x000005D8
-		private void MvcConfiguration(RouteCollection routes)
-		{
-			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-			routes.MapRoute("Default", "{controller}/{action}/{id}", new
-			{
-				controller = "Home",
-				action = "Index",
-				id = UrlParameter.Optional
-			});
-			this.ConfigureWebMvc(routes);
-		}
-	}
+            // web mvc配置
+            this.MvcConfiguration(RouteTable.Routes);
+        }
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            var path = HttpContext.Current.Request.Path;
+
+            if (path == PlatformSection.Instance.Swagger.Path)
+            {
+                HttpContext.Current.Response.Redirect("~/swagger/ui/index", true);
+            }
+        }
+
+        #region Protected Methods
+
+        /// <summary>
+        /// 应用程序启动扩展
+        /// </summary>
+        protected virtual void OnApplicationStart()
+        {
+        }
+
+        /// <summary>
+        /// web api配置
+        /// </summary>
+        /// <param name="config">配置信息</param>
+        protected abstract void ConfigureWebApi(HttpConfiguration config);
+
+        /// <summary>
+        /// web mvc配置
+        /// </summary>
+        /// <param name="routes">路由表</param>
+        protected abstract void ConfigureWebMvc(RouteCollection routes);
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// 移除WebForm视图引擎。
+        /// </summary>
+        private void RemoveWebFormEngines()
+        {
+            var viewEngines = ViewEngines.Engines;
+            var webFormEngines = viewEngines.OfType<WebFormViewEngine>().FirstOrDefault();
+
+            if (webFormEngines != null)
+            {
+                viewEngines.Remove(webFormEngines);
+            }
+        }
+
+        /// <summary>
+        /// WebApi默认配置。
+        /// </summary>
+        /// <param name="config">配置信息</param>
+        private void WebApiConfiguration(HttpConfiguration config)
+        {
+            // 启用特性路由
+            config.MapHttpAttributeRoutes();
+
+            // 启用跨域访问
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+
+            // 默认路由
+            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new
+            {
+                id = RouteParameter.Optional
+            });
+
+            // 扩展配置
+            this.ConfigureWebApi(config);
+        }
+
+        /// <summary>
+        /// web mvc默认配置
+        /// </summary>
+        /// <param name="routes">路由表</param>
+        private void MvcConfiguration(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapRoute("Default", "{controller}/{action}/{id}", new
+            {
+                controller = "Home",
+                action = "Index",
+                id = UrlParameter.Optional
+            });
+
+            // 扩展配置
+            this.ConfigureWebMvc(routes);
+        }
+
+        #endregion
+    }
 }
