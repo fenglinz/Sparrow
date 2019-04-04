@@ -89,9 +89,8 @@ namespace Mercurius.Prime.Boot.Autofac
                     Builder.RegisterAssemblyTypes(appDomainAssemblies)
                                     .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
                                     .PropertiesAutowired() // 启用属性注入
-                                    .AsImplementedInterfaces()
                                     .InstancePerLifetimeScope()
-                                    .EnableInterfaceInterceptors() // 启用接口拦截
+                                    .EnableClassInterceptors() // 启用类拦截
                                     .InterceptedBy(typeof(ServiceInterceptor)); // 设置连接器
 
                     if (onWebEnvironment)

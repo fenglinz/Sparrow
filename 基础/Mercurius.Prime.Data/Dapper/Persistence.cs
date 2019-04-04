@@ -295,7 +295,6 @@ namespace Mercurius.Prime.Data.Dapper
 
         #region QueryForList
 
-
         public IEnumerable<T> QueryForList<T>(IEnumerable<string> selectors, object so = null, Action<SelectCriteria<T>> action = null)
         {
             using (var helper = this.GetDbHelper(this.Slave))
@@ -322,8 +321,8 @@ namespace Mercurius.Prime.Data.Dapper
         /// <param name="subQuery">子查询回调</param>
         /// <returns>查询结果</returns>
         public IEnumerable<T> QueryForList<T>(
-        StatementNamespace ns, string name, object so = null,
-        Action<SelectCriteria<T>> callback = null, Action<CommandText, T> subQuery = null)
+            StatementNamespace ns, string name, object so = null,
+            Action<SelectCriteria<T>> callback = null, Action<CommandText, T> subQuery = null)
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {
@@ -371,7 +370,7 @@ namespace Mercurius.Prime.Data.Dapper
 
         public IEnumerable<T> QueryForPagedList<T>(out int totalRecords, SearchObject so = null, Action<SelectCriteria> action = null)
         {
-            return this.QueryForPagedList<T>(out totalRecords, so, action);
+            return this.QueryForPagedList<T>(out totalRecords, null, so, action);
         }
 
         /// <summary>
@@ -386,9 +385,9 @@ namespace Mercurius.Prime.Data.Dapper
         /// <param name="subQuery">子查询回调</param>
         /// <returns>查询结果</returns>
         public IEnumerable<T> QueryForPagedList<T>(
-        StatementNamespace ns, string name,
-        out int totalRecords, SearchObject so = null,
-        Action<SelectCriteria<T>> callback = null, Action<CommandText, T> subQuery = null)
+            StatementNamespace ns, string name,
+            out int totalRecords, SearchObject so = null,
+            Action<SelectCriteria<T>> callback = null, Action<CommandText, T> subQuery = null)
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {

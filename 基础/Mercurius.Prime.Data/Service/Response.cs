@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Mercurius.Prime.Data.Service
@@ -8,13 +9,18 @@ namespace Mercurius.Prime.Data.Service
     /// </summary>
     public class Response
     {
-        #region 字段
+        #region Fields
 
         private string _errorMessage;
 
         #endregion
 
-        #region 属性
+        #region Properties
+
+        /// <summary>
+        /// 返回时间
+        /// </summary>
+        public DateTime At { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 是否成功。
@@ -43,7 +49,7 @@ namespace Mercurius.Prime.Data.Service
 
         #endregion
 
-        #region 构造方法
+        #region Constructor
 
         /// <summary>
         /// 默认构造方法。
@@ -55,7 +61,7 @@ namespace Mercurius.Prime.Data.Service
 
         #endregion
 
-        #region 重写
+        #region Overrides
 
         /// <summary>
         /// 重写ToString方法：自定义格式显示数据。
@@ -75,7 +81,7 @@ namespace Mercurius.Prime.Data.Service
     /// <typeparam name="T">数据类型</typeparam>
     public class Response<T> : Response
     {
-        #region 属性
+        #region Properties
 
         /// <summary>
         /// 返回的数据。
@@ -84,7 +90,7 @@ namespace Mercurius.Prime.Data.Service
 
         #endregion
 
-        #region 重写
+        #region Overrides
 
         /// <summary>
         /// 重写ToString方法：自定义格式显示数据。
@@ -92,8 +98,7 @@ namespace Mercurius.Prime.Data.Service
         /// <returns></returns>
         public override string ToString()
         {
-            return this.IsSuccess ? (this.Data != null ? this.Data.ToString() : string.Empty) :
-                $"执行失败\n失败详情：{this.ErrorMessage}";
+            return this.IsSuccess ? (this.Data != null ? this.Data.ToString() : string.Empty) : $"执行失败\n失败详情：{this.ErrorMessage}";
         }
 
         #endregion
@@ -105,7 +110,7 @@ namespace Mercurius.Prime.Data.Service
     /// <typeparam name="T">集合类型</typeparam>
     public class ResponseSet<T> : Response
     {
-        #region 属性
+        #region Properties
 
         /// <summary>
         /// 查询结果的总记录数。
@@ -119,7 +124,7 @@ namespace Mercurius.Prime.Data.Service
 
         #endregion
 
-        #region 重写
+        #region Overrides
 
         /// <summary>
         /// 重写ToString方法：自定义格式显示数据。

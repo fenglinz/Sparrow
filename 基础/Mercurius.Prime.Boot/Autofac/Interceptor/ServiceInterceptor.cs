@@ -47,9 +47,7 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
         {
             var responseType = typeof(Response);
 
-            if (invocation.Method.ReturnType != typeof(void) &&
-                (invocation.Method.ReturnType == responseType ||
-                invocation.Method.ReturnType.IsSubclassOf(responseType)))
+            if (invocation.Method.ReturnType != typeof(void) && (invocation.Method.ReturnType == responseType || invocation.Method.ReturnType.IsSubclassOf(responseType)))
             {
                 var type = invocation.Method.DeclaringType;
 
@@ -67,7 +65,11 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
                     }
                     catch (Exception exp)
                     {
-                        invocation.ReturnValue = new Response { ErrorMessage = exp.Message };
+                        var returnValue = invocation.ReturnValue as Response ?? new Response();
+
+                        returnValue.ErrorMessage = exp.Message;
+
+                        invocation.ReturnValue = returnValue;
 
                         this.Logger?.Fatal(invocation.Method.DeclaringType.Name, invocation.Method.Name, exp, invocation.Arguments, type.Name);
                     }
@@ -115,7 +117,6 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
 
                         if (res != null)
                         {
-                            res.IsSuccess = false;
                             res.ErrorMessage = exp.Message;
                         }
 

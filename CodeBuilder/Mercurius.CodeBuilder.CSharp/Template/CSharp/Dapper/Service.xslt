@@ -4,7 +4,7 @@
     <xsl:output method="text" indent="yes"/>
     <xsl:include href="../Common.xslt"/>
   <xsl:template match="root"><![CDATA[// <copyright ]]>file="<xsl:value-of select="./table/@className" />Service.cs" company="<xsl:value-of select="./copyright"/>"<![CDATA[>
-// 版权所有 © ]]><xsl:value-of select="./copyright"/><![CDATA[. 保留所有权利.
+// 版权所有 © ]]><xsl:value-of select="./copyright"/><![CDATA[, 保留所有权利.
 // </copyright>]]>
 // <![CDATA[<author>]]><xsl:value-of select="./author"/><![CDATA[</author>]]>
 // <![CDATA[<create>]]><xsl:value-of select="./buildDate"/><![CDATA[</create>]]>

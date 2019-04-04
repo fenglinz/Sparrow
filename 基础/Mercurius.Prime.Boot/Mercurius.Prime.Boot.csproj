@@ -57,7 +57,7 @@
       <HintPath>..\..\架构探险\Mercurius.Architecture.Explore\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\架构探险\Mercurius.Architecture.Explore\packages\NLog.4.6.1\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\packages\NLog.4.6.2\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Swagger.Net, Version=8.3.21.1, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\..\架构探险\Mercurius.Architecture.Explore\packages\Swagger-Net.8.3.21.1\lib\net45\Swagger.Net.dll</HintPath>

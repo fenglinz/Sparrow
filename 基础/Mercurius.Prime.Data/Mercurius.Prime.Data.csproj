@@ -177,6 +177,7 @@
     <Compile Include="IBatisNet\RW.cs" />
     <Compile Include="IBatisNet\SqlMapperExtensions.cs" />
     <Compile Include="IBatisNet\SqlMapperManager.cs" />
+    <Compile Include="Service\DemoService.cs" />
     <Compile Include="Service\DtoUtils.cs" />
     <Compile Include="Service\ResponseExtensions.cs" />
     <Compile Include="Service\Response.cs" />
