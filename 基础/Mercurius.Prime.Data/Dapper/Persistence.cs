@@ -4,10 +4,10 @@ using System.Diagnostics;
 using Dapper;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Configuration;
+using Mercurius.Prime.Core.Entity;
 using Mercurius.Prime.Data.Ado;
 using Mercurius.Prime.Data.Parser;
 using Mercurius.Prime.Data.Parser.Builder;
-using Mercurius.Prime.Data.Service;
 
 namespace Mercurius.Prime.Data.Dapper
 {

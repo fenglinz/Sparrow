@@ -22,7 +22,7 @@ namespace Mercurius.CodeBuilder.Core.Database
         private string _moduleName = null;
         private string _moduleDescription = null;
         private string _description = null;
-        private bool _isEntityOnly;
+        private bool _isEntityOnly = false;
         private bool _hasCreate = true;
         private bool _hasUpdate = true;
         private bool _hasCreateOrUpdate = false;

@@ -12,23 +12,23 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using CSBR.Prime.Core;
-using CSBR.Prime.Core.Services;
+using Mercurius.Prime.Core;
+using Mercurius.Prime.Data.Service;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {
     /// <![CDATA[<summary>]]>
-    /// <xsl:value-of select="./table/@description" />业务逻辑接口实现。
+    /// <xsl:value-of select="./table/@description" />业务逻辑接口实现.
     /// <![CDATA[</summary>]]>
-    public class <xsl:value-of select="./table/@className"/>Service : ServiceSupport, I<xsl:value-of select="./table/@className" />Service
+    public class <xsl:value-of select="./table/@className"/>Service : ServiceSupport
     {
-        #region 字段
+        #region Fields
 
         private static readonly StatementNamespace ns = "<xsl:value-of select="./table/@namespace" />.<xsl:value-of select="./table/@className"/>";
 
         #endregion
 
-        #region I<xsl:value-of select="./table/@className" />Service接口实现
+        #region Public Methods
         <xsl:if test="count(./table[@hasCreate='true'])=1">
         /// <![CDATA[<summary>]]>
         /// 添加<xsl:value-of select="./table/@description" />。

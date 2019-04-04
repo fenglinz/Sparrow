@@ -107,19 +107,16 @@
     <Compile Include="Configuration\SettingElements.cs" />
     <Compile Include="Configuration\SwaggerElement.cs" />
     <Compile Include="Entity\ColumnAttribute.cs" />
-    <Compile Include="Entity\NameValue.cs" />
+    <Compile Include="Entity\SearchObject.cs" />
     <Compile Include="Entity\TableAttribute.cs" />
     <Compile Include="Constants.Designer.cs">
       <DependentUpon>Constants.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Entity\CreationEntityBase.cs" />
-    <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\CrossSiteScriptingValidation.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />
-    <Compile Include="Entity\IHierarchy.cs" />
     <Compile Include="Extensions\IOExtensions.cs" />
     <Compile Include="Extensions\JsonExtensions.cs" />
     <Compile Include="Extensions\KeyCreator.cs" />
@@ -127,9 +124,7 @@
     <Compile Include="Extensions\PropertyHelper.cs" />
     <Compile Include="Extensions\SecurityExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Entity\TreeNode.cs" />
     <Compile Include="Extensions\WebHelper.cs" />
-    <Compile Include="Entity\ModificationEntityBase.cs" />
     <Compile Include="Log\AbstractLogger.cs" />
     <Compile Include="Log\Level.cs" />
     <Compile Include="Log\NLogLogger.cs" />
@@ -139,7 +134,7 @@
     <Compile Include="Mail\MailSettingElement.cs" />
     <Compile Include="Mail\MailSettingSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entity\Token.cs" />
+    <Compile Include="WebApi\Token.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -157,9 +152,7 @@
       <LastGenOutput>Constants.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WebApi\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

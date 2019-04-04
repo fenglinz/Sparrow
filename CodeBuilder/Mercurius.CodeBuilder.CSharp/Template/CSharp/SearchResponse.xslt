@@ -4,7 +4,7 @@
     <xsl:output method="text" indent="yes"/>
     <xsl:include href="Common.xslt" />
   <xsl:template match="root"><![CDATA[// <copyright ]]>file="<xsl:value-of select="./table/@className" />SO.cs" company="<xsl:value-of select="./copyright"/>"<![CDATA[>
-// 版权所有 © ]]><xsl:value-of select="./copyright"/><![CDATA[. 保留所有权利.
+// 版权所有 © ]]><xsl:value-of select="./copyright"/><![CDATA[, 保留所有权利.
 // </copyright>]]>
 // <![CDATA[<author>]]><xsl:value-of select="./author"/><![CDATA[</author>]]>
 // <![CDATA[<create>]]><xsl:value-of select="./buildDate"/><![CDATA[</create>]]>
@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CSBR.Prime.Core.Services;
+using Mercurius.Prime.Core.Entity;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
 {

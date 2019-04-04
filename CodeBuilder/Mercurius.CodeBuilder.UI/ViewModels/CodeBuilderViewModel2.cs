@@ -69,9 +69,9 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         public ObservableCollection<DbTable> Tables { get; set; }
 
-        public string ProjectFileLabel1 { get; set; } = "接口定义项目：";
+        public string ProjectFileLabel1 { get; set; } = "持久层项目：";
 
-        public string ProjectFileLabel2 { get; set; } = "接口实现项目：";
+        public string ProjectFileLabel2 { get; set; } = "服务层项目：";
 
         public string ProjectFileLabel3 { get; set; } = "插件实现项目：";
 
@@ -520,20 +520,33 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
                     if (config?.OrmMiddleware == "Dapper")
                     {
-                        this.ProjectFileLabel1 = "接口定义项目：";
-                        this.ProjectFileLabel2 = "接口实现项目：";
+                        this.ProjectFileLabel1 = "持久层项目：";
+                        this.ProjectFileLabel2 = "服务层项目：";
                         this.ProjectFileLabel3 = "插件实现项目";
                     }
                     else
                     {
-                        this.ProjectFileLabel1 = "接口定义项目：";
-                        this.ProjectFileLabel2 = "接口实现项目：";
+                        this.ProjectFileLabel1 = "持久层项目：";
+                        this.ProjectFileLabel2 = "服务层项目：";
                         this.ProjectFileLabel3 = "插件实现项目：";
                     }
 
                     this.RaisePropertyChanged(nameof(ProjectFileLabel1));
                     this.RaisePropertyChanged(nameof(ProjectFileLabel2));
                     this.RaisePropertyChanged(nameof(ProjectFileLabel3));
+                }
+
+                if (e.PropertyName == "Language")
+                {
+                    foreach (var item in Configuration.Tables)
+                    {
+                        item.IsEntityOnly = Configuration.Language == "C#";
+                        item.HasCreate = !item.IsEntityOnly;
+                        item.HasRemove = !item.IsEntityOnly;
+                        item.HasUpdate = !item.IsEntityOnly;
+                        item.HasSingleData = !item.IsEntityOnly;
+                        item.HasSearchData = !item.IsEntityOnly;
+                    }
                 }
             };
 

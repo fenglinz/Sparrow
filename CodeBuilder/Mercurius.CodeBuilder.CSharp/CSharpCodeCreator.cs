@@ -124,12 +124,7 @@ namespace Mercurius.CodeBuilder.CSharp
                                 continue;
                             }
 
-                            if (table.IsEntityOnly && sectionItem.Name != "Entity")
-                            {
-                                continue;
-                            }
-
-                            if (!(table.HasSearchData || table.HasGetAll) && sectionItem.Name == "SearchResponse")
+                            if (table.IsEntityOnly && sectionItem.Name == "SqlMap")
                             {
                                 continue;
                             }

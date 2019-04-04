@@ -180,7 +180,6 @@
     <Compile Include="Service\DtoUtils.cs" />
     <Compile Include="Service\ResponseExtensions.cs" />
     <Compile Include="Service\Response.cs" />
-    <Compile Include="Service\SearchObject.cs" />
     <Compile Include="Service\SelectCriteriaExtension.cs" />
     <Compile Include="Service\ServiceSupport.cs" />
     <Compile Include="Service\CriteriaExtension.cs" />

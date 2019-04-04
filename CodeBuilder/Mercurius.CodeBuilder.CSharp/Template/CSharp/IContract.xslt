@@ -4,7 +4,7 @@
   <xsl:output method="text" indent="yes"/>
   <xsl:include href="Common.xslt" />
   <xsl:template match="root"><![CDATA[// <copyright ]]>file="I<xsl:value-of select="./table/@className" />Service.cs" company="<xsl:value-of select="./copyright"/>"<![CDATA[>
-// 版权所有 © ]]><xsl:value-of select="./copyright"/><![CDATA[. 保留所有权利.
+// 版权所有 © ]]><xsl:value-of select="./copyright"/><![CDATA[, 保留所有权利.
 // </copyright>]]>
 // <![CDATA[<author>]]><xsl:value-of select="./author"/><![CDATA[</author>]]>
 // <![CDATA[<create>]]><xsl:value-of select="./buildDate"/><![CDATA[</create>]]>
@@ -90,7 +90,7 @@ using CSBR.Prime.Core.Services;
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回符合条件的<xsl:value-of select="./table/@description" />查询结果&lt;/returns>
         ResponseSet&lt;<xsl:value-of select="./table/@className"/>> GetAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so);</xsl:if>
-    
+
       <xsl:if test="count(./table[@hasSearchData='true'])=1">
         /// &lt;summary>
         /// 查询并分页获取<xsl:value-of select="./table/@description" />信息。

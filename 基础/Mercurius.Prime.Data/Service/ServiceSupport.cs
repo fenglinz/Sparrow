@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mercurius.Prime.Data.Ado;
+using Mercurius.Prime.Core.Entity;
 using Mercurius.Prime.Data.Dapper;
 
 namespace Mercurius.Prime.Data.Service

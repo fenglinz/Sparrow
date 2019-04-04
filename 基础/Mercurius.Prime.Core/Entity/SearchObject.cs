@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Mercurius.Prime.Core.Configuration;
 
-namespace Mercurius.Prime.Data.Service
+namespace Mercurius.Prime.Core.Entity
 {
     /// <summary>
     /// 查询对象信息。

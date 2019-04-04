@@ -151,7 +151,7 @@ namespace Mercurius.CodeBuilder.Core.Config
 
             if (!string.IsNullOrWhiteSpace(this.SubFolder) && !string.IsNullOrWhiteSpace(this.Extension) && this.Extension.ToLower() == "cs")
             {
-                result = string.Format("{0}.{1}", result, this.SubFolder);
+                result = string.Format("{0}.{1}", result, this.SubFolder.Replace("\\", "."));
             }
 
             return result;
