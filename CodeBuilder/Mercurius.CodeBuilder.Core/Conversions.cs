@@ -53,13 +53,14 @@ namespace Mercurius.CodeBuilder.Core
                 tableElement.SetAttributeValue("camelClassName", table.ClassName.CamelNaming());
                 tableElement.SetAttributeValue("pluralClassName", table.ClassName.PluralClassName());
                 tableElement.SetAttributeValue("description", table.Description.Inline());
-                tableElement.SetAttributeValue("hasCreate", table.HasCreate);
-                tableElement.SetAttributeValue("hasUpdate", table.HasUpdate);
-                tableElement.SetAttributeValue("hasCreateOrUpdate", table.HasCreateOrUpdate);
-                tableElement.SetAttributeValue("hasRemove", table.HasRemove);
-                tableElement.SetAttributeValue("hasSingleData", table.HasSingleData);
-                tableElement.SetAttributeValue("hasGetAll", table.HasGetAll);
-                tableElement.SetAttributeValue("hasSearchData", table.HasSearchData);
+                tableElement.SetAttributeValue("isEditOnly", table.IsEntityOnly);
+                tableElement.SetAttributeValue("hasCreate", table.HasCreate && !table.IsEntityOnly);
+                tableElement.SetAttributeValue("hasUpdate", table.HasUpdate && !table.IsEntityOnly);
+                tableElement.SetAttributeValue("hasCreateOrUpdate", table.HasCreateOrUpdate && !table.IsEntityOnly);
+                tableElement.SetAttributeValue("hasRemove", table.HasRemove && !table.IsEntityOnly);
+                tableElement.SetAttributeValue("hasSingleData", table.HasSingleData && !table.IsEntityOnly);
+                tableElement.SetAttributeValue("hasGetAll", table.HasGetAll && !table.IsEntityOnly);
+                tableElement.SetAttributeValue("hasSearchData", table.HasSearchData && !table.IsEntityOnly);
                 tableElement.SetAttributeValue("hasCreateWebApi", table.HasCreateWebApi);
 
                 foreach (var column in table.Columns)

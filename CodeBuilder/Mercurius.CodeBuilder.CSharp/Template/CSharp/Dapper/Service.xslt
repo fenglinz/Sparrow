@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Mercurius.Prime.Core;
+using Mercurius.Prime.Data;
 using Mercurius.Prime.Data.Service;
 <xsl:call-template name="dependencys" />
 <xsl:call-template name="namespace" />
@@ -29,9 +30,65 @@ using Mercurius.Prime.Data.Service;
         #endregion
 
         #region Public Methods
+
+        /// <![CDATA[<summary>]]>
+        /// 添加<xsl:value-of select="./table/@description" />.
+        /// <![CDATA[</summary>]]>
+        /// &lt;param name="items"><xsl:value-of select="./table/@description"/>&lt;/param>
+        /// &lt;returns>返回结果&lt;/returns>
+        public Response Create(params <xsl:value-of select="./table/@className" />Request[] items)
+        {
+            return this.Create&lt;<xsl:value-of select="./table/@className" />Request, <xsl:value-of select="./table/@className" />>(items);
+        }
+
+        /// &lt;summary>
+        /// 编辑<xsl:value-of select="./table/@description" />.
+        /// &lt;/summary>
+        /// &lt;param name="data">更新数据&lt;/param>
+        /// &lt;param name="action">更新条件设置回调&lt;/param>
+        /// &lt;returns>返回结果&lt;/returns>
+        public Response Update(object data, Action&lt;Criteria&lt;<xsl:value-of select="./table/@className" />>> action = null)
+        {
+            return this.Update&lt;<xsl:value-of select="./table/@className" />Request, <xsl:value-of select="./table/@className" />>(data, action);
+        }
+
+        /// &lt;summary>
+        /// 删除<xsl:value-of select="./table/@description" />.
+        /// &lt;/summary>
+        /// &lt;param name="param">删除条件数据&lt;/param>
+        /// &lt;param name="action">查询条件设置回调&lt;/param>
+        /// &lt;returns>返回结果&lt;/returns>
+        public Response Remove(object param, Action&lt;Criteria&lt;<xsl:value-of select="./table/@className" />>> action = null)
+        {
+            return this.Remove&lt;<xsl:value-of select="./table/@className" />Request, <xsl:value-of select="./table/@className" />>(param, action);
+        }
+
+        /// &lt;summary>
+        /// 获取<xsl:value-of select="./table/@description" />.
+        /// &lt;/summary>
+        /// &lt;param name="so"><xsl:value-of select="./table/@description"/>查询对象&lt;/param>
+        /// &lt;param name="action">查询条件设置回调&lt;/param>
+        /// &lt;param name="selectors">查询返回列&lt;/param>
+        /// &lt;returns>返回结果&lt;/returns>
+        public Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />(object so = null, Action&lt;SelectCriteria> action = null, IEnumerable&lt;string> selectors = null)
+        {
+            return this.QueryForObject&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(selectors, so, action);
+        }
+
+        /// &lt;summary>
+        /// 查询<xsl:value-of select="./table/@description" />.
+        /// &lt;/summary>
+        /// &lt;param name="so"><xsl:value-of select="./table/@description"/>查询对象&lt;/param>
+        /// &lt;param name="action">查询条件设置回调&lt;/param>
+        /// &lt;param name="selectors">查询返回列&lt;/param>
+        /// &lt;returns>返回结果&lt;/returns>
+        public ResponseSet&lt;<xsl:value-of select="./table/@className" />Response> Search<xsl:value-of select="./table/@pluralClassName" />(<xsl:value-of select="./table/@className" />SO so = null, Action&lt;SelectCriteria> action = null, IEnumerable&lt;string> selectors = null)
+        {
+            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(selectors, so, action);
+        }
         <xsl:if test="count(./table[@hasCreate='true'])=1">
         /// <![CDATA[<summary>]]>
-        /// 添加<xsl:value-of select="./table/@description" />。
+        /// 添加<xsl:value-of select="./table/@description" />.
         /// <![CDATA[</summary>]]>
         /// &lt;param name="<xsl:value-of select="./table/@camelClassName" />"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
@@ -42,7 +99,7 @@ using Mercurius.Prime.Data.Service;
         </xsl:if>
         <xsl:if test="count(./table[@hasUpdate='true'])=1">
         /// &lt;summary>
-        /// 编辑<xsl:value-of select="./table/@description" />。
+        /// 编辑<xsl:value-of select="./table/@description" />.
         /// &lt;/summary>
         /// &lt;param name="<xsl:value-of select="./table/@camelClassName"/>"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
@@ -53,7 +110,7 @@ using Mercurius.Prime.Data.Service;
         </xsl:if>
         <xsl:if test="count(./table[@hasCreateOrUpdate='true'])=1">
         /// &lt;summary>
-        /// 添加或者编辑<xsl:value-of select="./table/@description" />
+        /// 添加或者编辑<xsl:value-of select="./table/@description" />.
         /// &lt;/summary>
         /// &lt;param name="<xsl:value-of select="./table/@camelClassName"/>"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回添加或保存结果&lt;/returns>
@@ -66,7 +123,7 @@ using Mercurius.Prime.Data.Service;
         <xsl:choose>
         <xsl:when test="count(./table/column[@isPrimaryKey='true'])=1">
         /// &lt;summary>
-        /// 根据主键删除<xsl:value-of select="./table/@description" />信息。
+        /// 根据主键删除<xsl:value-of select="./table/@description" />信息.
         /// &lt;/summary>
         /// &lt;param name="id"><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>&lt;/param>
         /// &lt;returns>返回删除结果&lt;/returns>
@@ -77,7 +134,7 @@ using Mercurius.Prime.Data.Service;
         </xsl:when>
         <xsl:otherwise>
         /// &lt;summary>
-        /// 根据主键删除<xsl:value-of select="./table/@description" />信息。
+        /// 根据主键删除<xsl:value-of select="./table/@description" />信息.
         /// &lt;/summary><xsl:for-each select="./table/column[@isPrimaryKey='true']">
         /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;returns>返回删除结果&lt;/returns>
@@ -93,7 +150,7 @@ using Mercurius.Prime.Data.Service;
         <xsl:choose>
           <xsl:when test="count(./table/column[@isPrimaryKey='true'])=1">
         /// &lt;summary>
-        /// 根据主键获取<xsl:value-of select="./table/@description" />信息。
+        /// 根据主键获取<xsl:value-of select="./table/@description" />信息.
         /// &lt;/summary>
         /// &lt;param name="id"><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
@@ -104,7 +161,7 @@ using Mercurius.Prime.Data.Service;
         </xsl:when>
         <xsl:otherwise>
         /// &lt;summary>
-        /// 根据主键获取数据。
+        /// 根据主键获取数据.
         /// &lt;/summary><xsl:for-each select="./table/column[@isPrimaryKey='true']">
         /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
@@ -120,7 +177,7 @@ using Mercurius.Prime.Data.Service;
 
      <xsl:if test="count(./table[@hasGetAll='true'])=1">
         /// &lt;summary>
-        /// 查询并分页获取<xsl:value-of select="./table/@description" />信息。
+        /// 查询并分页获取<xsl:value-of select="./table/@description" />信息.
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>
@@ -134,7 +191,7 @@ using Mercurius.Prime.Data.Service;
 
       <xsl:if test="count(./table[@hasSearchData='true'])=1">
         /// &lt;summary>
-        /// 查询并分页获取<xsl:value-of select="./table/@description" />信息。
+        /// 查询并分页获取<xsl:value-of select="./table/@description" />信息.
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>

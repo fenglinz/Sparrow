@@ -21,10 +21,10 @@ namespace Mercurius.Prime.Data.Service
 
         #region Protected Methods
 
-        protected Response Create<TRequest, TEntity>(params TRequest[] datas)
+        protected Response Create<TRequest, TEntity>(params TRequest[] items)
         {
             var rs = new Response();
-            var entities = datas.As<TRequest, TEntity>();
+            var entities = items.As<TRequest, TEntity>();
 
             this.Persistence.Create(entities);
 
@@ -84,19 +84,21 @@ namespace Mercurius.Prime.Data.Service
             return this.QueryForList<TResponse, TEntity>(null, so, action);
         }
 
-        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(out int totalRecords, IEnumerable<string> selectors, SearchObject so = null, Action<SelectCriteria> action = null)
+        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(IEnumerable<string> selectors, SearchObject so = null, Action<SelectCriteria> action = null)
         {
+            var totalRecords = 0;
             var rs = new ResponseSet<TResponse>();
             var entities = this.Persistence.QueryForPagedList<TEntity>(out totalRecords, selectors, so, action);
 
+            rs.TotalRecords = totalRecords;
             rs.Datas = entities.As<TEntity, TResponse>();
 
             return rs;
         }
 
-        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(out int totalRecords, SearchObject so = null, Action<SelectCriteria> action = null)
+        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(SearchObject so = null, Action<SelectCriteria> action = null)
         {
-            return this.QueryForPagedList<TResponse, TEntity>(out totalRecords, null, so, action);
+            return this.QueryForPagedList<TResponse, TEntity>(null, so, action);
         }
 
         /// <summary>

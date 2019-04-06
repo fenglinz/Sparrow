@@ -12,8 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
+using Mercurius.Prime.Core.Entity;
 <xsl:call-template name="namespace" />
 {<xsl:call-template name="entityDescription" />
     [Table("<xsl:value-of select="./table/@table"/>"<xsl:if test="./table/@table='true'">, IsView = true</xsl:if>)]
