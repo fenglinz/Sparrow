@@ -238,19 +238,19 @@ namespace Mercurius.Prime.Data.Dapper
 
         #region QueryForObject
 
-        public T QueryForObject<T>(IEnumerable<string> selectors, object so = null, Action<SelectCriteria> action = null)
+        public T QueryForObject<T>(IEnumerable<string> selectors, object so = null, Action<SelectCriteria<T>> action = null)
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {
-                var commandText = this.CommandTextBuilder.GetQueryForObjectCommandText<T>(selectors, action);
+                var commandText = this.CommandTextBuilder.GetQueryForObjectCommandText(selectors, action);
 
                 return helper.OpenSession().QuerySingleOrDefault<T>(commandText, so);
             }
         }
 
-        public T QueryForObject<T>(object so = null, Action<SelectCriteria> action = null)
+        public T QueryForObject<T>(object so = null, Action<SelectCriteria<T>> action = null)
         {
-            return this.QueryForObject<T>(null, so, action);
+            return this.QueryForObject(null, so, action);
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Mercurius.Prime.Data.Dapper
         /// <returns>查询结果</returns>
         public T QueryForObject<T>(
             StatementNamespace ns, string name, object so = null,
-            Action<SelectCriteria> callback = null, Action<CommandText, T> subQuery = null)
+            Action<SelectCriteria<T>> callback = null, Action<CommandText, T> subQuery = null)
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {
@@ -278,7 +278,7 @@ namespace Mercurius.Prime.Data.Dapper
                 xcommand.Connection = session;
                 xcommand.Criteria = new SelectCriteria<T>(this.CommandTextBuilder);
 
-                callback?.Invoke(xcommand.Criteria as SelectCriteria);
+                callback?.Invoke(xcommand.Criteria as SelectCriteria<T>);
 
                 var data = session.QueryFirstOrDefault<T>(xcommand.EffectiveCommandText, so);
 
@@ -355,11 +355,11 @@ namespace Mercurius.Prime.Data.Dapper
 
         #region QueryForPagedList
 
-        public IEnumerable<T> QueryForPagedList<T>(out int totalRecords, IEnumerable<string> selectors, SearchObject so = null, Action<SelectCriteria> action = null)
+        public IEnumerable<T> QueryForPagedList<T>(out int totalRecords, IEnumerable<string> selectors, SearchObject so = null, Action<SelectCriteria<T>> action = null)
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {
-                var commandTexts = this.CommandTextBuilder.GetQueryForPagedListCommandText<T>(selectors, action);
+                var commandTexts = this.CommandTextBuilder.GetQueryForPagedListCommandText(selectors, action);
                 var connection = helper.OpenSession();
 
                 totalRecords = connection.ExecuteScalar<int>(commandTexts.Item2, so);
@@ -368,9 +368,9 @@ namespace Mercurius.Prime.Data.Dapper
             }
         }
 
-        public IEnumerable<T> QueryForPagedList<T>(out int totalRecords, SearchObject so = null, Action<SelectCriteria> action = null)
+        public IEnumerable<T> QueryForPagedList<T>(out int totalRecords, SearchObject so = null, Action<SelectCriteria<T>> action = null)
         {
-            return this.QueryForPagedList<T>(out totalRecords, null, so, action);
+            return this.QueryForPagedList(out totalRecords, null, so, action);
         }
 
         /// <summary>

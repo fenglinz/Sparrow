@@ -70,7 +70,7 @@ using Mercurius.Prime.Data.Service;
         /// &lt;param name="action">查询条件设置回调&lt;/param>
         /// &lt;param name="selectors">查询返回列&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />(object so = null, Action&lt;SelectCriteria> action = null, IEnumerable&lt;string> selectors = null)
+        public Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />(object so = null, Action&lt;SelectCriteria&lt;<xsl:value-of select="./table/@className" />>> action = null, IEnumerable&lt;string> selectors = null)
         {
             return this.QueryForObject&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(selectors, so, action);
         }
@@ -82,9 +82,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;param name="action">查询条件设置回调&lt;/param>
         /// &lt;param name="selectors">查询返回列&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public ResponseSet&lt;<xsl:value-of select="./table/@className" />Response> Search<xsl:value-of select="./table/@pluralClassName" />(<xsl:value-of select="./table/@className" />SO so = null, Action&lt;SelectCriteria> action = null, IEnumerable&lt;string> selectors = null)
+        public ResponseSet&lt;<xsl:value-of select="./table/@className" />Response> Search<xsl:value-of select="./table/@pluralClassName" />(<xsl:value-of select="./table/@className" />SO so = null, IEnumerable&lt;string> selectors = null)
         {
-            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(selectors, so, action);
+            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(selectors, so<xsl:call-template name="SearchConditions"/>);
         }
         <xsl:if test="count(./table[@hasCreate='true'])=1">
         /// <![CDATA[<summary>]]>
@@ -211,11 +211,11 @@ using Mercurius.Prime.Data.Service;
 
   <xsl:template name="SearchConditions">
     <xsl:if test="count(./table/column[@isSearchCriteria='true'])>0">, <xsl:text xml:space="preserve">
-                </xsl:text>cmd => cmd.Where()<xsl:text xml:space="preserve">
-                          </xsl:text><xsl:for-each select="./table/column[@isSearchCriteria='true']">.Segment("<xsl:value-of select="@propertyName"/>=@<xsl:value-of select="@propertyName"/>", () => so.<xsl:value-of select="@propertyName"/><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">.HasValue</xsl:when><xsl:otherwise>.IsNotBlank()</xsl:otherwise></xsl:choose>)
-    <xsl:text xml:space="preserve">                      </xsl:text>
+                </xsl:text>criteria => criteria.Where()<xsl:text xml:space="preserve">
+                    </xsl:text><xsl:for-each select="./table/column[@isSearchCriteria='true']"><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">.Equal</xsl:when><xsl:otherwise>.Like</xsl:otherwise></xsl:choose>(e => e.<xsl:value-of select="@propertyName"/>)
+                    <xsl:text xml:space="preserve"></xsl:text>
     </xsl:for-each>
     <xsl:text xml:space="preserve">
-            </xsl:text></xsl:if>
+    </xsl:text></xsl:if>
   </xsl:template>
 </xsl:stylesheet>

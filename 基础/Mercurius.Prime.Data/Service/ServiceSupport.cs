@@ -49,7 +49,7 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
-        public Response<TResponse> QueryForObject<TResponse, TEntity>(IEnumerable<string> selectors, object so = null, Action<SelectCriteria> action = null)
+        public Response<TResponse> QueryForObject<TResponse, TEntity>(IEnumerable<string> selectors, object so = null, Action<SelectCriteria<TEntity>> action = null)
         {
             var rs = new Response<TResponse>();
             var entity = this.Persistence.QueryForObject<TEntity>(selectors, so, action);
@@ -59,7 +59,7 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
-        public Response<TResponse> QueryForObject<TResponse, TEntity>(object so = null, Action<SelectCriteria> action = null)
+        public Response<TResponse> QueryForObject<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null)
         {
             var rs = new Response<TResponse>();
             var entity = this.Persistence.QueryForObject<TEntity>(so, action);
@@ -84,11 +84,11 @@ namespace Mercurius.Prime.Data.Service
             return this.QueryForList<TResponse, TEntity>(null, so, action);
         }
 
-        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(IEnumerable<string> selectors, SearchObject so = null, Action<SelectCriteria> action = null)
+        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(IEnumerable<string> selectors, SearchObject so = null, Action<SelectCriteria<TEntity>> action = null)
         {
             var totalRecords = 0;
             var rs = new ResponseSet<TResponse>();
-            var entities = this.Persistence.QueryForPagedList<TEntity>(out totalRecords, selectors, so, action);
+            var entities = this.Persistence.QueryForPagedList(out totalRecords, selectors, so, action);
 
             rs.TotalRecords = totalRecords;
             rs.Datas = entities.As<TEntity, TResponse>();
@@ -96,7 +96,7 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
-        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(SearchObject so = null, Action<SelectCriteria> action = null)
+        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(SearchObject so = null, Action<SelectCriteria<TEntity>> action = null)
         {
             return this.QueryForPagedList<TResponse, TEntity>(null, so, action);
         }

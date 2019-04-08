@@ -2,7 +2,7 @@
 // 版权所有 © 武汉链享医药供应链管理有限公司, 保留所有权利.
 // </copyright>
 // <author>fenglinz</author>
-// <create>2019-04-06</create>
+// <create>2019-04-08</create>
 
 using System;
 using System.Collections.Generic;
@@ -30,11 +30,6 @@ namespace CSBR.SPD.Order.Repository.SearchObjects
         public string HelpCode { get; set; }
         
         /// <summary>
-        /// 上级公司Guid。
-        /// </summary>
-        public string SuperiorCorpGuid { get; set; }
-        
-        /// <summary>
         /// 省份。
         /// </summary>
         public string Province { get; set; }
@@ -48,6 +43,11 @@ namespace CSBR.SPD.Order.Repository.SearchObjects
         /// 区/县/乡。
         /// </summary>
         public string District { get; set; }
+        
+        /// <summary>
+        /// 注册资本(万)。
+        /// </summary>
+        public string RegisteredCapital { get; set; }
         
         #endregion
     }

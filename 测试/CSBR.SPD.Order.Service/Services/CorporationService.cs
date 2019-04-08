@@ -2,7 +2,7 @@
 // 版权所有 © 武汉链享医药供应链管理有限公司, 保留所有权利.
 // </copyright>
 // <author>fenglinz</author>
-// <create>2019-04-06</create>
+// <create>2019-04-08</create>
 
 using System;
 using System.Collections.Generic;
@@ -69,7 +69,7 @@ namespace CSBR.SPD.Order.Service.Services
         /// <param name="action">查询条件设置回调</param>
         /// <param name="selectors">查询返回列</param>
         /// <returns>返回结果</returns>
-        public Response<CorporationResponse> GetCorporation(object so = null, Action<SelectCriteria> action = null, IEnumerable<string> selectors = null)
+        public Response<CorporationResponse> GetCorporation(object so = null, Action<SelectCriteria<Corporation>> action = null, IEnumerable<string> selectors = null)
         {
             return this.QueryForObject<CorporationResponse, Corporation>(selectors, so, action);
         }
@@ -81,9 +81,17 @@ namespace CSBR.SPD.Order.Service.Services
         /// <param name="action">查询条件设置回调</param>
         /// <param name="selectors">查询返回列</param>
         /// <returns>返回结果</returns>
-        public ResponseSet<CorporationResponse> SearchCorporations(CorporationSO so = null, Action<SelectCriteria> action = null, IEnumerable<string> selectors = null)
+        public ResponseSet<CorporationResponse> SearchCorporations(CorporationSO so = null, IEnumerable<string> selectors = null)
         {
-            return this.QueryForPagedList<CorporationResponse, Corporation>(selectors, so, action);
+            return this.QueryForPagedList<CorporationResponse, Corporation>(selectors, so, 
+                criteria => criteria.Where()
+                    .Like(e => e.TenantGuid)
+                    .Like(e => e.HelpCode)
+                    .Like(e => e.Province)
+                    .Like(e => e.City)
+                    .Like(e => e.District)
+                    .Like(e => e.RegisteredCapital)    
+            );
         }
         
         #endregion
