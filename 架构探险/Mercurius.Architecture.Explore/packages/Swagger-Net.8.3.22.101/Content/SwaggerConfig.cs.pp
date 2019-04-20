@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -6,13 +6,13 @@ using System.Web.Http.Description;
 using System.Web.Http.Routing.Constraints;
 using System.Collections.Generic;
 
-using Mercurius.Prime.Boot;
+using $rootnamespace$;
 using Swagger.Net.Application;
 using Swagger.Net;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace Mercurius.Prime.Boot
+namespace $rootnamespace$
 {
     public class SwaggerConfig
     {
@@ -39,7 +39,7 @@ namespace Mercurius.Prime.Boot
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "Mercurius.Prime.Boot");
+                        c.SingleApiVersion("v1", "$rootnamespace$");
 
                         // Taking to long to load the swagger docs? Enable this option to start caching it
                         //
