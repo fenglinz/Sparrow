@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<statements namespace="Mercurius.Prime.Core.MySQL" xmlns="http://www.mercurius.com/CommandText.xsd">
+  <!-- 获取数据库字段信息。 -->
+  <commandText name="GetColumns" commandType="Text">
+    <![CDATA[
+      SELECT 
+        COLUMN_NAME as `Name`,
+        COLUMN_NAME AS `PropertyName`,
+        CASE IS_NULLABLE WHEN 'YES' THEN 1 ELSE 0 END AS `IsNullable`,
+        DATA_TYPE AS `DataType`,
+        CHARACTER_MAXIMUM_LENGTH AS `DataLength`, 
+        CASE WHEN COLUMN_KEY='PRI' THEN 1 ELSE 0 END AS `IsPrimaryKey`,
+        CASE WHEN LOCATE('auto_increment',EXTRA)<>0 THEN 1 ELSE 0 END AS `IsIdentity`,
+        COLUMN_COMMENT AS `Description`,
+        ORDINAL_POSITION AS `Sort`
+      FROM information_schema.`COLUMNS` 
+      WHERE TABLE_SCHEMA=@database AND TABLE_NAME=@table
+    ]]>
+  </commandText>
+
+  <!-- 修改字段注释 -->
+  <commandText name="CommentColumn" commandType="Text">
+    <![CDATA[
+      COMMENT ON COLUMN "{0}"."{1}"."{2}" IS '{3}';
+    ]]>
+  </commandText>
+</statements>

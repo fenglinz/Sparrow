@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<statements namespace="Mercurius.Prime.Core.MSSQL" xmlns="http://www.mercurius.com/CommandText.xsd">
+
+  <!-- 获取数据库信息 -->
+  <commandText name="GetDatabases" commandType="Text">
+    <![CDATA[
+      SELECT * FROM SysDatabases ORDER BY dbid
+    ]]>
+  </commandText>
+
+  <!-- 获取所有表的信息 -->
+  <commandText name="GetTables" commandType="Text">
+    <![CDATA[
+      WITH cte AS(
+        SELECT
+          SCHEMA_NAME(schema_id) AS [Schema],
+          type,
+          name,
+          object_id
+        FROM sys.objects
+        WHERE type IN('U','V') AND Name<>'sysdiagrams'
+      )
+      SELECT
+        cte.[Schema],
+        cte.Name,
+        p.HasIdentityColumn,
+        CASE cte.type WHEN 'U' THEN 0 ELSE 1 END IsView,
+        CASE WHEN a.value IS NULL THEN cte.name ELSE a.value END Comments
+      FROM cte
+      LEFT JOIN sys.extended_properties a
+        ON cte.object_id=a.major_id AND a.minor_id=0
+      OUTER APPLY(
+        SELECT 1 AS HasIdentityColumn FROM syscolumns s WHERE s.id=cte.object_id AND COLUMNPROPERTY(s.id, s.name, 'IsIdentity')=1
+      ) p
+      ORDER BY cte.[schema],cte.Name
+    ]]>
+  </commandText>
+
+  <!-- 获取表的信息 -->
+  <commandText name="GetTable" commandType="Text">
+    <![CDATA[
+      WITH cte AS(
+	    SELECT
+	      SCHEMA_NAME(schema_id) AS [Schema],
+        type,
+        name,
+        object_id
+	    FROM sys.objects
+	    WHERE type IN('U','V') AND Name<>'sysdiagrams'
+      )
+      SELECT
+        cte.[Schema],
+        cte.Name,
+          p.HasIdentityColumn,
+        CASE cte.type WHEN 'U' THEN 0 ELSE 1 END IsView,
+        CASE WHEN a.value IS NULL THEN cte.name ELSE a.value END Comments
+      FROM cte
+      LEFT JOIN sys.extended_properties a
+        ON cte.object_id=a.major_id AND a.minor_id=0
+      OUTER APPLY(
+        SELECT 1 AS HasIdentityColumn FROM syscolumns s WHERE s.id=cte.object_id AND COLUMNPROPERTY(s.id, s.name, 'IsIdentity')=1
+      ) p
+      WHERE cte.[Schema]=@schema AND cte.name=@table
+    ]]>
+  </commandText>
+
+  <!-- 修改表的注释信息 -->
+  <commandText name="Comment" commandType="Text">
+    <![CDATA[
+      IF ((SELECT count(*) from FN_LISTEXTENDEDPROPERTY('MS_Description',N'SCHEMA',@schema,@type,@table,NULL,DEFAULT))>0)
+        EXEC sp_updateextendedproperty
+          @name = N'MS_Description',
+          @value = @comments,
+          @level0type = 'SCHEMA',
+          @level0name = @schema,
+          @level1type = @type,
+          @level1name = @table
+      ELSE
+        EXEC sp_addextendedproperty
+          @name = N'MS_Description',
+          @value = @comments,
+          @level0type = N'SCHEMA',
+          @level0name = @schema,
+          @level1type = @type,
+          @level1name = @table,
+          @level2type = NULL,
+          @level2name = NULL
+    ]]>
+  </commandText>
+</statements>

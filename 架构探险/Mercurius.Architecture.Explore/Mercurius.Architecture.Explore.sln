@@ -15,6 +15,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Prime.Boot", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercurius.Architecture.WebUI", "Mercurius.Architecture.WebUI\Mercurius.Architecture.WebUI.csproj", "{F2865639-D330-4681-9A70-BD058FC2502D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetCore", "NetCore", "{8990EE82-35A7-4E81-87CB-C1DB84B30082}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Goldensoft.Architecture.WebUI", "..\Goldensoft.Architecture.WebUI\Goldensoft.Architecture.WebUI.csproj", "{7DAF98B0-D041-4B9D-9DBC-EA08B8960399}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mercurius.Prime.Core", "..\..\基础\NetCore\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj", "{67F1AF45-C36C-4310-9252-2642FAFCD8BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mercurius.Prime.Data", "..\..\基础\NetCore\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj", "{AF41ABE7-DABC-4C79-9EEB-15E6C0D8C756}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mercurius.Prime.Boot", "..\..\基础\NetCore\Mercurius.Prime.Boot\Mercurius.Prime.Boot.csproj", "{DBD81C83-F686-4467-B413-41B2C6C6AB2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +51,22 @@ Global
 		{F2865639-D330-4681-9A70-BD058FC2502D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2865639-D330-4681-9A70-BD058FC2502D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2865639-D330-4681-9A70-BD058FC2502D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DAF98B0-D041-4B9D-9DBC-EA08B8960399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DAF98B0-D041-4B9D-9DBC-EA08B8960399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DAF98B0-D041-4B9D-9DBC-EA08B8960399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DAF98B0-D041-4B9D-9DBC-EA08B8960399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67F1AF45-C36C-4310-9252-2642FAFCD8BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67F1AF45-C36C-4310-9252-2642FAFCD8BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67F1AF45-C36C-4310-9252-2642FAFCD8BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67F1AF45-C36C-4310-9252-2642FAFCD8BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF41ABE7-DABC-4C79-9EEB-15E6C0D8C756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF41ABE7-DABC-4C79-9EEB-15E6C0D8C756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF41ABE7-DABC-4C79-9EEB-15E6C0D8C756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF41ABE7-DABC-4C79-9EEB-15E6C0D8C756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBD81C83-F686-4467-B413-41B2C6C6AB2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBD81C83-F686-4467-B413-41B2C6C6AB2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBD81C83-F686-4467-B413-41B2C6C6AB2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBD81C83-F686-4467-B413-41B2C6C6AB2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +75,10 @@ Global
 		{5B236DA6-7A5A-48E8-813E-5745B0E50D65} = {3B626C0E-B6D4-4214-8A16-6C2E9E90436F}
 		{784654C8-CC89-4ADF-BB00-1E0085C768DD} = {3B626C0E-B6D4-4214-8A16-6C2E9E90436F}
 		{03C8389A-BC76-404A-AC11-E6D25676BA2B} = {3B626C0E-B6D4-4214-8A16-6C2E9E90436F}
+		{8990EE82-35A7-4E81-87CB-C1DB84B30082} = {3B626C0E-B6D4-4214-8A16-6C2E9E90436F}
+		{67F1AF45-C36C-4310-9252-2642FAFCD8BB} = {8990EE82-35A7-4E81-87CB-C1DB84B30082}
+		{AF41ABE7-DABC-4C79-9EEB-15E6C0D8C756} = {8990EE82-35A7-4E81-87CB-C1DB84B30082}
+		{DBD81C83-F686-4467-B413-41B2C6C6AB2D} = {8990EE82-35A7-4E81-87CB-C1DB84B30082}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DF28CE8-0BD9-4341-B141-E74CB08EE037}
