@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Log;
 using Mercurius.Prime.Data.Parser.Resolver;
 
 namespace Mercurius.Prime.Data.Parser.Builder
 {
     /// <summary>
-    /// 基于mysql的命令生成器.
+    /// 
     /// </summary>
-    public class MySqlCommandTextBuilder : CommandTextBuilder
+    public class SqlClientCommandTextBuilder : CommandTextBuilder
     {
         #region 字段
 
@@ -19,19 +20,19 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// </summary>
         private static readonly Dictionary<CompareType, string> CompareMappings = new Dictionary<CompareType, string>
         {
-            { CompareType.Null, "{1}`{0}` IS NULL " },
-            { CompareType.NotNull, "{1}`{0}` IS NOT NULL " },
-            { CompareType.Equal, "{2}`{0}`=@{1} " },
-            { CompareType.NotEqual, "{2}`{0}`<>@{1} " },
-            { CompareType.Like, "{2}`{0}` LIKE CONCAT('%',@{1},'%') " },
-            { CompareType.StartsWith, "{2}`{0}` LIKE CONCAT(@{1},'%') " },
-            { CompareType.EndsWith, "{2}`{0}` LIKE CONCAT('%',@{1}) " },
-            { CompareType.GreaterThan, "{2}`{0}`>@{1} " },
-            { CompareType.GreaterEqual, "{2}`{0}`>=@{1} " },
-            { CompareType.LessThan, "{2}`{0}`<@{1} " },
-            { CompareType.LessEqual, "{2}`{0}`<=@{1} " },
-            { CompareType.In, "{2}`{0}` IN @{1} " },
-            { CompareType.NotIn, "{2}`{0}` NOT IN @{1} " },
+            { CompareType.Null, "{1}[{0}] IS NULL " },
+            { CompareType.NotNull, "{1}[{0}] IS NOT NULL " },
+            { CompareType.Equal, "{2}[{0}]=@{1} " },
+            { CompareType.NotEqual, "{2}[{0}]<>@{1} " },
+            { CompareType.Like, "{2}[{0}] LIKE '%'+@{1}+'%' " },
+            { CompareType.StartsWith, "{2}[{0}] LIKE @{1}+'%' " },
+            { CompareType.EndsWith, "{2}[{0}] LIKE '%'+@{1} " },
+            { CompareType.GreaterThan, "{2}[{0}]>@{1} " },
+            { CompareType.GreaterEqual, "{2}[{0}]>=@{1} " },
+            { CompareType.LessThan, "{2}[{0}]<@{1} " },
+            { CompareType.LessEqual, "{2}[{0}]<=@{1} " },
+            { CompareType.In, "{2}[{0}] IN @{1} " },
+            { CompareType.NotIn, "{2}[{0}] NOT IN @{1} " },
             { CompareType.None, "{0} " }
         };
 
@@ -41,7 +42,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
         #region 构造方法
 
-        public MySqlCommandTextBuilder()
+        public SqlClientCommandTextBuilder()
         {
             this.Resolver = new EntityResolver();
         }
@@ -61,7 +62,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
             foreach (var item in columns)
             {
-                fields.AppendFormat("`{0}`", item.Name);
+                fields.AppendFormat("[{0}]", item.Name);
                 values.AppendFormat("@{0}", item.PropertyName);
 
                 if (item != columns.Last())
@@ -86,7 +87,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
             foreach (var item in columns)
             {
-                update.AppendFormat("`{0}`=@{1}", item.Name, item.PropertyName);
+                update.AppendFormat("[{0}]=@{1}", item.Name, item.PropertyName);
 
                 if (item != columns.Last())
                 {
@@ -94,7 +95,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
                 }
             }
 
-            return $"UPDATE `{tableName}` SET {update}";
+            return $"UPDATE [{tableName}] SET {update}";
         }
 
         /// <summary>
@@ -104,7 +105,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// <returns>delete sql命令</returns>
         protected override string GetDeleteCommandText(string tableName)
         {
-            return $"DELETE FROM `{tableName}`";
+            return $"DELETE FROM [{tableName}]";
         }
 
         /// <summary>
@@ -119,7 +120,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
             foreach (var item in columns)
             {
-                selectors.AppendFormat("`{0}` AS {1}", item.Name, item.PropertyName);
+                selectors.AppendFormat("[{0}] AS {1}", item.Name, item.PropertyName);
 
                 if (item != columns.Last())
                 {
@@ -127,7 +128,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
                 }
             }
 
-            return $"SELECT {selectors} FROM `{tableName}`";
+            return $"SELECT {selectors} FROM [{tableName}]";
         }
 
         /// <summary>
@@ -137,7 +138,90 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// <returns>查询一条记录的sql命令</returns>
         protected override string QueryForObjectWarpper(string commandText)
         {
-            return $"{commandText} LIMIT 1";
+            return commandText.Replace("SELECT", "SELECT TOP 1");
+        }
+
+        /// <summary>
+        /// 获取分页查询命令
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="selectors">返回列</param>
+        /// <param name="action">查询条件设置回调</param>
+        /// <returns>
+        /// Item1: 查询当前页数据的sql命令
+        /// Item2: 查询符合条件的总记录数
+        /// </returns>
+        public override Tuple<string, string> GetQueryForPagedListCommandText<T>(IEnumerable<string> selectors = null, Action<SelectCriteria<T>> action = null)
+        {
+            var columns = this.Resolver.Resolve<T>();
+            var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
+            {
+                var filters = selectors.IsEmpty() ?
+                     columns :
+                     (from c in columns
+                      where
+                        selectors.Contains(c.PropertyName, StringComparer.OrdinalIgnoreCase) || selectors.Contains(c.Name, StringComparer.OrdinalIgnoreCase)
+                      select c);
+
+                return this.GetQueryCommandText(columns.TableName, columns);
+            });
+
+            // 追加查询条件
+            commandText += this.GetDynamicQuerySegment(action);
+
+            IList<OrderColumn> orders = null;
+
+            // 查询回调处理
+            if (action != null)
+            {
+                var dynamicQuery = new SelectCriteria<T>();
+
+                // 回调处理
+                action.Invoke(dynamicQuery);
+
+                orders = dynamicQuery.OrderBys;
+
+                var segments = this.GetSelectCriteriaSegment(dynamicQuery.Segments, null, null);
+
+                commandText += segments.IsNullOrEmpty() ? string.Empty : $" {(dynamicQuery.NeedWhere ? "WHERE" : string.Empty)}{dynamicQuery.TrimedSqlSegment(segments)} ";
+            }
+
+            if (orders.IsEmpty())
+            {
+                orders = new List<OrderColumn>();
+
+                var finded = columns.Where(c => c.IsIdentity);
+
+                if (finded.IsEmpty())
+                {
+                    orders.Add(new OrderColumn
+                    {
+                        Column = columns.First().Name,
+                        OrderBy = "ASC"
+                    });
+                }
+                else
+                {
+                    foreach (var item in finded)
+                    {
+                        orders.Add(new OrderColumn
+                        {
+                            Column = item.Name,
+                            OrderBy = "ASC"
+                        });
+                    }
+                }
+            }
+
+            var tuple = this.QueryForPagedWarpper(commandText, orders);
+
+            // 记录日志
+            if (this.Logger?.IsEnabledFor(Level.Debug) == true)
+            {
+                this.Logger.WriteFormat(Level.Debug, "表【{0}】的分页查询sql：数据 - {1}，总记录 - {2}", columns.TableName, tuple.Item1, tuple.Item2);
+            }
+
+            return tuple;
         }
 
         /// <summary>
@@ -150,15 +234,27 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// </returns>
         protected override Tuple<string, string> QueryForPagedWarpper(string commandText, IEnumerable<OrderColumn> orderBys)
         {
-            var sql1 = commandText.Replace("SELECT", "SELECT SQL_CALC_FOUND_ROWS");
+            var orderSegment = new StringBuilder();
 
-            sql1 += " LIMIT @OffsetRows, @PageSize";
+            foreach (var item in orderBys)
+            {
+                orderSegment.AppendFormat("{3}[{0}] {1}{2}",
+                        item.Column,
+                        item.OrderBy,
+                        item != orderBys.Last() ? "," : string.Empty,
+                        item.Prefix.IsNullOrEmpty() ? string.Empty : $"{item.Prefix}."
+                );
+            }
+
+            var sql1 = commandText.Replace("SELECT", $"WITH CTE AS(SELECT ROW_NUMBER() OVER(ORDER BY {orderSegment}) AS RowIndex");
+
+            sql1 += " ) SELECT * FROM CTE WHERE RowIndex BETWEEN (@PageIndex-1)*@PageSize+1 AND @PageIndex*@PageSize ORDER BY RowIndex ASC";
 
             return new Tuple<string, string>(sql1, TotalRecordsCommandText);
         }
 
         /// <summary>
-        /// 获取更新、删除条件的sql片段
+        /// 获取过滤条件的sql片段
         /// </summary>
         /// <param name="segments">sql片段对象集合</param>
         /// <returns>sql片段</returns>
@@ -226,7 +322,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
                 foreach (var item in groupBys)
                 {
-                    builder.AppendFormat("{2}`{0}`{1}",
+                    builder.AppendFormat("{2}[{0}]{1}",
                         item.Column,
                         item != groupBys.Last() ? "," : string.Empty,
                         item.Prefix.IsNullOrEmpty() ? string.Empty : $"{item.Prefix}."
@@ -241,7 +337,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
                 foreach (var item in orderBys)
                 {
-                    builder.AppendFormat("{3}`{0}` {1}{2}",
+                    builder.AppendFormat("{3}[{0}] {1}{2}",
                         item.Column,
                         item.OrderBy,
                         item != orderBys.Last() ? "," : string.Empty,
@@ -252,6 +348,5 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
             return $"{commandText}{builder}";
         }
-
     }
 }

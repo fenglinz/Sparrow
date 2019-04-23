@@ -218,7 +218,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// Item1: 查询当前页数据的sql命令
         /// Item2: 查询符合条件的总记录数
         /// </returns>
-        public Tuple<string, string> GetQueryForPagedListCommandText<T>(IEnumerable<string> selectors = null, Action<SelectCriteria<T>> action = null)
+        public virtual Tuple<string, string> GetQueryForPagedListCommandText<T>(IEnumerable<string> selectors = null, Action<SelectCriteria<T>> action = null)
         {
             var columns = this.Resolver.Resolve<T>();
             var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
@@ -236,7 +236,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
             // 追加查询条件
             commandText += this.GetDynamicQuerySegment(action);
 
-            var tuple = this.QueryForPagedWarpper(commandText);
+            var tuple = this.QueryForPagedWarpper(commandText, null);
 
             // 记录日志
             if (this.Logger?.IsEnabledFor(Level.Debug) == true)
@@ -295,7 +295,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// 值1：返回当前页记录的sql命令
         /// 值2：返回符合条件的总记录数
         /// </returns>
-        protected abstract Tuple<string, string> QueryForPagedWarpper(string commandText);
+        protected abstract Tuple<string, string> QueryForPagedWarpper(string commandText, IEnumerable<OrderColumn> orderBys);
 
         /// <summary>
         /// 获取更新、删除条件的sql片段
@@ -346,7 +346,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// </summary>
         /// <param name="action">动态条件设置处理</param>
         /// <returns>动态查询命令片段</returns>
-        private string GetDynamicQuerySegment<T>(Action<SelectCriteria<T>> action)
+        protected string GetDynamicQuerySegment<T>(Action<SelectCriteria<T>> action)
         {
             // 查询回调处理
             if (action != null)
@@ -371,7 +371,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// <param name="type">类型</param>
         /// <param name="func">无缓存时的回调处理</param>
         /// <returns>sql命令</returns>
-        private string CommandTextCacheHandler(string tableName, string type, Func<string> func)
+        protected string CommandTextCacheHandler(string tableName, string type, Func<string> func)
         {
             var cacheKey = $"{this._resolverFullName}_{tableName}_{type}";
 

@@ -94,9 +94,9 @@ namespace Mercurius.Prime.Boot
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", PlatformConfig.Instance.Swagger?.Description);
             });
 
-            Log.Logger = new SerilogLogger().Logger;
+            //Log.Logger = new SerilogLogger().Logger;
 
-            loggerFactory.AddSerilog();
+            //loggerFactory.AddSerilog();
 
             this.OnConfigure(app, env, loggerFactory);
         }
