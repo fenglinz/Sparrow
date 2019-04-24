@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Log;
 using Mercurius.Prime.Data.Parser.Resolver;
 
 namespace Mercurius.Prime.Data.Parser.Builder
@@ -141,18 +142,43 @@ namespace Mercurius.Prime.Data.Parser.Builder
         }
 
         /// <summary>
-        /// 获取分页查询的sql命令
+        /// 获取分页查询命令
         /// </summary>
-        /// <param name="commandText">select sql命令</param>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="selectors">返回列</param>
+        /// <param name="action">查询条件设置回调</param>
         /// <returns>
-        /// 值1：返回当前页记录的sql命令
-        /// 值2：返回符合条件的总记录数
+        /// Item1: 查询当前页数据的sql命令
+        /// Item2: 查询符合条件的总记录数
         /// </returns>
-        protected override Tuple<string, string> QueryForPagedWarpper(string commandText)
+        public override Tuple<string, string> GetQueryForPagedListCommandText<T>(IEnumerable<string> selectors = null, Action<SelectCriteria<T>> action = null)
         {
-            var sql1 = commandText.Replace("SELECT", "SELECT SQL_CALC_FOUND_ROWS");
+            var columns = this.Resolver.Resolve<T>();
+            var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
+            {
+                var filters = selectors.IsEmpty() ?
+                     columns :
+                     (from c in columns
+                      where
+                        selectors.Contains(c.PropertyName, StringComparer.OrdinalIgnoreCase) || selectors.Contains(c.Name, StringComparer.OrdinalIgnoreCase)
+                      select c);
 
-            return new Tuple<string, string>(sql1, TotalRecordsCommandText);
+                return this.GetQueryCommandText(columns.TableName, columns);
+            });
+
+            // 追加查询条件
+            commandText += this.GetDynamicQuerySegment(action);
+
+            var sql = commandText.Replace("SELECT", "SELECT SQL_CALC_FOUND_ROWS") + " LIMIT @OffsetRows, @PageSize";
+            var tuple = new Tuple<string, string>(sql, TotalRecordsCommandText);
+
+            // 记录日志
+            if (this.Logger?.IsEnabledFor(Level.Debug) == true)
+            {
+                this.Logger.WriteFormat(Level.Debug, "表【{0}】的分页查询sql：数据 - {1}，总记录 - {2}", columns.TableName, tuple.Item1, tuple.Item2);
+            }
+
+            return tuple;
         }
 
         /// <summary>

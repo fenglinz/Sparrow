@@ -163,6 +163,7 @@
     <Compile Include="Core\Criteria.cs" />
     <Compile Include="Parser\Builder\CommandTextBuilder.cs" />
     <Compile Include="Parser\Builder\MySqlCommandTextBuilder.cs" />
+    <Compile Include="Parser\Builder\SqlClientCommandTextBuilder.cs" />
     <Compile Include="Parser\Resolver\IResolver.cs" />
     <Compile Include="Parser\TableBaseCommandTextParser.cs" />
     <Compile Include="Parser\XmlCommandTextParser.cs" />

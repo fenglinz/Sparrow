@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 
 namespace Goldensoft.Architecture.WebUI
 {
@@ -18,6 +19,7 @@ namespace Goldensoft.Architecture.WebUI
         public static void Main(string[] args)
         {
             DbProviderFactories.RegisterFactory("MySql.Data.MySqlClient", MySqlClientFactory.Instance);
+            DbProviderFactories.RegisterFactory("System.Data.SqlClient", SqlClientFactory.Instance);
 
             new Bootstrapper().Run<Startup>(args);
         }
