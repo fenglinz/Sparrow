@@ -17,13 +17,13 @@ namespace Mercurius.CodeBuilder.CSharp
             }
 
             var xdocument = XDocument.Load(projectFile);
-            XNamespace xmlns = "http://schemas.microsoft.com/developer/msbuild/2003";
+            XNamespace xmlns = xdocument.Root.Attribute("xmlns")?.Value;
 
             if (item.Parameters?.ContainsKey("References") == true)
             {
                 var items = item.Parameters["References"].Split(',');
 
-                var references = from c in xdocument.Descendants(xmlns + "Reference")
+                var references = from c in xdocument.Descendants(xmlns == null ? "Reference" : xmlns + "Reference")
                                  where items.Contains(c.Attribute("Include").Value)
                                  select c.Attribute("Include").Value;
 
@@ -34,16 +34,15 @@ namespace Mercurius.CodeBuilder.CSharp
                         continue;
                     }
 
-                    var refItem = new XElement(xmlns + "Reference");
+                    var refItem = new XElement(xmlns == null ? "Reference" : xmlns + "Reference");
 
                     refItem.SetAttributeValue("Include", a);
 
-                    xdocument.Descendants(xmlns + "ItemGroup").First().Add(refItem);
+                    xdocument.Descendants(xmlns == null ? "ItemGroup" : xmlns + "ItemGroup").First().Add(refItem);
                 }
 
                 xdocument.Save(projectFile, SaveOptions.None);
             }
-
         }
 
         public static void AddItemGroupItem(string projectFile, string fileName, ItemGroupItemType itemType)
@@ -59,10 +58,18 @@ namespace Mercurius.CodeBuilder.CSharp
             var xdocument = XDocument.Load(projectFile);
             var relativePath = fileName.Replace(Path.GetDirectoryName(projectFile), string.Empty).TrimStart('\\');
 
-            XNamespace xmlns = "http://schemas.microsoft.com/developer/msbuild/2003";
+            XNamespace xmlns = xdocument.Root.Attribute("xmlns")?.Value;
+
+            // net core情况
+            if (xmlns == null)
+            {
+                return;
+            }
 
             var itemTypeName = itemType.ToString();
-            var exist = (from c in xdocument.Descendants(xmlns + itemTypeName)
+            var xname = xmlns + itemTypeName;
+
+            var exist = (from c in xdocument.Descendants(xname)
                          where
                              c.Attribute("Include").Value == relativePath
                          select c).Any();
@@ -72,9 +79,10 @@ namespace Mercurius.CodeBuilder.CSharp
                 return;
             }
 
-            var item = new XElement(xmlns + itemTypeName);
+            var item = new XElement(xname);
 
             item.SetAttributeValue("Include", relativePath);
+
             xdocument.Descendants(xmlns + "ItemGroup").Last().Add(item);
 
             xdocument.Save(projectFile, SaveOptions.None);

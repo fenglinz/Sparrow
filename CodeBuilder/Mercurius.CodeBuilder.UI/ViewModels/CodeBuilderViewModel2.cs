@@ -620,7 +620,9 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
             var xdocument = XDocument.Load(projectFilePath);
             XNamespace xmlns = "http://schemas.microsoft.com/developer/msbuild/2003";
 
-            return xdocument.Root.Descendants(xmlns + "RootNamespace")?.FirstOrDefault()?.Value;
+            var result = xdocument.Root.Descendants(xmlns + "RootNamespace")?.FirstOrDefault()?.Value;
+
+            return result.IsNullOrEmptyValue(Path.GetFileNameWithoutExtension(projectFilePath));
         }
 
         #endregion

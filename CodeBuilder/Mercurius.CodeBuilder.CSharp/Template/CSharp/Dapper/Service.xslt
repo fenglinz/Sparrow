@@ -70,9 +70,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;param name="action">查询条件设置回调&lt;/param>
         /// &lt;param name="selectors">查询返回列&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />(object so = null, Action&lt;SelectCriteria&lt;<xsl:value-of select="./table/@className" />>> action = null, IEnumerable&lt;string> selectors = null)
+        public Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />(object so = null, Action&lt;SelectCriteria&lt;<xsl:value-of select="./table/@className" />>> action = null, params string[] selectors)
         {
-            return this.QueryForObject&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(selectors, so, action);
+            return this.QueryForObject&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(so, action, selectors);
         }
 
         /// &lt;summary>
@@ -82,9 +82,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;param name="action">查询条件设置回调&lt;/param>
         /// &lt;param name="selectors">查询返回列&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public ResponseSet&lt;<xsl:value-of select="./table/@className" />Response> Search<xsl:value-of select="./table/@pluralClassName" />(<xsl:value-of select="./table/@className" />SO so = null, IEnumerable&lt;string> selectors = null)
+        public ResponseSet&lt;<xsl:value-of select="./table/@className" />Response> Search<xsl:value-of select="./table/@pluralClassName" />(<xsl:value-of select="./table/@className" />SO so = null, params string[] selectors)
         {
-            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(selectors, so<xsl:call-template name="SearchConditions"/>);
+            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />SO, <xsl:value-of select="./table/@className" />, <xsl:value-of select="./table/@className" />Response>(so<xsl:call-template name="SearchConditions"/>, selectors);
         }
         <xsl:if test="count(./table[@hasCreate='true'])=1">
         /// <![CDATA[<summary>]]>
@@ -92,7 +92,7 @@ using Mercurius.Prime.Data.Service;
         /// <![CDATA[</summary>]]>
         /// &lt;param name="<xsl:value-of select="./table/@camelClassName" />"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response Create(<xsl:value-of select="./table/@className" /><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
+        public Response Create(<xsl:value-of select="./table/@className" />Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
             return this.Execute(ns, "Create", <xsl:value-of select="./table/@camelClassName" />);
         }
@@ -103,7 +103,7 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="<xsl:value-of select="./table/@camelClassName"/>"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response Update(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
+        public Response Update(<xsl:value-of select="./table/@className"/>Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
             return this.Execute(ns, "Update", <xsl:value-of select="./table/@camelClassName" />);
         }
@@ -114,7 +114,7 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="<xsl:value-of select="./table/@camelClassName"/>"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回添加或保存结果&lt;/returns>
-        public Response CreateOrUpdate(<xsl:value-of select="./table/@className"/><xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
+        public Response CreateOrUpdate(<xsl:value-of select="./table/@className"/>Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
             return this.Execute(ns, "CreateOrUpdate", <xsl:value-of select="./table/@camelClassName" />);
         }
@@ -154,9 +154,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="id"><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
-        public Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
+        public Response&lt;<xsl:value-of select="./table/@className"/>Response> Get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
         {
-            return this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>&gt;(ns, "GetById", new { value = id });
+            return this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "GetById", new { value = id });
         }
         </xsl:when>
         <xsl:otherwise>
@@ -165,11 +165,11 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary><xsl:for-each select="./table/column[@isPrimaryKey='true']">
         /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
-        public Response&lt;<xsl:value-of select="./table/@className"/>> Get<xsl:value-of select="./table/@className"/><xsl:text>ById(</xsl:text><xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>)</xsl:text>
+        public Response&lt;<xsl:value-of select="./table/@className"/>Response> Get<xsl:value-of select="./table/@className"/><xsl:text>ById(</xsl:text><xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>)</xsl:text>
         {
             <xsl:call-template name="GetByIdParams" />
 
-            return this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>&gt;(ns, "GetById", args);
+            return this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "GetById", args);
         }
         </xsl:otherwise>
       </xsl:choose>
@@ -177,15 +177,15 @@ using Mercurius.Prime.Data.Service;
 
      <xsl:if test="count(./table[@hasGetAll='true'])=1">
         /// &lt;summary>
-        /// 查询并分页获取<xsl:value-of select="./table/@description" />信息.
+        /// 查询所有<xsl:value-of select="./table/@description" />信息.
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>
-        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>> GetAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
+        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>Response> GetAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
         {
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
 
-            return this.QueryForList&lt;<xsl:value-of select="./table/@className" />&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
+            return this.QueryForList&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
         }
       </xsl:if>
 
@@ -195,11 +195,11 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>
-        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
+        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>Response> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
         {
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
 
-            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
+            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className"/>SO, <xsl:value-of select="./table/@className" />, <xsl:value-of select="./table/@className"/>Response&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
         }
       </xsl:if>
         #endregion
@@ -212,10 +212,9 @@ using Mercurius.Prime.Data.Service;
   <xsl:template name="SearchConditions">
     <xsl:if test="count(./table/column[@isSearchCriteria='true'])>0">, <xsl:text xml:space="preserve">
                 </xsl:text>criteria => criteria.Where()<xsl:text xml:space="preserve">
-                    </xsl:text><xsl:for-each select="./table/column[@isSearchCriteria='true']"><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">.Equal</xsl:when><xsl:otherwise>.Like</xsl:otherwise></xsl:choose>(e => e.<xsl:value-of select="@propertyName"/>)
+                    </xsl:text><xsl:for-each select="./table/column[@isSearchCriteria='true']"><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">.Equal</xsl:when><xsl:otherwise>.Like</xsl:otherwise></xsl:choose>(e => e.<xsl:value-of select="@propertyName"/>, () => so.<xsl:value-of select="@propertyName"/>.IsNotBlank())
                     <xsl:text xml:space="preserve"></xsl:text>
     </xsl:for-each>
-    <xsl:text xml:space="preserve">
-    </xsl:text></xsl:if>
+<xsl:text xml:space="preserve"></xsl:text></xsl:if>
   </xsl:template>
 </xsl:stylesheet>
