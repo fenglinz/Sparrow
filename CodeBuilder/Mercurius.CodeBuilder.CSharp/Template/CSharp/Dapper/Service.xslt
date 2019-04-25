@@ -84,7 +84,10 @@ using Mercurius.Prime.Data.Service;
         /// &lt;returns>返回结果&lt;/returns>
         public ResponseSet&lt;<xsl:value-of select="./table/@className" />Response> Search<xsl:value-of select="./table/@pluralClassName" />(<xsl:value-of select="./table/@className" />SO so = null, params string[] selectors)
         {
-            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />SO, <xsl:value-of select="./table/@className" />, <xsl:value-of select="./table/@className" />Response>(so<xsl:call-template name="SearchConditions"/>, selectors);
+            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />SO, <xsl:value-of select="./table/@className" />, <xsl:value-of select="./table/@className" />Response>(
+                so<xsl:call-template name="SearchConditions"/>
+                selectors
+            );
         }
         <xsl:if test="count(./table[@hasCreate='true'])=1">
         /// <![CDATA[<summary>]]>
@@ -212,9 +215,8 @@ using Mercurius.Prime.Data.Service;
   <xsl:template name="SearchConditions">
     <xsl:if test="count(./table/column[@isSearchCriteria='true'])>0">, <xsl:text xml:space="preserve">
                 </xsl:text>criteria => criteria.Where()<xsl:text xml:space="preserve">
-                    </xsl:text><xsl:for-each select="./table/column[@isSearchCriteria='true']"><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">.Equal</xsl:when><xsl:otherwise>.Like</xsl:otherwise></xsl:choose>(e => e.<xsl:value-of select="@propertyName"/>, () => so.<xsl:value-of select="@propertyName"/>.IsNotBlank())
-                    <xsl:text xml:space="preserve"></xsl:text>
-    </xsl:for-each>
-<xsl:text xml:space="preserve"></xsl:text></xsl:if>
+                    </xsl:text><xsl:for-each select="./table/column[@isSearchCriteria='true']"><xsl:choose><xsl:when test="@basicType!='string' and @basicType!='String'">.Equal</xsl:when><xsl:otherwise>.Like</xsl:otherwise></xsl:choose>(e => e.<xsl:value-of select="@propertyName"/>, () => so.<xsl:value-of select="@propertyName"/>.IsNotBlank())<xsl:if test="position()!=last()">
+                    <xsl:text xml:space="preserve">
+                    </xsl:text></xsl:if></xsl:for-each>,</xsl:if>
   </xsl:template>
 </xsl:stylesheet>
