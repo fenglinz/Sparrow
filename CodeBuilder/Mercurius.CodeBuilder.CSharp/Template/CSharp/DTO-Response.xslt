@@ -29,7 +29,7 @@ using System.Text;
         /// &lt;summary>
         /// <xsl:value-of select="@description" />.
         /// &lt;/summary>
-        public <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
+        public <xsl:value-of select="@basicType"/><xsl:if test="(@basicType!='string' and @basicType!='String') and @nullable='true'">?</xsl:if><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
 </xsl:for-each>
 </xsl:template>
 </xsl:stylesheet>
