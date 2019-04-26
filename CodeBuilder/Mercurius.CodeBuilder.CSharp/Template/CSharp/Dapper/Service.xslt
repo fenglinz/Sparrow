@@ -64,18 +64,6 @@ using Mercurius.Prime.Data.Service;
         }
 
         /// &lt;summary>
-        /// 获取<xsl:value-of select="./table/@description" />.
-        /// &lt;/summary>
-        /// &lt;param name="so"><xsl:value-of select="./table/@description"/>查询对象&lt;/param>
-        /// &lt;param name="action">查询条件设置回调&lt;/param>
-        /// &lt;param name="selectors">查询返回列&lt;/param>
-        /// &lt;returns>返回结果&lt;/returns>
-        public Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />(object so = null, Action&lt;SelectCriteria&lt;<xsl:value-of select="./table/@className" />>> action = null, params string[] selectors)
-        {
-            return this.QueryForObject&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(so, action, selectors);
-        }
-
-        /// &lt;summary>
         /// 查询<xsl:value-of select="./table/@description" />.
         /// &lt;/summary>
         /// &lt;param name="so"><xsl:value-of select="./table/@description"/>查询对象&lt;/param>
@@ -205,6 +193,22 @@ using Mercurius.Prime.Data.Service;
             return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className"/>SO, <xsl:value-of select="./table/@className" />, <xsl:value-of select="./table/@className"/>Response&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
         }
       </xsl:if>
+        #endregion
+
+        #region Private Methods
+
+        /// &lt;summary>
+        /// 获取<xsl:value-of select="./table/@description" />.
+        /// &lt;/summary>
+        /// &lt;param name="so"><xsl:value-of select="./table/@description"/>查询对象&lt;/param>
+        /// &lt;param name="action">查询条件设置回调&lt;/param>
+        /// &lt;param name="selectors">查询返回列&lt;/param>
+        /// &lt;returns>返回结果&lt;/returns>
+        private Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />(object so = null, Action&lt;SelectCriteria&lt;<xsl:value-of select="./table/@className" />>> action = null, params string[] selectors)
+        {
+            return this.QueryForObject&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(so, action, selectors);
+        }
+
         #endregion
     }
 }
