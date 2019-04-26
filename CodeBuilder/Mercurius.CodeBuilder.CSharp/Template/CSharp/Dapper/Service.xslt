@@ -64,6 +64,20 @@ using Mercurius.Prime.Data.Service;
         }
 
         /// &lt;summary>
+        /// 获取<xsl:value-of select="./table/@description" />.
+        /// &lt;/summary>
+        /// &lt;param name="so"><xsl:value-of select="./table/@description"/>查询对象&lt;/param>
+        /// &lt;param name="action">查询条件设置回调&lt;/param>
+        /// &lt;param name="selectors">查询返回列&lt;/param>
+        /// &lt;returns>返回结果&lt;/returns>
+        public Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />ById(<xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:text>, </xsl:text></xsl:for-each>params string[] selectors)
+        {
+            var so = new { <xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@propertyName"/> = <xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each> };
+
+            return this.Get<xsl:value-of select="./table/@className" />(so, c => c.Where()<xsl:for-each select="./table/column[@isPrimaryKey='true']">.Equal(e => e.<xsl:value-of select="@propertyName"/>)</xsl:for-each>, selectors);
+        }
+
+        /// &lt;summary>
         /// 查询<xsl:value-of select="./table/@description" />.
         /// &lt;/summary>
         /// &lt;param name="so"><xsl:value-of select="./table/@description"/>查询对象&lt;/param>
