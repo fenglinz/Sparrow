@@ -63,6 +63,17 @@ namespace Mercurius.Prime.Core
         }
 
         /// <summary>
+        /// 判断可空类型不为null
+        /// </summary>
+        /// <typeparam name="T">可空类型</typeparam>
+        /// <param name="nullable">可空类型对象</param>
+        /// <returns>判断结果</returns>
+        public static bool IsNotBlank<T>(this T? nullable) where T : struct
+        {
+            return nullable.HasValue;
+        }
+
+        /// <summary>
         /// 判断字符串是否为空(null、空或空白)。
         /// </summary>
         /// <param name="source">字符串</param>
@@ -486,6 +497,30 @@ namespace Mercurius.Prime.Core
         }
 
         #endregion
+
+        /// <summary>
+        /// 将日期转换为时间戳.
+        /// </summary>
+        /// <param name="dateTime">日期</param>
+        /// <returns>时间戳</returns>
+        public static long ToTimeStamp(this DateTime dateTime)
+        {
+            var startTime = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
+
+            return (long)(dateTime - startTime).TotalMilliseconds;
+        }
+
+        /// <summary>
+        /// 从时间戳转换为日期
+        /// </summary>
+        /// <param name="timeStamp">时间戳</param>
+        /// <returns>日期</returns>
+        public static DateTime FromTimeStamp(this long timeStamp)
+        {
+            var startTime = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
+
+            return startTime.AddMilliseconds(timeStamp);
+        }
 
         #endregion
 

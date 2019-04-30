@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 
 namespace Mercurius.Prime.Core.Configuration
@@ -25,6 +19,11 @@ namespace Mercurius.Prime.Core.Configuration
         /// 日志配置信息
         /// </summary>
         public LogConfig Log { get; set; }
+
+        /// <summary>
+        /// oauth认证配置信息
+        /// </summary>
+        public OAuthConfig OAuth { get; set; }
 
         /// <summary>
         /// Swagger配置

@@ -1,16 +1,26 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Mercurius.Prime.Boot.Autofac;
 using Mercurius.Prime.Core.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -27,6 +37,11 @@ namespace Mercurius.Prime.Boot
         /// 配置信息对象
         /// </summary>
         public IConfiguration Configuration { get; private set; }
+
+        /// <summary>
+        /// 应用程序IoC容器
+        /// </summary>
+        public IContainer ApplicationContainer { get; private set; }
 
         #endregion
 
@@ -49,8 +64,51 @@ namespace Mercurius.Prime.Boot
         /// 配置net core服务
         /// </summary>
         /// <param name="services">服务集合</param>
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            // 替换默认依赖注入框架
+            services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Client", policy => policy.RequireRole("Client").Build());
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin").Build());
+                options.AddPolicy("SystemOrAdmin", policy => policy.RequireRole("Admin", "System"));
+            });
+
+            // 认证处理
+            services.AddAuthentication(x =>
+            {
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = PlatformConfig.Instance.OAuth?.Issuer,
+                    ValidAudience = "wr",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(PlatformConfig.Instance.OAuth?.IssuerKey))
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
             // 配置cookie规则
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -58,23 +116,29 @@ namespace Mercurius.Prime.Boot
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            // 替换默认依赖注入框架
-            services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
-
             // 添加跨域访问支持
             services.AddCors(options => options.AddPolicy("AllowAllOrigin",
-                builder => builder.AllowAnyOrigin() // 允许所有请求主机
+                corsBuilder => corsBuilder.AllowAnyOrigin() // 允许所有请求主机
                                   .AllowAnyMethod() // 允许所有请求方式
+                                  .AllowAnyHeader()
                                   .AllowCredentials() // 允许处理cookie 
                 )
             );
 
             // 添加mvc支持
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                             .AddJsonOptions(options =>
-                                // JSON首字母小写解决
-                                options.SerializerSettings.ContractResolver = new DefaultContractResolver()
-                             );
+            services.AddMvc(options =>
+            {
+                
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .AddJsonOptions(options =>
+            {
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+
+                // JSON首字母小写解决
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            })
+            .AddControllersAsServices();
 
             // 添加swagger支持
             services.AddSwaggerGen(options =>
@@ -94,6 +158,11 @@ namespace Mercurius.Prime.Boot
 
             // 调用自定义扩展
             this.OnConfigureServices(services);
+
+            // autofac初始化
+            ContainerManager.Initialize(build => build.Populate(services), this.GetDependencyAssemblies()?.ToArray());
+
+            return new AutofacServiceProvider(ContainerManager.Container);
         }
 
         /// <summary>
@@ -102,7 +171,10 @@ namespace Mercurius.Prime.Boot
         /// <param name="app">应用程序构建器</param>
         /// <param name="env">主机环境信息</param>
         /// <param name="loggerFactory">日志工厂</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory,
+            IApplicationLifetime appLifetime)
         {
             if (env.IsDevelopment())
             {
@@ -121,6 +193,9 @@ namespace Mercurius.Prime.Boot
 
             // 使用跨域访问
             app.UseCors("AllowAllOrigin");
+
+            // 使用权限认证
+            app.UseAuthentication();
 
             // 使用mvc
             app.UseMvc(routes =>
@@ -145,13 +220,10 @@ namespace Mercurius.Prime.Boot
         }
 
         /// <summary>
-        /// 配置autofac容器。
+        /// 获取参与依赖注入的程序集.
         /// </summary>
-        /// <param name="builder">autofac容器对象</param>
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.RegisterModule(new AutofacModule());
-        }
+        /// <returns>程序集集合</returns>
+        protected abstract IEnumerable<Assembly> GetDependencyAssemblies();
 
         /// <summary>
         /// 扩展ConfigureServices：在此方法中添加更多的服务配置

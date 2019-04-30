@@ -19,10 +19,32 @@ namespace Mercurius.Prime.Data.Service
     {
         #region Fields
 
+        /// <summary>
+        /// 线程锁
+        /// </summary>
         private static object locker = new object();
 
-        [ThreadStatic]
+        /// <summary>
+        /// 已经建立类型转换映射的类型
+        /// </summary>
         private static IList<MappedItem> mappedTypes = new List<MappedItem>();
+
+        /// <summary>
+        /// automapper配置对象
+        /// </summary>
+        private static IMapperConfigurationExpression autoMapperConfiguration;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// 静态构造方法
+        /// </summary>
+        static DtoUtils()
+        {
+            Mapper.Initialize(cfg => autoMapperConfiguration = cfg);
+        }
 
         #endregion
 
@@ -40,7 +62,7 @@ namespace Mercurius.Prime.Data.Service
         {
             InitializeMapper<S, T>();
 
-            return s == null ? default : Mapper.Map<T>(s, opts);
+            return s == null ? default : (opts == null ? Mapper.Map<T>(s) : Mapper.Map<T>(s, opts));
         }
 
         /// <summary>
@@ -55,7 +77,7 @@ namespace Mercurius.Prime.Data.Service
         {
             InitializeMapper<S, T>();
 
-            return sources == null ? null : Mapper.Map<IEnumerable<T>>(sources, opts);
+            return sources == null ? null : (opts == null ? Mapper.Map<IEnumerable<T>>(sources) : Mapper.Map<IEnumerable<T>>(sources, opts));
         }
 
         #endregion
@@ -76,10 +98,7 @@ namespace Mercurius.Prime.Data.Service
 
                 if (!mappedTypes.Any(i => i.Source == sourceType && i.Target == targetType))
                 {
-                    Mapper.Initialize(cfg =>
-                    {
-                        cfg.CreateMap<S, T>();
-                    });
+                    autoMapperConfiguration.CreateMap<S, T>();
 
                     mappedTypes.Add(new MappedItem { Source = sourceType, Target = targetType });
                 }

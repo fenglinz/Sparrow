@@ -147,7 +147,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// <param name="selectors">返回列集合</param>
         /// <param name="action">查询条件设置回调</param>
         /// <returns>查询一条记录的sql命令</returns>
-        public string GetQueryForObjectCommandText<T>(IEnumerable<string> selectors = null, Action<SelectCriteria<T>> action = null)
+        public string GetQueryForObjectCommandText<T>(Action<SelectCriteria<T>> action = null, params string[] selectors)
         {
             var columns = this.Resolver.Resolve<T>();
             var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
@@ -181,7 +181,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// <param name="selectors">返回列</param>
         /// <param name="action">查询条件设置回调</param>
         /// <returns>查询所有符合条件记录的sql命令</returns>
-        public string GetQueryForListCommandText<T>(IEnumerable<string> selectors = null, Action<SelectCriteria<T>> action = null)
+        public string GetQueryForListCommandText<T>(Action<SelectCriteria<T>> action = null, params string[] selectors)
         {
             var columns = this.Resolver.Resolve<T>();
             var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
@@ -274,7 +274,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// Item1: 查询当前页数据的sql命令
         /// Item2: 查询符合条件的总记录数
         /// </returns>
-        public abstract Tuple<string, string> GetQueryForPagedListCommandText<T>(IEnumerable<string> selectors = null, Action<SelectCriteria<T>> action = null);
+        public abstract Tuple<string, string> GetQueryForPagedListCommandText<S, T>(Action<SelectCriteria<S>> action = null, params string[] selectors);
 
         #endregion
 

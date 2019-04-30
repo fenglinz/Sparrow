@@ -28,11 +28,11 @@ namespace Mercurius.Prime.Boot
         {
             this.webHost = WebHost.CreateDefaultBuilder(args)
                    //.UseKestrel()
-                   .ConfigureServices(services => services.AddAutofac())
                    .UseContentRoot(Directory.GetCurrentDirectory())
                    //.UseIISIntegration()
                    .UseStartup<T>()
                    .Build();
+
             this.webHost.Run();
         }
     }

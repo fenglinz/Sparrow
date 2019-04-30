@@ -49,17 +49,17 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
-        public Response<TResponse> QueryForObject<TResponse, TEntity>(IEnumerable<string> selectors, object so = null, Action<SelectCriteria<TEntity>> action = null)
+        protected Response<TResponse> QueryForObject<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null, params string[] selectors)
         {
             var rs = new Response<TResponse>();
-            var entity = this.Persistence.QueryForObject<TEntity>(selectors, so, action);
+            var entity = this.Persistence.QueryForObject(so, action, selectors);
 
             rs.Data = entity.As<TEntity, TResponse>();
 
             return rs;
         }
 
-        public Response<TResponse> QueryForObject<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null)
+        protected Response<TResponse> QueryForObject<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null)
         {
             var rs = new Response<TResponse>();
             var entity = this.Persistence.QueryForObject<TEntity>(so, action);
@@ -69,36 +69,26 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
-        public ResponseSet<TResponse> QueryForList<TResponse, TEntity>(IEnumerable<string> selectors, object so = null, Action<SelectCriteria<TEntity>> action = null)
+        protected ResponseSet<TResponse> QueryForList<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null, params string[] selectors)
         {
             var rs = new ResponseSet<TResponse>();
-            var entities = this.Persistence.QueryForList(selectors, so, action);
+            var entities = this.Persistence.QueryForList(so, action, selectors);
 
             rs.Datas = entities.As<TEntity, TResponse>();
 
             return rs;
         }
 
-        public ResponseSet<TResponse> QueryForList<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null)
-        {
-            return this.QueryForList<TResponse, TEntity>(null, so, action);
-        }
-
-        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(IEnumerable<string> selectors, SearchObject so = null, Action<SelectCriteria<TEntity>> action = null)
+        protected ResponseSet<TResponse> QueryForPagedList<TSO, TEntity, TResponse>(TSO so = null, Action<SelectCriteria<TSO>> action = null, params string[] selectors) where TSO : SearchObject, new()
         {
             var totalRecords = 0;
             var rs = new ResponseSet<TResponse>();
-            var entities = this.Persistence.QueryForPagedList(out totalRecords, selectors, so, action);
+            var entities = this.Persistence.QueryForPagedList<TSO, TEntity>(out totalRecords, so, action, selectors);
 
             rs.TotalRecords = totalRecords;
             rs.Datas = entities.As<TEntity, TResponse>();
 
             return rs;
-        }
-
-        public ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(SearchObject so = null, Action<SelectCriteria<TEntity>> action = null)
-        {
-            return this.QueryForPagedList<TResponse, TEntity>(null, so, action);
         }
 
         /// <summary>
@@ -199,7 +189,7 @@ namespace Mercurius.Prime.Data.Service
         /// <param name="subQuery">子查询回调</param>
         /// <returns>返回结果</returns>
         protected ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(StatementNamespace ns, string name,
-            SearchObject so = null, Action<SelectCriteria> callback = null, Action<CommandText, TEntity> subQuery = null)
+            SearchObject so = null, Action<SelectCriteria<TEntity>> callback = null, Action<CommandText, TEntity> subQuery = null)
         {
             so = so ?? new SearchObject();
 

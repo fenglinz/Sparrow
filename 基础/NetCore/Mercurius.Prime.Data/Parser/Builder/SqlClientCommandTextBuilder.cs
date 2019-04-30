@@ -36,8 +36,6 @@ namespace Mercurius.Prime.Data.Parser.Builder
             { CompareType.None, "{0} " }
         };
 
-        private static readonly string TotalRecordsCommandText = "SELECT FOUND_ROWS()";
-
         #endregion
 
         #region 构造方法
@@ -247,7 +245,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// Item1: 查询当前页数据的sql命令
         /// Item2: 查询符合条件的总记录数
         /// </returns>
-        public override Tuple<string, string> GetQueryForPagedListCommandText<T>(IEnumerable<string> selectors = null, Action<SelectCriteria<T>> action = null)
+        public override Tuple<string, string> GetQueryForPagedListCommandText<S, T>(Action<SelectCriteria<S>> action = null, params string[] selectors)
         {
             var columns = this.Resolver.Resolve<T>();
             var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
@@ -266,21 +264,6 @@ namespace Mercurius.Prime.Data.Parser.Builder
             commandText += this.GetDynamicQuerySegment(action);
 
             IList<OrderColumn> orders = null;
-
-            // 查询回调处理
-            if (action != null)
-            {
-                var dynamicQuery = new SelectCriteria<T>();
-
-                // 回调处理
-                action.Invoke(dynamicQuery);
-
-                orders = dynamicQuery.OrderBys;
-
-                var segments = this.GetSelectCriteriaSegment(dynamicQuery.Segments, null, null);
-
-                commandText += segments.IsNullOrEmpty() ? string.Empty : $" {(dynamicQuery.NeedWhere ? "WHERE" : string.Empty)}{dynamicQuery.TrimedSqlSegment(segments)} ";
-            }
 
             if (orders.IsEmpty())
             {
@@ -344,11 +327,13 @@ namespace Mercurius.Prime.Data.Parser.Builder
                 );
             }
 
-            var sql1 = commandText.Replace("SELECT", $"WITH CTE AS(SELECT ROW_NUMBER() OVER(ORDER BY {orderSegment}) AS RowIndex");
+            var sql1 = commandText.Replace("SELECT", $"WITH CTE AS(SELECT ROW_NUMBER() OVER(ORDER BY {orderSegment}) AS RowIndex,");
 
             sql1 += " ) SELECT * FROM CTE WHERE RowIndex BETWEEN (@PageIndex-1)*@PageSize+1 AND @PageIndex*@PageSize ORDER BY RowIndex ASC";
 
-            return new Tuple<string, string>(sql1, TotalRecordsCommandText);
+            var totalRecordsCommandText = $"SELECT COUNT(*) {commandText.Substring(commandText.IndexOf("FROM", StringComparison.OrdinalIgnoreCase))}";
+
+            return new Tuple<string, string>(sql1, totalRecordsCommandText);
         }
 
         #endregion

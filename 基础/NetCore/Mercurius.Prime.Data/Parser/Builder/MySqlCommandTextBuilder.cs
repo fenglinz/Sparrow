@@ -151,7 +151,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// Item1: 查询当前页数据的sql命令
         /// Item2: 查询符合条件的总记录数
         /// </returns>
-        public override Tuple<string, string> GetQueryForPagedListCommandText<T>(IEnumerable<string> selectors = null, Action<SelectCriteria<T>> action = null)
+        public override Tuple<string, string> GetQueryForPagedListCommandText<S, T>(Action<SelectCriteria<S>> action = null, params string[] selectors)
         {
             var columns = this.Resolver.Resolve<T>();
             var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
