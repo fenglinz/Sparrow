@@ -30,8 +30,6 @@ using System.Text;
         /// &lt;summary>
         /// <xsl:value-of select="@description" />.
         /// &lt;/summary>
-        <xsl:if test="@nullable='false'">[Required(AllowEmptyStrings = false, ErrorMessage = "<xsl:value-of select="@description" />不能为空！")]
-        </xsl:if>
         <xsl:if test="(@basicType='string' or @basicType='String') and @length!=-1">[StringLength(<xsl:value-of select="@length" />, ErrorMessage = "<xsl:value-of select="@description" />字符长度不能超过{1}个字符！")]</xsl:if>
         public <xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
 </xsl:for-each>

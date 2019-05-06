@@ -93,6 +93,7 @@
     </None>
     <Content Include="Template\CSharp\Dapper\Service.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Template\CSharp\Dapper\SqlMap.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -114,6 +115,7 @@
     </Content>
     <Content Include="Template\CSharp\SearchResponse.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Template\CSharp\IBatisNet\Service.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
