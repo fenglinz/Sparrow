@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mercurius.Prime.Core.Entity;
 using Mercurius.Prime.Data.Dapper;
 
@@ -21,10 +22,33 @@ namespace Mercurius.Prime.Data.Service
 
         #region Protected Methods
 
-        protected Response Create<TRequest, TEntity>(params TRequest[] items)
+        protected Response Create<TRequest, TEntity>(TRequest item, Action<TEntity> handler = null)
+        {
+            var rs = new Response();
+            var entity = item.As<TRequest, TEntity>();
+
+            if (handler != null)
+            {
+                handler(entity);
+            }
+
+            this.Persistence.Create(entity);
+
+            return rs;
+        }
+
+        protected Response Create<TRequest, TEntity>(IEnumerable<TRequest> items, Action<TEntity> handler = null)
         {
             var rs = new Response();
             var entities = items.As<TRequest, TEntity>();
+
+            if (handler != null)
+            {
+                foreach (var item in entities)
+                {
+                    handler(item);
+                }
+            }
 
             this.Persistence.Create(entities);
 

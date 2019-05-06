@@ -174,7 +174,7 @@ namespace Mercurius.Prime.Core
         /// <param name="separator">分隔符</param>
         /// <param name="handler">回调处理</param>
         /// <returns>串连后的结果</returns>
-        public static string Contract<T>(this IEnumerable<T> sources, string separator = ",", Func<T, string> handler = null)
+        public static string AsConcat<T>(this IEnumerable<T> sources, string separator = ",", Func<T, string> handler = null)
         {
             var result = new StringBuilder();
 
@@ -505,9 +505,7 @@ namespace Mercurius.Prime.Core
         /// <returns>时间戳</returns>
         public static long ToTimeStamp(this DateTime dateTime)
         {
-            var startTime = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Local);
-
-            return (long)(dateTime - startTime).TotalMilliseconds;
+            return (long)(dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
 
         /// <summary>

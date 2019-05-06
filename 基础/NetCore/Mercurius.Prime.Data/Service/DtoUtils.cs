@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Mercurius.Prime.Core;
 
 namespace Mercurius.Prime.Data.Service
 {
@@ -60,9 +61,11 @@ namespace Mercurius.Prime.Data.Service
         /// <returns>目标类型</returns>
         public static T As<S, T>(this S s, Action<IMappingOperationOptions> opts = null)
         {
-            InitializeMapper<S, T>();
+            // InitializeMapper<S, T>();
 
-            return s == null ? default : (opts == null ? Mapper.Map<T>(s) : Mapper.Map<T>(s, opts));
+            // return s == null ? default : (opts == null ? Mapper.Map<T>(s) : Mapper.Map<T>(s, opts));
+
+            return s.AsJson().AsObject<T>();
         }
 
         /// <summary>
@@ -75,9 +78,11 @@ namespace Mercurius.Prime.Data.Service
         /// <returns>目标类型</returns>
         public static IEnumerable<T> As<S, T>(this IEnumerable<S> sources, Action<IMappingOperationOptions> opts = null)
         {
-            InitializeMapper<S, T>();
+            // InitializeMapper<S, T>();
 
-            return sources == null ? null : (opts == null ? Mapper.Map<IEnumerable<T>>(sources) : Mapper.Map<IEnumerable<T>>(sources, opts));
+            // return sources == null ? null : (opts == null ? Mapper.Map<IEnumerable<T>>(sources) : Mapper.Map<IEnumerable<T>>(sources, opts));
+
+            return sources.AsJson().AsObject<IEnumerable<T>>();
         }
 
         #endregion

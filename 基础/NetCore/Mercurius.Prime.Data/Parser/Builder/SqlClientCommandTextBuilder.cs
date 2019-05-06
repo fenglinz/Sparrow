@@ -70,7 +70,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
                 }
             }
 
-            return $"INSERT INTO `{tableName}`({fields}) VALUES({values})";
+            return $"INSERT INTO [{tableName}]({fields}) VALUES({values})";
         }
 
         /// <summary>

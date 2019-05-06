@@ -252,11 +252,6 @@ namespace Mercurius.Prime.Data.Dapper
             }
         }
 
-        public T QueryForObject<T>(object so = null, Action<SelectCriteria<T>> action = null)
-        {
-            return this.QueryForObject(so, action);
-        }
-
         /// <summary>
         /// 返回一条数据。
         /// </summary>

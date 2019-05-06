@@ -22,6 +22,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using NLog.Extensions.Logging;
+using NLog.Web;
+using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Mercurius.Prime.Boot
@@ -128,7 +131,7 @@ namespace Mercurius.Prime.Boot
             // 添加mvc支持
             services.AddMvc(options =>
             {
-                
+
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddJsonOptions(options =>
@@ -148,6 +151,17 @@ namespace Mercurius.Prime.Boot
                     Version = "v1",
                     Title = PlatformConfig.Instance.Swagger?.Title,
                     Description = PlatformConfig.Instance.Swagger?.Description
+                });
+
+                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    In = "header",
+                    Description = "",
+                    Name = "Authorization",
+                    Type = "apiKey"
+                });
+                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                    { "Bearer", Enumerable.Empty<string>() }
                 });
 
                 // 设置swagger文档位置  
@@ -185,6 +199,16 @@ namespace Mercurius.Prime.Boot
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            // 日志处理
+            if (PlatformConfig.Instance.Log?.Type == "ecsearch")
+            {
+                loggerFactory.AddSerilog();
+            }
+            else
+            {
+                loggerFactory.AddNLog();
+            }
+
             // 使用静态资源服务
             app.UseStaticFiles();
 
@@ -211,10 +235,6 @@ namespace Mercurius.Prime.Boot
                 c.DocumentTitle = PlatformConfig.Instance.Swagger?.Title;
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", PlatformConfig.Instance.Swagger?.Description);
             });
-
-            //Log.Logger = new SerilogLogger().Logger;
-
-            //loggerFactory.AddSerilog();
 
             this.OnConfigure(app, env, loggerFactory);
         }
