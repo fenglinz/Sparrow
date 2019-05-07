@@ -23,7 +23,7 @@ using <xsl:value-of select="./rootNamespace" />.Prime.Data.Support;
     [Module("<xsl:value-of select="./table/@moduleDescription"/>")]
     public class <xsl:value-of select="./table/@className"/>Service : ServiceSupport, I<xsl:value-of select="./table/@className" />Service
     {
-        #region 常量
+        #region Fields
     <xsl:choose>
       <xsl:when test="./table/@moduleName=''">
         private static readonly StatementNamespace NS = "<xsl:value-of select="./rootNamespace" />.Repositories.<xsl:value-of select="./table/@className"/>";

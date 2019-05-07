@@ -22,7 +22,7 @@ using Mercurius.Prime.Core.Entity;
     /// &lt;/summary>
     public class <xsl:value-of select="./table/@className"/>SO : SearchObject
     {
-        #region 属性
+        #region Properties
         <xsl:for-each select="./table/column[@isSearchCriteria='true']">
         /// <![CDATA[<summary>]]>
         /// <xsl:value-of select="@description" />。
