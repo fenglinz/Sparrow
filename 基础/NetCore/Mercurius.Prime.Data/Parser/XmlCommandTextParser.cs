@@ -127,11 +127,6 @@ namespace Mercurius.Prime.Data.Parser
             }
         }
 
-        private static void ParseCommandText<T>() where T : class, new()
-        {
-
-        }
-
         #endregion
     }
 }

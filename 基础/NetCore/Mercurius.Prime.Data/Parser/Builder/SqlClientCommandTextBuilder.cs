@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mercurius.Prime.Core;
-using Mercurius.Prime.Core.Log;
 using Mercurius.Prime.Data.Parser.Resolver;
 
 namespace Mercurius.Prime.Data.Parser.Builder
 {
     /// <summary>
-    /// 
+    /// 基于SQL Server的sql命令构建器
     /// </summary>
     public class SqlClientCommandTextBuilder : CommandTextBuilder
     {
-        #region 字段
+        #region Fields
 
         /// <summary>
         /// 比较映射.
@@ -38,8 +37,11 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
         #endregion
 
-        #region 构造方法
+        #region Constructor
 
+        /// <summary>
+        /// 默认构造方法
+        /// </summary>
         public SqlClientCommandTextBuilder()
         {
             this.Resolver = new EntityResolver();
@@ -236,76 +238,6 @@ namespace Mercurius.Prime.Data.Parser.Builder
         }
 
         /// <summary>
-        /// 获取分页查询命令
-        /// </summary>
-        /// <typeparam name="T">实体类型</typeparam>
-        /// <param name="selectors">返回列</param>
-        /// <param name="action">查询条件设置回调</param>
-        /// <returns>
-        /// Item1: 查询当前页数据的sql命令
-        /// Item2: 查询符合条件的总记录数
-        /// </returns>
-        public override Tuple<string, string> GetQueryForPagedListCommandText<S, T>(Action<SelectCriteria<S>> action = null, params string[] selectors)
-        {
-            var columns = this.Resolver.Resolve<T>();
-            var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
-            {
-                var filters = selectors.IsEmpty() ?
-                     columns :
-                     (from c in columns
-                      where
-                        selectors.Contains(c.PropertyName, StringComparer.OrdinalIgnoreCase) || selectors.Contains(c.Name, StringComparer.OrdinalIgnoreCase)
-                      select c);
-
-                return this.GetQueryCommandText(columns.TableName, columns);
-            });
-
-            // 追加查询条件
-            commandText += this.GetDynamicQuerySegment(action);
-
-            IList<OrderColumn> orders = null;
-
-            if (orders.IsEmpty())
-            {
-                orders = new List<OrderColumn>();
-
-                var finded = columns.Where(c => c.IsIdentity);
-
-                if (finded.IsEmpty())
-                {
-                    orders.Add(new OrderColumn
-                    {
-                        Column = columns.First().Name,
-                        OrderBy = "ASC"
-                    });
-                }
-                else
-                {
-                    foreach (var item in finded)
-                    {
-                        orders.Add(new OrderColumn
-                        {
-                            Column = item.Name,
-                            OrderBy = "ASC"
-                        });
-                    }
-                }
-            }
-
-            var tuple = this.QueryForPagedWarpper(commandText, orders);
-
-            // 记录日志
-            if (this.Logger?.IsEnabledFor(Level.Debug) == true)
-            {
-                this.Logger.WriteFormat(Level.Debug, "表【{0}】的分页查询sql：数据 - {1}，总记录 - {2}", columns.TableName, tuple.Item1, tuple.Item2);
-            }
-
-            return tuple;
-        }
-
-        #region Private Methods
-
-        /// <summary>
         /// 获取分页查询的sql命令
         /// </summary>
         /// <param name="commandText">select sql命令</param>
@@ -313,7 +245,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// 值1：返回当前页记录的sql命令
         /// 值2：返回符合条件的总记录数
         /// </returns>
-        private Tuple<string, string> QueryForPagedWarpper(string commandText, IEnumerable<OrderColumn> orderBys)
+        internal override (string QueryCommandText, string TotalCommandText) QueryForPagedWarpper(string commandText, IEnumerable<OrderColumn> orderBys)
         {
             var orderSegment = new StringBuilder();
 
@@ -333,9 +265,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
             var totalRecordsCommandText = $"SELECT COUNT(*) {commandText.Substring(commandText.IndexOf("FROM", StringComparison.OrdinalIgnoreCase))}";
 
-            return new Tuple<string, string>(sql1, totalRecordsCommandText);
+            return (sql1, totalRecordsCommandText);
         }
-
-        #endregion
     }
 }

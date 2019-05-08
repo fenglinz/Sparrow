@@ -16,7 +16,7 @@ namespace Mercurius.Prime.Data.Dapper
     /// </summary>
     public class Persistence
     {
-        #region 字段
+        #region Fields
 
         /// <summary>
         /// 主库数据库连接
@@ -37,7 +37,7 @@ namespace Mercurius.Prime.Data.Dapper
 
         #endregion
 
-        #region 属性
+        #region Properties
 
         /// <summary>
         /// 主库连接配置.
@@ -80,7 +80,7 @@ namespace Mercurius.Prime.Data.Dapper
 
         #endregion
 
-        #region 构造方法
+        #region Constructor
 
         /// <summary>
         /// 默认构造方法
@@ -103,26 +103,15 @@ namespace Mercurius.Prime.Data.Dapper
         /// <param name="executeObject">数据对象</param>
         /// <param name="callback">命令设置回调</param>
         /// <returns>受影响的记录数</returns>
-        public int Execute(
-            StatementNamespace ns, string name,
-            object executeObject = null, Action<CommandText> callback = null)
+        public int Execute(StatementNamespace ns, string name, object executeObject = null)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
             using (var helper = this.GetDbHelper(this.Master))
             {
                 var xcommand = ns.GetXCommand(name);
 
                 Debug.Assert(xcommand != null, "未找到指定的命令配置信息！");
 
-                xcommand.Criteria = new Criteria<object>(this.CommandTextBuilder);
-
-                callback?.Invoke(xcommand);
-
-                return helper.OpenSession().Execute(xcommand.EffectiveCommandText, executeObject);
+                return helper.OpenSession().Execute(xcommand.Text, executeObject);
             }
         }
 
@@ -130,57 +119,22 @@ namespace Mercurius.Prime.Data.Dapper
         /// 执行命令
         /// </summary>
         /// <param name="ns">命令的命名空间</param>
-        /// <param name="name">命名名称</param>
-        /// <param name="callback">查询设置回调</param>
-        /// <param name="transaction">是否启用事务(默认不启用)</param>
-        /// <returns>执行结果</returns>
-        public bool Execute(
-            StatementNamespace ns, string name,
-            Action<CommandText> callback, bool transaction = false)
+        /// <param name="name">命令名称</param>
+        /// <param name="executeObject">数据对象</param>
+        /// <param name="callback">命令设置回调</param>
+        /// <returns>受影响的记录数</returns>
+        public int Execute<T>(StatementNamespace ns, string name, object executeObject, Action<Criteria<T>> action = null)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            var result = false;
-
             using (var helper = this.GetDbHelper(this.Master))
             {
                 var xcommand = ns.GetXCommand(name);
 
-                try
-                {
-                    if (transaction)
-                    {
-                        helper.BeginTransaction();
-                    }
+                Debug.Assert(xcommand != null, "未找到指定的命令配置信息！");
 
-                    var session = helper.OpenSession();
+                var commandText = this.CommandTextBuilder.GetNonQueryCommandText(xcommand, action);
 
-                    xcommand.Connection = session;
-
-                    callback.Invoke(xcommand);
-
-                    if (transaction)
-                    {
-                        helper.Commit();
-                    }
-
-                    result = true;
-                }
-                catch (Exception exp)
-                {
-                    if (transaction)
-                    {
-                        helper.Rollback();
-                    }
-
-                    throw exp;
-                }
+                return helper.OpenSession().Execute(commandText, executeObject);
             }
-
-            return result;
         }
 
         #endregion
@@ -242,6 +196,14 @@ namespace Mercurius.Prime.Data.Dapper
 
         #region QueryForObject
 
+        /// <summary>
+        /// 获取单条实体数据信息
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="so">查询对象</param>
+        /// <param name="action">查询设置回调</param>
+        /// <param name="selectors">返回数据的列</param>
+        /// <returns>实体对象信息</returns>
         public T QueryForObject<T>(object so = null, Action<SelectCriteria<T>> action = null, params string[] selectors)
         {
             using (var helper = this.GetDbHelper(this.Slave))
@@ -268,22 +230,20 @@ namespace Mercurius.Prime.Data.Dapper
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {
-                var xcommand = ns.GetXCommand(name);
+                var command = ns.GetXCommand(name);
 
-                Debug.Assert(xcommand != null, "未找到指定的命令配置信息！");
+                Debug.Assert(command != null, "未找到指定的命令配置信息！");
 
+                var commandText = this.CommandTextBuilder.GetQueryForObjectCommandText(command, callback);
                 var session = helper.OpenSession();
 
-                xcommand.Connection = session;
-                xcommand.Criteria = new SelectCriteria<T>(this.CommandTextBuilder);
+                command.Connection = session;
 
-                callback?.Invoke(xcommand.Criteria as SelectCriteria<T>);
-
-                var data = session.QueryFirstOrDefault<T>(xcommand.EffectiveCommandText, so);
+                var data = session.QueryFirstOrDefault<T>(commandText, so);
 
                 if (subQuery != null && data != null)
                 {
-                    subQuery(xcommand, data);
+                    subQuery(command, data);
                 }
 
                 return data;
@@ -294,6 +254,14 @@ namespace Mercurius.Prime.Data.Dapper
 
         #region QueryForList
 
+        /// <summary>
+        /// 返回所有符合条件的实体数据.
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="so">查询对象</param>
+        /// <param name="action">查询条件设置回调</param>
+        /// <param name="selectors">返回数据的列</param>
+        /// <returns>实体数据集合</returns>
         public IEnumerable<T> QueryForList<T>(object so = null, Action<SelectCriteria<T>> action = null, params string[] selectors)
         {
             using (var helper = this.GetDbHelper(this.Slave))
@@ -302,11 +270,6 @@ namespace Mercurius.Prime.Data.Dapper
 
                 return helper.OpenSession().Query<T>(commandText, so);
             }
-        }
-
-        public IEnumerable<T> QueryForList<T>(object so = null, Action<SelectCriteria<T>> action = null)
-        {
-            return this.QueryForList(so, action);
         }
 
         /// <summary>
@@ -325,24 +288,22 @@ namespace Mercurius.Prime.Data.Dapper
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {
-                var xcommand = ns.GetXCommand(name);
+                var command = ns.GetXCommand(name);
 
-                Debug.Assert(xcommand != null, "未找到指定的命令配置信息！");
+                Debug.Assert(command != null, "未找到指定的命令配置信息！");
 
+                var commandText = this.CommandTextBuilder.GetQueryForListCommandText(command, callback);
                 var session = helper.OpenSession();
 
-                xcommand.Connection = session;
-                xcommand.Criteria = new SelectCriteria<T>(this.CommandTextBuilder);
+                command.Connection = session;
 
-                callback?.Invoke(xcommand.Criteria as SelectCriteria<T>);
-
-                var datas = helper.OpenSession().Query<T>(xcommand.EffectiveCommandText, so);
+                var datas = helper.OpenSession().Query<T>(commandText, so);
 
                 if (subQuery != null && !datas.IsEmpty())
                 {
                     foreach (var item in datas)
                     {
-                        subQuery(xcommand, item);
+                        subQuery(command, item);
                     }
                 }
 
@@ -354,6 +315,16 @@ namespace Mercurius.Prime.Data.Dapper
 
         #region QueryForPagedList
 
+        /// <summary>
+        /// 分页查询并返回实体集合
+        /// </summary>
+        /// <typeparam name="S">查询类型</typeparam>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="totalRecords">总记录数</param>
+        /// <param name="so">查询对象</param>
+        /// <param name="action">查询参数设置回调</param>
+        /// <param name="selectors">返回数据的列</param>
+        /// <returns>实体对象集合</returns>
         public IEnumerable<T> QueryForPagedList<S, T>(out int totalRecords, S so = null, Action<SelectCriteria<S>> action = null, params string[] selectors) where S : SearchObject, new()
         {
             using (var helper = this.GetDbHelper(this.Slave))
@@ -364,9 +335,9 @@ namespace Mercurius.Prime.Data.Dapper
                 so = so ?? new S();
                 var param = new DynamicParameters();
 
-                totalRecords = connection.ExecuteScalar<int>(commandTexts.Item2, so);
+                totalRecords = connection.ExecuteScalar<int>(commandTexts.TotalCommandText, so);
 
-                return connection.Query<T>(commandTexts.Item1, so);
+                return connection.Query<T>(commandTexts.QueryCommandText, so);
             }
         }
 
@@ -381,36 +352,33 @@ namespace Mercurius.Prime.Data.Dapper
         /// <param name="callback">命令设置回调</param>
         /// <param name="subQuery">子查询回调</param>
         /// <returns>查询结果</returns>
-        public IEnumerable<T> QueryForPagedList<T>(
-            StatementNamespace ns, string name,
-            out int totalRecords, SearchObject so = null,
-            Action<SelectCriteria<T>> callback = null, Action<CommandText, T> subQuery = null)
+        public IEnumerable<T> QueryForPagedList<S, T>(
+            StatementNamespace ns,
+            string name,
+            out int totalRecords,
+            S so = null,
+            Action<SelectCriteria<S>> callback = null,
+            Action<CommandText, T> subQuery = null) where S : SearchObject, new()
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {
-                var xcommand = ns.GetXCommand(name);
-
-                Debug.Assert(xcommand != null, "未找到指定的命令配置信息！");
-
-                xcommand.Criteria = new SelectCriteria<T>(this.CommandTextBuilder);
-
-                callback?.Invoke(xcommand.Criteria as SelectCriteria<T>);
+                var command = ns.GetXCommand(name);
 
                 // 分页处理
-                var pagedCommandText = this.PreparePagedCommand(xcommand.EffectiveCommandText);
+                var (QueryCommandText, TotalCommandText) = this.CommandTextBuilder.GetQueryForPagedListCommandText<S, T>(command, callback);
 
                 var session = helper.OpenSession();
-                var pagedList = session.Query<T>(pagedCommandText, so ?? new SearchObject());
+                var pagedList = session.Query<T>(QueryCommandText, so ?? new SearchObject());
 
-                totalRecords = session.ExecuteScalar<int>("SELECT FOUND_ROWS()");
+                totalRecords = session.ExecuteScalar<int>(TotalCommandText);
 
-                xcommand.Connection = session;
+                command.Connection = session;
 
                 if (subQuery != null && !pagedList.IsEmpty())
                 {
                     foreach (var item in pagedList)
                     {
-                        subQuery(xcommand, item);
+                        subQuery(command, item);
                     }
                 }
 
@@ -420,7 +388,7 @@ namespace Mercurius.Prime.Data.Dapper
 
         #endregion
 
-        #region 私有方法
+        #region Private Methods
 
         /// <summary>
         /// 获取数据库操作对象
@@ -435,27 +403,6 @@ namespace Mercurius.Prime.Data.Dapper
             return element == this.Master
                 ? (_masterDbHelper = _masterDbHelper ?? new DbHelper(providerName, connectionString))
                 : (_slaveDbHelper = _slaveDbHelper ?? new DbHelper(providerName, connectionString));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="command"></param>
-        private string PreparePagedCommand(string command)
-        {
-            if (command?.IsNullOrEmpty() != false)
-            {
-                return string.Empty;
-            }
-
-            if (command.StartsWith("select", StringComparison.InvariantCultureIgnoreCase) && !command.ToUpper().Contains("SQL_CALC_FOUND_ROWS"))
-            {
-                command = "SELECT SQL_CALC_FOUND_ROWS " + command.Substring(6);
-            }
-
-            command += " LIMIT @OffsetRows, @PageSize";
-
-            return command;
         }
 
         #endregion

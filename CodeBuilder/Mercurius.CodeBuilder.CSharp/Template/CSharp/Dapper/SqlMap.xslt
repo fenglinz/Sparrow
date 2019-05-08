@@ -1,45 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="1.0" xmlns="http://www.csbr.cn/CommandText.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet version="1.0" xmlns="http://www.mercurius.com/CommandText.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
   <xsl:output method="xml" indent="yes" standalone="yes" encoding="utf-8" cdata-section-elements="commandText attach" />
-  <xsl:preserve-space elements="statements attach"/>
-  <xsl:strip-space elements="statements attach"/>
+  <xsl:preserve-space elements="commandText attach"/>
+  <xsl:strip-space elements="commandText attach"/>
   
   <xsl:template match="root">
-    <statements xmlns="http://www.csbr.cn/CommandText.xsd">
+    <statements xmlns="http://www.mercurius.com/CommandText.xsd">
     <xsl:attribute name="namespace"><xsl:value-of select="./table/@namespace" />.<xsl:value-of select="./table/@className" /></xsl:attribute>
     <xsl:text>
     </xsl:text>
     <xsl:if test="count(./table[@hasCreate='true'])=1">
     <xsl:call-template name="create" />
-    </xsl:if>
     <xsl:text>
     </xsl:text>
+    </xsl:if>
     <xsl:if test="count(./table[@hasUpdate='true'])=1">
     <xsl:call-template name="update" />
-    </xsl:if>
     <xsl:text>
     </xsl:text>
+    </xsl:if>
     <xsl:if test="count(./table[@hasCreateOrUpdate='true'])=1">
     <xsl:call-template name="createOrUpdate" />
-    </xsl:if>
     <xsl:text>
     </xsl:text>
+    </xsl:if>
     <xsl:if test="count(./table[@hasRemove='true'])=1">
     <xsl:call-template name="delete" />
-    </xsl:if>
     <xsl:text>
     </xsl:text>
+    </xsl:if>
     <xsl:if test="count(./table[@hasSingleData='true'])=1">
     <xsl:call-template name="getByKey" />
+    <xsl:text>
+    </xsl:text>
     </xsl:if>
-    <xsl:text>
-    </xsl:text>
-      <xsl:if test="count(./table[@hasSearchData='true'])=1 or count(./table[@hasGetAll='true'])=1">
+    <xsl:if test="count(./table[@hasSearchData='true'])=1 or count(./table[@hasGetAll='true'])=1">
     <xsl:call-template name="search" />
-    <xsl:text>
-    </xsl:text>
-    <xsl:call-template name="searchCount" />
     <xsl:text>
     </xsl:text>
     </xsl:if>
@@ -267,26 +264,13 @@
     <xsl:text>
     </xsl:text>
     <commandText name="GetById" commandType="Text">
-      <xsl:text>
-        SELECT TOP 1 
-      </xsl:text>
-      <xsl:for-each select="./table/column">
-        <xsl:if test="position()=1">
-          <xsl:text>    </xsl:text>
-        </xsl:if>
-        <xsl:text>[</xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>] AS </xsl:text>
-        <xsl:value-of select="@propertyName"/>
-        <xsl:if test="position()!=last()">
-          <xsl:text>,
-          </xsl:text>
+      SELECT TOP 1 <xsl:for-each select="./table/column">
+        [<xsl:value-of select="@name"/>] AS <xsl:value-of select="@propertyName"/>
+        <xsl:if test="position()!=last()"><xsl:text>,</xsl:text>
         </xsl:if>
       </xsl:for-each>
-        FROM <xsl:value-of select="./table/@name" />
-      <xsl:text>
-        WHERE </xsl:text>
-      <xsl:choose>
+      FROM <xsl:value-of select="./table/@name" />
+      WHERE <xsl:choose>
         <xsl:when test="count(./table/column[@isPrimaryKey='true'])=1">
           <xsl:for-each select="./table/column[@isPrimaryKey='true']">
             <xsl:text>[</xsl:text><xsl:value-of select="@name"/>
@@ -310,23 +294,6 @@
     </xsl:text>
   </xsl:template>
 
-  <xsl:template name="searchCount">
-    <xsl:comment>
-      <xsl:text> 返回满足查询条件的记录数。 </xsl:text>
-    </xsl:comment>
-    <xsl:text>
-    </xsl:text>
-    <commandText>
-      <xsl:attribute name="name">Search<xsl:value-of select="./table/@pluralClassName" />Count</xsl:attribute>
-      <xsl:attribute name="commandType">Text</xsl:attribute>
-        SELECT COUNT(*) FROM <xsl:value-of select="./table/@name" />
-      <xsl:text>
-      </xsl:text>
-    </commandText>
-    <xsl:text>
-    </xsl:text>
-  </xsl:template>
-
   <xsl:template name="search">
     <xsl:comment>
       <xsl:text> 分页返回满足查询条件的</xsl:text>
@@ -338,20 +305,10 @@
     <commandText>
       <xsl:attribute name="name">Search<xsl:value-of select="./table/@pluralClassName"/></xsl:attribute>
       <xsl:attribute name="commandType">Text</xsl:attribute>
-      <xsl:text>
-        WITH CTE AS(
-          SELECT
-      </xsl:text>
-          <xsl:text>    </xsl:text><xsl:for-each select="./table/column"><xsl:text>  </xsl:text>[<xsl:value-of select="@name"/>] AS <xsl:value-of select="@propertyName"/>,
-          </xsl:for-each>
-                <xsl:text>  ROW_NUMBER() OVER(ORDER BY </xsl:text><xsl:choose><xsl:when test="count(./table/column[@isPrimaryKey='true'])=1"><xsl:for-each select="./table/column[@isPrimaryKey='true']">[<xsl:value-of select="@name"/>] DESC</xsl:for-each></xsl:when><xsl:when test="count(./table/column[@isPrimaryKey='true'])>1"><xsl:for-each select="./table/column[@isPrimaryKey='true']">[<xsl:value-of select="@name"/>] DESC<xsl:if test="position()!=last()">,</xsl:if></xsl:for-each></xsl:when></xsl:choose>) AS RowIndex
-          FROM <xsl:value-of select="./table/@name" />
-      <xsl:text>
-      </xsl:text>
-        )
-        SELECT * FROM CTE
-        WHERE RowIndex BETWEEN (@PageIndex-1)*@PageSize+1 AND @PageIndex*@PageSize
-        ORDER BY RowIndex ASC
+      SELECT<xsl:for-each select="./table/column">
+        [<xsl:value-of select="@name"/>] AS <xsl:value-of select="@propertyName"/><xsl:if test="position()!=last()">,</xsl:if>
+        </xsl:for-each>
+      FROM <xsl:value-of select="./table/@name" />
     </commandText>
     <xsl:text>
     </xsl:text>

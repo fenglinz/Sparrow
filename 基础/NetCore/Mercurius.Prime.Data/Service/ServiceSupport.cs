@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Entity;
 using Mercurius.Prime.Data.Dapper;
 
@@ -14,6 +15,11 @@ namespace Mercurius.Prime.Data.Service
         #region Properties
 
         /// <summary>
+        /// redis客户端
+        /// </summary>
+        public RedisClient Redis { get; set; }
+
+        /// <summary>
         /// 动态查询对象。
         /// </summary>
         public Persistence Persistence { get; set; }
@@ -22,21 +28,34 @@ namespace Mercurius.Prime.Data.Service
 
         #region Protected Methods
 
+        /// <summary>
+        /// 添加数据
+        /// </summary>
+        /// <typeparam name="TRequest">数据请求类型</typeparam>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <param name="item">数据请求对象</param>
+        /// <param name="handler">添加前的数据处理</param>
+        /// <returns>添加结果</returns>
         protected Response Create<TRequest, TEntity>(TRequest item, Action<TEntity> handler = null)
         {
             var rs = new Response();
             var entity = item.As<TRequest, TEntity>();
 
-            if (handler != null)
-            {
-                handler(entity);
-            }
+            handler?.Invoke(entity);
 
             this.Persistence.Create(entity);
 
             return rs;
         }
 
+        /// <summary>
+        /// 批量添加数据
+        /// </summary>
+        /// <typeparam name="TRequest">数据请求类型</typeparam>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <param name="items">数据请求对象集合</param>
+        /// <param name="handler">添加前的数据处理</param>
+        /// <returns>添加结果</returns>
         protected Response Create<TRequest, TEntity>(IEnumerable<TRequest> items, Action<TEntity> handler = null)
         {
             var rs = new Response();
@@ -55,6 +74,14 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
+        /// <summary>
+        /// 更新数据
+        /// </summary>
+        /// <typeparam name="TRequest">数据请求类型</typeparam>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <param name="data">数据对象</param>
+        /// <param name="action">更新条件设置回调</param>
+        /// <returns>更新结果</returns>
         protected Response Update<TRequest, TEntity>(object data, Action<Criteria<TEntity>> action = null)
         {
             var rs = new Response();
@@ -64,6 +91,14 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
+        /// <summary>
+        /// 删除数据
+        /// </summary>
+        /// <typeparam name="TRequest">数据请求类型</typeparam>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <param name="param">数据对象</param>
+        /// <param name="action">删除条件设置回调</param>
+        /// <returns>删除结果</returns>
         protected Response Remove<TRequest, TEntity>(object param, Action<Criteria<TEntity>> action = null)
         {
             var rs = new Response();
@@ -73,6 +108,15 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
+        /// <summary>
+        /// 返回单条数据
+        /// </summary>
+        /// <typeparam name="TResponse">数据返回类型</typeparam>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <param name="so">查询数据</param>
+        /// <param name="action">查询条件设置回调</param>
+        /// <param name="selectors">数据返回列集合</param>
+        /// <returns>返回结果</returns>
         protected Response<TResponse> QueryForObject<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null, params string[] selectors)
         {
             var rs = new Response<TResponse>();
@@ -83,16 +127,15 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
-        protected Response<TResponse> QueryForObject<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null)
-        {
-            var rs = new Response<TResponse>();
-            var entity = this.Persistence.QueryForObject<TEntity>(so, action);
-
-            rs.Data = entity.As<TEntity, TResponse>();
-
-            return rs;
-        }
-
+        /// <summary>
+        /// 返回所有符合条件的数据
+        /// </summary>
+        /// <typeparam name="TResponse">数据返回类型</typeparam>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <param name="so">查询数据</param>
+        /// <param name="action">查询条件设置回调</param>
+        /// <param name="selectors">数据返回列集合</param>
+        /// <returns>返回结果</returns>
         protected ResponseSet<TResponse> QueryForList<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null, params string[] selectors)
         {
             var rs = new ResponseSet<TResponse>();
@@ -103,33 +146,23 @@ namespace Mercurius.Prime.Data.Service
             return rs;
         }
 
+        /// <summary>
+        /// 分页返回数据
+        /// </summary>
+        /// <typeparam name="TSO">分页查询类型</typeparam>
+        /// <typeparam name="TResponse">数据返回类型</typeparam>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <param name="so">查询数据</param>
+        /// <param name="action">查询条件设置回调</param>
+        /// <param name="selectors">数据返回列集合</param>
+        /// <returns>返回结果</returns>
         protected ResponseSet<TResponse> QueryForPagedList<TSO, TEntity, TResponse>(TSO so = null, Action<SelectCriteria<TSO>> action = null, params string[] selectors) where TSO : SearchObject, new()
         {
-            var totalRecords = 0;
             var rs = new ResponseSet<TResponse>();
-            var entities = this.Persistence.QueryForPagedList<TSO, TEntity>(out totalRecords, so, action, selectors);
+            var entities = this.Persistence.QueryForPagedList<TSO, TEntity>(out var totalRecords, so, action, selectors);
 
             rs.TotalRecords = totalRecords;
             rs.Datas = entities.As<TEntity, TResponse>();
-
-            return rs;
-        }
-
-        /// <summary>
-        /// 执行数据库操作
-        /// </summary>
-        /// <param name="ns">sql命令所在的命名空间</param>
-        /// <param name="name">sql命令名称</param>
-        /// <param name="callback">命令设置回调</param>
-        /// <param name="transaction">是否启用事务(默认不启用)</param>
-        /// <returns>返回结果</returns>
-        protected Response Execute(
-            StatementNamespace ns, string name,
-            Action<CommandText> callback, bool transaction = false)
-        {
-            var rs = new Response();
-
-            this.Persistence.Execute(ns, name, callback, transaction);
 
             return rs;
         }
@@ -142,15 +175,13 @@ namespace Mercurius.Prime.Data.Service
         /// <param name="executeObject">数据对象</param>
         /// <param name="callback">命令执行回调</param>
         /// <returns>操作结果</returns>
-        protected Response Execute(
-            StatementNamespace ns, string name,
-            object executeObject = null, Action<CommandText> callback = null)
+        protected Response Execute(StatementNamespace ns, string name, object executeObject)
         {
             var rs = new Response();
 
             try
             {
-                this.Persistence.Execute(ns, name, executeObject, callback);
+                this.Persistence.Execute(ns, name, executeObject);
             }
             catch (Exception e)
             {
@@ -212,14 +243,13 @@ namespace Mercurius.Prime.Data.Service
         /// <param name="callback">命令设置回调</param>
         /// <param name="subQuery">子查询回调</param>
         /// <returns>返回结果</returns>
-        protected ResponseSet<TResponse> QueryForPagedList<TResponse, TEntity>(StatementNamespace ns, string name,
-            SearchObject so = null, Action<SelectCriteria<TEntity>> callback = null, Action<CommandText, TEntity> subQuery = null)
+        protected ResponseSet<TResponse> QueryForPagedList<TSO, TEntity, TResponse>(StatementNamespace ns, string name,
+            TSO so = null, Action<SelectCriteria<TSO>> callback = null, Action<CommandText, TEntity> subQuery = null) where TSO : SearchObject, new()
         {
-            so = so ?? new SearchObject();
+            so = so ?? new TSO();
 
-            var total = 0;
             var rs = new ResponseSet<TResponse>();
-            var entities = this.Persistence.QueryForPagedList(ns, name, out total, so, callback, subQuery);
+            var entities = this.Persistence.QueryForPagedList(ns, name, out var total, so, callback, subQuery);
 
             rs.TotalRecords = total;
             rs.Datas = entities.As<TEntity, TResponse>();

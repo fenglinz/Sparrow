@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="1.0" xmlns="http://www.csbr.cn/CommandText.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet version="1.0" xmlns="http://www.mercurius.com/CommandText.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
   <xsl:output method="xml" indent="yes" standalone="yes" encoding="utf-8" cdata-section-elements="commandText attach" />
   <xsl:preserve-space elements="commandText attach"/>
   <xsl:strip-space elements="commandText attach"/>
   
   <xsl:template match="root">
-    <statements xmlns="http://www.csbr.cn/CommandText.xsd">
+    <statements xmlns="http://www.mercurius.com/CommandText.xsd">
       <xsl:attribute name="namespace">
         <xsl:value-of select="./table/@namespace" />.<xsl:value-of select="./table/@className" />
       </xsl:attribute>

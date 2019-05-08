@@ -12,7 +12,7 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
     /// <summary>
     /// 服务拦截器。
     /// </summary>
-    public class ServiceInterceptor : StandardInterceptor
+    public class ServiceInterceptor : IInterceptor
     {
         #region 属性
 
@@ -31,19 +31,10 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
         #region 重写基类方法
 
         /// <summary>
-        /// 拦截方法调用前的处理。
-        /// </summary>
-        /// <param name="invocation">拦截信息</param>
-        protected override void PreProceed(IInvocation invocation)
-        {
-            base.PreProceed(invocation);
-        }
-
-        /// <summary>
         /// 拦截方法调用中的处理。
         /// </summary>
         /// <param name="invocation">拦截信息</param>
-        protected override void PerformProceed(IInvocation invocation)
+        public void Intercept(IInvocation invocation)
         {
             var responseType = typeof(Response);
 
@@ -61,7 +52,7 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
                 {
                     try
                     {
-                        base.PerformProceed(invocation);
+                        invocation.Proceed();
                     }
                     catch (Exception exp)
                     {
@@ -80,7 +71,7 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
 
                     if (this.Cache == null || nonCacheAttribute != null)
                     {
-                        base.PerformProceed(invocation);
+                        invocation.Proceed();
 
                         return;
                     }
@@ -108,7 +99,8 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
                             }
                         }
 
-                        base.PerformProceed(invocation);
+                        invocation.Proceed();
+
                         this.Cache.Add(cacheKey, invocation.ReturnValue);
                     }
                     catch (Exception exp)
@@ -127,15 +119,6 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
                 stopwatch.Stop();
                 this.Logger?.AfterExecution(invocation.Method.DeclaringType.Name, invocation.Method.Name, stopwatch.Elapsed, invocation.Arguments, invocation.ReturnValue, type.Name);
             }
-        }
-
-        /// <summary>
-        /// 拦截方法调用后的处理。
-        /// </summary>
-        /// <param name="invocation">拦截信息</param>
-        protected override void PostProceed(IInvocation invocation)
-        {
-            base.PostProceed(invocation);
         }
 
         #endregion

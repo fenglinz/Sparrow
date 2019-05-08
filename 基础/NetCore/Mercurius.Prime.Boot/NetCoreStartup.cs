@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +22,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using NLog.Extensions.Logging;
-using NLog.Web;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -131,7 +129,7 @@ namespace Mercurius.Prime.Boot
             // 添加mvc支持
             services.AddMvc(options =>
             {
-
+                
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddJsonOptions(options =>
@@ -156,7 +154,7 @@ namespace Mercurius.Prime.Boot
                 options.AddSecurityDefinition("Bearer", new ApiKeyScheme
                 {
                     In = "header",
-                    Description = "",
+                    Description = "认证信息格式为：Bearer+空格+access token值",
                     Name = "Authorization",
                     Type = "apiKey"
                 });
@@ -170,11 +168,13 @@ namespace Mercurius.Prime.Boot
                 options.IncludeXmlComments(xmlPath);
             });
 
-            // 调用自定义扩展
-            this.OnConfigureServices(services);
-
             // autofac初始化
             ContainerManager.Initialize(build => build.Populate(services), this.GetDependencyAssemblies()?.ToArray());
+
+            this.ApplicationContainer = ContainerManager.Container;
+
+            // 调用自定义扩展
+            this.OnConfigureServices(services);
 
             return new AutofacServiceProvider(ContainerManager.Container);
         }

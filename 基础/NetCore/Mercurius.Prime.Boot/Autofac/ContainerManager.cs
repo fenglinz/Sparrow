@@ -64,6 +64,9 @@ namespace Mercurius.Prime.Boot.Autofac
                     // 注册缓存。
                     Builder.RegisterType<DefaultCacheProvider>().As<CacheProvider>().InstancePerLifetimeScope();
 
+                    // 注册缓存客户端
+                    Builder.Register(c => new RedisClient()).SingleInstance();
+
                     // 注册动态查询
                     Builder.RegisterType<Persistence>().InstancePerLifetimeScope().OnActivated(p =>
                     {
