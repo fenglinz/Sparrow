@@ -11,7 +11,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Threading.Tasks;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Data;
 using Mercurius.Prime.Data.Service;
@@ -37,9 +37,9 @@ using Mercurius.Prime.Data.Service;
         /// <![CDATA[</summary>]]>
         /// &lt;param name="items"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response Create(params <xsl:value-of select="./table/@className" />Request[] items)
+        public async Task&lt;Response> Create(params <xsl:value-of select="./table/@className" />Request[] items)
         {
-            return this.Create&lt;<xsl:value-of select="./table/@className" />Request, <xsl:value-of select="./table/@className" />>(items);
+            return await this.Create&lt;<xsl:value-of select="./table/@className" />Request, <xsl:value-of select="./table/@className" />>(items);
         }
     </xsl:when>
     <xsl:otherwise>
@@ -48,9 +48,9 @@ using Mercurius.Prime.Data.Service;
         /// <![CDATA[</summary>]]>
         /// &lt;param name="<xsl:value-of select="./table/@camelClassName" />"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response Create(<xsl:value-of select="./table/@className" />Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
+        public async Task&lt;Response> Create(<xsl:value-of select="./table/@className" />Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
-            return this.Execute(ns, "Create", <xsl:value-of select="./table/@camelClassName" />);
+            return await this.Execute(ns, "Create", <xsl:value-of select="./table/@camelClassName" />);
         }
     </xsl:otherwise>
 </xsl:choose>
@@ -62,9 +62,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;param name="data">更新数据&lt;/param>
         /// &lt;param name="action">更新条件设置回调&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response Update(object data, Action&lt;Criteria&lt;<xsl:value-of select="./table/@className" />>> action = null)
+        public async Task&lt;Response> Update(object data, Action&lt;Criteria&lt;<xsl:value-of select="./table/@className" />>> action = null)
         {
-            return this.Update&lt;<xsl:value-of select="./table/@className" />Request, <xsl:value-of select="./table/@className" />>(data, action);
+            return await this.Update&lt;<xsl:value-of select="./table/@className" />Request, <xsl:value-of select="./table/@className" />>(data, action);
         }
     </xsl:when>
     <xsl:otherwise>
@@ -73,9 +73,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="<xsl:value-of select="./table/@camelClassName"/>"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response Update(<xsl:value-of select="./table/@className"/>Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
+        public async Task&lt;Response> Update(<xsl:value-of select="./table/@className"/>Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
-            return this.Execute(ns, "Update", <xsl:value-of select="./table/@camelClassName" />);
+            return await this.Execute(ns, "Update", <xsl:value-of select="./table/@camelClassName" />);
         }
     </xsl:otherwise>
 </xsl:choose>
@@ -85,9 +85,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="<xsl:value-of select="./table/@camelClassName"/>"><xsl:value-of select="./table/@description"/>&lt;/param>
         /// &lt;returns>返回添加或保存结果&lt;/returns>
-        public Response CreateOrUpdate(<xsl:value-of select="./table/@className"/>Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
+        public async Task&lt;Response> CreateOrUpdate(<xsl:value-of select="./table/@className"/>Request<xsl:text> </xsl:text><xsl:value-of select="./table/@camelClassName"/>)
         {
-            return this.Execute(ns, "CreateOrUpdate", <xsl:value-of select="./table/@camelClassName" />);
+            return await this.Execute(ns, "CreateOrUpdate", <xsl:value-of select="./table/@camelClassName" />);
         }
 </xsl:if>
 <xsl:choose>
@@ -98,9 +98,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;param name="param">删除条件数据&lt;/param>
         /// &lt;param name="action">查询条件设置回调&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response Remove(object param, Action&lt;Criteria&lt;<xsl:value-of select="./table/@className" />>> action = null)
+        public async Task&lt;Response> Remove(object param, Action&lt;Criteria&lt;<xsl:value-of select="./table/@className" />>> action = null)
         {
-            return this.Remove&lt;<xsl:value-of select="./table/@className" />Request, <xsl:value-of select="./table/@className" />>(param, action);
+            return await this.Remove&lt;<xsl:value-of select="./table/@className" />Request, <xsl:value-of select="./table/@className" />>(param, action);
         }
     </xsl:when>
     <xsl:otherwise>
@@ -111,9 +111,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="id"><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>&lt;/param>
         /// &lt;returns>返回删除结果&lt;/returns>
-        public Response Remove(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
+        public async Task&lt;Response> Remove(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
         {
-            return this.Execute(ns, "Remove", new { value = id });
+            return await this.Execute(ns, "Remove", new { value = id });
         }
         </xsl:when>
         <xsl:otherwise>
@@ -122,11 +122,11 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary><xsl:for-each select="./table/column[@isPrimaryKey='true']">
         /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;returns>返回删除结果&lt;/returns>
-        public Response Remove(<xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>)</xsl:text>
+        public async Task&lt;Response> Remove(<xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>)</xsl:text>
         {
             <xsl:call-template name="GetByIdParams" />
 
-            return this.Execute(ns, "Remove", args);
+            return await this.Execute(ns, "Remove", args);
         }
         </xsl:otherwise>
       </xsl:choose>
@@ -140,11 +140,11 @@ using Mercurius.Prime.Data.Service;
         /// &lt;param name="<xsl:value-of select="@fieldName"/>"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;param name="selectors">查询返回列&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />ById(<xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:text>, </xsl:text></xsl:for-each>params string[] selectors)
+        public async Task&lt;Response&lt;<xsl:value-of select="./table/@className" />Response>> Get<xsl:value-of select="./table/@className" />ById(<xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:text>, </xsl:text></xsl:for-each>params string[] selectors)
         {
             var so = new { <xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@propertyName"/> = <xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each> };
 
-            return this.Get<xsl:value-of select="./table/@className" />(so, c => c.Where()<xsl:for-each select="./table/column[@isPrimaryKey='true']">.Equal(e => e.<xsl:value-of select="@propertyName"/>)</xsl:for-each>, selectors);
+            return await this.Get<xsl:value-of select="./table/@className" />(so, c => c.Where()<xsl:for-each select="./table/column[@isPrimaryKey='true']">.Equal(e => e.<xsl:value-of select="@propertyName"/>)</xsl:for-each>, selectors);
         }
     </xsl:when>
     <xsl:otherwise>
@@ -155,9 +155,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="id"><xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@description"/>&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
-        public Response&lt;<xsl:value-of select="./table/@className"/>Response> Get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
+        public async Task&lt;Response&lt;<xsl:value-of select="./table/@className"/>Response>> Get<xsl:value-of select="./table/@className"/>ById(<xsl:value-of select="./table/column[@isPrimaryKey='true'][1]/@basicType"/> id)
         {
-            return this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "GetById", new { value = id });
+            return await this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "GetById", new { value = id });
         }
         </xsl:when>
         <xsl:otherwise>
@@ -166,11 +166,11 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary><xsl:for-each select="./table/column[@isPrimaryKey='true']">
         /// &lt;param name="<xsl:value-of select="@fieldName" />"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>查询结果&lt;/returns>
-        public Response&lt;<xsl:value-of select="./table/@className"/>Response> Get<xsl:value-of select="./table/@className"/><xsl:text>ById(</xsl:text><xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>)</xsl:text>
+        public async Task&lt;Response&lt;<xsl:value-of select="./table/@className"/>Response>> Get<xsl:value-of select="./table/@className"/><xsl:text>ById(</xsl:text><xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:if test="position()!=last()"><xsl:text>, </xsl:text></xsl:if></xsl:for-each><xsl:text>)</xsl:text>
         {
             <xsl:call-template name="GetByIdParams" />
 
-            return this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "GetById", args);
+            return await this.QueryForObject&lt;<xsl:value-of select="./table/@className"/>Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "GetById", args);
         }
         </xsl:otherwise>
       </xsl:choose>
@@ -185,9 +185,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;param name="action">查询条件设置回调&lt;/param>
         /// &lt;param name="selectors">查询返回列&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        public ResponseSet&lt;<xsl:value-of select="./table/@className" />Response> Search<xsl:value-of select="./table/@pluralClassName" />(<xsl:value-of select="./table/@className" />SO so = null, params string[] selectors)
+        public async Task&lt;ResponseSet&lt;<xsl:value-of select="./table/@className" />Response>> Search<xsl:value-of select="./table/@pluralClassName" />(<xsl:value-of select="./table/@className" />SO so = null, params string[] selectors)
         {
-            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />SO, <xsl:value-of select="./table/@className" />, <xsl:value-of select="./table/@className" />Response>(
+            return await this.QueryForPagedList&lt;<xsl:value-of select="./table/@className" />SO, <xsl:value-of select="./table/@className" />, <xsl:value-of select="./table/@className" />Response>(
                 so<xsl:call-template name="SearchConditions"/>,
                 selectors
             );
@@ -200,11 +200,11 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>
-        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>Response> GetAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
+        public async Task&lt;ResponseSet&lt;<xsl:value-of select="./table/@className"/>Response>> GetAll<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
         {
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
 
-            return this.QueryForList&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
+            return await this.QueryForList&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
         }
       </xsl:if>
       <xsl:if test="count(./table[@hasSearchData='true'])=1">
@@ -213,11 +213,11 @@ using Mercurius.Prime.Data.Service;
         /// &lt;/summary>
         /// &lt;param name="so">查询条件&lt;/param>
         /// &lt;returns>返回<xsl:value-of select="./table/@description"/>的分页查询结果&lt;/returns>
-        public ResponseSet&lt;<xsl:value-of select="./table/@className"/>Response> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
+        public async Task&lt;ResponseSet&lt;<xsl:value-of select="./table/@className"/>Response>> Search<xsl:value-of select="./table/@pluralClassName"/>(<xsl:value-of select="./table/@className"/><xsl:text>SO </xsl:text>so)
         {
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
 
-            return this.QueryForPagedList&lt;<xsl:value-of select="./table/@className"/>SO, <xsl:value-of select="./table/@className" />, <xsl:value-of select="./table/@className"/>Response&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
+            return await this.QueryForPagedList&lt;<xsl:value-of select="./table/@className"/>SO, <xsl:value-of select="./table/@className" />, <xsl:value-of select="./table/@className"/>Response&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
         }
       </xsl:if>
     </xsl:otherwise>
@@ -233,9 +233,9 @@ using Mercurius.Prime.Data.Service;
         /// &lt;param name="action">查询条件设置回调&lt;/param>
         /// &lt;param name="selectors">查询返回列&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
-        private Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />(object so = null, Action&lt;SelectCriteria&lt;<xsl:value-of select="./table/@className" />>> action = null, params string[] selectors)
+        private async Task&lt;Response&lt;<xsl:value-of select="./table/@className" />Response>> Get<xsl:value-of select="./table/@className" />(object so = null, Action&lt;SelectCriteria&lt;<xsl:value-of select="./table/@className" />>> action = null, params string[] selectors)
         {
-            return this.QueryForObject&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(so, action, selectors);
+            return await this.QueryForObject&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className" />>(so, action, selectors);
         }
 
         #endregion
