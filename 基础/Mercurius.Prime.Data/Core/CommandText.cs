@@ -112,27 +112,5 @@ namespace Mercurius.Prime.Data
         }
 
         #endregion
-
-        #region 业务属性
-
-        /// <summary>
-        /// 查询条件.
-        /// </summary>
-        public Criteria Criteria { get; internal set; }
-
-        public string EffectiveCommandText
-        {
-            get
-            {
-                if (this.Criteria == null)
-                {
-                    return this.Text;
-                }
-
-                return $"{this.Text} {this.Criteria.GetCriteriaSegment()}";
-            }
-        }
-
-        #endregion
     }
 }

@@ -17,7 +17,6 @@ namespace Mercurius.Prime.Data.Parser.Resolver
         /// <summary>
         /// 类型对应的字段信息
         /// </summary>
-        [ThreadStatic]
         private static readonly Dictionary<Type, Columns> typeColumns;
 
         #endregion

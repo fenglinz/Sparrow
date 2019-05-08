@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercurius.Prime.Core;
 
 namespace Mercurius.Prime.Data.Service
 {
@@ -41,8 +42,8 @@ namespace Mercurius.Prime.Data.Service
             {
                 if (this._errorMessage != value)
                 {
-                    this.IsSuccess = false;
                     this._errorMessage = value;
+                    this.IsSuccess = value.IsEmpty();
                 }
             }
         }
