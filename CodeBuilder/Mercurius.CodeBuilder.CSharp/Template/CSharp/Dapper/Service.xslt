@@ -137,7 +137,7 @@ using Mercurius.Prime.Data.Service;
         /// &lt;summary>
         /// 获取<xsl:value-of select="./table/@description" />.
         /// &lt;/summary><xsl:for-each select="./table/column[@isPrimaryKey='true']">
-        /// &lt;param name="<xsl:value-of select="@fieldName"/>"<xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
+        /// &lt;param name="<xsl:value-of select="@fieldName"/>"><xsl:value-of select="@description"/>&lt;/param></xsl:for-each>
         /// &lt;param name="selectors">查询返回列&lt;/param>
         /// &lt;returns>返回结果&lt;/returns>
         public Response&lt;<xsl:value-of select="./table/@className" />Response> Get<xsl:value-of select="./table/@className" />ById(<xsl:for-each select="./table/column[@isPrimaryKey='true']"><xsl:value-of select="@basicType"/><xsl:text> </xsl:text><xsl:value-of select="@fieldName"/><xsl:text>, </xsl:text></xsl:for-each>params string[] selectors)
