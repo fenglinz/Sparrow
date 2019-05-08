@@ -1,4 +1,5 @@
-﻿using Mercurius.Prime.Core;
+﻿using System;
+using Mercurius.Prime.Core;
 
 namespace Mercurius.Prime.Data.Service
 {
@@ -8,6 +9,22 @@ namespace Mercurius.Prime.Data.Service
     public static class ResponseExtensions
     {
         #region 公开方法
+
+        /// <summary>
+        /// 将分页数据转换为集合响应信息
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pagedList"></param>
+        /// <returns></returns>
+        public static ResponseSet<TResponse> AsResponseSet<TEntity, TResponse>(this PagedList<TEntity> pagedList)
+        {
+            return pagedList == null ? null : new ResponseSet<TResponse>
+            {
+                At = DateTime.Now,
+                Datas = pagedList.Datas.As<TEntity, TResponse>(),
+                TotalRecords = pagedList.TotalRecords
+            };
+        }
 
         /// <summary>
         /// 判断是否有数据。
