@@ -363,10 +363,6 @@ namespace Mercurius.Prime.Core
             {
                 result = $"{result.Substring(0, result.Length - 3)}y";
             }
-            else if (result.EndsWith("s", StringComparison.OrdinalIgnoreCase))
-            {
-                result = result.Substring(0, result.Length - 1);
-            }
 
             return result.PascalNaming();
         }
