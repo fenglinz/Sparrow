@@ -3,7 +3,7 @@
     xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
   <xsl:output method="text" indent="yes"/>
   <xsl:include href="Common.xslt" />
-  <xsl:template match="root"><![CDATA[// <copyright ]]>file="<xsl:value-of select="./table/@className" />.cs" company="<xsl:value-of select="./copyright"/>"<![CDATA[>
+  <xsl:template match="root"><![CDATA[// <copyright ]]>file="<xsl:value-of select="./table/@className" />Response.cs" company="<xsl:value-of select="./copyright"/>"<![CDATA[>
 // 版权所有 © ]]><xsl:value-of select="./copyright"/><![CDATA[, 保留所有权利.
 // </copyright>]]>
 // <![CDATA[<author>]]><xsl:value-of select="./author"/><![CDATA[</author>]]>
