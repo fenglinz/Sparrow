@@ -249,17 +249,26 @@ namespace Mercurius.Prime.Data.Parser.Builder
         {
             var orderSegment = new StringBuilder();
 
-            foreach (var item in orderBys)
+            if (orderBys == null)
             {
-                orderSegment.AppendFormat("{3}[{0}] {1}{2}",
-                        item.Column,
-                        item.OrderBy,
-                        item != orderBys.Last() ? "," : string.Empty,
-                        item.Prefix.IsNullOrEmpty() ? string.Empty : $"{item.Prefix}."
-                );
+                orderSegment.Append(commandText.Substring(0, commandText.IndexOf(",")).Substring(6).Trim());
+                orderSegment.Append(" ASC");
+            }
+            else
+            {
+                foreach (var item in orderBys)
+                {
+                    orderSegment.AppendFormat("{3}[{0}] {1}{2}",
+                            item.Column,
+                            item.OrderBy,
+                            item != orderBys.Last() ? "," : string.Empty,
+                            item.Prefix.IsNullOrEmpty() ? string.Empty : $"{item.Prefix}."
+                    );
+                }
             }
 
-            var sql1 = commandText.Replace("SELECT", $"WITH CTE AS(SELECT ROW_NUMBER() OVER(ORDER BY {orderSegment}) AS RowIndex,");
+            var beginIndex = commandText.IndexOf("select", StringComparison.OrdinalIgnoreCase);
+            var sql1 = $"WITH CTE AS(SELECT ROW_NUMBER() OVER(ORDER BY {orderSegment}) AS RowIndex, {commandText.Substring(beginIndex + 6)}";
 
             sql1 += " ) SELECT * FROM CTE WHERE RowIndex BETWEEN (@PageIndex-1)*@PageSize+1 AND @PageIndex*@PageSize ORDER BY RowIndex ASC";
 

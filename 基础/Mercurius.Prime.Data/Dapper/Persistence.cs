@@ -88,8 +88,8 @@ namespace Mercurius.Prime.Data.Dapper
         /// </summary>
         public Persistence()
         {
-            this.Master = PlatformConfig.Instance.ConnectionStrings.Master;
-            this.Slave = PlatformConfig.Instance.ConnectionStrings.Slave;
+            this.Master = PlatformSection.Instance.ConnectionStrings.MasterConnectionString;
+            this.Slave = PlatformSection.Instance.ConnectionStrings.SlaveConnectionString;
         }
 
         #endregion
@@ -604,7 +604,7 @@ namespace Mercurius.Prime.Data.Dapper
                 var session = helper.OpenSession();
 
                 rs.Datas = session.Query<T>(QueryCommandText, so);
-                rs.TotalRecords = session.ExecuteScalar<int>(TotalCommandText);
+                rs.TotalRecords = session.ExecuteScalar<int>(TotalCommandText, so);
 
                 command.Connection = session;
 
@@ -648,7 +648,7 @@ namespace Mercurius.Prime.Data.Dapper
                 var session = helper.OpenSession();
 
                 rs.Datas = await session.QueryAsync<T>(QueryCommandText, so);
-                rs.TotalRecords = await session.ExecuteScalarAsync<int>(TotalCommandText);
+                rs.TotalRecords = await session.ExecuteScalarAsync<int>(TotalCommandText, so);
 
                 command.Connection = session;
 

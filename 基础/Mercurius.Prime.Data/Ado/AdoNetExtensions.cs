@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Reflection;
+using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Entity;
 using Microsoft.VisualBasic;
 
@@ -522,7 +523,16 @@ namespace Mercurius.Prime.Data.Ado
 
                 if (!Convert.IsDBNull(fieldValue))
                 {
-                    property.SetValue(data, Conversion.CTypeDynamic(fieldValue, property.PropertyType));
+                    //if (property.PropertyType == typeof(bool))
+                    //{
+                    //    var fdata = Convert.ToString(fieldValue);
+
+                    //    property.SetValue(data, fdata.IsDigit() ? fdata.AsInt32() != 0 : fdata.IsNotBlank());
+                    //}
+                    //else
+                    {
+                        property.SetValue(data, Conversion.CTypeDynamic(fieldValue, property.PropertyType));
+                    }
                 }
                 else if (!property.PropertyType.IsValueType)
                 {

@@ -148,6 +148,7 @@
     <Compile Include="Core\ConcatType.cs" />
     <Compile Include="Core\GroupColumn.cs" />
     <Compile Include="Core\OrderColumn.cs" />
+    <Compile Include="Core\PagedList.cs" />
     <Compile Include="Core\Segment.cs" />
     <Compile Include="Core\SelectCriteria.cs" />
     <Compile Include="Core\Column.cs" />

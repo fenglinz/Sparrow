@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mercurius.Prime.Core.Cache;
+using Mercurius.Prime.Core.Configuration.Redis;
 using Mercurius.Prime.Core.Entity;
 using Mercurius.Prime.Data.Dapper;
 

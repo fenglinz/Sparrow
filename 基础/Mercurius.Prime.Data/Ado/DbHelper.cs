@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Reflection;
 using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Configuration;
 using Mercurius.Prime.Data.Parser;
 
 namespace Mercurius.Prime.Data.Ado
@@ -67,7 +68,7 @@ namespace Mercurius.Prime.Data.Ado
         /// <param name="connectionStringName">连接配置字符串名称</param>
         public DbHelper(string connectionStringName = "Default")
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName];
+            var connectionString = PlatformSection.Instance.ConnectionStrings.MasterConnectionString;
 
             if (connectionString == null)
             {

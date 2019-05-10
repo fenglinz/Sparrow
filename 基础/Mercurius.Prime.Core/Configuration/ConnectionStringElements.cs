@@ -10,7 +10,7 @@ namespace Mercurius.Prime.Core.Configuration
     /// <summary>
     /// 数据库连接字符串配置集合
     /// </summary>
-    [ConfigurationCollection(typeof(ConnectionStringElement), AddItemName = "connection")]
+    [ConfigurationCollection(typeof(ConnectionStringConfig), AddItemName = "connection")]
     public class ConnectionStringElements : ConfigurationElementCollection
     {
         #region 属性
@@ -31,12 +31,12 @@ namespace Mercurius.Prime.Core.Configuration
         /// <summary>
         /// 获取主数据库地址.
         /// </summary>
-        public ConnectionStringElement MasterConnectionString => GetConnectionString(this.Master);
+        public ConnectionStringConfig MasterConnectionString => GetConnectionString(this.Master);
 
         /// <summary>
         /// 获取从数据库地址(如未配置从数据库则采用主数据库的配置)
         /// </summary>
-        public ConnectionStringElement SlaveConnectionString => GetConnectionString(this.Slave.IsNullOrEmptyValue(this.Master));
+        public ConnectionStringConfig SlaveConnectionString => GetConnectionString(this.Slave.IsNullOrEmptyValue(this.Master));
 
         #endregion
 
@@ -46,11 +46,11 @@ namespace Mercurius.Prime.Core.Configuration
         /// 创建新的元素
         /// </summary>
         /// <returns>数据库连接字符串配置对象</returns>
-        protected override ConfigurationElement CreateNewElement() => new ConnectionStringElement();
+        protected override ConfigurationElement CreateNewElement() => new ConnectionStringConfig();
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return (element as ConnectionStringElement)?.Name;
+            return (element as ConnectionStringConfig)?.Name;
         }
 
         #endregion
@@ -62,14 +62,14 @@ namespace Mercurius.Prime.Core.Configuration
         /// </summary>
         /// <param name="name">数据库连接字符串配置名称</param>
         /// <returns>数据库连接字符串</returns>
-        public ConnectionStringElement GetConnectionString(string name)
+        public ConnectionStringConfig GetConnectionString(string name)
         {
             if (this.IsEmpty())
             {
                 return null;
             }
 
-            foreach (ConnectionStringElement item in this)
+            foreach (ConnectionStringConfig item in this)
             {
                 if (item.Name == name)
                 {
@@ -92,7 +92,7 @@ namespace Mercurius.Prime.Core.Configuration
 
                 foreach (var item in this)
                 {
-                    var el = item as ConnectionStringElement;
+                    var el = item as ConnectionStringConfig;
 
                     builder.Append($"    名称：{el.Name}，提供者：{el.Provider}，主机：{el.Host}，端口：{el.Port}，账号：{el.Account}, 密码：{el.Password}\n");
                 }
@@ -105,7 +105,7 @@ namespace Mercurius.Prime.Core.Configuration
     /// <summary>
     /// 数据库连接字符串配置
     /// </summary>
-    public class ConnectionStringElement : ConfigurationElement
+    public class ConnectionStringConfig : ConfigurationElement
     {
         #region 字段
 
