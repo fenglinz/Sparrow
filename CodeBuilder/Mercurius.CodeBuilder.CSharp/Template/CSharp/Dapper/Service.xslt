@@ -19,7 +19,7 @@ using Mercurius.Prime.Data.Service;
 <xsl:call-template name="namespace" />
 {
     /// <![CDATA[<summary>]]>
-    /// <xsl:value-of select="./table/@description" />业务逻辑接口实现.
+    /// <xsl:value-of select="./table/@description" />业务服务.
     /// <![CDATA[</summary>]]>
     public class <xsl:value-of select="./table/@className"/>Service : ServiceSupport
     {
