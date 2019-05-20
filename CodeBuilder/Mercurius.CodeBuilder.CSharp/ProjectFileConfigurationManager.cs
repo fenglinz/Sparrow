@@ -52,8 +52,10 @@ namespace Mercurius.CodeBuilder.CSharp
                 return;
             }
 
-            var file = new FileInfo(fileName);
-            file.Attributes = FileAttributes.Normal;
+            var file = new FileInfo(fileName)
+            {
+                Attributes = FileAttributes.Normal
+            };
 
             var xdocument = XDocument.Load(projectFile);
             var relativePath = fileName.Replace(Path.GetDirectoryName(projectFile), string.Empty).TrimStart('\\');
@@ -63,6 +65,29 @@ namespace Mercurius.CodeBuilder.CSharp
             // net core情况
             if (xmlns == null)
             {
+                if (itemType == ItemGroupItemType.EmbeddedResource)
+                {
+                    XName xname2 = itemType.ToString();
+
+                    var exist2 = (from c in xdocument.Descendants(xname2)
+                                 where
+                                     c.Attribute("Include").Value == relativePath
+                                 select c).Any();
+
+                    if (exist2)
+                    {
+                        return;
+                    }
+
+                    var item2 = new XElement(xname2);
+
+                    item2.SetAttributeValue("Include", relativePath);
+
+                    xdocument.Descendants(xmlns + "ItemGroup").Last().Add(item2);
+
+                    xdocument.Save(projectFile, SaveOptions.None);
+                }
+
                 return;
             }
 
