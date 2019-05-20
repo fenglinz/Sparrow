@@ -83,7 +83,7 @@ namespace Mercurius.CodeBuilder.CSharp
 
                     item2.SetAttributeValue("Include", relativePath);
 
-                    xdocument.Descendants(xmlns + "ItemGroup").Last().Add(item2);
+                    xdocument.Descendants("ItemGroup").Last().Add(item2);
 
                     xdocument.Save(projectFile, SaveOptions.None);
                 }
