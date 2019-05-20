@@ -1,65 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <config>
-  <item name="Entity"
-        template="Entity.xslt"
-        module="interface"
-        fileFormat="{0}"
-        subFolder="Entities"
-        extension="cs"
-        handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
-        project="" />
+  <item name="Entity" template="Entity.xslt" module="interface" fileFormat="{0}" subFolder="Entities" extension="cs" handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp" project="" />
 
-  <item name="SearchResponse"
-        template="SearchResponse.xslt"
-        module="interface"
-        subFolder="SearchObjects"
-        fileFormat="{0}SO"
-        extension="cs"
-        handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
-        project="" />
+  <item name="SearchResponse" template="SearchResponse.xslt" module="interface" subFolder="SearchObjects" fileFormat="{0}SO" extension="cs" handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp" project="" />
 
-  <item name="RequestDto"
-        template="DTO-Request.xslt"
-        module="implement"
-        fileFormat="{0}Request"
-        extension="cs"
-        subFolder="Services\Requests"
-        ignoreView="true"
-        ignoreProps="dataversion,create[_(date)(time)]+$,update[_(date)(time)]+$,varchar\d+$,num\d+$,date\d+$"
-        handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
-        project="" />
+  <item name="RequestDto" template="DTO-Request.xslt" module="implement" fileFormat="{0}Request" extension="cs" subFolder="Services\Requests" ignoreView="true" ignoreProps="dataversion,create[_(date)(time)]+$,update[_(date)(time)]+$,varchar\d+$,num\d+$,date\d+$" handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp" project="" />
 
-  <item name="ResponseDto"
-        template="DTO-Response.xslt"
-        module="implement"
-        fileFormat="{0}Response"
-        extension="cs"
-        subFolder="Services\Responses"
-        ignoreView="true"
-        associationProps="guid"
-        ignoreProps="password,varchar\d+$,num\d+$,date\d+$"
-        handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
-        project="" />
+  <item name="ResponseDto" template="DTO-Response.xslt" module="implement" fileFormat="{0}Response" extension="cs" subFolder="Services\Responses" ignoreView="true" associationProps="guid" ignoreProps="password,varchar\d+$,num\d+$,date\d+$" handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp" project="" />
 
-  <item name="SqlMap"
-        dependency="Entity,SearchResponse"
-        template="Dapper\SqlMap.xslt"
-        module="implement"
-        subFolder="Scripts\{dbType}"
-        fileFormat="{0}Service"
-        extension="xml"
-        ignoreView="true"
-        handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
-        project=""/>
+  <item name="SqlMap" dependency="Entity,SearchResponse" template="Dapper\SqlMap.xslt" module="implement" subFolder="Scripts\{dbType}" fileFormat="{0}Service" extension="xml" ignoreView="true" handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp" project=""/>
 
-  <item name="Service"
-        dependency="Entity,SearchResponse,RequestDto,ResponseDto"
-        template="Dapper\Service.xslt"
-        module="implement"
-        subFolder="Services"
-        fileFormat="{0}Service"
-        extension="cs"
-        ignoreView="true"
-        handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp"
-        project="" />
+  <item name="Service" dependency="Entity,SearchResponse,RequestDto,ResponseDto" template="Dapper\Service.xslt" module="implement" subFolder="Services" fileFormat="{0}Service" extension="cs" ignoreView="true" handler="Mercurius.CodeBuilder.CSharp.RegisterCreatedFileHandler,Mercurius.CodeBuilder.CSharp" project="" />
 </config>

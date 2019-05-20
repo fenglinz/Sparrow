@@ -204,7 +204,7 @@ using Mercurius.Prime.Data.Service;
         {
             so = so ?? new <xsl:value-of select="./table/@className" />SO();
 
-            return await this.QueryForList&lt;<xsl:value-of select="./table/@className" />Response, <xsl:value-of select="./table/@className"/>&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
+            return await this.QueryForList&lt;<xsl:value-of select="./table/@className" />SO, <xsl:value-of select="./table/@className"/>, <xsl:value-of select="./table/@className" />Response&gt;(ns, "Search<xsl:value-of select="./table/@pluralClassName"/>", so<xsl:call-template name="SearchConditions" />);
         }
       </xsl:if>
       <xsl:if test="count(./table[@hasSearchData='true'])=1">
