@@ -27,8 +27,8 @@ using Mercurius.Prime.Core.Entity;
         /// <![CDATA[<summary>]]>
         /// <xsl:value-of select="@description" />。
         /// <![CDATA[</summary>]]>
-          [Column("<xsl:value-of select="@name"/>")]
-          public <xsl:value-of select="@basicType"/><xsl:if test="@basicType!='string' and @basicType!='String'">?</xsl:if><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
+        [Column("<xsl:value-of select="@name"/>")]
+        public <xsl:value-of select="@basicType"/><xsl:if test="@basicType!='string' and @basicType!='String'">?</xsl:if><xsl:text> </xsl:text><xsl:value-of select="@propertyName"/> { get; set; }
         </xsl:for-each>
         #endregion
     }
