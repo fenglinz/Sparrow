@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Dapper;
@@ -177,6 +178,90 @@ namespace Mercurius.Prime.Data.Dapper
                 var commandText = this.CommandTextBuilder.GetNonQueryCommandText(xcommand, action);
 
                 return await helper.OpenSession().ExecuteAsync(commandText, executeObject);
+            }
+        }
+
+        #endregion
+
+        #region StoredProcedure
+
+        /// <summary>
+        /// 执行存储过程(同步)
+        /// </summary>
+        /// <param name="procedure">存储过程名称</param>
+        /// <param name="paramObject">存储过程参数</param>
+        /// <returns>受影响的记录数</returns>
+        public int StoredProcedure(string procedure,
+            object paramObject, Action<DapperParameters> sets = null, Action<DapperParameters> gets = null)
+        {
+            using (var helper = this.GetDbHelper(this.Master))
+            {
+                var dapperParameters = new DapperParameters(paramObject);
+
+                sets?.Invoke(dapperParameters);
+
+                var session = helper.OpenSession();
+                var rs = session.Execute(procedure, paramObject, commandType: CommandType.StoredProcedure);
+
+                gets?.Invoke(dapperParameters);
+
+                return rs;
+            }
+        }
+
+        /// <summary>
+        /// 执行存储过程(异步)
+        /// </summary>
+        /// <param name="procedure">存储过程名称</param>
+        /// <param name="paramObject">存储过程参数</param>
+        /// <returns>受影响的记录数</returns>
+        public async Task<int> StoredProcedureAsync(string procedure,
+            object paramObject, Action<DapperParameters> sets = null, Action<DapperParameters> gets = null)
+        {
+            using (var helper = this.GetDbHelper(this.Master))
+            {
+                var dapperParameters = new DapperParameters(paramObject);
+
+                sets?.Invoke(dapperParameters);
+
+                var session = helper.OpenSession();
+                var rs = await session.ExecuteAsync(procedure, dapperParameters.DynamicParameters, commandType: CommandType.StoredProcedure);
+
+                gets?.Invoke(dapperParameters);
+
+                return rs;
+            }
+        }
+
+        /// <summary>
+        /// 执行存储过程(同步)
+        /// </summary>
+        /// <param name="procedure">存储过程名称</param>
+        /// <param name="paramObject">存储过程参数</param>
+        /// <returns>返回的结果集</returns>
+        public IEnumerable<T> StoredProcedure<T>(string procedure, object paramObject)
+        {
+            using (var helper = this.GetDbHelper(this.Master))
+            {
+                var session = helper.OpenSession();
+
+                return session.Query<T>(procedure, paramObject, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        /// <summary>
+        /// 执行存储过程(异步)
+        /// </summary>
+        /// <param name="procedure">存储过程名称</param>
+        /// <param name="paramObject">存储过程参数</param>
+        /// <returns>返回的结果集</returns>
+        public async Task<IEnumerable<T>> StoredProcedureAsync<T>(string procedure, object paramObject)
+        {
+            using (var helper = this.GetDbHelper(this.Master))
+            {
+                var session = helper.OpenSession();
+
+                return await session.QueryAsync<T>(procedure, paramObject, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -452,8 +537,8 @@ namespace Mercurius.Prime.Data.Dapper
         /// <param name="callback">命令设置回调</param>
         /// <param name="subQuery">子查询回调</param>
         /// <returns>查询结果</returns>
-        public IEnumerable<T> QueryForList<T>(StatementNamespace ns, string name,
-            object so = null, Action<SelectCriteria<T>> callback = null, Action<CommandText, T> subQuery = null)
+        public IEnumerable<T> QueryForList<S, T>(StatementNamespace ns, string name,
+            S so = null, Action<SelectCriteria<S>> callback = null, Action<CommandText, T> subQuery = null) where S : SearchObject, new()
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {
@@ -490,8 +575,8 @@ namespace Mercurius.Prime.Data.Dapper
         /// <param name="callback">命令设置回调</param>
         /// <param name="subQuery">子查询回调</param>
         /// <returns>查询结果</returns>
-        public async Task<IEnumerable<T>> QueryForListAsync<T>(StatementNamespace ns, string name,
-            object so = null, Action<SelectCriteria<T>> callback = null, Action<CommandText, T> subQuery = null)
+        public async Task<IEnumerable<T>> QueryForListAsync<S, T>(StatementNamespace ns, string name,
+            S so = null, Action<SelectCriteria<S>> callback = null, Action<CommandText, T> subQuery = null) where S : class, new()
         {
             using (var helper = this.GetDbHelper(this.Slave))
             {
@@ -604,7 +689,7 @@ namespace Mercurius.Prime.Data.Dapper
                 var session = helper.OpenSession();
 
                 rs.Datas = session.Query<T>(QueryCommandText, so);
-                rs.TotalRecords = session.ExecuteScalar<int>(TotalCommandText);
+                rs.TotalRecords = session.ExecuteScalar<int>(TotalCommandText, so);
 
                 command.Connection = session;
 
@@ -648,7 +733,7 @@ namespace Mercurius.Prime.Data.Dapper
                 var session = helper.OpenSession();
 
                 rs.Datas = await session.QueryAsync<T>(QueryCommandText, so);
-                rs.TotalRecords = await session.ExecuteScalarAsync<int>(TotalCommandText);
+                rs.TotalRecords = await session.ExecuteScalarAsync<int>(TotalCommandText, so);
 
                 command.Connection = session;
 

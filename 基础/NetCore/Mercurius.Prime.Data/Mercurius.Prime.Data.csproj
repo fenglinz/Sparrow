@@ -14,6 +14,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Parser\CommandText.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Parser\CommandText.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.5.0" />
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Dapper" Version="1.60.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />

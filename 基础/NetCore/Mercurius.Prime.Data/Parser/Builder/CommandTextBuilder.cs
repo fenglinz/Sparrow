@@ -229,7 +229,15 @@ namespace Mercurius.Prime.Data.Parser.Builder
             return commandText;
         }
 
-        public (string QueryCommandText, string TotalCommandText) GetQueryForPagedListCommandText<S, T>(CommandText command, Action<SelectCriteria<S>> action = null)
+        /// <summary>
+        /// 获取分页查询命令
+        /// </summary>
+        /// <typeparam name="S"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public virtual (string QueryCommandText, string TotalCommandText) GetQueryForPagedListCommandText<S, T>(CommandText command, Action<SelectCriteria<S>> action = null)
         {
             var segment = this.GetDynamicQuerySegment(action);
 
@@ -246,7 +254,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// Item1: 查询当前页数据的sql命令
         /// Item2: 查询符合条件的总记录数
         /// </returns>
-        public (string QueryCommandText, string TotalCommandText) GetQueryForPagedListCommandText<S, T>(Action<SelectCriteria<S>> action = null, params string[] selectors)
+        public virtual (string QueryCommandText, string TotalCommandText) GetQueryForPagedListCommandText<S, T>(Action<SelectCriteria<S>> action = null, params string[] selectors)
         {
             var columns = this.Resolver.Resolve<T>();
             var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
@@ -376,8 +384,9 @@ namespace Mercurius.Prime.Data.Parser.Builder
         /// 获取动态查询条件
         /// </summary>
         /// <param name="action">动态条件设置处理</param>
+        /// <param name="useOrderBys">是否使用排序</param>
         /// <returns>动态查询命令片段</returns>
-        protected string GetDynamicQuerySegment<T>(Action<SelectCriteria<T>> action)
+        protected virtual string GetDynamicQuerySegment<T>(Action<SelectCriteria<T>> action)
         {
             // 查询回调处理
             if (action != null)

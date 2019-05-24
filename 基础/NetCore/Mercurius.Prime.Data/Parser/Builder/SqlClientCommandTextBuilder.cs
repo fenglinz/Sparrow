@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mercurius.Prime.Core;
+using Mercurius.Prime.Core.Log;
 using Mercurius.Prime.Data.Parser.Resolver;
 
 namespace Mercurius.Prime.Data.Parser.Builder
@@ -48,6 +49,91 @@ namespace Mercurius.Prime.Data.Parser.Builder
         }
 
         #endregion
+
+        /// <summary>
+        /// 获取分页查询命令
+        /// </summary>
+        /// <typeparam name="S"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public override (string QueryCommandText, string TotalCommandText) GetQueryForPagedListCommandText<S, T>(CommandText command, Action<SelectCriteria<S>> action = null)
+        {
+            var segment = this.GetPagedDynamicCriterias(action);
+
+            return this.QueryForPagedWarpper(command.Text + segment.Segment, segment.OrderBys);
+        }
+
+        /// <summary>
+        /// 获取分页查询命令
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="selectors">返回列</param>
+        /// <param name="action">查询条件设置回调</param>
+        /// <returns>
+        /// Item1: 查询当前页数据的sql命令
+        /// Item2: 查询符合条件的总记录数
+        /// </returns>
+        public override (string QueryCommandText, string TotalCommandText) GetQueryForPagedListCommandText<S, T>(Action<SelectCriteria<S>> action = null, params string[] selectors)
+        {
+            var columns = this.Resolver.Resolve<T>();
+            var commandText = this.CommandTextCacheHandler(columns.TableName, nameof(GetQueryCommandText), () =>
+            {
+                var filters = selectors.IsEmpty() ?
+                     columns :
+                     (from c in columns
+                      where
+                        selectors.Contains(c.PropertyName, StringComparer.OrdinalIgnoreCase) || selectors.Contains(c.Name, StringComparer.OrdinalIgnoreCase)
+                      select c);
+
+                return this.GetQueryCommandText(columns.TableName, columns);
+            });
+
+            var segment = this.GetPagedDynamicCriterias(action);
+
+            // 追加查询条件
+            commandText += segment.Segment;
+
+            var orders = segment.OrderBys;
+
+            if (orders.IsEmpty())
+            {
+                orders = new List<OrderColumn>();
+
+                var finded = columns.Where(c => c.IsIdentity);
+
+                if (finded.IsEmpty())
+                {
+                    orders.Add(new OrderColumn
+                    {
+                        Column = columns.First().Name,
+                        OrderBy = "ASC"
+                    });
+                }
+                else
+                {
+                    foreach (var item in finded)
+                    {
+                        orders.Add(new OrderColumn
+                        {
+                            Column = item.Name,
+                            OrderBy = "ASC"
+                        });
+                    }
+                }
+            }
+
+            var tuple = this.QueryForPagedWarpper(commandText, orders);
+
+            // 记录日志
+            if (this.Logger?.IsEnabledFor(Level.Debug) == true)
+            {
+                this.Logger.WriteFormat(Level.Debug, "表【{0}】的分页查询sql：数据 - {1}，总记录 - {2}", columns.TableName, tuple.QueryCommandText, tuple.TotalCommandText);
+            }
+
+            return tuple;
+        }
 
         /// <summary>
         /// 获取create sql命令
@@ -249,17 +335,34 @@ namespace Mercurius.Prime.Data.Parser.Builder
         {
             var orderSegment = new StringBuilder();
 
-            foreach (var item in orderBys)
+            if (orderBys.IsEmpty())
             {
-                orderSegment.AppendFormat("{3}[{0}] {1}{2}",
-                        item.Column,
-                        item.OrderBy,
-                        item != orderBys.Last() ? "," : string.Empty,
-                        item.Prefix.IsNullOrEmpty() ? string.Empty : $"{item.Prefix}."
-                );
+                var firstColumn = commandText.Substring(0, commandText.IndexOf(",")).Substring(6).Trim();
+                var asIndex = firstColumn.IndexOf("as", StringComparison.OrdinalIgnoreCase);
+
+                if (asIndex != -1)
+                {
+                    firstColumn = firstColumn.Substring(0, asIndex);
+                }
+
+                orderSegment.Append(firstColumn);
+                orderSegment.Append(" ASC");
+            }
+            else
+            {
+                foreach (var item in orderBys)
+                {
+                    orderSegment.AppendFormat("{3}[{0}] {1}{2}",
+                            item.Column,
+                            item.OrderBy,
+                            item != orderBys.Last() ? "," : string.Empty,
+                            item.Prefix.IsNullOrEmpty() ? string.Empty : $"{item.Prefix}."
+                    );
+                }
             }
 
-            var sql1 = commandText.Replace("SELECT", $"WITH CTE AS(SELECT ROW_NUMBER() OVER(ORDER BY {orderSegment}) AS RowIndex,");
+            var beginIndex = commandText.IndexOf("select", StringComparison.OrdinalIgnoreCase);
+            var sql1 = $"WITH CTE AS(SELECT ROW_NUMBER() OVER(ORDER BY {orderSegment}) AS RowIndex, {commandText.Substring(beginIndex + 6)}";
 
             sql1 += " ) SELECT * FROM CTE WHERE RowIndex BETWEEN (@PageIndex-1)*@PageSize+1 AND @PageIndex*@PageSize ORDER BY RowIndex ASC";
 
@@ -267,5 +370,32 @@ namespace Mercurius.Prime.Data.Parser.Builder
 
             return (sql1, totalRecordsCommandText);
         }
+
+        #region Private Methods
+
+        private (string Segment, IList<OrderColumn> OrderBys) GetPagedDynamicCriterias<S>(Action<SelectCriteria<S>> action)
+        {
+            var criterias = string.Empty;
+            IList<OrderColumn> orders = null;
+
+            // 查询回调处理
+            if (action != null)
+            {
+                var dynamicQuery = new SelectCriteria<S>();
+
+                // 回调处理
+                action.Invoke(dynamicQuery);
+
+                orders = dynamicQuery.OrderBys;
+
+                var segments = this.GetSelectCriteriaSegment(dynamicQuery.Segments, dynamicQuery.GroupBys, null);
+
+                criterias = segments.IsNullOrEmpty() ? string.Empty : $" {(dynamicQuery.NeedWhere ? "WHERE" : string.Empty)}{dynamicQuery.TrimedSqlSegment(segments)} ";
+            }
+
+            return (criterias, orders);
+        }
+
+        #endregion
     }
 }

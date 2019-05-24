@@ -37,13 +37,14 @@ namespace Mercurius.Prime.Core
         /// <returns></returns>
         static string GetMd5Hash(MD5 md5Hash, string input)
         {
-
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+            var datas = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
             var sBuilder = new StringBuilder();
-            foreach (byte t in data)
+
+            foreach (var t in datas)
             {
                 sBuilder.Append(t.ToString("x2"));
             }
+
             return sBuilder.ToString();
         }
 
@@ -51,6 +52,7 @@ namespace Mercurius.Prime.Core
         {
             var hashOfInput = GetMd5Hash(md5Hash, input);
             var comparer = StringComparer.OrdinalIgnoreCase;
+
             return 0 == comparer.Compare(hashOfInput, hash);
         }
     }

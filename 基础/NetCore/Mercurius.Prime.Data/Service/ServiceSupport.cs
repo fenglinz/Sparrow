@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Autofac.Extras.DynamicProxy;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Entity;
+using Mercurius.Prime.Core.Log;
 using Mercurius.Prime.Data.Dapper;
 
 namespace Mercurius.Prime.Data.Service
@@ -18,6 +20,11 @@ namespace Mercurius.Prime.Data.Service
         /// redis客户端
         /// </summary>
         public RedisClient Redis { get; set; }
+
+        /// <summary>
+        /// 日志组件。
+        /// </summary>
+        public AbstractLogger Logger { get; set; }
 
         /// <summary>
         /// 动态查询对象。
@@ -39,11 +46,19 @@ namespace Mercurius.Prime.Data.Service
         protected async Task<Response> Create<TRequest, TEntity>(TRequest item, Action<TEntity> handler = null)
         {
             var rs = new Response();
-            var entity = item.As<TRequest, TEntity>();
 
-            handler?.Invoke(entity);
+            try
+            {
+                var entity = item.As<TRequest, TEntity>();
 
-            await this.Persistence.CreateAsync(entity);
+                handler?.Invoke(entity);
+
+                await this.Persistence.CreateAsync(entity);
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
 
             return rs;
         }
@@ -59,17 +74,25 @@ namespace Mercurius.Prime.Data.Service
         protected async Task<Response> Create<TRequest, TEntity>(IEnumerable<TRequest> items, Action<TEntity> handler = null)
         {
             var rs = new Response();
-            var entities = items.As<TRequest, TEntity>();
 
-            if (handler != null)
+            try
             {
-                foreach (var item in entities)
-                {
-                    handler(item);
-                }
-            }
+                var entities = items.As<TRequest, TEntity>();
 
-            await this.Persistence.CreateAsync(entities);
+                if (handler != null)
+                {
+                    foreach (var item in entities)
+                    {
+                        handler(item);
+                    }
+                }
+
+                await this.Persistence.CreateAsync(entities);
+            }
+            catch (Exception exp)
+            {
+                rs.ErrorMessage = exp.Message;
+            }
 
             return rs;
         }
@@ -86,7 +109,14 @@ namespace Mercurius.Prime.Data.Service
         {
             var rs = new Response();
 
-            await this.Persistence.UpdateAsync(data, action);
+            try
+            {
+                await this.Persistence.UpdateAsync(data, action);
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
 
             return rs;
         }
@@ -103,7 +133,14 @@ namespace Mercurius.Prime.Data.Service
         {
             var rs = new Response();
 
-            await this.Persistence.RemoveAsync(param, action);
+            try
+            {
+                await this.Persistence.RemoveAsync(param, action);
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
 
             return rs;
         }
@@ -120,9 +157,17 @@ namespace Mercurius.Prime.Data.Service
         protected async Task<Response<TResponse>> QueryForObject<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null, params string[] selectors)
         {
             var rs = new Response<TResponse>();
-            var entity = await this.Persistence.QueryForObjectAsync(so, action, selectors);
 
-            rs.Data = entity.As<TEntity, TResponse>();
+            try
+            {
+                var entity = await this.Persistence.QueryForObjectAsync(so, action, selectors);
+
+                rs.Data = entity.As<TEntity, TResponse>();
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
 
             return rs;
         }
@@ -139,9 +184,17 @@ namespace Mercurius.Prime.Data.Service
         protected async Task<ResponseSet<TResponse>> QueryForList<TResponse, TEntity>(object so = null, Action<SelectCriteria<TEntity>> action = null, params string[] selectors)
         {
             var rs = new ResponseSet<TResponse>();
-            var entities = await this.Persistence.QueryForListAsync(so, action, selectors);
 
-            rs.Datas = entities.As<TEntity, TResponse>();
+            try
+            {
+                var entities = await this.Persistence.QueryForListAsync(so, action, selectors);
+
+                rs.Datas = entities.As<TEntity, TResponse>();
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
 
             return rs;
         }
@@ -158,9 +211,19 @@ namespace Mercurius.Prime.Data.Service
         /// <returns>返回结果</returns>
         protected async Task<ResponseSet<TResponse>> QueryForPagedList<TSO, TEntity, TResponse>(TSO so = null, Action<SelectCriteria<TSO>> action = null, params string[] selectors) where TSO : SearchObject, new()
         {
-            var pgRs = await this.Persistence.QueryForPagedListAsync<TSO, TEntity>(so, action, selectors);
+            try
+            {
+                var pgRs = await this.Persistence.QueryForPagedListAsync<TSO, TEntity>(so, action, selectors);
 
-            return pgRs.AsResponseSet<TEntity, TResponse>();
+                return pgRs.AsResponseSet<TEntity, TResponse>();
+            }
+            catch (Exception ex)
+            {
+                return new ResponseSet<TResponse>
+                {
+                    ErrorMessage = ex.Message
+                };
+            }
         }
 
         /// <summary>
@@ -179,9 +242,9 @@ namespace Mercurius.Prime.Data.Service
             {
                 await this.Persistence.ExecuteAsync(ns, name, executeObject);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                rs.ErrorMessage = e.Message;
+                rs.ErrorMessage = ex.Message;
             }
 
             return rs;
@@ -201,9 +264,17 @@ namespace Mercurius.Prime.Data.Service
             object so = null, Action<SelectCriteria> callback = null, Action<CommandText, TEntity> subQuery = null)
         {
             var rs = new Response<TResponse>();
-            var entity = await this.Persistence.QueryForObjectAsync(ns, name, so, callback, subQuery);
 
-            rs.Data = entity.As<TEntity, TResponse>();
+            try
+            {
+                var entity = await this.Persistence.QueryForObjectAsync(ns, name, so, callback, subQuery);
+
+                rs.Data = entity.As<TEntity, TResponse>();
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
 
             return rs;
         }
@@ -218,13 +289,48 @@ namespace Mercurius.Prime.Data.Service
         /// <param name="callback">命令设置回调</param>
         /// <param name="subQuery">子查询回调</param>
         /// <returns>查询结果</returns>
-        protected async Task<ResponseSet<TResponse>> QueryForList<TResponse, TEntity>(StatementNamespace ns, string name,
-            object so = null, Action<SelectCriteria> callback = null, Action<CommandText, TEntity> subQuery = null)
+        protected async Task<ResponseSet<TDomain>> QueryForList<TDomain>(StatementNamespace ns, string name,
+            object so = null, Action<SelectCriteria<object>> callback = null, Action<CommandText, TDomain> subQuery = null)
+        {
+            var rs = new ResponseSet<TDomain>();
+
+            try
+            {
+                rs.Datas = await this.Persistence.QueryForListAsync(ns, name, so, callback, subQuery);
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
+
+            return rs;
+        }
+
+        /// <summary>
+        /// 返回所有符合条件的结果
+        /// </summary>
+        /// <typeparam name="TEntity">数据类型</typeparam>
+        /// <param name="ns">sql命令所在的命名空间</param>
+        /// <param name="name">sql命令名称</param>
+        /// <param name="so">查询对象</param>
+        /// <param name="callback">命令设置回调</param>
+        /// <param name="subQuery">子查询回调</param>
+        /// <returns>查询结果</returns>
+        protected async Task<ResponseSet<TResponse>> QueryForList<TSO, TEntity, TResponse>(StatementNamespace ns, string name,
+            TSO so = null, Action<SelectCriteria<TSO>> callback = null, Action<CommandText, TEntity> subQuery = null) where TSO : class, new()
         {
             var rs = new ResponseSet<TResponse>();
-            var entities = await this.Persistence.QueryForListAsync(ns, name, so, callback, subQuery);
 
-            rs.Datas = entities.As<TEntity, TResponse>();
+            try
+            {
+                var entities = await this.Persistence.QueryForListAsync(ns, name, so, callback, subQuery);
+
+                rs.Datas = entities.As<TEntity, TResponse>();
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
 
             return rs;
         }
@@ -242,9 +348,66 @@ namespace Mercurius.Prime.Data.Service
         protected async Task<ResponseSet<TResponse>> QueryForPagedList<TSO, TEntity, TResponse>(StatementNamespace ns, string name,
             TSO so = null, Action<SelectCriteria<TSO>> callback = null, Action<CommandText, TEntity> subQuery = null) where TSO : SearchObject, new()
         {
-            var rs = await this.Persistence.QueryForPagedListAsync(ns, name, so, callback, subQuery);
+            try
+            {
+                var rs = await this.Persistence.QueryForPagedListAsync(ns, name, so, callback, subQuery);
 
-            return rs.AsResponseSet<TEntity, TResponse>();
+                return rs.AsResponseSet<TEntity, TResponse>();
+            }
+            catch (Exception ex)
+            {
+                return new ResponseSet<TResponse>
+                {
+                    ErrorMessage = ex.Message
+                };
+            }
+        }
+
+        /// <summary>
+        /// 执行存储过程(异步)
+        /// </summary>
+        /// <param name="procedure">存储过程名称</param>
+        /// <param name="paramObject">存储过程参数</param>
+        /// <returns>受影响的记录数</returns>
+        public async Task<Response> StoredProcedureAsync(string procedure,
+            object paramObject, Action<DapperParameters> sets = null, Action<DapperParameters> gets = null)
+        {
+            var rs = new Response();
+
+            try
+            {
+                await this.Persistence.StoredProcedureAsync(procedure, paramObject, sets, gets);
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
+
+            return rs;
+        }
+
+        /// <summary>
+        /// 执行存储过程(异步)
+        /// </summary>
+        /// <param name="procedure">存储过程名称</param>
+        /// <param name="paramObject">存储过程参数</param>
+        /// <returns>返回的结果集</returns>
+        public async Task<ResponseSet<TResponse>> StoredProcedureAsync<TResponse, TEntity>(string procedure, object paramObject)
+        {
+            var rs = new ResponseSet<TResponse>();
+
+            try
+            {
+                var entities = await this.Persistence.StoredProcedureAsync<TEntity>(procedure, paramObject);
+
+                rs.Datas = entities.As<TEntity, TResponse>();
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message;
+            }
+
+            return rs;
         }
 
         #endregion

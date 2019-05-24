@@ -20,7 +20,6 @@
   <ItemGroup>
     <Compile Remove="Extensions\SecurityExtensions.cs" />
     <Compile Remove="Extensions\WebHelper.cs" />
-    <Compile Remove="WebApi\WebApiClientSupport.cs" />
   </ItemGroup>
 
   <ItemGroup>

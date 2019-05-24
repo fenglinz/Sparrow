@@ -14,7 +14,7 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
     /// </summary>
     public class ServiceInterceptor : IInterceptor
     {
-        #region 属性
+        #region Properties
 
         /// <summary>
         /// 日志组件。
@@ -28,7 +28,7 @@ namespace Mercurius.Prime.Boot.Autofac.Interceptor
 
         #endregion
 
-        #region 重写基类方法
+        #region Implements
 
         /// <summary>
         /// 拦截方法调用中的处理。

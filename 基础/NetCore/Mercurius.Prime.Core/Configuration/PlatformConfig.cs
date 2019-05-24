@@ -11,6 +11,11 @@ namespace Mercurius.Prime.Core.Configuration
         #region Properties
 
         /// <summary>
+        /// 上床文件保存目录
+        /// </summary>
+        public string SavedUploadFilesRoot { get; set; } = "uploads";
+
+        /// <summary>
         /// 每页显示的记录数
         /// </summary>
         public int PageSize { get; set; } = 20;

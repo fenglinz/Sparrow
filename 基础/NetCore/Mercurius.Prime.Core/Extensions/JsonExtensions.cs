@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Mercurius.Prime.Core
 {
@@ -58,5 +59,24 @@ namespace Mercurius.Prime.Core
             return JsonConvert.DeserializeObject<T>(source);
         }
 
+        public static T GetJsonValue<T>(this JObject json, string propertyName)
+        {
+            if (json== null)
+            {
+                return default;
+            }
+
+            if (json.ContainsKey(propertyName))
+            {
+                return json[propertyName].Value<T>();
+            }
+
+            return default;
+        }
+
+        public static string GetJsonValue(this JObject json, string propertyName)
+        {
+            return json.GetJsonValue<string>(propertyName);
+        }
     }
 }

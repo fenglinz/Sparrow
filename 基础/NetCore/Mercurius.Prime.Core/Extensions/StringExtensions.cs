@@ -503,7 +503,7 @@ namespace Mercurius.Prime.Core
         /// </summary>
         /// <param name="dateTime">日期</param>
         /// <returns>时间戳</returns>
-        public static long ToTimeStamp(this DateTime dateTime)
+        public static long GetTimeStamp(this DateTime dateTime)
         {
             return (long)(dateTime - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }

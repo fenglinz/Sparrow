@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
@@ -129,7 +130,7 @@ namespace Mercurius.Prime.Boot
             // 添加mvc支持
             services.AddMvc(options =>
             {
-                
+
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddJsonOptions(options =>
@@ -169,7 +170,8 @@ namespace Mercurius.Prime.Boot
             });
 
             // autofac初始化
-            ContainerManager.Initialize(build => build.Populate(services), this.GetDependencyAssemblies()?.ToArray());
+            ContainerManager.Initialize(build => build.Populate(services),
+                this.GetDependencyAssemblies()?.ToArray());
 
             this.ApplicationContainer = ContainerManager.Container;
 
@@ -209,8 +211,20 @@ namespace Mercurius.Prime.Boot
                 loggerFactory.AddNLog();
             }
 
+            // 文件缓存时间
+            var cachePeriod = env.IsDevelopment() ? "600" : "604800";
+            
             // 使用静态资源服务
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Environment.CurrentDirectory, PlatformConfig.Instance.SavedUploadFilesRoot)),
+                RequestPath = "/uploads",
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
+                }
+            });
 
             // 使用cookie策略
             app.UseCookiePolicy();

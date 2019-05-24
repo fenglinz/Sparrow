@@ -45,9 +45,19 @@ namespace Mercurius.Prime.Data
             return this._commandTextBuilder?.GetSelectCriteriaSegment(this.Segments, this.GroupBys, this.OrderBys);
         }
 
-        #region 公开方法
+        /// <summary>
+        /// 添加where关键字
+        /// </summary>
+        /// <typeparam name="T">实体类型</typeparam>
+        /// <param name="criteria">查询语句的动态查询对象</param>
+        /// <param name="trimeds">去掉不需要的前后缀列表</param>
+        /// <returns>查询语句的动态查询对象</returns>
+        public new SelectCriteria Where(string[] trimeds = null)
+        {
+            base.Where(trimeds);
 
-        #endregion
+            return this;
+        }
     }
 
     /// <summary>
@@ -77,24 +87,9 @@ namespace Mercurius.Prime.Data
         /// <param name="criteria">查询语句的动态查询对象</param>
         /// <param name="trimeds">去掉不需要的前后缀列表</param>
         /// <returns>查询语句的动态查询对象</returns>
-        public SelectCriteria<T> Where(string[] trimeds = null)
+        public new SelectCriteria<T> Where(string[] trimeds = null)
         {
-            if (this.NeedWhere)
-            {
-                throw new Exception(WhereExistsErrorMessage);
-            }
-
-            if (!this.Segments.IsEmpty())
-            {
-                throw new Exception(WhereMustFirstErrorMessage);
-            }
-
-            if (!trimeds.IsEmpty())
-            {
-                this.Trimeds = trimeds;
-            }
-
-            this.NeedWhere = true;
+            base.Where(trimeds);
 
             return this;
         }

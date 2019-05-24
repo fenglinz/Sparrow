@@ -49,7 +49,7 @@ namespace Mercurius.Prime.Data.Parser.Resolver
                 var tableAttr = typeInfo.GetCustomAttribute<TableAttribute>();
                 var properties = from p in typeInfo.GetProperties()
                                  let columnAttr = p.GetCustomAttribute<ColumnAttribute>()
-                                 where columnAttr?.IsIgnore != true
+                                 where columnAttr != null && columnAttr.IsIgnore == false
                                  select new
                                  {
                                      Property = p,

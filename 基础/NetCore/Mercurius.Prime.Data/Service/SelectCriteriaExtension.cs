@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using Mercurius.Prime.Core;
 using static Mercurius.Prime.Data.Criteria;
@@ -220,6 +221,25 @@ namespace Mercurius.Prime.Data.Service
 
         #region OrderBy
 
+        public static SelectCriteria<T> OrderBy<T>(this SelectCriteria<T> criteria, string column)
+        {
+            if (criteria == null)
+            {
+                return criteria;
+            }
+
+            var tuple = column.Split('.');
+
+            criteria.OrderBys?.Add(new OrderColumn
+            {
+                Prefix = tuple.Length > 1 ? tuple.FirstOrDefault() : string.Empty,
+                Column = tuple.LastOrDefault(),
+                OrderBy = "ASC"
+            });
+
+            return criteria;
+        }
+
         public static SelectCriteria<T> OrderBy<T>(this SelectCriteria<T> criteria,
             Expression<Func<T, object>> expression, bool usePrefix = false)
         {
@@ -235,6 +255,25 @@ namespace Mercurius.Prime.Data.Service
                 Prefix = usePrefix ? tuple.Item3 : string.Empty,
                 Column = tuple.Item1,
                 OrderBy = "ASC"
+            });
+
+            return criteria;
+        }
+
+        public static SelectCriteria<T> OrderByDescending<T>(this SelectCriteria<T> criteria, string column)
+        {
+            if (criteria == null)
+            {
+                return criteria;
+            }
+
+            var tuple = column.Split('.');
+
+            criteria.OrderBys?.Add(new OrderColumn
+            {
+                Prefix = tuple.Length > 1 ? tuple.FirstOrDefault() : string.Empty,
+                Column = tuple.LastOrDefault(),
+                OrderBy = "DESC"
             });
 
             return criteria;

@@ -5,7 +5,6 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using Mercurius.Prime.Core.Entity;
-using Microsoft.VisualBasic;
 
 namespace Mercurius.Prime.Data.Ado
 {

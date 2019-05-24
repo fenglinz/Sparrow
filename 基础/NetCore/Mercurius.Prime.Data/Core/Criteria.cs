@@ -120,7 +120,7 @@ namespace Mercurius.Prime.Data
         /// <param name="concat">连接方式枚举</param>
         /// <param name="func">片段有效判断回调</param>
         /// <returns>动态条件对象</returns>
-        public Criteria Segment(string column, string paramName = null,
+        public Criteria Segment(string column, string paramName,
             CompareType compare = CompareType.Equal, ConcatType concat = ConcatType.And, Func<bool> func = null)
         {
             var item = new Segment
@@ -179,6 +179,33 @@ namespace Mercurius.Prime.Data
         internal virtual string GetCriteriaSegment()
         {
             return this._commandTextBuilder?.GetCriteriaSegment(this.Segments);
+        }
+
+        /// <summary>
+        /// 添加需要带where条件的查询条件.
+        /// </summary>
+        /// <param name="trimeds">去掉不需要的前后缀列表</param>
+        /// <returns>动态条件对象</returns>
+        public Criteria Where(string[] trimeds = null)
+        {
+            if (!this.Segments.IsEmpty())
+            {
+                throw new Exception(WhereMustFirstErrorMessage);
+            }
+
+            if (this.NeedWhere)
+            {
+                throw new Exception(WhereExistsErrorMessage);
+            }
+
+            if (!trimeds.IsEmpty())
+            {
+                this.Trimeds = trimeds;
+            }
+
+            this.NeedWhere = true;
+
+            return this;
         }
 
         #endregion
@@ -247,24 +274,9 @@ namespace Mercurius.Prime.Data
         /// </summary>
         /// <param name="trimeds">去掉不需要的前后缀列表</param>
         /// <returns>动态条件对象</returns>
-        public Criteria<T> Where(string[] trimeds = null)
+        public new Criteria<T> Where(string[] trimeds = null)
         {
-            if (!this.Segments.IsEmpty())
-            {
-                throw new Exception(WhereMustFirstErrorMessage);
-            }
-
-            if (this.NeedWhere)
-            {
-                throw new Exception(WhereExistsErrorMessage);
-            }
-
-            if (!trimeds.IsEmpty())
-            {
-                this.Trimeds = trimeds;
-            }
-
-            this.NeedWhere = true;
+            base.Where(trimeds);
 
             return this;
         }

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Autofac;
-using Autofac.Extras.DynamicProxy;
-using Mercurius.Prime.Boot.Autofac.Interceptor;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Configuration;
 using Mercurius.Prime.Core.Log;
+using Mercurius.Prime.Core.WebApi;
 using Mercurius.Prime.Data.Dapper;
 using Mercurius.Prime.Data.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +61,8 @@ namespace Mercurius.Prime.Boot.Autofac
                     // 注册缓存。
                     Builder.RegisterType<DefaultCacheProvider>().As<CacheProvider>().InstancePerLifetimeScope();
 
+                    Builder.RegisterType<WeChatApiClient>().InstancePerLifetimeScope();
+
                     // 注册缓存客户端
                     Builder.Register(c => new RedisClient()).SingleInstance();
 
@@ -83,18 +82,13 @@ namespace Mercurius.Prime.Boot.Autofac
                     Builder.Register(c => new NLogLogger()).Named<AbstractLogger>("file").InstancePerLifetimeScope();
                     Builder.Register(c => new SerilogLogger()).Named<AbstractLogger>("ecsearch").InstancePerLifetimeScope();
 
-                    // 注册服务拦截器。
-                    Builder.RegisterType<ServiceInterceptor>().PropertiesAutowired().InstancePerLifetimeScope();
-
                     if (!assemblies.IsEmpty())
                     {
                         // 注册服务。
                         Builder.RegisterAssemblyTypes(assemblies)
                                         .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
                                         .PropertiesAutowired() // 启用属性注入
-                                        .InstancePerLifetimeScope()
-                                        .EnableClassInterceptors() // 启用类拦截
-                                        .InterceptedBy(typeof(ServiceInterceptor)); // 设置连接器
+                                        .InstancePerLifetimeScope();
 
                         // 注册MVC控制器。
                         Builder.RegisterAssemblyTypes(assemblies)
