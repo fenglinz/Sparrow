@@ -5,6 +5,7 @@ using Autofac;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Configuration;
+using Mercurius.Prime.Core.IoC;
 using Mercurius.Prime.Core.Log;
 using Mercurius.Prime.Core.WebApi;
 using Mercurius.Prime.Data.Dapper;
@@ -61,22 +62,11 @@ namespace Mercurius.Prime.Boot.Autofac
                     // 注册缓存。
                     Builder.RegisterType<DefaultCacheProvider>().As<CacheProvider>().InstancePerLifetimeScope();
 
-                    Builder.RegisterType<WeChatApiClient>().InstancePerLifetimeScope();
-
                     // 注册缓存客户端
                     Builder.Register(c => new RedisClient()).SingleInstance();
 
                     // 注册动态查询
-                    Builder.RegisterType<Persistence>().InstancePerLifetimeScope().OnActivated(p =>
-                    {
-                        if (p.Instance.CommandTextBuilder != null && PlatformConfig.Instance.Log?.Type != null)
-                        {
-                            using (var scope = LifetimeScope)
-                            {
-                                p.Instance.CommandTextBuilder.Logger = scope.ResolveKeyed<AbstractLogger>(PlatformConfig.Instance.Log.Type);
-                            }
-                        }
-                    });
+                    Builder.RegisterType<Persistence>().InstancePerLifetimeScope();
 
                     // 注册Logger。
                     Builder.Register(c => new NLogLogger()).Named<AbstractLogger>("file").InstancePerLifetimeScope();
@@ -84,9 +74,53 @@ namespace Mercurius.Prime.Boot.Autofac
 
                     if (!assemblies.IsEmpty())
                     {
-                        // 注册服务。
+                        // 使用Injectable接口的服务
                         Builder.RegisterAssemblyTypes(assemblies)
-                                        .Where(p => p.IsSubclassOf(typeof(ServiceSupport)))
+                            .Where(p => p.IsAssignableTo<Injectable>())
+                            .PropertiesAutowired()
+                            .InstancePerLifetimeScope()
+                            .OnActivated(p =>
+                            {
+                                var target = p.Instance as Injectable;
+
+                                target?.OnActivated(p.Instance);
+                            }).OnRelease(p =>
+                            {
+                                var target = p as Injectable;
+
+                                target?.OnRelease(p);
+                            });
+
+                        // web api客户端服务
+                        var webApiClientSupportType = typeof(WebApiClientSupport);
+
+                        Builder.RegisterAssemblyTypes(assemblies)
+                               .Where(p => p.IsSubclassOf(webApiClientSupportType))
+                               .PropertiesAutowired()
+                               .InstancePerLifetimeScope();
+
+                        // 注册服务。
+                        var serviceType = typeof(ServiceSupport);
+
+                        Builder.RegisterAssemblyTypes(assemblies)
+                                        .Where(p => p.IsSubclassOf(serviceType))
+                                        .OnActivated(p =>
+                                        {
+                                            var target = p.Instance as ServiceSupport;
+                                            var connectionName = target.ConnectionStringName;
+                                            var current = connectionName.IsNullOrEmpty() ? PlatformSection.Instance.ConnectionStrings : PlatformSection.Instance.ConnectionStrings[connectionName];
+
+                                            target.Persistence.Master = current.Master;
+                                            target.Persistence.Slave = current.Slave;
+
+                                            if (target.Persistence.CommandTextBuilder != null && PlatformSection.Instance.Log?.Type != null)
+                                            {
+                                                using (var scope = LifetimeScope)
+                                                {
+                                                    target.Persistence.CommandTextBuilder.Logger = scope.ResolveKeyed<AbstractLogger>(PlatformSection.Instance.Log.Type);
+                                                }
+                                            }
+                                        })
                                         .PropertiesAutowired() // 启用属性注入
                                         .InstancePerLifetimeScope();
 

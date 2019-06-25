@@ -39,7 +39,7 @@ namespace Mercurius.Prime.Core.Entity
         public SearchObject()
         {
             this.PageIndex = 1;
-            this.PageSize = PlatformConfig.Instance.PageSize;
+            this.PageSize = PlatformSection.Instance.PageSize;
         }
 
         #endregion

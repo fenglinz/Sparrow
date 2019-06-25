@@ -71,16 +71,6 @@ namespace Mercurius.Prime.Core.WebApi
             return signature.ToLower();
         }
 
-        /// <summary>
-        /// 创建时间戳
-        ///本代码来自开源微信SDK项目：https://github.com/night-king/weixinSDK
-        /// </summary>
-        /// <returns></returns>
-        public static long CreatenTimestamp()
-        {
-            return (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
-        }
-
         public static string GetSHA1(string strSource)
         {
             var strResult = "";
@@ -98,7 +88,6 @@ namespace Mercurius.Prime.Core.WebApi
             return strResult;
         }
 
-
         public async Task<string> GetOpenId(string appId, string appSecret, string code)
         {
             var url = $"https://api.weixin.qq.com/sns/oauth2/access_token?appid={appId}&secret={appSecret}&code={code}&grant_type=authorization_code";
@@ -112,13 +101,6 @@ namespace Mercurius.Prime.Core.WebApi
             var userInfo = data.AsObject<UserInfo>();
 
             return userInfo.OpenId;
-        }
-
-        public static string GetOAuth(string appId, string lcurl)
-        {
-            var url = $"//open.weixin.qq.com/connect/oauth2/authorize?appid={appId}&redirect_uri={lcurl}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
-            
-            return url; //会跳转到weixinBackUrl填写的地址(NewHome)上并将code值发过去
         }
 
         /// <summary>  

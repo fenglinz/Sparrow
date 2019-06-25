@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Reflection;
+using System.Threading.Tasks;
 using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Configuration;
 using Mercurius.Prime.Data.Parser;
@@ -13,7 +14,7 @@ namespace Mercurius.Prime.Data.Ado
     /// <summary>
     /// 数据库访问工具类。
     /// </summary>
-    public sealed class DbHelper : IDisposable
+    public sealed class DbHelper
     {
         #region 字段
 
@@ -22,8 +23,6 @@ namespace Mercurius.Prime.Data.Ado
         private readonly DbProviderFactory _dbProviderFactory;
 
         private DbMetadata _dbMetadata;
-        private DbConnection _connection;
-        private DbTransaction _transaction;
 
         #endregion
 
@@ -68,7 +67,7 @@ namespace Mercurius.Prime.Data.Ado
         /// <param name="connectionStringName">连接配置字符串名称</param>
         public DbHelper(string connectionStringName = "Default")
         {
-            var connectionString = PlatformConfig.Instance.ConnectionStrings.Master;
+            var connectionString = PlatformSection.Instance.ConnectionStrings.Master;
 
             if (connectionString == null)
             {
@@ -98,30 +97,6 @@ namespace Mercurius.Prime.Data.Ado
 
         #endregion
 
-        #region IDispose接口实现
-
-        /// <summary>
-        /// 提交/回滚事务。
-        /// </summary>
-        public void Dispose()
-        {
-            if (this._transaction != null)
-            {
-                try
-                {
-                    this._transaction.Commit();
-                }
-                catch
-                {
-                    this._transaction.Rollback();
-                }
-            }
-
-            this.CloseSession();
-        }
-
-        #endregion
-
         #region 尝试连接数据库
 
         /// <summary>
@@ -132,7 +107,7 @@ namespace Mercurius.Prime.Data.Ado
         {
             var result = false;
 
-            this.OpenSession().TryConnect(out result);
+            this.GetConnection().TryConnect(out result);
 
             return result;
         }
@@ -145,92 +120,15 @@ namespace Mercurius.Prime.Data.Ado
         /// 打开数据库连接。
         /// </summary>
         /// <returns>数据库连接对象</returns>
-        public DbConnection OpenSession()
+        public DbConnection GetConnection()
         {
-            if (this._transaction != null && this._connection != null)
-            {
-                return this._transaction.Connection;
-            }
-
             lock (this._locker)
             {
-                if (this._connection == null)
-                {
-                    this._connection = this._dbProviderFactory.CreateConnection();
-                    this._connection.ConnectionString = this.ConnectionString;
-                }
-            }
+                var connection = this._dbProviderFactory.CreateConnection();
 
-            return this._connection.SafeOpen();
-        }
+                connection.ConnectionString = this.ConnectionString;
 
-        /// <summary>
-        /// 关闭数据库连接。
-        /// </summary>
-        public void CloseSession()
-        {
-            if (this._connection != null)
-            {
-                this._connection.Dispose();
-                this._connection = null;
-            }
-
-            if (this._transaction != null)
-            {
-                this._transaction.Dispose();
-                this._transaction = null;
-            }
-        }
-
-        #endregion
-
-        #region 事务处理
-
-        /// <summary>
-        /// 开始事务处理。
-        /// </summary>
-        /// <param name="isolationLevel">事务锁级别</param>
-        /// <returns>数据库访问工具对象</returns>
-        public DbHelper BeginTransaction(IsolationLevel? isolationLevel = null)
-        {
-            var connection = this.OpenSession().SafeOpen();
-
-            this._transaction = isolationLevel.HasValue ? connection.BeginTransaction(isolationLevel.Value) : connection.BeginTransaction();
-
-            return this;
-        }
-
-        /// <summary>
-        /// 提交事务。
-        /// </summary>
-        public void Commit()
-        {
-            if (this._transaction != null)
-            {
-                this._transaction.Commit();
-
-                this._transaction.Connection.Dispose();
-                this._transaction.Dispose();
-
-                this._transaction = null;
-                this._connection = null;
-            }
-        }
-
-        /// <summary>
-        /// 回滚事务。
-        /// </summary>
-        public void Rollback()
-        {
-            if (this._transaction != null)
-            {
-                this._transaction.Rollback();
-
-                this._transaction.Connection.Dispose();
-                this._transaction.Dispose();
-
-                this._transaction = null;
-                this._connection = null;
+                return connection;
             }
         }
 
@@ -249,10 +147,9 @@ namespace Mercurius.Prime.Data.Ado
         /// <returns>命令对象</returns>
         public DbCommand CreateCommand(DbConnection connection = null)
         {
-            connection = connection ?? this.OpenSession();
+            connection = connection ?? this.GetConnection();
 
             var command = connection.CreateCommand();
-            command.Transaction = this._transaction;
 
             return command;
         }
@@ -328,11 +225,14 @@ namespace Mercurius.Prime.Data.Ado
         /// 执行命令(基于同一事务管理)。
         /// </summary>
         /// <param name="commandTexts">命令列表</param>
-        public void Execute(params string[] commandTexts)
+        public async Task Execute(params string[] commandTexts)
         {
             if (!commandTexts.IsEmpty())
             {
-                var connection = this.OpenSession().SafeOpen();
+                var connection = this.GetConnection();
+
+                await connection.OpenAsync();
+
                 var transaction = connection.BeginTransaction();
 
                 try
@@ -369,7 +269,7 @@ namespace Mercurius.Prime.Data.Ado
         /// <returns>受影响的行数</returns>
         public int Execute(string commandText, Action<DbCommand> commandHandler)
         {
-            var connection = this.OpenSession().SafeOpen();
+            var connection = this.GetConnection();
             var command = this.CreateCommand(commandText, connection);
 
             commandHandler?.Invoke(command);
@@ -386,7 +286,10 @@ namespace Mercurius.Prime.Data.Ado
         {
             if (connection != null && !commands.IsEmpty())
             {
-                connection.SafeOpen();
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
 
                 var transaction = connection.BeginTransaction();
 
@@ -455,12 +358,12 @@ namespace Mercurius.Prime.Data.Ado
         /// <returns>DataReader</returns>
         public DbDataReader ExecuteReader(string commandText, Action<DbCommand> commandHandler = null)
         {
-            var connection = this.OpenSession();
+            var connection = this.GetConnection();
             var command = this.CreateCommand(commandText, connection);
 
             commandHandler?.Invoke(command);
 
-            connection.SafeOpen();
+            connection.Open();
 
             return command.ExecuteReader();
         }
@@ -520,12 +423,12 @@ namespace Mercurius.Prime.Data.Ado
         /// <returns>数据</returns>
         public T ExecuteScalar<T>(string commandText, Action<DbCommand> commandHandler = null) where T : struct
         {
-            var connection = this.OpenSession();
+            var connection = this.GetConnection();
             var command = this.CreateCommand(commandText, connection);
 
             commandHandler?.Invoke(command);
 
-            connection.SafeOpen();
+            connection.Open();
 
             return (T)command.ExecuteScalar();
         }

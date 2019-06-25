@@ -338,7 +338,7 @@ namespace Mercurius.Prime.Data.Parser.Builder
             if (orderBys.IsEmpty())
             {
                 var firstColumn = commandText.Substring(0, commandText.IndexOf(",")).Substring(6).Trim();
-                var asIndex = firstColumn.IndexOf("as", StringComparison.OrdinalIgnoreCase);
+                var asIndex = firstColumn.IndexOf(" as ", StringComparison.OrdinalIgnoreCase);
 
                 if (asIndex != -1)
                 {

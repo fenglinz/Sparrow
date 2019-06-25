@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 using Mercurius.Prime.Core.Cache;
@@ -19,7 +20,7 @@ namespace Mercurius.Prime.Core.WebApi
         /// <summary>
         /// 缓存。
         /// </summary>
-        public CacheProvider Cache { get; set; }
+        public RedisClient Redis { get; set; }
 
         #endregion
 
@@ -61,7 +62,7 @@ namespace Mercurius.Prime.Core.WebApi
 
             var response = await request.GetResponseAsync();
 
-            return new HttpResponseResult(response);
+            return new HttpResponseResult((HttpWebResponse)response);
         }
 
         /// <summary>
@@ -74,6 +75,15 @@ namespace Mercurius.Prime.Core.WebApi
         /// <returns>返回的数据</returns>
         protected async Task<HttpResponseResult> Post(string url, object data = null, Action<HttpWebRequest> callback = null)
         {
+            // 设置最大连接数
+            ServicePointManager.DefaultConnectionLimit = 200;
+
+            // 设置https验证方式
+            if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+            }
+
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = "application/json";
@@ -99,7 +109,7 @@ namespace Mercurius.Prime.Core.WebApi
 
             var response = await request.GetResponseAsync();
 
-            return new HttpResponseResult(response);
+            return new HttpResponseResult((HttpWebResponse)response);
         }
 
         /// <summary>
@@ -112,6 +122,15 @@ namespace Mercurius.Prime.Core.WebApi
         /// <returns>返回的数据</returns>
         protected async Task<HttpResponseResult> Put(string url, object data = null, Action<HttpWebRequest> callback = null)
         {
+            // 设置最大连接数
+            ServicePointManager.DefaultConnectionLimit = 200;
+
+            // 设置https验证方式
+            if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+            }
+
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = "application/json";
@@ -137,7 +156,7 @@ namespace Mercurius.Prime.Core.WebApi
 
             var response = await request.GetResponseAsync();
 
-            return new HttpResponseResult(response);
+            return new HttpResponseResult((HttpWebResponse)response);
         }
 
         /// <summary>
@@ -150,6 +169,15 @@ namespace Mercurius.Prime.Core.WebApi
         /// <returns>返回的数据</returns>
         protected async Task<HttpResponseResult> Delete(string url, object data = null, Action<HttpWebRequest> callback = null)
         {
+            // 设置最大连接数
+            ServicePointManager.DefaultConnectionLimit = 200;
+
+            // 设置https验证方式
+            if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+            }
+
             if (data != null)
             {
                 var paramters = ParameterHelper.GetProperties(data);
@@ -176,20 +204,27 @@ namespace Mercurius.Prime.Core.WebApi
 
             var response = await request.GetResponseAsync();
 
-            return new HttpResponseResult(response);
+            return new HttpResponseResult((HttpWebResponse)response);
         }
 
         /// <summary>
         /// 获取token。
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <param name="grantType"></param>
+        /// <param name="url">token获取地址</param>
         /// <returns>token信息</returns>
-        protected async Task<Token> GetOAuthToken(string url, string userName, string password, string grantType = "password")
+        protected async Task<Token> GetOAuthToken(string url, string identityId, string data, string contentType = "application/x-www-form-urlencoded")
         {
-            var token = this.Cache?.Get<Token>(url);
+            // 设置最大连接数
+            ServicePointManager.DefaultConnectionLimit = 200;
+
+            // 设置https验证方式
+            if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+            }
+
+            var cacheKey = $"{url}#{identityId}";
+            var token = this.Redis?.Get<Token>(cacheKey);
 
             if (token == null)
             {
@@ -197,10 +232,9 @@ namespace Mercurius.Prime.Core.WebApi
 
                 httpRequest.Method = "POST";
                 httpRequest.Accept = "application/json";
-                httpRequest.ContentType = "application/x-www-form-urlencoded";
+                httpRequest.ContentType = contentType;
 
-                var tokenRequest = $"grant_type={grantType}&username={userName}&password={password}";
-                var buffers = Encoding.UTF8.GetBytes(tokenRequest);
+                var buffers = Encoding.UTF8.GetBytes(data);
 
                 httpRequest.ContentLength = buffers.Length;
 
@@ -214,7 +248,7 @@ namespace Mercurius.Prime.Core.WebApi
 
                     token = JsonConvert.DeserializeObject<Token>(await streamReader.ReadToEndAsync());
 
-                    this.Cache?.Add(url, token);
+                    this.Redis?.Set(cacheKey, token, TimeSpan.FromSeconds(token.ExpiresIn));
                 }
             }
 
@@ -222,5 +256,24 @@ namespace Mercurius.Prime.Core.WebApi
         }
 
         #endregion
+    }
+
+    public static class WebApiClientExtension
+    {
+        /// <summary>
+        /// 设置认证头
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <param name="token">token信息</param>
+        /// <returns>http请求对象</returns>
+        public static HttpWebRequest Authorization(this HttpWebRequest request, Token token)
+        {
+            if (token != null)
+            {
+                request.Headers["Authorization"] = $"{token.TokenType} {token.AccessToken}";
+            }
+
+            return request;
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Extras.DynamicProxy;
+using Mercurius.Prime.Core;
 using Mercurius.Prime.Core.Cache;
 using Mercurius.Prime.Core.Entity;
 using Mercurius.Prime.Core.Log;
@@ -31,9 +33,159 @@ namespace Mercurius.Prime.Data.Service
         /// </summary>
         public Persistence Persistence { get; set; }
 
+        /// <summary>
+        /// 数据库连接配置节(默认为主信息)
+        /// </summary>
+        public virtual string ConnectionStringName => string.Empty;
+
         #endregion
 
         #region Protected Methods
+
+        #region Caches
+
+        protected void SetCache<T>(string key, T value, TimeSpan? expiry = null)
+        {
+            this.Redis?.Set(key, value, expiry);
+        }
+
+        protected void SetCache<T>(string buket, string key, T value)
+        {
+            this.Redis?.Set(buket, key, value);
+        }
+
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        /// <param name="expiry">过期时间</param>
+        public async Task<Response<T>> FromCache<T>(string key, Func<Task<Response<T>>> cachingDataFunc, TimeSpan? expiry = null)
+        {
+            if (this.Redis == null)
+            {
+                return await cachingDataFunc();
+            }
+
+            var value = this.Redis.Get<T>(key);
+
+            if (value == default)
+            {
+                var res = await cachingDataFunc();
+
+                value = res.Data;
+
+                if (value != default)
+                {
+                    this.Redis.Set(key, value, expiry);
+                }
+            }
+
+            return new Response<T> { Data = value };
+        }
+
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="bucket">hash表名称</param>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
+        public async Task<Response<T>> FromCache<T>(string bucket, string key, Func<Task<Response<T>>> cachingDataFunc)
+        {
+            if (this.Redis == null)
+            {
+                return await cachingDataFunc();
+            }
+
+            var value = this.Redis.Get<T>(bucket, key);
+
+            if (value == default)
+            {
+                var res = await cachingDataFunc();
+
+                value = res.Data;
+
+                if (value != default)
+                {
+                    this.Redis.Set(bucket, key, value);
+                }
+            }
+
+            return new Response<T>
+            {
+                Data = value
+            };
+        }
+
+        /// <summary>
+        /// 更新已存在的缓存
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="key">键</param>
+        /// <param name="action">更新回调</param>
+        public void UpdateCache<T>(string key, Action<T> action)
+        {
+            if (this.Redis == null)
+            {
+                return;
+            }
+
+            var value = this.Redis.Get<T>(key);
+
+            if (value != default && action != null)
+            {
+                action(value);
+
+                this.Redis.Set(key, value);
+            }
+        }
+
+        /// <summary>
+        /// 更新已存在的缓存
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="bucket">hash表名称</param>
+        /// <param name="key">键</param>
+        /// <param name="action">更新回调</param>
+        public void UpdateCache<T>(string bucket, string key, Action<T> action)
+        {
+            if (this.Redis == null)
+            {
+                return;
+            }
+
+            var value = this.Redis.Get<T>(bucket, key);
+
+            if (value != default && action != null)
+            {
+                action(value);
+
+                this.Redis.Set(bucket, key, value);
+            }
+        }
+
+        /// <summary>
+        /// 删除缓存
+        /// </summary>
+        /// <param name="key">键</param>
+        public void DeleteCache(string key)
+        {
+            this.Redis?.Delete(key);
+        }
+
+        /// <summary>
+        /// 删除缓存
+        /// </summary>
+        /// <param name="bucket">hash表名称</param>
+        /// <param name="key">键</param>
+        public void DeleteCache(string bucket, string key)
+        {
+            this.Redis.Delete(bucket, key);
+        }
+
+        #endregion
 
         /// <summary>
         /// 添加数据
@@ -57,7 +209,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -87,11 +239,11 @@ namespace Mercurius.Prime.Data.Service
                     }
                 }
 
-                await this.Persistence.CreateAsync(entities);
+                await this.Persistence.CreateAsync(entities.ToArray());
             }
-            catch (Exception exp)
+            catch (Exception ex)
             {
-                rs.ErrorMessage = exp.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -115,7 +267,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -139,7 +291,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -166,7 +318,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -193,7 +345,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -221,7 +373,7 @@ namespace Mercurius.Prime.Data.Service
             {
                 return new ResponseSet<TResponse>
                 {
-                    ErrorMessage = ex.Message
+                    ErrorMessage = ex.Message + "\r\n" + ex.StackTrace
                 };
             }
         }
@@ -244,7 +396,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -261,7 +413,7 @@ namespace Mercurius.Prime.Data.Service
         /// <param name="subQuery">子查询回调</param>
         /// <returns>查询结果</returns>
         protected async Task<Response<TResponse>> QueryForObject<TResponse, TEntity>(StatementNamespace ns, string name,
-            object so = null, Action<SelectCriteria> callback = null, Action<CommandText, TEntity> subQuery = null)
+            object so = null, Action<SelectCriteria> callback = null, Func<CommandText, TEntity, Task> subQuery = null)
         {
             var rs = new Response<TResponse>();
 
@@ -273,7 +425,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -290,7 +442,7 @@ namespace Mercurius.Prime.Data.Service
         /// <param name="subQuery">子查询回调</param>
         /// <returns>查询结果</returns>
         protected async Task<ResponseSet<TDomain>> QueryForList<TDomain>(StatementNamespace ns, string name,
-            object so = null, Action<SelectCriteria<object>> callback = null, Action<CommandText, TDomain> subQuery = null)
+            object so = null, Action<SelectCriteria<object>> callback = null, Func<CommandText, TDomain, Task> subQuery = null)
         {
             var rs = new ResponseSet<TDomain>();
 
@@ -300,7 +452,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -317,7 +469,7 @@ namespace Mercurius.Prime.Data.Service
         /// <param name="subQuery">子查询回调</param>
         /// <returns>查询结果</returns>
         protected async Task<ResponseSet<TResponse>> QueryForList<TSO, TEntity, TResponse>(StatementNamespace ns, string name,
-            TSO so = null, Action<SelectCriteria<TSO>> callback = null, Action<CommandText, TEntity> subQuery = null) where TSO : class, new()
+            TSO so = null, Action<SelectCriteria<TSO>> callback = null, Func<CommandText, TEntity, Task> subQuery = null) where TSO : class, new()
         {
             var rs = new ResponseSet<TResponse>();
 
@@ -329,7 +481,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -346,7 +498,7 @@ namespace Mercurius.Prime.Data.Service
         /// <param name="subQuery">子查询回调</param>
         /// <returns>返回结果</returns>
         protected async Task<ResponseSet<TResponse>> QueryForPagedList<TSO, TEntity, TResponse>(StatementNamespace ns, string name,
-            TSO so = null, Action<SelectCriteria<TSO>> callback = null, Action<CommandText, TEntity> subQuery = null) where TSO : SearchObject, new()
+            TSO so = null, Action<SelectCriteria<TSO>> callback = null, Func<CommandText, TEntity, Task> subQuery = null) where TSO : SearchObject, new()
         {
             try
             {
@@ -358,7 +510,7 @@ namespace Mercurius.Prime.Data.Service
             {
                 return new ResponseSet<TResponse>
                 {
-                    ErrorMessage = ex.Message
+                    ErrorMessage = ex.Message + "\r\n" + ex.StackTrace
                 };
             }
         }
@@ -380,7 +532,7 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;
@@ -404,7 +556,23 @@ namespace Mercurius.Prime.Data.Service
             }
             catch (Exception ex)
             {
-                rs.ErrorMessage = ex.Message;
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
+            }
+
+            return rs;
+        }
+
+        public async Task<Response> ExecuteBatch(IEnumerable<ExecuteObject> executeObjects, bool useTransaction = false)
+        {
+            var rs = new Response();
+
+            try
+            {
+                await this.Persistence.ExecuteBatchAsync(executeObjects, useTransaction);
+            }
+            catch (Exception ex)
+            {
+                rs.ErrorMessage = ex.Message + "\r\n" + ex.StackTrace;
             }
 
             return rs;

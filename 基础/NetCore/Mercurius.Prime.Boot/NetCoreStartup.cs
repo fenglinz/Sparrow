@@ -24,6 +24,8 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using NLog.Extensions.Logging;
 using Serilog;
+using Serilog.Exceptions;
+using Serilog.Sinks.Elasticsearch;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Mercurius.Prime.Boot
@@ -57,10 +59,23 @@ namespace Mercurius.Prime.Boot
         {
             Configuration = configuration;
 
-            PlatformConfig.Initialize(configuration);
+            PlatformSection.Initialize(configuration);
+
+            if (string.CompareOrdinal(PlatformSection.Instance.Log?.Type, "ecsearch") == 0)
+            {
+                Log.Logger = new LoggerConfiguration()
+                   .Enrich.FromLogContext()
+                   .Enrich.WithExceptionDetails()
+                   .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(PlatformSection.Instance.Log.ElasticSearchUrl))
+                   {
+                       AutoRegisterTemplate = true,
+                   }).CreateLogger();
+            }
         }
 
         #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// 配置net core服务
@@ -92,9 +107,9 @@ namespace Mercurius.Prime.Boot
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = PlatformConfig.Instance.OAuth?.Issuer,
+                    ValidIssuer = PlatformSection.Instance.OAuth?.Issuer,
                     ValidAudience = "wr",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(PlatformConfig.Instance.OAuth?.IssuerKey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(PlatformSection.Instance.OAuth?.IssuerKey))
                 };
 
                 options.Events = new JwtBearerEvents
@@ -121,16 +136,15 @@ namespace Mercurius.Prime.Boot
             // 添加跨域访问支持
             services.AddCors(options => options.AddPolicy("AllowAllOrigin",
                 corsBuilder => corsBuilder.AllowAnyOrigin() // 允许所有请求主机
-                                  .AllowAnyMethod() // 允许所有请求方式
-                                  .AllowAnyHeader()
-                                  .AllowCredentials() // 允许处理cookie 
+                    .AllowAnyMethod() // 允许所有请求方式
+                    .AllowAnyHeader()
+                    .AllowCredentials() // 允许处理cookie 
                 )
             );
 
             // 添加mvc支持
             services.AddMvc(options =>
             {
-
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddJsonOptions(options =>
@@ -148,8 +162,8 @@ namespace Mercurius.Prime.Boot
                 options.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
-                    Title = PlatformConfig.Instance.Swagger?.Title,
-                    Description = PlatformConfig.Instance.Swagger?.Description
+                    Title = PlatformSection.Instance.Swagger?.Title,
+                    Description = PlatformSection.Instance.Swagger?.Description
                 });
 
                 options.AddSecurityDefinition("Bearer", new ApiKeyScheme
@@ -170,8 +184,7 @@ namespace Mercurius.Prime.Boot
             });
 
             // autofac初始化
-            ContainerManager.Initialize(build => build.Populate(services),
-                this.GetDependencyAssemblies()?.ToArray());
+            ContainerManager.Initialize(build => build.Populate(services), this.GetDependencyAssemblies()?.ToArray());
 
             this.ApplicationContainer = ContainerManager.Container;
 
@@ -202,7 +215,7 @@ namespace Mercurius.Prime.Boot
             }
 
             // 日志处理
-            if (PlatformConfig.Instance.Log?.Type == "ecsearch")
+            if (string.CompareOrdinal(PlatformSection.Instance.Log?.Type, "ecsearch") == 0)
             {
                 loggerFactory.AddSerilog();
             }
@@ -213,12 +226,17 @@ namespace Mercurius.Prime.Boot
 
             // 文件缓存时间
             var cachePeriod = env.IsDevelopment() ? "600" : "604800";
-            
+
+            if (!Directory.Exists($"{env.ContentRootPath}/uploads"))
+            {
+                Directory.CreateDirectory($"{env.ContentRootPath}/uploads");
+            }
+
             // 使用静态资源服务
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Environment.CurrentDirectory, PlatformConfig.Instance.SavedUploadFilesRoot)),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Environment.CurrentDirectory, PlatformSection.Instance.SavedUploadFilesRoot)),
                 RequestPath = "/uploads",
                 OnPrepareResponse = ctx =>
                 {
@@ -246,12 +264,16 @@ namespace Mercurius.Prime.Boot
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.DocumentTitle = PlatformConfig.Instance.Swagger?.Title;
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", PlatformConfig.Instance.Swagger?.Description);
+                c.DocumentTitle = PlatformSection.Instance.Swagger?.Title;
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", PlatformSection.Instance.Swagger?.Description);
             });
 
             this.OnConfigure(app, env, loggerFactory);
         }
+
+        #endregion
+
+        #region Abstract Methods
 
         /// <summary>
         /// 获取参与依赖注入的程序集.
@@ -272,5 +294,7 @@ namespace Mercurius.Prime.Boot
         /// <param name="env">寄宿环境对象</param>
         /// <param name="loggerFactory">日志对象</param>
         protected abstract void OnConfigure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory);
+
+        #endregion
     }
 }

@@ -1,0 +1,21 @@
+{
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": { // Consul 服务发现配置
+      "Host": "192.168.99.100", // Consul 地址
+      "Port": 8500,
+      "Type": "Consul"
+    }
+  },
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/IdentityServer/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "DELETE", "PUT" ],
+      "ServiceName": "IdentityServer", //consul 服务中 ServiceA 的名称
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    }
+  ]
+}

@@ -60,6 +60,20 @@ namespace Mercurius.Prime.Core.Cache
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="bucket"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void Set<T>(string bucket, string key, T value)
+        {
+            var database = this.GetDatabase();
+
+            database?.HashSet(bucket, key, value?.AsJson());
+        }
+
+        /// <summary>
         /// 获取缓存值。
         /// </summary>
         /// <typeparam name="T">缓存数据类型</typeparam>
@@ -69,6 +83,22 @@ namespace Mercurius.Prime.Core.Cache
         {
             var database = this.GetDatabase();
             string cacheValue = database?.StringGet(key);
+
+            return cacheValue.AsObject<T>();
+        }
+
+        /// <summary>
+        /// 获取缓存值
+        /// </summary>
+        /// <typeparam name="T">缓存类型</typeparam>
+        /// <param name="bucket">hash表名称</param>
+        /// <param name="key">键</param>
+        /// <returns>值</returns>
+        public T Get<T>(string bucket, string key)
+        {
+            var database = this.GetDatabase();
+
+            string cacheValue = database?.HashGet(bucket, key);
 
             return cacheValue.AsObject<T>();
         }
@@ -99,9 +129,19 @@ namespace Mercurius.Prime.Core.Cache
         /// 删除缓存信息
         /// </summary>
         /// <param name="key">键</param>
-        public void Remove(string key)
+        public void Delete(string key)
         {
             this.GetDatabase()?.KeyDelete(key);
+        }
+
+        /// <summary>
+        /// 删除缓存信息
+        /// </summary>
+        /// <param name="bucket">hash表名称</param>
+        /// <param name="key">键</param>
+        public void Delete(string bucket, string key)
+        {
+            this.GetDatabase()?.HashDelete(bucket, key);
         }
 
         /// <summary>
@@ -114,6 +154,35 @@ namespace Mercurius.Prime.Core.Cache
             this.GetDatabase()?.KeyExpire(key, expiry);
         }
 
+        /// <summary>
+        /// redis锁
+        /// </summary>
+        /// <param name="key">锁键</param>
+        /// <param name="handler">业务处理委托</param>
+        /// <param name="expiry">锁过期时间(单位：秒)</param>
+        public void Lock(string key, Action handler, double expiry = 10)
+        {
+            var database = this.GetDatabase();
+
+            if (database != null)
+            {
+                var lockerKey = $"____locker|{key}";
+                var token = Environment.MachineName;
+
+                if (database.LockTake(lockerKey, token, TimeSpan.FromSeconds(expiry)))
+                {
+                    try
+                    {
+                        handler?.Invoke();
+                    }
+                    finally
+                    {
+                        database.LockRelease(lockerKey, token);
+                    }
+                }
+            }
+        }
+
         #region Private Methods
 
         /// <summary>
@@ -123,7 +192,7 @@ namespace Mercurius.Prime.Core.Cache
         {
             try
             {
-                var redisConfig = PlatformConfig.Instance.Redis;
+                var redisConfig = PlatformSection.Instance.Redis;
 
                 var config = new ConfigurationOptions
                 {

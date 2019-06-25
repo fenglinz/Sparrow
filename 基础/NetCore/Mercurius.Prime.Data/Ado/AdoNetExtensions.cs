@@ -48,26 +48,6 @@ namespace Mercurius.Prime.Data.Ado
         #region ADO.Net对象创建扩展方法
 
         /// <summary>
-        /// 安全打开数据库连接。
-        /// </summary>
-        /// <param name="connection">数据库连接对象</param>
-        /// <returns>数据库连接对象</returns>
-        public static DbConnection SafeOpen(this DbConnection connection)
-        {
-            if (connection == null)
-            {
-                throw new ArgumentNullException(nameof(connection));
-            }
-
-            if (connection.State != ConnectionState.Open)
-            {
-                connection.Open();
-            }
-
-            return connection;
-        }
-
-        /// <summary>
         /// 尝试连接数据库。
         /// </summary>
         /// <param name="connection">数据库连接对象</param>
@@ -77,7 +57,7 @@ namespace Mercurius.Prime.Data.Ado
         {
             try
             {
-                connection.SafeOpen();
+                connection.Open();
 
                 isConnect = true;
             }
@@ -86,6 +66,10 @@ namespace Mercurius.Prime.Data.Ado
                 isConnect = false;
 
                 return exception.Message;
+            }
+            finally
+            {
+                connection.Close();
             }
 
             return null;
@@ -149,7 +133,10 @@ namespace Mercurius.Prime.Data.Ado
                 throw new ArgumentException(UNSET_CONNECTION);
             }
 
-            command.Connection.SafeOpen();
+            if (command.Connection.State != ConnectionState.Open)
+            {
+                command.Connection.Open();
+            }
 
             return command.ExecuteNonQuery();
         }
@@ -193,12 +180,17 @@ namespace Mercurius.Prime.Data.Ado
                 throw new ArgumentException(UNSET_CONNECTION);
             }
 
-            if (command.Transaction == null)
+            if (command.Connection.State != ConnectionState.Open)
             {
-                return command.SafeOpen().ExecuteReader().GetData<T>();
+                command.Connection.Open();
             }
 
-            return command.SafeOpen().ExecuteReader().GetData<T>();
+            if (command.Transaction == null)
+            {
+                return command.ExecuteReader().GetData<T>();
+            }
+
+            return command.ExecuteReader().GetData<T>();
         }
 
         /// <summary>
@@ -220,12 +212,17 @@ namespace Mercurius.Prime.Data.Ado
                 throw new ArgumentException(UNSET_CONNECTION);
             }
 
-            if (command.Transaction == null)
+            if (command.Connection.State != ConnectionState.Open)
             {
-                return command.SafeOpen().ExecuteReader().GetData(dataMappingHandler);
+                command.Connection.Open();
             }
 
-            return command.SafeOpen().ExecuteReader().GetData(dataMappingHandler);
+            if (command.Transaction == null)
+            {
+                return command.ExecuteReader().GetData(dataMappingHandler);
+            }
+
+            return command.ExecuteReader().GetData(dataMappingHandler);
         }
 
         /// <summary>
@@ -246,12 +243,17 @@ namespace Mercurius.Prime.Data.Ado
                 throw new ArgumentException(UNSET_CONNECTION);
             }
 
-            if (command.Transaction == null)
+            if (command.Connection.State != ConnectionState.Open)
             {
-                return command.SafeOpen().ExecuteReader().GetDatas<T>();
+                command.Connection.Open();
             }
 
-            return command.SafeOpen().ExecuteReader().GetDatas<T>();
+            if (command.Transaction == null)
+            {
+                return command.ExecuteReader().GetDatas<T>();
+            }
+
+            return command.ExecuteReader().GetDatas<T>();
         }
 
         /// <summary>
@@ -273,12 +275,17 @@ namespace Mercurius.Prime.Data.Ado
                 throw new ArgumentException(UNSET_CONNECTION);
             }
 
-            if (command.Transaction == null)
+            if (command.Connection.State != ConnectionState.Open)
             {
-                return command.SafeOpen().ExecuteReader().GetDatas(dataMappingHandler);
+                command.Connection.Open();
             }
 
-            return command.SafeOpen().ExecuteReader().GetDatas(dataMappingHandler);
+            if (command.Transaction == null)
+            {
+                return command.ExecuteReader().GetDatas(dataMappingHandler);
+            }
+
+            return command.ExecuteReader().GetDatas(dataMappingHandler);
         }
 
         /// <summary>
@@ -456,18 +463,6 @@ namespace Mercurius.Prime.Data.Ado
         #endregion
 
         #region 私有方法
-
-        /// <summary>
-        /// 打开数据库连接。
-        /// </summary>
-        /// <param name="command">数据库命令对象</param>
-        /// <returns>数据库命令对象</returns>
-        private static DbCommand SafeOpen(this DbCommand command)
-        {
-            command.Connection.SafeOpen();
-
-            return command;
-        }
 
         /// <summary>
         /// 根据反射建立的数据映射。

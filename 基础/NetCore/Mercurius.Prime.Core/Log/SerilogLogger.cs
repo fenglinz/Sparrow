@@ -29,7 +29,7 @@ namespace Mercurius.Prime.Core.Log
         {
             this.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(PlatformConfig.Instance.Log?.ElasticSearchUrl))
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(PlatformSection.Instance.Log?.ElasticSearchUrl))
                 {
                     AutoRegisterTemplate = true,
                 })

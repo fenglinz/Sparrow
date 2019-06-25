@@ -17,7 +17,7 @@ namespace Mercurius.Prime.Core.Log
         /// <returns>是否可记录</returns>
         public bool IsEnabledFor(Level level)
         {
-            var success = Enum.TryParse(PlatformConfig.Instance.Log?.Level?.IsNullOrEmptyValue("Debug"), out Level canWriteLevel);
+            var success = Enum.TryParse(PlatformSection.Instance.Log?.Level?.IsNullOrEmptyValue("Debug"), out Level canWriteLevel);
 
             if (success)
             {
