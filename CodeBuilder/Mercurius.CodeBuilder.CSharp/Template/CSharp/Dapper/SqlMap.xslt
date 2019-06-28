@@ -56,14 +56,14 @@
       (
       <xsl:for-each select="./table/column[@isAddColumn='true']">
         <xsl:if test="position()=1">
-          <xsl:text>    </xsl:text>
+          <xsl:text>  </xsl:text>
         </xsl:if>
         <xsl:text>[</xsl:text>
         <xsl:value-of select="@name" />
         <xsl:text>]</xsl:text>
         <xsl:if test="position()!=last()">
-          <xsl:text>,
-          </xsl:text>
+        <xsl:text>,
+        </xsl:text>
         </xsl:if>
       </xsl:for-each>
       )
@@ -71,27 +71,16 @@
       (
       <xsl:for-each select="./table/column[@isAddColumn='true']">
         <xsl:if test="position()=1">
-          <xsl:text>    </xsl:text>
+          <xsl:text>  </xsl:text>
         </xsl:if>
         <xsl:text>@</xsl:text>
         <xsl:value-of select="@propertyName" />
         <xsl:if test="position()!=last()">
-          <xsl:text>,
-          </xsl:text>
+        <xsl:text>,
+        </xsl:text>
         </xsl:if>
       </xsl:for-each>
       )
-      <attach name="Check" commandType="Text" mode="Scalar">
-        SELECT 1 AS Rows FROM DUAL WHERE EXISTS(SELECT * FROM `<xsl:value-of select="./table/@name" />` WHERE <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-        <xsl:text>`</xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>`=@</xsl:text>
-        <xsl:value-of select="@propertyName"/>
-        <xsl:if test="position()!=last()">
-          <xsl:text> AND </xsl:text>
-        </xsl:if>
-      </xsl:for-each>)
-    </attach>
     </commandText>
     <xsl:text>
     </xsl:text>
@@ -110,18 +99,18 @@
       SET
       <xsl:for-each select="./table/column[@isUpdateColumn='true']">
         <xsl:if test="position()=1">
-          <xsl:text>    </xsl:text>
+          <xsl:text>  </xsl:text>
         </xsl:if>
         <xsl:text>[</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>]=@</xsl:text>
         <xsl:value-of select="@propertyName"/>
         <xsl:if test="position()!=last()">
-          <xsl:text>,
-          </xsl:text>
+        <xsl:text>,
+        </xsl:text>
         </xsl:if>
       </xsl:for-each>
-        WHERE <xsl:for-each select="./table/column[@isPrimaryKey='true']">
+      WHERE <xsl:for-each select="./table/column[@isPrimaryKey='true']">
         <xsl:text>[</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>]=@</xsl:text>
@@ -132,17 +121,6 @@
       </xsl:for-each>
       <xsl:text>
       </xsl:text>
-      <attach name="Check" commandType="Text" mode="Scalar">
-        SELECT 1 AS Rows FROM DUAL WHERE EXISTS(SELECT * FROM `<xsl:value-of select="./table/@name" />` WHERE <xsl:for-each select="./table/column[@isPrimaryKey='true']">
-        <xsl:text>`</xsl:text>
-        <xsl:value-of select="@name"/>
-        <xsl:text>`=@</xsl:text>
-        <xsl:value-of select="@propertyName"/>
-        <xsl:if test="position()!=last()">
-          <xsl:text> AND </xsl:text>
-        </xsl:if>
-      </xsl:for-each>)
-      </attach>
     </commandText>
     <xsl:text>
     </xsl:text>
