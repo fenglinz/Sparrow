@@ -85,6 +85,7 @@
                     <ComboBox Margin="495,4,0,0" Width="150" Text="{Binding Configuration.OrmMiddleware, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, IsAsync=True}">
                         <ComboBoxItem Content="Dapper" IsSelected="True" />
                         <ComboBoxItem Content="IBatisNet" />
+                        <ComboBoxItem Content="NHibernate" />
                     </ComboBox>
 
                     <Label Margin="33,45,0,0" Content="{Binding ProjectFileLabel1}" />
