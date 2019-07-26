@@ -8,17 +8,17 @@
   <xsl:template match="root">
     <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
     <xsl:attribute name="assembly"><xsl:value-of select="./rootNamespace"/></xsl:attribute>
-    <xsl:attribute name="namespace"><xsl:value-of select="./table/@namespace" />.<xsl:value-of select="./table/@className" /></xsl:attribute>
+    <xsl:attribute name="namespace"><xsl:value-of select="./rootNamespace" />.Entities</xsl:attribute>
       <class>
         <xsl:attribute name="name"><xsl:value-of select="./table/@className"/></xsl:attribute>
         <xsl:attribute name="table"><xsl:value-of select="./table/@table"/></xsl:attribute>
         <xsl:for-each select="./table/column[@isPrimaryKey='true']">
           <id>
             <xsl:attribute name="name">
-              <xsl:value-of select="@name" />
+              <xsl:value-of select="@propertyName" />
             </xsl:attribute>
             <xsl:attribute name="column">
-              <xsl:value-of select="@propertyName"/>
+              <xsl:value-of select="@name"/>
             </xsl:attribute>
           </id>
         </xsl:for-each>
