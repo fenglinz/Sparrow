@@ -87,6 +87,9 @@
     <None Include="Template\CSharp\NHibernate\init.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Template\CSharp\NHibernate\Entity.xslt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Template\CSharp\NHibernate\SqlMap.xslt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

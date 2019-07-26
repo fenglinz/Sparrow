@@ -15,7 +15,9 @@ namespace Mercurius.CodeBuilder.Core.Config
 
         IBatisNet,
 
-        MyBatis
+        MyBatis,
+
+        NHibernate
     }
 
     public static class ConfigManager

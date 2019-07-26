@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <config>
   <item name="Entity"
-        template="Entity.xslt"
+        template="NHibernate\Entity.xslt"
         module="interface"
         fileFormat="{0}"
         subFolder="Entities"
@@ -12,7 +12,7 @@
   <item name="SqlMap"
         dependency="Entity"
         template="NHibernate\SqlMap.xslt"
-        module="interface"
+        module="implement"
         subFolder="Mappings"
         fileFormat="{0}.hbm"
         extension="xml"
