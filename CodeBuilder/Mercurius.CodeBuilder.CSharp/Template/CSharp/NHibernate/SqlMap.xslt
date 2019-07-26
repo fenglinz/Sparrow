@@ -6,7 +6,7 @@
   <xsl:strip-space elements="id property"/>
   
   <xsl:template match="root">
-    <nhibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+    <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
     <xsl:attribute name="assembly"><xsl:value-of select="./rootNamespace"/></xsl:attribute>
     <xsl:attribute name="namespace"><xsl:value-of select="./table/@namespace" />.<xsl:value-of select="./table/@className" /></xsl:attribute>
       <class>
@@ -33,6 +33,6 @@
           </property>
         </xsl:for-each>
       </class>
-</nhibernate-mapping>
+</hibernate-mapping>
   </xsl:template>
 </xsl:stylesheet>
