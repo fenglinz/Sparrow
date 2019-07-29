@@ -27,3 +27,4 @@ varbinary,Byte[]
 varchar,String
 varcharmax,String
 variant,Object
+hierarchyid,string

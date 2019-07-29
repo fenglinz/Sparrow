@@ -10,16 +10,16 @@ datetime,DateTime
 decimal,Decimal
 float,double
 image,byte[]
-money,Decimal
+money,decimal
 nchar,string
 ntext,string
-numeric,Decimal
+numeric,decimal
 nvarchar,string
 nvarcharmax,string
 real,float
 smalldatetime,DateTime
 smallint,short
-smallmoney,Decimal
+smallmoney,decimal
 timestamp,DateTime
 tinyint,byte
 uniqueidentifier,Guid
@@ -27,3 +27,4 @@ varbinary,byte[]
 varchar,string
 varcharmax,string
 variant,object
+hierarchyid,string
