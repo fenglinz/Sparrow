@@ -64,7 +64,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
         #endregion
 
         #region 属性
-         
+
         public BuildConfiguration Configuration { get; }
 
         public ObservableCollection<DbTable> Tables { get; set; }
@@ -490,6 +490,7 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                 }));
             }
         }
+
         #endregion
 
         #region 构造方法
