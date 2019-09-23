@@ -11,9 +11,10 @@
 
 using System;
 using System.Collections.Generic;
+using SCS.Dao.Interfaces;
 <xsl:call-template name="namespace" />
 {<xsl:call-template name="entityDescription" />
-    public class <xsl:value-of select="./table/@className" />
+    public class <xsl:value-of select="./table/@className" /> : EntityBase
     {
         #region Properties
 <xsl:call-template name="properties" />
