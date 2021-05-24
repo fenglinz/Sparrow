@@ -27,7 +27,7 @@ namespace Mercurius.CodeBuilder.UI
 
         private void Shell_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            this.regionManager.RequestNavigate("NavigationRegion", "DatabaseExplorerView");
+            this.regionManager.RequestNavigate("NavigationRegion", "databaseExplorer");
         }
     }
 }

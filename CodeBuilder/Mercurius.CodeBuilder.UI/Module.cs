@@ -1,4 +1,5 @@
-﻿using Mercurius.CodeBuilder.UI.Views;
+﻿using Mercurius.CodeBuilder.UI.ViewModels;
+using Mercurius.CodeBuilder.UI.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -13,12 +14,12 @@ namespace Mercurius.CodeBuilder.UI
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {
-
+            
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<DatabaseExplorerView>();
+            containerRegistry.RegisterForNavigation<DatabaseExplorerView, DatabaseExplorerViewModel>("databaseExplorer");
         }
     }
 }
