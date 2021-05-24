@@ -4,18 +4,19 @@ using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.CSharp;
 using Mercurius.CodeBuilder.DbMetadata.MSSQL;
 using Mercurius.CodeBuilder.DbMetadata.Oracle;
-using Microsoft.Practices.Unity;
+using Microsoft.Practices.ServiceLocation;
 using Prism.Modularity;
 using Prism.Unity;
 using Mercurius.CodeBuilder.DbMetadata.MySQL;
 using Mercurius.CodeBuilder.Java;
+using Prism.Ioc;
 
 namespace Mercurius.CodeBuilder.UI
 {
     /// <summary>
     /// Prism启动器。
     /// </summary>
-    public class CodeBuilderBootstrapper : UnityBootstrapper
+    public class CodeBuilderBootstrapper : PrismBootstrapper
     {
         /// <summary>
         /// 创建Shell.
@@ -26,33 +27,28 @@ namespace Mercurius.CodeBuilder.UI
             return this.Container.Resolve<Shell>();
         }
 
-        protected override void InitializeShell()
+        protected override void InitializeShell(DependencyObject shell)
         {
-            Application.Current.MainWindow = this.Shell as Window;
+            Application.Current.MainWindow = shell as Shell;
             Application.Current.MainWindow.Show();
         }
 
-        protected override void ConfigureContainer()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            base.ConfigureContainer();
-
-            this.Container.RegisterType<Metadata, MSSQLMetadata>("MSSQL");
-            this.Container.RegisterType<Metadata, MySQLMetadata>("MySQL");
-            this.Container.RegisterType<Metadata, OracleMetadata>("Oracle");
-            this.Container.RegisterType<DbTypeMapping, MSSQLDbTypeMapping>("MSSQL");
-            this.Container.RegisterType<DbTypeMapping, MySQLDbTypeMapping>("MySQL");
-            this.Container.RegisterType<DbTypeMapping, OracleDbTypeMapping>("Oracle");
-            this.Container.RegisterType<AbstractCodeCreator, CSharpCodeCreator>("C#");
-            this.Container.RegisterType<AbstractCodeCreator, JavaCodeCreator>("Java");
+            containerRegistry.Register<Metadata, MSSQLMetadata>("MSSQL");
+            containerRegistry.Register<Metadata, MySQLMetadata>("MySQL");
+            containerRegistry.Register<Metadata, OracleMetadata>("Oracle");
+            containerRegistry.Register<DbTypeMapping, MSSQLDbTypeMapping>("MSSQL");
+            containerRegistry.Register<DbTypeMapping, MySQLDbTypeMapping>("MySQL");
+            containerRegistry.Register<DbTypeMapping, OracleDbTypeMapping>("Oracle");
+            containerRegistry.Register<AbstractCodeCreator, CSharpCodeCreator>("C#");
+            containerRegistry.Register<AbstractCodeCreator, JavaCodeCreator>("Java");
         }
 
-        protected override void ConfigureModuleCatalog()
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            this.ModuleCatalog.AddModule(new ModuleInfo
-            {
-                ModuleName = "CodeBuilder",
-                ModuleType = typeof(Module).AssemblyQualifiedName
-            });
+            moduleCatalog.AddModule<Module>();
         }
+
     }
 }

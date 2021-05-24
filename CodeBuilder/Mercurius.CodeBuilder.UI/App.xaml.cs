@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using Oracle.ManagedDataAccess.Client;
+using Prism.Unity;
 
 namespace Mercurius.CodeBuilder.UI
 {

@@ -7,7 +7,6 @@ using Mercurius.Prime.Data.Ado;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
-using NPOI.XSSF.UserModel;
 
 namespace Mercurius.Prime.DataProcess.Excel
 {
@@ -21,7 +20,7 @@ namespace Mercurius.Prime.DataProcess.Excel
         /// </summary>
         /// <param name="tables">表信息</param>
         /// <param name="stream">IO流</param>
-        public void Export(IList<Table> tables, Stream stream)
+        public void Export(IList<Data.Ado.Table> tables, Stream stream)
         {
             if (tables == null)
             {
@@ -49,8 +48,8 @@ namespace Mercurius.Prime.DataProcess.Excel
                     style.FillForegroundColor = IndexedColors.DarkBlue.Index;
                 }, font =>
                 {
-                    font.Boldweight = 700;
-                    font.FontHeightInPoints = 16;
+                    font.IsBold = true;
+                    font.FontHeightInPoints = 14;
                     font.Color = IndexedColors.White.Index;
                 });
 

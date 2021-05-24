@@ -5,7 +5,7 @@
                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                           xmlns:controls="clr-namespace:Mercurius.CodeBuilder.UI.Themes.Controls"
                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                          xmlns:prism="http://www.codeplex.com/prism"
+                          xmlns:prism="http://prismlibrary.com/"
                           Title="代码生成工具"
                           SubTitle=""
                           Width="800"

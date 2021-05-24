@@ -1,6 +1,8 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Mercurius.CodeBuilder.UI.Views;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
+using Unity;
 
 namespace Mercurius.CodeBuilder.UI
 {
@@ -9,32 +11,14 @@ namespace Mercurius.CodeBuilder.UI
     /// </summary>
     public class Module : IModule
     {
-        #region 字段
-
-        private readonly IRegionManager _regionManager;
-        private readonly IUnityContainer _unityContainer;
-
-        #endregion
-
-        #region 构造方法
-
-        /// <summary>
-        /// 构造方法。
-        /// </summary>
-        /// <param name="regionManager">区域管理器</param>
-        /// <param name="unityContainer">Unity容器</param>
-        public Module(IRegionManager regionManager, IUnityContainer unityContainer)
+        public void OnInitialized(IContainerProvider containerProvider)
         {
-            this._regionManager = regionManager;
-            this._unityContainer = unityContainer;
+
         }
 
-        #endregion
-
-        public void Initialize()
+        public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            this._regionManager.RegisterViewWithRegion("NavigationRegion",
-                () => this._unityContainer.Resolve<Views.DatabaseExplorerView>());
+            containerRegistry.RegisterForNavigation<DatabaseExplorerView>();
         }
     }
 }

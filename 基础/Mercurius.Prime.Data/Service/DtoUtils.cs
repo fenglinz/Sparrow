@@ -44,7 +44,7 @@ namespace Mercurius.Prime.Data.Service
         /// </summary>
         static DtoUtils()
         {
-            Mapper.Initialize(cfg => autoMapperConfiguration = cfg);
+           //  Mapper.(cfg => autoMapperConfiguration = cfg);
         }
 
         #endregion
