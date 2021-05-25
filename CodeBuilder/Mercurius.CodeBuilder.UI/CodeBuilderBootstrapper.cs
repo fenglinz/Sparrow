@@ -1,15 +1,17 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
+using CommonServiceLocator;
 using Mercurius.CodeBuilder.Core;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.CSharp;
 using Mercurius.CodeBuilder.DbMetadata.MSSQL;
-using Mercurius.CodeBuilder.DbMetadata.Oracle;
-using Prism.Modularity;
-using Prism.Unity;
 using Mercurius.CodeBuilder.DbMetadata.MySQL;
+using Mercurius.CodeBuilder.DbMetadata.Oracle;
 using Mercurius.CodeBuilder.Java;
 using Prism.Ioc;
-using CommonServiceLocator;
+using Prism.Modularity;
+using Prism.Unity;
 
 namespace Mercurius.CodeBuilder.UI
 {
@@ -36,6 +38,8 @@ namespace Mercurius.CodeBuilder.UI
         protected override void OnInitialized()
         {
             base.OnInitialized();
+
+            ServiceLocator.SetLocatorProvider(() => new ServiceLocatorAdapter(Container));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -54,6 +58,30 @@ namespace Mercurius.CodeBuilder.UI
         {
             moduleCatalog.AddModule<Module>();
         }
+    }
 
+    public class ServiceLocatorAdapter : ServiceLocatorImplBase
+    {
+        private readonly IContainerProvider container;
+
+        public ServiceLocatorAdapter(IContainerProvider container)
+        {
+            this.container = container;
+        }
+
+        protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
+        {
+            yield return this.container.Resolve(serviceType);
+        }
+
+        protected override object DoGetInstance(Type serviceType, string key)
+        {
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                return this.container.Resolve(serviceType, key);
+            }
+
+            return this.container.Resolve(serviceType);
+        }
     }
 }

@@ -33,19 +33,7 @@ namespace Mercurius.CodeBuilder.UI.Views
             ReMoveNotify();
 
             this.SizeChanged += (s, e) => ReMoveNotify();
-
             this._eventAggregator = eventAggregator;
-
-            var loadedEvent = this._eventAggregator.GetEvent<LoadedTablesCompletedEvent>();
-
-            loadedEvent.Subscribe(
-                arg => Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    this.txtSearch.IsEnabled = true;
-                    this.loadingAn.Visibility = Visibility.Collapsed;
-                })),
-                ThreadOption.BackgroundThread,
-                false);
 
             var buildEvent = this._eventAggregator.GetEvent<BuildEvent>();
 

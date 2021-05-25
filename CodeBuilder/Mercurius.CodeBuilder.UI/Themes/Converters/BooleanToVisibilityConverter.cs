@@ -38,11 +38,11 @@ namespace Mercurius.CodeBuilder.UI.Themes.Converters
 
             if (inverse)
             {
-                return (flag ? Visibility.Collapsed : Visibility.Visible);
+                return flag ? Visibility.Collapsed : Visibility.Visible;
             }
             else
             {
-                return (flag ? Visibility.Visible : Visibility.Collapsed);
+                return flag ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 

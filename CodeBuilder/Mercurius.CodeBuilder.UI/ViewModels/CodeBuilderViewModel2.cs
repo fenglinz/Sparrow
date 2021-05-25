@@ -69,6 +69,8 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
 
         public ObservableCollection<DbTable> Tables { get; set; }
 
+        public bool TableLoadCompleted { get; set; }
+
         public string ProjectFileLabel1 { get; set; } = "持久层项目：";
 
         public string ProjectFileLabel2 { get; set; } = "服务层项目：";
@@ -128,7 +130,12 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
                     {
                         delAction.EndInvoke(ar);
 
-                        this.Configuration.ReloadLastTablesConfiguration(item => this.Tables.Add(item));
+                        var tasks = this.Configuration.ReloadLastTablesConfiguration(item => this.Tables.Add(item));
+
+                        Task.WhenAll(tasks);
+
+                        this.TableLoadCompleted = true;
+                        this.RaisePropertyChanged(nameof(this.TableLoadCompleted));
                     }, null);
                 });
             }

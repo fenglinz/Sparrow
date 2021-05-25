@@ -5,6 +5,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.Prime.Core;
@@ -380,15 +381,24 @@ namespace Mercurius.CodeBuilder.Core
         /// <summary>
         /// 重新加载上一次的配置信息。
         /// </summary>
-        public void ReloadLastTablesConfiguration(Action<DbTable> callback = null)
+        public List<Task> ReloadLastTablesConfiguration(Action<DbTable> callback = null)
         {
             var recoverTables = this.GetSerializedTables();
 
+            var tasks = new List<Task>();
+
             foreach (var table in this.Tables)
             {
-                this.Recover(recoverTables, table);
-                callback?.Invoke(table);
+                tasks.Add(new Task((item) =>
+                {
+                    var tab = item as DbTable;
+
+                    this.Recover(recoverTables, tab);
+                    callback?.Invoke(tab);
+                }, table));
             }
+
+            return tasks;
         }
 
         #endregion

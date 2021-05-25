@@ -30,7 +30,7 @@
         cte.Name,
         p.HasIdentityColumn,
         CASE cte.type WHEN 'U' THEN 0 ELSE 1 END IsView,
-        CASE WHEN a.value IS NULL THEN cte.name ELSE a.value END Comments
+        CASE WHEN (a.value IS NULL or cte.type<>'U') THEN cte.name ELSE a.value END Comments
       FROM cte
       LEFT JOIN sys.extended_properties a
         ON cte.object_id=a.major_id AND a.minor_id=0

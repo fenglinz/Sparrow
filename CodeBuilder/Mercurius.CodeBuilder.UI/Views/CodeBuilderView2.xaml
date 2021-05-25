@@ -148,14 +148,14 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" Height="40" DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext}">
-                        <TextBox Name="txtSearch" IsEnabled="False" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="195" Margin="0,5,0,0">
+                        <TextBox Name="txtSearch" IsEnabled="{Binding TableLoadCompleted}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="195" Margin="0,5,0,0">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
                                     <i:InvokeCommandAction Command="{Binding SearchCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
-                        <Button Content="{Binding SelectAllText}" Width="80" Padding="10,5" Margin="5,5,0,0" Command="{Binding SelectAllCommand}" />
+                        <Button Content="{Binding SelectAllText}" IsEnabled="{Binding TableLoadCompleted}" Width="80" Padding="10,5" Margin="5,5,0,0" Command="{Binding SelectAllCommand}" />
                     </StackPanel>
 
                     <ListBox Grid.Row="1" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding}" SelectedIndex="0" Style="{x:Null}">
@@ -189,30 +189,6 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
-
-                <Path Grid.RowSpan="3"
-                  Name="loadingAn"
-                  Width="68"
-                  Height="68"
-                  Margin="0,0,0,0"
-                  Panel.ZIndex="99"
-                  Data="M32.622449,49.151997C37.460866,49.151997 41.379999,53.071453 41.379999,57.910248 41.379999,62.747639 37.460866,66.667 32.622449,66.667 27.785231,66.667 23.865998,62.747639 23.865998,57.910248 23.865998,53.071453 27.785231,49.151997 32.622449,49.151997z M50.136299,42.098999C54.973488,42.098999 58.893999,46.019512 58.893999,50.856701 58.893999,55.693791 54.973488,59.612999 50.136299,59.612999 45.299309,59.612999 41.379999,55.693791 41.379999,50.856701 41.379999,46.019512 45.299309,42.098999 50.136299,42.098999z M15.536325,42.098999C20.3747,42.098999 24.293999,46.019512 24.293999,50.856701 24.293999,55.693791 20.3747,59.612999 15.536325,59.612999 10.699248,59.612999 6.7799988,55.693791 6.7799988,50.856701 6.7799988,46.019512 10.699248,42.098999 15.536325,42.098999z M57.2693,24.577C62.10639,24.577 66.027002,28.4963 66.027002,33.3335 66.027002,38.1707 62.10639,42.089996 57.2693,42.089996 52.432308,42.089996 48.512999,38.1707 48.512999,33.3335 48.512999,28.4963 52.432308,24.577 57.2693,24.577z M8.7576199,24.577C13.594844,24.577 17.513999,28.4963 17.513999,33.3335 17.513999,38.1707 13.594844,42.089996 8.7576199,42.089996 3.9191437,42.089996 0,38.1707 0,33.3335 0,28.4963 3.9191437,24.577 8.7576199,24.577z M50.136299,7.0619995C54.973488,7.0619999 58.893999,10.981457 58.893999,15.818851 58.893999,20.657543 54.973488,24.577 50.136299,24.577 45.299309,24.577 41.379999,20.657543 41.379999,15.818851 41.379999,10.981457 45.299309,7.0619999 50.136299,7.0619995z M15.536325,7.0619995C20.3747,7.0619999 24.293999,10.981457 24.293999,15.818851 24.293999,20.657543 20.3747,24.577 15.536325,24.577 10.699248,24.577 6.7799988,20.657543 6.7799988,15.818851 6.7799988,10.981457 10.699248,7.0619999 15.536325,7.0619995z M32.622447,0C37.460865,1.4144285E-07 41.379999,3.9191832 41.379999,8.7563201 41.379999,13.594768 37.460865,17.514 32.622447,17.514 27.785232,17.514 23.865999,13.594768 23.865998,8.7563201 23.865999,3.9191832 27.785232,1.4144285E-07 32.622447,0z"
-                  Fill="LimeGreen"
-                  RenderTransformOrigin="0.5,0.5"
-                  Stretch="Uniform">
-                    <Path.RenderTransform>
-                        <RotateTransform x:Name="loading" Angle="0" />
-                    </Path.RenderTransform>
-                    <Path.Triggers>
-                        <EventTrigger RoutedEvent="UserControl.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard AutoReverse="False" RepeatBehavior="Forever">
-                                    <DoubleAnimation Duration="00:00:1.5" From="0" Storyboard.TargetName="loading" Storyboard.TargetProperty="Angle" To="360" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Path.Triggers>
-                </Path>
 
                 <GroupBox Grid.Column="1" Margin="5">
                     <GroupBox.Header>代码生成设置</GroupBox.Header>
