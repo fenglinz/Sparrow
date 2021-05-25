@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
+using CommonServiceLocator;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.Core.Events;
 using Prism.Events;
-using Microsoft.Practices.ServiceLocation;
 
 namespace Mercurius.CodeBuilder.Core
 {

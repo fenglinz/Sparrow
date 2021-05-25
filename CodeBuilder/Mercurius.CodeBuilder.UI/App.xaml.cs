@@ -42,8 +42,6 @@ namespace Mercurius.CodeBuilder.UI
 
             AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", configFile);
 
-            base.OnStartup(e);
-
             var bootstrapper = new CodeBuilderBootstrapper();
 
             bootstrapper.Run();

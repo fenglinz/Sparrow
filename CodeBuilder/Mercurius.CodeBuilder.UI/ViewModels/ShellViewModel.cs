@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using CommonServiceLocator;
 using Mercurius.CodeBuilder.UI.Dialogs;
-using Microsoft.Practices.ServiceLocation;
 using Prism.Commands;
 using Prism.Mvvm;
 

@@ -15,7 +15,7 @@ namespace Mercurius.CodeBuilder.UI
 
         #endregion
 
-        public Shell(ShellViewModel viewModel, RegionManager regionManager)
+        public Shell(ShellViewModel viewModel, IRegionManager regionManager)
         {
             InitializeComponent();
 

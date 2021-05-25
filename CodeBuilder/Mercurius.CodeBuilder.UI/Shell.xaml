@@ -6,6 +6,7 @@
                           xmlns:controls="clr-namespace:Mercurius.CodeBuilder.UI.Themes.Controls"
                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                           xmlns:prism="http://prismlibrary.com/"
+                          prism:ViewModelLocator.AutoWireViewModel="False"
                           Title="代码生成工具"
                           SubTitle=""
                           Width="800"

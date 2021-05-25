@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using CommonServiceLocator;
 using Mercurius.CodeBuilder.Core.Config;
 using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.Prime.Core;
-using Microsoft.Practices.ServiceLocation;
 using DatabaseType = Mercurius.Prime.Data.Database;
 
 namespace Mercurius.CodeBuilder.Core

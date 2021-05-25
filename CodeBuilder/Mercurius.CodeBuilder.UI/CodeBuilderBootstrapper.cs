@@ -4,12 +4,12 @@ using Mercurius.CodeBuilder.Core.Database;
 using Mercurius.CodeBuilder.CSharp;
 using Mercurius.CodeBuilder.DbMetadata.MSSQL;
 using Mercurius.CodeBuilder.DbMetadata.Oracle;
-using Microsoft.Practices.ServiceLocation;
 using Prism.Modularity;
 using Prism.Unity;
 using Mercurius.CodeBuilder.DbMetadata.MySQL;
 using Mercurius.CodeBuilder.Java;
 using Prism.Ioc;
+using CommonServiceLocator;
 
 namespace Mercurius.CodeBuilder.UI
 {
@@ -27,10 +27,15 @@ namespace Mercurius.CodeBuilder.UI
             return this.Container.Resolve<Shell>();
         }
 
-        protected override void InitializeShell(DependencyObject shell)
+        //protected override void InitializeShell(DependencyObject shell)
+        //{
+        //    Application.Current.MainWindow = shell as Shell;
+        //    Application.Current.MainWindow.Show();
+        //}
+
+        protected override void OnInitialized()
         {
-            Application.Current.MainWindow = shell as Shell;
-            Application.Current.MainWindow.Show();
+            base.OnInitialized();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

@@ -6,8 +6,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:controls="clr-namespace:Mercurius.CodeBuilder.UI.Themes.Controls"
+             xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:Mercurius.CodeBuilder.UI.Themes.Converters"
-             d:DesignHeight="800" d:DesignWidth="1200" mc:Ignorable="d">
+             d:DesignHeight="800" d:DesignWidth="1200" mc:Ignorable="d"
+             prism:ViewModelLocator.AutoWireViewModel="False">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="loadingAn" />
