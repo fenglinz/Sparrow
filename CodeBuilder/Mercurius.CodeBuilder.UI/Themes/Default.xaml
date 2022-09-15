@@ -6,17 +6,17 @@
     <Color x:Key="WindowBackgroundColor">#252526</Color>
 
     <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Offset="0" Color="#FF7A7A7A" />
-        <GradientStop Offset="1" Color="Black" />
+        <GradientStop Offset="0" Color="#fff" />
+        <GradientStop Offset="1" Color="#e0e0e0" />
     </LinearGradientBrush>
     <SolidColorBrush x:Key="ButtonBackgroundHover" Color="#3e3e42" />
     <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{DynamicResource AccentColor}" />
-    <SolidColorBrush x:Key="ButtonBorder" Color="#333333" />
-    <SolidColorBrush x:Key="ButtonBorderHover" Color="#3e3e42" />
+    <SolidColorBrush x:Key="ButtonBorder" Color="#ccc" />
+    <SolidColorBrush x:Key="ButtonBorderHover" Color="#e0e0e0" />
     <SolidColorBrush x:Key="ButtonBorderPressed" Color="{DynamicResource AccentColor}" />
-    <SolidColorBrush x:Key="ButtonText" Color="#d1d1d1" />
-    <SolidColorBrush x:Key="ButtonTextHover" Color="#d1d1d1" />
-    <SolidColorBrush x:Key="ButtonTextPressed" Color="#d1d1d1" />
+    <SolidColorBrush x:Key="ButtonText" Color="#333" />
+    <SolidColorBrush x:Key="ButtonTextHover" Color="#333" />
+    <SolidColorBrush x:Key="ButtonTextPressed" Color="#333" />
     <SolidColorBrush x:Key="ButtonTextDisabled" Color="#515151" />
 
     <SolidColorBrush x:Key="DataGridBackground" Color="Transparent" />

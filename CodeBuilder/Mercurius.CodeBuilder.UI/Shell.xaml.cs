@@ -29,5 +29,17 @@ namespace Mercurius.CodeBuilder.UI
         {
             this.regionManager.RequestNavigate("NavigationRegion", "databaseExplorer");
         }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (this.leftNav.Width.Value == 50)
+            {
+                this.leftNav.Width = new System.Windows.GridLength(240);
+            }
+            else
+            {
+                this.leftNav.Width = new System.Windows.GridLength(50);
+            }
+        }
     }
 }
