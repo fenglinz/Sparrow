@@ -1,23 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8798F336-D1A2-489A-9182-4C31F8876D62}</ProjectGuid>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercurius.CodeBuilder.UI</RootNamespace>
-    <AssemblyName>Mercurius.CodeBuilder.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -33,28 +21,10 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Images\app.ico</ApplicationIcon>
@@ -65,7 +35,6 @@
   <PropertyGroup>
     <StartupObject>Mercurius.CodeBuilder.UI.App</StartupObject>
   </PropertyGroup>
-  <PropertyGroup />
   <PropertyGroup>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
@@ -108,9 +77,6 @@
     <Reference Include="MySql.Data, Version=8.0.30.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MySql.Data.8.0.30\lib\net48\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.21.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Oracle.ManagedDataAccess.21.7.0\lib\net462\Oracle.ManagedDataAccess.dll</HintPath>
-    </Reference>
     <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
     </Reference>
@@ -123,7 +89,6 @@
     <Reference Include="Renci.SshNet, Version=2020.0.2.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SSH.NET.2020.0.2\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -131,14 +96,11 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Management" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
@@ -160,15 +122,8 @@
       <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="Ubiety.Dns.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MySql.Data.8.0.30\lib\net48\Ubiety.Dns.Core.dll</HintPath>
     </Reference>
@@ -178,204 +133,18 @@
     <Reference Include="Unity.Container, Version=5.11.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Unity.Container.5.11.11\lib\net48\Unity.Container.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="ZstdNet, Version=1.4.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MySql.Data.8.0.30\lib\net48\ZstdNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="CodeBuilderBootstrapper.cs" />
-    <Compile Include="Dialogs\LogOnServerDialog.xaml.cs">
-      <DependentUpon>LogOnServerDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\TemplateSettingDialog.xaml.cs">
-      <DependentUpon>TemplateSettingDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Module.cs" />
-    <Compile Include="Themes\Controls\AnimatedContentControl.cs" />
-    <Compile Include="Themes\Controls\RoundedBox.xaml.cs">
-      <DependentUpon>RoundedBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Themes\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Themes\Converters\CurrentDatabaseConverter.cs" />
-    <Compile Include="Themes\Converters\LanguageToVisibilityConverter.cs" />
-    <Compile Include="Themes\Converters\MinusConverter.cs" />
-    <Compile Include="Themes\MercuriusDialog.cs" />
-    <Compile Include="Themes\MercuriusWindow.cs" />
-    <Compile Include="ViewModels\CodeBuilderViewModel2.cs" />
-    <Compile Include="ViewModels\DatabaseExplorerViewModel.cs" />
-    <Compile Include="ViewModels\LogOnServerViewModel.cs" />
-    <Compile Include="ViewModels\OutputViewModel.cs" />
-    <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\CodeBuilderView2.xaml.cs">
-      <DependentUpon>CodeBuilderView2.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DatabaseExplorerView.xaml.cs">
-      <DependentUpon>DatabaseExplorerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OutputView.xaml.cs">
-      <DependentUpon>OutputView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Dialogs\LogOnServerDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\TemplateSettingDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Shell.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Shell.xaml.cs">
-      <DependentUpon>Shell.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Themes\Controls\RoundedBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Default.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Default\Button.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Commons.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Default\Calendar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Default\CheckBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Default\ComboBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Default\DataGrid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Default\DatePicker.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Default\Dialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Default\ListBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Default\ListView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Default\MenuItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Default\Panel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Default\ScrollBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Default\StatusBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Default\TextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Default\TreeView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Default\Window.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Resources.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CodeBuilderView2.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\DatabaseExplorerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\OutputView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="Oracle.DataAccess.Common.Configuration.Section.xsd">
+    <None Update="Oracle.DataAccess.Common.Configuration.Section.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Oracle.ManagedDataAccess.Client.Configuration.Section.xsd">
+    <None Update="Oracle.ManagedDataAccess.Client.Configuration.Section.xsd">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\add.png" />
@@ -402,37 +171,16 @@
     <Resource Include="Images\Table.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
-      <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
-      <Name>Mercurius.Prime.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\基础\Mercurius.Prime.DataProcess\Mercurius.Prime.DataProcess.csproj">
-      <Project>{d9a831d4-d63c-48f2-b741-aa8fa2956158}</Project>
-      <Name>Mercurius.Prime.DataProcess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
-      <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
-      <Name>Mercurius.Prime.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mercurius.CodeBuilder.Core\Mercurius.CodeBuilder.Core.csproj">
-      <Project>{62379b2c-78ee-488c-af19-635319117678}</Project>
-      <Name>Mercurius.CodeBuilder.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mercurius.CodeBuilder.CSharp\Mercurius.CodeBuilder.CSharp.csproj">
-      <Project>{25fd5c87-07cc-41df-8dcd-db28a8d89cd2}</Project>
-      <Name>Mercurius.CodeBuilder.CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mercurius.CodeBuilder.DbMetadata\Mercurius.CodeBuilder.DbMetadata.csproj">
-      <Project>{e06c7d09-f050-4734-88e2-61d8d7e53b93}</Project>
-      <Name>Mercurius.CodeBuilder.DbMetadata</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mercurius.CodeBuilder.Java\Mercurius.CodeBuilder.Java.csproj">
-      <Project>{54a250fb-f6eb-418e-9f44-4579967d30af}</Project>
-      <Name>Mercurius.CodeBuilder.Java</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj" />
+    <ProjectReference Include="..\..\基础\Mercurius.Prime.DataProcess\Mercurius.Prime.DataProcess.csproj" />
+    <ProjectReference Include="..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj" />
+    <ProjectReference Include="..\Mercurius.CodeBuilder.Core\Mercurius.CodeBuilder.Core.csproj" />
+    <ProjectReference Include="..\Mercurius.CodeBuilder.CSharp\Mercurius.CodeBuilder.CSharp.csproj" />
+    <ProjectReference Include="..\Mercurius.CodeBuilder.DbMetadata\Mercurius.CodeBuilder.DbMetadata.csproj" />
+    <ProjectReference Include="..\Mercurius.CodeBuilder.Java\Mercurius.CodeBuilder.Java.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\ConnectedDatabase.xml">
+    <None Update="Config\ConnectedDatabase.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -465,7 +213,36 @@
     <Resource Include="Images\shadow_tl.png" />
     <Resource Include="Images\shadow_tr.png" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle" Version="1.8.9" />
+    <PackageReference Include="CommonServiceLocator" Version="2.0.6" />
+    <PackageReference Include="Google.Protobuf" Version="3.21.6" />
+    <PackageReference Include="K4os.Compression.LZ4" Version="1.2.16" />
+    <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.2.16" />
+    <PackageReference Include="K4os.Hash.xxHash" Version="1.0.7" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Expression.Drawing" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="MySql.Data" Version="8.0.30" />
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="21.9.0" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="SSH.NET" Version="2020.0.2" />
+    <PackageReference Include="System.Buffers" Version="4.5.1" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
+    <PackageReference Include="System.Text.Json" Version="6.0.6" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="Unity" Version="5.11.10" />
+    <PackageReference Include="Unity.Abstractions" Version="5.11.7" />
+    <PackageReference Include="Unity.Container" Version="5.11.11" />
+    <PackageReference Include="Unofficial.Blend.Interactivity" Version="1.0.0" />
+  </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(TargetDir)*.dll" "$(TargetDir)Bins\"
 del "$(TargetDir)*.dll"
@@ -474,18 +251,4 @@ del "$(TargetDir)*.xml"
 del "$(TargetDir)*.manifest"
 </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\..\packages\System.Text.Json.6.0.6\build\System.Text.Json.targets" Condition="Exists('..\..\packages\System.Text.Json.6.0.6\build\System.Text.Json.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\System.Text.Json.6.0.6\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.Text.Json.6.0.6\build\System.Text.Json.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

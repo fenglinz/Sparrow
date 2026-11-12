@@ -17,6 +17,8 @@
 - User confirmed the proposed .NET 10 upgrade options, including inline resolution of incompatible packages and APIs to preserve functionality.
 - User explicitly authorized removing the legacy ASP.NET Web API and Swagger components from `Mercurius.Prime.Boot`; do not replace them with a new Web API or Swagger stack unless asked separately.
 - NuGet package cache was temporarily restored from the preserved stash to run baseline validation; keep `packages/` excluded from upgrade commits.
+- For the Tier 4 task-boundary branch sync, temporarily stash the restored untracked `packages/` cache, sync with the source branch, then restore the cache; never include it in upgrade commits.
+- User confirmed temporarily stashing the restored untracked `packages/` cache before automatic source-branch sync and restoring it afterward; keep it excluded from upgrade commits.
 
 ## Build Tool Decisions
 - **Mercurius.CodeBuilder.sln**: Visual Studio MSBuild; all projects are legacy non-SDK-style, and the solution includes WPF/WinForms.
