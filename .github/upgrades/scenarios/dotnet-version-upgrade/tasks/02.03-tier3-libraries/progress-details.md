@@ -3,7 +3,7 @@
 ## Changes
 - Converted `CodeBuilder/Mercurius.CodeBuilder.Core/Mercurius.CodeBuilder.Core.csproj`, `基础/Mercurius.Prime.DataProcess/Mercurius.Prime.DataProcess.csproj`, and `基础/Mercurius.Prime.Boot/Mercurius.Prime.Boot.csproj` using the dedicated SDK-style conversion tool.
 - Retained each project's original `net48` target, current package versions, project references, and platform-specific capabilities.
-- Removed the project-local `packages.config` files as part of conversion.
+- Prime.Boot's project-local `packages.config` was removed by conversion. A later audit found stale manifests still present in CodeBuilder.Core and DataProcess even though equivalent PackageReference entries exist; clean these up during the SDK conversion phase after verifying matching versions.
 - Kept the authorized Web API/Swagger code and package references unchanged in Prime.Boot; their removal remains reserved for the later migration task. MVC, session-state and other System.Web code were not removed.
 - Changed `NPOIExporter` from deprecated `IFont.Boldweight = 700` to `IFont.IsBold = true`, preserving the intended bold header styling and removing the existing CS0618 warning.
 
