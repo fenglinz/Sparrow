@@ -1,41 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{62379B2C-78EE-488C-AF19-635319117678}</ProjectGuid>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mercurius.CodeBuilder.Core</RootNamespace>
-    <AssemblyName>Mercurius.CodeBuilder.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
@@ -44,68 +17,20 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
     <Reference Include="System.configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration.cs" />
-    <Compile Include="Config\IFileCreatedHandler.cs" />
-    <Compile Include="Config\Item.cs" />
-    <Compile Include="Config\ItemCollection.cs" />
-    <Compile Include="Config\ConfigManager.cs" />
-    <Compile Include="Conversions.cs" />
-    <Compile Include="Database\ConnectedDatabase.cs" />
-    <Compile Include="Database\ConnectedDatabaseCollection.cs" />
-    <Compile Include="Database\ConnectedDatabaseManager.cs" />
-    <Compile Include="Database\CustomObject.cs" />
-    <Compile Include="Database\DatabaseScriptExporter.cs" />
-    <Compile Include="Database\Metadata.cs" />
-    <Compile Include="Database\DbColumn.cs" />
-    <Compile Include="Database\DbTable.cs" />
-    <Compile Include="Events\BuildEvent.cs" />
-    <Compile Include="Events\BuildEventArg.cs" />
-    <Compile Include="Events\LoadedTablesCompletedEvent.cs" />
-    <Compile Include="Events\OpenCodeBuildViewEvent.cs" />
-    <Compile Include="Events\RefreshConnectedDatabaseEvent.cs" />
-    <Compile Include="NamingType.cs" />
-    <Compile Include="AbstractCodeCreator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Database\DbTypeMapping.cs" />
-    <Compile Include="XslHelper.cs" />
+    <ProjectReference Include="..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj" />
+    <ProjectReference Include="..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <PackageReference Include="CommonServiceLocator" Version="2.0.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\基础\Mercurius.Prime.Core\Mercurius.Prime.Core.csproj">
-      <Project>{5b236da6-7a5a-48e8-813e-5745b0e50d65}</Project>
-      <Name>Mercurius.Prime.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\基础\Mercurius.Prime.Data\Mercurius.Prime.Data.csproj">
-      <Project>{784654c8-cc89-4adf-bb00-1e0085c768dd}</Project>
-      <Name>Mercurius.Prime.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

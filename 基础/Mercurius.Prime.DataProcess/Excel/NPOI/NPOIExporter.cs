@@ -161,7 +161,7 @@ namespace Mercurius.Prime.DataProcess.Excel
 			// 标题字体。
 			headerFont.FontName = "Arial";
 			headerFont.FontHeightInPoints = 13;
-			headerFont.Boldweight = 700;
+			headerFont.IsBold = true;
 			headerFont.Color = HSSFColor.White.Index;
 
 			// 标题样式。
