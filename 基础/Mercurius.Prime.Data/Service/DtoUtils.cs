@@ -33,7 +33,7 @@ namespace Mercurius.Prime.Data.Service
         /// <summary>
         /// automapper配置对象
         /// </summary>
-        private static IMapperConfigurationExpression autoMapperConfiguration = null;
+        private static IMapperConfigurationExpression autoMapperConfiguration;
 
         #endregion
 

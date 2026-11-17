@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Mercurius.CodeBuilder.Core.Events;
 using Mercurius.Prime.Core;
 using Prism.Mvvm;
 
@@ -14,6 +15,12 @@ namespace Mercurius.CodeBuilder.UI.ViewModels
     /// </summary>
     public abstract class ViewModelBase : BindableBase
     {
+        #region 字段
+
+        private readonly BuildEvent _buildEvent;
+
+        #endregion
+
         #region 受保护方法
 
         /// <summary>
